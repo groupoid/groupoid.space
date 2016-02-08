@@ -135,9 +135,76 @@
 <br>
 <h1>Core Constructions</h1>
 
-<h2>Vector</h2>
+<h2><a name="nat">Nat</a></h2>
+
+<pre>
+
+    data nat: * :=
+         (zero: () → nat)
+         (succ: nat → nat)
 
 
+</pre>
+
+<h2><a name="list">List</a></h2>
+
+<pre>
+
+    data list: (A:*) → * :=
+         (nil: () → list A)
+         (cons: A → list A → list A)
+
+</pre>
+
+<h2><a name="vector">Vector</a></h2>
+
+<pre>
+
+    data vector: (A:*) → nat → * :=
+         (nil: () → vector A)
+         (cons: (n: nat) → A → vector A n → vector A (succ n))
+
+</pre>
+
+<h2><a name="pure">Pure</a></h2>
+
+<pre>
+
+  record pure: (P: * → *) → (A: *) → * :=
+         (return: P A)
+
+</pre>
+
+<h2><a name="functor">Functor</a></h2>
+
+<pre>
+
+  record functor: (F: * → *) → (A B: *) → * :=
+         (fmap: (A → B) → F A → F B)
+
+</pre>
+
+<h2><a name="applicative">Applicative</a></h2>
+
+<pre>
+
+  record applicative: (F: * → *) → (A B: *) → *
+  extend pure F A,
+         functor F A B :=
+         (ap: F (A → B) → F A → F B)
+
+</pre>
+
+<h2><a name="monad">Monad</a></h2>
+
+<pre>
+
+  record monad: (F: * → *) → (A B: *) → *
+  extend pure F A,
+         functor F A B :=
+         (join: F (F A) → F B)
+
+</pre>
 
 <h1>Resources</h1>
 
