@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg width="644px" height="175px" viewBox="0 0 644 175" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:sketch="http://www.bohemiancoding.com/sketch/ns">
+    <!-- Generator: Sketch 3.3.1 (12002) - http://www.bohemiancoding.com/sketch -->
+    <title>KVS</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" sketch:type="MSPage">
+        <g id="KVS" sketch:type="MSLayerGroup">
+            <ellipse id="Oval-1-Copy-25" stroke="#979797" fill="#B8E986" sketch:type="MSShapeGroup" cx="126.926471" cy="120.382094" rx="14.5" ry="14.5"></ellipse>
+            <ellipse id="Oval-5-Copy-29" stroke="#979797" stroke-width="2" sketch:type="MSShapeGroup" cx="126.426471" cy="119.882094" rx="36.5" ry="34"></ellipse>
+            <ellipse id="Oval-1-Copy-30" stroke="#979797" fill="#B8E986" sketch:type="MSShapeGroup" cx="215.786765" cy="120.382094" rx="14.5" ry="14.5"></ellipse>
+            <ellipse id="Oval-5-Copy-30" stroke="#979797" stroke-width="2" sketch:type="MSShapeGroup" cx="215.286765" cy="119.882094" rx="36.5" ry="34"></ellipse>
+            <rect id="Rectangle-1-Copy-7" stroke="#979797" stroke-width="2" sketch:type="MSShapeGroup" x="0.0367647059" y="66.8820935" width="279.036765" height="108"></rect>
+            <path d="M46.8529412,142.193737 C59.1615814,142.193737 69.1397059,132.652189 69.1397059,120.882094 C69.1397059,109.111998 59.1615814,99.5704497 46.8529412,99.5704497 C34.5443009,99.5704497 24.5661765,109.111998 24.5661765,120.882094 C24.5661765,132.652189 34.5443009,142.193737 46.8529412,142.193737 Z" id="Oval-5-Copy-31" stroke="#979797" stroke-width="2" sketch:type="MSShapeGroup"></path>
+            <ellipse id="Oval-1-Copy-15" stroke="#979797" fill="#D8D8D8" sketch:type="MSShapeGroup" cx="47.3529412" cy="120.382094" rx="14.5" ry="14.5"></ellipse>
+            <text id="{[f],[s],[s]}." sketch:type="MSTextLayer" font-family="Geometria" font-size="52" font-weight="260" fill="#000000">
+                <tspan x="389.573529" y="129.157348">{[f],[s],[s]}.</tspan>
+            </text>
+            <rect id="Rectangle-3-Copy-4" stroke="#979797" fill="#D8D8D8" sketch:type="MSShapeGroup" x="69.1397059" y="0" width="29" height="29"></rect>
+            <path d="M81.5,28.5 L81.5,66.5" id="Line" stroke="#979797" stroke-linecap="square" sketch:type="MSShapeGroup"></path>
+        </g>
+    </g>
+</svg>
