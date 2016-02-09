@@ -21,11 +21,55 @@
 
 <div class=block>
 <center><h1>Om Assembler</h1>
-        <h5>Calculus of Constructions Pure Type System</h5></center>
+        <h5>Intermediate Language for typechecking and normalization</h5></center>
 
-<center><h2><a name="nat">Om Language</a></h2></center>
+<center><h2><a name="nat">Calculus of Constructions</a></h2></center>
+
+<h2>Axiom</h2>
+Pure Type System with impredicative indexed universes.<br>
+ All terms belong to types.
 
 <pre>
+
+  axiom({star,N}) -> {box,N};
+  axiom(star)     -> {box,1}.
+
+</pre>
+
+<h2>Rules</h2>
+<center><pre style="width:100px;">⊦ * : □</pre></center>
+
+Lambda Cube Top configuration with Dependent Types.<br>
+<b>Note</b> that term is star and type is box and also<br>
+that Type<sub>N</sub> includes Type<sub>N-1</sub>. Terms live in Type<sub>0</sub> which is Prop.
+
+<pre style="width:600px;">
+
+  rule(star,box)  -> box;
+  rule({box,N},{box,M}) when M - N == 1 -> box;
+  rule(star,star) -> star;
+  rule(box,star)  -> star.
+
+</pre>
+
+<center><pre style="width:200px;">⊦ * ↝ * : *
+⊦ □ ↝ * : *
+⊦ * ↝ □ : □
+⊦ □ ↝ □ : □</pre></center>
+
+<center><h2><a name="nat">Syntax</a></h2></center>
+
+<pre  style="width:500px;">
+
+    E := * | □ | ( E ) | E E 
+               | λ ( L : E ) → E 
+               | ∀ ( L : E ) → E
+
+</pre>
+
+<center><h2><a name="nat">AST</a></h2></center>
+
+<pre  style="width:500px;">
 
   data om: * := 
        (star: () → om)
