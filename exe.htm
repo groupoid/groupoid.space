@@ -168,6 +168,49 @@
 
 <h1>Logic</h1>
 
+<h2><a name="vector">Unit</a></h2>
+
+<pre>
+
+    data unit: *1 :=
+         (star: () → unit)
+
+</pre>
+
+<h2><a name="vector">Empty</a></h2>
+
+<pre>
+
+    data empty: *1 := ()
+
+</pre>
+
+<h2><a name="vector">True</a></h2>
+
+<pre>
+
+    data true: Prop :=
+         (intro: () → true)
+
+</pre>
+
+<h2><a name="vector">False</a></h2>
+
+<pre>
+
+    data false: Prop := ()
+
+</pre>
+
+<h2><a name="vector">Eq</a></h2>
+
+<pre>
+
+    data eq: (A:*) → A → A → Prop :=
+         (refl: (x:A) → eq A x x)
+
+</pre>
+
 <h1>Coinductive</h1>
 
 <h2><a name="pure">Pure</a></h2>
