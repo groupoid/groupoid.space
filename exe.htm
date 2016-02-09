@@ -193,8 +193,7 @@
 <pre>
 
   record applicative: (F: * → *) → (A B: *) → *
-  extend pure F A,
-         functor F A B :=
+  extend pure F A, functor F A B :=
          (ap: F (A → B) → F A → F B)
 
 </pre>
@@ -204,8 +203,7 @@
 <pre>
 
   record monad: (F: * → *) → (A B: *) → *
-  extend pure F A,
-         functor F A B :=
+  extend pure F A, functor F A B :=
          (join: F (F A) → F B)
 
 </pre>
