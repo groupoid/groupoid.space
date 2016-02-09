@@ -15,17 +15,15 @@
 <hr>
 <div class=app>
 
-<div class=block>
+<div class=block style="width:150px;height:550px;">
         <img src="Groupoid.svg" height=200>
 </div>
-<div>
+
+<div class=block style="width:700px;height:250px;">
+
 <center><h1>Exe Language</h1>
-        <h5>with Dependent Types and full normalization</h5></center>
-</div>
+        <h5>with Dependent Types and full normalization</h5>
 
-<div class=block>
-
-<center>
 <h1>Types Taxonomy</h1>
 <h3>        N : Not a<br>
             R : Recursive<br>
@@ -34,9 +32,11 @@
             * : Cartesian Product</h3>
 </center>
 
-<br>
+</div>
 
-<div class="block">
+<div class=block style="width:1000px;">
+
+<div class=block>
 
 <h3>NR ND +</h3>
 
@@ -129,11 +129,11 @@
 </blockquote>
 
 </div>
-
 </div>
 
-<br>
-<h1>Inductive Constructions</h1>
+<div class=block style="margin-left:150px;">
+
+<h1>Inductive</h1>
 
 <h2><a name="nat">Nat</a></h2>
 
@@ -161,12 +161,14 @@
 <pre>
 
     data vector: (A:*) → nat → * :=
-         (nil: () → vector A)
-         (cons: (n: nat) → A → vector A n → vector A (succ n))
+         (nil: () → vector A zero)
+         (cons: (n: nat) → A → vector A n → vector A (succ n))   
 
 </pre>
 
-<h1>Coinductive Constructions</h1>
+<h1>Logic</h1>
+
+<h1>Coinductive</h1>
 
 <h2><a name="pure">Pure</a></h2>
 
@@ -212,8 +214,10 @@
 
 <p>01 &nbsp;<a href="https://gitter.im/groupoid/exe/archives/">EXE ARCHIVES</a></p>
 
+<center style="margin-top: 120px;margin-bottom:60px;">2016 &copy; Groupoid Infinity, Inc.</center>
 
 </div>
 
+</div>
 </body>
 </html>
