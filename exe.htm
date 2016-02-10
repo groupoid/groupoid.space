@@ -134,6 +134,26 @@
 
 <div class=block style="margin-top:20px;margin-left:150px;">
 
+<center><h2><a name="nat">Syntax</a></h2></center>
+
+<pre  style="margin-left:150px;width:500px;">
+
+    L := &lt;alphanumeric&gt;
+
+    O := * | □ | ( O ) | O O 
+               |   ( L : O ) → O
+               | λ ( L : O ) → O
+               | ∀ ( L : O ) → O
+
+    K :=  data | record
+
+    C := ∅ | C K L : O := F
+    
+    F := ∅ | F ( L : O ) | ()
+    
+</pre>
+
+
 <h1>Inductive</h1>
 
 <h2><a name="nat">Nat</a></h2>
@@ -143,7 +163,6 @@
     data nat: * :=
          (zero: () → nat)
          (succ: nat → nat)
-
 
 </pre>
 
