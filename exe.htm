@@ -308,13 +308,13 @@
 
 </pre>
 
-<h2><a name="infgr">Infinity Graph</a></h2>
+<h2><a name="infgr">Infinity Groupoid</a></h2>
 
 <pre>
 
-  record InfGraph: * :=
-         (ob: *)
-         (hom: ob → ob → InfGraph)
+  record groupoid (ob: *)
+  extend precategory ob :=
+         (hom: λ (a,b: ob) → Hom (a,b) → groupoid)
 
 </pre>
 
