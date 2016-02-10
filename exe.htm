@@ -303,7 +303,7 @@
 <pre>
 
   record Setoid :=
-         (ob: Ob)
+         (ob: *)
          (hom: λ (X,Y: ob) → Hom (X,Y))
 
 </pre>
@@ -312,8 +312,8 @@
 
 <pre>
 
-  record groupoid (ob: *)
-  extend precategory ob :=
+  record groupoid :=
+         (ob: *)
          (hom: λ (a,b: ob) → Hom (a,b) → groupoid)
 
 </pre>
