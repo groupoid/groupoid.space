@@ -28,8 +28,8 @@
 <h3>        N : Not a<br>
             R : Recursive<br>
             D : Dependent<br>
-            + : Cartesian Sum<br>
-            * : Cartesian Product</h3>
+            + : Inductive<br>
+            * : Coinductive</h3>
 </center>
 
 </div>
@@ -126,13 +126,13 @@
 <h3>R D *</h3>
 
 <blockquote>
-<p>01 &nbsp;<a href="#InfGroupoid">INFGR</a></p>
+<p>01 &nbsp;<a href="#InfGr">INFGR</a></p>
 </blockquote>
 
 </div>
 </div>
 
-<div class=block style="margin-left:150px;">
+<div class=block style="margin-top:20px;margin-left:150px;">
 
 <h1>Inductive</h1>
 
@@ -167,6 +167,47 @@
 
 </pre>
 
+
+<h1>Coinductive</h1>
+
+<h2><a name="pure">Pure</a></h2>
+
+<pre>
+
+  record pure: (P: * → *) → (A: *) → * :=
+         (return: P A)
+
+</pre>
+
+<h2><a name="functor">Functor</a></h2>
+
+<pre>
+
+  record functor: (F: * → *) → (A, B: *) → * :=
+         (fmap: (A → B) → F A → F B)
+
+</pre>
+
+<h2><a name="applicative">Applicative</a></h2>
+
+<pre>
+
+  record applicative: (F: * → *) → (A, B: *) → *
+  extend pure F A, functor F A B :=
+         (ap: F (A → B) → F A → F B)
+
+</pre>
+
+<h2><a name="monad">Monad</a></h2>
+
+<pre>
+
+  record monad: (F: * → *) → (A, B: *) → *
+  extend pure F A, functor F A B :=
+         (join: F (F A) → F B)
+
+</pre>
+
 <h1>Logic</h1>
 
 <h2><a name="unit">Unit</a></h2>
@@ -190,7 +231,7 @@
 
 <pre>
 
-    data true: Prop :=
+    data True: Prop :=
          (intro: () → true)
 
 </pre>
@@ -199,7 +240,7 @@
 
 <pre>
 
-    data false: Prop := ()
+    data False: Prop := ()
 
 </pre>
 
@@ -207,48 +248,50 @@
 
 <pre>
 
-    data eq: (A:*) → A → A → Prop :=
-         (refl: (x:A) → eq A x x)
+    data Eq: (A:*) → A → A → Prop :=
+         (refl: (x:A) → Eq A x x)
 
 </pre>
 
-<h1>Coinductive</h1>
-
-<h2><a name="pure">Pure</a></h2>
+<h2><a name="ob">Object</a></h2>
 
 <pre>
 
-  record pure: (P: * → *) → (A: *) → * :=
-         (return: P A)
+  record Ob: * :=
+         (elem: *)
+         (eq: Eq elem)
+         (point: elem)
 
 </pre>
 
-<h2><a name="functor">Functor</a></h2>
+<h2><a name="hom">Homomorphism</a></h2>
 
 <pre>
 
-  record functor: (F: * → *) → (A B: *) → * :=
-         (fmap: (A → B) → F A → F B)
+  record Hom (X,Y: Ob): * :=
+         (elem: X.elem → Y.elem)
+         (eq: ∀ (x1, x2: X.elem) → X.eq x1 x2 → Y.eq (elem x1) (elem x2)) 
+         (point: Y.eq (elem X.point) Y.point)
 
 </pre>
 
-<h2><a name="applicative">Applicative</a></h2>
+<h2><a name="setoid">Setoid</a></h2>
 
 <pre>
 
-  record applicative: (F: * → *) → (A B: *) → *
-  extend pure F A, functor F A B :=
-         (ap: F (A → B) → F A → F B)
+  record Setoid :=
+         (ob: Ob)
+         (hom: λ (X,Y: ob) → Hom (X,Y))
 
 </pre>
 
-<h2><a name="monad">Monad</a></h2>
+<h2><a name="infgr">Infinity Graph</a></h2>
 
 <pre>
 
-  record monad: (F: * → *) → (A B: *) → *
-  extend pure F A, functor F A B :=
-         (join: F (F A) → F B)
+  record InfGraph: * :=
+         (ob: *)
+         (hom: ob → ob → InfGraph)
 
 </pre>
 
