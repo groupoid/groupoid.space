@@ -51,10 +51,10 @@ that Type<sub>N-1</sub> inhabits Type<sub>N</sub>. Terms inhabit Type<sub>0</sub
 
 <pre style="width:600px;">
 
-  rule(star,box)  -> box;
-  rule({box,N},{box,M}) when M - N == 1 -> box;
   rule(star,star) -> star;
-  rule(box,star)  -> star.
+  rule(box,star)  -> star;
+  rule(star,box)  -> box;
+  rule(box,box)   -> box.
 
 </pre>
 
