@@ -304,7 +304,7 @@
 
   record Setoid :=
          (ob: *)
-         (hom: λ (X,Y: ob) → Hom (X,Y))
+         (hom: ∀ (X,Y: ob) → Hom (X,Y))
 
 </pre>
 
@@ -314,7 +314,7 @@
 
   record Groupoid :=
          (ob: *)
-         (hom: λ (a,b: ob) → Hom (a,b) → Groupoid)
+         (hom: ∀ (a,b: ob) → Hom (a,b) → Groupoid)
 
 </pre>
 
