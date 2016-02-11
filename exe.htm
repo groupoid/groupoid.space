@@ -144,18 +144,16 @@
 
 <pre  style="margin-left:150px;width:500px;">
 
-    I := #identifier
+     I := #identifier
 
-    O := ∅ | O O | ( O ) |
-         □ | O → O | 
-         * | λ ( I : O ) → O |
-         I | ∀ ( I : O ) → O |
+     O := ∅ | O O | ( O ) |
+          □ | O → O | 
+          * | λ ( I : O ) → O |
+          I | ∀ ( I : O ) → O |
 
      L := ∅ | L I
     
-     X := ∅ | X ( L : O ) | X O
-
-     A := ∅ | A X → X | A X
+     A := ∅ | A ( L : O ) | A O
 
      F := ∅ | F ( I : O )
 
