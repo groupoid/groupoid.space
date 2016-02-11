@@ -193,11 +193,18 @@
 <pre  style="width:500px;">
 
   data om: * := 
+       (nil: () → om)
        (star: () → om)
+       (box: () → om)
        (var: name → om)
        (app: om → om → om)
-       (lambda: name → om → om → om)                
+       (arrow: name → om → om → om)
        (pi: name → om → om → om)
+       (scope: om → om)
+
+  data exe: * := 
+       (record: name → om → om → exe)
+       (data:   name → om → om → exe)
 
 </pre>
 
