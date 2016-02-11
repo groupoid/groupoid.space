@@ -146,18 +146,18 @@
 
      I := #identifier
 
-     O := ∅ | O O | ( O ) |
-          □ | O → O | 
+     O := ∅ | ( O ) |
+          □ | ∀ ( I : O ) → O |
           * | λ ( I : O ) → O |
-          I | ∀ ( I : O ) → O |
+          I | O → O | O
 
      L := ∅ | L I
     
      A := ∅ | A ( L : O ) | A O
 
-     F := ∅ | F ( I : O )
+     F := ∅ | F ( I : O ) | ()
      
-     P := ∅ | P I O , I O | P I O
+     P := I O , P | I O
 
      E := ∅ | E data I : A := F
             | E record I : A [ extend P ] := F
