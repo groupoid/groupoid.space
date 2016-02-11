@@ -120,7 +120,7 @@
 <h3>R D *</h3>
 
 <blockquote>
-<p>01 &nbsp;<a href="#InfGr">INFGR</a></p>
+<p>01 &nbsp;<a href="#Groupoid">GROUPOID</a></p>
 </blockquote>
 
 </div>
@@ -308,13 +308,13 @@
 
 </pre>
 
-<h2><a name="infgr">Infinity Groupoid</a></h2>
+<h2><a name="groupoid">Groupoid</a></h2>
 
 <pre>
 
-  record groupoid :=
+  record Groupoid :=
          (ob: *)
-         (hom: λ (a,b: ob) → Hom (a,b) → groupoid)
+         (hom: λ (a,b: ob) → Hom (a,b) → Groupoid)
 
 </pre>
 
