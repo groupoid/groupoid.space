@@ -146,12 +146,17 @@
 
     I := #identifier
 
-    O := * | O → O |
-         □ | I : O |
-         ∅ | O   O | λ O |
-         I | ( O ) | ∀ O |
+    O := ∅ | □ | O → O | O O | ( O ) |
+             * | λ ( I : O ) → O |
+             I | ∀ ( I : O ) → O |
 
-    E := ∅ | E &lt;data|record&gt; O := O
+    L := ∅ | L I
+
+    A := ∅ | A ( L : O ) → &lt;A|*&gt;
+
+    F := ∅ | F ( I : O )
+
+    E := ∅ | E &lt;data|record&gt; I : A := F
         
 </pre>
 
@@ -200,7 +205,6 @@
          (app: om → om → om)
          (arrow: name → om → om → om)
          (pi: name → om → om → om)
-         (scope: om → om)
 
     data exe: * := 
          (record: name → om → om → exe)
