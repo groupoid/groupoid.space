@@ -146,17 +146,20 @@
 
     I := #identifier
 
-    O := ∅ | □ | O → O | O O | ( O ) |
-             * | λ ( I : O ) → O |
-             I | ∀ ( I : O ) → O |
+    O := ∅ | O O | ( O ) |
+         □ | O → O | 
+         * | λ ( I : O ) → O |
+         I | ∀ ( I : O ) → O |
 
-    L := ∅ | L I
+    LI := ∅ | LI I
+    
+     A := ∅ | A ( LI : O ) | A O
 
-    A := ∅ | A ( L : O ) → &lt;A|*&gt;
+    LA := ∅ | LA A → A
 
-    F := ∅ | F ( I : O )
+     F := ∅ | F ( I : O )
 
-    E := ∅ | E &lt;data|record&gt; I : A := F
+     E := ∅ | E &lt;data|record&gt; I : A := F
         
 </pre>
 
