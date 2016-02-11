@@ -142,7 +142,7 @@
 
 <center><h2><a name="syntax">Syntax</a></h2></center>
 
-<pre  style="margin-left:150px;width:500px;">
+<pre  style="margin-left:150px;width:600px;">
 
      I := #identifier
 
@@ -156,8 +156,11 @@
      A := ∅ | A ( L : O ) | A O
 
      F := ∅ | F ( I : O )
+     
+     P := ∅ | P I O , I O | P I O
 
-     E := ∅ | E &lt;data|record&gt; I : A := F
+     E := ∅ | E data I : A := F
+            | E record I : A [ extend P ] := F
         
 </pre>
 
@@ -313,7 +316,7 @@
 
 <pre>
 
-  record Hom (X,Y: Ob): * :=
+  record Hom (X Y: Ob): * :=
          (elem: X.elem → Y.elem)
          (eq: ∀ (x1, x2: X.elem) → X.eq x1 x2 → Y.eq (elem x1) (elem x2)) 
          (point: Y.eq (elem X.point) Y.point)
@@ -326,7 +329,7 @@
 
   record Setoid: * :=
          (ob: *)
-         (hom: ∀ (X,Y: ob) → Hom X Y)
+         (hom: ∀ (X Y: ob) → Hom X Y)
 
 </pre>
 
