@@ -52,6 +52,7 @@
 <p>01 &nbsp;<a href="#Nat">NAT</a></p>
 <p>02 &nbsp;<a href="#List">LIST</a></p>
 <p>03 &nbsp;<a href="#IO">IO</a></p>
+<p>04 &nbsp;<a href="#AST">AST</a></p>
 </blockquote>
 
 </div>
@@ -110,7 +111,8 @@
 <h3>NR D *</h3>
 
 <blockquote>
-<p>01 &nbsp;<a href="#Pair">SIGMA</a></p>
+<p>01 &nbsp;<a href="#Sigma">SIGMA</a></p>
+<p>02 &nbsp;<a href="#Setoid">SETOID</a></p>
 </blockquote>
 
 </div>
@@ -142,19 +144,15 @@
 
 <pre  style="margin-left:150px;width:500px;">
 
-    L := &lt;alphanumeric&gt;
+    I := #identifier
 
-    O := * | □ | ( O ) | O O 
-               |   ( L : O ) → O
-               | λ ( L : O ) → O
-               | ∀ ( L : O ) → O
+    O := * | O → O |
+         □ | I : O |
+         ∅ | O   O | λ O |
+         I | ( O ) | ∀ O |
 
-    K :=  data | record
-
-    C := ∅ | C K L : O := F
-    
-    F := ∅ | F ( L : O ) | ()
-    
+    E := ∅ | E &lt;data|record&gt; O := O
+        
 </pre>
 
 
@@ -162,7 +160,7 @@
 
 <h2><a name="nat">Nat</a></h2>
 
-<pre>
+<pre style="width:400px;">
 
     data nat: * :=
          (zero: () → nat)
@@ -172,7 +170,7 @@
 
 <h2><a name="list">List</a></h2>
 
-<pre>
+<pre style="width:500px;">
 
     data list: (A:*) → * :=
          (nil: () → list A)
@@ -190,12 +188,24 @@
 
 </pre>
 
+<h2><a name="ast">AST</a></h2>
+
+<pre  style="width:500px;">
+
+  data om: * := 
+       (star: () → om)
+       (var: name → om)
+       (app: om → om → om)
+       (lambda: name → om → om → om)                
+       (pi: name → om → om → om)
+
+</pre>
 
 <h1>Coinductive</h1>
 
 <h2><a name="pure">Pure</a></h2>
 
-<pre>
+<pre  style="width:500px;">
 
   record pure: (P: * → *) → (A: *) → * :=
          (return: P A)
@@ -204,7 +214,7 @@
 
 <h2><a name="functor">Functor</a></h2>
 
-<pre>
+<pre style="width:600px;">
 
   record functor: (F: * → *) → (A, B: *) → * :=
          (fmap: (A → B) → F A → F B)
@@ -213,7 +223,7 @@
 
 <h2><a name="applicative">Applicative</a></h2>
 
-<pre>
+<pre style="width:600px;">
 
   record applicative: (F: * → *) → (A, B: *) → *
   extend pure F A, functor F A B :=
@@ -235,7 +245,7 @@
 
 <h2><a name="unit">Unit</a></h2>
 
-<pre>
+<pre style="width:500px;">
 
     data unit: *1 :=
          (star: () → unit)
@@ -244,7 +254,7 @@
 
 <h2><a name="empty">Empty</a></h2>
 
-<pre>
+<pre style="width:500px;">
 
     data empty: *1 := ()
 
@@ -252,7 +262,7 @@
 
 <h2><a name="true">True</a></h2>
 
-<pre>
+<pre style="width:500px;">
 
     data True: Prop :=
          (intro: () → true)
@@ -261,7 +271,7 @@
 
 <h2><a name="false">False</a></h2>
 
-<pre>
+<pre style="width:500px;">
 
     data False: Prop := ()
 
@@ -269,7 +279,7 @@
 
 <h2><a name="eq">Eq</a></h2>
 
-<pre>
+<pre style="width:500px;">
 
     data Eq: (A:*) → A → A → Prop :=
          (refl: (x:A) → Eq A x x)
@@ -278,7 +288,7 @@
 
 <h2><a name="ob">Object</a></h2>
 
-<pre>
+<pre style="width:500px;">
 
   record Ob: * :=
          (elem: *)
@@ -304,7 +314,7 @@
 
   record Setoid: * :=
          (ob: *)
-         (hom: ∀ (X,Y: ob) → Hom (X,Y))
+         (hom: ∀ (X,Y: ob) → Hom X Y)
 
 </pre>
 
@@ -314,7 +324,7 @@
 
   record Groupoid: * :=
          (ob: *)
-         (hom: ∀ (a,b: ob) → Hom (a,b) → Groupoid)
+         (hom: ∀ (a,b: ob) → (Hom a b) → Groupoid)
 
 </pre>
 
