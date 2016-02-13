@@ -84,10 +84,11 @@
 <h3>NR ND *</h3>
 
 <blockquote>
-<p>01 &nbsp;<a href="#Pure">PURE</a></p>
-<p>02 &nbsp;<a href="#Functor">FUNCTOR</a></p>
-<p>03 &nbsp;<a href="#Applicative">APPLICATIVE</a></p>
-<p>04 &nbsp;<a href="#Monad">MONAD</a></p>
+<p>01 &nbsp;<a href="#Prod">PROD</a></p>
+<p>02 &nbsp;<a href="#Pure">PURE</a></p>
+<p>03 &nbsp;<a href="#Functor">FUNCTOR</a></p>
+<p>04 &nbsp;<a href="#Applicative">APPLICATIVE</a></p>
+<p>05 &nbsp;<a href="#Monad">MONAD</a></p>
 </blockquote>
 
 
@@ -152,16 +153,69 @@
           I | O → O | O O
 
      L := ∅ | L I
-    
+
      A := ∅ | A ( L : O ) | A O
 
      F := ∅ | F ( I : O ) | ()
-     
+
      P := I O , P | I O
 
-     E := ∅ | E data I : A := F
-            | E record I : A [ extend P ] := F
-        
+     E := ∅ | E data L : A := F
+            | E record L : A [ extend P ] := F
+            | E let F in O
+            | E case O [ | I O -> O ]
+
+</pre>
+
+
+<h2><a name="ast">Core Language</a></h2>
+
+<pre  style="width:500px;">
+
+    data Om: * :=
+         (nil: () → Om)
+         (star: () → Om)
+         (box: () → Om)
+         (var: string → Om)
+         (app: Om → Om → Om)
+         (arrow: string → Om → Om → Om)
+         (pi: name → Om → Om → Om)
+
+</pre>
+
+
+<h2><a name="bool">Syntax Extensions</a></h2>
+
+<pre style="width:500px;">
+
+    data Exe: * :=
+         (om: Om)
+         (case: Case)
+         (record: Record)
+         (data: Data)
+         (let: Let)
+
+</pre>
+
+<h2><a name="case">Case</a></h2>
+
+<pre style="width:800px;">
+
+  record Case: * :=
+         (default: Exe)
+         (legs: list (prod string (prod Om Exe)))
+
+</pre>
+
+<h2><a name="bool">Record / Data</a></h2>
+
+<pre style="width:500px;">
+
+  record Record Data: * :=
+         (name: string)
+         (base: Om)
+         (body: list (prod string Om))
+
 </pre>
 
 
@@ -187,36 +241,61 @@
 
 </pre>
 
+<h2><a name="bool">Bool</a></h2>
+
+<pre style="width:500px;">
+
+    data bool: * :=
+         (true: () → bool)
+         (false: () → bool)
+
+</pre>
+
+
 <h2><a name="vector">Vector</a></h2>
 
-<pre>
+<pre style="width:800px;">
 
     data vector: (A:*) → nat → * :=
          (nil: () → vector A zero)
-         (cons: (n: nat) → A → vector A n → vector A (succ n))   
+         (cons: (n: nat) → A → vector A n → vector A (succ n))
 
 </pre>
 
-<h2><a name="ast">AST</a></h2>
-
-<pre  style="width:500px;">
-
-    data om: * := 
-         (nil: () → om)
-         (star: () → om)
-         (box: () → om)
-         (var: name → om)
-         (app: om → om → om)
-         (arrow: name → om → om → om)
-         (pi: name → om → om → om)
-
-    data exe: * := 
-         (record: name → om → om → exe)
-         (data:   name → om → om → exe)
-
-</pre>
 
 <h1>Coinductive</h1>
+
+<h2><a name="prod">Product</a></h2>
+
+<pre style="width:500px;">
+
+  record prod: (A: *) → (B: *) → * :=
+         (sigma1: A)
+         (sigma2: B)
+
+</pre>
+
+<h2><a name="stream">Stream</a></h2>
+
+<pre style="width:400px;">
+
+  record stream: (A: *) → * :=
+         (head: A)
+         (tail: stream A)
+
+</pre>
+
+<h2><a name="eff">Effect</a></h2>
+
+<pre  style="width:400px;">
+
+  record effect: * :=
+         (payload: *)
+         (next: effect)
+         (in: exe)
+         (out: exe)
+
+</pre>
 
 <h2><a name="pure">Pure</a></h2>
 
@@ -253,6 +332,16 @@
   record monad: (F: * → *) → (A, B: *) → *
   extend pure F A, functor F A B :=
          (join: F (F A) → F B)
+
+</pre>
+
+<h2><a name="stream">Sigma</a></h2>
+
+<pre  style="width:500px;">
+
+  record sigma (A: *) → (B: A → *) → * :=
+         (car: A)
+         (cdr: B pr1)
 
 </pre>
 
