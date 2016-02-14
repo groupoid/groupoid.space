@@ -164,6 +164,9 @@
             | E record L : A [ extend P ] := F
             | E let F in O
             | E case O [ | I O -> O ]
+            | E receive O [ | I O -> O ]
+            | E spawn O O raise L := O
+            | E send O to O
 
 </pre>
 
@@ -194,6 +197,7 @@
          (record: Record)
          (data: Data)
          (let: Let)
+         (spawn: Process)
 
 </pre>
 
@@ -201,7 +205,7 @@
 
 <pre style="width:600px;">
 
-  record Case: * :=
+  record Case Receive: * :=
          (legs: list (prod string (prod Om Exe)))
          (default: Exe)
 
@@ -228,8 +232,38 @@
 
 </pre>
 
+<h2><a name="process">Process</a></h2>
+
+<pre  style="width:700px;">
+
+  record Eff: * := (in: exe) (out: exe)
+  record Process: (Sigma: sum) → (X: record) → * :=
+         (effect: list Eff)
+         (action: Sigma → X → X)
+
+</pre>
+
+<h2><a name="let">Send</a></h2>
+
+<pre style="width:500px;">
+
+  record Send: * :=
+         (msg: *)
+         (dst: Process)
+
+</pre>
 
 <h1>Inductive</h1>
+
+<h2><a name="nat">Sum</a></h2>
+
+<pre style="width:500px;">
+
+    data sum: (A: *) → (B: *) → * :=
+         (left: A)
+         (right: B)
+
+</pre>
 
 <h2><a name="nat">Nat</a></h2>
 
@@ -295,15 +329,6 @@
 
 </pre>
 
-<h2><a name="eff">Effect</a></h2>
-
-<pre  style="width:400px;">
-
-  record eff: * :=
-         (in: exe)
-         (out: exe)
-
-</pre>
 
 <h2><a name="pure">Pure</a></h2>
 
@@ -348,8 +373,8 @@
 <pre  style="width:500px;">
 
   record sigma (A: *) → (B: A → *) → * :=
-         (car: A)
-         (cdr: B pr1)
+         (pr1: A)
+         (pr2: B pr1)
 
 </pre>
 
