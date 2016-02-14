@@ -352,7 +352,7 @@
 
 <pre style="width:600px;">
 
-  record functor: (F: * → *) → (A, B: *) → * :=
+  record functor: (F: * → *) → (A B: *) → * :=
          (fmap: (A → B) → F A → F B)
 
 </pre>
@@ -361,7 +361,7 @@
 
 <pre style="width:600px;">
 
-  record applicative: (F: * → *) → (A, B: *) → *
+  record applicative: (F: * → *) → (A B: *) → *
   extend pure F A, functor F A B :=
          (ap: F (A → B) → F A → F B)
 
@@ -371,7 +371,7 @@
 
 <pre>
 
-  record monad: (F: * → *) → (A, B: *) → *
+  record monad: (F: * → *) → (A B: *) → *
   extend pure F A, functor F A B :=
          (join: F (F A) → F B)
 
@@ -449,7 +449,7 @@
 
   record Hom (X Y: Ob): * :=
          (elem: X.elem → Y.elem)
-         (eq: ∀ (x1, x2: X.elem) → X.eq x1 x2 → Y.eq (elem x1) (elem x2)) 
+         (eq: ∀ (x1 x2: X.elem) → X.eq x1 x2 → Y.eq (elem x1) (elem x2)) 
          (point: Y.eq (elem X.point) Y.point)
 
 </pre>
