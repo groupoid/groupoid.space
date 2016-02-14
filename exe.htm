@@ -456,6 +456,12 @@
 
 <h2><a name="setoid">Setoid</a></h2>
 
+Setoid in essence is a type with an equality. Type theory has its own equality type,
+which could be treated as the simplest non-trivial dependent type, however the behavior of
+this kind of equality is defined with additional axioms, that may be optional in minimal type theory.
+The neat thing about Setoid is that categorical constructions on setoids give us equality on
+all (Co)inductive types, which is not dependent on properties of underlying type theory.
+
 <pre>
 
   record Setoid: * :=
@@ -465,6 +471,12 @@
 </pre>
 
 <h2><a name="groupoid">Groupoid</a></h2>
+
+<span class=sel>Groupoid</span> is an multidimensional generalization of <span class=sel>Setoid</span> type, which has equalities on equalities and operations between them.
+Gropoid was introduced in algebraїс topology for the purposes of homotopy theory and has potential to replace the notion of
+topological space, since groupoid covers all the properties of topological space from the homotopy perspective.
+The ultimate equality on universum of all types was shown in HoTT setting, thus type theory became successful
+for reasoning about homotopies.
 
 <pre>
 
