@@ -186,7 +186,7 @@
 
 <h2><a name="bool">Syntax Extensions</a></h2>
 
-<pre style="width:500px;">
+<pre style="width:400px;">
 
     data Exe: * :=
          (om: Om)
@@ -199,11 +199,21 @@
 
 <h2><a name="case">Case</a></h2>
 
-<pre style="width:800px;">
+<pre style="width:600px;">
 
   record Case: * :=
-         (default: Exe)
          (legs: list (prod string (prod Om Exe)))
+         (default: Exe)
+
+</pre>
+
+<h2><a name="let">Let</a></h2>
+
+<pre style="width:500px;">
+
+  record Let: * :=
+         (binds: list (prod string Om))
+         (in: Exe)
 
 </pre>
 
@@ -270,8 +280,8 @@
 <pre style="width:500px;">
 
   record prod: (A: *) → (B: *) → * :=
-         (sigma1: A)
-         (sigma2: B)
+         (pr1: A)
+         (pr2: B)
 
 </pre>
 
@@ -335,7 +345,7 @@
 
 </pre>
 
-<h2><a name="stream">Sigma</a></h2>
+<h2><a name="sigma">Sigma</a></h2>
 
 <pre  style="width:500px;">
 
@@ -435,6 +445,7 @@
 <h1>Resources</h1>
 
 <p>01 &nbsp;<a href="https://gitter.im/groupoid/exe/archives/">EXE ARCHIVES</a></p>
+<p>02 &nbsp;<a href="https://github.com/groupoid/exe">GIT SOURCES</a></p>
 
 <center style="margin-top: 120px;margin-bottom:60px;">2016 &copy; Groupoid Infinity, Inc.</center>
 
