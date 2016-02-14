@@ -9,8 +9,15 @@ h3 { margin-top: 40px; }
 h4 { margin-top: 40px; }
 h5 { margin-top: -20px; }
 p { margin-top: 10px; }
+sup, sub {
+   vertical-align: baseline;
+   position: relative;
+   top: -0.4em;
+}
+sub { top: 0.4em; }
 .note { margin-top: 0px; }
 .note p { margin-top: 20px; }
+.sel { padding-left:4px;padding-right:4px;background:#EEE; }
 .menu { text-align: right;}
 a { margin-top: 10px; padding: 0px; }
 .app { margin:100px auto;min-width:300px;max-width:1000px; }

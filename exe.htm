@@ -102,7 +102,6 @@
 <blockquote>
 <p>01 &nbsp;<a href="#Stream">STREAM</a></p>
 <p>02 &nbsp;<a href="#Process">PROCESS</a></p>
-<p>03 &nbsp;<a href="#Eff">EFF</a></p>
 </blockquote>
 
 </div>
@@ -192,12 +191,12 @@
 <pre style="width:400px;">
 
     data Exe: * :=
-         (om: Om)
-         (case: Case)
-         (record: Record)
-         (data: Data)
-         (let: Let)
-         (spawn: Process)
+         (om: Om → Exe)
+         (case: Case → Exe)
+         (record: Record → Exe)
+         (data: Data → Exe)
+         (let: Let → Exe)
+         (spawn: Process → Exe)
 
 </pre>
 
@@ -255,17 +254,12 @@
 
 <h1>Inductive</h1>
 
-<h2><a name="nat">Sum</a></h2>
-
-<pre style="width:500px;">
-
-    data sum: (A: *) → (B: *) → * :=
-         (left: A)
-         (right: B)
-
-</pre>
-
 <h2><a name="nat">Nat</a></h2>
+
+  Pointer Unary System is a category nat with terminal object
+  and a carrier <span class=sel>nat</span> having morphism <span class=sel>[zero: 1<sub>nat</sub> → nat, succ: nat → nat]</span>.
+  The initial object of nat is called Natural Number Object and models Peano axiom set.
+
 
 <pre style="width:400px;">
 
@@ -277,6 +271,12 @@
 
 <h2><a name="list">List</a></h2>
 
+  The data type of lists over a given set A can be represented as the initial algebra
+  (&mu;&nbsp;L<sub>A</sub>,&nbsp;in) of the functor L<sub>A</sub>(X) = 1 + (A &times; X).
+  Denote mu L<sub>A</sub>A = List(A).
+  The constructor functions nil: 1 &rightarrow; List(A) and
+  cons: A &times; List(A) &rightarrow; List(A) are defined by
+  nil = in ◦ inl and cons = in ◦ inr, so in = <span class=sel>[nil,cons]</span>.
 <pre style="width:500px;">
 
     data list: (A:*) → * :=
@@ -295,6 +295,15 @@
 
 </pre>
 
+<h2><a name="nat">Sum</a></h2>
+
+<pre style="width:500px;">
+
+    data sum: (A: *) → (B: *) → * :=
+         (left: A → sum)
+         (right: B → sum)
+
+</pre>
 
 <h2><a name="vector">Vector</a></h2>
 
@@ -402,7 +411,7 @@
 <pre style="width:500px;">
 
     data True: Prop :=
-         (intro: () → true)
+         (intro: () → True)
 
 </pre>
 
