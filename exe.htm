@@ -285,6 +285,15 @@
 
 </pre>
 
+
+<h2><a name="empty">Empty</a></h2>
+
+<pre style="width:500px;">
+
+    data empty: * := ()
+
+</pre>
+
 <h2><a name="bool">Bool</a></h2>
 
 <pre style="width:500px;">
@@ -317,6 +326,15 @@
 
 
 <h1>Coinductive</h1>
+
+<h2><a name="unit">Unit</a></h2>
+
+<pre style="width:500px;">
+
+    data unit: * :=
+         (star: () → unit)
+
+</pre>
 
 <h2><a name="prod">Product</a></h2>
 
@@ -389,22 +407,6 @@
 
 <h1>Logic</h1>
 
-<h2><a name="unit">Unit</a></h2>
-
-<pre style="width:500px;">
-
-    data unit: *1 :=
-         (star: () → unit)
-
-</pre>
-
-<h2><a name="empty">Empty</a></h2>
-
-<pre style="width:500px;">
-
-    data empty: *1 := ()
-
-</pre>
 
 <h2><a name="true">True</a></h2>
 
