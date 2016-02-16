@@ -81,9 +81,8 @@ that Type<sub>N-1</sub> inhabits Type<sub>N</sub>. Terms inhabit Type<sub>0</sub
 
 <pre  style="width:500px;">
 
-  data om: * := 
-       (star: () → om)
-       (box: () → om)
+  data om: * :=
+       (star: nat → om)
        (var: name → om)
        (app: om → om → om)
        (lambda: name → om → om → om)                      

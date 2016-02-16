@@ -176,7 +176,7 @@
 
     data Om: * :=
          (nil: () → Om)
-         (star: () → Om)
+         (star: nat → Om)
          (box: () → Om)
          (var: string → Om)
          (app: Om → Om → Om)
