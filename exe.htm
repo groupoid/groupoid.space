@@ -254,6 +254,11 @@
 
 <h1>Inductive</h1>
 
+Inductive types are the dependent version of generalized algebraic data types used in ML.
+With inductive and coinductive types you can model polynomial higher order functors that defines
+generic trees and their constructors. Two very basic and known inductions are over
+natural numbers and lists, we show for them more detailed description.
+
 <h2><a name="nat">Nat</a></h2>
 
   Pointer Unary System is a category nat with terminal object
@@ -271,7 +276,7 @@
 
 <h2><a name="list">List</a></h2>
 
-  The data type of lists over a given set A can be represented as the initial algebra
+  The data type of <span class=sel>list</span> over a given set A can be represented as the initial algebra
   (&mu;&nbsp;L<sub>A</sub>,&nbsp;in) of the functor L<sub>A</sub>(X) = 1 + (A &times; X).
   Denote mu L<sub>A</sub>A = List(A).
   The constructor functions nil: 1 &rightarrow; List(A) and
@@ -285,26 +290,10 @@
 
 </pre>
 
-
-<h2><a name="empty">Empty</a></h2>
-
-<pre style="width:500px;">
-
-    data empty: * := ()
-
-</pre>
-
-<h2><a name="bool">Bool</a></h2>
-
-<pre style="width:500px;">
-
-    data bool: * :=
-         (true: () → bool)
-         (false: () → bool)
-
-</pre>
-
 <h2><a name="nat">Sum</a></h2>
+
+<span class=sel>sum</span> is meta-representation form of <span class=sel>data</span> inductive Exe syntaxt construction.
+For the internal form see <span class=sel>Data</span> AST construction.
 
 <pre style="width:500px;">
 
@@ -314,7 +303,40 @@
 
 </pre>
 
+<h2><a name="empty">Empty</a></h2>
+
+<span class=sel>empty</span> is a bottom type used as zero or terminal for <span class=sel>sum</span> inductive type.
+This type nas no constructors or with empty body.
+
+<pre style="width:500px;">
+
+    data empty: * := ()
+
+</pre>
+
+<h2><a name="bool">Bool</a></h2>
+
+<span class=sel>bool</span> is run-time version of the boolean logic you may use in your general purpose applications.
+It has only two unit constructors <span class=sel>[true,false]</span> and functions: <span class=sel>[and,or]</span>.
+
+<pre style="width:500px;">
+
+    data bool: * :=
+         (true: () → bool)
+         (false: () → bool)
+
+</pre>
+
+
 <h2><a name="vector">Vector</a></h2>
+
+<span class=sel>vector</span> is the inductive defintion of limited length list.
+Through it depends on term <span class=sel>nat</span> it can be used on reasoning
+about single discrete dimention of the space, bringing very basic inductive logic.
+It can be used for reasoning about <span class=sel>sqrt</span>, as
+latter for any fractional exponent has correspondent number of roots inscribed in a
+circle on a complex surface. When vector is not dependent on nat its encoding should match
+with regular <span class=sel>list</span>.
 
 <pre style="width:800px;">
 
@@ -327,26 +349,36 @@
 
 <h1>Coinductive</h1>
 
+When you need to inspect the addendums of inductive tree defintions you can name the
+agruments of the constructor, these arguments called elements of the tuple or fields of the record. 
+In this chapter we will use <span class=sel>record</span> Exe syntax, we only show
+how <span class=sel>record</span> and <span class=sel>data</span> are equal in example of
+<span class=sel>unit</span> and <span class=sel>prod</span> which are
+primitive forms of coinductive constructions.
+
+<h2><a name="prod">Product</a></h2>
+
+<pre style="width:700px;">
+
+    data prod: (A: *) → (B: *) → * := (cons: A → B → prod)
+  record prod: (A: *) → (B: *) → * := (pr1: A) (pr2: B)
+
+</pre>
+
 <h2><a name="unit">Unit</a></h2>
 
 <pre style="width:500px;">
 
-    data unit: * :=
-         (star: () → unit)
+    data unit: * := (star: () → unit)
+  record unit: * := (star: ())
 
 </pre>
 
-<h2><a name="prod">Product</a></h2>
-
-<pre style="width:500px;">
-
-  record prod: (A: *) → (B: *) → * :=
-         (pr1: A)
-         (pr2: B)
-
-</pre>
 
 <h2><a name="stream">Stream</a></h2>
+
+<span class=sel>stream</span> is a record form of the list's <span class=sel>cons</span> constructor.
+It models the infinity list that has no terminal element.
 
 <pre style="width:400px;">
 
@@ -474,7 +506,7 @@ all (Co)inductive types, which is not dependent on properties of underlying type
 
 <h2><a name="groupoid">Groupoid</a></h2>
 
-<span class=sel>Groupoid</span> is an multidimensional generalization of <span class=sel>Setoid</span> type, which has equalities on equalities and operations between them.
+<span class=sel>Groupoid</span> is a multidimensional generalization of <span class=sel>Setoid</span> type, which has equalities on equalities and operations between them.
 Gropoid was introduced in algebraїс topology for the purposes of homotopy theory and has potential to replace the notion of
 topological space, since groupoid covers all the properties of topological space from the homotopy perspective.
 The ultimate equality on universum of all types was shown in HoTT setting, thus type theory became successful
