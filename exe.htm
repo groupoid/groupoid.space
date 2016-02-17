@@ -236,7 +236,7 @@
 <pre  style="width:700px;">
 
   record Eff: * := (in: exe) (out: exe)
-  record Process: (Sigma: sum) → (X: record) → * :=
+  record Process: (Sigma: *) → (X: *) → * :=
          (effect: list Eff)
          (action: Sigma → X → X)
 
