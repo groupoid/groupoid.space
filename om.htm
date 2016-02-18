@@ -19,65 +19,39 @@
         <img src="Om.svg" height=200>
 </div>
 
-<div class=block>
+<div class=block style="width:700px;">
 <center><h1>Om Assembler</h1>
         <h5>CoC Intermediate Language<br> for typechecking and normalization</h5></center>
 
 <center><h2><a name="nat">Calculus of Constructions</a></h2></center>
 
-Pure Type System with impredicative indexed universes.
+Pure Type System with predicative universes.
 
-<h2>Axiom</h2>
-All terms inhabit types.
+<center><h2><a name="axioms">Axioms</a></h2></center>
 
-<pre>
+<p>All terms respect ranking inside universums hierarchy and
+complexity of the dependent term is equal maximum complexity of term and its dependency.</p>
 
-  axiom({star,N}) -> {box,N};
-  axiom(star)     -> {box,1}.
+<pre style="width:340px;">
 
-</pre>
-
-<center><pre style="width:140px;">
-
-⊦ * : □
-
-</pre></center>
-
-<h2>Rules</h2>
-
-Lambda Cube Top configuration with Dependent Types.<br>
-<b>Note</b> that term is star and type is box and also<br>
-that Type<sub>N-1</sub> inhabits Type<sub>N</sub>. Terms inhabit Type<sub>0</sub> which is Prop.
-
-<pre style="width:600px;">
-
-  rule(star,star) -> star;
-  rule(box,star)  -> star;
-  rule(star,box)  -> box;
-  rule(box,box)   -> box.
+  ⊦ *[i] : *[i+1]
+  ⊦ *[i] ↝ *[j] : *[max i j]
 
 </pre>
 
-<center><pre style="width:200px;">
+<center><h2><a name="syntax">Syntax</a></h2></center>
 
-⊦ * ↝ * : *
-⊦ □ ↝ * : *
-⊦ * ↝ □ : □
-⊦ □ ↝ □ : □
-
-</pre></center>
-
-<center><h2><a name="nat">Syntax</a></h2></center>
+<p>The core language of CoC is consists of: indexed stars, variables, applications, lambdas and pi AST constructions. </p>
 
 <pre  style="width:400px;">
 
-    E := * | □ | ( E ) | E E 
+    E := * | ( E ) | E E 
            | λ ( L : E ) → E 
            | ∀ ( L : E ) → E
 
 </pre>
 
-<center><h2><a name="nat">AST</a></h2></center>
+<center><h2><a name="ast">AST</a></h2></center>
 
 <pre  style="width:500px;">
 
@@ -85,7 +59,7 @@ that Type<sub>N-1</sub> inhabits Type<sub>N</sub>. Terms inhabit Type<sub>0</sub
        (star: nat → om)
        (var: name → om)
        (app: om → om → om)
-       (lambda: name → om → om → om)                      
+       (lambda: name → om → om → om)
        (pi: name → om → om → om)
 
 </pre>
