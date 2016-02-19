@@ -169,15 +169,69 @@
 
 </pre>
 
+<h2><a name="bool">Exe Language</a></h2>
 
-<h2><a name="ast">Core Language</a></h2>
+<pre style="width:400px;">
+
+    data Exe: * :=
+         (om: Om → Exe)
+         (core: Macro → Exe)
+         (eff: Effect → Exe)
+
+</pre>
+
+<div class=block style="width:800px;margin-top:20px;">
+
+<div class=block>
+
+<h3><a href="#om">CoC</a></h3>
+
+<blockquote>
+<p>03 <a href="#false">LAMBDA</a></p>
+<p>04 <a href="#option">PI</a></p>
+<p>01 &nbsp;<a href="#bool">APP</a></p>
+<p>02 <a href="#true">VAR</a></p>
+<p>02 <a href="#true">STAR</a></p>
+</blockquote>
+
+</div>
+
+<div class=block>
+
+<h3><a href="#pure">Macro</a></h3>
+
+<blockquote>
+<p>01 &nbsp;<a href="#data">DATA</a></p>
+<p>02 <a href="#record">RECORD</a></p>
+<p>03 <a href="#let">LET</a></p>
+<p>04 <a href="#case">CASE</a></p>
+</blockquote>
+
+</div>
+
+<div class=block>
+
+<h3><a href="#eff">Effects</a></h3>
+
+<blockquote>
+<p>01 &nbsp;<a href="#spawn">SPAWN</a></p>
+<p>02 <a href="#send">SEND</a></p>
+<p>03 <a href="#receive">RECEIVE</a></p>
+<p>04 <a href="#try">TRY</a></p>
+<p>05 <a href="#raise">RAISE</a></p>
+<p>06 <a href="#raise">DO</a></p>
+</blockquote>
+
+</div>
+
+</div>
+
+<h2><a name="om">CoC Language</a></h2>
 
 <pre  style="width:500px;">
 
     data Om: * :=
-         (nil: () → Om)
          (star: nat → Om)
-         (box: () → Om)
          (var: string → Om)
          (app: Om → Om → Om)
          (arrow: string → Om → Om → Om)
@@ -186,17 +240,30 @@
 </pre>
 
 
-<h2><a name="bool">Syntax Extensions</a></h2>
+<h2><a name="pure">Pure Macro Extensions</a></h2>
 
-<pre style="width:400px;">
+<pre style="width:500px;">
 
-    data Exe: * :=
-         (om: Om → Exe)
-         (case: Case → Exe)
-         (record: Record → Exe)
-         (data: Data → Exe)
-         (let: Let → Exe)
-         (spawn: Process → Exe)
+    data Macro: * :=
+         (record: Record → Macro)
+         (data: Data → Macro)
+         (let: Let → Macro)
+         (case: Case → Macro)
+
+</pre>
+
+<h2><a name="eff">Effects Extensions</a></h2>
+
+<pre style="width:500px;">
+
+    data Effect: * :=
+         (receive: Receive → Effect)
+         (spawn: Process → Effect)
+         (send: * → Process → Effect)
+         (try: Exception → Effect)
+         (raise: Exception → Effect)
+         (write: File → Effect)
+         (read: File → Effect)
 
 </pre>
 
@@ -220,7 +287,7 @@
 
 </pre>
 
-<h2><a name="bool">Record / Data</a></h2>
+<h2><a name="data"><a name="record">Record / Data</a></a></h2>
 
 <pre style="width:500px;">
 
@@ -231,7 +298,7 @@
 
 </pre>
 
-<h2><a name="process">Process</a></h2>
+<h2><a name="spawn">Process</a></h2>
 
 <pre  style="width:700px;">
 
@@ -242,7 +309,7 @@
 
 </pre>
 
-<h2><a name="let">Send</a></h2>
+<h2><a name="send">Send</a></h2>
 
 <pre style="width:500px;">
 
@@ -463,6 +530,15 @@ It models the infinity list that has no terminal element.
 
     data Eq: (A:*) → A → A → Prop :=
          (refl: (x:A) → Eq A x x)
+
+</pre>
+
+<h2><a name="exists">Exists</a></h2>
+
+<pre style="width:700px;">
+
+    data Exists: (A:*) → (A → *) → Prop :=
+         (intro: (P: A → *) → (x:A) → P x → exists A P)
 
 </pre>
 
