@@ -22,7 +22,7 @@
 <div class=block style="width:700px;height:0px;">
 
 <center><h1>Exe Language</h1>
-        <h5>&Pi;,&Sigma; language with Dependent Types and full normalization</h5>
+        <h5>Normal-form based compiler with Dependent Types</h5>
 
 <h2><a name="taxonomy">Core Types</a></h2>
 
@@ -180,18 +180,18 @@
 
 </pre>
 
-<div class=block style="width:800px;margin-top:20px;">
+<div class=block style="width:900px;margin-top:20px;">
 
 <div class=block>
 
-<h3><a href="#om">CoC</a></h3>
+<h3><a href="#om">Om</a></h3>
 
 <blockquote>
-<p>03 <a href="#false">LAMBDA</a></p>
-<p>04 <a href="#option">PI</a></p>
-<p>01 &nbsp;<a href="#bool">APP</a></p>
-<p>02 <a href="#true">VAR</a></p>
-<p>02 <a href="#true">STAR</a></p>
+<p>01 <a href="#lambda">LAMBDA</a></p>
+<p>02 <a href="#pi">PI</a></p>
+<p>03 &nbsp;<a href="#app">APP</a></p>
+<p>04 <a href="#var">VAR</a></p>
+<p>05 <a href="#star">STAR</a></p>
 </blockquote>
 
 </div>
@@ -224,7 +224,28 @@
 
 </div>
 
+
 </div>
+
+<h3>AST Constructors</h3>
+<code>
+Exe.om.star
+Exe.om.var
+Exe.om.arrow
+Exe.om.pi
+Exe.om.app
+Exe.core.data
+Exe.core.record
+Exe.core.case
+Exe.core.let
+Exe.eff.spawn
+Exe.eff.send
+Exe.eff.receive
+Exe.eff.try
+Exe.eff.raise
+Exe.eff.do
+</code>
+
 
 <h2><a name="om">CoC Language</a></h2>
 
@@ -319,6 +340,18 @@
 
 </pre>
 
+
+<!--/div-->
+
+<h3><a name="passes">Compiler Passes</a></h3>
+
+<blockquote>
+<p>01 &nbsp;<a href="#data">EXE</a> &mdash; Create Om Folder Structure</p>
+<p>02 <a href="#record">NORMAL</a> &mdash; Normal Form Generation</p>
+<p>03 <a href="#let">ERASE</a> &mdash; Erase Type Information</p>
+<p>04 <a href="#case">EXTRACT  </a> &mdash; Extract Target Prim Lambda</p>
+</blockquote>
+
 <h1>Inductive</h1>
 
 Inductive types are the dependent version of generalized algebraic data types used in ML.
@@ -328,7 +361,7 @@ natural numbers and lists, we show for them more detailed description.
 
 <h2><a name="nat">Nat</a></h2>
 
-  Pointer Unary System is a category nat with terminal object
+  Pointed Unary System is a category nat with terminal object
   and a carrier <span class=sel>nat</span> having morphism <span class=sel>[zero: 1<sub>nat</sub> → nat, succ: nat → nat]</span>.
   The initial object of nat is called Natural Number Object and models Peano axiom set.
 
