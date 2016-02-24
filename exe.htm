@@ -15,16 +15,25 @@
 <hr>
 <div class=app>
 
-<div class=block style="width:150px;height:350px;">
+<div class=block style="width:250px;height:350px;">
         <img src="Groupoid.svg" height=200 width=230>
 </div>
 
-<div class=block style="width:700px;height:0px;">
+<div class=block style="width:600px;height:0px;">
 
 <center><h1>Exe Language</h1>
-        <h5>Normal-form based compiler with Dependent Types</h5>
+        <h5>AST Specification as Inductive Constructions</h5></center>
 
-<h2><a name="syntax">Syntax</a></h2></center>
+<p>Exe Langauges is built on top of CoC pure type system, predicative universes
+and inductive constructions you may find in other MLTT provers like Lean, Coq,
+Idris, Agda and F*. As algebraїс prover Exe supports <span class=sel>data</span>
+and <span class=sel>record</span> polynomial functors as fundamental language
+constructions implemented in a form of hygienic macros over Exe AST. Everything in Exe
+is encoded as inductive construction: from the equality property up to Erlang VM process
+everything is a type that could have constructors and/or projections.
+The Exe language itself and its macrosystem are built using AST types, described in this document.</p>
+
+<center><h2><a name="syntax">Syntax</a></h2></center>
 
 <pre  style="margin-left:150px;width:600px;">
 
@@ -53,18 +62,18 @@
 
 </pre>
 
-<h3><a name="passes">Compiler Passes</a></h3>
+<h2><a name="passes">Compiler Passes</a></h2>
 
-<blockquote>
+<blockquote style="width:600px;">
 <p>01 &nbsp;<a href="#data">EXE</a> &mdash; Macro Expansion</p>
 <p>02 <a href="#record">NORMAL</a> &mdash; Typechecking and Normal Form Generation</p>
 <p>03 <a href="#let">ERASE</a> &mdash; Type Information Erasure</p>
 <p>04 <a href="#case">EXTRACT  </a> &mdash; Extract VM Lambda</p>
 </blockquote>
 
-<h2><a name="bool">Exe Language</a></h2>
+<h2><a name="bool">Exe AST</a></h2>
 
-<pre style="width:400px;">
+<pre style="width:400px;background-color:white;">
 
     data Exe: * :=
          (om: Om → Exe)
@@ -80,9 +89,9 @@
 <h3><a href="#om">Om</a></h3>
 
 <blockquote>
-<p>01 <a href="#lambda">LAMBDA</a></p>
-<p>02 <a href="#pi">PI</a></p>
-<p>03 &nbsp;<a href="#app">APP</a></p>
+<p>01 &nbsp;<a href="#function">LAMBDA</a></p>
+<p>02 <a href="#function">PI</a></p>
+<p>03 <a href="#application">APP</a></p>
 <p>04 <a href="#var">VAR</a></p>
 <p>05 <a href="#star">STAR</a></p>
 </blockquote>
@@ -107,7 +116,7 @@
 <h3><a href="#eff">Effects</a></h3>
 
 <blockquote>
-<p>01 &nbsp;<a href="#spawn">SPAWN</a></p>
+<p>01 &nbsp;<a href="#process">SPAWN</a></p>
 <p>02 <a href="#send">SEND</a></p>
 <p>03 <a href="#receive">RECEIVE</a></p>
 <p>04 <a href="#try">TRY</a></p>
@@ -117,46 +126,67 @@
 
 </div>
 
-
 </div>
 
-<h3>AST Constructors</h3>
-<code>
-Exe.om.star
-Exe.om.var
-Exe.om.arrow
-Exe.om.pi
-Exe.om.app
-Exe.core.data
-Exe.core.record
-Exe.core.case
-Exe.core.let
-Exe.eff.spawn
-Exe.eff.send
-Exe.eff.receive
-Exe.eff.try
-Exe.eff.raise
-Exe.eff.do
-</code>
+<div class=block style="width:900px;margin-top:20px;">
 
+<h2><a name="om">Om</a></h2>
 
-<h2><a name="om">CoC Language</a></h2>
-
-<pre  style="width:500px;">
+<pre  style="width:500px;background:white;margin-top:20px;">
 
     data Om: * :=
-         (star: nat → Om)
-         (var: string → Om)
-         (app: Om → Om → Om)
-         (arrow: string → Om → Om → Om)
-         (pi: name → Om → Om → Om)
+         (star: Star → Om)
+         (var: Var → Om)
+         (app: App → Om)
+         (arrow: Arrow → Om)
+         (pi: Pi → Om)
 
 </pre>
 
-
-<h2><a name="pure">Pure Macro Extensions</a></h2>
+<h2><a name="star">Star</a></h2>
 
 <pre style="width:500px;">
+
+  record Star: * :=
+         (index: nat)
+
+</pre>
+
+<h2><a name="var">Var</a></h2>
+
+<pre style="width:500px;">
+
+  record Var: * :=
+         (name: string)
+
+</pre>
+
+<h2><a name="function">Function</a></h2>
+
+<pre style="width:500px;">
+
+  record Arrow Pi: * :=
+         (name: string)
+         (arg: Om)
+         (body: Om)
+
+</pre>
+
+<h2><a name="application">Application</a></h2>
+
+<pre style="width:500px;">
+
+  record App: * :=
+         (fun: Om)
+         (arg: Om)
+
+</pre>
+
+<br>
+
+<h2><a name="macro">Macro</a></h2>
+
+<pre style="width:500px;background:white;">
 
     data Macro: * :=
          (record: Record → Macro)
@@ -166,20 +196,6 @@ Exe.eff.do
 
 </pre>
 
-<h2><a name="eff">Effects Extensions</a></h2>
-
-<pre style="width:500px;">
-
-    data Effect: * :=
-         (receive: Receive → Effect)
-         (spawn: Process → Effect)
-         (send: * → Process → Effect)
-         (try: Exception → Effect)
-         (raise: Exception → Effect)
-         (write: File → Effect)
-         (read: File → Effect)
-
-</pre>
 
 <h2><a name="case">Case / Receive</a></h2>
 
@@ -212,7 +228,24 @@ Exe.eff.do
 
 </pre>
 
-<h2><a name="spawn">Process</a></h2>
+<br>
+
+<h2><a name="eff">Effect</a></h2>
+
+<pre style="width:500px;background:white;">
+
+    data Effect: * :=
+         (receive: Receive → Effect)
+         (spawn: Process → Effect)
+         (send: * → Process → Effect)
+         (try: Exception → Effect)
+         (raise: Exception → Effect)
+         (write: File → Effect)
+         (read: File → Effect)
+
+</pre>
+
+<h2><a name="process">Process</a></h2>
 
 <pre  style="width:700px;">
 
