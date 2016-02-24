@@ -346,10 +346,10 @@ Exe.eff.do
 <h3><a name="passes">Compiler Passes</a></h3>
 
 <blockquote>
-<p>01 &nbsp;<a href="#data">EXE</a> &mdash; Create Om Folder Structure</p>
-<p>02 <a href="#record">NORMAL</a> &mdash; Normal Form Generation</p>
-<p>03 <a href="#let">ERASE</a> &mdash; Erase Type Information</p>
-<p>04 <a href="#case">EXTRACT  </a> &mdash; Extract Target Prim Lambda</p>
+<p>01 &nbsp;<a href="#data">EXE</a> &mdash; Macro Expansion</p>
+<p>02 <a href="#record">NORMAL</a> &mdash; Typechecking and Normal Form Generation</p>
+<p>03 <a href="#let">ERASE</a> &mdash; Type Information Erasure</p>
+<p>04 <a href="#case">EXTRACT  </a> &mdash; Extract VM Lambda</p>
 </blockquote>
 
 <h1>Inductive</h1>
@@ -378,7 +378,7 @@ natural numbers and lists, we show for them more detailed description.
 
   The data type of <span class=sel>list</span> over a given set A can be represented as the initial algebra
   (&mu;&nbsp;L<sub>A</sub>,&nbsp;in) of the functor L<sub>A</sub>(X) = 1 + (A &times; X).
-  Denote mu L<sub>A</sub>A = List(A).
+  Denote &mu; L<sub>A</sub> = List(A).
   The constructor functions nil: 1 &rightarrow; List(A) and
   cons: A &times; List(A) &rightarrow; List(A) are defined by
   nil = in ◦ inl and cons = in ◦ inr, so in = <span class=sel>[nil,cons]</span>.
@@ -619,13 +619,14 @@ all (Co)inductive types, which is not dependent on properties of underlying type
 Gropoid was introduced in algebraїс topology for the purposes of homotopy theory and has potential to replace the notion of
 topological space, since groupoid covers all the properties of topological space from the homotopy perspective.
 The ultimate equality on universum of all types was shown in HoTT setting, thus type theory became successful
-for reasoning about homotopies.
+for reasoning about homotopies. Iterating a Groupoid record over infinity number of universes that hold
+objects and homomorphisms gives us a concept of &infin;-Groupoid.
 
 <pre>
 
   record Groupoid: * :=
          (ob: *)
-         (hom: ∀ (a,b: ob) → (Hom a b) → Groupoid)
+         (hom: ∀ (a b: ob) → (Hom a b) → Groupoid)
 
 </pre>
 
