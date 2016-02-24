@@ -1,0 +1,431 @@
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="" />
+    <meta name="author" content="Maxim Sokhatsky" />
+    <title>TYPES</title>
+    <link rel="stylesheet" href="5HT.css" />
+</head>
+<body>
+<div class=menu>
+<a href="index.html">groupoid.co</a><font color=silver>/types</font>
+</div>
+<hr>
+<div class=app>
+
+<div class=block style="width:150px;height:350px;">
+        <img src="Groupoid.svg" height=200 width=230>
+</div>
+
+<div class=block style="width:700px;height:0px;">
+
+<center><h1>Core Types</h1>
+        <h5>Inductive Dependent Base Library</h5>
+
+<h2><a name="taxonomy">Exe Prelude</a></h2>
+
+</div>
+
+<div class=block style="width:1000px;">
+
+<div class=block>
+
+<h3>NR ND +</h3>
+
+<blockquote>
+<p>01 &nbsp;<a href="#bool">BOOL</a></p>
+<p>02 <a href="#true">TRUE</a></p>
+<p>03 <a href="#false">FALSE</a></p>
+<p>04 <a href="#option">OPTION</a></p>
+<p>05 <a href="#unit">UNIT</a></p>
+</blockquote>
+
+</div>
+
+<div class="block">
+
+<h3>R ND +</h3>
+
+<blockquote>
+<p>01 &nbsp;<a href="#nat">NAT</a></p>
+<p>02 &nbsp;<a href="#list">LIST</a></p>
+<p>03 &nbsp;<a href="#IO">IO</a></p>
+<p>04 &nbsp;<a href="#ast">AST</a></p>
+</blockquote>
+
+</div>
+
+<div class="block">
+
+<h3>NR D +</h3>
+
+<blockquote>
+<p>01 &nbsp;<a href="#eq">EQ</a></p>
+<p>02 &nbsp;<a href="#exists">EXISTS</a></p>
+</blockquote>
+
+</div>
+
+<div class="block">
+
+<h3>R D +</h3>
+
+<blockquote>
+<p>01 &nbsp;<a href="#vector">VECTOR</a></p>
+</blockquote>
+
+<br><br><br><br><br><br><br><br><br><br>
+</div>
+
+<div class="block">
+
+<h3>NR ND *</h3>
+
+<blockquote>
+<p>01 &nbsp;<a href="#prod">PROD</a></p>
+<p>02 &nbsp;<a href="#pure">PURE</a></p>
+<p>03 &nbsp;<a href="#functor">FUNCTOR</a></p>
+<p>04 &nbsp;<a href="#applicative">APPLICATIVE</a></p>
+<p>05 &nbsp;<a href="#monad">MONAD</a></p>
+</blockquote>
+
+
+</div>
+
+
+<div class="block">
+
+<h3>R ND *</h3>
+
+<blockquote>
+<p>01 &nbsp;<a href="#stream">STREAM</a></p>
+<p>02 &nbsp;<a href="#process">PROCESS</a></p>
+</blockquote>
+
+</div>
+
+<div class="block">
+
+<h3>NR D *</h3>
+
+<blockquote>
+<p>01 &nbsp;<a href="#sigma">SIGMA</a></p>
+<p>02 &nbsp;<a href="#setoid">SETOID</a></p>
+</blockquote>
+
+</div>
+
+<div class="block">
+
+<h3>R D *</h3>
+
+<blockquote>
+<p>01 &nbsp;<a href="#groupoid">GROUPOID</a></p>
+</blockquote>
+
+</div>
+
+</div>
+
+<div class=block style="margin-top:20px;margin-left:150px;">
+
+<center>
+<table border=0 cellspacing=2 style="margin-left:0px;font-size:20pt;"><tr><td>N :</td><td>Not a</td></tr>
+          <tr><td>  R :</td><td> Recursive</td></tr>
+          <tr><td>  D :</td><td> Dependent</td></tr>
+          <tr><td>  + :</td><td> Inductive</td></tr>
+          <tr><td>  * :</td><td> Coinductive</td></tr></table>
+</center>
+
+<h1>Inductive</h1>
+
+Inductive types are the dependent version of generalized algebraic data types used in ML.
+With inductive and coinductive types you can model polynomial higher order functors that defines
+generic trees and their constructors. Two very basic and known inductions are over
+natural numbers and lists, we show for them more detailed description.
+
+<h2><a name="nat">Nat</a></h2>
+
+  Pointed Unary System is a category nat with terminal object
+  and a carrier <span class=sel>nat</span> having morphism <span class=sel>[zero: 1<sub>nat</sub> → nat, succ: nat → nat]</span>.
+  The initial object of nat is called Natural Number Object and models Peano axiom set.
+
+
+<pre style="width:400px;">
+
+    data nat: * :=
+         (zero: () → nat)
+         (succ: nat → nat)
+
+</pre>
+
+<h2><a name="list">List</a></h2>
+
+  The data type of <span class=sel>list</span> over a given set A can be represented as the initial algebra
+  (&mu;&nbsp;L<sub>A</sub>,&nbsp;in) of the functor L<sub>A</sub>(X) = 1 + (A &times; X).
+  Denote &mu; L<sub>A</sub> = List(A).
+  The constructor functions nil: 1 &rightarrow; List(A) and
+  cons: A &times; List(A) &rightarrow; List(A) are defined by
+  nil = in ◦ inl and cons = in ◦ inr, so in = <span class=sel>[nil,cons]</span>.
+<pre style="width:500px;">
+
+    data list: (A:*) → * :=
+         (nil: () → list A)
+         (cons: A → list A → list A)
+
+</pre>
+
+<h2><a name="nat">Sum</a></h2>
+
+<span class=sel>sum</span> is meta-representation form of <span class=sel>data</span> inductive Exe syntaxt construction.
+For the internal form see <span class=sel>Data</span> AST construction.
+
+<pre style="width:500px;">
+
+    data sum: (A: *) → (B: *) → * :=
+         (left: A → sum)
+         (right: B → sum)
+
+</pre>
+
+<h2><a name="empty">Empty</a></h2>
+
+<span class=sel>empty</span> is a bottom type used as zero or terminal for <span class=sel>sum</span> inductive type.
+This type nas no constructors or with empty body.
+
+<pre style="width:500px;">
+
+    data empty: * := ()
+
+</pre>
+
+<h2><a name="bool">Bool</a></h2>
+
+<span class=sel>bool</span> is run-time version of the boolean logic you may use in your general purpose applications.
+It has only two unit constructors <span class=sel>[true,false]</span> and functions: <span class=sel>[and,or]</span>.
+
+<pre style="width:500px;">
+
+    data bool: * :=
+         (true: () → bool)
+         (false: () → bool)
+
+</pre>
+
+
+<h2><a name="vector">Vector</a></h2>
+
+<span class=sel>vector</span> is the inductive defintion of limited length list.
+Through it depends on term <span class=sel>nat</span> it can be used on reasoning
+about single discrete dimention of the space, bringing very basic inductive logic.
+It can be used for reasoning about <span class=sel>sqrt</span>, as
+latter for any fractional exponent has correspondent number of roots inscribed in a
+circle on a complex surface. When vector is not dependent on nat its encoding should match
+with regular <span class=sel>list</span>.
+
+<pre style="width:800px;">
+
+    data vector: (A:*) → nat → * :=
+         (nil: () → vector A zero)
+         (cons: (n: nat) → A → vector A n → vector A (succ n))
+
+</pre>
+
+
+<h1>Coinductive</h1>
+
+When you need to inspect the addendums of inductive tree defintions you can name the
+agruments of the constructor, these arguments called elements of the tuple or fields of the record. 
+In this chapter we will use <span class=sel>record</span> Exe syntax, we only show
+how <span class=sel>record</span> and <span class=sel>data</span> are equal in example of
+<span class=sel>unit</span> and <span class=sel>prod</span> which are
+primitive forms of coinductive constructions.
+
+<h2><a name="prod">Product</a></h2>
+
+<pre style="width:700px;">
+
+    data prod: (A: *) → (B: *) → * := (cons: A → B → prod)
+  record prod: (A: *) → (B: *) → * := (pr1: A) (pr2: B)
+
+</pre>
+
+<h2><a name="unit">Unit</a></h2>
+
+<pre style="width:500px;">
+
+    data unit: * := (star: () → unit)
+  record unit: * := (star: ())
+
+</pre>
+
+
+<h2><a name="stream">Stream</a></h2>
+
+<span class=sel>stream</span> is a record form of the list's <span class=sel>cons</span> constructor.
+It models the infinity list that has no terminal element.
+
+<pre style="width:400px;">
+
+  record stream: (A: *) → * :=
+         (head: A)
+         (tail: stream A)
+
+</pre>
+
+
+<h2><a name="pure">Pure</a></h2>
+
+<pre  style="width:500px;">
+
+  record pure: (P: * → *) → (A: *) → * :=
+         (return: P A)
+
+</pre>
+
+<h2><a name="functor">Functor</a></h2>
+
+<pre style="width:600px;">
+
+  record functor: (F: * → *) → (A B: *) → * :=
+         (fmap: (A → B) → F A → F B)
+
+</pre>
+
+<h2><a name="applicative">Applicative</a></h2>
+
+<pre style="width:600px;">
+
+  record applicative: (F: * → *) → (A B: *) → *
+  extend pure F A, functor F A B :=
+         (ap: F (A → B) → F A → F B)
+
+</pre>
+
+<h2><a name="monad">Monad</a></h2>
+
+<pre>
+
+  record monad: (F: * → *) → (A B: *) → *
+  extend pure F A, functor F A B :=
+         (join: F (F A) → F B)
+
+</pre>
+
+<h2><a name="sigma">Sigma</a></h2>
+
+<pre  style="width:500px;">
+
+  record sigma (A: *) → (B: A → *) → * :=
+         (pr1: A)
+         (pr2: B pr1)
+
+</pre>
+
+<h1>Logic</h1>
+
+
+<h2><a name="true">True</a></h2>
+
+<pre style="width:500px;">
+
+    data True: Prop :=
+         (intro: () → True)
+
+</pre>
+
+<h2><a name="false">False</a></h2>
+
+<pre style="width:500px;">
+
+    data False: Prop := ()
+
+</pre>
+
+<h2><a name="eq">Eq</a></h2>
+
+<pre style="width:500px;">
+
+    data Eq: (A:*) → A → A → Prop :=
+         (refl: (x:A) → Eq A x x)
+
+</pre>
+
+<h2><a name="exists">Exists</a></h2>
+
+<pre style="width:700px;">
+
+    data Exists: (A:*) → (A → *) → Prop :=
+         (intro: (P: A → *) → (x:A) → P x → exists A P)
+
+</pre>
+
+<h2><a name="ob">Object</a></h2>
+
+<pre style="width:500px;">
+
+  record Ob: * :=
+         (elem: *)
+         (eq: Eq elem)
+         (point: elem)
+
+</pre>
+
+<h2><a name="hom">Homomorphism</a></h2>
+
+<pre>
+
+  record Hom (X Y: Ob): * :=
+         (elem: X.elem → Y.elem)
+         (eq: ∀ (x1 x2: X.elem) → X.eq x1 x2 → Y.eq (elem x1) (elem x2)) 
+         (point: Y.eq (elem X.point) Y.point)
+
+</pre>
+
+<h2><a name="setoid">Setoid</a></h2>
+
+Setoid in essence is a type with an equality. Type theory has its own equality type,
+which could be treated as the simplest non-trivial dependent type, however the behavior of
+this kind of equality is defined with additional axioms, that may be optional in minimal type theory.
+The neat thing about Setoid is that categorical constructions on setoids give us equality on
+all (Co)inductive types, which is not dependent on properties of underlying type theory.
+
+<pre>
+
+  record Setoid: * :=
+         (ob: *)
+         (hom: ∀ (X Y: ob) → Hom X Y)
+
+</pre>
+
+<h2><a name="groupoid">Groupoid</a></h2>
+
+<span class=sel>Groupoid</span> is a multidimensional generalization of <span class=sel>Setoid</span> type, which has equalities on equalities and operations between them.
+Gropoid was introduced in algebraїс topology for the purposes of homotopy theory and has potential to replace the notion of
+topological space, since groupoid covers all the properties of topological space from the homotopy perspective.
+The ultimate equality on universum of all types was shown in HoTT setting, thus type theory became successful
+for reasoning about homotopies. Iterating a Groupoid record over infinity number of universes that hold
+objects and homomorphisms gives us a concept of &infin;-Groupoid.
+
+<pre>
+
+  record Groupoid: * :=
+         (ob: *)
+         (hom: ∀ (a b: ob) → (Hom a b) → Groupoid)
+
+</pre>
+
+<h1>Resources</h1>
+
+<p>01 &nbsp;<a href="https://gitter.im/groupoid/exe/archives/">EXE ARCHIVES</a></p>
+<p>02 &nbsp;<a href="https://github.com/groupoid/exe">GIT SOURCES</a></p>
+
+<center style="margin-top: 120px;margin-bottom:60px;"><img style="margin-bottom:-20px;" src="Stamp.svg" width=50>2016 &copy; Groupoid Infinity, Inc.</center>
+
+</div>
+
+</div>
+</body>
+</html>
