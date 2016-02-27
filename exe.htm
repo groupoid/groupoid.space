@@ -239,7 +239,7 @@ Om language is the target language of macroexpansions of <span class=sel>data</s
 <pre style="width:500px;">
 
   record Let: * :=
-         (binds: list (prod string Om))
+         (binds: list (prod string Exe))
          (in: Exe)
 
 </pre>
@@ -251,7 +251,7 @@ Om language is the target language of macroexpansions of <span class=sel>data</s
   record Record Data: * :=
          (name: string)
          (base: Om)
-         (body: list (prod string Om))
+         (body: list (prod string Exe))
 
 </pre>
 
@@ -278,7 +278,7 @@ Om language is the target language of macroexpansions of <span class=sel>data</s
 
 <pre  style="width:700px;">
 
-  record Eff: * := (in: exe) (out: exe)
+  record Eff: * := (in: Exe) (out: Exe)
   record Process: (Sigma: *) → (X: *) → * :=
          (effect: list Eff)
          (action: Sigma → X → X)
