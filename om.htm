@@ -23,9 +23,12 @@
 <center><h1>Om Assembler</h1>
         <h5>CoC Intermediate Language<br> for typechecking and normalization</h5></center>
 
+<h1>Definition</h1>
+
 <center><h2><a name="nat">Calculus of Constructions</a></h2></center>
 
-Pure Type System with predicative universes.
+The <span class=sel>Om</span> language is defined as CoC pure type system language with predicative universes.
+There is no fixpoint axiom needed for the definition of infinity term dependance.
 
 <center><h2><a name="axioms">Axioms</a></h2></center>
 
@@ -41,13 +44,20 @@ complexity of the dependent term is equal maximum complexity of term and its dep
 
 <center><h2><a name="syntax">Syntax</a></h2></center>
 
+The untyped lambda language for performance on virual machines.
+
+<pre  style="width:550px;">
+
+        T := ( T ) | T T | λ ( L : * ) → T
+
+</pre>
+
 <p>The core language of CoC is consists of: indexed stars, variables, applications, lambdas and pi AST constructions. </p>
 
-<pre  style="width:400px;">
+<pre  style="width:550px;">
 
-    E := * | ( E ) | E E 
-           | λ ( L : E ) → E 
-           | ∀ ( L : E ) → E
+    O := * | ( O ) | O O | λ ( L : O ) → O
+                         | ∀ ( L : O ) → O
 
 </pre>
 
@@ -61,6 +71,59 @@ complexity of the dependent term is equal maximum complexity of term and its dep
        (app: om → om → om)
        (lambda: name → om → om → om)
        (pi: name → om → om → om)
+
+</pre>
+
+<h1>Passes</h1>
+
+<center><h2><a name="normal">Normalized</a></h2></center>
+
+Terms in CoC language.
+
+<pre  style="width:500px;">
+
+   λ (A: *)
+ → λ (Head: A)
+ → λ (Tail:
+     ∀ (List: *)
+   → ∀ (Cons:
+       ∀ (Head: A)
+     → ∀ (Tail: List)
+     → List)
+   → ∀ (Nil: List)
+   → List)
+ → λ (List: *)
+ → λ (Cons:
+     ∀ (Head: A)
+   → ∀ (Tail: List)
+   → List)
+ → λ (Nil: List)
+ → Cons Head (Tail List Cons Nil)
+
+</pre>
+
+<center><h2><a name="erased">Erased</a></h2></center>
+
+Terms in untyped lambda pure language.
+
+<pre  style="width:500px;">
+
+   λ (Head: *)
+ → λ (Tail: *)
+ → λ (Cons: *)
+ → λ (Nil: *)
+ → Cons Head (Tail Cons Nil)
+
+</pre>
+
+<center><h2><a name="extract">Extract</a></h2></center>
+
+Erlang extracted code.
+
+<pre  style="width:800px;">
+
+  cons() -> fun (Head) -> fun (Tail) -> fun (Cons) -> fun (Nil) ->
+            ((Cons(Head))((Tail(Cons))(Nil))) end end end end.
 
 </pre>
 
