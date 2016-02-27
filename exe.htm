@@ -70,15 +70,7 @@ Both Exe language and its macrosystem are built using AST types, described in th
 
 </div>
 
-<div style="float:left;margin-left:40px;width:400px;"><h2><a name="passes">Compiler Passes</a></h2>
-
-<blockquote style="width:600px;">
-<p>01 &nbsp;<a href="#macro">EXE</a> &mdash; Macro Expansion</p>
-<p>02 <a href="om.htm#normal">NORMAL</a> &mdash; Typechecking</p>
-<p>03 <a href="om.htm#erased">ERASE</a> &mdash; Type Information Erasure</p>
-<p>04 <a href="om.htm#extract">EXTRACT  </a> &mdash; Extract VM Lambda</p>
-</blockquote>
-
+<div style="float:left;margin-left:40px;width:400px;">
 
 <h2><a name="ast">Syntax Tree</a></h2>
 
@@ -90,6 +82,17 @@ Both Exe language and its macrosystem are built using AST types, described in th
          (eff: Effect → Exe)
 
 </pre>
+
+<h2><a name="passes">Compiler Passes</a></h2>
+
+<blockquote style="width:600px;">
+<p>01 &nbsp;<a href="#macro">EXE</a> &mdash; Macro Expansion</p>
+<p>02 <a href="om.htm#normal">NORMAL</a> &mdash; Typechecking</p>
+<p>03 <a href="om.htm#erased">ERASE</a> &mdash; Type Information Erasure</p>
+<p>04 <a href="om.htm#extract">EXTRACT  </a> &mdash; Extract VM Lambda</p>
+</blockquote>
+
+
 
 </div>
 </div>
@@ -115,7 +118,7 @@ Both Exe language and its macrosystem are built using AST types, described in th
 
 <div class=block>
 
-<h3><a href="#pure">Macro</a></h3>
+<h3><a href="#macro">Macro</a></h3>
 
 <blockquote>
 <p>01 &nbsp;<a href="#data">DATA</a></p>
