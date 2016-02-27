@@ -33,9 +33,13 @@ is encoded as inductive construction: from the equality property up to Erlang VM
 everything is a type that could have constructors and/or projections.
 Both Exe language and its macrosystem are built using AST types, described in this document.</p>
 
-<center><h2><a name="syntax">Syntax</a></h2></center>
+<div style="float:left;width:902px;margin-bottom:30px;">
 
-<pre  style="margin-left:150px;width:600px;">
+<div style="float:left;margin-left:-300px;width:600px;"><h2>
+
+<h2><a name="syntax">Language Forms</a></h2>
+
+<pre  style="width:600px;">
 
      I := #identifier
 
@@ -62,16 +66,19 @@ Both Exe language and its macrosystem are built using AST types, described in th
 
 </pre>
 
-<h2><a name="passes">Compiler Passes</a></h2>
+</div>
+
+<div style="float:left;margin-left:40px;width:400px;"><h2><a name="passes">Compiler Passes</a></h2>
 
 <blockquote style="width:600px;">
-<p>01 &nbsp;<a href="#ast">EXE</a> &mdash; Macro Expansion</p>
-<p>02 <a href="om.htm#normal">NORMAL</a> &mdash; Typechecking and Normal Form Generation</p>
+<p>01 &nbsp;<a href="#macro">EXE</a> &mdash; Macro Expansion</p>
+<p>02 <a href="om.htm#normal">NORMAL</a> &mdash; Typechecking</p>
 <p>03 <a href="om.htm#erased">ERASE</a> &mdash; Type Information Erasure</p>
 <p>04 <a href="om.htm#extract">EXTRACT  </a> &mdash; Extract VM Lambda</p>
 </blockquote>
 
-<h2><a name="ast">Exe AST</a></h2>
+
+<h2><a name="ast">Syntax Tree</a></h2>
 
 <pre style="width:400px;background-color:white;">
 
@@ -82,11 +89,17 @@ Both Exe language and its macrosystem are built using AST types, described in th
 
 </pre>
 
+</div>
+</div>
+
+<h1>Macrosystem</h1>
+
 <div class=block style="width:900px;margin-top:20px;">
 
 <div class=block>
 
 <h3><a href="#om">Om</a></h3>
+
 
 <blockquote>
 <p>01 &nbsp;<a href="#function">LAMBDA</a></p>
@@ -128,9 +141,13 @@ Both Exe language and its macrosystem are built using AST types, described in th
 
 </div>
 
-<div class=block style="width:900px;margin-top:20px;">
+<div class=block style="width:700px;margin-top:20px;">
 
 <h2><a name="om">Om</a></h2>
+
+<span class=sel>Om</span> language is the macrosystem terminal language.
+Language forms of pure <span class=sel>Macro</span> or inpure <span class=sel>Effect</span>
+types are expanded to the terminal language. For the details please refer to the <a href="om.htm">Om Assembler</a> description.
 
 <pre  style="width:500px;background:white;margin-top:20px;">
 
@@ -152,7 +169,7 @@ Both Exe language and its macrosystem are built using AST types, described in th
 
 </pre>
 
-<h2><a name="var">Var</a></h2>
+<h2><a name="var">Variable</a></h2>
 
 <pre style="width:500px;">
 
@@ -161,7 +178,7 @@ Both Exe language and its macrosystem are built using AST types, described in th
 
 </pre>
 
-<h2><a name="function">Function</a></h2>
+<h2><a name="function">Arrow / Pi</a></h2>
 
 <pre style="width:500px;">
 
@@ -186,6 +203,10 @@ Both Exe language and its macrosystem are built using AST types, described in th
 
 <h2><a name="macro">Macro</a></h2>
 
+<p><span class=sel>Macro</span> language subsystem is the core of Exe language and dedicated to compile the prelude desceibed in the <a href="types.htm">Core Types</a> document.
+Om language is the target language of macroexpansions of <span class=sel>data</span> and <span class=sel>record</span> inductive constructions,
+<span class=sel>let</span> construction and univariable <span class=sel>case</span> pattern matching.</p>
+
 <pre style="width:500px;background:white;">
 
     data Macro: * :=
@@ -202,7 +223,8 @@ Both Exe language and its macrosystem are built using AST types, described in th
 <pre style="width:600px;">
 
   record Case Receive: * :=
-         (legs: list (prod string (prod Om Exe)))
+         (of: Exe)
+         (legs: list (prod atom (prod Om Exe)))
          (default: Exe)
 
 </pre>
@@ -231,6 +253,8 @@ Both Exe language and its macrosystem are built using AST types, described in th
 <br>
 
 <h2><a name="eff">Effect</a></h2>
+
+<p><span class=sel>Effect</span> syntax extensions defined basic process calculus axioms, IO and exception handling.</p>
 
 <pre style="width:500px;background:white;">
 
