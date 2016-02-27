@@ -299,8 +299,9 @@ It models the infinity list that has no terminal element.
 <pre style="width:600px;">
 
   record applicative: (F: * → *) → (A B: *) → *
-  extend pure F A, functor F A B :=
-         (ap: F (A → B) → F A → F B)
+  extend (_: pure F A)
+         (_: functor F A B)
+      := (ap: F (A → B) → F A → F B)
 
 </pre>
 
@@ -309,8 +310,9 @@ It models the infinity list that has no terminal element.
 <pre>
 
   record monad: (F: * → *) → (A B: *) → *
-  extend pure F A, functor F A B :=
-         (join: F (F A) → F B)
+  extend (_: pure F A)
+         (_: functor F A B)
+      := (join: F (F A) → F B)
 
 </pre>
 
