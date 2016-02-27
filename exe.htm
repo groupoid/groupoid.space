@@ -45,16 +45,16 @@ Both Exe language and its macrosystem are built using AST types, described in th
 
      U := *#number
 
-     O := ∅ | ( O ) |
-          □ | ∀ ( I : O ) → O |
-          U | λ ( I : O ) → O |
-          I | O → O | O O
+     O := I | ( O ) |
+          U | O → O | O O
+            | ∀ ( I : O ) → O
+            | λ ( I : O ) → O
 
-     L := ∅ | L I
+     L := I | L I
 
-     A := ∅ | A ( L : O ) | A O
+     A := A ( L : O ) | A O
 
-     F := ∅ | F ( I : O ) | ()
+     F := F ( I : O ) | ()
 
      P := I O , P | I O
 
