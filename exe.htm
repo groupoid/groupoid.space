@@ -43,9 +43,11 @@ Both Exe language and its macrosystem are built using AST types, described in th
 
      I := #identifier
 
+     U := *#number
+
      O := ∅ | ( O ) |
           □ | ∀ ( I : O ) → O |
-          * | λ ( I : O ) → O |
+          U | λ ( I : O ) → O |
           I | O → O | O O
 
      L := ∅ | L I
@@ -58,11 +60,11 @@ Both Exe language and its macrosystem are built using AST types, described in th
 
      E := ∅ | E data L : A := F
             | E record L : A [ extend P ] := F
-            | E let F in O
-            | E case O [ | I O -> O ]
-            | E receive O [ | I O -> O ]
-            | E spawn O O raise L := O
-            | E send O to O
+            | E let F in E
+            | E case E [ | I O -> E ]
+            | E receive E [ | I O -> E ]
+            | E spawn E raise L := E
+            | E send E to E
 
 </pre>
 
