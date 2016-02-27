@@ -127,8 +127,8 @@ Erlang extracted code. For other targets you may want to read <a href="extract.h
 
 <pre  style="width:800px;">
 
-  cons() -> fun (Head) -> fun (Tail) -> fun (Cons) -> fun (Nil) ->
-            ((Cons(Head))((Tail(Cons))(Nil))) end end end end.
+  'Cons'() -> fun (Head) -> fun (Tail) -> fun (Cons) -> fun (Nil) ->
+              ((Cons(Head))((Tail(Cons))(Nil))) end end end end.
 
 </pre>
 
