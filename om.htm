@@ -50,19 +50,24 @@ The untyped lambda language for performance on virual machines.
 
 <pre  style="width:550px;">
 
-    I := #identifier
-    T := I | ( T ) | T T | λ I → T
+    I ::= #identifier
+
+    T ::= I | ( T ) | T T | λ I → T
 
 </pre>
 
 <p>The terms of Om consist of NN-indexed stars, variables, applications, lambda-abstractions and universal quantifications (Pi-types).</p>
 
-<pre  style="width:550px;">
+<pre  style="width:600px;">
 
-    I := #identifier
-    U := * ( #number )
-    O := U | I | ( O ) | O O | λ ( I : O ) → O
-                             | ∀ ( I : O ) → O
+   <> ::= #option
+
+    I ::= #identifier
+
+    U ::= * < #number >
+
+    O ::= U | I | ( O ) | O O | λ ( I : O ) → O
+                              | ∀ ( I : O ) → O
 
 </pre>
 
