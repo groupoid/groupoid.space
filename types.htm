@@ -1,3 +1,4 @@
+<!doctype html>
 <html>
 <head>
     <meta charset="utf-8" />
@@ -237,7 +238,7 @@ with regular <span class=sel>list</span>.
 <h1>Coinductive</h1>
 
 When you need to inspect the addendums of inductive tree defintions you can name the
-agruments of the constructor, these arguments called elements of the tuple or fields of the record. 
+agruments of the constructor, these arguments called elements of the tuple or fields of the record.
 In this chapter we will use <span class=sel>record</span> Exe syntax, we only show
 how <span class=sel>record</span> and <span class=sel>data</span> are equal in example of
 <span class=sel>unit</span> and <span class=sel>prod</span> which are
@@ -381,7 +382,7 @@ It models the infinity list that has no terminal element.
 
   record Hom (X Y: Ob): * :=
          (elem: X.elem → Y.elem)
-         (eq: ∀ (x1 x2: X.elem) → X.eq x1 x2 → Y.eq (elem x1) (elem x2)) 
+         (eq: ∀ (x1 x2: X.elem) → X.eq x1 x2 → Y.eq (elem x1) (elem x2))
          (point: Y.eq (elem X.point) Y.point)
 
 </pre>

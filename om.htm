@@ -1,3 +1,4 @@
+<!doctype html>
 <html>
 <head>
     <meta charset="utf-8" />
@@ -9,145 +10,119 @@
     <link rel="stylesheet" href="5HT.css" />
 </head>
 <body>
-<div class=menu>
-<a href="index.html">groupoid.co</a><font color=silver>/om</font>
-</div>
-<hr>
-<div class=app>
+  <div class="menu">
+    <a href="index.html">groupoid.co</a><font color="silver">/om</font>
+  </div>
+  <hr>
+  <div class="app">
 
-<div class=block style="width:230px;height:550px;">
-        <img src="Om.svg" height=200>
-</div>
+    <div class="block" style="width:230px;height:550px;">
+      <img src="Om.svg" height="200">
+    </div>
 
-<div class=block style="width:700px;">
-<center><h1>Om Assembler</h1>
-        <h5>CoC Intermediate Language<br> for typechecking and normalization</h5></center>
+    <div class="block" style="width:700px;">
+      <center><h1>Om Assembler</h1>
+              <h5>CoC Intermediate Language<br> for typechecking and normalization</h5></center>
 
-<h1>Definition</h1>
+      <h1>Definition</h1>
 
-<center><h2><a name="nat">Calculus of Constructions</a></h2></center>
+      <center><h2><a name="nat">Calculus of Constructions</a></h2></center>
 
-<p>The <span class=sel>Om</span> language is a dependently typed lambda calculus, an extension of
-Barendregt' and Coquand Calculus of Constructions with predicative
-hierarchy of indexed universes. There is no fixpoint axiom needed
-for the definition of infinity term dependance.</p>
+      <p>The <span class="sel">Om</span> language is a dependently typed lambda calculus, an extension of
+      Barendregt' and Coquand Calculus of Constructions with predicative
+      hierarchy of indexed universes. There is no fixpoint axiom needed
+      for the definition of infinity term dependance.</p>
 
-<center><h2><a name="axioms">Axioms</a></h2></center>
+      <center><h2><a name="axioms">Axioms</a></h2></center>
 
-<p>All terms respect ranking inside universums hierarchy and
-complexity of the dependent term is equal maximum complexity of term and its dependency.</p>
+      <p>All terms respect ranking inside universums hierarchy and
+      complexity of the dependent term is equal maximum complexity of term and its dependency.</p>
 
-<pre style="width:340px;">
+      <pre>
+      ⊦ *(i) : *(i+1)
+      ⊦ *(i) ↝ *(j) : *(max i j)</pre>
 
-  ⊦ *(i) : *(i+1)
-  ⊦ *(i) ↝ *(j) : *(max i j)
+      <center><h2><a name="syntax">Syntax</a></h2></center>
 
-</pre>
+      The untyped lambda language for performance on virual machines.
 
-<center><h2><a name="syntax">Syntax</a></h2></center>
+      <pre>
+      I ::= #identifier
+      T ::= I | ( T ) | T T | λ I → T</pre>
 
-The untyped lambda language for performance on virual machines.
+      <p>The terms of Om consist of NN-indexed stars, variables, applications, lambda-abstractions and universal quantifications (Pi-types).</p>
 
-<pre  style="width:550px;">
+      <pre>
+       &lt;&gt; ::= #option
+        I ::= #identifier
+        U ::= * &lt; #number &gt;
+        O ::= U | I | ( O ) | O O | λ ( I : O ) → O
+                                  | ∀ ( I : O ) → O</pre>
 
-    I ::= #identifier
+      <center><h2><a name="ast">AST</a></h2></center>
 
-    T ::= I | ( T ) | T T | λ I → T
+      <pre>
+      data om: * :=
+           (star: nat → om)
+           (var: name → om)
+           (app: om → om → om)
+           (lambda: name → om → om → om)
+           (pi: name → om → om → om)</pre>
 
-</pre>
+      <h1>Passes</h1>
 
-<p>The terms of Om consist of NN-indexed stars, variables, applications, lambda-abstractions and universal quantifications (Pi-types).</p>
+      <center><h2><a name="normal">Normalized</a></h2></center>
 
-<pre  style="width:600px;">
+      Terms in CoC language.
 
-   <> ::= #option
+      <pre  style="width:500px;">
 
-    I ::= #identifier
+         λ (A: *)
+       → λ (Head: A)
+       → λ (Tail:
+           ∀ (List: *)
+         → ∀ (Cons:
+             ∀ (Head: A)
+           → ∀ (Tail: List)
+           → List)
+         → ∀ (Nil: List)
+         → List)
+       → λ (List: *)
+       → λ (Cons:
+           ∀ (Head: A)
+         → ∀ (Tail: List)
+         → List)
+       → λ (Nil: List)
+       → Cons Head (Tail List Cons Nil)</pre>
 
-    U ::= * < #number >
+      <center><h2><a name="erased">Erased</a></h2></center>
 
-    O ::= U | I | ( O ) | O O | λ ( I : O ) → O
-                              | ∀ ( I : O ) → O
+      Terms in untyped lambda pure language.
 
-</pre>
+      <pre  style="width:500px;">
+         λ Head
+       → λ Tail
+       → λ Cons
+       → λ Nil
+       → Cons Head (Tail Cons Nil)</pre>
 
-<center><h2><a name="ast">AST</a></h2></center>
+      <center><h2><a name="extract">Extract</a></h2></center>
 
-<pre  style="width:500px;">
+      Erlang extracted code. For other targets you may want to read <a href="extract.htm">Code&nbsp;Extract</a> notes.
 
-  data om: * :=
-       (star: nat → om)
-       (var: name → om)
-       (app: om → om → om)
-       (lambda: name → om → om → om)
-       (pi: name → om → om → om)
+      <pre  style="width:800px;">
+      'Cons'() -&gt; fun (Head) -&gt; fun (Tail) -&gt; fun (Cons) -&gt; fun (Nil) -&gt;
+                  ((Cons(Head))((Tail(Cons))(Nil))) end end end end.</pre>
 
-</pre>
+      <h1>Resources</h1>
 
-<h1>Passes</h1>
+      <p>01 &nbsp;<a href="https://gitter.im/groupoid/om/archives/">OM ARCHIVES</a></p>
+      <p>02 &nbsp;<a href="https://github.com/groupoid/om">GIT SOURCES</a></p>
+      <br/>
 
-<center><h2><a name="normal">Normalized</a></h2></center>
+      <center style="margin-top: 120px;margin-bottom:60px;"><img style="margin-bottom:-20px;" src="Stamp.svg" width="50">2016 &copy; Groupoid Infinity, Inc.</center>
 
-Terms in CoC language.
-
-<pre  style="width:500px;">
-
-   λ (A: *)
- → λ (Head: A)
- → λ (Tail:
-     ∀ (List: *)
-   → ∀ (Cons:
-       ∀ (Head: A)
-     → ∀ (Tail: List)
-     → List)
-   → ∀ (Nil: List)
-   → List)
- → λ (List: *)
- → λ (Cons:
-     ∀ (Head: A)
-   → ∀ (Tail: List)
-   → List)
- → λ (Nil: List)
- → Cons Head (Tail List Cons Nil)
-
-</pre>
-
-<center><h2><a name="erased">Erased</a></h2></center>
-
-Terms in untyped lambda pure language.
-
-<pre  style="width:500px;">
-
-   λ Head
- → λ Tail
- → λ Cons
- → λ Nil
- → Cons Head (Tail Cons Nil)
-
-</pre>
-
-<center><h2><a name="extract">Extract</a></h2></center>
-
-Erlang extracted code. For other targets you may want to read <a href="extract.htm">Code&nbsp;Extract</a> notes.
-
-<pre  style="width:800px;">
-
-  'Cons'() -> fun (Head) -> fun (Tail) -> fun (Cons) -> fun (Nil) ->
-              ((Cons(Head))((Tail(Cons))(Nil))) end end end end.
-
-</pre>
-
-<h1>Resources</h1>
-
-<p>01 &nbsp;<a href="https://gitter.im/groupoid/om/archives/">OM ARCHIVES</a></p>
-<p>02 &nbsp;<a href="https://github.com/groupoid/om">GIT SOURCES</a></p>
-
-
-<br>
-
-<center style="margin-top: 120px;margin-bottom:60px;"><img style="margin-bottom:-20px;" src="Stamp.svg" width=50>2016 &copy; Groupoid Infinity, Inc.</center>
-
-</div>
-
+    </div>
+  </div>
 </body>
 </html>
