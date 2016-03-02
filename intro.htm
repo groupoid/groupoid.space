@@ -1,75 +1,73 @@
-<!doctype html>
 <html>
 <head>
-  <meta charset="utf-8" />
-  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="" />
-  <meta name="author" content="Maxim Sokhatsky" />
-  <title>INTRO</title>
-  <link rel="stylesheet" href="5HT.css" />
+    <meta charset="utf-8" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="" />
+    <meta name="author" content="Maxim Sokhatsky" />
+    <title>INTRO</title>
+    <link rel="stylesheet" href="5HT.css" />
 </head>
 <body>
-  <div class="menu">
-    <a href="index.html">groupoid.co</a><font color="silver">/intro</font>
-  </div>
-  <hr>
+<div class=menu>
+<a href="index.html">groupoid.co</a><font color=silver>/intro</font>
+</div>
+<hr>
 
-  <div class="app">
+<div class=app>
 
-    <div class="block" style="width:230px;height:550px;">
-      <img src="Groupoid.svg" height="200">
-    </div>
+<div class=block style="width:230px;height:550px;">
+        <img src="Groupoid.svg" height=200>
+</div>
 
-    <div class="block" style="width:700px">
-      <center><h1>Abstract</h1>
-        <h5>Canvas of Categorical Encoding of Inductive Dependent Types</h5></center>
+<div class=block style="width:700px">
+<center><h1>Abstract</h1>
+        <h5>Canvas of Categorical Encoding of Inductive Dependent Types</center>
 
-        <center><h2><a name="fpga">LISP</a></h2></center>
+<center><h2><a name="fpga">LISP</a></h2></center>
 
-        <p>Untyped lambda calculus was discovered as an inner language of the space
-          at origin. Minimal language is well described in LISP systax with
-          named set of inductive type constructors such as Church numerals and list cons.
-          Main constructions of this languages are: cons, nil, eq, atom, car, cdr,
-          lambda, apply and id. Erlang is a form of this language extended
-          with effects, mainly process calculus axioms, and usually untyped lambda calculus
-          is used as a target extract language.</p>
+<p>Untyped lambda calculus was discovered as an inner language of the space
+at origin. Minimal language is well described in LISP systax with
+named set of inductive type constructors such as Church numerals and list cons.
+Main constructions of this languages are: cons, nil, eq, atom, car, cdr,
+lambda, apply and id. Erlang is a form of this language extended
+with effects, mainly process calculus axioms, and usually untyped lambda calculus
+is used as a target extract language.</p>
 
-        <center><h2><a name="fpga">ML</a></h2></center>
+<center><h2><a name="fpga">ML</a></h2></center>
 
-        <p>Another breakdown of inner space language was ML language, founded merely on algebraic
-          datatypes and algebra on higher terms rather than categorical semantic. Lately it
-          was fixed with categorical methods in Charity and CPL.</p>
+<p>Another breakdown of inner space language was ML language, founded merely on algebraic
+datatypes and algebra on higher terms rather than categorical semantic. Lately it
+was fixed with categorical methods in Charity and CPL.</p>
 
-        <center><h2><a name="fpga">CoC</a></h2></center>
+<center><h2><a name="fpga">CoC</a></h2></center>
 
-        <p>More closely to pure inner space language came the Lean prover,
-          as it has in its core almost pure CoC language with predicative universes and
-          macro extensions. Another languages has additional axioms, thus extending the
-          efforts needed for metacircular interpreter and reasoning about core. We want
-          to design language, where encoding of inductive types is based on categorical
-          semantic of compilation to CoC. All other syntax constructions are inductive
-          definitions, plugged into the stream parser. AST of the CoC language is also
-          defined in terms of inductive constructions and thus allowed in the macros.
-          Really, the language of polynomial functors (data and record) and core
-          language of the process calculus (spawn, receive and send) are just
-          macrosystem over CoC language, its syntax extensions.</p>
+<p>More closely to pure inner space language came the Lean prover,
+as it has in its core almost pure CoC language with predicative universes and
+macro extensions. Another languages has additional axioms, thus extending the
+efforts needed for metacircular interpreter and reasoning about core. We want
+to design language, where encoding of inductive types is based on categorical
+semantic of compilation to CoC. All other syntax constructions are inductive
+definitions, plugged into the stream parser. AST of the CoC language is also
+defined in terms of inductive constructions and thus allowed in the macros.
+Really, the language of polynomial functors (data and record) and core
+language of the process calculus (spawn, receive and send) are just
+macrosystem over CoC language, its syntax extensions.
 
-        <p>In pure CoC we have only arrows, so all inductive type encodings would
-          be Church-encoding variations. Most extended nowadays is Church-Boehm-Berrarducci encoding,
-          which dedicated to inductive types. Another well known are Scott and Parigot encodings.</p>
+<p>In pure CoC we have only arrows, so all inductive type encodings would
+be Church-encoding variations. Most extended nowadays is Church-Boehm-Berrarducci encoding,
+which dedicated to inductive types. Another well known are Scott and Parigot encodings.</p>
 
-        <p>There was modeled a math model of encoding, which calculate (co)limits in a
-          given cathegory, finding (co)initial objects, an inductive types. Will call such encoding
-          in honour of Lambek lemma that leeds us to the equality of initial object in category
-          of algebras of inductive constructors. Such encoding works with dependent types and its
-          consistency is proved in Lean model.</p>
+<p>There was modeled a math model of encoding, which calculate (co)limits in a
+given cathegory, finding (co)initial objects, an inductive types. Will call such encoding
+in honour of Lambek lemma that leeds us to the equality of initial object in category
+of algebras of inductive constructors. Such encoding works with dependent types and its
+consistency is proved in Lean model.</p>
 
-        <br>
+<br>
 
-        <center style="margin-top: 120px;margin-bottom:60px;"><img style="margin-bottom:-20px;" src="Stamp.svg" width="50">2016 &copy; Groupoid Infinity, Inc.</center>
+<center style="margin-top: 120px;margin-bottom:60px;"><img style="margin-bottom:-20px;" src="Stamp.svg" width=50>2016 &copy; Groupoid Infinity, Inc.</center>
 
-    </div>
-  </div>
+
 </body>
 </html>
