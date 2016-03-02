@@ -268,8 +268,8 @@ Om language is the target language of macroexpansions of <span class=sel>data</s
 
     data Effect: * :=
          (receive: Receive → Effect)
-         (spawn: Process → Effect)
-         (send: * → Process → Effect)
+         (spawn: Spawn → Effect)
+         (send: Send → Effect)
          (try: Exception → Effect)
          (raise: Exception → Effect)
          (write: File → Effect)
@@ -281,20 +281,28 @@ Om language is the target language of macroexpansions of <span class=sel>data</s
 
 <pre  style="width:700px;">
 
-  record Eff: * := (in: Exe) (out: Exe)
   record Process: (Sigma: *) → (X: *) → * :=
-         (effect: list Eff)
-         (action: Sigma → X → X)
+         (action: Sigma → X → GenServer X)
+
+</pre>
+
+<h2><a name="spawn">Spawn</a></h2>
+
+<pre style="width:500px;">
+
+  record Spawn: 
+         (proc: Process)
+         (raise: list Eff)
 
 </pre>
 
 <h2><a name="send">Send</a></h2>
 
-<pre style="width:500px;">
+<pre style="width:700px;">
 
-  record Send: * :=
-         (msg: *)
-         (dst: Process)
+  record Send: (Sigma: *) → * :=
+         (message: Sigma)
+         (to: Process Sigma)
 
 </pre>
 
