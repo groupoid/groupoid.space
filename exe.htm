@@ -99,6 +99,22 @@ Both Exe language and its macrosystem are built using AST types, described in th
 </div>
 </div>
 
+<h1>Calculus</h1>
+
+<p>The type system is completely described by the PTS SAR notation, given by Barendregt.
+   Find more info in <a href="om.htm#axioms">Axioms and Inference Rules</a>
+   of underlying Om intermediate language.
+   </p>
+
+<pre  style="width:500px;background:white;margin-top:20px;">
+
+   record PTS: * :=
+       (S: ∀ (n: nat) → star n)
+       (A: ∀ (i: nat) → type i (succ i))
+       (R: ∀ (i: nat) → ∀ (j: nat) → pitype i j (max i j))
+
+</pre>
+
 <h1>Macrosystem</h1>
 
 <div class=block style="width:900px;margin-top:20px;">
