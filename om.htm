@@ -58,7 +58,10 @@ The untyped lambda language for performance on virual machines.
 
 </pre>
 
-<p>The terms of Om consist of NN-indexed stars, variables, applications, lambda-abstractions and universal quantifications (Pi-types).</p>
+<p>The terms of Om consist of NN-indexed stars, variables, applications,
+   lambda-abstractions and universal quantifications (Pi-types).
+   This language is called a Calculus of Construction and exists in various syntaxes.
+   Om supports Morte's CoC syntax.</p>
 
 <pre  style="width:600px;">
 
@@ -69,7 +72,7 @@ The untyped lambda language for performance on virual machines.
     U ::= * < #number >
 
     O ::= U | I | ( O ) | O O | λ ( I : O ) → O
-                              | ∀ ( I : O ) → O
+                      | O → O | ∀ ( I : O ) → O
 
 </pre>
 
@@ -82,7 +85,50 @@ The untyped lambda language for performance on virual machines.
        (var: name → om)
        (app: om → om → om)
        (lambda: name → om → om → om)
+       (arrow: om → om → om)
        (pi: name → om → om → om)
+
+</pre>
+
+<center><h2><a name="ast">Parser</a></h2></center>
+
+<p>Om implements two-pass accumulating stream parser for the CoC programs.
+   Here is pattern-matching specification of rules per match
+   of incoming stream and accumulator:</p>
+
+<pre style="background:white;font-size:12pt;">
+
+  parser:
+
+  []             : rewind
+  [close]        : rewind, continue
+  [remote x l]   : [om.term l]
+  [star i]       : [star i]
+  [c x]   [:a y] : [((c x) (:a y)]
+  [c x]    [b y] : [app (b y) (c x)]
+  [star]         : [star 1]
+  [var l,colon]  : [(:a l)]
+  [var l]        : [var l]
+  [x]            : [x]
+
+  rewind:
+
+  []             [arrow (app x y) z]            : error1
+  [pi]           [arrow (_ (app (:a m) c) x) y] : error2
+  [lambda]       [arrow (_ (app (:a m) c) x) y] : error3
+  [pi]           [arrow (app (:a m) x) y]       : rewind [pi m x y]
+  [lambda]       [arrow (app (:a m) x) y]       : rewind [lambda m x y]
+  [open,pi]      [arrow (_ (app (:a m) c) x) y] : return [pi m x y]
+  [open,lambda]  [arrow (_ (app (:a m) c) x) y] : return [lambda m x y]
+  [open,(:a z)]  [_ (app x y) y]                : error4
+  [open,c x]     [b y]                          : return [app (c x) (b y)]
+  [open]                                        : return
+  [c x]          [b y]                          : rewind [app (c x) (b y)]
+  [c x]                                         : rewind [c x]
+  [arrow,((f n) (i o))]      [y]                : rewind [((f n) (arrow i o))]
+  [arrow,arrow (app x y) i]  [y]                : error5
+  [arrow,x]      [y]                            : rewind [arrow x y]
+  []                                            : return
 
 </pre>
 
