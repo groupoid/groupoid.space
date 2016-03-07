@@ -139,7 +139,9 @@ This subset of Om is used as output of type erasure.
 
 Terms in CoC language.
 
-<pre  style="width:500px;">
+<pre  style="width:750px;">
+
+ > om:show("priv/normal/List/Cons").
 
    λ (A: *)
  → λ (Head: A)
@@ -158,6 +160,36 @@ Terms in CoC language.
    → List)
  → λ (Nil: List)
  → Cons Head (Tail List Cons Nil)
+
+ {{"λ",{'A',0}},
+  {{star,1},
+   {{"λ",{'Head',0}},
+    {{var,{'A',0}},
+     {{"λ",{'Tail',0}},
+      {{{"∀",{'List',0}},
+        {{star,1},
+         {{"∀",{'Cons',0}},
+          {{{"∀",{'Head',0}},
+            {{var,{'A',0}},
+             {{"∀",{'Tail',0}},
+              {{var,{'List',0}},{var,{'List',0}}}}}},
+           {{"∀",{'Nil',0}},
+            {{var,{'List',0}},{var,{'List',0}}}}}}}},
+       {{"λ",{'List',0}},
+        {{star,1},
+         {{"λ",{'Cons',0}},
+          {{{"∀",{'Head',0}},
+            {{var,{'A',0}},
+             {{"∀",{'Tail',0}},
+              {{var,{'List',0}},{var,{'List',0}}}}}},
+           {{"λ",{'Nil',0}},
+            {{var,{'List',0}},
+             {app,{{app,{{var,{'Cons',0}},
+                         {var,{'Head',0}}}},
+                   {app,{{app,{{app,{{var,{'Tail',0}},
+                                     {var,{'List',0}}}},
+                               {var,{'Cons',0}}}},
+                         {var,{'Nil',0}}}}}}}}}}}}}}}}}}
 
 </pre>
 
