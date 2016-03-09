@@ -105,7 +105,7 @@ This subset of Om is used as output of type erasure.
   [close]        : rewind, continue
   [remote x l]   : [om.term l]
   [star i]       : [star i]
-  [c x]   [:a y] : [((c x) (:a y)]
+  [c x]   [:a y] : [(c x),(:a y)]
   [c x]    [b y] : [app (b y) (c x)]
   [star]         : [star 1]
   [var l,colon]  : [(:a l)]
@@ -116,18 +116,15 @@ This subset of Om is used as output of type erasure.
 
   []             [arrow (app x y) z]            : error1
   [pi]           [arrow (_ (app (:a m) c) x) y] : error2
-  [lambda]       [arrow (_ (app (:a m) c) x) y] : error3
   [pi]           [arrow (app (:a m) x) y]       : rewind [pi m x y]
-  [lambda]       [arrow (app (:a m) x) y]       : rewind [lambda m x y]
   [open,pi]      [arrow (_ (app (:a m) c) x) y] : return [pi m x y]
-  [open,lambda]  [arrow (_ (app (:a m) c) x) y] : return [lambda m x y]
-  [open,(:a z)]  [_ (app x y) y]                : error4
-  [open,c x]     [b y]                          : return [app (c x) (b y)]
+  [open,pi]      [arrow (app (:a m) x) y]       : return [pi m x y]
+  [open,(:a z)]  [_ (app x y) y]                : error3
+  [open,(:a z)]  [(app x y)]                    : error4
+  [open,var x]   [b y]                          : return [app (var x) (b y)]
   [open]                                        : return
   [c x]          [b y]                          : rewind [app (c x) (b y)]
   [c x]                                         : rewind [c x]
-  [arrow,((f n) (i o))]      [y]                : rewind [((f n) (arrow i o))]
-  [arrow,arrow (app x y) i]  [y]                : error5
   [arrow,x]      [y]                            : rewind [arrow x y]
   []                                            : return
 
