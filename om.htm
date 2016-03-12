@@ -120,20 +120,50 @@ This subset of Om is used as output of type erasure.
 <p>LL(3)</p>
 
 <pre style="background:white;font-size:12pt;">
-  [((: _) _)]       V       : return
-  [($ m)] [(b y)]   V       : rewind [((: m) (b y))]
-  [(b y) ($ m)]     0       : rewind [((: m) (b y))]
-  [(b y) ($ m)]     V       : return [((: m) (b y))]
-  [(c x) open ((: m) i)]    : return [(c x) ((: m) i)]
-  [(c x) open ($ m)]        : return [(c x) ($ m)]
-  [(c x) open open]         : return [(c x) open]
-  [(c x) open (b y)]        : return [app (b y) (c x)]
-  [(c x) open]              : return [(c x)]
-  [arrow ((: m) i)] [(c x)] : rewind [(m (i (c x))]
-  [(c x ) arrow ((: m) i)]  : rewind [(m (i (c x))]
-  [arrow (b y)]     [(c x)] : rewind [arrow (b y) (c x)]
-  [(c x) arrow (b y)]       : rewind [arrow (b y) (c x)]
-  []                        : return
+
+  [((: _) _)]                    : return
+  [($ m)] [(b y)]                : rewind [((: m) (b y))]
+  [(b y) ($ m)]     < Balanced > : rewind [((: m) (b y))]
+  [(b y) ($ m)]                  : return [((: m) (b y))]
+  [(c x) open ((: m) i)]         : return [(c x) ((: m) i)]
+  [(c x) open ($ m)]             : return [(c x) ($ m)]
+  [(c x) open open]              : return [(c x) open]
+  [(c x) open (b y)]             : return [App (b y) (c x)]
+  [(c x) open]                   : return [(c x)]
+  [arrow ((: (n v)) i)] [(c x)]  : rewind [m n v i (c x)]
+  [(c x) arrow ((: (n v)) i]     : rewind [m n v i (c x)]
+  [arrow (b y)]     [(c x)]      : rewind [Arrow (b y) (c x)]
+  [(c x) arrow (b y)]            : rewind [Arrow (b y) (c x)]
+  []                             : return
+
+</pre>
+
+<center><h2><a name="typechecker">Typechecker</a></h2></center>
+
+<h3>Type</h2>
+
+<pre style="background:white;font-size:12pt;">
+
+  (Star n)         D : Star n + 1
+
+  (Var n)          D : isVar n D,
+                       nth (i + 1) (all n D)
+
+  (Arrow i o)      D : Star max (star (type i D))
+                                (star (type o D))
+
+  (Pi n 0 i o)     D : Star max (star (type i D))
+                                (star (type o [(n norm i)|D]))
+
+  (Lambda n 0 i o) D : star (type i D),
+                       ni = norm i,
+                       Pi n 0 ni (type O [(n ni)|D])
+
+  (App f a)        D : t = type f D,
+                       isFun t,
+                       Pi n 0 i o = t,
+                       eq i (type a D),
+                       norm (subst o n a)
 
 </pre>
 
