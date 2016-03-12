@@ -97,36 +97,43 @@ This subset of Om is used as output of type erasure.
    Here is pattern-matching specification of rules per match
    of incoming stream and accumulator:</p>
 
+<h3>Forward</h2>
+
+<p>LL(4)</p>
+
 <pre style="background:white;font-size:12pt;">
 
-  parser:
+  []                        : rewind
+  [close]                   : rewind, continue
+  [f open (var l) colon]    : [($ (f l))]
+  [remote x l]      [(c y)] : [app (c y) (parse l)]
+  [remove x l]              : [parse l]
+  [($ x)]                   : [(n x)]
+  [(n x)]           [(c y)] : [app (c y) (n x)]
+  [box]                     : [box 1]
+  [x]                       : [x]
 
-  []             : rewind
-  [close]        : rewind, continue
-  [remote x l]   : [om.term l]
-  [star i]       : [star i]
-  [c x]   [:a y] : [(c x),(:a y)]
-  [c x]    [b y] : [app (b y) (c x)]
-  [star]         : [star 1]
-  [var l,colon]  : [(:a l)]
-  [var l]        : [var l]
-  [x]            : [x]
+</pre>
 
-  rewind:
+<h3>Rewind</h2>
 
-  []             [arrow (app x y) z]            : error1
-  [pi]           [arrow (_ (app (:a m) c) x) y] : error2
-  [pi]           [arrow (app (:a m) x) y]       : rewind [pi m x y]
-  [open,pi]      [arrow (_ (app (:a m) c) x) y] : return [pi m x y]
-  [open,pi]      [arrow (app (:a m) x) y]       : return [pi m x y]
-  [open,(:a z)]  [_ (app x y) y]                : error3
-  [open,(:a z)]  [(app x y)]                    : error4
-  [open,var x]   [b y]                          : return [app (var x) (b y)]
-  [open]                                        : return
-  [c x]          [b y]                          : rewind [app (c x) (b y)]
-  [c x]                                         : rewind [c x]
-  [arrow,x]      [y]                            : rewind [arrow x y]
-  []                                            : return
+<p>LL(3)</p>
+
+<pre style="background:white;font-size:12pt;">
+  [((: _) _)]       V       : return
+  [($ m)] [(b y)]   V       : rewind [((: m) (b y))]
+  [(b y) ($ m)]     0       : rewind [((: m) (b y))]
+  [(b y) ($ m)]     V       : return [((: m) (b y))]
+  [(c x) open ((: m) i)]    : return [(c x) ((: m) i)]
+  [(c x) open ($ m)]        : return [(c x) ($ m)]
+  [(c x) open open]         : return [(c x) open]
+  [(c x) open (b y)]        : return [app (b y) (c x)]
+  [(c x) open]              : return [(c x)]
+  [arrow ((: m) i)] [(c x)] : rewind [(m (i (c x))]
+  [(c x ) arrow ((: m) i)]  : rewind [(m (i (c x))]
+  [arrow (b y)]     [(c x)] : rewind [arrow (b y) (c x)]
+  [(c x) arrow (b y)]       : rewind [arrow (b y) (c x)]
+  []                        : return
 
 </pre>
 
@@ -138,7 +145,7 @@ Terms in CoC language.
 
 <pre  style="width:750px;">
 
- > om:show("priv/normal/List/Cons").
+ $ om show List/Cons
 
    λ (A: *)
  → λ (Head: A)
@@ -196,11 +203,13 @@ Terms in untyped lambda pure language.
 
 <pre  style="width:500px;">
 
-   λ Head
- → λ Tail
- → λ Cons
- → λ Nil
- → Cons Head (Tail Cons Nil)
+  $ om print fst erase a "#List/Cons"
+  ( λ Head
+  → ( λ Tail
+  → ( λ Cons
+  → ( λ Nil
+  → ((Cons Head) ((Tail Cons) Nil))))))
+  ok
 
 </pre>
 
