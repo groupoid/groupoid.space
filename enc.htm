@@ -44,7 +44,7 @@
 
 </pre>
 
-<center><h2><a name="axioms">Introducing List Morphisms</a></h2></center>
+<center><h2><a name="axioms">Introduce List Morphisms</a></h2></center>
 
 <pre style="width:740px;background-color:white;">
 
@@ -62,7 +62,7 @@
 
   record ListLim: (A: *) -> * :=
          (point:  ∀ (x: ListAlg A) -> x.X)
-         (ok:     ∀ (x1 x2: ListAlg A)
+         (limit:  ∀ (x1 x2: ListAlg A)
                -> ∀ (m: ListMor A x1 x2)
                -> Eq (map m point x1) (point x2))
 
