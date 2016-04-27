@@ -1,0 +1,84 @@
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="" />
+    <meta name="author" content="Maxim Sokhatsky" />
+    <title>IMPREDICATIVE</title>
+    <link rel="stylesheet" href="5HT.css" />
+</head>
+<body>
+<div class=menu>
+<a href="index.html">groupoid.co</a><font color=silver>/impredicative</font>
+</div>
+<hr>
+<div class=app>
+
+<div class=block style="width:230px;height:550px;">
+        <img src="Om.svg" height=200>
+</div>
+
+<div class=block style="width:700px;">
+<center><h1>Impredicative Encoding</h1>
+        <h5>Categorical Semantics of List example</h5></center>
+
+<center><h2><a name="nat">Initial Object</a></h2></center>
+
+<pre style="width:600px;">
+
+    let I = data List: (A:*) -> * :=
+                 (nil: List A)
+                 (cons: A -> List A -> List A)
+
+</pre>
+
+<center><h2><a name="nat">Constructing corresponding F-Algebra</a></h2></center>
+
+<pre style="width:600px;background-color:white;">
+
+    record ListAlg: (A:*) -> * :=
+           (X: *)
+           (nil: X)
+           (cons: A -> X -> X)
+
+</pre>
+
+<center><h2><a name="axioms">Introducing List Morphisms</a></h2></center>
+
+<pre style="width:740px;background-color:white;">
+
+  record ListMor: (A: *) -> (X1 X2: ListAlg A) -> * :=
+         (map: X1.X -> X2.X)
+         (okNil: Eq (map X1.nil) (X2.nil))
+         (okCons: ∀ (a: A) -> ∀ (x: X1) ->
+                  Eq (map X1.cons a x) (X2.cons a (map x)))
+
+</pre>
+
+<center><h2><a name="axioms">Take a List Limit</a></h2></center>
+
+<pre style="width:740px;background-color:white;">
+
+  record ListLim: (A: *) -> * :=
+         (point:  ∀ (x: ListAlg A) -> x.X)
+         (ok:     ∀ (x1 x2: ListAlg A)
+               -> ∀ (m: ListMor A x1 x2)
+               -> Eq (map m point x1) (point x2))
+
+</pre>
+
+<h1>Resources</h1>
+
+<p>01 &nbsp;<a href="https://gitter.im/groupoid/om/archives/">OM ARCHIVES</a></p>
+<p>02 &nbsp;<a href="https://github.com/groupoid/om">GIT SOURCES</a></p>
+
+
+<br>
+
+<center style="margin-top: 120px;margin-bottom:60px;"><img style="margin-bottom:-20px;" src="Stamp.svg" width=50>2016 &copy; Groupoid Infinity, Inc.</center>
+
+</div>
+
+</body>
+</html>
