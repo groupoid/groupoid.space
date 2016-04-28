@@ -96,23 +96,31 @@
 
 </pre>
 
+$$
+\require{AMSmath}
+\require{AMSsymbols}
+\def\mapright#1{\xrightarrow{{#1}}}
+\def\mapdown#1{\Big\downarrow\rlap{\raise2pt{\scriptstyle{#1}}}}
+\def\mapdiagl#1{\vcenter{\searrow}\rlap{\raise2pt{\scriptstyle{#1}}}}
+\def\mapdiagr#1{\vcenter{\swarrow}\rlap{\raise2pt{\scriptstyle{#1}}}}
+$$
+
+<center>
+  $\begin{array}{c}lim\ U\\\mapdown{\pi_i}\\X_i\end{array}
+   \Longrightarrow \begin{array}{c}F\ lim\ U\\\mapdown{F\ \pi_i}\\F\ X_i\end{array}
+   \Longrightarrow lim\ \begin{array}{c}F\ lim\ U\\\mapdown{F \pi_i}\\F\ X_i\end{array}$
+</center>
+
 <center><h2><a name="axioms">Identity Functor Encoding</a></h2></center>
 
 <p>As known as predicative encoding</a>
 
 $$
- \require{AMSmath}
-    \require{AMSsymbols}
-    \def\mapright#1{\xrightarrow{{#1}}}
-    \def\mapdown#1{\Big\downarrow\rlap{\raise2pt{\scriptstyle{#1}}}}
-    \def\mapdiagl#1{\vcenter{\searrow}\rlap{\raise2pt{\scriptstyle{#1}}}}
-    \def\mapdiagr#1{\vcenter{\swarrow}\rlap{\raise2pt{\scriptstyle{#1}}}}
-
-    \begin{array}{ccccccc}
+\begin{array}{ccccccc}
       A &           & \mapright{f} &           & B & \mapright{f} & Set \\[3pt]
         & \mapdiagl{a}  & \varphi      & \mapdiagr{b}  &   & \searrow     & \mapdown{\mathbf{1}} \\
         &           & Set          &           &   &              & Set
-    \end{array}
+\end{array}
 $$
 
 $\varphi : a \rightarrow b$
@@ -122,18 +130,11 @@ $\varphi : a \rightarrow b$
 <p>As known as impredicative encoding</a>
 
 $$
- \require{AMSmath}
-    \require{AMSsymbols}
-    \def\mapright#1{\xrightarrow{{#1}}}
-    \def\mapdown#1{\Big\downarrow\rlap{\raise2pt{\scriptstyle{#1}}}}
-    \def\mapdiagl#1{\vcenter{\searrow}\rlap{\raise2pt{\scriptstyle{#1}}}}
-    \def\mapdiagr#1{\vcenter{\swarrow}\rlap{\raise2pt{\scriptstyle{#1}}}}
-
-    \begin{array}{ccccccc}
+\begin{array}{ccccccc}
       A &           & \mapright{f} &           & B & \mapright{f} & Set \\[3pt]
         & \mapdiagl{a}  & \varphi      & \mapdiagr{b}  &   & \searrow     & \mapdown{\mathbf{1}} \\
         &           & Set          &           &   &              & Set
-    \end{array}
+\end{array}
 $$
 
 $lim\ \varphi : lim\ a \rightarrow lim\ b$
