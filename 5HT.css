@@ -20,7 +20,7 @@ sub { top: 0.4em; }
 .sel { padding-left:4px;padding-right:4px;background:#EEE; }
 .menu { text-align: right;}
 a { margin-top: 10px; padding: 0px; }
-.app { margin:100px auto;min-width:300px;max-width:1000px; }
+.app { margin:100px auto;min-width:300px;max-width:1000px; text-align: center; }
 .message { align: center; }
 .note { margin-left:0px;margin-top:0px;background-color:#F1F1F1;padding:4px 10px 4px 24px;color:gray;}
 ul {margin-left:70px;} 
