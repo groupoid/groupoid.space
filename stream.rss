@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<rss version="2.0">
+<channel>
+  <title>groupoid.co</title>
+  <description>Groupoid Infinity</description>
+  <link>http://groupoid.co/</link>
+  <lastBuildDate>Mon, 9 May 2016 14:20:00 +0000</lastBuildDate>
+  <pubDate>Mon, 9 May 2016 14:20:00 +0000</pubDate>
+  <ttl>1800</ttl>
+  <item>
+    <title>INTRO</title>
+    <description>Canvas of Computable Functions Theories and Provers</description>
+    <link>http://groupoid.co/into.htm</link>
+    <guid isPermaLink="true">http://groupoid.co/into.htm</guid>
+    <pubDate>Sun, 15 Feb 2016 14:20:00 +0000</pubDate>
+  </item>
+  <item>
+    <title>EXE STATUS</title>
+    <description>Implemented and Awaiting features of the OM/EXE</description>
+    <link>http://groupoid.co/into.htm</link>
+    <guid isPermaLink="true">http://groupoid.co/into.htm</guid>
+    <pubDate>Tue, 19 Mar 2016 14:20:00 +0000</pubDate>
+  </item>
+  <item>
+    <title>LAMBEK ENCODING</title>
+    <description>ENC</description>
+    <link>http://groupoid.co/enc.htm</link>
+    <guid isPermaLink="true">http://groupoid.co/enc.htm</guid>
+    <pubDate>Tue, 1 May 2016 14:20:00 +0000</pubDate>
+  </item>
+  <item>
+    <title>PODCAST ISSUE #1</title>
+    <description>General Introduction by Groupoid Infinity Team</description>
+    <link>https://soundcloud.com/maxim-sokhatsky/omexe-podcast</link>
+    <guid isPermaLink="true">https://soundcloud.com/maxim-sokhatsky/omexe-podcast</guid>
+    <pubDate>Mon, 3 May 2015 14:20:00 +0000</pubDate>
+  </item>
+</channel>
+</rss>
