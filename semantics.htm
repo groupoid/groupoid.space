@@ -35,7 +35,7 @@
 <div style="float:left;width:200px">
 
 \begin{equation}
-\tag{Sorts}
+\tag{sorts}
 \dfrac
   {n : Nat}
   {*_n}
@@ -46,7 +46,7 @@
 <div style="float:left;width:300px">
 $$
 \begin{equation}
-\tag{Axioms}
+\tag{axioms}
 \dfrac
   {i: Nat}
   {*_i : *_{i+1}}
@@ -57,9 +57,9 @@ $$
 <div style="float:left;width:30%">
 $$
 \begin{equation}
-\tag{Rules}
+\tag{rules}
 \dfrac
-  {i : Nat, j : Nat}
+  {i : Nat,\ \ \ \ j : Nat}
   {*_i \rightarrow *_{j} : *_{max(i,j)}}
 \end{equation}
 $$
@@ -67,6 +67,17 @@ $$
 
 <div style="float:clear;"/>
 <br><br><br>
+
+<center><h2><a name="nat">Substition</a></h2></center>
+
+<div style="margin-left:200px;width:400px;margin-top:50px;">
+\begin{equation}
+\tag{subst}
+\dfrac
+  {\pi_1 : A\ \ \ \ u:A ⊢ π_2 : B}
+  {[π_1/u]\ π_2 : B}
+\end{equation}
+</div>
 
 <center><h2><a name="nat">Dependent Types</a></h2></center>
 
@@ -115,9 +126,6 @@ $$
 <div style="float:clear;"/>
 <br><br><br><br><br><br><br>
 
-<center><h2><a name="nat">Definitional Equality</a></h2></center>
-
-<center><h2><a name="nat">Normalization</a></h2></center>
 
 <h1>Microcode</h1>
 
