@@ -84,7 +84,7 @@ $$
 \tag{$\lambda$-intro}
 \dfrac
   {x:A \vdash b : B}
-  {\lambda\ (x:A)\ b : \Pi\ (x: A)\ B }
+  {\lambda\ (x:A)\ \rightarrow b : \Pi\ (x: A) \rightarrow B }
 \end{equation}
 </div>
 
@@ -93,7 +93,7 @@ $$
 \begin{equation}
 \tag{App-elimination}
 \dfrac
-  {f: (\Pi\ (x:A)\ B)\ \ \ a: A}
+  {f: (\Pi\ (x:A) \rightarrow B)\ \ \ a: A}
   {f\ a : B\ [a/x]}
 \end{equation}
 $$
@@ -105,7 +105,7 @@ $$
 \tag{$\beta$-computation}
 \dfrac
   {x:A \vdash b: B\ \ \ a:A}
-  {(\lambda\ (x:A)\ b)\ a : b[a/x] : B [a/x]}
+  {(\lambda\ (x:A) \rightarrow b)\ a : b[a/x] : B [a/x]}
 \end{equation}
 $$
 </div>
