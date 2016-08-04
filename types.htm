@@ -142,13 +142,13 @@
 <h1>Inductive</h1>
 
 Inductive types are the dependent version of generalized algebraic data types used in ML.
-With inductive and coinductive types you can model polynomial higher order functors that defines
-generic trees and their constructors. Two very basic and known inductions are over
-natural numbers and lists, we show for them more detailed description.
+With inductive and coinductive types you can model polynomial higher order functors that
+define generic trees and their constructors. Two very basic and known inductions are
+over natural numbers and lists, we show them the more detailed description.
 
 <h2><a name="nat">Nat</a></h2>
 
-  Pointed Unary System is a category nat with terminal object
+  Pointed Unary System is a category nat with the terminal object
   and a carrier <span class=sel>nat</span> having morphism <span class=sel>[zero: 1<sub>nat</sub> → nat, succ: nat → nat]</span>.
   The initial object of nat is called Natural Number Object and models Peano axiom set.
 
@@ -179,7 +179,7 @@ natural numbers and lists, we show for them more detailed description.
 
 <h2><a name="nat">Sum</a></h2>
 
-<span class=sel>sum</span> is meta-representation form of <span class=sel>data</span> inductive Exe syntaxt construction.
+<span class=sel>sum</span> is a meta-representation form of <span class=sel>data</span> inductive Exe syntax construction.
 For the internal form see <span class=sel>Data</span> AST construction.
 
 <pre style="width:500px;">
@@ -404,9 +404,10 @@ all (Co)inductive types, which is not dependent on properties of underlying type
 
 <h2><a name="groupoid">Groupoid</a></h2>
 
-<span class=sel>Groupoid</span> is a multidimensional generalization of <span class=sel>Setoid</span> type, which has equalities on equalities and operations between them.
-Gropoid was introduced in algebraїс topology for the purposes of homotopy theory and has potential to replace the notion of
-topological space, since groupoid covers all the properties of topological space from the homotopy perspective.
+<span class=sel>Groupoid</span> is a multidimensional generalization of <span class=sel>Setoid</span> type,
+which has equalities on equalities and operations between them.
+Gropoid was introduced in algebraїс topology for the purposes of homotopy theory and has the potential to replace the notion of
+topological space since groupoid covers all the properties of topological space from the homotopy perspective.
 The ultimate equality on universum of all types was shown in HoTT setting, thus type theory became successful
 for reasoning about homotopies. Iterating a Groupoid record over infinity number of universes that hold
 objects and homomorphisms gives us a concept of &infin;-Groupoid.
