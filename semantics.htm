@@ -28,6 +28,8 @@
 <div align=right>Maxim Sokhatsky<br>
                   DATE: 4 AUG 2016</div>
 
+<h1>Core</h1>
+
 <center><h2><a name="nat">Universes</a></h2></center>
 
 <div style="float:left;width:200px">
@@ -91,7 +93,7 @@ $$
 <div style="margin-left:-200px;float:left;width:500px">
 $$
 \begin{equation}
-\tag{App-elimination}
+\tag{$App$-elimination}
 \dfrac
   {f: (\Pi\ (x:A) \rightarrow B)\ \ \ a: A}
   {f\ a : B\ [a/x]}
@@ -112,6 +114,53 @@ $$
 
 <div style="float:clear;"/>
 <br><br><br><br><br><br><br>
+
+<center><h2><a name="nat">Definitional Equality</a></h2></center>
+
+<center><h2><a name="nat">Normalization</a></h2></center>
+
+<h1>Microcode</h1>
+
+<center><h2><a name="nat">Identity Types</a></h2></center>
+
+<div style="margin-left:-150px;float:left;width:500px">
+\begin{equation}
+\tag{$Id$-formation}
+
+\dfrac
+  {x:A\ \ \ \ b:A\ \ \ \ A:Type}
+  {Id(A,a,b) : Type}
+\end{equation}
+</div>
+
+<div style="float:left;width:400px">
+\begin{equation}
+\tag{$Id$-intro}
+\dfrac
+  {a:A}
+  {refl(A,a) : Id(A,a,a) }
+\end{equation}
+</div>
+<div style="float:clear;"/>
+<br><br><br><br>
+
+<div style="margin-left:-100px;">
+\begin{equation}
+\tag{$J$-elimination}
+\dfrac
+  {p:Id(a,b)\ \ \ \ x,y:A\ \ \ \ u:Id(x,y) \vdash E:Type\ \ \ \ x:A \vdash d: E\ [x/y,\ refl(x)/u]}
+  {J(a,b,p,(x,y,u)\ d) : E\ [a/x,\ b/y,\ p/u]}
+\end{equation}
+</div>
+
+<div style="margin-left:-100px;margin-top:50px;">
+\begin{equation}
+\tag{$Id$-computation}
+\dfrac
+  {a,x,y:A,\ \ \ \ u:Id(x,y) \vdash E:Type\ \ \ \ x:A \vdash d:E\ [x/y,\ refl(x)/u]}
+  {J(a,a,refl(a),(x,y,u)\ d) = d\ [a/x] : E\ [a/y,\ refl(a)/u]}
+\end{equation}
+</div>
 
 <h1>Resources</h1>
 
