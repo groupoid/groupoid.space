@@ -1,0 +1,129 @@
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="" />
+    <meta name="author" content="Maxim Sokhatsky" />
+    <title>SEMANTIC</title>
+    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/2.2-latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="stylesheet" href="5HT.css" />
+</head>
+<body>
+
+<script> MathJax.Hub.Config({ tex2jax: { inlineMath: [['$','$'], ['\\(','\\)']], processEscapes: true } });
+                                  TeX: { extensions: ["AMSmath.js", "AMSsymbols.js" ] }; </script>
+
+<div class=menu>
+<a href="index.html">groupoid.co</a><font color=silver>/semantic</font>
+</div>
+<hr>
+
+<div class=app>
+<div class=block style="width:900px;margin-left:0px;">
+
+<center><h1>OM Semantics</h1>
+        <h5>Operational Semantics of Intermediate Assembler</h5><br></center>
+
+<div align=right>Maxim Sokhatsky<br>
+                  DATE: 4 AUG 2016</div>
+
+<center><h2><a name="nat">Universes</a></h2></center>
+
+<div style="float:left;width:200px">
+
+\begin{equation}
+\tag{Sorts}
+\dfrac
+  {n : Nat}
+  {*_n}
+\end{equation}
+
+</div>
+
+<div style="float:left;width:300px">
+$$
+\begin{equation}
+\tag{Axioms}
+\dfrac
+  {i: Nat}
+  {*_i : *_{i+1}}
+\end{equation}
+$$
+</div>
+
+<div style="float:left;width:30%">
+$$
+\begin{equation}
+\tag{Rules}
+\dfrac
+  {i : Nat, j : Nat}
+  {*_i \rightarrow *_{j} : *_{max(i,j)}}
+\end{equation}
+$$
+</div>
+
+<div style="float:clear;"/>
+<br><br><br>
+
+<center><h2><a name="nat">Typing Rules</a></h2></center>
+
+<div style="margin-left:-200px;float:left;width:500px">
+\begin{equation}
+\tag{$\Pi$-formation}
+
+\dfrac
+  {x:A \vdash B : Type}
+  {\Pi\ (x:A) \rightarrow B : Type}
+\end{equation}
+
+</div>
+
+<div style="float:left;width:400px">
+\begin{equation}
+\tag{$\lambda$-intro}
+\dfrac
+  {x:A \vdash b : B}
+  {(\lambda\ (x:A)\ b) : (\Pi\ (x: A)\ B )}
+\end{equation}
+</div>
+
+<div style="margin-left:-200px;float:left;width:500px">
+$$
+\begin{equation}
+\tag{App-elimination}
+\dfrac
+  {f: (\Pi\ (x:A)\ B)\ \ \ a: A}
+  {f\ a : B\ [a/x]}
+\end{equation}
+$$
+</div>
+
+<div style="float:left;width:400px">
+$$
+\begin{equation}
+\tag{$\beta$-computation}
+\dfrac
+  {x:A \vdash b: B\ \ \ a:A}
+  {(\lambda\ (x:A)\ b)\ a : b[a/x] : B [a/x]}
+\end{equation}
+$$
+</div>
+
+<div style="float:clear;"/>
+<br><br><br><br><br><br><br>
+
+<h1>Resources</h1>
+
+<p>01 &nbsp;<a href="https://gitter.im/groupoid/om/archives/">OM ARCHIVES</a></p>
+<p>02 &nbsp;<a href="https://github.com/groupoid/om">GIT SOURCES</a></p>
+
+<br>
+
+<center style="margin-top: 120px;margin-bottom:60px;"><img style="margin-bottom:-20px;" src="Stamp.svg" width=50>2016 &copy; Groupoid Infinity, Inc.</center>
+
+</div>
+</div>
+
+</body>
+</html>
