@@ -23,7 +23,7 @@
 <div class=block style="width:900px;margin-left:0px;">
 
 <center><h1>OM/EXE</h1>
-        <h5>Operational Semantics</h5><br></center>
+        <h5>Type judgement inference rules</h5><br></center>
 
 <div align=right>Maxim Sokhatsky<br>
                   DATE: 4 AUG 2016</div>
@@ -169,6 +169,49 @@ $$
   {J(a,a,refl(a),(x,y,u)\ d) = d\ [a/x] : E\ [a/y,\ refl(a)/u]}
 \end{equation}
 </div>
+
+<center><h2><a name="nat">Inductive Types</a></h2></center>
+
+<div style="margin-left:-150px;float:left;width:550px">
+\begin{equation}
+\tag{$W$-formation}
+\dfrac
+  {A:Type\ \ \ \ x:A\ \ \ \ B(x):Type}
+  {W (x:A) \rightarrow B(x) : Type}
+\end{equation}
+</div>
+
+<div style="float:left;width:400px">
+\begin{equation}
+\tag{$W$-intro}
+\dfrac
+  {a:A\ \ \ \ t: B(a) \rightarrow W}
+  {sup(a,t) : W}
+\end{equation}
+</div>
+<div style="float:clear;"/>
+<br><br><br><br>
+
+<div style="margin-left:-200px;">
+\begin{equation}
+\tag{$W$-elimination}
+\dfrac
+  {w: W \vdash C(w) : Type\ \ \ \ x:A,\ u:B(x) \rightarrow W,\ \ \ \ v:\Pi (y:B(x)) \rightarrow C(u(y)) \vdash c(x,u,v):C(sup(x,u))}
+  {w:W \vdash wrec(w,c):C(w)}
+\end{equation}
+</div>
+
+<div style="margin-left:-200px;margin-top:50px;">
+\begin{equation}
+\tag{$W$-computation}
+\dfrac
+  {w: W \vdash C(w) : Type\ \ \ \ x:A,\ u:B(x) \rightarrow W,\ \ \ \ v:\Pi (y:B(x)) \rightarrow C(u(y)) \vdash c(x,u,v):C(sup(x,u))}
+  {x:A,\ \ \ \ u:B(x) \rightarrow W \vdash wrec(sup(x,u),c)\ =\ c(x,u,\lambda (y:B(x)) \rightarrow wrec(u(y),c)):C(sup(x,u))}
+\end{equation}
+</div>
+
+<div style="float:clear;"/>
+<br><br><br><br>
 
 <h1>Resources</h1>
 
