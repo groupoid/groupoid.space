@@ -1,0 +1,62 @@
+\documentclass[10pt]{article}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[english]{babel}
+\usepackage[top=0mm, bottom=25mm,
+            inner=25mm,outer=25mm,
+            paperwidth=200mm, paperheight=300mm]{geometry}
+
+\headsep = 0cm
+\voffset = 0cm
+\topmargin = 0cm
+\textheight = 22cm
+%\parindent = 0cm
+%\footskip = 0cm
+
+\begin{document}
+ {\it \null\hfill\small I prostrate to de Bruijn and also masters of Vipassana lineage}\\
+ \\
+ \\
+Geachte meneer Barendrecht,\\
+\\
+\indent my name is Maxim, I write to you because I love lambda calculus and meditations.
+I represent a small group of people from Ukraine who do a formal verification and build the new theorem prover.
+Also, I belong to Nyingma lineage of Tibetan Buddism
+and we also have Mahamudra (Shamatha+Vipassana) empowering as Kagyu lineage do.\\
+\\
+Let me explain the reason why I'm writing this letter.
+We host a software house building full stack applications in Erlang language.
+And we reached the state when we need formal verification for our software.
+We are working on our own prover core based on pure CoC enriched with an infinite number of predicative universes\footnote{http://groupoid.space}.
+However, the target is to support even higher inductive types and HoTT.
+But we came up with conclusion that the core of our prover shouldn't
+contain Equality, Fixpoint, (Co)-Inductive definitions, Recursor/Induction, thus be as small as possible.
+We even found a Ph.D. paper from University of Nijmegen that somehow denies this requirement \footnote{Herman Geuvers. Induction Is Not Derivable in Second Order Dependent Type Theory}.
+The other feature of our prover is to have replaceable and switchable encodings (Church, Scott, Parigot, CPS, etc).
+The categorical model of encoding engine is built using Lean prover \footnote{https://github.com/groupoid/exe/tree/master/prelude/lean}.
+The top-level language called EXE\footnote{https://github.com/groupoid/exe} would be in CiC semantics and translated to CoC using our categorical encoding model.
+Now we have built the Induction term for Bool using our pure CoC language\footnote{https://github.com/groupoid/om/tree/master/priv/posets}.
+Also, we do have stable prelude\footnote{https://github.com/groupoid/om/tree/master/priv/normal} in toy-Church encoding for Hello World demo with IO and IOI (co)-monads,
+that already compiles (extracts) to Erlang bytecode.
+The overall size of our prover core is 600 lines of code in Erlang\footnote{https://github.com/groupoid/om}.\\
+\\
+In the beginning, I wanted to write you as I (and our team) dream to do a Ph.D. with your supervision.
+But I realize that my knowledge and your time you could spend on this project is limited.
+Also, we have language limitations, country and bureaucracy barriers.\\
+\\
+We have an idea to reincarnate the AUTOMATH prover in its original syntax 
+based on our compact OM core (AUT-OM flavor).
+Such we would have contemporary EXE language (with polynomial functors as in Coq/Agda) 
+and AUTOMATH flavor both based on OM core.
+Of course, we would be glad and ready to any depth level of cooperations from your side, 
+as we treat you as heart son of de Bruijn, the father of all provers.
+We don't want to search mentors among French (Coq), British (McBride, Altenkirch, Brady) 
+and other schools as we don't share their ideas,  however, we use their findings and respect them a much.\\
+\\
+Please take us under your supervision and give us your official blessings,
+at least for making official AUTOMATH front-end to our prover.\\
+\\
+With regards, our team: Maxim Sokhatsky, Paul Lyutko and Andrew Melkinov.
+
+\end{document}
+
