@@ -155,7 +155,7 @@ over natural numbers and lists, we show them the more detailed description.
 
 <pre style="width:400px;">
 
-    data nat: * :=
+    data nat: Type :=
          (zero: () → nat)
          (succ: nat → nat)
 
@@ -171,9 +171,15 @@ over natural numbers and lists, we show them the more detailed description.
   nil = in ◦ inl and cons = in ◦ inr, so in = <span class=sel>[nil,cons]</span>.
 <pre style="width:500px;">
 
-    data list: (A:*) → * :=
+    data list: (A: Type) → Type :=
          (nil: () → list A)
          (cons: A → list A → list A)
+
+  record lists (A,B: Type): Type :=
+         (len: list A → integer)
+         ('++': list A → list A → list A)
+         (map: (A → B) → (list A → list B))
+         (filter: (A → bool) → (list A → list A)))
 
 </pre>
 
@@ -184,7 +190,7 @@ For the internal form see <span class=sel>Data</span> AST construction.
 
 <pre style="width:500px;">
 
-    data sum: (A: *) → (B: *) → * :=
+    data sum (A,B: Type): Type :=
          (left: A → sum)
          (right: B → sum)
 
@@ -197,7 +203,7 @@ This type nas no constructors or with empty body.
 
 <pre style="width:500px;">
 
-    data empty: * := ()
+    data empty: Type := ()
 
 </pre>
 
@@ -208,7 +214,7 @@ It has only two unit constructors <span class=sel>[true,false]</span> and functi
 
 <pre style="width:500px;">
 
-    data bool: * :=
+    data bool: Type :=
          (true: () → bool)
          (false: () → bool)
 
@@ -227,9 +233,9 @@ with regular <span class=sel>list</span>.
 
 <pre style="width:800px;">
 
-    data vector: (A:*) → nat → * :=
-         (nil: () → vector A zero)
-         (cons: (n: nat) → A → vector A n → vector A (succ n))
+    data vector (A: Type) (N: nat): Type :=
+         (nil: () → vector A nat.zero)
+         (cons: A → vector A n → vector A (nat.succ n))
 
 </pre>
 
@@ -247,8 +253,8 @@ primitive forms of coinductive constructions.
 
 <pre style="width:700px;">
 
-    data prod: (A: *) → (B: *) → * := (cons: A → B → prod)
-  record prod: (A: *) → (B: *) → * := (pr1: A) (pr2: B)
+    data prod (A,B: Type): Type := (cons: A → B → prod)
+  record prod (A,B: Type): := (pr1: A) (pr2: B)
 
 </pre>
 
@@ -256,8 +262,8 @@ primitive forms of coinductive constructions.
 
 <pre style="width:500px;">
 
-    data unit: * := (star: () → unit)
-  record unit: * := (star: ())
+    data unit: Type := (star: () → unit)
+  record unit: Type := (star: ())
 
 </pre>
 
@@ -267,9 +273,9 @@ primitive forms of coinductive constructions.
 <span class=sel>stream</span> is a record form of the list's <span class=sel>cons</span> constructor.
 It models the infinity list that has no terminal element.
 
-<pre style="width:400px;">
+<pre style="width:500px;">
 
-  record stream: (A: *) → * :=
+  record stream (A: Type): Type :=
          (head: A)
          (tail: stream A)
 
@@ -278,51 +284,102 @@ It models the infinity list that has no terminal element.
 
 <h2><a name="pure">Pure</a></h2>
 
-<pre  style="width:500px;">
+<pre  style="width:700px;">
 
-  record pure: (P: * → *) → (A: *) → * :=
+  record pure (P: Type → Type) (A: Type): Type :=
          (return: P A)
 
 </pre>
 
 <h2><a name="functor">Functor</a></h2>
 
-<pre style="width:600px;">
+<pre style="width:750px;">
 
-  record functor: (F: * → *) → (A B: *) → * :=
+  record functor (F: Type → Type) (A B: Type): Type :=
          (fmap: (A → B) → F A → F B)
+
+</pre>
+
+Functor carried with theorem fields.
+
+<pre style="width:750px;">
+
+  record Functor (F: Type → Type): Type :=
+         (fmap: ∀ (A,B: Type) → (A → B) → F A → F B)
+         (id: ∀ (A: Type) (x: F A) → Equ (fmap id x) x)
+         (comp: ∀ (A,B,C: Type) (f: B → C) (g: A → B) (x: F A)
+                → Equ (fmap (f ◦ g) x) ((fmap f ◦ fmap g) x))
 
 </pre>
 
 <h2><a name="applicative">Applicative</a></h2>
 
-<pre style="width:600px;">
+<pre style="width:700px;">
 
-  record applicative: (F: * → *) → (A B: *) → *
-  extend (_: pure F A)
-         (_: functor F A B)
+  record applicative (F: Type → Type) (A,B: Type): Type
+  extend pure F A, functor F A B
       := (ap: F (A → B) → F A → F B)
 
 </pre>
 
 <h2><a name="monad">Monad</a></h2>
 
-<pre>
+<pre style="width:700px;">
 
-  record monad: (F: * → *) → (A B: *) → *
-  extend (_: pure F A)
-         (_: functor F A B)
+  record monad: (F: Type → Type) → (A B: Type) → Type
+  extend pure F A, functor F A B)
       := (join: F (F A) → F B)
 
 </pre>
 
 <h2><a name="sigma">Sigma</a></h2>
 
-<pre  style="width:500px;">
+<pre  style="width:700px;">
 
-  record sigma (A: *) → (B: A → *) → * :=
+  record sigma (A: Type) (B: A → Type): Type :=
          (pr1: A)
          (pr2: B pr1)
+
+</pre>
+
+<h1>Effects</h1>
+
+<h2><a name="true">Effect</a></h2>
+
+<pre style="width:800px;">
+
+  (record effect (v:Type) (r:Type): Type :=
+         (values: v)
+         (resource: r)
+         (computation: (v → r))
+         (handler: effect v r → monad effect v r))
+
+    (data RA: Type          := (intro: effect nat (random nat)))
+    (data IO (t:Type): Type := (intro: effect t   (file t)))
+    (data EX (t:Type): Type := (intro: effect ()  (exception t)))
+
+</pre>
+
+<h2><a name="true">Eff.Monad</a></h2>
+
+<pre style="width:800px;">
+
+    (data Eff.Monad (eff: list effect)
+                    (m: Type → Type)
+                    (a: Type): Type :=
+         (intro: eff m a xs (\ (v: Type) → xs)
+                → monad_eff xs m a))
+
+</pre>
+
+<h2><a name="true">Eff.Handler</a></h2>
+
+<pre style="width:800px;">
+
+  (record Eff.Handler (e: effect)
+                  (m: Type → Type): Type :=
+         (action: ∀ (r: res) (eff: e t res resk)
+                  (k: ∀ (x: t) → resk x → m a) → m a))
 
 </pre>
 
@@ -346,11 +403,56 @@ It models the infinity list that has no terminal element.
 
 </pre>
 
-<h2><a name="eq">Eq</a></h2>
+<h2><a name="false">Inhabited</a></h2>
 
 <pre style="width:500px;">
 
-    data Eq: (A:*) → A → A → Prop :=
+  data Inhabited (A: Type): Prop :=
+       (intro: A -> Inhabited A)
+
+</pre>
+
+<h2><a name="false">Proper</a></h2>
+
+<pre style="width:750px;">
+
+ record Proper (A: Type) (R: A → A → Prop) (m: A): Prop :=
+        (Proof: R m m)
+
+</pre>
+
+<h2><a name="false">Respect / Congruence</a></h2>
+
+<pre style="width:650px;">
+
+ define Respect (A,B: Type)
+                (C: A → Type)
+                (D: B → Type)
+                (R: A → B → Prop)
+        (Ro: ∀ (x: A) (y: B) → C x → D y → Prop) :
+               (∀ (x: A) → C x) → (∀ (x: B) → D x)
+             → Prop :=
+             λ (f,g: Type → Type)
+             → (∀ (x,y: Type) → R x y)
+             → Ro x y (f x) (g y)
+
+</pre>
+
+<h2><a name="eq">Eq</a></h2>
+
+<pre style="width:850px;">
+
+  record Id (A: Type): Type :=
+         (Id: A → A → Type)
+         (refl (a: A): Id a a)
+         (Predicate: ∀ (x,y: A) → Id x y → Type)
+         (Forall (C: Predicate): ∀ (x,y: A) → ∀ (p: Id x y) → C x y p)
+         (∆ (C: Predicate): ∀ (x: A) → C x x (refl x))
+         (axiom-J (C: Predicate): ∆ C → Forall C)
+         (computation-rule (C: Predicate) (t: ∆ C):
+                        ∀ (x: A) → (J C t x x (refl x)) '==>' (t x) )
+
+    data Eq (A:Type): A → A → Prop :=
          (refl: (x:A) → Eq A x x)
 
 </pre>
@@ -359,30 +461,30 @@ It models the infinity list that has no terminal element.
 
 <pre style="width:700px;">
 
-    data Exists: (A:*) → (A → *) → Prop :=
-         (intro: (P: A → *) → (x:A) → P x → exists A P)
+    data Exists: (A:Type) → (A → Type) → Prop :=
+         (intro: (P: A → Type) → (x:A) → P x → exists A P)
 
 </pre>
 
-<h2><a name="ob">Object</a></h2>
+<h2><a name="ob">Cat</a></h2>
 
-<pre style="width:500px;">
+<pre style="width:950px;">
 
-  record Ob: * :=
-         (elem: *)
-         (eq: Eq elem)
-         (point: elem)
-
-</pre>
-
-<h2><a name="hom">Homomorphism</a></h2>
-
-<pre>
-
-  record Hom (X Y: Ob): * :=
-         (elem: X.elem → Y.elem)
-         (eq: ∀ (x1 x2: X.elem) → X.eq x1 x2 → Y.eq (elem x1) (elem x2)) 
-         (point: Y.eq (elem X.point) Y.point)
+ record Cat: Type :=
+        (Ob: Type)
+        (Hom:    ∀ (dom,cod: Ob) → Setoid)
+        (Id:     ∀ (x: Ob) → Hom x x)
+        (Comp:   ∀ (x,y,z: Ob) → Hom x y → Hom y z → Hom x z)
+        (Dom₁ₒ:  ∀ (x,y: Ob) (f: Hom x y) → (Hom.Equ x y (Comp x x y id f) f))
+        (Cod₁ₒ:  ∀ (x,y: Ob) (f: Hom x y) → (Hom.Equ x y (Comp x y y f id) f))
+        (Subst₁: ∀ (x,y,z: Ob) →
+                   Proper (Respect Equ (Respect Equ Equ)) (Comp x y z))
+        (Substₒ: ∀ (x,y,z: Ob) (f₁,f₂: Hom x y) (g₁,g₂: Hom y z)
+                 → (Hom.Equ x y f₁ f₂) → (Hom.Equ y z g₁ g₂)
+                 → (Hom.Equ x z (Comp x y z f₁ g₁) (Comp x y z f₂ g₂)))
+        (Assocₒ: ∀ (x,y,z,w: Ob) (f: Hom x y) (g: Hom y z) (h: Hom z w)
+                 → (Hom.Equ x w (Comp x y w f (Comp y z w g h)) 
+                                (Comp x z w (Comp x y z f g) h)))
 
 </pre>
 
@@ -396,9 +498,12 @@ all (Co)inductive types, which is not dependent on properties of underlying type
 
 <pre>
 
-  record Setoid: * :=
-         (ob: *)
-         (hom: ∀ (X Y: ob) → Hom X Y)
+ record Setoid: Type :=
+        (Carrier: Type)
+        (Equ: Carrier → Carrier → Prop)
+        (Refl: ∀ (x: Carrier) → Equ x x)
+        (Trans: ∀ (x₁,x₂,x₃: Carrier) → Equ x₁ x₂ → Equ x₂ x₃ → Equ x₁ x₃)
+        (Sym: ∀ (x₁,x₂: Carrier) → Equ x₁ x₂ → Equ x₂ x₁)
 
 </pre>
 
@@ -414,8 +519,8 @@ objects and homomorphisms gives us a concept of &infin;-Groupoid.
 
 <pre>
 
-  record Groupoid: * :=
-         (ob: *)
+  record Groupoid: Type :=
+         (ob: Type)
          (hom: ∀ (a b: ob) → (Hom a b) → Groupoid)
 
 </pre>
