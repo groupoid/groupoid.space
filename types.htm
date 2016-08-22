@@ -348,7 +348,66 @@ Functor carried with theorem fields.
 
 </pre>
 
+<h1>I/O Monads</h1>
+
+<p>Recursive and Corecursive Monads.</p>
+
+<h2><a name="io">IO</a></h2>
+
+<p>Finite I/O</p>
+
+<pre style="width:800px;">
+
+     data IO (A: Type): Type :=
+          (getLine: (String → IO) → IO)
+          (putLine: String → IO → IO)
+          (pure: A → IO)
+
+</pre>
+
+     Example:
+
+<pre style="width:850px;">
+
+     (main: IO.replicateM 100 (IO.>>= IO.data () IO.getLine IO.putLine))
+
+</pre>
+
+<h2><a name="ioi">IOI</a></h2>
+
+<p>Infinity I/O</p>
+
+<pre style="width:800px;">
+
+     data IOI.F (A,State: Type): Type :=
+          (getLine: (String → State) → IO)
+          (putLine: String → State → IO)
+          (pure: A → IO)
+
+     data IOI (A,State: Type) :=
+          (intro: State -> (State -> IOI.F A State) -> IOI)
+
+</pre>
+
+     Example:
+
+<pre style="width:850px;">
+
+    (main: \ (r: *) -> IOI.MkIO r (Maybe IOI.data)
+                                  (Maybe.Nothing IOI.data)
+               ( \ (m: Maybe IOI.data)
+                -> Maybe.maybe IOI.data m
+                  (IOI.F r (Maybe IOI.data)) (\(str: IOI.data) ->
+                   IOI.putLine r (Maybe IOI.data)
+                             str (Maybe.Nothing IOI.data))
+               (IOI.getLine r (Maybe IOI.data) (Maybe.Just IOI.data))))
+
+</pre>
+
+
 <h1>Effects</h1>
+
+<p>Programming effect system with single Monad and Effect Handlers.</p>
 
 <h2><a name="effect">Effect</a></h2>
 
@@ -391,6 +450,7 @@ Functor carried with theorem fields.
 
 <h1>Logic</h1>
 
+<p>Basic Theories: Equality, Congruence, Categories, Setoid.</p>
 
 <h2><a name="true">True</a></h2>
 
