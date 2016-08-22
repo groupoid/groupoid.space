@@ -51,8 +51,8 @@
 <blockquote>
 <p>01 &nbsp;<a href="#nat">NAT</a></p>
 <p>02 &nbsp;<a href="#list">LIST</a></p>
-<p>03 &nbsp;<a href="#IO">IO</a></p>
-<p>04 &nbsp;<a href="#ast">AST</a></p>
+<p>03 &nbsp;<a href="#io">IO</a></p>
+<p>04 &nbsp;<a href="#ioi">IOI</a></p>
 </blockquote>
 
 </div>
@@ -62,8 +62,8 @@
 <h3>NR D +</h3>
 
 <blockquote>
-<p>01 &nbsp;<a href="#eq">EQ</a></p>
-<p>02 &nbsp;<a href="#exists">EXISTS</a></p>
+<p>02 &nbsp;<a href="#eq">EQ</a></p>
+<p>03 &nbsp;<a href="#exists">EXISTS</a></p>
 </blockquote>
 
 </div>
@@ -102,6 +102,9 @@
 <blockquote>
 <p>01 &nbsp;<a href="#stream">STREAM</a></p>
 <p>02 &nbsp;<a href="#process">PROCESS</a></p>
+<p>02 &nbsp;<a href="#effect">EFFECT</a></p>
+<p>02 &nbsp;<a href="#eff.monad">EFF.MONAD</a></p>
+<p>02 &nbsp;<a href="#eff.handler">EFF.HANDLER</a></p>
 </blockquote>
 
 </div>
@@ -113,6 +116,8 @@
 <blockquote>
 <p>01 &nbsp;<a href="#sigma">SIGMA</a></p>
 <p>02 &nbsp;<a href="#setoid">SETOID</a></p>
+<p>03 &nbsp;<a href="#proper">PROPER</a></p>
+<p>04 &nbsp;<a href="#respect">RESPECT</a></p>
 </blockquote>
 
 </div>
@@ -122,6 +127,7 @@
 <h3>R D *</h3>
 
 <blockquote>
+<p>01 &nbsp;<a href="#cat">CAT</a></p>
 <p>01 &nbsp;<a href="#groupoid">GROUPOID</a></p>
 </blockquote>
 
@@ -169,7 +175,7 @@ over natural numbers and lists, we show them the more detailed description.
   The constructor functions nil: 1 &rightarrow; List(A) and
   cons: A &times; List(A) &rightarrow; List(A) are defined by
   nil = in ◦ inl and cons = in ◦ inr, so in = <span class=sel>[nil,cons]</span>.
-<pre style="width:500px;">
+<pre style="width:700px;">
 
     data list: (A: Type) → Type :=
          (nil: () → list A)
@@ -344,7 +350,7 @@ Functor carried with theorem fields.
 
 <h1>Effects</h1>
 
-<h2><a name="true">Effect</a></h2>
+<h2><a name="effect">Effect</a></h2>
 
 <pre style="width:800px;">
 
@@ -360,7 +366,7 @@ Functor carried with theorem fields.
 
 </pre>
 
-<h2><a name="true">Eff.Monad</a></h2>
+<h2><a name="eff.monad">Eff.Monad</a></h2>
 
 <pre style="width:800px;">
 
@@ -372,7 +378,7 @@ Functor carried with theorem fields.
 
 </pre>
 
-<h2><a name="true">Eff.Handler</a></h2>
+<h2><a name="eff.handler">Eff.Handler</a></h2>
 
 <pre style="width:800px;">
 
@@ -403,7 +409,7 @@ Functor carried with theorem fields.
 
 </pre>
 
-<h2><a name="false">Inhabited</a></h2>
+<h2><a name="inhabited">Inhabited</a></h2>
 
 <pre style="width:500px;">
 
@@ -412,7 +418,7 @@ Functor carried with theorem fields.
 
 </pre>
 
-<h2><a name="false">Proper</a></h2>
+<h2><a name="proper">Proper</a></h2>
 
 <pre style="width:750px;">
 
@@ -421,7 +427,7 @@ Functor carried with theorem fields.
 
 </pre>
 
-<h2><a name="false">Respect / Congruence</a></h2>
+<h2><a name="respect">Respect / Congruence</a></h2>
 
 <pre style="width:650px;">
 
@@ -466,7 +472,7 @@ Functor carried with theorem fields.
 
 </pre>
 
-<h2><a name="ob">Cat</a></h2>
+<h2><a name="cat">Cat</a></h2>
 
 <pre style="width:950px;">
 
