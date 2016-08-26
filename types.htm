@@ -240,7 +240,7 @@ with regular <span class=sel>list</span>.
 <pre style="width:800px;">
 
     data vector (A: Type) (N: nat): Type :=
-         (nil: () → vector A nat.zero)
+         (nil: vector A nat.zero)
          (cons: A → vector A n → vector A (nat.succ n))
 
 </pre>
