@@ -413,15 +413,15 @@ Functor carried with theorem fields.
 
 <pre style="width:800px;">
 
-  (record effect (v:Type) (r:Type): Type :=
+  record effect (v:Type) (r:Type): Type :=
          (values: v)
          (resource: r)
          (computation: (v → r))
-         (handler: effect v r → monad effect v r))
+         (handler: effect v r → monad effect v r)
 
-    (data RA: Type          := (intro: effect nat (random nat)))
-    (data IO (t:Type): Type := (intro: effect t   (file t)))
-    (data EX (t:Type): Type := (intro: effect ()  (exception t)))
+    data RA: Type          := (intro: effect nat (random nat))
+    data IO (t:Type): Type := (intro: effect t   (file t))
+    data EX (t:Type): Type := (intro: effect ()  (exception t))
 
 </pre>
 
@@ -429,11 +429,11 @@ Functor carried with theorem fields.
 
 <pre style="width:800px;">
 
-    (data Eff.Monad (eff: list effect)
+     data Eff.Monad (eff: list effect)
                     (m: Type → Type)
                     (a: Type): Type :=
          (intro: eff m a xs (\ (v: Type) → xs)
-                → monad_eff xs m a))
+                → monad_eff xs m a)
 
 </pre>
 
@@ -441,10 +441,10 @@ Functor carried with theorem fields.
 
 <pre style="width:800px;">
 
-  (record Eff.Handler (e: effect)
-                  (m: Type → Type): Type :=
+  record Eff.Handler (e: effect)
+                     (m: Type → Type): Type :=
          (action: ∀ (r: res) (eff: e t res resk)
-                  (k: ∀ (x: t) → resk x → m a) → m a))
+                  (k: ∀ (x: t) → resk x → m a) → m a)
 
 </pre>
 
