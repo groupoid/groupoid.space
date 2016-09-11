@@ -393,14 +393,17 @@ Functor carried with theorem fields.
 
 <pre style="width:850px;">
 
-    (main: \ (r: *) -> IOI.MkIO r (Maybe IOI.data)
-                                  (Maybe.Nothing IOI.data)
-               ( \ (m: Maybe IOI.data)
-                -> Maybe.maybe IOI.data m
-                  (IOI.F r (Maybe IOI.data)) (\(str: IOI.data) ->
-                   IOI.putLine r (Maybe IOI.data)
-                             str (Maybe.Nothing IOI.data))
-               (IOI.getLine r (Maybe IOI.data) (Maybe.Just IOI.data))))
+    record Main: Type :=
+    (main: λ (r: Type) ->
+           IOI.MkIO r (Maybe IOI.data) (Maybe.Nothing IOI.data)
+                    ( λ (m: Maybe IOI.data) ->
+                        Maybe.maybe IOI.data m
+                        (IOI.F r (Maybe IOI.data))
+                        ( λ (str: IOI.data) ->
+                            IOI.putLine r (Maybe IOI.data)
+                            str (Maybe.Nothing IOI.data))
+                        (IOI.getLine r (Maybe IOI.data) 
+                                     (Maybe.Just IOI.data))))
 
 </pre>
 
@@ -519,7 +522,7 @@ Functor carried with theorem fields.
                         ∀ (x: A) → (J C t x x (refl x)) '==>' (t x) )
 
     data Eq (A:Type): A → A → Prop :=
-         (refl: (x:A) → Eq A x x)
+         (refl: ∀ (x:A) → Eq A x x)
 
 </pre>
 
@@ -527,8 +530,8 @@ Functor carried with theorem fields.
 
 <pre style="width:700px;">
 
-    data Exists: (A:Type) → (A → Type) → Prop :=
-         (intro: (P: A → Type) → (x:A) → P x → exists A P)
+    data Exists (A:Type) (P: A → Type): Prop :=
+         (intro: ∀ (x:A) → P x → exists P x)
 
 </pre>
 
@@ -587,7 +590,7 @@ objects and homomorphisms gives us a concept of &infin;-Groupoid.
 
   record Groupoid: Type :=
          (ob: Type)
-         (hom: ∀ (a b: ob) → (Hom a b) → Groupoid)
+         (hom: ∀ (a,b: ob) → (Hom a b) → Groupoid)
 
 </pre>
 
