@@ -9,10 +9,8 @@ Infinity stack consists of two tools:
 ## Install
 
 ```
-$ npm install pug-cli -g
-$ npm install node-sass -g
-$ pug ./
-$ node-sass ./styles -o .
+$ npm install
+$ npm start
 ```
 
 ## Credits
