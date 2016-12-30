@@ -26,7 +26,8 @@ A ::= O | A → A | ( L : O )
 F ::= ∅ | F ( I : O ) | ()
 
 E ::= O | E data L : A := F
-        | E record L : A < extend F > := F
+        | E record L : 
+          A < extend F > := F
         | E let F in E
         | E case E [ | I O → E ]
         | E receive E [ | I O → E ]
@@ -40,7 +41,8 @@ Find more info in <a href='om#axioms'>Axioms and Inference Rules</a>
 of underlying Om intermediate language.</p><code>record PTS: * :=
     (S: ∀ (n: nat) → star n)
     (A: ∀ (i: nat) → type i (succ i))
-    (R: ∀ (i: nat) → ∀ (j: nat) → pitype i j (max i j))
+    (R: ∀ (i: nat) → ∀ (j: nat)
+                   → pitype i j (max i j))
 </code></section><section><h1>Macrosystem</h1><div class="macro"><div class="macro__col"><h3 id="om">Om</h3><ol><li><a href="#function">LAMBDA</a></li><li><a href="#function">PI</a></li><li><a href="#application">APP</a></li><li><a href="#var">VAR</a></li><li><a href="#star">STAR</a></li></ol></div><div class="macro__col"><h3 id="macro">Macro</h3><ol><li><a href="#data">DATA</a></li><li><a href="#record">RECORD</a></li><li><a href="#let">LET</a></li><li><a href="#case">CASE</a></li></ol></div><div class="macro__col"><ol><h3 id="eff">Effects</h3><li><a href="#process">SPAWN</a></li><li><a href="#send">SEND</a></li><li><a href="#receive">RECEIVE</a></li><li><a href="#try">TRY</a></li><li><a href="#raise">RAISE</a></li><li><a href="#raise">DO</a></li></ol></div></div></section><section><h2 id="om">Om</h2><p><mark>Om</mark> language is the macrosystem terminal language.
 Language forms of pure <mark>Macro</mark> or inpure <mark>Effect</mark>
 types are expanded to the terminal language. For the details please refer to the <a href='/om'>Om Assembler</a> description.</p><code>data Om: * :=

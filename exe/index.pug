@@ -42,7 +42,8 @@ block content
                         F ::= ∅ | F ( I : O ) | ()
 
                         E ::= O | E data L : A := F
-                                | E record L : A < extend F > := F
+                                | E record L : 
+                                  A < extend F > := F
                                 | E let F in E
                                 | E case E [ | I O → E ]
                                 | E receive E [ | I O → E ]
@@ -73,7 +74,8 @@ block content
                     record PTS: * :=
                         (S: ∀ (n: nat) → star n)
                         (A: ∀ (i: nat) → type i (succ i))
-                        (R: ∀ (i: nat) → ∀ (j: nat) → pitype i j (max i j))
+                        (R: ∀ (i: nat) → ∀ (j: nat)
+                                       → pitype i j (max i j))
 
             section
                 h1 Macrosystem
