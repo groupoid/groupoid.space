@@ -1,0 +1,98 @@
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="" />
+    <meta name="author" content="Maxim Sokhatsky" />
+    <title>STATUS</title>
+    <link rel="stylesheet" href="5HT.css" />
+</head>
+<body>
+<div class=menu>
+<a href="index.html">groupoid.co</a><font color=silver>/status</font>
+</div>
+<hr>
+
+<div class=app>
+
+<div class=block style="width:230px;height:550px;">
+        <img src="Groupoid.svg" height=200>
+</div>
+
+<div class=block style="width:750px">
+<center><h1>Project Status</h1>
+        <h5>Implemented and Awaiting features of the OM/EXE</center>
+
+<div align=right>DATE: 19 MAR 2016</div>
+
+
+<div style="float:left;margin-left:40px;width:400px;margin-bottom:50px;">
+
+<h2><a name="passes">Compiler Passes</a></h2>
+
+<blockquote style="width:600px;">
+<p>01 &nbsp;<a style="color:red;"href="#macro">EXE</a> &mdash; Macro Expansion</p>
+<p>02 <a href="om.htm#normal">TYPE</a> &mdash; Typechecking</p>
+<p>03 <a href="om.htm#normal">NORMAL</a> &mdash; Normalization</p>
+<p>04 <a href="om.htm#erased">ERASE</a> &mdash; Type Information Erasure</p>
+<p>05 <a style="color:red;" href="#macro">COMPACT</a> &mdash; Compress Terms</p>
+<p>06 <a href="om.htm#extract">EXTRACT  </a> &mdash; Extract VM Lambda</p>
+</blockquote>
+
+<h2><a name="passes">Logic</a></h2>
+
+<blockquote style="width:600px;">
+<p>01 &nbsp;<a href="#macro">REC</a> &mdash; Recursor</p>
+<p>02 &nbsp;<a href="om.htm#normal">INDUCTION</a> &mdash; Dependent Eliminator</p>
+<p>03 &nbsp;<a href="types.htm#eq">EQU</a> &mdash; Propositional Equality</p>
+<p>04 &nbsp;<a href="types.htm#eq">SIMPLE</a> &mdash; Simplification, K combinator</p>
+<p>05 &nbsp;<a href="types.htm#eq">FREGE</a> &mdash; Frege, S combinator</p>
+<p>06 &nbsp;<a href="types.htm#eq">PROP</a> &mdash; Propositions</p>
+</blockquote>
+
+<h2><a name="passes">Macros</a></h2>
+<blockquote style="width:600px;">
+<p>02 <a style="color:red;" href="exe.htm#case">CASE</a> &mdash; Patterm Matching</p>
+<p>03 <a style="color:red;" href="exe.htm#let">LET</a> &mdash; Extract VM Lambda</p>
+<p>04 <a style="color:red;" href="exe.htm#data">DATA</a> &mdash; Inductive Definition</p>
+<p>05 <a style="color:red;" href="exe.htm#record">RECORD</a> &mdash; Coinductive Definition</p>
+</blockquote>
+
+<h2><a name="passes">Base Library</a></h2>
+
+<blockquote style="width:800px;">
+<p>01 &nbsp;<a href="types.htm#IO">IO</a> &mdash; Input/Output Free Monad</p>
+<p>02 <a href="types.htm#IOI">IOI</a> &mdash; Infinity Input/Output Cofree Comonad</p>
+<p>03 <a href="types.htm#lazy">Lazy</a> &mdash; Lazy Type</p>
+<p>04 <a href="types.htm#bool">Bool</a> &mdash; Boolean</p>
+<p>05 <a href="types.htm#option">Maybe</a> &mdash; Maybe</p>
+<p>06 <a href="types.htm#nat">Nat</a> &mdash; Natural Number Object</p>
+<p>07 <a href="types.htm#list">List</a> &mdash; Inductive List</p>
+<p>08 <a href="types.htm#unit">Unit</a> &mdash; 0-Tuple</p>
+<p>09 <a href="types.htm#mon">Mon</a> &mdash; 1-Tuple</p>
+<p>10 &nbsp;<a href="types.htm#prod">Prod</a> &mdash; 2-Tuple</p>
+<p>11 &nbsp;&nbsp;<a href="types.htm#morte">Morte</a> &mdash; Recursive and Corecursive samples</p>
+</blockquote>
+
+<h2><a name="passes">Backends</a></h2>
+
+<blockquote style="width:600px;">
+<p>01 &nbsp;<a href="extract.htm">Erlang/OTP</a> &mdash; BEAM and LING virual machines.</p>
+<p>02 <a style="color:red;" href="extract.htm">C++</a> &mdash; clang, HN0</p>
+<p>03 <a style="color:red;" href="extract.htm">LLVM</a> &mdash; LLVM</p>
+<p>04 <a style="color:red;" href="extract.htm">FPGA</a> &mdash; FPGA</p>
+</blockquote>
+
+</div>
+</div>
+
+
+<br>
+
+
+<center style="margin-top: 120px;margin-bottom:160px;"><img style="margin-bottom:-20px;" src="Stamp.svg" width=50>2016 &copy; Groupoid Infinity, Inc.</center>
+
+
+</body>
+</html>

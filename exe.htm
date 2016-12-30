@@ -1,0 +1,337 @@
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="" />
+    <meta name="author" content="Maxim Sokhatsky" />
+    <title>EXE</title>
+    <link rel="stylesheet" href="5HT.css" />
+</head>
+<body>
+<div class=menu>
+<a href="index.html">groupoid.co</a><font color=silver>/exe</font>
+</div>
+<hr>
+<div class=app>
+
+<div class=block style="width:250px;height:350px;">
+        <img src="Groupoid.svg" height=200 width=230>
+</div>
+
+<div class=block style="width:600px;height:0px;">
+
+<center><h1>Exe Language</h1>
+        <h5>AST Specification as Inductive Constructions</h5></center>
+
+<p>Exe Language is built on top of CoC pure type system, predicative universes
+and inductive constructions you may find in other MLTT provers like Lean, Coq,
+Idris, Agda, and F*. As algebraїс prover, Exe supports <span class=sel>data</span>
+and <span class=sel>record</span> polynomial functors as fundamental language
+constructions implemented in a form of hygienic macros over the AST. Everything in Exe
+is encoded as inductive construction: from the equality property up to Erlang VM process,
+everything is a type that could have constructors and/or projections.
+Both Exe language and its macrosystem are built using AST types, described in this document.</p>
+
+<div style="float:left;width:902px;margin-bottom:30px;">
+
+<div style="float:left;margin-left:-300px;width:600px;"><h2>
+
+<h2><a name="syntax">Language Forms</a></h2>
+
+<pre  style="width:600px;">
+
+    <> ::= #option
+
+    [] ::= #list
+
+     I ::= #identifier
+
+     U ::= * < #number >
+
+     O ::= I | ( O ) |
+           U | O → O | O O
+             | ∀ ( I : O ) → O
+             | λ ( I : O ) → O
+
+     L ::= I | L I
+
+     A ::= O | A → A | ( L : O )
+
+     F ::= ∅ | F ( I : O ) | ()
+
+     E ::= O | E data L : A := F
+             | E record L : A < extend F > := F
+             | E let F in E
+             | E case E [ | I O → E ]
+             | E receive E [ | I O → E ]
+             | E spawn E raise L := E
+             | E send E to E
+
+</pre>
+
+</div>
+
+<div style="float:left;margin-left:40px;width:400px;">
+
+<h2><a name="ast">Syntax Tree</a></h2>
+
+<pre style="width:400px;background-color:white;">
+
+    data Exe: * :=
+         (om: Om → Exe)
+         (core: Macro → Exe)
+         (eff: Effect → Exe)
+
+</pre>
+
+<h2><a name="passes">Compiler Passes</a></h2>
+
+<blockquote style="width:600px;">
+<p>01 &nbsp;<a href="#macro">EXE</a> &mdash; Macro Expansion</p>
+<p>02 <a href="om.htm#normal">NORMAL</a> &mdash; Typechecking</p>
+<p>03 <a href="om.htm#erased">ERASE</a> &mdash; Type Information Erasure</p>
+<p>04 <a href="om.htm#extract">EXTRACT  </a> &mdash; Extract VM Lambda</p>
+</blockquote>
+
+
+
+</div>
+</div>
+
+<h1>Calculus</h1>
+
+<p>The type system is completely described by the PTS SAR notation, given by Barendregt.
+   Find more info in <a href="om.htm#axioms">Axioms and Inference Rules</a>
+   of underlying Om intermediate language.
+   </p>
+
+<pre  style="width:500px;background:white;margin-top:20px;">
+
+   record PTS: * :=
+       (S: ∀ (n: nat) → star n)
+       (A: ∀ (i: nat) → type i (succ i))
+       (R: ∀ (i: nat) → ∀ (j: nat) → pitype i j (max i j))
+
+</pre>
+
+<h1>Macrosystem</h1>
+
+<div class=block style="width:900px;margin-top:20px;">
+
+<div class=block>
+
+<h3><a href="#om">Om</a></h3>
+
+
+<blockquote>
+<p>01 &nbsp;<a href="#function">LAMBDA</a></p>
+<p>02 <a href="#function">PI</a></p>
+<p>03 <a href="#application">APP</a></p>
+<p>04 <a href="#var">VAR</a></p>
+<p>05 <a href="#star">STAR</a></p>
+</blockquote>
+
+</div>
+
+<div class=block>
+
+<h3><a href="#macro">Macro</a></h3>
+
+<blockquote>
+<p>01 &nbsp;<a href="#data">DATA</a></p>
+<p>02 <a href="#record">RECORD</a></p>
+<p>03 <a href="#let">LET</a></p>
+<p>04 <a href="#case">CASE</a></p>
+</blockquote>
+
+</div>
+
+<div class=block>
+
+<h3><a href="#eff">Effects</a></h3>
+
+<blockquote>
+<p>01 &nbsp;<a href="#process">SPAWN</a></p>
+<p>02 <a href="#send">SEND</a></p>
+<p>03 <a href="#receive">RECEIVE</a></p>
+<p>04 <a href="#try">TRY</a></p>
+<p>05 <a href="#raise">RAISE</a></p>
+<p>06 <a href="#raise">DO</a></p>
+</blockquote>
+
+</div>
+
+</div>
+
+<div class=block style="width:700px;margin-top:20px;">
+
+<h2><a name="om">Om</a></h2>
+
+<span class=sel>Om</span> language is the macrosystem terminal language.
+Language forms of pure <span class=sel>Macro</span> or inpure <span class=sel>Effect</span>
+types are expanded to the terminal language. For the details please refer to the <a href="om.htm">Om Assembler</a> description.
+
+<pre  style="width:500px;background:white;margin-top:20px;">
+
+    data Om: * :=
+         (star: Star → Om)
+         (var: Var → Om)
+         (app: App → Om)
+         (arrow: Arrow → Om)
+         (pi: Pi → Om)
+
+</pre>
+
+<h2><a name="star">Star</a></h2>
+
+<pre style="width:500px;">
+
+  record Star: * :=
+         (index: nat)
+
+</pre>
+
+<h2><a name="var">Variable</a></h2>
+
+<pre style="width:500px;">
+
+  record Var: * :=
+         (name: string)
+
+</pre>
+
+<h2><a name="function">Arrow / Pi</a></h2>
+
+<pre style="width:500px;">
+
+  record Arrow Pi: * :=
+         (name: string)
+         (arg: Om)
+         (body: Om)
+
+</pre>
+
+<h2><a name="application">Application</a></h2>
+
+<pre style="width:500px;">
+
+  record App: * :=
+         (fun: Om)
+         (arg: Om)
+
+</pre>
+
+<br>
+
+<h2><a name="macro">Macro</a></h2>
+
+<p><span class=sel>Macro</span> language subsystem is the core of Exe language and dedicated to compile the prelude desceibed in the <a href="types.htm">Core Types</a> document.
+Om language is the target language of macroexpansions of <span class=sel>data</span> and <span class=sel>record</span> inductive constructions,
+<span class=sel>let</span> construction and univariable <span class=sel>case</span> pattern matching.</p>
+
+<pre style="width:500px;background:white;">
+
+    data Macro: * :=
+         (record: Record → Macro)
+         (data: Data → Macro)
+         (let: Let → Macro)
+         (case: Case → Macro)
+
+</pre>
+
+
+<h2><a name="case">Case / Receive</a></h2>
+
+<pre style="width:600px;">
+
+  record Case Receive: * :=
+         (of: Exe)
+         (legs: list (prod atom (prod Om Exe)))
+         (default: Exe)
+
+</pre>
+
+<h2><a name="let">Let</a></h2>
+
+<pre style="width:500px;">
+
+  record Let: * :=
+         (binds: list (prod string Exe))
+         (in: Exe)
+
+</pre>
+
+<h2><a name="data"><a name="record">Record / Data</a></a></h2>
+
+<pre style="width:500px;">
+
+  record Record Data: * :=
+         (name: string)
+         (base: Om)
+         (body: list (prod string Exe))
+
+</pre>
+
+<br>
+
+<h2><a name="eff">Effect</a></h2>
+
+<p><span class=sel>Effect</span> syntax extensions defined basic process calculus axioms, IO and exception handling.</p>
+
+<pre style="width:500px;background:white;">
+
+    data Effect: * :=
+         (receive: Receive → Effect)
+         (spawn: Spawn → Effect)
+         (send: Send → Effect)
+         (try: Exception → Effect)
+         (raise: Exception → Effect)
+         (write: File → Effect)
+         (read: File → Effect)
+
+</pre>
+
+<h2><a name="process">Process</a></h2>
+
+<pre  style="width:700px;">
+
+  record Process: (Sigma: *) → (X: *) → * :=
+         (action: Sigma → X → GenServer X)
+
+</pre>
+
+<h2><a name="spawn">Spawn</a></h2>
+
+<pre style="width:500px;">
+
+  record Spawn:
+         (proc: Process)
+         (raise: list Eff)
+
+</pre>
+
+<h2><a name="send">Send</a></h2>
+
+<pre style="width:700px;">
+
+  record Send: (Sigma: *) → * :=
+         (message: Sigma)
+         (to: Process Sigma)
+
+</pre>
+
+
+
+<h1>Resources</h1>
+
+<p>01 &nbsp;<a href="https://gitter.im/groupoid/exe/archives/">EXE ARCHIVES</a></p>
+<p>02 &nbsp;<a href="https://github.com/groupoid/exe">GIT SOURCES</a></p>
+
+<center style="margin-top: 120px;margin-bottom:60px;"><img style="margin-bottom:-20px;" src="Stamp.svg" width=50>2016 &copy; Groupoid Infinity, Inc.</center>
+
+</div>
+
+</div>
+</body>
+</html>

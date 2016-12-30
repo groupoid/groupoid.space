@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg width="358px" height="550px" viewBox="0 0 358 550" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:sketch="http://www.bohemiancoding.com/sketch/ns">
+    <!-- Generator: Sketch 3.3.1 (12002) - http://www.bohemiancoding.com/sketch -->
+    <title>Legend</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" sketch:type="MSPage">
+        <g id="Legend" sketch:type="MSLayerGroup" transform="translate(0.000000, -13.000000)">
+            <rect id="Rectangle-1-Copy-9" stroke="#979797" stroke-width="2" sketch:type="MSShapeGroup" x="5.18747656" y="487.391348" width="73" height="75"></rect>
+            <rect id="Rectangle-3-Copy-2" stroke="#979797" fill="#D8D8D8" sketch:type="MSShapeGroup" x="10.9661187" y="167.449283" width="36.4213447" height="36.4830851"></rect>
+            <rect id="Rectangle-1-Copy-3" stroke="#979797" stroke-width="2" sketch:type="MSShapeGroup" x="0.115439219" y="154.868908" width="56.5158797" height="61.6438334"></rect>
+            <ellipse id="Oval-1-Copy-24" stroke="#979797" fill="#B8E986" sketch:type="MSShapeGroup" cx="34.5940035" cy="354.445404" rx="18.2106724" ry="18.2415425"></ellipse>
+            <ellipse id="Oval-5-Copy-27" stroke="#979797" stroke-width="2" sketch:type="MSShapeGroup" cx="35.0893765" cy="355.276531" rx="32.0893765" ry="29.9421452"></ellipse>
+            <ellipse id="Oval-1-Copy-21" stroke="#979797" fill="#D8D8D8" sketch:type="MSShapeGroup" cx="33.9894377" cy="270.340833" rx="18.2106724" ry="18.2415425"></ellipse>
+            <path d="M33.3614835,297.388637 C48.8200087,297.388637 61.3516194,285.385013 61.3516194,270.577792 C61.3516194,255.770571 48.8200087,243.766946 33.3614835,243.766946 C17.9029583,243.766946 5.37134766,255.770571 5.37134766,270.577792 C5.37134766,285.385013 17.9029583,297.388637 33.3614835,297.388637 Z" id="Oval-5-Copy-26" stroke="#979797" stroke-width="2" sketch:type="MSShapeGroup"></path>
+            <ellipse id="Oval-1-Copy-29" stroke="#979797" fill="#4990E2" sketch:type="MSShapeGroup" cx="37.0033812" cy="437.964134" rx="18.2106724" ry="18.2415425"></ellipse>
+            <path d="M37.500997,469.662118 C56.2420424,469.662118 71.4346615,455.486099 71.4346615,437.999094 C71.4346615,420.512088 56.2420424,406.336069 37.500997,406.336069 C18.7599515,406.336069 3.56733242,420.512088 3.56733242,437.999094 C3.56733242,455.486099 18.7599515,469.662118 37.500997,469.662118 Z" id="Oval-5-Copy-28" stroke="#979797" stroke-width="2" sketch:type="MSShapeGroup"></path>
+            <text id="t,-table" sketch:type="MSTextLayer" font-family="Geometria" font-size="52" font-weight="260" fill="#000000">
+                <tspan x="98.9026237" y="203.868908">t, table</tspan>
+            </text>
+            <rect id="Rectangle-3-Copy-13" stroke="#979797" fill="#D8D8D8" sketch:type="MSShapeGroup" x="15.6378755" y="98.1056188" width="36.4213447" height="36.4830851"></rect>
+            <text id="m,-record" sketch:type="MSTextLayer" font-family="Geometria" font-size="52" font-weight="260" fill="#000000">
+                <tspan x="91.0766307" y="127.336069">m, record</tspan>
+            </text>
+            <text id="f,-feed" sketch:type="MSTextLayer" font-family="Geometria" font-size="52" font-weight="260" fill="#000000">
+                <tspan x="103.076631" y="292.766946">f, feed</tspan>
+            </text>
+            <ellipse id="Oval-1-Copy-33" stroke="#979797" fill="#D8D8D8" sketch:type="MSShapeGroup" cx="29.8154308" cy="39.9099555" rx="18.2106724" ry="18.2415425"></ellipse>
+            <text id="a,-action" sketch:type="MSTextLayer" font-family="Geometria" font-size="52" font-weight="260" fill="#000000">
+                <tspan x="98.9026237" y="49.3360692">a, action</tspan>
+            </text>
+            <text id="p,-s,-server" sketch:type="MSTextLayer" font-family="Geometria" font-size="52" font-weight="260" fill="#000000">
+                <tspan x="98.9026237" y="363.750163">p, s, server</tspan>
+            </text>
+            <text id="c,-client" sketch:type="MSTextLayer" font-family="Geometria" font-size="52" font-weight="260" fill="#000000">
+                <tspan x="100.236986" y="446.391348">c, client</tspan>
+            </text>
+            <text id="[]" sketch:type="MSTextLayer" font-family="Geometria" font-size="52" font-weight="260" fill="#000000">
+                <tspan x="101.989606" y="534.391348">[]</tspan>
+            </text>
+        </g>
+    </g>
+</svg>
