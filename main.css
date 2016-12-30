@@ -26,7 +26,8 @@ html {
   height: 100%; }
 
 body {
-  min-height: 100%; }
+  min-height: 100%;
+  position: relative; }
 
 h1, h2, h3, h4 {
   font-weight: normal; }
@@ -45,14 +46,16 @@ img, figure {
 .content {
   min-height: 100%;
   font-family: local;
-  background: #FBFBFB;
   display: flex;
   flex-direction: column;
   color: #586E75; }
 
 .main {
+  background: #FBFBFB;
+  z-index: 0;
   padding: 80px 0px;
-  text-align: center; }
+  text-align: center;
+  box-shadow: 0 -3px 10px rgba(0, 0, 0, 0.3); }
 
 figure {
   max-width: 100%;
@@ -142,7 +145,8 @@ aside {
   justify-content: center;
   align-items: center;
   width: 100%;
-  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.3); }
+  position: fixed;
+  z-index: -1; }
   .header__logo {
     width: 150px; }
   .header__titles {
@@ -163,6 +167,77 @@ aside {
       .header__title {
         font-size: 60px; }
       .header__subtitle {
+        font-size: 30px; } }
+
+.hoax-header {
+  visibility: hidden;
+  z-index: 0;
+  background-image: linear-gradient(125deg, #8E78FF, #FC7D7B);
+  color: white;
+  min-height: 336px;
+  padding: 16px 8px;
+  display: flex;
+  text-align: center;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%; }
+  .hoax-header__logo {
+    width: 150px; }
+  .hoax-header__titles {
+    max-width: 800px;
+    margin: 20px;
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.2); }
+  .hoax-header__title {
+    font-size: 48px;
+    line-height: 1.1; }
+  .hoax-header__subtitle {
+    font-size: 22px; }
+  @media (min-width: 768px) {
+    .hoax-header {
+      flex-direction: row; }
+      .hoax-header__logo {
+        width: 200px;
+        margin-right: 20px; }
+      .hoax-header__title {
+        font-size: 60px; }
+      .hoax-header__subtitle {
+        font-size: 30px; } }
+
+.upper-hoax-header {
+  z-index: 1;
+  opacity: 0;
+  position: fixed;
+  background-image: linear-gradient(125deg, #8E78FF, #FC7D7B);
+  color: white;
+  min-height: 336px;
+  padding: 16px 8px;
+  display: flex;
+  text-align: center;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%; }
+  .upper-hoax-header__logo {
+    width: 150px; }
+  .upper-hoax-header__titles {
+    max-width: 800px;
+    margin: 20px;
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.2); }
+  .upper-hoax-header__title {
+    font-size: 48px;
+    line-height: 1.1; }
+  .upper-hoax-header__subtitle {
+    font-size: 22px; }
+  @media (min-width: 768px) {
+    .upper-hoax-header {
+      flex-direction: row; }
+      .upper-hoax-header__logo {
+        width: 200px;
+        margin-right: 20px; }
+      .upper-hoax-header__title {
+        font-size: 60px; }
+      .upper-hoax-header__subtitle {
         font-size: 30px; } }
 
 .footer {

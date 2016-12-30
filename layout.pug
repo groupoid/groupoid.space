@@ -5,7 +5,18 @@ mixin header(logo, title, subtitle)
         .header__titles
             h1.header__title!= title
             h4.header__subtitle!= subtitle
-
+    .hoax-header
+        a(href='/')
+            img.hoax-header__logo(src=logo)
+        .hoax-header__titles
+            h1.hoax-header__title!= title
+            h4.hoax-header__subtitle!= subtitle
+    .upper-hoax-header
+        a(href='/')
+            img.upper-hoax-header__logo(src=logo)
+        .upper-hoax-header__titles
+            h1.upper-hoax-header__title!= title
+            h4.upper-hoax-header__subtitle!= subtitle
 
 doctype html
 html
@@ -21,6 +32,7 @@ html
 
     body.content
         block content
+        script(src='/high.js')
         footer.footer
             img.footer__logo(src='/stamp.svg')
             span.footer__copy 2016 &copy; Groupoid Infinity, Inc.

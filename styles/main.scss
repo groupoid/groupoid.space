@@ -33,6 +33,7 @@ html {
 
 body {
     min-height: 100%;
+    position: relative;
 }
 
 h1, h2, h3, h4 {
@@ -56,15 +57,17 @@ img, figure {
 .content {
     min-height: 100%;
     font-family: local;
-    background: #FBFBFB;
     display: flex; // sticky footer
     flex-direction: column;
     color: #586E75;
 }
 
 .main {
+    background: #FBFBFB;
+    z-index: 0;
     padding: 80px 0px;
     text-align: center;
+    box-shadow: 0 -3px 10px rgba(0,0,0,0.3);
 }
 
 figure {
