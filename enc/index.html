@@ -1,0 +1,82 @@
+<!DOCTYPE html><html><head><meta charset="utf-8"><meta http-equiv="x-ua-compatible" content="ie=edge"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="author" content="Maxim Sokhatsky"><link rel="stylesheet" href="/main.css"><title>ENCODING</title><script src="http://cdn.mathjax.org/mathjax/2.2-latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><script>MathJax.Hub.Config({ tex2jax: { inlineMath: [['$','$'], ['\\(','\\)']], processEscapes: true } });                                 TeX: { extensions: ["AMSmath.js", "AMSsymbols.js"] };
+</script></head><body class="content"><header class="header"><a href="/"><img class="header__logo" src="/groupoid.svg"/></a><div class="header__titles"><h1 class="header__title">Lambek Encoding</h1><h4 class="header__subtitle">Categorical Semantics of Inductive Encodings</h4></div></header><article class="main"><aside>Paul Lyutko<br>Maxim Sokhatsky<time>DATE: 1 MAY 2016</time></aside><div class="enc"><h2>Initial Object</h2><code>let I = data List: (A:*) -> * :=
+             (nil: () -> List A)
+             (cons: A -> List A -> List A)
+
+</code><h2>Representing Functor F</h2><code>F<sub>A</sub> = 1 + A * X
+</code><h2>Construct corresponding F-Algebra</h2><code>record ListAlg: (A:*) -> * :=
+    (X: *)
+    (nil: () -> X)
+    (cons: A -> X -> X)
+</code><h2>Introduce List Morphisms</h2><code>infix '=' := Setoid.Ob.Equ
+
+record ListMor: (A: *) -> (x1 x2: ListAlg A) -> * :=
+        (map: x1.X -> x2.X)
+        (okNil: Eq (map x1.nil) x2.nil)
+        (okCons: ∀ (a: A) -> ∀ (x: x1)
+            -> map x1.cons a x = x2.cons a (map x))
+</code><h2> Introduce connected points of List type</h2><code>record ListPoint: (A: *) -> * :=
+        (point:  ∀ (x: ListAlg A) -> x.X)
+        (pointOk:  ∀ (x1 x2: ListAlg A)
+                -> ∀ (m: ListMor A x1 x2)
+                -> Setoid.Ob.Equ (map m point x1) (point x2))
+</code><h2>Theorem</h2><code>def ⓪ := Cat.mk ()
+def ① := Cat.mk 𝟙<sub>ListAlg</sub>
+
+record Theorem := *
+        (intro: colim ⓪ = lim ①)</code><figure>$$
+\require{AMSmath}
+\require{AMSsymbols}
+\def\mapright#1{\xrightarrow{{#1}}}
+\def\mapdown#1{\Big\downarrow\rlap{\raise2pt{\scriptstyle{#1}}}}
+\def\mapdiagl#1{\vcenter{\searrow}\rlap{\raise2pt{\scriptstyle{#1}}}}
+\def\mapdiagr#1{\vcenter{\swarrow}\rlap{\raise2pt{\scriptstyle{#1}}}}
+$$</figure><figure>$$U = ListAlg\\$$
+
+$$U\ I = lim\ U\\$$
+
+$\begin{array}{c}lim\ U\\\mapdown{\pi_i}\\X_i\end{array}
+\Longrightarrow \begin{array}{c}F\ lim\ U\\\mapdown{F\ \pi_i}\\F\ X_i\end{array}
+\Longrightarrow lim\ \begin{array}{c}F\ lim\ U\\\mapdown{F \pi_i}\\F\ X_i\end{array}$
+</figure><h2>Precise Encoding</h2><p>Our encoding allows you to precise control the type of encoded parameter.
+There is only three cases and three equations: 1) for unit; 2) particular functorial
+type over a parameter type and 3) recursive embedding such as in Cons constructor.</p><p><b>q</b> &mdash; is a limit in <b>Dialg P</b> category. The constructor body is calculated
+with <b>q</b> applied to forgetful functor <b>U</b>.</p></p><figure>$$
+q_{P,D,G} : End\ P\ (G'(-),G'(-)) \rightarrow P\ (Lim\ G',Lim\ G') \\
+P : Set° \times Set \rightarrow Set \\
+U : Dialg\ P \rightarrow Set \\
+G : D \rightarrow Dialg\ P \\
+G' = UG : D \rightarrow Set \\
+U (Lim\ G) = Lim\ G'
+$$
+</figure><h3>Unit Parameters</h3><p>Like for Bool or Nil constructors encoding.</p><figure>$$
+P_0(A,B) =  B \\
+q_0\ e : Lim\ G' \\
+q_0\ e = e
+$$
+</figure><h3>Fixed Type Parameters</h3><p>Like for Cons first parameter.</p><figure>$$
+P_1(A,B) = X \rightarrow P(A,B) \\
+q_1\ e : X \rightarrow P ( Lim\ G',  Lim\ G' ) \\
+q_1\ e\ x\ A = e\ A\ x
+$$
+</figure><h3>Recursive Parameters</h3><p>Like for Cons second parameter. This case is a key in encoding recursive
+data types such as <b>Lists</b> and recursive record types such as <b>Streams</b>.</p><figure>$$
+P_2(A,B) = A \rightarrow P(A,B) \\
+q_2\ e : Lim\ G' \rightarrow P ( Lim\ G',  Lim\ G' ) \\
+q_2\ e\ I\ A = e\ A\ (I\ A)
+$$
+</figure><h2>Identity Functor Encoding</h2><p>As known as predicative encoding</p><figure>$$
+\begin{array}{ccccccc}
+    A &           & \mapright{f} &           & B & \mapright{f} & Set \\[3pt]
+        & \mapdiagl{a}  & \varphi      & \mapdiagr{b}  &   & \searrow     & \mapdown{\mathbf{1}} \\
+        &           & Set          &           &   &              & Set
+\end{array}
+$$</figure><figure>$\varphi : a \rightarrow b$
+</figure><h2>Identity Functor Limit Encoding</h2><p>As known as impredicative encoding</p><figure>$$
+\begin{array}{ccccccc}
+    A &           & \mapright{f} &           & B & \mapright{f} & Set \\[3pt]
+        & \mapdiagl{a}  & \varphi      & \mapdiagr{b}  &   & \searrow     & \mapdown{\mathbf{1}} \\
+        &           & Set          &           &   &              & Set
+\end{array}
+$$</figure><figure>$lim\ \varphi : lim\ a \rightarrow lim\ b$
+</figure></div><section class="resources"><h1 class="resources__title">Resources</h1><ol class="resources__list"><li class="resources__item"><a href="https://gitter.im/groupoid/om/archives/">OM archives.</a></li><li class="resources__item"><a href="https://gitter.im/groupoid/exe/archives/">EXE archives.</a></li><li class="resources__item"><a href="https://github.com/groupoid/">GIT sources.</a></li><li class="resources__item"><a href="https://github.com/groupoid/exe">EXE git sources.</a></li></ol></section></article><footer class="footer"><img class="footer__logo" src="/stamp.svg"><span class="footer__copy">2016 &copy; Groupoid Infinity, Inc.</span></footer></body></html>

@@ -1,0 +1,608 @@
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="" />
+    <meta name="author" content="Maxim Sokhatsky" />
+    <title>TYPES</title>
+    <link rel="stylesheet" href="5HT.css" />
+</head>
+<body>
+<div class=menu>
+<a href="index.html">groupoid.co</a><font color=silver>/types</font>
+</div>
+<hr>
+<div class=app>
+
+<div class=block style="width:150px;height:350px;">
+        <img src="Groupoid.svg" height=200 width=230>
+</div>
+
+<div class=block style="width:700px;height:0px;">
+
+<center><h1>EXE Types</h1>
+        <h5>Inductive Dependent Base Library</h5>
+
+<h2><a name="taxonomy">Recursion and Dependence</a></h2>
+
+</div>
+
+<div class=block style="width:1000px;">
+
+<div class=block>
+
+<h3>NR ND +</h3>
+
+<blockquote>
+<p>01 &nbsp;<a href="#bool">BOOL</a></p>
+<p>02 <a href="#true">TRUE</a></p>
+<p>03 <a href="#false">FALSE</a></p>
+<p>04 <a href="#option">OPTION</a></p>
+<p>05 <a href="#unit">UNIT</a></p>
+</blockquote>
+
+</div>
+
+<div class="block">
+
+<h3>R ND +</h3>
+
+<blockquote>
+<p>01 &nbsp;<a href="#nat">NAT</a></p>
+<p>02 &nbsp;<a href="#list">LIST</a></p>
+<p>03 &nbsp;<a href="#io">IO</a></p>
+<p>04 &nbsp;<a href="#ioi">IOI</a></p>
+</blockquote>
+
+</div>
+
+<div class="block">
+
+<h3>NR D +</h3>
+
+<blockquote>
+<p>02 &nbsp;<a href="#eq">EQ</a></p>
+<p>03 &nbsp;<a href="#exists">EXISTS</a></p>
+</blockquote>
+
+</div>
+
+<div class="block">
+
+<h3>R D +</h3>
+
+<blockquote>
+<p>01 &nbsp;<a href="#vector">VECTOR</a></p>
+</blockquote>
+
+<br><br><br><br><br><br><br><br><br><br>
+</div>
+
+<div class="block">
+
+<h3>NR ND *</h3>
+
+<blockquote>
+<p>01 &nbsp;<a href="#prod">PROD</a></p>
+<p>02 &nbsp;<a href="#pure">PURE</a></p>
+<p>03 &nbsp;<a href="#functor">FUNCTOR</a></p>
+<p>04 &nbsp;<a href="#applicative">APPLICATIVE</a></p>
+<p>05 &nbsp;<a href="#monad">MONAD</a></p>
+</blockquote>
+
+
+</div>
+
+
+<div class="block">
+
+<h3>R ND *</h3>
+
+<blockquote>
+<p>01 &nbsp;<a href="#stream">STREAM</a></p>
+<p>02 &nbsp;<a href="#process">PROCESS</a></p>
+<p>02 &nbsp;<a href="#effect">EFFECT</a></p>
+<p>02 &nbsp;<a href="#eff.monad">EFF.MONAD</a></p>
+<p>02 &nbsp;<a href="#eff.handler">EFF.HANDLER</a></p>
+</blockquote>
+
+</div>
+
+<div class="block">
+
+<h3>NR D *</h3>
+
+<blockquote>
+<p>01 &nbsp;<a href="#sigma">SIGMA</a></p>
+<p>02 &nbsp;<a href="#setoid">SETOID</a></p>
+<p>03 &nbsp;<a href="#proper">PROPER</a></p>
+<p>04 &nbsp;<a href="#respect">RESPECT</a></p>
+</blockquote>
+
+</div>
+
+<div class="block">
+
+<h3>R D *</h3>
+
+<blockquote>
+<p>01 &nbsp;<a href="#cat">CAT</a></p>
+<p>01 &nbsp;<a href="#groupoid">GROUPOID</a></p>
+</blockquote>
+
+</div>
+
+</div>
+
+<div class=block style="margin-top:20px;margin-left:150px;">
+
+<center>
+<table border=0 cellspacing=2 style="margin-left:0px;font-size:20pt;"><tr><td>N :</td><td>Not a</td></tr>
+          <tr><td>  R :</td><td> Recursive</td></tr>
+          <tr><td>  D :</td><td> Dependent</td></tr>
+          <tr><td>  + :</td><td> Inductive</td></tr>
+          <tr><td>  * :</td><td> Coinductive</td></tr></table>
+</center>
+
+<h1>Inductive</h1>
+
+Inductive types are the dependent version of generalized algebraic data types used in ML.
+With inductive and coinductive types you can model polynomial higher order functors that
+define generic trees and their constructors. Two very basic and known inductions are
+over natural numbers and lists, we show them the more detailed description.
+
+<h2><a name="nat">Nat</a></h2>
+
+  Pointed Unary System is a category nat with the terminal object
+  and a carrier <span class=sel>nat</span> having morphism <span class=sel>[zero: 1<sub>nat</sub> → nat, succ: nat → nat]</span>.
+  The initial object of nat is called Natural Number Object and models Peano axiom set.
+
+
+<pre style="width:400px;">
+
+    data nat: Type :=
+         (zero: () → nat)
+         (succ: nat → nat)
+
+</pre>
+
+<h2><a name="list"><a href="prelude/List.htm">List</a></a></h2>
+
+  The data type of <span class=sel>list</span> over a given set A can be represented as the initial algebra
+  (&mu;&nbsp;L<sub>A</sub>,&nbsp;in) of the functor L<sub>A</sub>(X) = 1 + (A &times; X).
+  Denote &mu; L<sub>A</sub> = List(A).
+  The constructor functions nil: 1 &rightarrow; List(A) and
+  cons: A &times; List(A) &rightarrow; List(A) are defined by
+  nil = in ◦ inl and cons = in ◦ inr, so in = <span class=sel>[nil,cons]</span>.
+<pre style="width:700px;">
+
+    data list: (A: Type) → Type :=
+         (nil: () → list A)
+         (cons: A → list A → list A)
+
+  record lists (A,B: Type): Type :=
+         (len: list A → integer)
+         ('++': list A → list A → list A)
+         (map: (A → B) → (list A → list B))
+         (filter: (A → bool) → (list A → list A)))
+
+</pre>
+
+<h2><a name="nat">Sum</a></h2>
+
+<span class=sel>sum</span> is a meta-representation form of <span class=sel>data</span> inductive Exe syntax construction.
+For the internal form see <span class=sel>Data</span> AST construction.
+
+<pre style="width:500px;">
+
+    data sum (A,B: Type): Type :=
+         (left: A → sum)
+         (right: B → sum)
+
+</pre>
+
+<h2><a name="empty">Empty</a></h2>
+
+<span class=sel>empty</span> is a bottom type used as zero or terminal for <span class=sel>sum</span> inductive type.
+This type nas no constructors or with empty body.
+
+<pre style="width:500px;">
+
+    data empty: Type := ()
+
+</pre>
+
+<h2><a name="bool">Bool</a></h2>
+
+<span class=sel>bool</span> is run-time version of the boolean logic you may use in your general purpose applications.
+It has only two unit constructors <span class=sel>[true,false]</span> and functions: <span class=sel>[and,or]</span>.
+
+<pre style="width:500px;">
+
+    data bool: Type :=
+         (true: () → bool)
+         (false: () → bool)
+
+</pre>
+
+
+<h2><a name="vector">Vector</a></h2>
+
+<span class=sel>vector</span> is the inductive defintion of limited length list.
+Through it depends on term <span class=sel>nat</span> it can be used on reasoning
+about single discrete dimention of the space, bringing very basic inductive logic.
+It can be used for reasoning about <span class=sel>sqrt</span>, as
+latter for any fractional exponent has correspondent number of roots inscribed in a
+circle on a complex surface. When vector is not dependent on nat its encoding should match
+with regular <span class=sel>list</span>.
+
+<pre style="width:800px;">
+
+    data vector (A: Type) (N: nat): Type :=
+         (nil: vector A nat.zero)
+         (cons: A → vector A n → vector A (nat.succ n))
+
+</pre>
+
+
+<h1>Coinductive</h1>
+
+When you need to inspect the addendums of inductive tree defintions you can name the
+agruments of the constructor, these arguments called elements of the tuple or fields of the record. 
+In this chapter we will use <span class=sel>record</span> Exe syntax, we only show
+how <span class=sel>record</span> and <span class=sel>data</span> are equal in example of
+<span class=sel>unit</span> and <span class=sel>prod</span> which are
+primitive forms of coinductive constructions.
+
+<h2><a name="prod">Product</a></h2>
+
+<pre style="width:700px;">
+
+    data prod (A,B: Type): Type := (cons: A → B → prod)
+  record prod (A,B: Type): := (pr1: A) (pr2: B)
+
+</pre>
+
+<h2><a name="unit">Unit</a></h2>
+
+<pre style="width:500px;">
+
+    data unit: Type := (star: () → unit)
+  record unit: Type := (star: ())
+
+</pre>
+
+
+<h2><a name="stream">Stream</a></h2>
+
+<span class=sel>stream</span> is a record form of the list's <span class=sel>cons</span> constructor.
+It models the infinity list that has no terminal element.
+
+<pre style="width:500px;">
+
+  record stream (A: Type): Type :=
+         (head: A)
+         (tail: stream A)
+
+</pre>
+
+
+<h2><a name="pure">Pure</a></h2>
+
+<pre  style="width:700px;">
+
+  record pure (P: Type → Type) (A: Type): Type :=
+         (return: P A)
+
+</pre>
+
+<h2><a name="functor">Functor</a></h2>
+
+<pre style="width:750px;">
+
+  record functor (F: Type → Type) (A B: Type): Type :=
+         (fmap: (A → B) → F A → F B)
+
+</pre>
+
+Functor carried with theorem fields.
+
+<pre style="width:750px;">
+
+  record Functor (F: Type → Type): Type :=
+         (fmap: ∀ (A,B: Type) → (A → B) → F A → F B)
+         (id: ∀ (A: Type) (x: F A) → Equ (fmap id x) x)
+         (comp: ∀ (A,B,C: Type) (f: B → C) (g: A → B) (x: F A)
+                → Equ (fmap (f ◦ g) x) ((fmap f ◦ fmap g) x))
+
+</pre>
+
+<h2><a name="applicative">Applicative</a></h2>
+
+<pre style="width:700px;">
+
+  record applicative (F: Type → Type) (A,B: Type): Type
+  extend pure F A, functor F A B
+      := (ap: F (A → B) → F A → F B)
+
+</pre>
+
+<h2><a name="monad">Monad</a></h2>
+
+<pre style="width:700px;">
+
+  record monad: (F: Type → Type) → (A B: Type) → Type
+  extend pure F A, functor F A B)
+      := (join: F (F A) → F B)
+
+</pre>
+
+<h2><a name="sigma">Sigma</a></h2>
+
+<pre  style="width:700px;">
+
+  record sigma (A: Type) (B: A → Type): Type :=
+         (pr1: A)
+         (pr2: B pr1)
+
+</pre>
+
+<h1>I/O Monads</h1>
+
+<p>Recursive and Corecursive Monads.</p>
+
+<h2><a name="io">IO</a></h2>
+
+<p>Finite I/O</p>
+
+<pre style="width:800px;">
+
+     data IO (A: Type): Type :=
+          (getLine: (String → IO) → IO)
+          (putLine: String → IO → IO)
+          (pure: A → IO)
+
+</pre>
+
+     Example:
+
+<pre style="width:850px;">
+
+     (main: IO.replicateM 100 (IO.>>= IO.data () IO.getLine IO.putLine))
+
+</pre>
+
+<h2><a name="ioi">IOI</a></h2>
+
+<p>Infinity I/O</p>
+
+<pre style="width:800px;">
+
+     data IOI.F (A,State: Type): Type :=
+          (getLine: (String → State) → IO)
+          (putLine: String → State → IO)
+          (pure: A → IO)
+
+     data IOI (A,State: Type) :=
+          (intro: State -> (State -> IOI.F A State) -> IOI)
+
+</pre>
+
+     Example:
+
+<pre style="width:850px;">
+
+    record Main: Type :=
+    (main: λ (r: Type) ->
+           IOI.MkIO r (Maybe IOI.data) (Maybe.Nothing IOI.data)
+                    ( λ (m: Maybe IOI.data) ->
+                        Maybe.maybe IOI.data m
+                        (IOI.F r (Maybe IOI.data))
+                        ( λ (str: IOI.data) ->
+                            IOI.putLine r (Maybe IOI.data)
+                            str (Maybe.Nothing IOI.data))
+                        (IOI.getLine r (Maybe IOI.data) 
+                                     (Maybe.Just IOI.data))))
+
+</pre>
+
+
+<h1>Effects</h1>
+
+<p>Programming effect system with single Monad and Effect Handlers.</p>
+
+<h2><a name="effect">Effect</a></h2>
+
+<pre style="width:800px;">
+
+  record effect (v:Type) (r:Type): Type :=
+         (values: v)
+         (resource: r)
+         (computation: (v → r))
+         (handler: effect v r → monad effect v r)
+
+    data RA: Type          := (intro: effect nat (random nat))
+    data IO (t:Type): Type := (intro: effect t   (file t))
+    data EX (t:Type): Type := (intro: effect ()  (exception t))
+
+</pre>
+
+<h2><a name="eff.monad">Eff.Monad</a></h2>
+
+<pre style="width:800px;">
+
+     data Eff.Monad (eff: list effect)
+                    (m: Type → Type)
+                    (a: Type): Type :=
+         (intro: eff m a xs (\ (v: Type) → xs)
+                → monad_eff xs m a)
+
+</pre>
+
+<h2><a name="eff.handler">Eff.Handler</a></h2>
+
+<pre style="width:800px;">
+
+  record Eff.Handler (e: effect)
+                     (m: Type → Type): Type :=
+         (action: ∀ (r: res) (eff: e t res resk)
+                  (k: ∀ (x: t) → resk x → m a) → m a)
+
+</pre>
+
+<h1>Logic</h1>
+
+<p>Basic Theories: Equality, Congruence, Categories, Setoid.</p>
+
+<h2><a name="true">True</a></h2>
+
+<pre style="width:500px;">
+
+    data True: Prop :=
+         (intro: () → True)
+
+</pre>
+
+<h2><a name="false">False</a></h2>
+
+<pre style="width:500px;">
+
+    data False: Prop := ()
+
+</pre>
+
+<h2><a name="inhabited">Inhabited</a></h2>
+
+<pre style="width:500px;">
+
+  data Inhabited (A: Type): Prop :=
+       (intro: A -> Inhabited A)
+
+</pre>
+
+<h2><a name="proper">Proper</a></h2>
+
+<pre style="width:750px;">
+
+ record Proper (A: Type) (R: A → A → Prop) (m: A): Prop :=
+        (Proof: R m m)
+
+</pre>
+
+<h2><a name="respect">Respect / Congruence</a></h2>
+
+<pre style="width:650px;">
+
+ define Respect (A,B: Type)
+                (C: A → Type)
+                (D: B → Type)
+                (R: A → B → Prop)
+        (Ro: ∀ (x: A) (y: B) → C x → D y → Prop) :
+               (∀ (x: A) → C x) → (∀ (x: B) → D x)
+             → Prop :=
+             λ (f,g: Type → Type)
+             → (∀ (x,y: Type) → R x y)
+             → Ro x y (f x) (g y)
+
+</pre>
+
+<h2><a name="eq">Eq</a></h2>
+
+<pre style="width:850px;">
+
+  record Id (A: Type): Type :=
+         (Id: A → A → Type)
+         (refl (a: A): Id a a)
+         (Predicate: ∀ (x,y: A) → Id x y → Type)
+         (Forall (C: Predicate): ∀ (x,y: A) → ∀ (p: Id x y) → C x y p)
+         (∆ (C: Predicate): ∀ (x: A) → C x x (refl x))
+         (axiom-J (C: Predicate): ∆ C → Forall C)
+         (computation-rule (C: Predicate) (t: ∆ C):
+                        ∀ (x: A) → (J C t x x (refl x)) '==>' (t x) )
+
+    data Eq (A:Type): A → A → Prop :=
+         (refl: ∀ (x:A) → Eq A x x)
+
+</pre>
+
+<h2><a name="exists">Exists</a></h2>
+
+<pre style="width:700px;">
+
+    data Exists (A:Type) (P: A → Type): Prop :=
+         (intro: ∀ (x:A) → P x → exists P x)
+
+</pre>
+
+<h2><a name="cat">Cat</a></h2>
+
+<pre style="width:950px;">
+
+ record Cat: Type :=
+        (Ob: Type)
+        (Hom:    ∀ (dom,cod: Ob) → Setoid)
+        (Id:     ∀ (x: Ob) → Hom x x)
+        (Comp:   ∀ (x,y,z: Ob) → Hom x y → Hom y z → Hom x z)
+        (Dom₁ₒ:  ∀ (x,y: Ob) (f: Hom x y) → (Hom.Equ x y (Comp x x y id f) f))
+        (Cod₁ₒ:  ∀ (x,y: Ob) (f: Hom x y) → (Hom.Equ x y (Comp x y y f id) f))
+        (Subst₁: ∀ (x,y,z: Ob) →
+                   Proper (Respect Equ (Respect Equ Equ)) (Comp x y z))
+        (Substₒ: ∀ (x,y,z: Ob) (f₁,f₂: Hom x y) (g₁,g₂: Hom y z)
+                 → (Hom.Equ x y f₁ f₂) → (Hom.Equ y z g₁ g₂)
+                 → (Hom.Equ x z (Comp x y z f₁ g₁) (Comp x y z f₂ g₂)))
+        (Assocₒ: ∀ (x,y,z,w: Ob) (f: Hom x y) (g: Hom y z) (h: Hom z w)
+                 → (Hom.Equ x w (Comp x y w f (Comp y z w g h)) 
+                                (Comp x z w (Comp x y z f g) h)))
+
+</pre>
+
+<h2><a name="setoid">Setoid</a></h2>
+
+Setoid in essence is a type with an equality. Type theory has its own equality type,
+which could be treated as the simplest non-trivial dependent type, however the behavior of
+this kind of equality is defined with additional axioms, that may be optional in minimal type theory.
+The neat thing about Setoid is that categorical constructions on setoids give us equality on
+all (Co)inductive types, which is not dependent on properties of underlying type theory.
+
+<pre>
+
+ record Setoid: Type :=
+        (Carrier: Type)
+        (Equ: Carrier → Carrier → Prop)
+        (Refl: ∀ (x: Carrier) → Equ x x)
+        (Trans: ∀ (x₁,x₂,x₃: Carrier) → Equ x₁ x₂ → Equ x₂ x₃ → Equ x₁ x₃)
+        (Sym: ∀ (x₁,x₂: Carrier) → Equ x₁ x₂ → Equ x₂ x₁)
+
+</pre>
+
+<h2><a name="groupoid">Groupoid</a></h2>
+
+<span class=sel>Groupoid</span> is a multidimensional generalization of <span class=sel>Setoid</span> type,
+which has equalities on equalities and operations between them.
+Gropoid was introduced in algebraїс topology for the purposes of homotopy theory and has the potential to replace the notion of
+topological space since groupoid covers all the properties of topological space from the homotopy perspective.
+The ultimate equality on universum of all types was shown in HoTT setting, thus type theory became successful
+for reasoning about homotopies. Iterating a Groupoid record over infinity number of universes that hold
+objects and homomorphisms gives us a concept of &infin;-Groupoid.
+
+<pre>
+
+  record Groupoid: Type :=
+         (ob: Type)
+         (hom: ∀ (a,b: ob) → (Hom a b) → Groupoid)
+
+</pre>
+
+<h1>Resources</h1>
+
+<p>01 &nbsp;<a href="https://gitter.im/groupoid/exe/archives/">EXE ARCHIVES</a></p>
+<p>02 &nbsp;<a href="https://github.com/groupoid/exe">GIT SOURCES</a></p>
+
+<center style="margin-top: 120px;margin-bottom:60px;"><img style="margin-bottom:-20px;" src="Stamp.svg" width=50>2016 &copy; Groupoid Infinity, Inc.</center>
+
+</div>
+
+</div>
+</body>
+</html>

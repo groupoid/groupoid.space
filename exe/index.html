@@ -1,0 +1,95 @@
+<!DOCTYPE html><html><head><meta charset="utf-8"><meta http-equiv="x-ua-compatible" content="ie=edge"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="author" content="Maxim Sokhatsky"><link rel="stylesheet" href="/main.css"><title>EXE</title></head><body class="content"><header class="header"><a href="/"><img class="header__logo" src="/groupoid.svg"/></a><div class="header__titles"><h1 class="header__title">Exe Language</h1><h4 class="header__subtitle">AST Specification as Inductive Constructions</h4></div></header><article class="main"><div class="exe"><section><p>Exe Language is built on top of CoC pure type system, predicative universes
+and inductive constructions you may find in other MLTT provers like Lean, Coq,
+Idris, Agda, and F*. As algebraїс prover, Exe supports <mark>data</mark>
+and <mark>record</mark> polynomial functors as fundamental language
+constructions implemented in a form of hygienic macros over the AST. Everything in Exe
+is encoded as inductive construction: from the equality property up to Erlang VM process,
+everything is a type that could have constructors and/or projections.
+Both Exe language and its macrosystem are built using AST types, described in this document.
+</p></section><section class="langf"><div class="langf__col"><h2 id="syntax">Language Forms</h2><code><> ::= #option
+
+[] ::= #list
+
+I ::= #identifier
+
+U ::= * < #number >
+
+O ::= I | ( O ) |
+    U | O → O | O O
+        | ∀ ( I : O ) → O
+        | λ ( I : O ) → O
+
+L ::= I | L I
+
+A ::= O | A → A | ( L : O )
+
+F ::= ∅ | F ( I : O ) | ()
+
+E ::= O | E data L : A := F
+        | E record L : A < extend F > := F
+        | E let F in E
+        | E case E [ | I O → E ]
+        | E receive E [ | I O → E ]
+        | E spawn E raise L := E
+        | E send E to E</code></div><div class="langf__col"><h2 id="ast">Syntax Tree</h2><code>data Exe: * :=
+    (om: Om → Exe)
+    (core: Macro → Exe)
+    (eff: Effect → Exe)
+</code><h2 id="passes">Compiler Passes</h2><ol><li><a href='#macro'>EXE</a> &mdash; Macro Expansion</li><li><a href='/om#normal'>NORMAL</a> &mdash; Typechecking</li><li><a href='/om#erased'>ERASE</a> &mdash; Type Information Erasure</li><li><a href='/om#extract'>EXTRACT</a> &mdash; Extract VM Lambda</li></ol></div></section><section><h1>Calculus</h1><p>The type system is completely described by the PTS SAR notation, given by Barendregt.
+Find more info in <a href='om#axioms'>Axioms and Inference Rules</a>
+of underlying Om intermediate language.</p><code>record PTS: * :=
+    (S: ∀ (n: nat) → star n)
+    (A: ∀ (i: nat) → type i (succ i))
+    (R: ∀ (i: nat) → ∀ (j: nat) → pitype i j (max i j))
+</code></section><section><h1>Macrosystem</h1><div class="macro"><div class="macro__col"><h3 id="om">Om</h3><ol><li><a href="#function">LAMBDA</a></li><li><a href="#function">PI</a></li><li><a href="#application">APP</a></li><li><a href="#var">VAR</a></li><li><a href="#star">STAR</a></li></ol></div><div class="macro__col"><h3 id="macro">Macro</h3><ol><li><a href="#data">DATA</a></li><li><a href="#record">RECORD</a></li><li><a href="#let">LET</a></li><li><a href="#case">CASE</a></li></ol></div><div class="macro__col"><ol><h3 id="eff">Effects</h3><li><a href="#process">SPAWN</a></li><li><a href="#send">SEND</a></li><li><a href="#receive">RECEIVE</a></li><li><a href="#try">TRY</a></li><li><a href="#raise">RAISE</a></li><li><a href="#raise">DO</a></li></ol></div></div></section><section><h2 id="om">Om</h2><p><mark>Om</mark> language is the macrosystem terminal language.
+Language forms of pure <mark>Macro</mark> or inpure <mark>Effect</mark>
+types are expanded to the terminal language. For the details please refer to the <a href='/om'>Om Assembler</a> description.</p><code>data Om: * :=
+    (star: Star → Om)
+    (var: Var → Om)
+    (app: App → Om)
+    (arrow: Arrow → Om)
+    (pi: Pi → Om)
+</code><h2 id="star">Star</h2><code>record Star: * :=
+    (index: nat)
+</code><h2 id="var">Variable</h2><code>record Var: * :=
+    (name: string)
+</code><h2 id="function">Arrow / Pi</h2><code>record Arrow Pi: * :=
+        (name: string)
+        (arg: Om)
+        (body: Om)
+</code><h2 id="application">Application</h2><code>record App: * :=
+        (fun: Om)
+        (arg: Om)
+</code><h2 id="macro">Macro</h2><p><mark>Macro</mark> language subsystem is the core of Exe language and dedicated to compile the prelude desceibed in the <a href='/types'>Core Types</a> document. Om language is the target language of macroexpansions of <mark>data</mark> and <mark>record</mark> inductive constructions, <mark>let</mark> construction and univariable <mark>case</mark> pattern matching.</p><code>data Macro: * :=
+    (record: Record → Macro)
+    (data: Data → Macro)
+    (let: Let → Macro)
+    (case: Case → Macro)
+</code><h2 id="case">Case / Receive</h2><code>record Case Receive: * :=
+        (of: Exe)
+        (legs: list (prod atom (prod Om Exe)))
+        (default: Exe)
+</code><h2 id="let">Let</h2><code>record Let: * :=
+    (binds: list (prod string Exe))
+    (in: Exe)
+</code><h2><a name="data"><a name="record">Record / Data</a></a></h2><code>record Record Data: * :=
+        (name: string)
+        (base: Om)
+        (body: list (prod string Exe))
+</code><h2 id="eff">Effect</h2><p><mark>Effect</mark> syntax extensions defined basic process calculus axioms, IO and exception handling.</p><code>data Effect: * :=
+    (receive: Receive → Effect)
+    (spawn: Spawn → Effect)
+    (send: Send → Effect)
+    (try: Exception → Effect)
+    (raise: Exception → Effect)
+    (write: File → Effect)
+    (read: File → Effect)
+</code><h2 id="process">Process</h2><code>record Process: (Sigma: *) → (X: *) → * :=
+    (action: Sigma → X → GenServer X)
+</code><h2 id="spawn">Spawn</h2><code>record Spawn:
+    (proc: Process)
+    (raise: list Eff)
+</code><h2 id="send">Send</h2><code>record Send: (Sigma: *) → * :=
+    (message: Sigma)
+    (to: Process Sigma)
+</code></section></div><section class="resources"><h1 class="resources__title">Resources</h1><ol class="resources__list"><li class="resources__item"><a href="https://gitter.im/groupoid/om/archives/">OM archives.</a></li><li class="resources__item"><a href="https://gitter.im/groupoid/exe/archives/">EXE archives.</a></li><li class="resources__item"><a href="https://github.com/groupoid/">GIT sources.</a></li><li class="resources__item"><a href="https://github.com/groupoid/exe">EXE git sources.</a></li></ol></section></article><footer class="footer"><img class="footer__logo" src="/stamp.svg"><span class="footer__copy">2016 &copy; Groupoid Infinity, Inc.</span></footer></body></html>

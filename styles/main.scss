@@ -1,0 +1,164 @@
+@font-face {
+    font-family: 'local';
+    src: url('/Geometria-Light.otf');
+    font-weight: normal;
+    font-style: normal;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+sub,
+sup {
+  font-size: 80%;
+  line-height: 0;
+  position: relative;
+  vertical-align: baseline;
+}
+
+sub {
+  bottom: -0.25em;
+}
+
+sup {
+  top: -0.5em;
+}
+
+html {
+    height: 100%;
+}
+
+body {
+    min-height: 100%;
+}
+
+h1, h2, h3, h4 {
+    font-weight: normal;
+}
+
+ul {
+    list-style-type: none;
+}
+
+ol,
+ul {
+    text-align: left;
+    line-height: 1.5;
+}
+
+img, figure {
+    vertical-align: middle;
+}
+
+.content {
+    min-height: 100%;
+    font-family: local;
+    background: #FBFBFB;
+    display: flex; // sticky footer
+    flex-direction: column;
+    color: #586E75;
+}
+
+.main {
+    padding: 80px 0px;
+    text-align: center;
+}
+
+figure {
+    max-width: 100%;
+    overflow-x: auto;
+    padding: 10px 5px;
+    font-size: 18px;
+    display: block;
+}
+
+h2 {
+    font-size: 24px;
+    color: #268BD2;
+    @media(min-width: 768px) {
+        font-size: 32px;
+    }
+    margin: 34px 0 8px;
+}
+
+h3 {
+    max-width: 100%;
+    margin: 16px auto 0;
+    width: 650px;
+    padding: 0 0 0 8px;
+    text-transform: uppercase;
+    text-align: left;
+    font-size: 22px;
+}
+
+p {
+    max-width: 100%;
+    width: 650px;
+    margin: auto;
+    padding: 8px;
+    text-align: left;
+    font-size: 18px;
+    line-height: 1.4;
+    @media(min-width: 768px) {
+        font-size: 22px;
+    }
+}
+
+code {
+    display: inline-block;
+    overflow-x: auto;
+    max-width: 100%;
+    padding: 12px;
+    margin: 8px 0;
+    white-space: pre;
+    text-align: left;
+    background: #FDF6E3;
+    border-radius: 4px;
+    font-size: 14px;
+    box-shadow: 0 4px 6px rgba(50,50,93,.11),
+                0 1px 3px rgba(0,  0, 0,.08);
+
+    @media (min-width:768px) {
+        font-size: 17px;
+    }
+}
+
+mark {
+    background: #FDF6E3;
+    padding: 0px 2px;
+    border-radius: 2px;
+    color: #586E75;
+}
+
+a {
+    color: #3A98C8;
+    text-decoration: none;
+    &:visited {
+    color: #3A98C8;
+    }
+
+    &:hover {
+        color: #D33682;
+    }
+
+    &:active {
+        color: #D33682;
+    }
+}
+
+
+@import '_aside';
+@import '_header';
+@import '_footer';
+@import '_semantics';
+@import '_intro';
+@import '_status';
+@import '_resources';
+@import '_index';
+@import '_om';
+@import '_exe';
+@import '_types';
+@import '_list';
