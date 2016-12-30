@@ -1,0 +1,159 @@
+extends ../layout.pug
+
+block title
+    title SEMANTICS
+    script(src='http://cdn.mathjax.org/mathjax/2.2-latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML')
+
+block content
+    script.
+         MathJax.Hub.Config({ displayAlign: "left", tex2jax: { inlineMath: [['$','$'], ['\\(','\\)']], processEscapes: true } });
+                                  TeX: { extensions: ["AMSmath.js", "AMSsymbols.js" ] };
+    +header('/groupoid.svg', 'OM/EXE', 'Type judgement inference rules')                
+
+    article.main
+        aside Maxim Sokhatsky
+            time DATE: 4 AUG 2016
+    
+        .semantics
+
+            section
+                h1 OM Core
+                h2 Universes
+                figure.
+                    \begin{equation}
+                    \tag{sorts}
+                    \dfrac
+                    {i : Nat}
+                    {Type_i}
+                    \end{equation}
+                figure.
+                    $$
+                    \begin{equation}
+                    \tag{axioms}
+                    \dfrac
+                    {i: Nat}
+                    {Type_i : Type_{i+1}}
+                    \end{equation}
+                    $$
+                figure.
+                    $$
+                    \begin{equation}
+                    \tag{rules}
+                    \dfrac
+                    {i : Nat,\ \ \ \ j : Nat}
+                    {Type_i \rightarrow Type_{j} : Type_{max(i,j)}}
+                    \end{equation}
+                    $$
+                
+                h2 Substition
+                figure.
+                    \begin{equation}
+                    \tag{subst}
+                    \dfrac
+                    {\pi_1 : A\ \ \ \ u:A ⊢ π_2 : B}
+                    {[π_1/u]\ π_2 : B}
+                    \end{equation}
+
+                h2 Dependent Types
+                figure.
+                    \begin{equation}
+                    \tag{$\Pi$-formation}
+
+                    \dfrac
+                    {x:A \vdash B : Type}
+                    {\Pi\ (x:A) \rightarrow B : Type}
+                    \end{equation}
+                figure.
+                    \begin{equation}
+                    \tag{$\lambda$-intro}
+                    \dfrac
+                    {x:A \vdash b : B}
+                    {\lambda\ (x:A) \rightarrow b : \Pi\ (x: A) \rightarrow B }
+                    \end{equation}
+                br
+                figure.
+                    $$
+                    \begin{equation}
+                    \tag{$App$-elimination}
+                    \dfrac
+                    {f: (\Pi\ (x:A) \rightarrow B)\ \ \ a: A}
+                    {f\ a : B\ [a/x]}
+                    \end{equation}
+                    $$
+                figure.
+                    $$
+                    \begin{equation}
+                    \tag{$\beta$-computation}
+                    \dfrac
+                    {x:A \vdash b: B\ \ \ a:A}
+                    {(\lambda\ (x:A) \rightarrow b)\ a = b\ [a/x] : B\ [a/x]}
+                    \end{equation}
+                    $$
+            section
+                h1 EXE Microcode
+                h2 Identity Types
+                figure.
+                    \begin{equation}
+                    \tag{$Id$-formation}
+
+                    \dfrac
+                    {x:A\ \ \ \ b:A\ \ \ \ A:Type}
+                    {Id(A,a,b) : Type}
+                    \end{equation}
+                figure.
+                    \begin{equation}
+                    \tag{$Id$-intro}
+                    \dfrac
+                    {a:A}
+                    {refl(A,a) : Id(A,a,a) }
+                    \end{equation}
+                br    
+                figure.
+                    \begin{equation}
+                    \tag{$J$-elimination}
+                    \dfrac
+                    {p:Id(a,b)\ \ \ \ x,y:A\ \ \ \ u:Id(x,y) \vdash E:Type\ \ \ \ x:A \vdash d: E\ [x/y,\ refl(x)/u]}
+                    {J(a,b,p,(x,y,u)\ d) : E\ [a/x,\ b/y,\ p/u]}
+                    \end{equation}
+                figure.
+                    \begin{equation}
+                    \tag{$Id$-computation}
+                    \dfrac
+                    {a,x,y:A,\ \ \ \ u:Id(x,y) \vdash E:Type\ \ \ \ x:A \vdash d:E\ [x/y,\ refl(x)/u]}
+                    {J(a,a,refl(a),(x,y,u)\ d) = d\ [a/x] : E\ [a/y,\ refl(a)/u]}
+                    \end{equation}
+
+                h2 Inductive Types
+                figure.
+                    \begin{equation}
+                    \tag{$W$-formation}
+                    \dfrac
+                    {A:Type\ \ \ \ x:A\ \ \ \ B(x):Type}
+                    {W (x:A) \rightarrow B(x) : Type}
+                    \end{equation}
+                figure.
+                    \begin{equation}
+                    \tag{$W$-intro}
+                    \dfrac
+                    {a:A\ \ \ \ t: B(a) \rightarrow W}
+                    {sup(a,t) : W}
+                    \end{equation}
+                br
+                figure.
+                    \begin{equation}
+                    \tag{$W$-elimination}
+                    \dfrac
+                    {w: W \vdash C(w) : Type\ \ \ \ x:A,\ u:B(x) \rightarrow W,\ \ \ \ v:\Pi (y:B(x)) \rightarrow C(u(y)) \vdash c(x,u,v):C(sup(x,u))}
+                    {w:W \vdash wrec(w,c):C(w)}
+                    \end{equation}
+                figure.
+                    \begin{equation}
+                    \tag{$W$-computation}
+                    \dfrac
+                    {w: W \vdash C(w) : Type\ \ \ \ x:A,\ u:B(x) \rightarrow W,\ \ \ \ v:\Pi (y:B(x)) \rightarrow C(u(y)) \vdash c(x,u,v):C(sup(x,u))}
+                    {x:A,\ \ \ \ u:B(x) \rightarrow W \vdash wrec(sup(x,u),c)\ =\ c(x,u,\lambda (y:B(x)) \rightarrow wrec(u(y),c)):C(sup(x,u))}
+                    \end{equation}
+
+        include ../resourses.pug
+
+

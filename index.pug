@@ -1,0 +1,24 @@
+extends layout.pug
+
+block title
+    title EXE
+
+block content
+    +header('/groupoid.svg', 'Groupoid Infinity', '<b>EXE</b> &mdash; Language with Dependent Types on top of Trusted &lambda;&nbsp;Core with Changeable Encodings')
+    article.main               
+        .index
+            .index__col
+                h2 Specification
+                ul
+                    li 01 <a href='/om' class='link'> trusted om core</a>
+                    li 02 <a href='/exe' class='link'> exe language</a>
+                    li 03 <a href='/types' class='link'> base library</a>
+                    li 04 <a href='/extract' class='link'> fpga/erlang</a>
+            .index__col
+                h2 Articles
+                ul
+                    li 4 AUG <a href='/semantics'> type judgment rules</a>
+                    li 1 MAY <a href='/enc'> lambek encoding</a>
+                    li 18 MAR <a href='/status'> project status</a>
+                    li 15 FEB <a href='/intro'> intro</a>
+

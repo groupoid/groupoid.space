@@ -1,0 +1,121 @@
+<!DOCTYPE html><html><head><meta charset="utf-8"><meta http-equiv="x-ua-compatible" content="ie=edge"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="author" content="Maxim Sokhatsky"><link rel="stylesheet" href="/main.css"><title>OM</title></head><body class="content"><header class="header"><a href="/"><img class="header__logo" src="/om.svg"/></a><div class="header__titles"><h1 class="header__title">Trusted &lambda;&nbsp;Assembler</h1><h4 class="header__subtitle">CoC Intermediate Language<br>for typechecking and normalization</h4></div></header><article class="main"><div class="om"><section><h1>Definition</h1><h2 id="nat">Calculus of Constructions</h2><p>The <mark>Om</mark> language is a dependently typed lambda calculus, an extension of Barendregt' and Coquand Calculus of Constructions with the predicative hierarchy of indexed universes. There is no fixpoint axiom needed for the definition of infinity term dependance.
+</p><h2 id="axioms">Axioms and Inference Rules</h2><p>All terms respect ranking <mark>A</mark> inside sequence of universes <mark>S</mark> and complexity of the dependent term is equal maximum complexity of term and its dependency <mark>R</mark>. The type system is completely described by  the following PTS notation (due to Barendregt):</p><code>S = *{n}, n : nat
+A = *{i} : *{i+1}
+R = *{i} -> *{j} : *{max i j}
+</code><h2 id="syntax">Syntax</h2><p>The untyped lambda language is the simplest language used in Om to generate backend programs. This subset of Om is used as the output of type erasure.</p><code>I ::= #identifier
+T ::= I | ( T ) | T T | λ I → T</code><p>The terms of Om consist of NN-indexed stars, variables, applications, lambda-abstractions and universal quantifications (Pi-types). This language is called Calculus of Construction and exists in various syntaxes. Om supports Morte's CoC syntax.</p><code><> ::= #option
+I  ::= #identifier
+U  ::= * < #number >
+O  ::= U | I | ( O ) | O O | λ ( I : O ) → O
+                | O → O | ∀ ( I : O ) → O
+</code><h2 id="ast">AST</h2><code>data om: * :=
+    (star: nat → om)
+    (var: name → om)
+    (app: om → om → om)
+    (lambda: name → om → om → om)
+    (arrow: om → om → om)
+    (pi: name → om → om → om)
+</code><h2 id="parser">Parser</h2><p>Om implements custom 2N linear bi-directional parser using
+pattern-matching for rules definition.</p><p>In a given grammar applications <mark>O O</mark> associate to the left and function arrows like <mark>O → O</mark>, <mark>∀ ( N :</mark> and <mark>λ ( N :</mark> associate to the right. They are being collapsed during forward and backward pass respectively. Expressions <mark>∀ ( N :</mark> и <mark>λ ( N :</mark> are being replaced during forward pass to <mark>$ N</mark>, partial function constructor defined only with name. When forward pass meets closing paren <mark>)</mark> it turns to backward pass until reach <mark>$ N</mark>, then collapse to <mark>: N I</mark> &mdash; partial defined function constructor with name and type of argument, but not with type of result. During backward pass all arrows are being collapsed with <mark>: N I</mark> into <mark>∀ (N: I) → O</mark> or <mark>λ (N: I) → O</mark> &mdash; fully defined named function contructor. To determine when to collapse <mark>: N I</mark> when nested parens are given using <mark>( O )</mark> construction in the type of function argument, like in <mark>λ (N: ((a) b) l → o) → o</mark> parser should count parens starting from nearest left function definition.
+</p><h3>Forward</h3><p>LL(1-4)</p><code>[]                        : rewind
+[close]                   : rewind, continue
+[f open (var l) colon]    : [($ (f l))]
+[remote x l]      [(c y)] : [App (c y) (parse l)]
+[remove x l]              : [parse l]
+[($ x)]                   : [(n x)]
+[(n x)]           [(c y)] : [App (c y) (n x)]
+[x]                       : [x]
+</code><h3>Rewind</h3><p>LL(2-3)</p><code>[((: _) _)]                    : return
+[($ n)] [(b y)]                : rewind [((: n) (b y))]
+[(b y) ($ n)]     < Balanced > : rewind [((: n) (b y))]
+[(b y) ($ n)]                  : return [((: n) (b y))]
+[(c x) open ((: n) i)]         : return [(c x) ((: n) i)]
+[(c x) open ($ n)]             : return [(c x) ($ n)]
+[(c x) open open]              : return [(c x) open]
+[(c x) open (b y)]             : return [App (b y) (c x)]
+[(c x) open]                   : return [(c x)]
+[arrow ((: (n v)) i)] [(c x)]  : rewind [n v i (c x)], n = {Lambda,Pi}
+[(c x) arrow ((: (n v)) i]     : rewind [n v i (c x)], n = {Lambda,Pi}
+[arrow (b y)]     [(c x)]      : rewind [Arrow (b y) (c x)]
+[(c x) arrow (b y)]            : rewind [Arrow (b y) (c x)]
+[]                             : return
+</code><h2 id="typechecker">Typechecker</h2><h3>Type</h3><code>(Star n)         D : Star n + 1
+
+(Var n)          D : isVar n D,
+                    nth (i + 1) (all n D)
+
+(Arrow i o)      D : Star max (star (type i D))
+                            (star (type o D))
+
+(Pi n 0 i o)     D : Star max (star (type i D))
+                            (star (type o [(n norm i)|D]))
+
+(Lambda n 0 i o) D : star (type i D),
+                    ni = norm i,
+                    Pi n 0 ni (type O [(n ni)|D])
+
+(App f a)        D : t = type f D,
+                    isFun t,
+                    Pi n 0 i o = t,
+                    eq i (type a D),
+                    norm (subst o n a)</code></section><section><h1>Passes</h1><h2 id="normal">Normalized</h2><p>Terms in CoC language.</p><code>$ om show List/Cons
+
+λ (A: *)
+→ λ (Head: A)
+→ λ (Tail:
+    ∀ (List: *)
+→ ∀ (Cons:
+    ∀ (Head: A)
+    → ∀ (Tail: List)
+    → List)
+→ ∀ (Nil: List)
+→ List)
+→ λ (List: *)
+→ λ (Cons:
+    ∀ (Head: A)
+→ ∀ (Tail: List)
+→ List)
+→ λ (Nil: List)
+→ Cons Head (Tail List Cons Nil)
+
+{{"λ",{'A',0}},
+{{star,1},
+{{"λ",{'Head',0}},
+{{var,{'A',0}},
+    {{"λ",{'Tail',0}},
+    {{{"∀",{'List',0}},
+    {{star,1},
+        {{"∀",{'Cons',0}},
+        {{{"∀",{'Head',0}},
+        {{var,{'A',0}},
+            {{"∀",{'Tail',0}},
+            {{var,{'List',0}},{var,{'List',0}}}}}},
+        {{"∀",{'Nil',0}},
+        {{var,{'List',0}},{var,{'List',0}}}}}}}},
+    {{"λ",{'List',0}},
+    {{star,1},
+        {{"λ",{'Cons',0}},
+        {{{"∀",{'Head',0}},
+        {{var,{'A',0}},
+            {{"∀",{'Tail',0}},
+            {{var,{'List',0}},{var,{'List',0}}}}}},
+        {{"λ",{'Nil',0}},
+        {{var,{'List',0}},
+            {app,{{app,{{var,{'Cons',0}},
+                        {var,{'Head',0}}}},
+                {app,{{app,{{app,{{var,{'Tail',0}},
+                                    {var,{'List',0}}}},
+                            {var,{'Cons',0}}}},
+                        {var,{'Nil',0}}}}}}}}}}}}}}}}}}
+
+</code><h2 id="erased">Erased</h2><p>Terms in untyped lambda pure language.</p><code>$ om print fst erase a "#List/Cons"
+( λ Head
+→ ( λ Tail
+→ ( λ Cons
+→ ( λ Nil
+→ ((Cons Head) ((Tail Cons) Nil))))))
+ok
+</code><h2 id="extract">Extract</h2><p>Erlang extracted code. For other targets you may want to read
+<a href='/extract'> Code Extract</a> notes.</p><code>'Cons'() -> fun (Head) -> fun (Tail) -> fun (Cons) -> fun (Nil) ->
+    ((Cons(Head))((Tail(Cons))(Nil))) end end end end.
+</code></section></div><section class="resources"><h1 class="resources__title">Resources</h1><ol class="resources__list"><li class="resources__item"><a href="https://gitter.im/groupoid/om/archives/">OM archives.</a></li><li class="resources__item"><a href="https://gitter.im/groupoid/exe/archives/">EXE archives.</a></li><li class="resources__item"><a href="https://github.com/groupoid/">GIT sources.</a></li><li class="resources__item"><a href="https://github.com/groupoid/exe">EXE git sources.</a></li></ol></section></article><footer class="footer"><img class="footer__logo" src="/stamp.svg"><span class="footer__copy">2016 &copy; Groupoid Infinity, Inc.</span></footer></body></html>

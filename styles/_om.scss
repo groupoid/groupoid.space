@@ -1,0 +1,29 @@
+.om {
+
+    section + section {
+        margin-top: 50px;
+    }
+
+    h1 {
+        color: #7D8A96;
+        font-size: 32px;
+        text-transform: uppercase;
+        border-bottom: 1px solid rgba(0, 0 , 0,0.3);
+        display: inline-block;
+        margin-bottom: 32px;
+        @media(min-width: 768px) {
+            font-size: 40px;
+        }
+    }
+
+    h1 + h2 {
+        margin-top: 0px; 
+    }
+
+    h3 {
+        max-width: 100%;
+        margin: auto;
+        width: 650px;
+        padding: 16px 8px 0;
+    }
+}
