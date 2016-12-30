@@ -1,0 +1,204 @@
+extends ../layout.pug
+
+block title
+    title EXE
+
+block content
+    +header('/groupoid.svg', 'Exe Language', 'AST Specification as Inductive Constructions')
+    article.main
+        .exe
+            section
+                p.
+                    Exe Language is built on top of CoC pure type system, predicative universes
+                    and inductive constructions you may find in other MLTT provers like Lean, Coq,
+                    Idris, Agda, and F*. As algebraїс prover, Exe supports <mark>data</mark>
+                    and <mark>record</mark> polynomial functors as fundamental language
+                    constructions implemented in a form of hygienic macros over the AST. Everything in Exe
+                    is encoded as inductive construction: from the equality property up to Erlang VM process,
+                    everything is a type that could have constructors and/or projections.
+                    Both Exe language and its macrosystem are built using AST types, described in this document.
+
+            section.langf
+                .langf__col
+                    h2#syntax Language Forms
+                    code.
+                        <> ::= #option
+
+                        [] ::= #list
+
+                        I ::= #identifier
+
+                        U ::= * < #number >
+
+                        O ::= I | ( O ) |
+                            U | O → O | O O
+                                | ∀ ( I : O ) → O
+                                | λ ( I : O ) → O
+
+                        L ::= I | L I
+
+                        A ::= O | A → A | ( L : O )
+
+                        F ::= ∅ | F ( I : O ) | ()
+
+                        E ::= O | E data L : A := F
+                                | E record L : A < extend F > := F
+                                | E let F in E
+                                | E case E [ | I O → E ]
+                                | E receive E [ | I O → E ]
+                                | E spawn E raise L := E
+                                | E send E to E
+                .langf__col
+                    h2#ast Syntax Tree
+                    code.
+                        data Exe: * :=
+                            (om: Om → Exe)
+                            (core: Macro → Exe)
+                            (eff: Effect → Exe)
+
+                    h2#passes Compiler Passes
+                    ol
+                        li <a href='#macro'>EXE</a> &mdash; Macro Expansion
+                        li <a href='/om#normal'>NORMAL</a> &mdash; Typechecking
+                        li <a href='/om#erased'>ERASE</a> &mdash; Type Information Erasure
+                        li <a href='/om#extract'>EXTRACT</a> &mdash; Extract VM Lambda
+
+            section
+                h1 Calculus
+                p.
+                    The type system is completely described by the PTS SAR notation, given by Barendregt.
+                    Find more info in <a href='om#axioms'>Axioms and Inference Rules</a>
+                    of underlying Om intermediate language.
+                code.
+                    record PTS: * :=
+                        (S: ∀ (n: nat) → star n)
+                        (A: ∀ (i: nat) → type i (succ i))
+                        (R: ∀ (i: nat) → ∀ (j: nat) → pitype i j (max i j))
+
+            section
+                h1 Macrosystem
+                .macro
+                    .macro__col
+                        h3#om Om
+                        ol
+                            li: a(href='#function') LAMBDA
+                            li: a(href='#function') PI
+                            li: a(href='#application') APP
+                            li: a(href='#var') VAR
+                            li: a(href='#star') STAR
+                    .macro__col
+                        h3#macro Macro
+                        ol
+                            li: a(href='#data') DATA
+                            li: a(href='#record') RECORD
+                            li: a(href='#let') LET
+                            li: a(href='#case') CASE
+                    .macro__col
+                        ol
+                            h3#eff Effects
+                            li: a(href='#process') SPAWN
+                            li: a(href='#send') SEND
+                            li: a(href='#receive') RECEIVE
+                            li: a(href='#try') TRY
+                            li: a(href='#raise') RAISE
+                            li: a(href='#raise') DO
+
+            section
+                h2#om Om
+                p.
+                    <mark>Om</mark> language is the macrosystem terminal language.
+                    Language forms of pure <mark>Macro</mark> or inpure <mark>Effect</mark>
+                    types are expanded to the terminal language. For the details please refer to the <a href='/om'>Om Assembler</a> description.
+                code.
+                    data Om: * :=
+                        (star: Star → Om)
+                        (var: Var → Om)
+                        (app: App → Om)
+                        (arrow: Arrow → Om)
+                        (pi: Pi → Om)
+
+                h2#star Star
+                code.
+                    record Star: * :=
+                        (index: nat)
+
+                h2#var Variable
+                code.
+                    record Var: * :=
+                        (name: string)
+
+                h2#function Arrow / Pi
+                code.
+                    record Arrow Pi: * :=
+                            (name: string)
+                            (arg: Om)
+                            (body: Om)
+
+                h2#application Application
+                code.
+                    record App: * :=
+                            (fun: Om)
+                            (arg: Om)
+
+                h2#macro Macro
+                p.
+                    <mark>Macro</mark> language subsystem is the core of Exe language and dedicated to compile the prelude desceibed in the <a href='/types'>Core Types</a> document. Om language is the target language of macroexpansions of <mark>data</mark> and <mark>record</mark> inductive constructions, <mark>let</mark> construction and univariable <mark>case</mark> pattern matching.
+                code.
+                    data Macro: * :=
+                        (record: Record → Macro)
+                        (data: Data → Macro)
+                        (let: Let → Macro)
+                        (case: Case → Macro)
+
+                h2#case Case / Receive
+                code.
+                    record Case Receive: * :=
+                            (of: Exe)
+                            (legs: list (prod atom (prod Om Exe)))
+                            (default: Exe)
+
+                h2#let Let
+                code.
+                    record Let: * :=
+                        (binds: list (prod string Exe))
+                        (in: Exe)
+
+                h2 <a name="data"><a name="record">Record / Data</a></a>
+                code.
+                    record Record Data: * :=
+                            (name: string)
+                            (base: Om)
+                            (body: list (prod string Exe))
+
+                h2#eff Effect
+                p.
+                    <mark>Effect</mark> syntax extensions defined basic process calculus axioms, IO and exception handling.
+                code.
+                    data Effect: * :=
+                        (receive: Receive → Effect)
+                        (spawn: Spawn → Effect)
+                        (send: Send → Effect)
+                        (try: Exception → Effect)
+                        (raise: Exception → Effect)
+                        (write: File → Effect)
+                        (read: File → Effect)
+
+                h2#process Process
+                code.
+                    record Process: (Sigma: *) → (X: *) → * :=
+                        (action: Sigma → X → GenServer X)
+
+                h2#spawn Spawn
+                code.
+                    record Spawn:
+                        (proc: Process)
+                        (raise: list Eff)
+
+                h2#send Send
+                code.
+                    record Send: (Sigma: *) → * :=
+                        (message: Sigma)
+                        (to: Process Sigma)
+
+        include ../resourses.pug
+

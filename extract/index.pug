@@ -1,0 +1,24 @@
+extends ../layout.pug
+
+block title
+    title EXTRACT
+
+block content
+    +header('/synrc_neo.svg', 'Code Extract', 'Type erasure for performance on FPGA/Erlang targets')
+    article.main
+        h2#fpga FPGA
+        p.
+            We are highly interesting in compilation with FPGA target.
+            As was shown with interactions nets it is possible to compact
+            packaging of inductive construction in silicon, giving back
+            the inner language of space to the natural encoding.
+            If you are interesting in boosting this project forward and
+            have vision how to do it please drop us a line at <a href="http://gitter.im/groupoid/exe">gitter.im/groupoid/exe</a> public.
+
+        h2#erlang Erlang
+        p.
+            From the practical point of view, we are developing Erlang with Dependent Types.
+            Thus we carefully integrate into Erlang platform by the generation of Erlang AST
+            and trying to be compatible with Erlang kernel through mapping of inductive types
+            to underlying erlang primitives such as process, receive and spawn.
+            Erlang extraction is sponsored and supported by Synrc Research Center.

@@ -1,0 +1,31 @@
+.index {
+    display: inline-block;
+    margin: auto;
+    padding: 20px 0;
+    font-size: 20px;
+
+    &__col {
+        padding: 20px 10px;
+    }
+
+    a {
+        text-transform: uppercase;
+        line-height: 1.8;
+    }
+
+    h2 {
+        font-size: 28px;
+        text-align: left;
+    }
+
+    @media(min-width: 768px) {
+        flex-direction: row;
+        font-size: 24px;
+        &__col {
+            display: inline-block;
+        }
+        &__col:first-child {
+            margin-right: 80px;
+        }
+    }
+}

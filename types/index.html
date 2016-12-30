@@ -1,0 +1,147 @@
+<!DOCTYPE html><html><head><meta charset="utf-8"><meta http-equiv="x-ua-compatible" content="ie=edge"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="author" content="Maxim Sokhatsky"><link rel="stylesheet" href="/main.css"><title>TYPES</title></head><body class="content"><header class="header"><a href="/"><img class="header__logo" src="/groupoid.svg"/></a><div class="header__titles"><h1 class="header__title">EXE Types</h1><h4 class="header__subtitle">Inductive Dependent Base Library</h4></div></header><article class="main"><div class="types"><h1 id="taxonomy">Recursion and Dependence</h1><div class="type"><ol class="type__col"><h3>NR ND +</h3><li><a href="#bool">BOOL</a></li><li><a href="#true">TRUE</a></li><li><a href="#false">FALSE</a></li><li><a href="#option">OPTION</a></li><li><a href="#unit">UNIT</a></li></ol><ol class="type__col"><h3>R ND +</h3><li><a href="#nat">NAT</a></li><li><a href="#list">LIST</a></li><li><a href="#io">IO</a></li><li><a href="#ioi">IOI</a></li></ol><ol class="type__col"><h3>NR D +</h3><li><a href="#eq">EQ</a></li><li><a href="#exists">EXISTS</a></li></ol><ol class="type__col"><h3>RD +</h3><li><a href="#vector">VECTOR</a></li></ol><ol class="type__col"><h3>NR ND *</h3><li><a href="#prod">PROD</a></li><li><a href="#pure">PURE</a></li><li><a href="#functor">FUNCTOR</a></li><li><a href="#applicative">APPLICATIVE</a></li><li><a href="#monad">MONAD</a></li></ol><ol class="type__col"><h3>R ND *</h3><li><a href="#stream">STREAM</a></li><li><a href="#process">PROCESS</a></li><li><a href="#effect">EFFECT</a></li><li><a href="#eff.monad">EFF.MONAD</a></li><li><a href="#eff.handler">EFF.HANDLER</a></li></ol><ol class="type__col"><h3>NR D *</h3><li><a href="#sigma">SIGMA</a></li><li><a href="#setoid">SETOID</a></li><li><a href="#proper">PROPER</a></li><li><a href="#respect">RESPECT</a></li></ol><ol class="type__col"><h3>RD *</h3><li><a href="#cat">CAT</a></li><li><a href="#groupoid">GROUPOID</a></li></ol></div><div class="legend"><ul class="legend__col">                       <li>N: Not a</li></ul><ul class="legend__col">                       <li>R: Recursive</li></ul><ul class="legend__col">                       <li>D: Dependent</li></ul><ul class="legend__col">                       <li>+: Inductive</li></ul><ul class="legend__col">                       <li>*: Coinductive</li></ul></div><section><h1>Inductive</h1><p>Inductive types are the dependent version of generalized algebraic data types used in ML. With inductive and coinductive types you can model polynomial higher order functors that define generic trees and their constructors. Two very basic and known inductions are over natural numbers and lists, we show them the more detailed description.
+</p><h2 id="nat">Nat</h2><p>Pointed Unary System is a category nat with the terminal object
+and a carrier <mark>nat</mark> having morphism <mark>[zero: 1<sub>nat</sub> → nat, succ: nat → nat]</mark>. The initial object of nat is called Natural Number Object and models Peano axiom set.</p><code>data nat: Type :=
+    (zero: () → nat)
+    (succ: nat → nat)
+</code><h2><a name='list'><a href='/prelude/list'>List</a></a></h2><p>The data type of <mark>list</mark> over a given set A can be represented as the initial algebra (&mu;&nbsp;L<sub>A</sub>,&nbsp;in) of the functor L<sub>A</sub>(X) = 1 + (A &times; X). Denote &mu; L<sub>A</sub> = List(A). The constructor functions nil: 1 &rightarrow; List(A) and cons: A &times; List(A) &rightarrow; List(A) are defined by nil = in ◦ inl and cons = in ◦ inr, so in = <mark>[nil,cons]</mark>.
+</p><code>data list: (A: Type) → Type :=
+    (nil: () → list A)
+    (cons: A → list A → list A)
+
+record lists (A,B: Type): Type :=
+        (len: list A → integer)
+        ('++': list A → list A → list A)
+        (map: (A → B) → (list A → list B))
+        (filter: (A → bool) → (list A → list A)))
+</code><h2 id="sum">Sum</h2><p><mark>sum</mark> is a meta-representation form of <mark>data</mark> inductive Exe syntax construction. For the internal form see <mark>Data</mark> AST construction.</p><code>data sum (A,B: Type): Type :=
+    (left: A → sum)
+    (right: B → sum)
+</code><h2 id="empty">Empty</h2><p><mark>empty</mark> is a bottom type used as zero or terminal for <mark>sum</mark> inductive type. This type nas no constructors or with empty body.</p><code>data empty: Type := ()
+</code><h2 id="bool">Bool</h2><p><mark>bool</mark> is run-time version of the boolean logic you may use in your general purpose applications. It has only two unit constructors <mark>[true,false]</mark> and functions: <mark>[and,or]</mark>.</p><code>data bool: Type :=
+    (true: () → bool)
+    (false: () → bool)
+</code><h2 id="vector">Vector</h2><p><mark>vector</mark> is the inductive defintion of limited length list.
+Through it depends on term <mark>nat</mark> it can be used on reasoning
+about single discrete dimention of the space, bringing very basic inductive logic. It can be used for reasoning about <mark>sqrt</mark>, as latter for any fractional exponent has correspondent number of roots inscribed in a circle on a complex surface. When vector is not dependent on nat its encoding should match with regular <mark>list</mark>.</p><code>data vector (A: Type) (N: nat): Type :=
+    (nil: vector A nat.zero)
+    (cons: A → vector A n → vector A (nat.succ n))</code></section><section><h1>Coinductive</h1><p>When you need to inspect the addendums of inductive tree defintions you can name the agruments of the constructor, these arguments called elements of the tuple or fields of the record. In this chapter we will use <mark>record</mark> Exe syntax, we only show how <mark>record</mark> and <mark>data</mark> are equal in example of <mark>unit</mark> and <mark>prod</mark> which are primitive forms of coinductive constructions.
+</p><h2 id="prod">Product</h2><code>data prod (A,B: Type): Type := (cons: A → B → prod)
+record prod (A,B: Type): := (pr1: A) (pr2: B)
+</code><h2 id="unit">Unit</h2><code>data unit: Type := (star: () → unit)
+record unit: Type := (star: ())
+</code><h2 id="stream">Stream</h2><p><mark>stream</mark> is a record form of the list's <mark>cons</mark> constructor. It models the infinity list that has no terminal element.</p><code>record stream (A: Type): Type :=
+        (head: A)
+        (tail: stream A)
+</code><h2 id="pure">Pure</h2><code>record pure (P: Type → Type) (A: Type): Type :=
+    (return: P A)
+</code><h2 id="functor">Functor</h2><code>record functor (F: Type → Type) (A B: Type): Type :=
+    (fmap: (A → B) → F A → F B)</code><p>Functor carried with theorem fields.</p><code>record Functor (F: Type → Type): Type :=
+    (fmap: ∀ (A,B: Type) → (A → B) → F A → F B)
+    (id: ∀ (A: Type) (x: F A) → Equ (fmap id x) x)
+    (comp: ∀ (A,B,C: Type) (f: B → C) (g: A → B) (x: F A)
+            → Equ (fmap (f ◦ g) x) ((fmap f ◦ fmap g) x))
+</code><h2 id="applicative">Applicative</h2><code>record applicative (F: Type → Type) (A,B: Type): Type
+extend pure F A, functor F A B
+    := (ap: F (A → B) → F A → F B)
+</code><h2 id="monad">Monad</h2><code>record monad: (F: Type → Type) → (A B: Type) → Type
+extend pure F A, functor F A B)
+    := (join: F (F A) → F B)
+</code><h2 id="sigma">Sigma</h2><code>record sigma (A: Type) (B: A → Type): Type :=
+        (pr1: A)
+        (pr2: B pr1)
+</code></section><section><h1>I/O Monads</h1><p>Recursive and Corecursive Monads.</p><h2 id="io">IO</h2><p>Finite I/O</p><code>data IO (A: Type): Type :=
+    (getLine: (String → IO) → IO)
+    (putLine: String → IO → IO)
+    (pure: A → IO)</code><p>Example:</p><code>(main: IO.replicateM 100 (IO.>>= IO.data () IO.getLine IO.putLine))
+</code><h2 id="ioi">IOI</h2><p>Infinity I/O</p><code>data IOI.F (A,State: Type): Type :=
+    (getLine: (String → State) → IO)
+    (putLine: String → State → IO)
+    (pure: A → IO)
+
+data IOI (A,State: Type) :=
+    (intro: State -> (State -> IOI.F A State) -> IOI)
+</code><p>Example:</p><code>record Main: Type :=
+(main: λ (r: Type) ->
+    IOI.MkIO r (Maybe IOI.data) (Maybe.Nothing IOI.data)
+                ( λ (m: Maybe IOI.data) ->
+                    Maybe.maybe IOI.data m
+                    (IOI.F r (Maybe IOI.data))
+                    ( λ (str: IOI.data) ->
+                        IOI.putLine r (Maybe IOI.data)
+                        str (Maybe.Nothing IOI.data))
+                    (IOI.getLine r (Maybe IOI.data)
+                                (Maybe.Just IOI.data))))</code></section><section><h1>Effects</h1><p>Programming effect system with single Monad and Effect Handlers.</p><h2 id="effect">Effect</h2><code>record effect (v:Type) (r:Type): Type :=
+    (values: v)
+    (resource: r)
+    (computation: (v → r))
+    (handler: effect v r → monad effect v r)
+
+data RA: Type          := (intro: effect nat (random nat))
+data IO (t:Type): Type := (intro: effect t   (file t))
+data EX (t:Type): Type := (intro: effect ()  (exception t))
+</code><h2><a name="eff.monad">Eff.Monad</a></h2><code>data Eff.Monad (eff: list effect)
+            (m: Type → Type)
+            (a: Type): Type :=
+    (intro: eff m a xs (\ (v: Type) → xs)
+            → monad_eff xs m a)
+</code><h2><a name="eff.handler">Eff.Handler</a></h2><code>record Eff.Handler (e: effect)
+                (m: Type → Type): Type :=
+    (action: ∀ (r: res) (eff: e t res resk)
+                (k: ∀ (x: t) → resk x → m a) → m a)
+</code></section><section><h1>Logic</h1><p>Basic Theories: Equality, Congruence, Categories, Setoid.</p><h2 id="true">True</h2><code>data True: Prop :=
+    (intro: () → True)
+</code><h2 id="false">False</h2><code>data False: Prop := ()
+</code><h2 id="inhabited">Inhabited</h2><code>data Inhabited (A: Type): Prop :=
+    (intro: A -> Inhabited A)
+</code><h2 id="proper">Proper</h2><code>record Proper (A: Type) (R: A → A → Prop) (m: A): Prop :=
+    (Proof: R m m)
+</code><h2 id="respect">Respect / Congruence</h2><code>define Respect (A,B: Type)
+            (C: A → Type)
+            (D: B → Type)
+            (R: A → B → Prop)
+    (Ro: ∀ (x: A) (y: B) → C x → D y → Prop) :
+            (∀ (x: A) → C x) → (∀ (x: B) → D x)
+            → Prop :=
+            λ (f,g: Type → Type)
+            → (∀ (x,y: Type) → R x y)
+            → Ro x y (f x) (g y)
+</code><h2 id="eq">Eq</h2><code>record Id (A: Type): Type :=
+        (Id: A → A → Type)
+        (refl (a: A): Id a a)
+        (Predicate: ∀ (x,y: A) → Id x y → Type)
+        (Forall (C: Predicate): ∀ (x,y: A) → ∀ (p: Id x y) → C x y p)
+        (∆ (C: Predicate): ∀ (x: A) → C x x (refl x))
+        (axiom-J (C: Predicate): ∆ C → Forall C)
+        (computation-rule (C: Predicate) (t: ∆ C):
+                        ∀ (x: A) → (J C t x x (refl x)) '==>' (t x) )
+
+data Eq (A:Type): A → A → Prop :=
+        (refl: ∀ (x:A) → Eq A x x)
+</code><h2 id="exists">Exists</h2><code>data Exists (A:Type) (P: A → Type): Prop :=
+    (intro: ∀ (x:A) → P x → exists P x)
+</code><h2 id="cat">Cat</h2><code>record Cat: Type :=
+    (Ob: Type)
+    (Hom:   ∀ (dom,cod: Ob) → Setoid)
+    (Id:    ∀ (x: Ob) → Hom x x)
+    (Comp:  ∀ (x,y,z: Ob) → Hom x y → Hom y z → Hom x z)
+    (Dom₁ₒ:  ∀ (x,y: Ob) (f: Hom x y) → (Hom.Equ x y (Comp x x y id f) f))
+    (Cod₁ₒ:  ∀ (x,y: Ob) (f: Hom x y) → (Hom.Equ x y (Comp x y y f id) f))
+    (Subst₁: ∀ (x,y,z: Ob) →
+                Proper (Respect Equ (Respect Equ Equ)) (Comp x y z))
+    (Substₒ: ∀ (x,y,z: Ob) (f₁,f₂: Hom x y) (g₁,g₂: Hom y z)
+                → (Hom.Equ x y f₁ f₂) → (Hom.Equ y z g₁ g₂)
+                → (Hom.Equ x z (Comp x y z f₁ g₁) (Comp x y z f₂ g₂)))
+    (Assocₒ: ∀ (x,y,z,w: Ob) (f: Hom x y) (g: Hom y z) (h: Hom z w)
+                → (Hom.Equ x w (Comp x y w f (Comp y z w g h))
+                            (Comp x z w (Comp x y z f g) h)))
+</code><h2 id="setoid">Setoid</h2><p>Setoid in essence is a type with an equality. Type theory has its own equality type, which could be treated as the simplest non-trivial dependent type, however the behavior of this kind of equality is defined with additional axioms, that may be optional in minimal type theory. The neat thing about Setoid is that categorical constructions on setoids give us equality on all (Co)inductive types, which is not dependent on properties of underlying type theory.</p><code>record Setoid: Type :=
+    (Carrier: Type)
+    (Equ: Carrier → Carrier → Prop)
+    (Refl: ∀ (x: Carrier) → Equ x x)
+    (Trans: ∀ (x₁,x₂,x₃: Carrier) → Equ x₁ x₂ → Equ x₂ x₃ → Equ x₁ x₃)
+    (Sym: ∀ (x₁,x₂: Carrier) → Equ x₁ x₂ → Equ x₂ x₁)
+</code><h2 id="groupoid">Groupoid</h2><p><mark>Groupoid</mark> is a multidimensional generalization of <mark>Setoid</mark> type, which has equalities on equalities and operations between them. Gropoid was introduced in algebraїс topology for the purposes of homotopy theory and has the potential to replace the notion of topological space since groupoid covers all the properties of topological space from the homotopy perspective. The ultimate equality on universum of all types was shown in HoTT setting, thus type theory became successful for reasoning about homotopies. Iterating a Groupoid record over infinity number of universes that hold objects and homomorphisms gives us a concept of &infin;-Groupoid.
+</p><code>record Groupoid: Type :=
+    (ob: Type)
+    (hom: ∀ (a,b: ob) → (Hom a b) → Groupoid)
+</code></section></div><section class="resources"><h1 class="resources__title">Resources</h1><ol class="resources__list"><li class="resources__item"><a href="https://gitter.im/groupoid/om/archives/">OM archives.</a></li><li class="resources__item"><a href="https://gitter.im/groupoid/exe/archives/">EXE archives.</a></li><li class="resources__item"><a href="https://github.com/groupoid/">GIT sources.</a></li><li class="resources__item"><a href="https://github.com/groupoid/exe">EXE git sources.</a></li></ol></section></article><footer class="footer"><img class="footer__logo" src="/stamp.svg"><span class="footer__copy">2016 &copy; Groupoid Infinity, Inc.</span></footer></body></html>
