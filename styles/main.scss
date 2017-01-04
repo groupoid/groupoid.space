@@ -56,15 +56,20 @@ img, figure {
 .content {
     min-height: 100%;
     font-family: local;
-    background: #FBFBFB;
     display: flex; // sticky footer
     flex-direction: column;
-    color: #586E75;
+    position: relative;   
 }
 
 .main {
-    padding: 80px 0px;
+    color: #586E75;
+    background: #FBFBFB;
+    padding: 50px 0px;
     text-align: center;
+    box-shadow: 0 3px 10px rgba(0,0,0,0.3), 0 -3px 10px rgba(0,0,0,0.3);
+    z-index: 10;
+    flex: 1 1 auto;
+
 }
 
 figure {
@@ -107,24 +112,10 @@ p {
     }
 }
 
-code {
-    display: inline-block;
-    overflow-x: auto;
-    max-width: 100%;
-    padding: 12px;
-    margin: 8px 0;
-    white-space: pre;
-    text-align: left;
-    background: #FDF6E3;
-    border-radius: 4px;
-    font-size: 14px;
-    box-shadow: 0 4px 6px rgba(50,50,93,.11),
-                0 1px 3px rgba(0,  0, 0,.08);
-
-    @media (min-width:768px) {
-        font-size: 17px;
-    }
+p:hover {
+    background: white;
 }
+
 
 mark {
     background: #FDF6E3;
@@ -162,3 +153,6 @@ a {
 @import '_exe';
 @import '_types';
 @import '_list';
+@import '_code';
+@import '_canvas';
+
