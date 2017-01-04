@@ -4,7 +4,7 @@ Groupoid Infinity is doing research in type theory, term encodings, program extr
 Infinity stack consists of two tools:
 
 * OM — typechecker and code extraction
-* EXE — high level language with dependent types
+* INF — high level language with dependent types
 
 ## Install
 
