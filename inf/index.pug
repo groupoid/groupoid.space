@@ -1,22 +1,22 @@
 extends ../layout.pug
 
 block title
-    title EXE
+    title Inf
 
 block content
-    +header('/groupoid.svg', 'Exe Language', 'AST Specification as Inductive Constructions')
+    +header('/groupoid.svg', 'Inf Language', 'AST Specification as Inductive Constructions')
     article.main
         .exe
             section
                 p.
-                    Exe Language is built on top of CoC pure type system, predicative universes
+                    Inf Language is built on top of CoC pure type system, predicative universes
                     and inductive constructions you may find in other MLTT provers like Lean, Coq,
-                    Idris, Agda, and F*. As algebraїс prover, Exe supports <mark>data</mark>
+                    Idris, Agda, and F*. As algebraїс prover, Inf supports <mark>data</mark>
                     and <mark>record</mark> polynomial functors as fundamental language
                     constructions implemented in a form of hygienic macros over the AST. Everything in Exe
-                    is encoded as inductive construction: from the equality property up to Erlang VM process,
+                    is encoded as inductive construction: from the equality property up to process calculus,
                     everything is a type that could have constructors and/or projections.
-                    Both Exe language and its macrosystem are built using AST types, described in this document.
+                    Both Inf language and its macrosystem are built using AST types, described in this document.
 
             section.langf
                 .langf__col
@@ -59,7 +59,7 @@ block content
 
                     h2#passes Compiler Passes
                     ol
-                        li <a href='#macro'>EXE</a> &mdash; Macro Expansion
+                        li <a href='#macro'>INF</a> &mdash; Macro Expansion
                         li <a href='/om#normal'>NORMAL</a> &mdash; Typechecking
                         li <a href='/om#erased'>ERASE</a> &mdash; Type Information Erasure
                         li <a href='/om#extract'>EXTRACT</a> &mdash; Extract VM Lambda
