@@ -1,10 +1,10 @@
 extends ../layout.pug
 
 block title
-    title TYPES
+    title Types
 
 block content
-    +header('/groupoid.svg', 'EXE Types', 'Inductive Dependent Base Library')
+    +header('/groupoid.svg', 'Inf Types', 'Inductive Dependent Base Library')
     article.main
         .types
             h1#taxonomy Recursion and Dependence
@@ -35,7 +35,7 @@ block content
                             li: a(href='#'+i)= i.toUpperCase()
             .legend
                 for v, k in legend
-                    ul.legend__col                        
+                    ul.legend__col
                             li= `${k.toUpperCase()}: ${v}`
 
             section
@@ -69,7 +69,7 @@ block content
 
                 h2#sum Sum
                 p.
-                    <mark>sum</mark> is a meta-representation form of <mark>data</mark> inductive Exe syntax construction. For the internal form see <mark>Data</mark> AST construction.
+                    <mark>sum</mark> is a meta-representation form of <mark>data</mark> inductive Inf syntax construction. For the internal form see <mark>Data</mark> AST construction.
                 code.
                     data sum (A,B: Type): Type :=
                          (left: A → sum)
@@ -101,7 +101,7 @@ block content
             section
                 h1 Coinductive
                 p.
-                    When you need to inspect the addendums of inductive tree defintions you can name the agruments of the constructor, these arguments called elements of the tuple or fields of the record. In this chapter we will use <mark>record</mark> Exe syntax, we only show how <mark>record</mark> and <mark>data</mark> are equal in example of <mark>unit</mark> and <mark>prod</mark> which are primitive forms of coinductive constructions.
+                    When you need to inspect the addendums of inductive tree defintions you can name the agruments of the constructor, these arguments called elements of the tuple or fields of the record. In this chapter we will use <mark>record</mark> Inf syntax, we only show how <mark>record</mark> and <mark>data</mark> are equal in example of <mark>unit</mark> and <mark>prod</mark> which are primitive forms of coinductive constructions.
 
                 h2#prod Product
                 code.
