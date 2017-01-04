@@ -36,8 +36,8 @@ E ::= O | E data L : A := F
      (om: Om → Inf)
      (core: Macro → Inf)
      (eff: Effect → Inf)
-</code><h2 id="passes">Compiler Passes</h2><ol><li><a href='#macro'>INF</a> &mdash; Macro Expansion</li><li><a href='/om#normal'>NORMAL</a> &mdash; Typechecking</li><li><a href='/om#erased'>ERASE</a> &mdash; Type Information Erasure</li><li><a href='/om#extract'>EXTRACT</a> &mdash; Extract VM Lambda</li></ol></div></section><section><h1>Calculus</h1><p>The type system is completely described by the PTS SAR notation, given by Barendregt.
-Find more info in <a href='om#axioms'>Axioms and Inference Rules</a>
+</code><h2 id="passes">Compiler Passes</h2><ol><li><a href='#macro'>INF</a> &mdash; Macro Expansion</li><li><a href='../om#normal'>NORMAL</a> &mdash; Typechecking</li><li><a href='../om#erased'>ERASE</a> &mdash; Type Information Erasure</li><li><a href='../om#extract'>EXTRACT</a> &mdash; Extract VM Lambda</li></ol></div></section><section><h1>Calculus</h1><p>The type system is completely described by the PTS SAR notation, given by Barendregt.
+Find more info in <a href='../om/#axioms'>Axioms and Inference Rules</a>
 of underlying Om intermediate language.</p><code>record PTS: * :=
        (S: ∀ (n: nat) → star n)
        (A: ∀ (i: nat) → type i (succ i))
