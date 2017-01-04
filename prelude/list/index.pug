@@ -11,8 +11,8 @@ block content
                 List package consists of three modules: <mark>List</mark> inductive data type definition and its constructors; <mark>Lists</mark> natural transformations or generic functions; and <mark>List.Theory</mark> theorems.
             code.
                 data List: (A:*) → * :=
-                    (Nil: () → List A)
-                    (Cons: A → List A → List A)
+                     (Nil: () → List A)
+                     (Cons: A → List A → List A)
 
             h2#list Nil
             p <mark>Nil</mark> construction is terminal element of List data type.
@@ -33,21 +33,21 @@ block content
                 or natural transformations from Category Theory. It is basically a library of functions that manipulate List data type instances.
             code.
                 record Lists: (A: *) → * :=
-                    ([++]: List A → List A)
-                    (head: List A → option A)
-                    (tail: List A → option A)
-                    (null: List A → bool)
-                    (all)
-                    (any)
-                    (concat)
-                    (empty)
-                    (filter)
-                    (flip)
-                    (length)
-                    (map)
-                    (pure)
-                    (replicate)
-                    (reverse)
+                       ([++]: List A → List A)
+                       (head: List A → option A)
+                       (tail: List A → option A)
+                       (null: List A → bool)
+                       (all)
+                       (any)
+                       (concat)
+                       (empty)
+                       (filter)
+                       (flip)
+                       (length)
+                       (map)
+                       (pure)
+                       (replicate)
+                       (reverse)
 
             h2#empty [++]
             p <mark>[++]</mark> is a list concatenation.

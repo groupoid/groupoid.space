@@ -9,12 +9,12 @@ U  ::= * < #number >
 O  ::= U | I | ( O ) | O O | λ ( I : O ) → O
                 | O → O | ∀ ( I : O ) → O
 </code><h2 id="ast">AST</h2><code>data om: * :=
-    (star: nat → om)
-    (var: name → om)
-    (app: om → om → om)
-    (lambda: name → om → om → om)
-    (arrow: om → om → om)
-    (pi: name → om → om → om)
+     (star: nat → om)
+     (var: name → om)
+     (app: om → om → om)
+     (lambda: name → om → om → om)
+     (arrow: om → om → om)
+     (pi: name → om → om → om)
 </code><h2 id="parser">Parser</h2><p>Om implements custom 2N linear bi-directional parser using
 pattern-matching for rules definition.</p><p>In a given grammar applications <mark>O O</mark> associate to the left and function arrows like <mark>O → O</mark>, <mark>∀ ( N :</mark> and <mark>λ ( N :</mark> associate to the right. They are being collapsed during forward and backward pass respectively. Expressions <mark>∀ ( N :</mark> и <mark>λ ( N :</mark> are being replaced during forward pass to <mark>$ N</mark>, partial function constructor defined only with name. When forward pass meets closing paren <mark>)</mark> it turns to backward pass until reach <mark>$ N</mark>, then collapse to <mark>: N I</mark> &mdash; partial defined function constructor with name and type of argument, but not with type of result. During backward pass all arrows are being collapsed with <mark>: N I</mark> into <mark>∀ (N: I) → O</mark> or <mark>λ (N: I) → O</mark> &mdash; fully defined named function contructor. To determine when to collapse <mark>: N I</mark> when nested parens are given using <mark>( O )</mark> construction in the type of function argument, like in <mark>λ (N: ((a) b) l → o) → o</mark> parser should count parens starting from nearest left function definition.
 </p><h3>Forward</h3><p>LL(1-4)</p><code>[]                        : rewind

@@ -49,8 +49,8 @@ block content
                     and a carrier <mark>nat</mark> having morphism <mark>[zero: 1<sub>nat</sub> → nat, succ: nat → nat]</mark>. The initial object of nat is called Natural Number Object and models Peano axiom set.
                 code.
                     data nat: Type :=
-                        (zero: () → nat)
-                        (succ: nat → nat)
+                         (zero: () → nat)
+                         (succ: nat → nat)
 
                 h2 <a name='list'><a href='/prelude/list'>List</a></a>
                 p.
@@ -58,22 +58,22 @@ block content
 
                 code.
                     data list: (A: Type) → Type :=
-                        (nil: () → list A)
-                        (cons: A → list A → list A)
+                         (nil: () → list A)
+                         (cons: A → list A → list A)
 
                     record lists (A,B: Type): Type :=
-                            (len: list A → integer)
-                            ('++': list A → list A → list A)
-                            (map: (A → B) → (list A → list B))
-                            (filter: (A → bool) → (list A → list A)))
+                           (len: list A → integer)
+                           ('++': list A → list A → list A)
+                           (map: (A → B) → (list A → list B))
+                           (filter: (A → bool) → (list A → list A)))
 
                 h2#sum Sum
                 p.
                     <mark>sum</mark> is a meta-representation form of <mark>data</mark> inductive Exe syntax construction. For the internal form see <mark>Data</mark> AST construction.
                 code.
                     data sum (A,B: Type): Type :=
-                        (left: A → sum)
-                        (right: B → sum)
+                         (left: A → sum)
+                         (right: B → sum)
 
                 h2#empty Empty
                 p.
@@ -86,8 +86,8 @@ block content
                     <mark>bool</mark> is run-time version of the boolean logic you may use in your general purpose applications. It has only two unit constructors <mark>[true,false]</mark> and functions: <mark>[and,or]</mark>.
                 code.
                     data bool: Type :=
-                        (true: () → bool)
-                        (false: () → bool)
+                         (true: () → bool)
+                         (false: () → bool)
 
                 h2#vector Vector
                 p.
@@ -96,8 +96,8 @@ block content
                     about single discrete dimention of the space, bringing very basic inductive logic. It can be used for reasoning about <mark>sqrt</mark>, as latter for any fractional exponent has correspondent number of roots inscribed in a circle on a complex surface. When vector is not dependent on nat its encoding should match with regular <mark>list</mark>.
                 code.
                     data vector (A: Type) (N: nat): Type :=
-                        (nil: vector A nat.zero)
-                        (cons: A → vector A n → vector A (nat.succ n))
+                         (nil: vector A nat.zero)
+                         (cons: A → vector A n → vector A (nat.succ n))
             section
                 h1 Coinductive
                 p.
@@ -118,25 +118,25 @@ block content
                     <mark>stream</mark> is a record form of the list's <mark>cons</mark> constructor. It models the infinity list that has no terminal element.
                 code.
                     record stream (A: Type): Type :=
-                            (head: A)
-                            (tail: stream A)
+                           (head: A)
+                           (tail: stream A)
 
                 h2#pure Pure
                 code.
                     record pure (P: Type → Type) (A: Type): Type :=
-                        (return: P A)
+                           (return: P A)
 
                 h2#functor Functor
                 code.
                     record functor (F: Type → Type) (A B: Type): Type :=
-                        (fmap: (A → B) → F A → F B)
+                           (fmap: (A → B) → F A → F B)
                 p Functor carried with theorem fields.
                 code.
                     record Functor (F: Type → Type): Type :=
-                        (fmap: ∀ (A,B: Type) → (A → B) → F A → F B)
-                        (id: ∀ (A: Type) (x: F A) → Equ (fmap id x) x)
-                        (comp: ∀ (A,B,C: Type) (f: B → C) (g: A → B) (x: F A)
-                                → Equ (fmap (f ◦ g) x) ((fmap f ◦ fmap g) x))
+                           (fmap: ∀ (A,B: Type) → (A → B) → F A → F B)
+                           (id: ∀ (A: Type) (x: F A) → Equ (fmap id x) x)
+                           (comp: ∀ (A,B,C: Type) (f: B → C) (g: A → B) (x: F A)
+                                  → Equ (fmap (f ◦ g) x) ((fmap f ◦ fmap g) x))
 
                 h2#applicative Applicative
                 code.
@@ -153,8 +153,8 @@ block content
                 h2#sigma Sigma
                 code.
                     record sigma (A: Type) (B: A → Type): Type :=
-                            (pr1: A)
-                            (pr2: B pr1)
+                           (pr1: A)
+                           (pr2: B pr1)
 
             section
                 h1 I/O Monads
@@ -164,9 +164,9 @@ block content
                 p Finite I/O
                 code.
                     data IO (A: Type): Type :=
-                        (getLine: (String → IO) → IO)
-                        (putLine: String → IO → IO)
-                        (pure: A → IO)
+                         (getLine: (String → IO) → IO)
+                         (putLine: String → IO → IO)
+                         (pure: A → IO)
                 p Example:
                 code.
                     (main: IO.replicateM 100 (IO.>>= IO.data () IO.getLine IO.putLine))
@@ -175,12 +175,12 @@ block content
                 p Infinity I/O
                 code.
                     data IOI.F (A,State: Type): Type :=
-                        (getLine: (String → State) → IO)
-                        (putLine: String → State → IO)
-                        (pure: A → IO)
+                         (getLine: (String → State) → IO)
+                         (putLine: String → State → IO)
+                         (pure: A → IO)
 
                     data IOI (A,State: Type) :=
-                        (intro: State -> (State -> IOI.F A State) -> IOI)
+                         (intro: State -> (State -> IOI.F A State) -> IOI)
 
                 p Example:
                 code.
@@ -202,10 +202,10 @@ block content
                 h2#effect Effect
                 code.
                     record effect (v:Type) (r:Type): Type :=
-                        (values: v)
-                        (resource: r)
-                        (computation: (v → r))
-                        (handler: effect v r → monad effect v r)
+                           (values: v)
+                           (resource: r)
+                           (computation: (v → r))
+                           (handler: effect v r → monad effect v r)
 
                     data RA: Type          := (intro: effect nat (random nat))
                     data IO (t:Type): Type := (intro: effect t   (file t))
@@ -214,10 +214,10 @@ block content
                 h2: a(name='eff.monad') Eff.Monad
                 code.
                     data Eff.Monad (eff: list effect)
-                                (m: Type → Type)
-                                (a: Type): Type :=
-                        (intro: eff m a xs (\ (v: Type) → xs)
-                                → monad_eff xs m a)
+                                   (m: Type → Type)
+                                   (a: Type): Type :=
+                         (intro: eff m a xs (\ (v: Type) → xs)
+                                  → monad_eff xs m a)
 
                 h2: a(name='eff.handler') Eff.Handler
                 code.
@@ -233,7 +233,7 @@ block content
                 h2#true True
                 code.
                     data True: Prop :=
-                        (intro: () → True)
+                         (intro: () → True)
 
                 h2#false False
                 code.
@@ -242,19 +242,19 @@ block content
                 h2#inhabited Inhabited
                 code.
                     data Inhabited (A: Type): Prop :=
-                        (intro: A -> Inhabited A)
+                         (intro: A -> Inhabited A)
 
                 h2#proper Proper
                 code.
                     record Proper (A: Type) (R: A → A → Prop) (m: A): Prop :=
-                        (Proof: R m m)
+                           (Proof: R m m)
 
                 h2#respect Respect / Congruence
                 code.
                     define Respect (A,B: Type)
-                                (C: A → Type)
-                                (D: B → Type)
-                                (R: A → B → Prop)
+                                   (C: A → Type)
+                                   (D: B → Type)
+                                   (R: A → B → Prop)
                         (Ro: ∀ (x: A) (y: B) → C x → D y → Prop) :
                                 (∀ (x: A) → C x) → (∀ (x: B) → D x)
                                 → Prop :=
@@ -265,51 +265,51 @@ block content
                 h2#eq Eq
                 code.
                     record Id (A: Type): Type :=
-                            (Id: A → A → Type)
-                            (refl (a: A): Id a a)
-                            (Predicate: ∀ (x,y: A) → Id x y → Type)
-                            (Forall (C: Predicate): ∀ (x,y: A) → ∀ (p: Id x y) → C x y p)
-                            (∆ (C: Predicate): ∀ (x: A) → C x x (refl x))
-                            (axiom-J (C: Predicate): ∆ C → Forall C)
-                            (computation-rule (C: Predicate) (t: ∆ C):
+                           (Id: A → A → Type)
+                           (refl (a: A): Id a a)
+                           (Predicate: ∀ (x,y: A) → Id x y → Type)
+                           (Forall (C: Predicate): ∀ (x,y: A) → ∀ (p: Id x y) → C x y p)
+                           (∆ (C: Predicate): ∀ (x: A) → C x x (refl x))
+                           (axiom-J (C: Predicate): ∆ C → Forall C)
+                           (computation-rule (C: Predicate) (t: ∆ C):
                                             ∀ (x: A) → (J C t x x (refl x)) '==>' (t x) )
 
                     data Eq (A:Type): A → A → Prop :=
-                            (refl: ∀ (x:A) → Eq A x x)
+                         (refl: ∀ (x:A) → Eq A x x)
 
                 h2#exists Exists
                 code.
                     data Exists (A:Type) (P: A → Type): Prop :=
-                        (intro: ∀ (x:A) → P x → exists P x)
+                         (intro: ∀ (x:A) → P x → exists P x)
 
                 h2#cat Cat
                 code.
                     record Cat: Type :=
-                        (Ob: Type)
-                        (Hom:   ∀ (dom,cod: Ob) → Setoid)
-                        (Id:    ∀ (x: Ob) → Hom x x)
-                        (Comp:  ∀ (x,y,z: Ob) → Hom x y → Hom y z → Hom x z)
-                        (Dom₁ₒ:  ∀ (x,y: Ob) (f: Hom x y) → (Hom.Equ x y (Comp x x y id f) f))
-                        (Cod₁ₒ:  ∀ (x,y: Ob) (f: Hom x y) → (Hom.Equ x y (Comp x y y f id) f))
-                        (Subst₁: ∀ (x,y,z: Ob) →
+                           (Ob: Type)
+                           (Hom:   ∀ (dom,cod: Ob) → Setoid)
+                           (Id:    ∀ (x: Ob) → Hom x x)
+                           (Comp:  ∀ (x,y,z: Ob) → Hom x y → Hom y z → Hom x z)
+                           (Dom₁ₒ:  ∀ (x,y: Ob) (f: Hom x y) → (Hom.Equ x y (Comp x x y id f) f))
+                           (Cod₁ₒ:  ∀ (x,y: Ob) (f: Hom x y) → (Hom.Equ x y (Comp x y y f id) f))
+                           (Subst₁: ∀ (x,y,z: Ob) →
                                     Proper (Respect Equ (Respect Equ Equ)) (Comp x y z))
-                        (Substₒ: ∀ (x,y,z: Ob) (f₁,f₂: Hom x y) (g₁,g₂: Hom y z)
+                           (Substₒ: ∀ (x,y,z: Ob) (f₁,f₂: Hom x y) (g₁,g₂: Hom y z)
                                     → (Hom.Equ x y f₁ f₂) → (Hom.Equ y z g₁ g₂)
                                     → (Hom.Equ x z (Comp x y z f₁ g₁) (Comp x y z f₂ g₂)))
-                        (Assocₒ: ∀ (x,y,z,w: Ob) (f: Hom x y) (g: Hom y z) (h: Hom z w)
+                           (Assocₒ: ∀ (x,y,z,w: Ob) (f: Hom x y) (g: Hom y z) (h: Hom z w)
                                     → (Hom.Equ x w (Comp x y w f (Comp y z w g h))
-                                                (Comp x z w (Comp x y z f g) h)))
+                                                   (Comp x z w (Comp x y z f g) h)))
 
                 h2#setoid Setoid
                 p.
                     Setoid in essence is a type with an equality. Type theory has its own equality type, which could be treated as the simplest non-trivial dependent type, however the behavior of this kind of equality is defined with additional axioms, that may be optional in minimal type theory. The neat thing about Setoid is that categorical constructions on setoids give us equality on all (Co)inductive types, which is not dependent on properties of underlying type theory.
                 code.
                     record Setoid: Type :=
-                        (Carrier: Type)
-                        (Equ: Carrier → Carrier → Prop)
-                        (Refl: ∀ (x: Carrier) → Equ x x)
-                        (Trans: ∀ (x₁,x₂,x₃: Carrier) → Equ x₁ x₂ → Equ x₂ x₃ → Equ x₁ x₃)
-                        (Sym: ∀ (x₁,x₂: Carrier) → Equ x₁ x₂ → Equ x₂ x₁)
+                           (Carrier: Type)
+                           (Equ: Carrier → Carrier → Prop)
+                           (Refl: ∀ (x: Carrier) → Equ x x)
+                           (Trans: ∀ (x₁,x₂,x₃: Carrier) → Equ x₁ x₂ → Equ x₂ x₃ → Equ x₁ x₃)
+                           (Sym: ∀ (x₁,x₂: Carrier) → Equ x₁ x₂ → Equ x₂ x₁)
 
                 h2#groupoid Groupoid
                 p.
@@ -317,8 +317,8 @@ block content
 
                 code.
                     record Groupoid: Type :=
-                        (ob: Type)
-                        (hom: ∀ (a,b: ob) → (Hom a b) → Groupoid)
+                           (ob: Type)
+                           (hom: ∀ (a,b: ob) → (Hom a b) → Groupoid)
 
         include ../resourses.pug
 
