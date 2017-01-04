@@ -13,7 +13,7 @@ block content
                     and inductive constructions you may find in other MLTT provers like Lean, Coq,
                     Idris, Agda, and F*. As algebraїс prover, Inf supports <mark>data</mark>
                     and <mark>record</mark> polynomial functors as fundamental language
-                    constructions implemented in a form of hygienic macros over the AST. Everything in Exe
+                    constructions implemented in a form of hygienic macros over the AST. Everything in Inf
                     is encoded as inductive construction: from the equality property up to process calculus,
                     everything is a type that could have constructors and/or projections.
                     Both Inf language and its macrosystem are built using AST types, described in this document.
@@ -52,10 +52,10 @@ block content
                 .langf__col
                     h2#ast Syntax Tree
                     code.
-                        data Exe: * :=
-                             (om: Om → Exe)
-                             (core: Macro → Exe)
-                             (eff: Effect → Exe)
+                        data Inf: * :=
+                             (om: Om → Inf)
+                             (core: Macro → Inf)
+                             (eff: Effect → Inf)
 
                     h2#passes Compiler Passes
                     ol
@@ -144,7 +144,7 @@ block content
 
                 h2#macro Macro
                 p.
-                    <mark>Macro</mark> language subsystem is the core of Exe language and dedicated to compile the prelude desceibed in the <a href='/types'>Core Types</a> document. Om language is the target language of macroexpansions of <mark>data</mark> and <mark>record</mark> inductive constructions, <mark>let</mark> construction and univariable <mark>case</mark> pattern matching.
+                    <mark>Macro</mark> language subsystem is the core of Inf language and dedicated to compile the prelude desceibed in the <a href='/types'>Core Types</a> document. Om language is the target language of macroexpansions of <mark>data</mark> and <mark>record</mark> inductive constructions, <mark>let</mark> construction and univariable <mark>case</mark> pattern matching.
                 code.
                     data Macro: * :=
                          (record: Record → Macro)
@@ -155,22 +155,22 @@ block content
                 h2#case Case / Receive
                 code.
                     record Case Receive: * :=
-                           (of: Exe)
-                           (legs: list (prod atom (prod Om Exe)))
-                           (default: Exe)
+                           (of: Inf)
+                           (legs: list (prod atom (prod Om Inf)))
+                           (default: Inf)
 
                 h2#let Let
                 code.
                     record Let: * :=
-                           (binds: list (prod string Exe))
-                           (in: Exe)
+                           (binds: list (prod string Inf))
+                           (in: Inf)
 
                 h2 <a name="data"><a name="record">Record / Data</a></a>
                 code.
                     record Record Data: * :=
                            (name: string)
                            (base: Om)
-                           (body: list (prod string Exe))
+                           (body: list (prod string Inf))
 
                 h2#eff Effect
                 p.
