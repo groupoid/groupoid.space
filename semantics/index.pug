@@ -1,14 +1,14 @@
 extends ../layout.pug
 
 block title
-    title SEMANTICS
+    title Semantics
     script(src='http://cdn.mathjax.org/mathjax/2.2-latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML')
 
 block content
     script.
          MathJax.Hub.Config({ displayAlign: "left", tex2jax: { inlineMath: [['$','$'], ['\\(','\\)']], processEscapes: true } });
                                   TeX: { extensions: ["AMSmath.js", "AMSsymbols.js" ] };
-    +header('/groupoid.svg', 'OM/EXE', 'Type judgement inference rules')                
+    +header('/groupoid.svg', 'Om/Inf', 'Type judgement inference rules')                
 
     article.main
         aside Maxim Sokhatsky
@@ -17,7 +17,7 @@ block content
         .semantics
 
             section
-                h1 OM Core
+                h1 Om Core
                 h2 Universes
                 figure.
                     \begin{equation}
@@ -90,7 +90,7 @@ block content
                     \end{equation}
                     $$
             section
-                h1 EXE Microcode
+                h1 Inf Microcode
                 h2 Identity Types
                 figure.
                     \begin{equation}
