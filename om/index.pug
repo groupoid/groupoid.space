@@ -90,23 +90,23 @@ block content
                     (Star n)         D : Star n + 1
 
                     (Var n)          D : isVar n D,
-                                        nth (i + 1) (all n D)
+                                         nth (i + 1) (all n D)
 
                     (Arrow i o)      D : Star max (star (type i D))
-                                                (star (type o D))
+                                                  (star (type o D))
 
                     (Pi n 0 i o)     D : Star max (star (type i D))
-                                                (star (type o [(n norm i)|D]))
+                                                  (star (type o [(n norm i)|D]))
 
                     (Lambda n 0 i o) D : star (type i D),
-                                        ni = norm i,
-                                        Pi n 0 ni (type O [(n ni)|D])
+                                         ni = norm i,
+                                         Pi n 0 ni (type O [(n ni)|D])
 
                     (App f a)        D : t = type f D,
-                                        isFun t,
-                                        Pi n 0 i o = t,
-                                        eq i (type a D),
-                                        norm (subst o n a)
+                                         isFun t,
+                                         Pi n 0 i o = t,
+                                         eq i (type a D),
+                                         norm (subst o n a)
             section
                 h1 Passes
 
