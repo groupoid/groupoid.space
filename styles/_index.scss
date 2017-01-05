@@ -1,14 +1,10 @@
 .index {
-    display: flex;
-    flex-flow: row wrap;
-    justify-content: space-around;
-    align-items: top;
+    display: inline-block;
     padding: 20px 0;
     font-size: 20px;
 
     &__col {
-        padding-right: 5px;
-        white-space: nowrap;
+        padding: 5px 2vw;
     }
 
     a {
@@ -19,6 +15,7 @@
     h2 {
         font-size: 28px;
         text-align: left;
+        margin-top: 16px;
     }
 
     ol {
@@ -27,6 +24,9 @@
 
     @media(min-width: 768px) {
         font-size: 24px;
-
+        &__col {
+            display: inline-block;
+            vertical-align: top;
+        }
     }
 }
