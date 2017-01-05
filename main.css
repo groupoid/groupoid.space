@@ -233,27 +233,26 @@ aside {
         font-size: 22px; } }
 
 .index {
-  display: inline-block;
-  margin: auto;
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: space-around;
+  align-items: top;
   padding: 20px 0;
-  font-size: 20px;
-  vertical-align: top; }
+  font-size: 20px; }
   .index__col {
-    padding: 20px 10px; }
+    padding-right: 5px;
+    white-space: nowrap; }
   .index a {
     text-transform: uppercase;
     line-height: 1.8; }
   .index h2 {
     font-size: 28px;
     text-align: left; }
+  .index ol {
+    padding-left: 1.1em; }
   @media (min-width: 768px) {
     .index {
-      flex-direction: row;
-      font-size: 24px; }
-      .index__col {
-        display: inline-block; }
-      .index__col:first-child {
-        margin-right: 80px; } }
+      font-size: 24px; } }
 
 .om section + section {
   margin-top: 50px; }

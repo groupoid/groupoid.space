@@ -1,12 +1,14 @@
 .index {
-    display: inline-block;
-    margin: auto;
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: space-around;
+    align-items: top;
     padding: 20px 0;
     font-size: 20px;
-    vertical-align: top;
 
     &__col {
-        padding: 20px 10px;
+        padding-right: 5px;
+        white-space: nowrap;
     }
 
     a {
@@ -19,14 +21,12 @@
         text-align: left;
     }
 
+    ol {
+        padding-left: 1.1em;
+    }
+
     @media(min-width: 768px) {
-        flex-direction: row;
         font-size: 24px;
-        &__col {
-            display: inline-block;
-        }
-        &__col:first-child {
-            margin-right: 80px;
-        }
+
     }
 }
