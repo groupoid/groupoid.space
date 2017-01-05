@@ -169,7 +169,7 @@ aside {
     width: 50px;
     margin-right: 20px; }
   .footer__copy {
-    font-size: 20px;
+    font-size: 14px;
     white-space: pre; }
   @media (min-width: 768px) {
     .footer__copy {
