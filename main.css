@@ -162,7 +162,7 @@ aside {
 .footer {
   width: 100%;
   padding: 15px;
-  background-image: linear-gradient(to left, #B066FE, #63E2FF);
+  background: #cbe3f4;
   color: #282828;
   text-align: center; }
   .footer__logo {
