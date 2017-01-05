@@ -173,7 +173,7 @@ aside {
     white-space: pre; }
   @media (min-width: 768px) {
     .footer__copy {
-      font-size: 28px; } }
+      font-size: 20px; } }
 
 .semantics {
   text-align: center; }
