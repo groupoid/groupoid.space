@@ -238,7 +238,8 @@ aside {
   padding: 20px 0;
   font-size: 20px; }
   .index__col {
-    padding: 20px 10px; }
+    padding: 20px 10px;
+    vertical-align: top; }
   .index a {
     text-transform: uppercase;
     line-height: 1.8; }
