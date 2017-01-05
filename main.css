@@ -236,10 +236,10 @@ aside {
   display: inline-block;
   margin: auto;
   padding: 20px 0;
-  font-size: 20px; }
+  font-size: 20px;
+  vertical-align: top; }
   .index__col {
-    padding: 20px 10px;
-    vertical-align: top; }
+    padding: 20px 10px; }
   .index a {
     text-transform: uppercase;
     line-height: 1.8; }
