@@ -142,7 +142,7 @@ aside {
     position: relative;
     max-width: 800px;
     margin: 20px;
-    text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.4); }
+    text-shadow: 1px 1px 7px #56CCF2; }
   .header__title {
     font-size: 48px;
     line-height: 1.1; }
