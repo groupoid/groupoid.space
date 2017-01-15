@@ -4,7 +4,7 @@ block title
     title Om
 
 block content
-    +header('/om.svg', 'Trusted λ&nbsp;Assembler', 'CoC Intermediate Language<br>for typechecking and normalization')
+    +header('/groupoid.svg', 'Trusted λ&nbsp;Assembler', 'CoC Intermediate Language<br>for typechecking and normalization')
     article.main
         .om
             section
@@ -16,7 +16,10 @@ block content
 
                 h2#axioms Axioms and Inference Rules
                 p.
-                    All terms respect ranking <mark>A</mark> inside sequence of universes <mark>S</mark> and complexity of the dependent term is equal maximum complexity of term and its dependency <mark>R</mark>. The type system is completely described by  the following PTS notation (due to Barendregt):
+                    All terms obey the <mark>A</mark> ranking inside the sequence of <mark>S</mark> universes,
+                    and the complexity <mark>R</mark> of the dependent term is equal to a maximum of
+                    the term's complexity and its dependency.
+                    The type system is completely described by  the following PTS notation (due to Barendregt):
                 code.
                     S = *{n}, n : nat
                     A = *{i} : *{i+1}
@@ -90,23 +93,23 @@ block content
                     (Star n)         D : Star n + 1
 
                     (Var n)          D : isVar n D,
-                                        nth (i + 1) (all n D)
+                                         nth (i + 1) (all n D)
 
                     (Arrow i o)      D : Star max (star (type i D))
-                                                (star (type o D))
+                                                  (star (type o D))
 
                     (Pi n 0 i o)     D : Star max (star (type i D))
-                                                (star (type o [(n norm i)|D]))
+                                                  (star (type o [(n norm i)|D]))
 
                     (Lambda n 0 i o) D : star (type i D),
-                                        ni = norm i,
-                                        Pi n 0 ni (type O [(n ni)|D])
+                                         ni = norm i,
+                                         Pi n 0 ni (type O [(n ni)|D])
 
                     (App f a)        D : t = type f D,
-                                        isFun t,
-                                        Pi n 0 i o = t,
-                                        eq i (type a D),
-                                        norm (subst o n a)
+                                         isFun t,
+                                         Pi n 0 i o = t,
+                                         eq i (type a D),
+                                         norm (subst o n a)
             section
                 h1 Passes
 

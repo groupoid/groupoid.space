@@ -1,11 +1,10 @@
 .index {
     display: inline-block;
-    margin: auto;
     padding: 20px 0;
     font-size: 20px;
 
     &__col {
-        padding: 20px 10px;
+        padding: 5px 2vw;
     }
 
     a {
@@ -16,16 +15,18 @@
     h2 {
         font-size: 28px;
         text-align: left;
+        margin-top: 16px;
+    }
+
+    ol {
+        padding-left: 1.1em;
     }
 
     @media(min-width: 768px) {
-        flex-direction: row;
         font-size: 24px;
         &__col {
             display: inline-block;
-        }
-        &__col:first-child {
-            margin-right: 80px;
+            vertical-align: top;
         }
     }
 }

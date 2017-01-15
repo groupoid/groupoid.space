@@ -1,5 +1,8 @@
-<!DOCTYPE html><html><head><meta charset="utf-8"><meta http-equiv="x-ua-compatible" content="ie=edge"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="author" content="Maxim Sokhatsky"><meta property="og:title" content="Groupoid Infinity"><meta property="og:image" content="http://groupoid.space/grp.png"><meta property="og:type" content="website"><meta property="fb:app_id" content="118554188236439"><meta property="og:url" content="http://groupoid.space"><meta property="og:description" content="Infinity Language"><link rel="stylesheet" href="http://groupoid.space/main.css"><title>Om</title></head><body class="content"><header class="header"><a href="http://groupoid.space/"><img class="header__logo" src="/om.svg"/></a><div class="header__titles"><h1 class="header__title">Trusted λ&nbsp;Assembler</h1><h4 class="header__subtitle">CoC Intermediate Language<br>for typechecking and normalization</h4></div></header><article class="main"><div class="om"><section><h1>Definition</h1><h2 id="nat">Calculus of Constructions</h2><p>The <mark>Om</mark> language is a dependently typed lambda calculus, an extension of Barendregt' and Coquand Calculus of Constructions with the predicative hierarchy of indexed universes. There is no fixpoint axiom needed for the definition of infinity term dependance.
-</p><h2 id="axioms">Axioms and Inference Rules</h2><p>All terms respect ranking <mark>A</mark> inside sequence of universes <mark>S</mark> and complexity of the dependent term is equal maximum complexity of term and its dependency <mark>R</mark>. The type system is completely described by  the following PTS notation (due to Barendregt):</p><code>S = *{n}, n : nat
+<!DOCTYPE html><html><head><meta charset="utf-8"><meta http-equiv="x-ua-compatible" content="ie=edge"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="author" content="Maxim Sokhatsky"><meta property="og:title" content="Groupoid Infinity"><meta property="og:image" content="http://groupoid.space/grp.png"><meta property="og:type" content="website"><meta property="fb:app_id" content="118554188236439"><meta property="og:url" content="http://groupoid.space"><meta property="og:description" content="Infinity Language"><link rel="stylesheet" href="http://groupoid.space/main.css"><title>Om</title></head><body class="content"><header class="header"><a href="http://groupoid.space/"><img class="header__logo" src="/groupoid.svg"/></a><div class="header__titles"><h1 class="header__title">Trusted λ&nbsp;Assembler</h1><h4 class="header__subtitle">CoC Intermediate Language<br>for typechecking and normalization</h4></div></header><article class="main"><div class="om"><section><h1>Definition</h1><h2 id="nat">Calculus of Constructions</h2><p>The <mark>Om</mark> language is a dependently typed lambda calculus, an extension of Barendregt' and Coquand Calculus of Constructions with the predicative hierarchy of indexed universes. There is no fixpoint axiom needed for the definition of infinity term dependance.
+</p><h2 id="axioms">Axioms and Inference Rules</h2><p>All terms obey the <mark>A</mark> ranking inside the sequence of <mark>S</mark> universes,
+and the complexity <mark>R</mark> of the dependent term is equal to a maximum of
+the term's complexity and its dependency.
+The type system is completely described by  the following PTS notation (due to Barendregt):</p><code>S = *{n}, n : nat
 A = *{i} : *{i+1}
 R = *{i} -> *{j} : *{max i j}
 </code><h2 id="syntax">Syntax</h2><p>The untyped lambda language is the simplest language used in Om to generate backend programs. This subset of Om is used as the output of type erasure.</p><code>I ::= #identifier
@@ -42,23 +45,23 @@ pattern-matching for rules definition.</p><p>In a given grammar applications <ma
 </code><h2 id="typechecker">Typechecker</h2><h3>Type</h3><code>(Star n)         D : Star n + 1
 
 (Var n)          D : isVar n D,
-                    nth (i + 1) (all n D)
+                     nth (i + 1) (all n D)
 
 (Arrow i o)      D : Star max (star (type i D))
-                            (star (type o D))
+                              (star (type o D))
 
 (Pi n 0 i o)     D : Star max (star (type i D))
-                            (star (type o [(n norm i)|D]))
+                              (star (type o [(n norm i)|D]))
 
 (Lambda n 0 i o) D : star (type i D),
-                    ni = norm i,
-                    Pi n 0 ni (type O [(n ni)|D])
+                     ni = norm i,
+                     Pi n 0 ni (type O [(n ni)|D])
 
 (App f a)        D : t = type f D,
-                    isFun t,
-                    Pi n 0 i o = t,
-                    eq i (type a D),
-                    norm (subst o n a)</code></section><section><h1>Passes</h1><h2 id="normal">Normalized</h2><p>Terms in CoC language.</p><code>$ om show List/Cons
+                     isFun t,
+                     Pi n 0 i o = t,
+                     eq i (type a D),
+                     norm (subst o n a)</code></section><section><h1>Passes</h1><h2 id="normal">Normalized</h2><p>Terms in CoC language.</p><code>$ om show List/Cons
 
 λ (A: *)
 → λ (Head: A)

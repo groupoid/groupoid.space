@@ -61,7 +61,7 @@ img, figure {
 figure {
   max-width: 100%;
   overflow-x: auto;
-  padding: 10px 5px;
+  padding: 10px 2px;
   font-size: 18px;
   display: block; }
 
@@ -142,7 +142,7 @@ aside {
     position: relative;
     max-width: 800px;
     margin: 20px;
-    text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.4); }
+    text-shadow: 1px 1px 7px #56CCF2; }
   .header__title {
     font-size: 48px;
     line-height: 1.1; }
@@ -162,27 +162,27 @@ aside {
 .footer {
   width: 100%;
   padding: 15px;
-  background-image: linear-gradient(to left, #B066FE, #63E2FF);
+  background: #cbe3f4;
   color: #282828;
   text-align: center; }
   .footer__logo {
     width: 50px;
     margin-right: 20px; }
   .footer__copy {
-    font-size: 20px;
+    font-size: 14px;
     white-space: pre; }
   @media (min-width: 768px) {
     .footer__copy {
-      font-size: 28px; } }
+      font-size: 20px; } }
 
 .semantics {
   text-align: center; }
   .semantics figure {
     display: inline-block;
     font-size: 13px; }
-    @media (min-width: 768px) {
+    @media (min-width: 800px) {
       .semantics figure {
-        font-size: 18px; } }
+        font-size: 16px; } }
   .semantics h1 {
     color: #7D8A96;
     font-size: 32px;
@@ -234,25 +234,25 @@ aside {
 
 .index {
   display: inline-block;
-  margin: auto;
   padding: 20px 0;
   font-size: 20px; }
   .index__col {
-    padding: 20px 10px; }
+    padding: 5px 2vw; }
   .index a {
     text-transform: uppercase;
     line-height: 1.8; }
   .index h2 {
     font-size: 28px;
-    text-align: left; }
+    text-align: left;
+    margin-top: 16px; }
+  .index ol {
+    padding-left: 1.1em; }
   @media (min-width: 768px) {
     .index {
-      flex-direction: row;
       font-size: 24px; }
       .index__col {
-        display: inline-block; }
-      .index__col:first-child {
-        margin-right: 80px; } }
+        display: inline-block;
+        vertical-align: top; } }
 
 .om section + section {
   margin-top: 50px; }

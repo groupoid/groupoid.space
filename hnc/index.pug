@@ -1,0 +1,39 @@
+extends ../layout.pug
+
+block title
+    title HNC
+
+block content
+    +header('/groupoid.svg', 'HNC', 'System F extraction to C++, Rust')
+    article.main
+        aside Andy Melnikov
+            time 15 JAN 2017
+        .intro
+            h2#fpga System F Intermediate Language
+            p.
+                <img src="stack.png" width="85%" style="margin:50px;">
+            p.
+                <mark>System F Core.</mark> HNC contains Minimal nonrecursive core
+                with Damas-Hindler-Milner type inference. This type system is usefull for code generation
+                to such languages as C++, Java, C#, ML.
+            p.
+                <mark>Readable Extraction.</mark> The main feature of HNC is readable targets.
+                I.e. C++ generated code preservse variable naming and is editable by target
+                language developers. So you can extend generated code withing your target language.
+            code.
+                    fold f x0 l =
+                         x = x0
+                         p = l
+                         while *p != NULL
+                             x := f x *p
+                             p := p->next
+                         x
+                    x = fold (\x y -> x + y + 1) 0 l
+            code.
+                    int x = 0;
+                    list_int *p = l;
+                    while (*p != NULL)
+                    {
+                        x += y + 1;
+                        p = p->next;
+                    }

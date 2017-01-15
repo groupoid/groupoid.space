@@ -1,7 +1,7 @@
 .footer {
     width: 100%;
     padding: 15px;
-    background-image: linear-gradient(to left, #B066FE, #63E2FF);
+    background: #cbe3f4;
     color: #282828;
     text-align: center;
 
@@ -11,13 +11,13 @@
     }
 
     &__copy {
-        font-size: 20px;
+        font-size: 14px;
         white-space: pre;
     }
 
     @media(min-width: 768px) {
         &__copy {
-            font-size: 28px;       
+            font-size: 20px;       
         }
     }
 }
