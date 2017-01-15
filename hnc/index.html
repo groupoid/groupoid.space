@@ -1,8 +1,17 @@
-<!DOCTYPE html><html><head><meta charset="utf-8"><meta http-equiv="x-ua-compatible" content="ie=edge"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="author" content="Maxim Sokhatsky"><meta property="og:title" content="Groupoid Infinity"><meta property="og:image" content="http://groupoid.space/grp.png"><meta property="og:type" content="website"><meta property="fb:app_id" content="118554188236439"><meta property="og:url" content="http://groupoid.space"><meta property="og:description" content="Infinity Language"><link rel="stylesheet" href="http://groupoid.space/main.css"><title>HNC</title></head><body class="content"><header class="header"><a href="http://groupoid.space/"><img class="header__logo" src="/groupoid.svg"/></a><div class="header__titles"><h1 class="header__title">HNC</h1><h4 class="header__subtitle">System F extraction to C++, Rust</h4></div></header><article class="main"><aside>Andy Melnikov<time>15 JAN 2017</time></aside><div class="intro"><h2 id="fpga">System F Intermediate Language</h2><p><img src="stack.png" width="85%" style="margin:50px;"></p><p><mark>System F Core.</mark> HNC contains Minimal nonrecursive core
-with Damas-Hindler-Milner type inference. This type system is useful for code generation
-to such languages as C++, Java, C#, ML.</p><p><mark>Readable Extraction.</mark> The main feature of HNC is readable targets.
-I.e. C++ generated code preserves variable naming and is editable by target
-language developers. So you can extend generated code withing your target language.</p><code>fold f x0 l =
+<!DOCTYPE html><html><head><meta charset="utf-8"><meta http-equiv="x-ua-compatible" content="ie=edge"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="author" content="Maxim Sokhatsky"><meta property="og:title" content="Groupoid Infinity"><meta property="og:image" content="http://groupoid.space/grp.png"><meta property="og:type" content="website"><meta property="fb:app_id" content="118554188236439"><meta property="og:url" content="http://groupoid.space"><meta property="og:description" content="Infinity Language"><link rel="stylesheet" href="http://groupoid.space/main.css"><title>HNC</title></head><body class="content"><header class="header"><a href="http://groupoid.space/"><img class="header__logo" src="/groupoid.svg"/></a><div class="header__titles"><h1 class="header__title">HNC</h1><h4 class="header__subtitle">System F extraction to C++, Rust</h4></div></header><article class="main"><aside>Andy Melnikov<time>15 JAN 2017</time></aside><div class="intro"><h2 id="fpga">System F Intermediate Language</h2><p>HNC is an optimizing source-to-source translator in the spirit of PureScript.</p><p>Like PureScript, it is a call-by-value functional language with type inference,
+generating human-readable code in another high-level language.</p><p>Unlike PureScript, it is designed to be used indirectly as a compiler backend
+to generate non-abstract non-functional loops with entirely stack-allocated
+temporaries from a more functional representation.
+<img src="stack.png" width="85%" style="margin:50px;"></p><p><mark>System F Core.</mark>HNC input language is a non-recursive dialect of ML
+with call by value reduction, assignment, loops and  controlled effects.
+It is weak enough to be implemented without runtime boxing or heap-allocated closures.</p><p><mark>Readable Extraction.</mark> As such it is suitable to translation into
+languages without automatic heap
+memory management or even without generics such as plain C. The type system
+is a bare minimum to infer a fixed runtime representation of every variable,
+annotate types everywhere C++ wants them and take advantage of C++ standard
+template library. The C++ backend  is designed to be easily portable to
+both <b>static</b> and <b>dynamic</b> mainstream languages such as Java,
+C, C#, JavaScript or Python.</p><code>fold f x0 l =
      x = x0
      p = l
      while *p != NULL
@@ -15,7 +24,12 @@ while (*p != NULL)
 {
     x += y + 1;
     p = p->next;
-}</code><p><mark>Minimal Codebase.</mark> The type inference algorithm should be as
+}</code><p><mark>Refined Optimizer</mark> HNC key ingredients are an optimizer using a nameless scopeless untyped
+control flow graph and scope, name and type reconstruction phase.
+HNC tries as much as possible to preserve the documentary structure
+of human-supplied identifiers in its input to generate meaningful
+human-understandable output in the spirit of PureScript.</p><p><mark>Minimal Codebase.</mark> The type inference algorithm should be as
 simple as possible and be ready for formal proof. HNC strive to escape from
 unneeded features relying on attribute grammars and generic programming.</p><p><mark>Hackability.</mark> HNC should be considered as a framework or
-lightweight System F core useful in other projects as a library.</p></div></article><footer class="footer"><img class="footer__logo" src="http://groupoid.space/stamp.svg"><span class="footer__copy">2016&mdash;2017 &copy; Groupoid Infinity</span></footer><script src="http://groupoid.space/bundle.js"></script><script src="http://groupoid.space/highlight.js"></script></body></html>
+lightweight System F core useful in other projects as a library.
+</p><h2>Compiler Passes</h2><ol><li><a href='#'>INF</a> &mdash; Infinity Language</li><li><a href='#'>BASELIB</a> &mdash; Morte Library</li><li><a href='#'>WEAK</a> &mdash; Weaking (pending)</li><li><a href='#'>AST</a> &mdash; Implicitly Typed AST</li><li><a href='#'>TYPE</a> &mdash; Typechecking</li><li><a href='#'>FLOW</a> &mdash; Control Flow Graph</li><li><a href='#'>SCOPE</a> &mdash; Name and Scope Reconstruction</li><li><a href='#'>INFER</a> &mdash; Type Inference</li><li><a href='#'>TARGET</a> &mdash; Target AST</li><li><a href='#'>LLVM</a> &mdash; Clang/Rust Compiler</li><li><a href='#'>NATIVE</a> &mdash; Native Executable</li></ol></div></article><footer class="footer"><img class="footer__logo" src="http://groupoid.space/stamp.svg"><span class="footer__copy">2016&mdash;2017 &copy; Groupoid Infinity</span></footer><script src="http://groupoid.space/bundle.js"></script><script src="http://groupoid.space/highlight.js"></script></body></html>

@@ -11,15 +11,28 @@ block content
         .intro
             h2#fpga System F Intermediate Language
             p.
+                HNC is an optimizing source-to-source translator in the spirit of PureScript.
+            p.
+                Like PureScript, it is a call-by-value functional language with type inference,
+                generating human-readable code in another high-level language.
+            p.
+                Unlike PureScript, it is designed to be used indirectly as a compiler backend
+                to generate non-abstract non-functional loops with entirely stack-allocated
+                temporaries from a more functional representation.
                 <img src="stack.png" width="85%" style="margin:50px;">
             p.
-                <mark>System F Core.</mark> HNC contains Minimal nonrecursive core
-                with Damas-Hindler-Milner type inference. This type system is useful for code generation
-                to such languages as C++, Java, C#, ML.
+                <mark>System F Core.</mark>HNC input language is a non-recursive dialect of ML
+                with call by value reduction, assignment, loops and  controlled effects.
+                It is weak enough to be implemented without runtime boxing or heap-allocated closures.
             p.
-                <mark>Readable Extraction.</mark> The main feature of HNC is readable targets.
-                I.e. C++ generated code preserves variable naming and is editable by target
-                language developers. So you can extend generated code withing your target language.
+                <mark>Readable Extraction.</mark> As such it is suitable to translation into
+                languages without automatic heap
+                memory management or even without generics such as plain C. The type system
+                is a bare minimum to infer a fixed runtime representation of every variable,
+                annotate types everywhere C++ wants them and take advantage of C++ standard
+                template library. The C++ backend  is designed to be easily portable to
+                both <b>static</b> and <b>dynamic</b> mainstream languages such as Java,
+                C, C#, JavaScript or Python.
             code.
                     fold f x0 l =
                          x = x0
@@ -38,9 +51,29 @@ block content
                         p = p->next;
                     }
             p.
+                <mark>Refined Optimizer</mark> HNC key ingredients are an optimizer using a nameless scopeless untyped
+                control flow graph and scope, name and type reconstruction phase.
+                HNC tries as much as possible to preserve the documentary structure
+                of human-supplied identifiers in its input to generate meaningful
+                human-understandable output in the spirit of PureScript.
+            p.
                 <mark>Minimal Codebase.</mark> The type inference algorithm should be as
                 simple as possible and be ready for formal proof. HNC strive to escape from
                 unneeded features relying on attribute grammars and generic programming.
             p.
                 <mark>Hackability.</mark> HNC should be considered as a framework or
                 lightweight System F core useful in other projects as a library.
+
+            h2 Compiler Passes
+            ol
+                li <a href='#'>INF</a> &mdash; Infinity Language
+                li <a href='#'>BASELIB</a> &mdash; Morte Library
+                li <a href='#'>WEAK</a> &mdash; Weaking (pending)
+                li <a href='#'>AST</a> &mdash; Implicitly Typed AST
+                li <a href='#'>TYPE</a> &mdash; Typechecking
+                li <a href='#'>FLOW</a> &mdash; Control Flow Graph
+                li <a href='#'>SCOPE</a> &mdash; Name and Scope Reconstruction
+                li <a href='#'>INFER</a> &mdash; Type Inference
+                li <a href='#'>TARGET</a> &mdash; Target AST
+                li <a href='#'>LLVM</a> &mdash; Clang/Rust Compiler
+                li <a href='#'>NATIVE</a> &mdash; Native Executable
