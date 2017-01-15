@@ -1,6 +1,6 @@
-mixin header(logo, title, subtitle) 
+mixin header(logo, title, subtitle)
     header.header
-        a(href='/')
+        a(href='http://groupoid.space/')
             img.header__logo(src=logo)
         .header__titles
             h1.header__title!= title
@@ -20,14 +20,14 @@ html
         meta(property='fb:app_id' content='118554188236439')
         meta(property='og:url' content='http://groupoid.space' )
         meta(property='og:description' content='Infinity Language')
-        link(rel='stylesheet' href='/main.css')
+        link(rel='stylesheet' href='http://groupoid.space/main.css')
         block title
             title default
 
     body.content
         block content
         footer.footer
-            img.footer__logo(src='/stamp.svg')
+            img.footer__logo(src='http://groupoid.space/stamp.svg')
             span.footer__copy 2016&mdash;2017 &copy; Groupoid Infinity
-        script(src='/bundle.js')
-        script(src='/highlight.js')
+        script(src='http://groupoid.space/bundle.js')
+        script(src='http://groupoid.space/highlight.js')
