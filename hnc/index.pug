@@ -14,7 +14,7 @@ block content
                 <img src="stack.png" width="85%" style="margin:50px;">
             p.
                 <mark>System F Core.</mark> HNC contains Minimal nonrecursive core
-                with Damas-Hindler-Milner type inference. This type system is usefull for code generation
+                with Damas-Hindler-Milner type inference. This type system is useful for code generation
                 to such languages as C++, Java, C#, ML.
             p.
                 <mark>Readable Extraction.</mark> The main feature of HNC is readable targets.
@@ -37,3 +37,10 @@ block content
                         x += y + 1;
                         p = p->next;
                     }
+            p.
+                <mark>Minimal Codebase.</mark> The type inference algorithm should be as
+                simple as possible and be ready for formal proof. HNC strive to escape from
+                unneeded features relying on attribute grammars and generic programming.
+            p.
+                <mark>Hackability.</mark> HNC should be considered as a framework or
+                lightweight System F core useful in other projects as a library.
