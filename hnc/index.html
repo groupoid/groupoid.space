@@ -1,7 +1,7 @@
 <!DOCTYPE html><html><head><meta charset="utf-8"><meta http-equiv="x-ua-compatible" content="ie=edge"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="author" content="Maxim Sokhatsky"><meta property="og:title" content="Groupoid Infinity"><meta property="og:image" content="http://groupoid.space/grp.png"><meta property="og:type" content="website"><meta property="fb:app_id" content="118554188236439"><meta property="og:url" content="http://groupoid.space"><meta property="og:description" content="Infinity Language"><link rel="stylesheet" href="http://groupoid.space/main.css"><title>HNC</title></head><body class="content"><header class="header"><a href="http://groupoid.space/"><img class="header__logo" src="/groupoid.svg"/></a><div class="header__titles"><h1 class="header__title">HNC</h1><h4 class="header__subtitle">System F extraction to C++, Rust</h4></div></header><article class="main"><aside>Andy Melnikov<time>15 JAN 2017</time></aside><div class="intro"><h2 id="fpga">System F Intermediate Language</h2><p><img src="stack.png" width="85%" style="margin:50px;"></p><p><mark>System F Core.</mark> HNC contains Minimal nonrecursive core
 with Damas-Hindler-Milner type inference. This type system is useful for code generation
 to such languages as C++, Java, C#, ML.</p><p><mark>Readable Extraction.</mark> The main feature of HNC is readable targets.
-I.e. C++ generated code preservse variable naming and is editable by target
+I.e. C++ generated code preserves variable naming and is editable by target
 language developers. So you can extend generated code withing your target language.</p><code>fold f x0 l =
      x = x0
      p = l
