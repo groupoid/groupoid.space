@@ -62,19 +62,19 @@ block content
             p.
                 <mark>Hackability.</mark> HNC should be considered as a framework or
                 lightweight System F core useful in other projects as a library.
-            h2#passes Optimizer
-
+            h2#opt Optimizer
+            p.
                 Unlike many legacy-burdened compilers, HNC optimizer doesn't use
                 peephole-style hand-ordered phases. Instead, it uses a novel
                 algorithm of interleaved dataflow analysis and rewriting to make
                 optimizer smaller, more modular and less fragile (Lerner et al &mdash; 2002).
-
+            p.
                 The algebraic approach lets HNC perform common optimizations such as dead
                 code elimination, inlining, copy propagation, arity reduction in less
                 than 500 lines of code specific to HNC. For the subtle algorithms for
                 forward and backward flow traversal, interleaving, speculative rewrites
                 and fixed point computation HNC uses HOOPL &mdash; a reusable component
-                of the mature GHC compiler (Ramsey et al. &mdash; 2010).
+                of the mature GHC compiler (Ramsey et al &mdash; 2010).
 
             h2#passes Compiler Passes
         .status
