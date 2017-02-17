@@ -25,4 +25,16 @@ data Expression a = Application (Expression a) [Expression a]
                   | Constant Const
 
 data Const = ConstString String
-           | ConstInt    Int</code></article><footer class="footer"><img class="footer__logo" src="http://groupoid.space/stamp.svg"><span class="footer__copy">2016&mdash;2017 &copy; Groupoid Infinity</span></footer><script src="http://groupoid.space/bundle.js"></script><script src="http://groupoid.space/highlight.js"></script></body></html>
+           | ConstInt    Int</code><p>The AST has two forms: the parser returns `Definition String` but
+optimizer converts it into `Definition Label` with unambiguously resolved names.</p><p>The `Parser.Parser` module contains two parsers - `program` and `identifier`
+and Parsec library is the only dependency.</p><p>Put `min-parser.hs` to the project root:
+</p><code>import Parser.Parser
+import Text.Parsec.ByteString
+
+main = parseFromFile program "hn_tests/euler1.hn" >>= print
+</code><code>$ cabal exec runhaskell -- -Wno-tabs min-parser.hs
+
+Right [Definition "hnMain" [] (Let (Definition "g" ["x","count"] 
+(Let (Definition "f" ["xx"] (In "_or" "eq" 0 "mod" "xx" 5 "eq" 0
+"mod" "xx" 3)) (In "_if" "f" "x" "sum" "count" "x" "count"))) (
+In "print" "natrec" "g" 0 999))]</code></article><footer class="footer"><img class="footer__logo" src="http://groupoid.space/stamp.svg"><span class="footer__copy">2016&mdash;2017 &copy; Groupoid Infinity</span></footer><script src="http://groupoid.space/bundle.js"></script><script src="http://groupoid.space/highlight.js"></script></body></html>

@@ -73,4 +73,26 @@ block content
 
                 data Const = ConstString String
                            | ConstInt    Int
+        p.
+            The AST has two forms: the parser returns `Definition String` but
+            optimizer converts it into `Definition Label` with unambiguously resolved names.
+        p.
+            The `Parser.Parser` module contains two parsers - `program` and `identifier`
+            and Parsec library is the only dependency.
+        p.
+            Put `min-parser.hs` to the project root:
+
+        code.
+            import Parser.Parser
+            import Text.Parsec.ByteString
+
+            main = parseFromFile program "hn_tests/euler1.hn" >>= print
+
+        code.
+            $ cabal exec runhaskell -- -Wno-tabs min-parser.hs
+
+            Right [Definition "hnMain" [] (Let (Definition "g" ["x","count"] 
+            (Let (Definition "f" ["xx"] (In "_or" "eq" 0 "mod" "xx" 5 "eq" 0
+            "mod" "xx" 3)) (In "_if" "f" "x" "sum" "count" "x" "count"))) (
+            In "print" "natrec" "g" 0 999))]
 
