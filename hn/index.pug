@@ -1,0 +1,76 @@
+extends ../layout.pug
+
+block title
+    title HN
+
+block content
+    +header('/groupoid.svg', 'HN', 'Language Definition')
+    article.main
+        aside Andy Melnikov
+            time 17 JAN 2017
+        .intro
+            h2 HN Language
+            p.
+                HN is an implicitly typed language.
+                The type inference algorithm is complete, so there are no type annotations.
+                The primitives are very similar to the original Milner's proposal for ML language:
+                lexically scoped variables, functions, assignments, loops and conditionals.
+            p.
+                However, HN is a compiler intermediate language for human-readable code generation,
+                so there are many limitations compared to what you ususally expect from an ML dialect.
+            p.
+                Limitations:
+        h2 Common
+        h3
+        section.langf
+            .langf__col
+            ol
+                li: <div>Type-safe but not memory-safe</div>
+                li: <div>Controlled effects</div>
+                li: <div>No recursion</div>
+                li: <div>No currying or partial applications</div>
+
+        h2 Unusual
+        h3
+        section.langf
+            .langf__col
+            ol
+                li: FFI import is the only way to create data types
+                li: All functions must be named
+                li: Only stack-allocated variables and closures
+                li: Closures can't escape the scope
+                li: Explicit heap deallocations
+        h3
+        p.
+            Concrete syntax is rigid. Whitespace is not flexible so there
+            is only one way to format the code, you cannot even indent
+            by spaces or put two spaces instead of one. There are no comments either.
+
+        code.
+                hnMain = {
+                    g x count = {
+                        f xx = _or (eq 0 (mod xx 5)) (eq 0 (mod xx 3))
+                        _if (f x) (sum count x) count
+                    }
+                    print (natrec g 0 999)
+                }
+        p.
+            The abstract syntax is defined in `Parser.AST` module by mutually recursive
+            algebraic data types, nothing unusual or exotic here:
+        code.
+
+                data LetIn a = Let (Definition a) (LetIn a)
+                             | In (Expression a)
+
+                data Definition a = Definition a [a] (LetIn a)
+                                  | Assign a (LetIn a)
+                                  | While Expression LetIn
+                                  | If Expression LetIn LetIn
+
+                data Expression a = Application (Expression a) [Expression a]
+                                  | Atom a
+                                  | Constant Const
+
+                data Const = ConstString String
+                           | ConstInt    Int
+
