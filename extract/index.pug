@@ -22,8 +22,29 @@ block content
             will bypass to LLVM optimizer. If you are interested in LLVM target, please take a look
             onto <a href="http://github.com/nponeccop/HNC">github.com/nponeccop/HNC</a>.
 
-        p.
-            <img src="http://groupoid.space/hnc/stack.png" width="85%" style="margin:50px;">
+        table.stack
+            tr
+                td(colspan=4) Infinity Language
+                th Language with HIT
+            tr 
+                td(colspan=4) MORTE Base Library / System F
+                th Generic Base Library
+            tr 
+                td(colspan=2) HNC / System F
+                td(colspan=2) OM / CoC
+                th Intermediate Languages
+            tr 
+                td C++
+                td Rust
+                td O
+                td Erlang
+                th Target Languages
+            tr
+                td(colspan=2) LLVM Compiler
+                td(colspan=1) Jit Interpreter
+                td.empty
+                th Execution Environments
+
         h2#fpga FPGA
         p.
             We are highly interested in compilation to FPGA target.
