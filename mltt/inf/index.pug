@@ -1,22 +1,43 @@
 extends ../layout.pug
 
 block title
-    title Inf
+    title Infinity
 
 block content
-    +header('/groupoid.svg', 'Inf Language', 'AST Specification as Inductive Constructions')
+    +header('http://groupoid.space/groupoid.svg', 'Infinity Language', 'AST Specification as Inductive Constructions')
     article.main
         .exe
             section
+                p.
+                    The idea of Infinity Langauge came from the needs of unification and
+                    arranging different calculuses as an extensions to the core of the
+                    language with dependent types (or MLTT core). While been working on
+                    distributed systems, data storages and stream processing, the core
+                    two languages: pi calculus and stream calculus discovered to be
+                    connected and being driven by a language with quantifiers as a primitives.
+                p.
+                    Infinity is a dependently typed language for stream processing,
+                    distributed processing and text processing. We use Coq to prototype
+                    the standard library including the theories needed to be able to
+                    prove code invariants instead of testing them. Infinity is a source
+                    to source translator that lets you use different languages at runtime:
+                    Erlang, Rust, Clang, Futhark, Julia, etc.
+                p.
+                    Infinity language presents a solid and unified way of modeling inter-language
+                    computations and inter-system communications within a single language with
+                    compact core. We strive for utilizing parallel hardware such as GPU and
+                    SSE/AVX SIMD instructions and providing a robust and verified distributed
+                    environment with process and channels runtime.
                 p.
                     Inf Language is built on top of CoC pure type system, predicative universes
                     and inductive constructions you may find in other MLTT provers like Lean, Coq,
                     Idris, Agda, and F*. As algebraїс prover, Inf supports <mark>data</mark>
                     and <mark>record</mark> polynomial functors as fundamental language
-                    constructions implemented in a form of hygienic macros over the AST. Everything in Inf
-                    is encoded as inductive construction: from the equality property up to process calculus,
-                    everything is a type that could have constructors and/or projections.
-                    Both Inf language and its macrosystem are built using AST types, described in this document.
+                    constructions implemented in a form of hygienic macros over the AST.
+                    Everything in Infinity Language is encoded as inductive construction:
+                    from the equality property up to process calculus.
+                    Both Infinity language and its macrosystem are built using AST types,
+                    described in this document.
 
             section.langf
                 .langf__col
@@ -42,7 +63,7 @@ block content
                         F ::= ∅ | F ( I : O ) | ()
 
                         E ::= O | E data L : A := F
-                                | E record L : 
+                                | E record L :
                                   A < extend F > := F
                                 | E let F in E
                                 | E case E [ | I O → E ]

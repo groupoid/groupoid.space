@@ -1,30 +1,54 @@
 extends layout.pug
 
 block title
-    title Inf
+    title Infinity
 
 block content
-    +header('http://groupoid.space/groupoid.svg', 'Groupoid Infinity', '<b>Inf</b> &mdash; Language with Dependent Types on top of Trusted &lambda;&nbsp;Core with Changeable Encodings<br>and Extraction to Untyped Lambda Interpreter')
+    +header('http://groupoid.space/groupoid.svg', 'Groupoid Infinity', '<b>Infinity</b> &mdash; Language with Dependent Types on top of Trusted &lambda;&nbsp;Core with Changeable Encodings<br>and Extraction to Untyped Lambda Interpreter')
     article.main
         .index
             .index__col
-                h2 Specification
-                ol
-                    li: a(href='/inf') inf language
-                    li: a(href='/types') base library
-                    li: a(href='/om') trusted om core
-                    li: a(href='/extract') extract targets
-            .index__col
-                h2 Articles
+                h2 Lambda Calculus
                 ul
-                    li 17 JAN 17 <a href='/hn'>HN Language</a>
-                    li 15 JAN 17 <a href='/hnc'>System F targets</a>
-                    li 4 AUG 16 <a href='/semantics'> type judgment rules</a>
-                    li 1 MAY 16 <a href='/enc'> lambek encoding</a>
-                    li 18 MAR 16 <a href='/status'> project status</a>
-                    li 15 FEB 16 <a href='/intro'> intro</a>
+                    li: a(href='/lc/intro') Intro
+                    li: a(href='/lc/o') Untyped Interpreters
+                    li: a(href='/lc/runtime') Runtime
+                    li: a(href='/lc/extract') Extraction
             .index__col
-                h2 Papers
+                h2 HM
                 ul
-                    li 13 AUG 16 #[a(href='http://github.com/groupoid/exe/blob/master/doc/identity.pdf') identities ]
-                    li 4 SEP 16 #[a(href='http://github.com/groupoid/exe/blob/master/doc/encoding.pdf') encoding ]
+                    li: a(href='/hm/language') The Language
+                    li: a(href='/hm/types') Base library
+                    li: a(href='/hm/checker') Typechecking
+                    li: a(href='/hm/opt') Optimization
+            .index__col
+                h2 Effect System
+                ul
+                    li: a(href='/eff/intro') Intro
+                    li <a href='/eff/io'>I/O</a>
+                    li <a href='/eff/ioi'>Infinity I/O</a>
+                    li <a href='/eff/link'>Linkage</a>
+        .index
+            .index__col
+                h2 Pi Calculus
+                ul
+                    li: a(href='/pi/intro') Intro
+                    li: a(href='/pi/langauge') The Language
+                    li: a(href='/pi/check') Type Checking
+                    li: a(href='/pi/bisim') Bisimulation
+            .index__col
+                h2 MLTT
+                ul
+                    li: a(href='/mltt/inf') The Language
+                    li: a(href='/mltt/om') Intermediate Core
+                    li: a(href='/mltt/semantics') Judgment Rules
+                    li: a(href='/mltt/status') Project Status
+                    li: a(href='http://github.com/groupoid/exe/blob/master/doc/identity.pdf') Identities PDF
+                    li: a(href='/mltt/enc') Lambek Encoding
+                    li: a(href='http://github.com/groupoid/exe/blob/master/doc/encoding.pdf') Encoding PDF
+            .index__col
+                h2 Stream Calculus
+                ul
+                    li <a href='/array/intro'>Introduction</a>
+                    li <a href='/array/language'>The Language</a>
+                    li <a href='/array/vec'>Vectorization</a>
