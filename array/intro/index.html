@@ -1,18 +1,14 @@
 <!DOCTYPE html><html><head><meta charset="utf-8"><meta http-equiv="x-ua-compatible" content="ie=edge"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="author" content="Maxim Sokhatsky"><meta property="og:title" content="Groupoid Infinity"><meta property="og:image" content="http://groupoid.space/grp.png"><meta property="og:type" content="website"><meta property="fb:app_id" content="118554188236439"><meta property="og:url" content="http://groupoid.space"><meta property="og:description" content="Infinity Language"><link rel="stylesheet" href="http://groupoid.space/main.css"><title>Pi Calculus</title></head><body class="content"><header class="header"><a href="http://groupoid.space/"><img class="header__logo" src="http://groupoid.space/groupoid.svg"/></a><div class="header__titles"><h1 class="header__title">Pi Calculus</h1><h4 class="header__subtitle">Distributed Processes MLTT Model</h4></div></header><article class="main"><div class="exe"><section><p>Pi calculus can be transformed from lambda
 calculus by replacing a variable constructor with stream constructor.
 But the language and protocol accessing this stream could vary
-from backend to backend with respect to design requirements.
-
-Stream calculus provides different disciplines for accessing
+from backend to backend with respect to design requirements.</p><p>Stream calculus provides different disciplines for accessing
 underlying streams used in Pi calculus. For example: 1) linear types, or streams with
 constant direction without rollbacks where each element of stream is touched once;
 2) random access arrays; 3) GPU sources; 4) runtime typed channels;
 5) effect and coeffect streams (processes as streams). Such stream
 calculuses could be landed with such GPU languages as Futhark
 or AVX intrinsics languages, such as Julia. We could treat
-stream calculus as memory representation with different protocol accesses.
-
-One type of disciplines is a stream calculus. While pi calculus could be imagined as
+stream calculus as memory representation with different protocol accesses.</p><p>One type of disciplines is a stream calculus. While pi calculus could be imagined as
 lambda calculus where function arguments are channels or streams, stream calculus defines set
 of constructions over these streams. This calculus is needed to provide different forms
 of vectorization that can be used on GPU and AVX hardware.
