@@ -1,0 +1,50 @@
+extends ../../layout.pug
+
+block title
+    title Pi Calculus
+
+block content
+    +header('http://groupoid.space/groupoid.svg', 'Pi Calculus', 'Distributed Processes MLTT Model')
+    article.main
+        .exe
+            section
+                p.
+                    Pi calculus can be transformed from lambda
+                    calculus by replacing a variable constructor with stream constructor.
+                    But the language and protocol accessing this stream could vary
+                    from backend to backend with respect to design requirements.
+                .langf__col
+                    h2#syntax Language Axioms
+                    code.
+                             (x y z: A) -> B x := 
+                p.
+                    Pi calculus is also known as a process calculus that can be used to model of distributed system
+                    over a channel transport. Each process presented as coinductive program and is able
+                    to be runned both in parallel and sequentially. Processes are communicating by inductive protocols
+                    known as session types over physical channels that can be corecursive streams (linear types),
+                    random access arrays (static lifetime) or other effectful disciplines. Process calculus
+                    is used to model distributed systems such as Erlang or application based protocols.
+                p.
+                    The process calculus itself should be backed with number of infinity streams,
+                    represented as processor cores. The parallel system of reactive shcedulers
+                    that cycle the list of AST trees filled with calculus instructions.
+
+            section.langf
+                .langf__col
+                    h2#syntax Language Axioms
+                    code.
+                        Inductive PiCalculus :=
+                         | Send               | Recv
+                         | Spawn              | Kill
+                         | Sequential         | Parallel
+                         | Stop               | Start
+                         | Pub                | Sub.
+
+            section
+                h1 Calculus
+                p.
+                    The type system is completely described by the PTS SAR notation, given by Barendregt.
+                    Find more info in <a href='../om/#axioms'>Axioms and Inference Rules</a>
+                    of underlying Om intermediate language.
+                code.
+

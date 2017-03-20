@@ -1,0 +1,49 @@
+extends ../../layout.pug
+
+block title
+    title O
+
+block content
+    +header('/groupoid.svg', 'Untyped Lambda Interpreter', 'O &mdaash; CPS language with general recursion')
+    article.main
+        .om
+            section
+                h1 Definition
+
+                h2#nat Simple Lambda Calculus
+                p.
+                    The untyped lambda language is the simplest language used in Om to generate backend programs.
+                    This subset of Om is used as the output of type erasure.
+                code.
+                    I ::= #identifier
+                    T ::= I | ( T ) | T T | λ I → T
+
+                h2#ast AST
+                code.
+                    data o: * :=
+                         (star: nat → o)
+                         (var: name → o)
+                         (app: o → o → o)
+                         (lambda: name → o → o → o)
+                         (arrow: o → o → o)
+
+                h2#erased Erased
+                p Terms in untyped lambda pure language.
+                code.
+                    $ om print fst erase a "#List/Cons"
+                    ( λ Head
+                    → ( λ Tail
+                    → ( λ Cons
+                    → ( λ Nil
+                    → ((Cons Head) ((Tail Cons) Nil))))))
+                    ok
+
+                h2#extract Extract
+                p.
+                    Erlang extracted code. For other targets you may want to read
+                    <a href='/extract'> Code Extract</a> notes.
+                code.
+                    'Cons'() -> fun (Head) -> fun (Tail) -> fun (Cons) -> fun (Nil) ->
+                        ((Cons(Head))((Tail(Cons))(Nil))) end end end end.
+
+        include ../../resourses.pug

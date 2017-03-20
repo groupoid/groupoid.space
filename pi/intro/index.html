@@ -1,0 +1,20 @@
+<!DOCTYPE html><html><head><meta charset="utf-8"><meta http-equiv="x-ua-compatible" content="ie=edge"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="author" content="Maxim Sokhatsky"><meta property="og:title" content="Groupoid Infinity"><meta property="og:image" content="http://groupoid.space/grp.png"><meta property="og:type" content="website"><meta property="fb:app_id" content="118554188236439"><meta property="og:url" content="http://groupoid.space"><meta property="og:description" content="Infinity Language"><link rel="stylesheet" href="http://groupoid.space/main.css"><title>Pi Calculus</title></head><body class="content"><header class="header"><a href="http://groupoid.space/"><img class="header__logo" src="http://groupoid.space/groupoid.svg"/></a><div class="header__titles"><h1 class="header__title">Pi Calculus</h1><h4 class="header__subtitle">Distributed Processes MLTT Model</h4></div></header><article class="main"><div class="exe"><section><p>Pi calculus can be transformed from lambda
+calculus by replacing a variable constructor with stream constructor.
+But the language and protocol accessing this stream could vary
+from backend to backend with respect to design requirements.</p><div class="langf__col"><h2 id="syntax">Language Axioms</h2><code>(x y z: A) -> B x := </code></div><p>Pi calculus is also known as a process calculus that can be used to model of distributed system
+over a channel transport. Each process presented as coinductive program and is able
+to be runned both in parallel and sequentially. Processes are communicating by inductive protocols
+known as session types over physical channels that can be corecursive streams (linear types),
+random access arrays (static lifetime) or other effectful disciplines. Process calculus
+is used to model distributed systems such as Erlang or application based protocols.</p><p>The process calculus itself should be backed with number of infinity streams,
+represented as processor cores. The parallel system of reactive shcedulers
+that cycle the list of AST trees filled with calculus instructions.
+</p></section><section class="langf"><div class="langf__col"><h2 id="syntax">Language Axioms</h2><code>Inductive PiCalculus :=
+ | Send               | Recv
+ | Spawn              | Kill
+ | Sequential         | Parallel
+ | Stop               | Start
+ | Pub                | Sub.
+</code></div></section><section><h1>Calculus</h1><p>The type system is completely described by the PTS SAR notation, given by Barendregt.
+Find more info in <a href='../om/#axioms'>Axioms and Inference Rules</a>
+of underlying Om intermediate language.</p><code></code></section></div></article><footer class="footer"><img class="footer__logo" src="http://groupoid.space/stamp.svg"><span class="footer__copy">2016&mdash;2017 &copy; Groupoid Infinity</span></footer><script src="http://groupoid.space/bundle.js"></script><script src="http://groupoid.space/highlight.js"></script></body></html>
