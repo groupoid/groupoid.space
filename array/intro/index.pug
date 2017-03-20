@@ -1,0 +1,54 @@
+extends ../../layout.pug
+
+block title
+    title Pi Calculus
+
+block content
+    +header('http://groupoid.space/groupoid.svg', 'Pi Calculus', 'Distributed Processes MLTT Model')
+    article.main
+        .exe
+            section
+                p.
+                    Pi calculus can be transformed from lambda
+                    calculus by replacing a variable constructor with stream constructor.
+                    But the language and protocol accessing this stream could vary
+                    from backend to backend with respect to design requirements.
+
+                    Stream calculus provides different disciplines for accessing
+                    underlying streams used in Pi calculus. For example: 1) linear types, or streams with
+                    constant direction without rollbacks where each element of stream is touched once;
+                    2) random access arrays; 3) GPU sources; 4) runtime typed channels;
+                    5) effect and coeffect streams (processes as streams). Such stream
+                    calculuses could be landed with such GPU languages as Futhark
+                    or AVX intrinsics languages, such as Julia. We could treat
+                    stream calculus as memory representation with different protocol accesses.
+
+                    One type of disciplines is a stream calculus. While pi calculus could be imagined as
+                    lambda calculus where function arguments are channels or streams, stream calculus defines set
+                    of constructions over these streams. This calculus is needed to provide different forms
+                    of vectorization that can be used on GPU and AVX hardware.
+
+            section.langf
+                .langf__col
+                    h2#syntax Language Axioms
+                    code.
+
+                        Inductive StreamCalculus :=
+                         | Map                | Fold
+                         | Scan               | Iota
+                         | SLoop              | Transpose
+                         | Rotate             | SSplit
+                         | Concat             | Zip
+                         | Reduce             | StreamMap
+                         | StreamMapPer       | StreamRed
+                         | StreamSeq          | Partition
+                         | Reshape            | Shape
+                         | Rearrange          | Copy
+                         | For                | While.
+
+
+            section
+                h1 Calculus
+                p.
+                code.
+
