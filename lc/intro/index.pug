@@ -4,7 +4,7 @@ block title
     title O
 
 block content
-    +header('/groupoid.svg', 'Untyped Lambda Interpreter', 'O &mdaash; CPS language with general recursion')
+    +header('/groupoid.svg', 'Lazy Lambda Interpreter', 'O &mdash; CPS language with general recursion')
     article.main
         .om
             section
@@ -12,7 +12,7 @@ block content
 
                 h2#nat Simple Lambda Calculus
                 p.
-                    The untyped lambda language is the simplest language used in Om to generate backend programs.
+                    The untyped lambda language O is the simplest language used in Om to generate backend programs.
                     This subset of Om is used as the output of type erasure.
                 code.
                     I ::= #identifier
@@ -20,7 +20,7 @@ block content
 
                 h2#ast AST
                 code.
-                    data o: * :=
+                    data o: Type :=
                          (star: nat → o)
                          (var: name → o)
                          (app: o → o → o)
