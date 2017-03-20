@@ -7,16 +7,16 @@ block title
          MathJax.Hub.Config({ displayAlign: "left", tex2jax: { inlineMath: [['$','$'], ['\\(','\\)']], processEscapes: true } });
 
 block content
-    +header('/groupoid.svg', 'Om/Inf', 'Type judgement inference rules')                
+    +header('/groupoid.svg', 'Logical Forms', 'Inference rules')
 
     article.main
         aside Maxim Sokhatsky
             time DATE: 4 AUG 2016
-    
+
         .semantics
 
             section
-                h1 Om Core
+                h1 Trusted Core
                 h2 Universes
                 figure.
                     \begin{equation}
@@ -43,7 +43,7 @@ block content
                     {Type_i \rightarrow Type_{j} : Type_{max(i,j)}}
                     \end{equation}
                     $$
-                
+
                 h2 Substition
                 figure.
                     \begin{equation}
@@ -89,7 +89,7 @@ block content
                     \end{equation}
                     $$
             section
-                h1 Inf Microcode
+                h1 Infinity Language
                 h2 Identity Types
                 figure.
                     \begin{equation}
@@ -106,7 +106,7 @@ block content
                     {a:A}
                     {refl(A,a) : Id(A,a,a) }
                     \end{equation}
-                br    
+                br
                 figure.
                     \begin{equation}
                     \tag{$J$-elimination}
