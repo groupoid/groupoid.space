@@ -77,9 +77,9 @@ block content
                     Equivalent tree encoding for parsed terms is following:
                 code.
                     Inductive OM := Star: nat → OM)
-                                  | Var: nat → OM)
+                                  | Var: name → OM)
                                   | App: OM → OM → OM)
-                                  | Lambda: nat → OM → OM → OM)    
+                                  | Lambda: name → OM → OM → OM)    
                                   | Arrow: OM → OM → OM)
                                   | Pi: name → OM → OM → OM).
 

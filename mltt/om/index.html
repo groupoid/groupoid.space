@@ -33,9 +33,9 @@ I  = #identifier
 U  = * < #number >
 OM = U | I | ( OM )  | λ ( I : OM ) → OM      
      OM OM | OM → OM | ∀ ( I : OM ) → OM</code><p>Equivalent tree encoding for parsed terms is following:</p><code>Inductive OM := Star: nat → OM)
-              | Var: nat → OM)
+              | Var: name → OM)
               | App: OM → OM → OM)
-              | Lambda: nat → OM → OM → OM)    
+              | Lambda: name → OM → OM → OM)    
               | Arrow: OM → OM → OM)
               | Pi: name → OM → OM → OM).
 </code><h2 id="typechecker">Typechecker</h2><code>type (Star n)         D : Star n + 1
