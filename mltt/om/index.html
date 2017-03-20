@@ -1,4 +1,4 @@
-<!DOCTYPE html><html><head><meta charset="utf-8"><meta http-equiv="x-ua-compatible" content="ie=edge"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="author" content="Maxim Sokhatsky"><meta property="og:title" content="Groupoid Infinity"><meta property="og:image" content="http://groupoid.space/grp.png"><meta property="og:type" content="website"><meta property="fb:app_id" content="118554188236439"><meta property="og:url" content="http://groupoid.space"><meta property="og:description" content="Infinity Language"><link rel="stylesheet" href="http://groupoid.space/main.css"><title>OM</title></head><body class="content"><header class="header"><a href="http://groupoid.space/"><img class="header__logo" src="http://groupoid.space/groupoid.svg"/></a><div class="header__titles"><h1 class="header__title">Single Axiom Language</h1><h4 class="header__subtitle">OM &mdash; language with universal quntifier and infinity number of universes for typechecking and normalization</h4></div></header><article class="main"><div class="om"><section><h1>Definition</h1><h2 id="nat">Pure Type System</h2><p>The <mark>OM</mark> language is a dependently typed lambda calculus,
+<!DOCTYPE html><html><head><meta charset="utf-8"><meta http-equiv="x-ua-compatible" content="ie=edge"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="author" content="Maxim Sokhatsky"><meta property="og:title" content="Groupoid Infinity"><meta property="og:image" content="http://groupoid.space/grp.png"><meta property="og:type" content="website"><meta property="fb:app_id" content="118554188236439"><meta property="og:url" content="http://groupoid.space"><meta property="og:description" content="Infinity Language"><link rel="stylesheet" href="http://groupoid.space/main.css"><title>OM</title></head><body class="content"><header class="header"><a href="http://groupoid.space/"><img class="header__logo" src="http://groupoid.space/groupoid.svg"/></a><div class="header__titles"><h1 class="header__title">Single Axiom Language</h1><h4 class="header__subtitle">OM &mdash; language with universal quntifier and infinity number of universes for typechecking and normalization</h4></div></header><article class="main"><div class="om"><section><h1>Definition</h1><h2 id="nat">Pure Type System</h2><p>The <b>OM</b> language is a dependently typed lambda calculus,
 an extension of Barendregt' and Coquand Calculus of Constructions
 with the predicative hierarchy of indexed universes.
 There is no fixpoint axiom needed for the definition of infinity term dependance.</p><code>U₀ : U₁ : U₂ : U₃ : …
@@ -7,8 +7,8 @@ U₀ — propositions
 U₁ — values and sets       
 U₂ — types
 U₃ — sorts
-</code><h2 id="axioms">Axioms and Inference Rules</h2><p>All terms obey the <mark>A</mark> ranking inside the sequence of <mark>S</mark> universes,
-and the complexity <mark>R</mark> of the dependent term is equal to a maximum of
+</code><h2 id="axioms">Axioms and Inference Rules</h2><p>All terms obey the <b>A</b> ranking inside the sequence of <mark>S</mark> universes,
+and the complexity <b>R</b> of the dependent term is equal to a maximum of
 the term's complexity and its dependency.
 The type system is completely described by the following PTS notation (due to Barendregt):</p><code>S    (n : nat) = U n
 A₁ (n m : nat) = U n : U m where m > n — cumulative
@@ -28,7 +28,7 @@ f a : B x                        — elimination
        lam-app (B: A → Type) (p: intro B): fun (λ (a: A) → app p a) ==> p.
 </code><h2 id="ast">AST</h2><p>The terms of OM consist of <b>nat</b> indexed stars, variables, applications,
 abstractions and universal quantifications. This language is called Calculus
-of Construction and exists in various syntaxes. OM supports Morte's syntax.</p><code><> = #option
+of Construction and exists in various syntaxes. OM supports <b>Morte's</b> syntax.</p><code><> = #option
 I  = #identifier
 U  = * < #number >
 OM = U | I | ( OM )  | λ ( I : OM ) → OM      
