@@ -16,6 +16,13 @@ block content
                     an extension of Barendregt' and Coquand Calculus of Constructions
                     with the predicative hierarchy of indexed universes.
                     There is no fixpoint axiom needed for the definition of infinity term dependance.
+                code.
+                    U₀ : U₁ : U₂ : U₃ : …
+
+                    U₀ — propositions
+                    U₁ — values and sets
+                    U₂ — types
+                    U₃ — sorts
 
                 h2#axioms Axioms and Inference Rules
                 p.
@@ -24,32 +31,60 @@ block content
                     the term's complexity and its dependency.
                     The type system is completely described by the following PTS notation (due to Barendregt):
                 code.
-                    S := *{n}, n : nat
-                    A := *{i} : *{i+1}
-                    R := *{i} -> *{j} : *{max i j}
+                    S    (n : nat) = U n
+                    A₁   (n : nat) = U n : U (n + 1) — non-cumulative
+                    R₁ (m n : nat) = U m ⟶ U n : U (max m n) — predicative
 
-                h2#syntax Syntax
+                h2#axioms Supported Configuration
+                p.
+                    Propositional contractible bottom space is impredicative by derm dependance.
+                code.
+                    A₂ (n m : nat) = U n : U m where m > n — cumulative
+                    R₂ (m n : nat) = U m ⟶ U n : U n — impredicative
+
+                h2#syntax Extract Language
                 p.
                     The untyped lambda language O is the simplest language used in
                     OM to generate backend programs. This O is used as the output of type erasure.
                 code.
-                    I ::= #identifier
-                    T ::= I | ( T ) | T T | λ I → T
+                    I = #identifier
+                    T = I | ( T ) | T T | λ I ⟶ T
                 p.
                     The terms of OM consist of NN-indexed stars, variables, applications,
                     lambda-abstractions and universal quantifications (Pi-types).
                     This language is called Calculus of Construction and exists in various syntaxes.
                     OM supports Morte's syntax.
                 code.
-                    <> ::= #option
-                    I  ::= #identifier
-                    U  ::= * < #number >
-                    O  ::= U | I | ( O ) | O O | λ ( I : O ) → O
-                                       | O → O | ∀ ( I : O ) → O
+                    <> = #option
+                    I  = #identifier
+                    U  = * < #number >
+                    O  = U | I | ( O ) | λ ( I : O ) → O
+                           O O | O → O | ∀ ( I : O ) → O
+
+
+                h2#ast Type System a la Martin-Löf
+                p.
+                    This langauge is called one axiom language as it reduction
+                    rule is inferred from type formation axiom along with eliminator
+                    and introduction adjoint functors.
+                code.
+                    ∀ x: A → B x : Type              — formation rule
+                    λ x: A → b : B x                 — introduction
+                    app f a : B x                    — elimination
+                    app (λ a:A, b) a = b [p/a] : B x — equation
+                p.
+                    This language could be embedded in itself and used as Logical Framework.
+                code.
+                    Record Pi (A: Type) :=
+                           intro: (A → Type) → Type
+                           fun: (B: A → Type) → ∀ (a: A) → B a → intro B
+                           app: (B: A → Type) → intro B → ∀ (a: A) → B a
+                           app-fun (B: A → Type) (f: ∀ (a: A) → B a): ∀ (a: A) → app (fun f) a ==> f a
+                           fun-app (B: A → Type) (p: intro B): fun (λ (a: A) → app p a) ==> p
 
                 h2#ast AST
                 code.
-                    Inductive OM := Star: Nat → OM)
+                    Inductive OM := Star: nat → OM)
                                   | Var: name → OM)
                                   | App: OM → OM → OM)
                                   | Lambda: name → OM → OM → OM)    
@@ -83,7 +118,7 @@ block content
                 h1 Passes
 
                 h2#normal Normalized
-                p Terms in CoC language.
+                p Terms in OM language.
                 code.
                     $ om show List/Cons
 
@@ -155,4 +190,3 @@ block content
                     'Cons'() -> fun (Head) -> fun (Tail) -> fun (Cons) -> fun (Nil) ->
                         ((Cons(Head))((Tail(Cons))(Nil))) end end end end.
 
-        include ../../resourses.pug
