@@ -1,70 +1,49 @@
-<!DOCTYPE html><html><head><meta charset="utf-8"><meta http-equiv="x-ua-compatible" content="ie=edge"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="author" content="Maxim Sokhatsky"><meta property="og:title" content="Groupoid Infinity"><meta property="og:image" content="http://groupoid.space/grp.png"><meta property="og:type" content="website"><meta property="fb:app_id" content="118554188236439"><meta property="og:url" content="http://groupoid.space"><meta property="og:description" content="Infinity Language"><link rel="stylesheet" href="http://groupoid.space/main.css"><title>Om</title></head><body class="content"><header class="header"><a href="http://groupoid.space/"><img class="header__logo" src="/groupoid.svg"/></a><div class="header__titles"><h1 class="header__title">Single Axiom Language</h1><h4 class="header__subtitle">Om &mdash; language with universal quntifier and infinity number of universes for typechecking and normalization</h4></div></header><article class="main"><div class="om"><section><h1>Definition</h1><h2 id="nat">Calculus of Constructions</h2><p>The <mark>Om</mark> language is a dependently typed lambda calculus,
+<!DOCTYPE html><html><head><meta charset="utf-8"><meta http-equiv="x-ua-compatible" content="ie=edge"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="author" content="Maxim Sokhatsky"><meta property="og:title" content="Groupoid Infinity"><meta property="og:image" content="http://groupoid.space/grp.png"><meta property="og:type" content="website"><meta property="fb:app_id" content="118554188236439"><meta property="og:url" content="http://groupoid.space"><meta property="og:description" content="Infinity Language"><link rel="stylesheet" href="http://groupoid.space/main.css"><title>OM</title></head><body class="content"><header class="header"><a href="http://groupoid.space/"><img class="header__logo" src="http://groupoid.space/groupoid.svg"/></a><div class="header__titles"><h1 class="header__title">Single Axiom Language</h1><h4 class="header__subtitle">OM &mdash; language with universal quntifier and infinity number of universes for typechecking and normalization</h4></div></header><article class="main"><div class="om"><section><h1>Definition</h1><h2 id="nat">Pure Type System</h2><p>The <mark>OM</mark> language is a dependently typed lambda calculus,
 an extension of Barendregt' and Coquand Calculus of Constructions
 with the predicative hierarchy of indexed universes.
 There is no fixpoint axiom needed for the definition of infinity term dependance.
 </p><h2 id="axioms">Axioms and Inference Rules</h2><p>All terms obey the <mark>A</mark> ranking inside the sequence of <mark>S</mark> universes,
 and the complexity <mark>R</mark> of the dependent term is equal to a maximum of
 the term's complexity and its dependency.
-The type system is completely described by  the following PTS notation (due to Barendregt):</p><code>S = *{n}, n : nat
-A = *{i} : *{i+1}
-R = *{i} -> *{j} : *{max i j}
-</code><h2 id="syntax">Syntax</h2><p>The untyped lambda language is the simplest language used in Om to generate backend programs. This subset of Om is used as the output of type erasure.</p><code>I ::= #identifier
-T ::= I | ( T ) | T T | λ I → T</code><p>The terms of Om consist of NN-indexed stars, variables, applications, lambda-abstractions and universal quantifications (Pi-types). This language is called Calculus of Construction and exists in various syntaxes. Om supports Morte's CoC syntax.</p><code><> ::= #option
+The type system is completely described by the following PTS notation (due to Barendregt):</p><code>S := *{n}, n : nat
+A := *{i} : *{i+1}
+R := *{i} -> *{j} : *{max i j}
+</code><h2 id="syntax">Syntax</h2><p>The untyped lambda language O is the simplest language used in
+OM to generate backend programs. This O is used as the output of type erasure.</p><code>I ::= #identifier
+T ::= I | ( T ) | T T | λ I → T</code><p>The terms of OM consist of NN-indexed stars, variables, applications,
+lambda-abstractions and universal quantifications (Pi-types).
+This language is called Calculus of Construction and exists in various syntaxes.
+OM supports Morte's syntax.</p><code><> ::= #option
 I  ::= #identifier
 U  ::= * < #number >
 O  ::= U | I | ( O ) | O O | λ ( I : O ) → O
-                | O → O | ∀ ( I : O ) → O
-</code><h2 id="ast">AST</h2><code>data om: * :=
-     (star: nat → om)
-     (var: name → om)
-     (app: om → om → om)
-     (lambda: name → om → om → om)
-     (arrow: om → om → om)
-     (pi: name → om → om → om)
-</code><h2 id="parser">Parser</h2><p>Om implements custom 2N linear bi-directional parser using
-pattern-matching for rules definition.</p><p>In a given grammar applications <mark>O O</mark> associate to the left and function arrows like <mark>O → O</mark>, <mark>∀ ( N :</mark> and <mark>λ ( N :</mark> associate to the right. They are being collapsed during forward and backward pass respectively. Expressions <mark>∀ ( N :</mark> и <mark>λ ( N :</mark> are being replaced during forward pass to <mark>$ N</mark>, partial function constructor defined only with name. When forward pass meets closing paren <mark>)</mark> it turns to backward pass until reach <mark>$ N</mark>, then collapse to <mark>: N I</mark> &mdash; partial defined function constructor with name and type of argument, but not with type of result. During backward pass all arrows are being collapsed with <mark>: N I</mark> into <mark>∀ (N: I) → O</mark> or <mark>λ (N: I) → O</mark> &mdash; fully defined named function contructor. To determine when to collapse <mark>: N I</mark> when nested parens are given using <mark>( O )</mark> construction in the type of function argument, like in <mark>λ (N: ((a) b) l → o) → o</mark> parser should count parens starting from nearest left function definition.
-</p><h3>Forward</h3><p>LL(1-4)</p><code>[]                        : rewind
-[close]                   : rewind, continue
-[f open (var l) colon]    : [($ (f l))]
-[remote x l]      [(c y)] : [App (c y) (parse l)]
-[remove x l]              : [parse l]
-[($ x)]                   : [(n x)]
-[(n x)]           [(c y)] : [App (c y) (n x)]
-[x]                       : [x]
-</code><h3>Rewind</h3><p>LL(2-3)</p><code>[((: _) _)]                    : return
-[($ n)] [(b y)]                : rewind [((: n) (b y))]
-[(b y) ($ n)]     < Balanced > : rewind [((: n) (b y))]
-[(b y) ($ n)]                  : return [((: n) (b y))]
-[(c x) open ((: n) i)]         : return [(c x) ((: n) i)]
-[(c x) open ($ n)]             : return [(c x) ($ n)]
-[(c x) open open]              : return [(c x) open]
-[(c x) open (b y)]             : return [App (b y) (c x)]
-[(c x) open]                   : return [(c x)]
-[arrow ((: (n v)) i)] [(c x)]  : rewind [n v i (c x)], n = {Lambda,Pi}
-[(c x) arrow ((: (n v)) i]     : rewind [n v i (c x)], n = {Lambda,Pi}
-[arrow (b y)]     [(c x)]      : rewind [Arrow (b y) (c x)]
-[(c x) arrow (b y)]            : rewind [Arrow (b y) (c x)]
-[]                             : return
-</code><h2 id="typechecker">Typechecker</h2><h3>Type</h3><code>(Star n)         D : Star n + 1
+                   | O → O | ∀ ( I : O ) → O
+</code><h2 id="ast">AST</h2><code>Inductive OM := Star: Nat → OM)
+              | Var: name → OM)
+              | App: OM → OM → OM)
+              | Lambda: name → OM → OM → OM)    
+              | Arrow: OM → OM → OM)
+              | Pi: name → OM → OM → OM)
+</code><h2 id="typechecker">Typechecker</h2><h3>Type</h3><code>type (Star n)         D : Star n + 1
 
-(Var n)          D : isVar n D,
-                     nth (i + 1) (all n D)
+type (Var n)          D : let _ = isVar n D
+                          in nth (i + 1) (all n D)
 
-(Arrow i o)      D : Star max (star (type i D))
-                              (star (type o D))
+type (Arrow i o)      D : Star max (star (type i D))
+                                   (star (type o D))
 
-(Pi n 0 i o)     D : Star max (star (type i D))
-                              (star (type o [(n norm i)|D]))
+type (Pi n 0 i o)     D : Star max (star (type i D))
+                                   (star (type o [(n norm i)|D]))
 
-(Lambda n 0 i o) D : star (type i D),
-                     ni = norm i,
-                     Pi n 0 ni (type O [(n ni)|D])
+type (Lambda n 0 i o) D : let _ = star (type i D) in
+                          let ni = norm i in
+                          Pi n 0 ni (type O [(n ni)|D])
 
-(App f a)        D : t = type f D,
-                     isFun t,
-                     Pi n 0 i o = t,
-                     eq i (type a D),
-                     norm (subst o n a)</code></section><section><h1>Passes</h1><h2 id="normal">Normalized</h2><p>Terms in CoC language.</p><code>$ om show List/Cons
+type (App f a)        D : let t = type f D in
+                          let _ = isFun t in
+                          match t
+                           | Pi n 0 i o => let _ = eq i (type a D)
+                                           in norm (subst o n a)</code></section><section><h1>Passes</h1><h2 id="normal">Normalized</h2><p>Terms in CoC language.</p><code>$ om show List/Cons
 
 λ (A: *)
 → λ (Head: A)
