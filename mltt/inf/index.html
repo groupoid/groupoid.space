@@ -21,36 +21,29 @@ Everything in Infinity Language is encoded as inductive construction:
 from the equality property up to process calculus.
 Both Infinity language and its macrosystem are built using AST types,
 described in this document.
-</p></section><section class="langf"><div class="langf__col"><h2 id="syntax">Language Forms</h2><code><> ::= #option
+</p></section><section class="langf"><div class="langf__col"><h2 id="syntax">Language Extensions</h2><code>Require Import core.
+Require Import homotopy.
+Require Import pi.
+Require Import stream.
+Require Import effect.
 
-[] ::= #list
-
-I ::= #identifier
-
-U ::= * < #number >
-
-O ::= I | ( O ) |
-    U | O → O | O O
-        | ∀ ( I : O ) → O
-        | λ ( I : O ) → O
-
-L ::= I | L I
-
-A ::= O | A → A | ( L : O )
-
-F ::= ∅ | F ( I : O ) | ()
-
-E ::= O | E data L : A := F
-        | E record L :
-          A < extend F > := F
-        | E let F in E
-        | E case E [ | I O → E ]
-        | E receive E [ | I O → E ]
-        | E spawn E raise L := E
-        | E send E to E</code></div><div class="langf__col"><h2 id="ast">Syntax Tree</h2><code>data Inf: * :=
-     (om: Om → Inf)
-     (core: Macro → Inf)
-     (eff: Effect → Inf)
+Inductive MLTT := Pi:     MLTT   -> MLTT -> MLTT
+                | Lam:    Binder -> MLTT -> MLTT
+                | App:    MLTT   -> MLTT -> MLTT
+                | Sigma:  MLTT   -> MLTT -> MLTT
+                | Pair:   MLTT   -> MLTT -> MLTT
+                | Fst:    MLTT   -> MLTT
+                | Snd:    MLTT   -> MLTT
+                | Where:  MLTT   -> Decls -> MLTT
+                | Var:    Ident  -> MLTT
+                | U:      MLTT
+                | Con:    Label  -> list MLTT   -> MLTT
+                | Split:  Loc    -> list Branch -> MLTT
+                | Sum:    Binder -> NamedSum    -> MLTT      
+                | HIT:    HomotopyCalculus -> MLTT
+                | PI:     PiCalculus       -> MLTT
+                | EFF:    EffectCalculus   -> MLTT
+                | STREAM: StreamCalculus   -> MLTT.
 </code><h2 id="passes">Compiler Passes</h2><ol><li><a href='#macro'>INF</a> &mdash; Macro Expansion</li><li><a href='../om/#normal'>NORMAL</a> &mdash; Typechecking</li><li><a href='../om/#erased'>ERASE</a> &mdash; Type Information Erasure</li><li><a href='../om/#extract'>EXTRACT</a> &mdash; Extract VM Lambda</li></ol></div></section><section><h1>Calculus</h1><p>The type system is completely described by the PTS SAR notation, given by Barendregt.
 Find more info in <a href='../om/#axioms'>Axioms and Inference Rules</a>
 of underlying Om intermediate language.</p><code>record PTS: * :=

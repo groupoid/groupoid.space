@@ -41,42 +41,31 @@ block content
 
             section.langf
                 .langf__col
-                    h2#syntax Language Forms
+                    h2#syntax Language Extensions
                     code.
-                        <> ::= #option
+                        Require Import core.
+                        Require Import homotopy.
+                        Require Import pi.
+                        Require Import stream.
+                        Require Import effect.
 
-                        [] ::= #list
-
-                        I ::= #identifier
-
-                        U ::= * < #number >
-
-                        O ::= I | ( O ) |
-                            U | O → O | O O
-                                | ∀ ( I : O ) → O
-                                | λ ( I : O ) → O
-
-                        L ::= I | L I
-
-                        A ::= O | A → A | ( L : O )
-
-                        F ::= ∅ | F ( I : O ) | ()
-
-                        E ::= O | E data L : A := F
-                                | E record L :
-                                  A < extend F > := F
-                                | E let F in E
-                                | E case E [ | I O → E ]
-                                | E receive E [ | I O → E ]
-                                | E spawn E raise L := E
-                                | E send E to E
-                .langf__col
-                    h2#ast Syntax Tree
-                    code.
-                        data Inf: * :=
-                             (om: Om → Inf)
-                             (core: Macro → Inf)
-                             (eff: Effect → Inf)
+                        Inductive MLTT := Pi:     MLTT   -> MLTT -> MLTT
+                                        | Lam:    Binder -> MLTT -> MLTT
+                                        | App:    MLTT   -> MLTT -> MLTT
+                                        | Sigma:  MLTT   -> MLTT -> MLTT
+                                        | Pair:   MLTT   -> MLTT -> MLTT
+                                        | Fst:    MLTT   -> MLTT
+                                        | Snd:    MLTT   -> MLTT
+                                        | Where:  MLTT   -> Decls -> MLTT
+                                        | Var:    Ident  -> MLTT
+                                        | U:      MLTT
+                                        | Con:    Label  -> list MLTT   -> MLTT
+                                        | Split:  Loc    -> list Branch -> MLTT
+                                        | Sum:    Binder -> NamedSum    -> MLTT      
+                                        | HIT:    HomotopyCalculus -> MLTT
+                                        | PI:     PiCalculus       -> MLTT
+                                        | EFF:    EffectCalculus   -> MLTT
+                                        | STREAM: StreamCalculus   -> MLTT.
 
                     h2#passes Compiler Passes
                     ol
