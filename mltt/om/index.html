@@ -4,46 +4,41 @@ with the predicative hierarchy of indexed universes.
 There is no fixpoint axiom needed for the definition of infinity term dependance.</p><code>U₀ : U₁ : U₂ : U₃ : …
 
 U₀ — propositions
-U₁ — values and sets
+U₁ — values and sets       
 U₂ — types
 U₃ — sorts
 </code><h2 id="axioms">Axioms and Inference Rules</h2><p>All terms obey the <mark>A</mark> ranking inside the sequence of <mark>S</mark> universes,
 and the complexity <mark>R</mark> of the dependent term is equal to a maximum of
 the term's complexity and its dependency.
 The type system is completely described by the following PTS notation (due to Barendregt):</p><code>S    (n : nat) = U n
-A₁   (n : nat) = U n : U (n + 1) — non-cumulative
-R₁ (m n : nat) = U m ⟶ U n : U (max m n) — predicative
-</code><h2 id="axioms">Supported Configuration</h2><p>Propositional contractible bottom space is impredicative by derm dependance.</p><code>A₂ (n m : nat) = U n : U m where m > n — cumulative
+A₁ (n m : nat) = U n : U m where m > n — cumulative
+R₁ (m n : nat) = U m ⟶ U n : U (max m n) — predicative      
+</code><h2 id="axioms">Impredicative Propositional Universe</h2><p>Propositional contractible bottom space is impredicative by term dependance.</p><code>A₂   (n : nat) = U n : U (n + 1) — non-cumulative      
 R₂ (m n : nat) = U m ⟶ U n : U n — impredicative
-</code><h2 id="syntax">Extract Language</h2><p>The untyped lambda language O is the simplest language used in
-OM to generate backend programs. This O is used as the output of type erasure.</p><code>I = #identifier
-T = I | ( T ) | T T | λ I ⟶ T</code><p>The terms of OM consist of NN-indexed stars, variables, applications,
-lambda-abstractions and universal quantifications (Pi-types).
-This language is called Calculus of Construction and exists in various syntaxes.
-OM supports Morte's syntax.</p><code><> = #option
-I  = #identifier
-U  = * < #number >
-O  = U | I | ( O ) | λ ( I : O ) → O
-       O O | O → O | ∀ ( I : O ) → O
-
 </code><h2 id="ast">Type System a la Martin-Löf</h2><p>This langauge is called one axiom language as it reduction
 rule is inferred from type formation axiom along with eliminator
-and introduction adjoint functors.</p><code>∀ x: A → B x : Type              — formation rule
-λ x: A → b : B x                 — introduction
-app f a : B x                    — elimination
-app (λ a:A, b) a = b [p/a] : B x — equation</code><p>This language could be embedded in itself and used as Logical Framework.</p><code>Record Pi (A: Type) :=
+and introduction adjoint functors.</p><code>∀ (x: A) → B x : Type            — formation rule
+λ (x: A) → b   : B x             — introduction
+f a : B x                        — elimination
+(λ (a: A) → b) a = b [p/a] : B x — equation</code><p>This language could be embedded in itself and used as Logical Framework.</p><code>Record Pi (A: Type) :=
        intro: (A → Type) → Type
-       fun: (B: A → Type) → ∀ (a: A) → B a → intro B
+       lambda: (B: A → Type) → ∀ (a: A) → B a → intro B
        app: (B: A → Type) → intro B → ∀ (a: A) → B a
-       app-fun (B: A → Type) (f: ∀ (a: A) → B a): ∀ (a: A) → app (fun f) a ==> f a
-       fun-app (B: A → Type) (p: intro B): fun (λ (a: A) → app p a) ==> p
-</code><h2 id="ast">AST</h2><code>Inductive OM := Star: nat → OM)
-              | Var: name → OM)
+       app-lam (B: A → Type) (f: ∀ (a: A) → B a): ∀ (a: A) → app (fun f) a ==> f a
+       lam-app (B: A → Type) (p: intro B): fun (λ (a: A) → app p a) ==> p.
+</code><h2 id="ast">AST</h2><p>The terms of OM consist of <b>nat</b> indexed stars, variables, applications,
+abstractions and universal quantifications. This language is called Calculus
+of Construction and exists in various syntaxes. OM supports Morte's syntax.</p><code><> = #option
+I  = #identifier
+U  = * < #number >
+OM = U | I | ( OM )  | λ ( I : OM ) → OM      
+     OM OM | OM → OM | ∀ ( I : OM ) → OM</code><p>Equivalent tree encoding for parsed terms is following:</p><code>Inductive OM := Star: nat → OM)
+              | Var: nat → OM)
               | App: OM → OM → OM)
-              | Lambda: name → OM → OM → OM)    
+              | Lambda: nat → OM → OM → OM)    
               | Arrow: OM → OM → OM)
-              | Pi: name → OM → OM → OM)
-</code><h2 id="typechecker">Typechecker</h2><h3>Type</h3><code>type (Star n)         D : Star n + 1
+              | Pi: name → OM → OM → OM).
+</code><h2 id="typechecker">Typechecker</h2><code>type (Star n)         D : Star n + 1
 
 type (Var n)          D : let _ = isVar n D
                           in nth (i + 1) (all n D)
@@ -62,7 +57,8 @@ type (App f a)        D : let t = type f D in
                           let _ = isFun t in
                           match t
                            | Pi n 0 i o => let _ = eq i (type a D)
-                                           in norm (subst o n a)</code></section><section><h1>Passes</h1><h2 id="normal">Normalized</h2><p>Terms in OM language.</p><code>$ om show List/Cons
+                                           in norm (subst o n a)
+</code></section><section><h1>Passes</h1><h2 id="normal">Normalized</h2><p>Terms in OM language.</p><code>$ om show List/Cons
 
 λ (A: *)
 → λ (Head: A)
@@ -81,44 +77,17 @@ type (App f a)        D : let t = type f D in
 → List)
 → λ (Nil: List)
 → Cons Head (Tail List Cons Nil)
-
-{{"λ",{'A',0}},
-{{star,1},
-{{"λ",{'Head',0}},
-{{var,{'A',0}},
-    {{"λ",{'Tail',0}},
-    {{{"∀",{'List',0}},
-    {{star,1},
-        {{"∀",{'Cons',0}},
-        {{{"∀",{'Head',0}},
-        {{var,{'A',0}},
-            {{"∀",{'Tail',0}},
-            {{var,{'List',0}},{var,{'List',0}}}}}},
-        {{"∀",{'Nil',0}},
-        {{var,{'List',0}},{var,{'List',0}}}}}}}},
-    {{"λ",{'List',0}},
-    {{star,1},
-        {{"λ",{'Cons',0}},
-        {{{"∀",{'Head',0}},
-        {{var,{'A',0}},
-            {{"∀",{'Tail',0}},
-            {{var,{'List',0}},{var,{'List',0}}}}}},
-        {{"λ",{'Nil',0}},
-        {{var,{'List',0}},
-            {app,{{app,{{var,{'Cons',0}},
-                        {var,{'Head',0}}}},
-                {app,{{app,{{app,{{var,{'Tail',0}},
-                                    {var,{'List',0}}}},
-                            {var,{'Cons',0}}}},
-                        {var,{'Nil',0}}}}}}}}}}}}}}}}}}
-
+</code><h2 id="syntax">Extract Language</h2><p>The untyped lambda language O is the simplest language used in
+OM to generate backend programs. This O is used as the output of type erasure.</p><code>I = #identifier
+O = I | ( O ) | O O | λ I ⟶ O     </code><br><code>Inductive O := Var: nat → O)
+             | App: O → O → O)
+             | Lambda: nat → O → O → O).    
 </code><h2 id="erased">Erased</h2><p>Terms in untyped lambda pure language.</p><code>$ om print fst erase a "#List/Cons"
 ( λ Head
 → ( λ Tail
 → ( λ Cons
 → ( λ Nil
 → ((Cons Head) ((Tail Cons) Nil))))))
-ok
-</code><h2 id="extract">Extract</h2><p>Erlang extracted code. For other targets you may want to read
-<a href='/extract'> Code Extract</a> notes.</p><code>'Cons'() -> fun (Head) -> fun (Tail) -> fun (Cons) -> fun (Nil) ->
+ok</code><p>Erlang extracted code. For other targets you may want to read
+<a href='../../lc/extract'> Code Extract</a> notes.</p><code>'Cons'() -> fun (Head) -> fun (Tail) -> fun (Cons) -> fun (Nil) ->
     ((Cons(Head))((Tail(Cons))(Nil))) end end end end.</code></section></div></article><footer class="footer"><img class="footer__logo" src="http://groupoid.space/stamp.svg"><span class="footer__copy">2016&mdash;2017 &copy; Groupoid Infinity</span></footer><script src="http://groupoid.space/bundle.js"></script><script src="http://groupoid.space/highlight.js"></script></body></html>
