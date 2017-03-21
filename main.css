@@ -1,3 +1,4 @@
+@import url("https://fonts.googleapis.com/css?family=Lobster+Two");
 @font-face {
   font-family: 'local';
   src: url("/Geometria-Light.otf");
@@ -162,18 +163,18 @@ aside {
 .footer {
   width: 100%;
   padding: 15px;
-  background: #cbe3f4;
-  color: #282828;
+  background: #7F8C8D;
+  color: white;
   text-align: center; }
   .footer__logo {
     width: 50px;
-    margin-right: 20px; }
+    margin: 20px; }
   .footer__copy {
-    font-size: 14px;
+    font-size: 16px;
     white-space: pre; }
   @media (min-width: 768px) {
     .footer__copy {
-      font-size: 20px; } }
+      font-size: 24px; } }
 
 .semantics {
   text-align: center; }
@@ -233,26 +234,33 @@ aside {
         font-size: 22px; } }
 
 .index {
-  display: inline-block;
+  max-width: 900px;
+  margin: auto;
   padding: 20px 0;
-  font-size: 20px; }
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center; }
   .index__col {
-    padding: 5px 2vw; }
+    white-space: nowrap;
+    padding: 15px 25px;
+    margin: 15px;
+    background: #fefefe;
+    box-shadow: 0 1px 4px rgba(0, 0, 100, 0.1), inset 0 0 0 1px rgba(0, 0, 0, 0.1);
+    transition: box-shadow 0.5s cubic-bezier(0.23, 1, 0.32, 1); }
+    .index__col:hover {
+      box-shadow: 0 8px 40px rgba(0, 0, 100, 0.15), inset 0 0 0 1px rgba(0, 0, 0, 0.1); }
   .index a {
-    text-transform: uppercase;
-    line-height: 1.8; }
+    line-height: 1.5;
+    color: #979797;
+    font-size: 24px; }
+  .index a:hover {
+    color: #3A98C8; }
   .index h2 {
-    font-size: 28px;
+    font-size: 40px;
     text-align: left;
-    margin-top: 16px; }
-  .index ol {
-    padding-left: 1.1em; }
-  @media (min-width: 768px) {
-    .index {
-      font-size: 24px; }
-      .index__col {
-        display: inline-block;
-        vertical-align: top; } }
+    color: #a4a4a4;
+    margin: 0 0 10px;
+    font-family: 'Lobster Two', cursive; }
 
 .om section + section {
   margin-top: 50px; }
@@ -384,7 +392,6 @@ aside {
       font-size: 40px; } }
 
 code {
-  border: 1px solid rgba(50, 50, 93, 0.1);
   display: inline-block;
   overflow-x: auto;
   max-width: 100%;
@@ -396,7 +403,7 @@ code {
   font-size: 14px;
   color: #00259c;
   background: white;
-  box-shadow: 0 4px 8px rgba(50, 50, 93, 0.11), 0 1px 3px rgba(0, 0, 0, 0.08); }
+  box-shadow: 0 1px 4px #f1f0f0, inset 0 0 0 1px #e7e6e5; }
   @media (min-width: 768px) {
     code {
       font-size: 17px; } }
