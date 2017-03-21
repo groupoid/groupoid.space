@@ -1,5 +1,3 @@
-@import url( 'https://fonts.googleapis.com/css?family=Lobster+Two');
-
 .index {
     max-width: 900px;
     margin: auto;
@@ -32,10 +30,10 @@
     }
 
     h2 {
-        font-size: 40px;
+        font-size: 24px;
         text-align: left;
-        color: #a4a4a4;
+        color: #707070;
         margin: 0 0 10px;
-        font-family: 'Lobster Two', cursive;
+        text-transform: uppercase;
     }
 }
