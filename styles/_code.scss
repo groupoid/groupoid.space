@@ -1,6 +1,4 @@
-
 code {
-    border: 1px solid rgba(50,50,93,.1);
     display: inline-block;
     overflow-x: auto;
     max-width: 100%;
@@ -12,9 +10,7 @@ code {
     font-size: 14px;
     color: #00259c;
     background: white;
-    box-shadow: 0 4px 8px rgba(50,50,93,.11),
-                0 1px 3px rgba(0,  0, 0,.08);
-
+    box-shadow: 0 1px 4px #f1f0f0, inset 0 0 0 1px #e7e6e5;
     @media (min-width:768px) {
         font-size: 17px;
     }
