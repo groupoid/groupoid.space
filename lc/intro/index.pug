@@ -21,11 +21,9 @@ block content
                 h2#ast AST
                 code.
                     data o: Type :=
-                         (star: nat → o)
                          (var: name → o)
                          (app: o → o → o)
                          (lambda: name → o → o → o)
-                         (arrow: o → o → o)
 
                 h2#erased Erased
                 p Terms in untyped lambda pure language.

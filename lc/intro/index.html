@@ -2,11 +2,9 @@
 This subset of OM is used as the output of type erasure.</p><code>I ::= #identifier
 T ::= I | ( T ) | T T | λ I → T
 </code><h2 id="ast">AST</h2><code>data o: Type :=
-     (star: nat → o)
      (var: name → o)
      (app: o → o → o)
      (lambda: name → o → o → o)
-     (arrow: o → o → o)
 </code><h2 id="erased">Erased</h2><p>Terms in untyped lambda pure language.</p><code>$ om print fst erase a "#List/Cons"
 ( λ Head
 → ( λ Tail
