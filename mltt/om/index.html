@@ -107,7 +107,12 @@ OM = U | I | ( OM )  | λ ( I : OM ) → OM
               | Arrow: OM → OM → OM
               | Pi: name → OM → OM → OM.
 </code><h2 id="typechecker">Typechecker</h2><p>The typechecker is structural recursive function over OM terms.
-It lookups variables from the context.</p><code>Fixpoint typecheker (t: OM, c: Context): OM :=
+It lookups variables from the context.</p><code>Definition star(t: OM): nat :=
+     match t
+     | Star n => n
+     | _ => error "star"
+
+Fixpoint type (t: OM, c: Context): OM :=
      match t
      | Pi n 0 i o => Star max (star (type i c))
                               (star (type o [(n,norm i)|c]))

@@ -183,7 +183,12 @@ block content
                     The typechecker is structural recursive function over OM terms.
                     It lookups variables from the context.
                 code.
-                    Fixpoint typecheker (t: OM, c: Context): OM :=
+                    Definition star(t: OM): nat :=
+                         match t
+                         | Star n => n
+                         | _ => error "star"
+
+                    Fixpoint type (t: OM, c: Context): OM :=
                          match t
                          | Pi n 0 i o => Star max (star (type i c))
                                                   (star (type o [(n,norm i)|c]))
