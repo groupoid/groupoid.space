@@ -2,20 +2,23 @@ extends ../../layout.pug
 
 block title
     title OM
+    script(src='http://cdn.mathjax.org/mathjax/2.6-latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML')
+    script.
+         MathJax.Hub.Config({ displayAlign: "left", tex2jax: { inlineMath: [['$','$'], ['\\(','\\)']], processEscapes: true } });
 
 block content
-    +header('http://groupoid.space/groupoid.svg', 'Single Axiom Language', 'OM &mdash; language with universal quntifier and infinity number of universes for typechecking and normalization')
+    +header('http://groupoid.space/groupoid.svg', 'Pure Type System', 'OM &mdash; language with universal quntifier and infinity number of universes for typechecking and normalization')
     article.main
         .om
             section
                 h1 Definition
 
-                h2#nat Pure Type System
+                h2#nat Universes
                 p.
-                    The <b>OM</b> language is a dependently typed lambda calculus,
-                    an extension of Barendregt' and Coquand Calculus of Constructions
-                    with the predicative hierarchy of indexed universes. This extension is
-                    motivated avoiding paradoxes in dependent theory.
+                    The <b>OM</b> language is a higher-order dependently typed lambda calculus,
+                    an extension of Coquand's Calculus of Constructions
+                    with the predicative/impredicative hierarchy of indexed universes.
+                    This extension is motivated avoiding paradoxes in dependent theory.
                     Also there is no fixpoint axiom needed for the definition
                     of infinity term dependance.
                 code.
@@ -25,35 +28,126 @@ block content
                     U₁ — values and sets       
                     U₂ — types
                     U₃ — sorts
-
-                h2#axioms Axioms and Inference Rules
+                .semantics
+                        figure.
+                           \begin{equation}
+                            \tag{S}
+                            \dfrac
+                            {o : Nat}
+                            {Type_o}
+                            \end{equation}
+                h2#axioms Predicative Universes
                 p.
                     All terms obey the <b>A</b> ranking inside the sequence of <b>S</b> universes,
                     and the complexity <b>R</b> of the dependent term is equal to a maximum of
                     the term's complexity and its dependency.
-                    The type system is completely described by the following PTS notation (due to Barendregt):
+                    The universes system is completely described by the following
+                    PTS notation (due to Barendregt):
                 code.
                     S    (n : nat) = U n
                     A₁ (n m : nat) = U n : U m where m > n — cumulative
                     R₁ (m n : nat) = U m ⟶ U n : U (max m n) — predicative      
-
-                h2#axioms Impredicative Propositional Universe
                 p.
-                    Propositional contractible bottom space is impredicative by term dependance.
+                    Note that predicative universes are incompatible with Church lambda term encoding.
+                    You can switch predicative vs impredicative uninverses by typecheker parameter.
+                .semantics
+                        figure.
+                            $$
+                            \begin{equation}
+                            \tag{A₁}
+                            \dfrac
+                            {i: Nat}
+                            {Type_i : Type_{i+1}}
+                            \end{equation}
+                            $$
+                .semantics
+                        figure.
+                            $$
+                            \begin{equation}
+                            \tag{R₁}
+                            \dfrac
+                            {i : Nat,\ \ \ \ j : Nat}
+                            {Type_i \rightarrow Type_{j} : Type_{max(i,j)}}
+                            \end{equation}
+                            $$
+
+                h2#axioms Impredicative Universes
+                p.
+                    Propositional contractible bottom space is the only
+                    available extension to predicative hierarchy that not leads to inconsistency.
+                    However there is another option to have infinite
+                    impredicative hierarchy.
                 code.
                     A₂   (n : nat) = U n : U (n + 1) — non-cumulative      
                     R₂ (m n : nat) = U m ⟶ U n : U n — impredicative
 
-                h2#ast Type System a la Martin-Löf
+                .semantics
+                        figure.
+                            $$
+                            \begin{equation}
+                            \tag{A₂}
+                            \dfrac
+                            {i: Nat,\ \ \ \ j: Nat,\ \ \ \ i < j}
+                            {Type_i : Type_{j}}
+                            \end{equation}
+                            $$
+                .semantics
+                        figure.
+                            $$
+                            \begin{equation}
+                            \tag{R₂}
+                            \dfrac
+                            {i : Nat,\ \ \ \ j : Nat}
+                            {Type_i \rightarrow Type_{j} : Type_{j}}
+                            \end{equation}
+                            $$
+
+                h2#ast Single Axiom Language
                 p.
-                    This langauge is called one axiom language as it reduction
-                    rule is inferred from type formation axiom along with eliminator
-                    and introduction adjoint functors.
+                    This langauge is called one axiom language as eliminator
+                    and introduction adjoint functors inferred from type formation rule.
+                    The only computation rule of Pi type is called beta-reduction.
                 code.
-                    ∀ (x: A) → B x : Type            — formation rule
-                    λ (x: A) → b   : B x             — introduction
-                    f a : B x                        — elimination
-                    (λ (a: A) → b) a = b [p/a] : B x — equation
+                    ∀ (x: A) → B x : Type                  — formation rule
+                    λ (x: A) → b   : B x                   — introduction
+                    f a : B [a/x]                          — elimination
+                    (λ (x: A) → b) a = b [a/x] : B [a/x]   — equation
+
+                .semantics
+                    figure.
+                        \begin{equation}
+                        \tag{$\Pi$-formation}
+                        \dfrac
+                        {x:A \vdash B : Type}
+                        {\Pi\ (x:A) \rightarrow B : Type}
+                        \end{equation}
+                    figure.
+                        \begin{equation}
+                        \tag{$\lambda$-intro}
+                        \dfrac
+                        {x:A \vdash b : B}
+                        {\lambda\ (x:A) \rightarrow b : \Pi\ (x: A) \rightarrow B }
+                        \end{equation}
+                    br
+                    figure.
+                        $$
+                        \begin{equation}
+                        \tag{$App$-elimination}
+                        \dfrac
+                        {f: (\Pi\ (x:A) \rightarrow B)\ \ \ a: A}
+                        {f\ a : B\ [a/x]}
+                        \end{equation}
+                        $$
+                    figure.
+                        $$
+                        \begin{equation}
+                        \tag{$\beta$-computation}
+                        \dfrac
+                        {x:A \vdash b: B\ \ \ a:A}
+                        {(\lambda\ (x:A) \rightarrow b)\ a = b\ [a/x] : B\ [a/x]}
+                        \end{equation}
+                        $$
+
                 p.
                     This language could be embedded in itself and used
                     as Logical Framework for the Pi type:
@@ -65,7 +159,7 @@ block content
                            app-lam (B: A → Type) (f: ∀ (a: A) → B a): ∀ (a: A) → app (fun f) a ==> f a
                            lam-app (B: A → Type) (p: intro B): fun (λ (a: A) → app p a) ==> p.
 
-                h2#ast AST
+                h2#ast Syntax
                 p.
                     The terms of OM consist of <b>nat</b> indexed stars, variables, applications,
                     abstractions and universal quantifications. This language is called Calculus
@@ -79,35 +173,35 @@ block content
                 p.
                     Equivalent tree encoding for parsed terms is following:
                 code.
-                    Inductive OM := Star: nat → OM)
-                                  | Var: name → OM)
-                                  | App: OM → OM → OM)
-                                  | Lambda: name → OM → OM → OM)    
-                                  | Arrow: OM → OM → OM)
-                                  | Pi: name → OM → OM → OM).
+                    Inductive OM := Star: nat → OM
+                                  | Var: name → OM
+                                  | App: OM → OM → OM
+                                  | Lambda: name → OM → OM → OM    
+                                  | Arrow: OM → OM → OM
+                                  | Pi: name → OM → OM → OM.
 
                 h2#typechecker Typechecker
+                p.
+                    The typechecker is structural recursive function over OM terms.
+                    It lookups variables from the context.
                 code.
-                    type (Star n)         D : Star n + 1
-
-                    type (Var n)          D : let _ = isVar n D
-                                              in nth (i + 1) (all n D)
-
-                    type (Arrow i o)      D : Star max (star (type i D))
-                                                       (star (type o D))
-
-                    type (Pi n 0 i o)     D : Star max (star (type i D))
-                                                       (star (type o [(n norm i)|D]))
-
-                    type (Lambda n 0 i o) D : let _ = star (type i D) in
-                                              let ni = norm i in
-                                              Pi n 0 ni (type O [(n ni)|D])
-
-                    type (App f a)        D : let t = type f D in
-                                              let _ = isFun t in
-                                              match t
-                                               | Pi n 0 i o => let _ = eq i (type a D)
-                                                               in norm (subst o n a)
+                    Fixpoint typecheker (t: OM, c: Context): OM :=
+                         match t
+                         | Pi n 0 i o => Star max (star (type i c))
+                                                  (star (type o [(n,norm i)|c]))
+                         | Arrow i o  => Star max (star (type i c))
+                                                  (star (type o c))
+                         | Lambda n 0 i o => let _ = star (type i c) in
+                                             let ni = norm i in
+                                             Pi n 0 ni (type O [(n,ni)|c])
+                         | App f a => match type f c
+                                      | Pi n 0 i o => let _ = eq i (type a c)
+                                                      in norm (subst o n a)
+                                      | _ => error "app"
+                         | Var n => match get c n
+                                    | Some x => x
+                                    | None => error "var"
+                         | Star n => Star n + 1
 
             section
                 h1 Passes
@@ -144,9 +238,9 @@ block content
                     O = I | ( O ) | O O | λ I ⟶ O     
                 br.
                 code.
-                    Inductive O := Var: nat → O)
-                                 | App: O → O → O)
-                                 | Lambda: nat → O → O → O).    
+                    Inductive O := Var: nat → O
+                                 | App: O → O → O
+                                 | Lambda: nat → O → O → O.    
 
                 h2#erased Erased
                 p.
