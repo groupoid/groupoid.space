@@ -11,19 +11,10 @@ polymorphic container types and type schemes.</p><code>Inductive E := Var: name 
              | Parametrized: name → list name → T
              | Var: name → T
              | Scheme: list name -> T -> T
-             | Arrow: T → T → T.</code><p>However, HN is a compiler intermediate language for human-readable code generation,
-so there are many limitations compared to what you ususally expect from an ML dialect.
-</p><p>Limitations:</p></div><h2>Common</h2><h3></h3><section class="langf"><div class="langf__col"></div><ol><li><div>Type-safe but not memory-safe</div></li><li><div>Controlled effects</div></li><li><div>No recursion</div></li><li><div>No currying or partial applications</div></li></ol></section><h2>Unusual</h2><h3></h3><section class="langf"><div class="langf__col"></div><ol><li><FFI>import is the only way to create data types</FFI></li><li><All>functions must be named</All></li><li><Only>stack-allocated variables and closures</Only></li><li><Closures>can't escape the scope</Closures></li><li><Explicit>heap deallocations</Explicit></li></ol></section><h3></h3><p>Concrete syntax is rigid. Whitespace is not flexible so there
-is only one way to format the code, you cannot even indent
-by spaces or put two spaces instead of one. There are no comments either.
-</p><code>hnMain = {
-    g x count = {
-        f xx = _or (eq 0 (mod xx 5)) (eq 0 (mod xx 3))
-        _if (f x) (sum count x) count
-    }
-    print (natrec g 0 999)
-}</code><p>The abstract syntax is defined in `Parser.AST` module by mutually recursive
-algebraic data types, nothing unusual or exotic here:</p><code>data LetIn a = Let (Definition a) (LetIn a)
+             | Arrow: T → T → T.</code><p>To make code more human-readable HN disallows lambdas and requires
+all functions to be named.
+So the actual abstract syntax of HN0 is more complex:
+</p><code>data LetIn a = Let (Definition a) (LetIn a)
              | In (Expression a)
 
 data Definition a = Definition a [a] (LetIn a)
@@ -36,16 +27,44 @@ data Expression a = Application (Expression a) [Expression a]
                   | Constant Const
 
 data Const = ConstString String
-           | ConstInt    Int</code><p>The AST has two forms: the parser returns `Definition String` but
-optimizer converts it into `Definition Label` with unambiguously resolved names.</p><p>The `Parser.Parser` module contains two parsers - `program` and `identifier`
-and Parsec library is the only dependency.</p><p>Put `min-parser.hs` to the project root:
-</p><code>import Parser.Parser
-import Text.Parsec.ByteString
+           | ConstInt    Int
+</code><p>However, HN is a compiler intermediate language for human-readable code generation,
+so there are many limitations compared to what you ususally expect from an ML dialect.</p><p>Common Limitations: Type-safe but not memory-safe; Controlled effects;
+No recursion; No currying or partial applications;
+No currying or partial applications.</p><p>Unusual Limitations: FFI import is the only way to create data types;
+All functions must be named;
+Only stack-allocated variables and closures;
+Closures can't escape the scope;
+Explicit heap deallocations.
+</p><code>   hnMain = {
+       g x count = {
+           f xx = _or (eq 0 (mod xx 5)) (eq 0 (mod xx 3))
+           _if (f x) (sum count x) count
+       }
+       print (natrec g 0 999)
+   }
+p.
+    The abstract syntax is defined in `Parser.AST` module by mutually recursive
+    algebraic data types, nothing unusual or exotic here:
+p.
+    The AST has two forms: the parser returns `Definition String` but
+    optimizer converts it into `Definition Label` with unambiguously resolved names.
+p.
+    The `Parser.Parser` module contains two parsers - `program` and `identifier`
+    and Parsec library is the only dependency.
+p.
+    Put `min-parser.hs` to the project root:
 
-main = parseFromFile program "hn_tests/euler1.hn" >>= print
-</code><code>$ cabal exec runhaskell -- -Wno-tabs min-parser.hs
+code.
+    import Parser.Parser
+    import Text.Parsec.ByteString
 
-Right [Definition "hnMain" [] (Let (Definition "g" ["x","count"] 
-(Let (Definition "f" ["xx"] (In "_or" "eq" 0 "mod" "xx" 5 "eq" 0
-"mod" "xx" 3)) (In "_if" "f" "x" "sum" "count" "x" "count"))) (
-In "print" "natrec" "g" 0 999))]</code></article><footer class="footer"><img class="footer__logo" src="http://groupoid.space/stamp.svg"><span class="footer__copy">2016&mdash;2017 &copy; Groupoid Infinity</span></footer><script src="http://groupoid.space/bundle.js"></script><script src="http://groupoid.space/highlight.js"></script></body></html>
+    main = parseFromFile program "hn_tests/euler1.hn" >>= print
+
+code.
+    $ cabal exec runhaskell -- -Wno-tabs min-parser.hs
+
+    Right [Definition "hnMain" [] (Let (Definition "g" ["x","count"]
+    (Let (Definition "f" ["xx"] (In "_or" "eq" 0 "mod" "xx" 5 "eq" 0
+    "mod" "xx" 3)) (In "_if" "f" "x" "sum" "count" "x" "count"))) (
+    In "print" "natrec" "g" 0 999))]</code></div></article><footer class="footer"><img class="footer__logo" src="http://groupoid.space/stamp.svg"><span class="footer__copy">2016&mdash;2017 &copy; Groupoid Infinity</span></footer><script src="http://groupoid.space/bundle.js"></script><script src="http://groupoid.space/highlight.js"></script></body></html>

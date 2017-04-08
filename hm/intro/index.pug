@@ -33,49 +33,11 @@ block content
                                  | Scheme: list name -> T -> T
                                  | Arrow: T → T → T.
             p.
-                However, HN is a compiler intermediate language for human-readable code generation,
-                so there are many limitations compared to what you ususally expect from an ML dialect.
+                To make code more human-readable HN disallows lambdas and requires
+                all functions to be named.
+                So the actual abstract syntax of HN0 is more complex:
 
-            p.
-                Limitations:
-        h2 Common
-        h3
-        section.langf
-            .langf__col
-            ol
-                li: <div>Type-safe but not memory-safe</div>
-                li: <div>Controlled effects</div>
-                li: <div>No recursion</div>
-                li: <div>No currying or partial applications</div>
-
-        h2 Unusual
-        h3
-        section.langf
-            .langf__col
-            ol
-                li: FFI import is the only way to create data types
-                li: All functions must be named
-                li: Only stack-allocated variables and closures
-                li: Closures can't escape the scope
-                li: Explicit heap deallocations
-        h3
-        p.
-            Concrete syntax is rigid. Whitespace is not flexible so there
-            is only one way to format the code, you cannot even indent
-            by spaces or put two spaces instead of one. There are no comments either.
-
-        code.
-                hnMain = {
-                    g x count = {
-                        f xx = _or (eq 0 (mod xx 5)) (eq 0 (mod xx 3))
-                        _if (f x) (sum count x) count
-                    }
-                    print (natrec g 0 999)
-                }
-        p.
-            The abstract syntax is defined in `Parser.AST` module by mutually recursive
-            algebraic data types, nothing unusual or exotic here:
-        code.
+            code.
 
                 data LetIn a = Let (Definition a) (LetIn a)
                              | In (Expression a)
@@ -91,26 +53,51 @@ block content
 
                 data Const = ConstString String
                            | ConstInt    Int
-        p.
-            The AST has two forms: the parser returns `Definition String` but
-            optimizer converts it into `Definition Label` with unambiguously resolved names.
-        p.
-            The `Parser.Parser` module contains two parsers - `program` and `identifier`
-            and Parsec library is the only dependency.
-        p.
-            Put `min-parser.hs` to the project root:
 
-        code.
-            import Parser.Parser
-            import Text.Parsec.ByteString
+            p.
+                However, HN is a compiler intermediate language for human-readable code generation,
+                so there are many limitations compared to what you ususally expect from an ML dialect.
+            p.
+                Common Limitations: Type-safe but not memory-safe; Controlled effects;
+                No recursion; No currying or partial applications;
+                No currying or partial applications.
+            p.
+                Unusual Limitations: FFI import is the only way to create data types;
+                All functions must be named;
+                Only stack-allocated variables and closures;
+                Closures can't escape the scope;
+                Explicit heap deallocations.
 
-            main = parseFromFile program "hn_tests/euler1.hn" >>= print
+            code.
+                hnMain = {
+                    g x count = {
+                        f xx = _or (eq 0 (mod xx 5)) (eq 0 (mod xx 3))
+                        _if (f x) (sum count x) count
+                    }
+                    print (natrec g 0 999)
+                }
+             p.
+                 The abstract syntax is defined in `Parser.AST` module by mutually recursive
+                 algebraic data types, nothing unusual or exotic here:
+             p.
+                 The AST has two forms: the parser returns `Definition String` but
+                 optimizer converts it into `Definition Label` with unambiguously resolved names.
+             p.
+                 The `Parser.Parser` module contains two parsers - `program` and `identifier`
+                 and Parsec library is the only dependency.
+             p.
+                 Put `min-parser.hs` to the project root:
 
-        code.
-            $ cabal exec runhaskell -- -Wno-tabs min-parser.hs
+             code.
+                 import Parser.Parser
+                 import Text.Parsec.ByteString
 
-            Right [Definition "hnMain" [] (Let (Definition "g" ["x","count"] 
-            (Let (Definition "f" ["xx"] (In "_or" "eq" 0 "mod" "xx" 5 "eq" 0
-            "mod" "xx" 3)) (In "_if" "f" "x" "sum" "count" "x" "count"))) (
-            In "print" "natrec" "g" 0 999))]
+                 main = parseFromFile program "hn_tests/euler1.hn" >>= print
 
+             code.
+                 $ cabal exec runhaskell -- -Wno-tabs min-parser.hs
+
+                 Right [Definition "hnMain" [] (Let (Definition "g" ["x","count"]
+                 (Let (Definition "f" ["xx"] (In "_or" "eq" 0 "mod" "xx" 5 "eq" 0
+                 "mod" "xx" 3)) (In "_if" "f" "x" "sum" "count" "x" "count"))) (
+                 In "print" "natrec" "g" 0 999))]
