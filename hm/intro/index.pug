@@ -4,7 +4,7 @@ block title
     title HN
 
 block content
-    +header('/groupoid.svg', 'HN', 'Language Definition')
+    +header('http://groupoid.space/groupoid.svg', 'HN', 'Language Intoduction')
     article.main
         aside Andy Melnikov
             time 17 JAN 2017
@@ -15,9 +15,26 @@ block content
                 The type inference algorithm is complete, so there are no type annotations.
                 The primitives are very similar to the original Milner's proposal for ML language:
                 lexically scoped variables, functions, assignments, loops and conditionals.
+            h2 Syntax
+            p.
+                 The language is divided onto expressions and types. The expressions is
+                 in essence the lamda caclulus enriched with Let constructor. The type
+                 schemes could be function types, simple constant types and
+                 parametrised polymorphic container types.
+            code.
+                    Inductive E := Var: name → E
+                                 | App: E → E → E
+                                 | Lambda: name → E → E
+                                 | Let: name → E → E.
+            code.
+                    Inductive T := Simple: name → T
+                                 | Parametrized: name → list name → T
+                                 | Var: name → T
+                                 | Arrow: T → T → T.
             p.
                 However, HN is a compiler intermediate language for human-readable code generation,
                 so there are many limitations compared to what you ususally expect from an ML dialect.
+
             p.
                 Limitations:
         h2 Common
