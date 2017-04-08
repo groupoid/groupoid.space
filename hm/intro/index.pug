@@ -92,25 +92,25 @@ block content
                       return ff::print(ff::natrec<int>(&local::g, 0, 999));
                  };
 
-             p.
+            p.
                  The abstract syntax is defined in `Parser.AST` module by mutually recursive
                  algebraic data types, nothing unusual or exotic here:
-             p.
+            p.
                  The AST has two forms: the parser returns `Definition String` but
                  optimizer converts it into `Definition Label` with unambiguously resolved names.
-             p.
+            p.
                  The `Parser.Parser` module contains two parsers - `program` and `identifier`
                  and Parsec library is the only dependency.
-             p.
+            p.
                  Put `min-parser.hs` to the project root:
 
-             code.
+            code.
                  import Parser.Parser
                  import Text.Parsec.ByteString
 
                  main = parseFromFile program "hn_tests/euler1.hn" >>= print
 
-             code.
+            code.
                  $ cabal exec runhaskell -- -Wno-tabs min-parser.hs
 
                  Right [Definition "hnMain" [] (Let (Definition "g" ["x","count"]
