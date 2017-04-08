@@ -1,7 +1,7 @@
-<!DOCTYPE html><html><head><meta charset="utf-8"><meta http-equiv="x-ua-compatible" content="ie=edge"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="author" content="Maxim Sokhatsky"><meta property="og:title" content="Groupoid Infinity"><meta property="og:image" content="http://groupoid.space/grp.png"><meta property="og:type" content="website"><meta property="fb:app_id" content="118554188236439"><meta property="og:url" content="http://groupoid.space"><meta property="og:description" content="Infinity Language"><link rel="stylesheet" href="http://groupoid.space/main.css"><title>HN</title></head><body class="content"><header class="header"><a href="http://groupoid.space/"><img class="header__logo" src="http://groupoid.space/groupoid.svg"/></a><div class="header__titles"><h1 class="header__title">HN</h1><h4 class="header__subtitle">Language Intoduction</h4></div></header><article class="main"><aside>Andy Melnikov<time>17 JAN 2017</time></aside><div class="intro"><h2>HN Language</h2><p>HN is an implicitly typed language.
+<!DOCTYPE html><html><head><meta charset="utf-8"><meta http-equiv="x-ua-compatible" content="ie=edge"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="author" content="Maxim Sokhatsky"><meta property="og:title" content="Groupoid Infinity"><meta property="og:image" content="http://groupoid.space/grp.png"><meta property="og:type" content="website"><meta property="fb:app_id" content="118554188236439"><meta property="og:url" content="http://groupoid.space"><meta property="og:description" content="Infinity Language"><link rel="stylesheet" href="http://groupoid.space/main.css"><title>HN</title></head><body class="content"><header class="header"><a href="http://groupoid.space/"><img class="header__logo" src="http://groupoid.space/groupoid.svg"/></a><div class="header__titles"><h1 class="header__title">HN</h1><h4 class="header__subtitle">Language Intoduction</h4></div></header><article class="main"><aside>Andy Melnikov<time>17 JAN 2017</time></aside><div class="intro"><h2>Motivation</h2><p>HN is an implicitly typed language.
 The type inference algorithm is complete, so there are no type annotations.
 The primitives are very similar to the original Milner's proposal for ML language:
-lexically scoped variables, functions, assignments, loops and conditionals.</p><h2>Syntax</h2><p>There are expressions and types. Expressions are in essence
+lexically scoped variables, functions, assignments, loops and conditionals.</p><h2>Internal Language</h2><p>There are expressions and types. Expressions are in essence
 the lamda caclulus enriched with Let construct. The types
 are function types, simple constant types, parametrised
 polymorphic container types and type schemes.</p><code>Inductive E := Var: name → E
@@ -11,7 +11,7 @@ polymorphic container types and type schemes.</p><code>Inductive E := Var: name 
              | Parametrized: name → list name → T
              | Var: name → T
              | Scheme: list name -> T -> T
-             | Arrow: T → T → T.</code><p>To make code more human-readable HN disallows lambdas and requires
+             | Arrow: T → T → T.</code><h2>Syntax</h2><p>To make code more human-readable HN disallows lambdas and requires
 all functions to be named.
 So the actual abstract syntax of HN0 is more complex:
 </p><code>data LetIn a = Let (Definition a) (LetIn a)
@@ -28,7 +28,7 @@ data Expression a = Application (Expression a) [Expression a]
 
 data Const = ConstString String
            | ConstInt    Int
-</code><p>However, HN is a compiler intermediate language for human-readable code generation,
+</code><h2>Limitations</h2><p>However, HN is a compiler intermediate language for human-readable code generation,
 so there are many limitations compared to what you ususally expect from an ML dialect.</p><p>Common Limitations: Type-safe but not memory-safe; Controlled effects;
 No recursion; No currying or partial applications;
 No currying or partial applications.</p><p>Unusual Limitations: FFI import is the only way to create data types;
@@ -36,37 +36,32 @@ All functions must be named;
 Only stack-allocated variables and closures;
 Closures can't escape the scope;
 Explicit heap deallocations.
-</p><code>hnMain = {
+</p><h2>Code Generation Example</h2><code>hnMain = {
     g x count = {
         f xx = _or (eq 0 (mod xx 5)) (eq 0 (mod xx 3))
         _if (f x) (sum count x) count
     }
     print (natrec g 0 999)
 }
-</code><code>#include <hn/lib.hpp>
+</code><code>#include &lt;hn/lib.hpp&gt;
 struct hnMain_impl
 {
-     static int g(int x, int count)
-     {
-          return 0 == x % 5 || 0 == x % 3 ? count + x : count;
-     };
+  static int g(int x, int count)
+  {
+    return 0 == x % 5 || 0 == x % 3 ? count + x : count;
+  };
 };
 ff::IO<void> hnMain()
 {
-     typedef hnMain_impl local;
-     return ff::print(ff::natrec<int>(&local::g, 0, 999));
+  typedef hnMain_impl local;
+  return ff::print(ff::natrec<int>(&local::g, 0, 999));
 };
-</code><p>The abstract syntax is defined in `Parser.AST` module by mutually recursive
-algebraic data types, nothing unusual or exotic here:</p><p>The AST has two forms: the parser returns `Definition String` but
-optimizer converts it into `Definition Label` with unambiguously resolved names.</p><p>The `Parser.Parser` module contains two parsers - `program` and `identifier`
-and Parsec library is the only dependency.</p><p>Put `min-parser.hs` to the project root:
-</p><code>import Parser.Parser
+</code><h2>AST Inspection</h2><code>import Parser.Parser
 import Text.Parsec.ByteString
-
-main = parseFromFile program "hn_tests/euler1.hn" >>= print
-</code><code>$ cabal exec runhaskell -- -Wno-tabs min-parser.hs
-
-Right [Definition "hnMain" [] (Let (Definition "g" ["x","count"]
-(Let (Definition "f" ["xx"] (In "_or" "eq" 0 "mod" "xx" 5 "eq" 0
-"mod" "xx" 3)) (In "_if" "f" "x" "sum" "count" "x" "count"))) (
-In "print" "natrec" "g" 0 999))]</code></div></article><footer class="footer"><img class="footer__logo" src="http://groupoid.space/stamp.svg"><span class="footer__copy">2016&mdash;2017 &copy; Groupoid Infinity</span></footer><script src="http://groupoid.space/bundle.js"></script><script src="http://groupoid.space/highlight.js"></script></body></html>
+main = parseFromFile program "hn_tests/euler1.hn" >>= print</code><code>$ cabal exec runhaskell -- -Wno-tabs min-parser.hs
+Right [Definition "hnMain" []
+(Let (Definition "g" ["x","count"]
+     (Let (Definition "f" ["xx"]
+          (In "_or" "eq" 0 "mod" "xx" 5 "eq" 0 "mod" "xx" 3))
+          (In "_if" "f" "x" "sum" "count" "x" "count")))
+     (In "print" "natrec" "g" 0 999))]</code></div></article><footer class="footer"><img class="footer__logo" src="http://groupoid.space/stamp.svg"><span class="footer__copy">2016&mdash;2017 &copy; Groupoid Infinity</span></footer><script src="http://groupoid.space/bundle.js"></script><script src="http://groupoid.space/highlight.js"></script></body></html>

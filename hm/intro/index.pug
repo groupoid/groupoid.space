@@ -9,13 +9,13 @@ block content
         aside Andy Melnikov
             time 17 JAN 2017
         .intro
-            h2 HN Language
+            h2 Motivation
             p.
                 HN is an implicitly typed language.
                 The type inference algorithm is complete, so there are no type annotations.
                 The primitives are very similar to the original Milner's proposal for ML language:
                 lexically scoped variables, functions, assignments, loops and conditionals.
-            h2 Syntax
+            h2 Internal Language
             p.
                 There are expressions and types. Expressions are in essence
                 the lamda caclulus enriched with Let construct. The types
@@ -32,6 +32,7 @@ block content
                                  | Var: name → T
                                  | Scheme: list name -> T -> T
                                  | Arrow: T → T → T.
+            h2 Syntax
             p.
                 To make code more human-readable HN disallows lambdas and requires
                 all functions to be named.
@@ -54,6 +55,7 @@ block content
                 data Const = ConstString String
                            | ConstInt    Int
 
+            h2 Limitations
             p.
                 However, HN is a compiler intermediate language for human-readable code generation,
                 so there are many limitations compared to what you ususally expect from an ML dialect.
@@ -68,6 +70,7 @@ block content
                 Closures can't escape the scope;
                 Explicit heap deallocations.
 
+            h2 Code Generation Example
             code.
                  hnMain = {
                      g x count = {
@@ -78,42 +81,30 @@ block content
                  }
 
             code.
-                 #include <hn/lib.hpp>
-                 struct hnMain_impl
-                 {
-                      static int g(int x, int count)
-                      {
-                           return 0 == x % 5 || 0 == x % 3 ? count + x : count;
-                      };
-                 };
-                 ff::IO<void> hnMain()
-                 {
-                      typedef hnMain_impl local;
-                      return ff::print(ff::natrec<int>(&local::g, 0, 999));
-                 };
+                #include &lt;hn/lib.hpp&gt;
+                struct hnMain_impl
+                {
+                  static int g(int x, int count)
+                  {
+                    return 0 == x % 5 || 0 == x % 3 ? count + x : count;
+                  };
+                };
+                ff::IO<void> hnMain()
+                {
+                  typedef hnMain_impl local;
+                  return ff::print(ff::natrec<int>(&local::g, 0, 999));
+                };
 
-            p.
-                 The abstract syntax is defined in `Parser.AST` module by mutually recursive
-                 algebraic data types, nothing unusual or exotic here:
-            p.
-                 The AST has two forms: the parser returns `Definition String` but
-                 optimizer converts it into `Definition Label` with unambiguously resolved names.
-            p.
-                 The `Parser.Parser` module contains two parsers - `program` and `identifier`
-                 and Parsec library is the only dependency.
-            p.
-                 Put `min-parser.hs` to the project root:
-
+            h2 AST Inspection
             code.
-                 import Parser.Parser
-                 import Text.Parsec.ByteString
-
-                 main = parseFromFile program "hn_tests/euler1.hn" >>= print
-
+                import Parser.Parser
+                import Text.Parsec.ByteString
+                main = parseFromFile program "hn_tests/euler1.hn" >>= print
             code.
-                 $ cabal exec runhaskell -- -Wno-tabs min-parser.hs
-
-                 Right [Definition "hnMain" [] (Let (Definition "g" ["x","count"]
-                 (Let (Definition "f" ["xx"] (In "_or" "eq" 0 "mod" "xx" 5 "eq" 0
-                 "mod" "xx" 3)) (In "_if" "f" "x" "sum" "count" "x" "count"))) (
-                 In "print" "natrec" "g" 0 999))]
+                $ cabal exec runhaskell -- -Wno-tabs min-parser.hs
+                Right [Definition "hnMain" []
+                (Let (Definition "g" ["x","count"]
+                     (Let (Definition "f" ["xx"]
+                          (In "_or" "eq" 0 "mod" "xx" 5 "eq" 0 "mod" "xx" 3))
+                          (In "_if" "f" "x" "sum" "count" "x" "count")))
+                     (In "print" "natrec" "g" 0 999))]
