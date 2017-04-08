@@ -2,8 +2,8 @@
 The type inference algorithm is complete, so there are no type annotations.
 The primitives are very similar to the original Milner's proposal for ML language:
 lexically scoped variables, functions, assignments, loops and conditionals.</p><h2>Syntax</h2><p>The language is divided onto expressions and types. The expressions is
-in essence the lamda caclulus enriched with Let constructor. The type
-schemes could be function types, simple constant types and
+in essence the lamda caclulus enriched with Let constructor. The types
+could be function types, simple constant types and
 parametrised polymorphic container types.</p><code>Inductive E := Var: name → E
              | App: E → E → E
              | Lambda: name → E → E
