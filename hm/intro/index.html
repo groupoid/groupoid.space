@@ -10,6 +10,7 @@ parametrised polymorphic container types.</p><code>Inductive E := Var: name → 
              | Let: name → E → E.</code><code>Inductive T := Simple: name → T
              | Parametrized: name → list name → T
              | Var: name → T
+             | Scheme: list name -> T -> T
              | Arrow: T → T → T.</code><p>However, HN is a compiler intermediate language for human-readable code generation,
 so there are many limitations compared to what you ususally expect from an ML dialect.
 </p><p>Limitations:</p></div><h2>Common</h2><h3></h3><section class="langf"><div class="langf__col"></div><ol><li><div>Type-safe but not memory-safe</div></li><li><div>Controlled effects</div></li><li><div>No recursion</div></li><li><div>No currying or partial applications</div></li></ol></section><h2>Unusual</h2><h3></h3><section class="langf"><div class="langf__col"></div><ol><li><FFI>import is the only way to create data types</FFI></li><li><All>functions must be named</All></li><li><Only>stack-allocated variables and closures</Only></li><li><Closures>can't escape the scope</Closures></li><li><Explicit>heap deallocations</Explicit></li></ol></section><h3></h3><p>Concrete syntax is rigid. Whitespace is not flexible so there

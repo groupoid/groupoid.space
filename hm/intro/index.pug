@@ -30,6 +30,7 @@ block content
                     Inductive T := Simple: name → T
                                  | Parametrized: name → list name → T
                                  | Var: name → T
+                                 | Scheme: list name -> T -> T
                                  | Arrow: T → T → T.
             p.
                 However, HN is a compiler intermediate language for human-readable code generation,
