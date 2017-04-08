@@ -36,13 +36,29 @@ All functions must be named;
 Only stack-allocated variables and closures;
 Closures can't escape the scope;
 Explicit heap deallocations.
-</p><code>   hnMain = {
-       g x count = {
-           f xx = _or (eq 0 (mod xx 5)) (eq 0 (mod xx 3))
-           _if (f x) (sum count x) count
-       }
-       print (natrec g 0 999)
-   }
+</p><code>hnMain = {
+    g x count = {
+        f xx = _or (eq 0 (mod xx 5)) (eq 0 (mod xx 3))
+        _if (f x) (sum count x) count
+    }
+    print (natrec g 0 999)
+}
+</code><code>    #include <hn/lib.hpp>
+
+    struct hnMain_impl
+    {
+         static int g(int x, int count)
+         {
+              return 0 == x % 5 || 0 == x % 3 ? count + x : count;
+         };
+    };
+
+    ff::IO<void> hnMain()
+    {
+         typedef hnMain_impl local;
+         return ff::print(ff::natrec<int>(&local::g, 0, 999));
+    };
+
 p.
     The abstract syntax is defined in `Parser.AST` module by mutually recursive
     algebraic data types, nothing unusual or exotic here:
