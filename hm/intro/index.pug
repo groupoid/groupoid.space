@@ -79,7 +79,6 @@ block content
 
             code.
                  #include <hn/lib.hpp>
-
                  struct hnMain_impl
                  {
                       static int g(int x, int count)
@@ -87,7 +86,6 @@ block content
                            return 0 == x % 5 || 0 == x % 3 ? count + x : count;
                       };
                  };
-
                  ff::IO<void> hnMain()
                  {
                       typedef hnMain_impl local;

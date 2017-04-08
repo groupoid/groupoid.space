@@ -44,7 +44,6 @@ Explicit heap deallocations.
     print (natrec g 0 999)
 }
 </code><code>    #include <hn/lib.hpp>
-
     struct hnMain_impl
     {
          static int g(int x, int count)
@@ -52,7 +51,6 @@ Explicit heap deallocations.
               return 0 == x % 5 || 0 == x % 3 ? count + x : count;
          };
     };
-
     ff::IO<void> hnMain()
     {
          typedef hnMain_impl local;
