@@ -7,17 +7,16 @@ block title
         MathJax.Hub.Config({ tex2jax: { inlineMath: [['$','$'], ['\\(','\\)']], processEscapes: true } });                               
 
 block content
-    +header('/groupoid.svg', 'Lambek Encoding', 'Categorical Semantics of Inductive Encodings')
-    
+    +header('../../groupoid.svg', 'Lambek Encoding', 'Categorical Semantics of Inductive Encodings')
+
     article.main
         aside Paul Lyutko<br>Maxim Sokhatsky
             time DATE: 1 MAY 2016
         .enc
             h2 Initial Object
             code.
-                let I = data List (A:*) :=
-                             nil: () -> List A
-                             cons: A -> List A -> List A
+                data list (A: U) = nil
+                                 | cons (a: A) (xs: list A)
 
             h2 Representing Functor F
             code.
@@ -25,42 +24,40 @@ block content
 
             h2 Construct corresponding F-Algebra
             code.
-                record ListAlg (A: *) :=
-                       X: *
-                       nil: () -> X
-                       cons: A -> X -> X
+                listAlg (A : U) : U
+                    = (X: U)
+                    * (nil: Unit -> X)
+                    * (cons: A -> X -> X)
+                    * A
 
             h2 Introduce List Morphisms
             code.
-                record ListMor (A: *) (x1 x2: ListAlg A) :=
-                       map: x1.X -> x2.X
-                       mapNil: Setoid.Mor.Eq (map x1.nil) x2.nil
-                       mapCons: (a: A) (x: x1.X) ->
-                                map x1.cons a x = x2.cons a (map x)
+                listMor (A: U) (x1 x2: listAlg A) : U
+                    = (map:     x1.1 -> x2.1)
+                    * (mapNil:  Path x2.1 (map (x1.2.1 unit))
+                                          (x2.2.1 unit))
+                    * (mapCons: (a:A) (x: x1.1) ->
+                                Path x2.1 (map (x1.2.2.1 a x))
+                                          (x2.2.2.1 a (map x)))
+                    * A
 
             h2  Introduce connected points of List type
             code.
-                record ListPoint (A: *) :=
-                       point: (x: ListAlg A) -> x.X
-                       transport: (x1 x2: ListAlg A) (m: ListMor A x1 x2) ->
-                                  Setoid.Ob.Equ (m.map point x1) (point x2)
+                listPoint (A: U) : U
+                    = (point: (x: listAlg A) -> x.1)
+                    * (map: (x1 x2: listAlg A)
+                            (m: listMor A x1 x2) ->
+                            Path x2.1 (m.1 (point x1))
+                                      (point x2))
+                    * A
 
-            h2 Theorem
-            code.
-                def ⓪ := Cat.mk ()
-                def ① := Cat.mk 𝟙<sub>ListAlg</sub>
-
-                record Theorem := *
-                        (intro: colim ⓪ = lim ①)
             figure.
+                $$\def\mapright#1{\xrightarrow{{#1}}}
+                  \def\mapdown#1{\Big\downarrow\rlap{\raise2pt{\scriptstyle{#1}}}}
+                  \def\mapdiagl#1{\vcenter{\searrow}\rlap{\raise2pt{\scriptstyle{#1}}}}
+                  \def\mapdiagr#1{\vcenter{\swarrow}\rlap{\raise2pt{\scriptstyle{#1}}}}
                 $$
-                \require{AMSmath}
-                \require{AMSsymbols}
-                \def\mapright#1{\xrightarrow{{#1}}}
-                \def\mapdown#1{\Big\downarrow\rlap{\raise2pt{\scriptstyle{#1}}}}
-                \def\mapdiagl#1{\vcenter{\searrow}\rlap{\raise2pt{\scriptstyle{#1}}}}
-                \def\mapdiagr#1{\vcenter{\swarrow}\rlap{\raise2pt{\scriptstyle{#1}}}}
-                $$
+
             figure.
                 $$U = ListAlg\\$$
 
