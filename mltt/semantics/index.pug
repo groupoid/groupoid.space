@@ -2,12 +2,12 @@ extends ../../layout.pug
 
 block title
     title Semantics
-    script(src='http://cdnjs.cloudflare.com/ajax/libs/mathjax/2.6.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML')
+    script(src='//cdnjs.cloudflare.com/ajax/libs/mathjax/2.6.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML')
     script.
          MathJax.Hub.Config({ displayAlign: "left", tex2jax: { inlineMath: [['$','$'], ['\\(','\\)']], processEscapes: true } });
 
 block content
-    +header('/groupoid.svg', 'Logical Forms', 'Inference rules')
+    +header('//groupoid.svg', 'Logical Forms', 'Inference rules')
 
     article.main
         aside Maxim Sokhatsky

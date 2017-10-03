@@ -2,12 +2,12 @@ extends ../../layout.pug
 
 block title
     title OM
-    script(src='http://cdnjs.cloudflare.com/ajax/libs/mathjax/2.6.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML')
+    script(src='//cdnjs.cloudflare.com/ajax/libs/mathjax/2.6.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML')
     script.
          MathJax.Hub.Config({ displayAlign: "left", tex2jax: { inlineMath: [['$','$'], ['\\(','\\)']], processEscapes: true } });
 
 block content
-    +header('http://groupoid.space/groupoid.svg', 'Pure Type System', 'OM &mdash; language with universal quntifier and infinity number of universes for typechecking and normalization')
+    +header('//groupoid.space/groupoid.svg', 'Pure Type System', 'OM &mdash; language with universal quntifier and infinity number of universes for typechecking and normalization')
     article.main
         .om
             section
