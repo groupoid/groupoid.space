@@ -1,6 +1,6 @@
 mixin header(logo, title, subtitle)
     header.header
-        a(href='http://groupoid.space/')
+        a(href='//groupoid.space/')
             img.header__logo(src=logo)
         .header__titles
             h1.header__title!= title
@@ -15,19 +15,19 @@ html
         meta(name='viewport' content='width=device-width, initial-scale=1')
         meta(name='author' content='Maxim Sokhatsky')
         meta(property='og:title' content='Groupoid Infinity')
-        meta(property='og:image' content='http://groupoid.space/grp.png')
+        meta(property='og:image' content='//groupoid.space/grp.png')
         meta(property='og:type' content='website')
         meta(property='fb:app_id' content='118554188236439')
-        meta(property='og:url' content='http://groupoid.space' )
+        meta(property='og:url' content='//groupoid.space' )
         meta(property='og:description' content='Infinity Language')
-        link(rel='stylesheet' href='http://groupoid.space/main.css')
+        link(rel='stylesheet' href='//groupoid.space/main.css')
         block title
             title default
 
     body.content
         block content
         footer.footer
-            img.footer__logo(src='http://groupoid.space/stamp.svg')
+            img.footer__logo(src='//groupoid.space/stamp.svg')
             span.footer__copy 2016&mdash;2017 &copy; Groupoid Infinity
-        script(src='http://groupoid.space/bundle.js')
-        script(src='http://groupoid.space/highlight.js')
+        script(src='//groupoid.space/bundle.js')
+        script(src='//groupoid.space/highlight.js')
