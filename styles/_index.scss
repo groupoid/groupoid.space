@@ -21,12 +21,20 @@
 
     a {
         line-height: 1.5;
-        color: #979797;
+        color: #888;
         font-size: 24px;
+    }
+
+    a[href^="#"] {
+        color: #BBBBBB;
     }
 
     a:hover {
         color: #3A98C8;
+    }
+
+    a[href^="#"]:hover {
+        color: #BBBBBB;
     }
 
     h2 {
