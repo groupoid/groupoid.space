@@ -21,8 +21,9 @@ akkerman_rust  8,968 ns/iter (+/- 322)
              | SymbolInt (a: u16)
              | SequenceInt (a: u16)
              | Number (a: i64)
-             | Float (a: i64)
-             | VecFloat (Vec Float)
+             | Float (a: f64)
+             | VecNumber (Vec i64)
+             | VecFloat (Vec f64)
 
 data Scalar  = Nil
              | Any
