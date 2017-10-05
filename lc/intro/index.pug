@@ -48,6 +48,27 @@ block content
                     monoidal categories. Such exercise definitely will extend
                     your confidence of linear types.
 
+                h2#vec Built-in Vectorization by Rust
+
+                code.
+                    (&AST::Atom(Atom::Value(Value::$vec(ref l))),
+                     &AST::Atom(Atom::Value(Value::$vec(ref r)))) => {
+                        let a: Vec<$atype> = l.iter()
+                            .zip(r)
+                            .map(|(l,r)| dyad_map_expr!(l,$op,r,$atom))
+                            .collect::<Vec<$atype>>();
+                        Ok( AST::Atom(Atom::Value(Value::$r_vec(a))) )
+                    },
+
+                code.
+                    objdump ./target/release/o -d | grep mulpd
+                       223f1:       c5 f5 59 0c d3          vmulpd (%rbx,%rdx,8),%ymm1,%ymm1
+                       223f6:       c5 dd 59 64 d3 20       vmulpd 0x20(%rbx,%rdx,8),%ymm4,%ymm4
+                       22416:       c5 f5 59 4c d3 40       vmulpd 0x40(%rbx,%rdx,8),%ymm1,%ymm1
+                       2241c:       c5 dd 59 64 d3 60       vmulpd 0x60(%rbx,%rdx,8),%ymm4,%ymm4
+                       2264d:       c5 f5 59 0c d3          vmulpd (%rbx,%rdx,8),%ymm1,%ymm1
+                       22652:       c5 e5 59 5c d3 20       vmulpd 0x20(%rbx,%rdx,8),%ymm3,%ymm3
+
                 h2#ast AST
                 code.
                     data Value   = Nil
