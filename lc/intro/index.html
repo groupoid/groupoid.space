@@ -6,13 +6,13 @@ make stick to L1 sizes with enabled AVX instruction it
 can outperform any reasonable alternatives.
 </p><p>Such approach was taken when building O-CPS interpreter in Rust.
 And following observations was made on calculating factorial and
-ackerman function:
+ackerman function (3,4):
 </p><code>Rust    0
 Java    3
 PyPy    8
+O-CPS   291
 Python  537
 K       756
-O-CPS   7702
 Erlang  10699/1806/436/9
 LuaJIT  33856</code><br><code>akkerman_k     635 ns/iter (+/- 73)
 akkerman_rust  8,968 ns/iter (+/- 322)
