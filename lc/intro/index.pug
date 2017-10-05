@@ -40,6 +40,14 @@ block content
                     akkerman_k     635 ns/iter (+/- 73)
                     akkerman_rust  8,968 ns/iter (+/- 322)
 
+                p.
+                    The key challenge was that O-CPS implementation was made in Rust's
+                    flavour of linear types, and thus lambda interpreter as internal
+                    language of cartesian category was written in language with
+                    linear types and lifetimes as internal language of symmetric
+                    monoidal categories. Such exercise definitely will extend
+                    your confidence of linear types.
+
                 h2#ast AST
                 code.
                     data Value   = Nil

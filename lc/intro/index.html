@@ -17,7 +17,13 @@ K       756
 Erlang  10699/1806/436/9
 LuaJIT  33856</code><br><code>akkerman_k     635 ns/iter (+/- 73)
 akkerman_rust  8,968 ns/iter (+/- 322)
-</code><h2 id="ast">AST</h2><code>data Value   = Nil
+</code><p>The key challenge was that O-CPS implementation was made in Rust's
+flavour of linear types, and thus lambda interpreter as internal
+language of cartesian category was written in language with
+linear types and lifetimes as internal language of symmetric
+monoidal categories. Such exercise definitely will extend
+your confidence of linear types.
+</p><h2 id="ast">AST</h2><code>data Value   = Nil
              | SymbolInt (a: u16)
              | SequenceInt (a: u16)
              | Number (a: i64)
