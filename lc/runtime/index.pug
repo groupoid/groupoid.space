@@ -5,56 +5,52 @@ block title
 
 block content
     +header('//groupoid.space/groupoid.svg', 'Interpreter Runtime', 'AMP Scheduler, CAS Queues, CPS Tasks')
-    -
-        var types = ['Publisher','Subscriber','Spawn','Send','Receive']
-    section.types
-        h1.types__title#taxonomy API
-        .types__row
-            ol.types__col
-                for k in types
-                    li.types__item: a(href='#'+k)= k.toUpperCase()
 
     article.main
+
         h2#Abstract Low Latency Transport
         p.
             The InterCore bus constructed of number of SPMC queues per core. The bus itself
             has start topology between cores and MPSC is organized as a computable function
             over a set of publisher queues. Each core has exatcly one publisher queue.
         p.
-            The InterCore protocol handler is called <b>poll_bus</b> and is a member of each <b>Scheduler</b>.
-            You may think of InterCore as teleport trasnport between processors as <b>poll_bus</b> is being fired
-            on each yield to scheduler and if any core has any message addressed to you since last yield on your
+            The InterCore protocol handler is called <b>poll_bus</b> and is a member of
+            each <b>Scheduler</b>. You may think of InterCore as teleport trasnport between
+            processors as <b>poll_bus</b> is being fired on each yield to scheduler and
+            if any core has any message addressed to you since last yield on your
             core, then your core before next task will execute the handler on this message.
 
-        h2#Publisher pub [capacity]
+        h2#Publisher Publisher [capacity]
         p.
             <b>pub</b> creates new publisher CAS cursor for writing.
             Returns system-wide cursor Id.
         code.
             o) p: pub[16]
 
-        h2#Subscriber sub [publisher]
+        h2#Subscriber Subscribe [publisher]
         p.
             <b>sub</b> created new subscriber CAS cursor based on given writer cursor.
             Return system-wide cursor Id for reading.
         code.
             o) s: sub[p]
 
-        h2#Spawn spawn[core;program;cursors]
+        h2#Spawn Spawn [core program cursors]
         p.
-            <b>spawn</b> created new Task on a given core. The Task could be O program or any LLVM code with compatible FFI.
-            Also you should specify the ownership list of cursors that are exclusively available to that Task.
+            <b>spawn</b> created new Task on a given core. The Task could be O program
+            or any LLVM code with compatible FFI. Also you should specify the ownership
+            list of cursors that are exclusively available to that Task.
         code.
-            o) spawn[0;"etc/proc0";(0;1)]
+            o) spawn [0 "etc/proc0" (0;1)]
 
-        h2#Send snd[writer;data]
+        h2#Send Send [writer data]
         p.
             <b>snd</b> sends particular data to a given writer cursor. Returns nil if OK.
         code.
             o) snd[p;42]
 
-        h2#Receive rcv[reader]
+        h2#Receive Receive [reader]
         p.
-            <b>rcv</b> returns data from the given reader cursor. If none then yields to scheduler for another task.
+            <b>rcv</b> returns data from the given reader cursor.
+            If none then yields to scheduler for another task.
         code.
             o) rcv[s]
