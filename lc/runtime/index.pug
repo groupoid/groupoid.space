@@ -4,7 +4,7 @@ block title
     title Runtime
 
 block content
-    +header('//groupoid.space/groupoid.svg', 'Code Extraction', 'Groupoid Infinity Targets')
+    +header('//groupoid.space/groupoid.svg', 'Interpreter Runtime', 'AMP Scheduler, CAS Queues, CPS Tasks')
     article.main
     -
         var types = ['Publisher','Subscriber','Spawn','Send','Receive']
@@ -28,13 +28,15 @@ block content
 
         h2#Publisher pub [capacity]
         p.
-            <b>pub</b> creates new publisher CAS cursor for writing. Returns system-wide cursor Id.
+            <b>pub</b> creates new publisher CAS cursor for writing.
+            Returns system-wide cursor Id.
         code.
             o) p: pub[16]
 
         h2#Subscriber sub [publisher]
         p.
-            <b>sub</b> created new subscriber CAS cursor based on given writer cursor. Return system-wide cursor Id for reading.
+            <b>sub</b> created new subscriber CAS cursor based on given writer cursor.
+            Return system-wide cursor Id for reading.
         code.
             o) s: sub[p]
 
