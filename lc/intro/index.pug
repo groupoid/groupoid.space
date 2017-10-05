@@ -14,18 +14,31 @@ block content
                 p.
                     The untyped lambda language O is the simplest language used in OM to generate backend programs.
                     This subset of OM is used as the output of type erasure.
-                code.
-                    I ::= #identifier
-                    T ::= I | ( T ) | T T | λ I → T
 
                 h2#ast AST
                 code.
-                    data o: Type :=
-                         (var: name → o)
-                         (app: o → o → o)
-                         (lambda: name → o → o → o)
+                    data ASTIter = Iter AST
 
-                h2#loop Interpreter Loop
+                    data AST     = Atom (a: AST)
+                                 | Vector (a: Vec AST)
+
+
+                    data Lazy    = Defer (otree: NodeId) (a: AST) (cont: Cont)
+                                 | Continuation (otree: NodeId) (a: AST) (cont: Cont)
+                                 | Return (a: AST)
+                                 | Start
+
+                    data Cont    = Expressions (ast: AST) -> Option (vec: ASTIter) -> (cont: Cont)
+                                 | Assign (ast: AST) -> (cont: Cont)
+                                 | Cond (c,d: AST) -> (cont: Cont)
+                                 | Func (a,b,c: AST) -> (cont: Cont)
+                                 | List (acc: ASTAcc) (vec: ASTIter) (i: Nat) (cont: Cont)
+                                 | Call (a: AST) (i: Nat) (cont: Cont)
+                                 | Return
+                                 | Intercore (m: Message) (cont: Cont)
+                                 | Yield (cont: Cont)
+
+                h2#loop O-CPS Interpreter
                 code.
                     E: V | A | C
                     NC: ";" = [] | ";" m:NL = m
@@ -34,24 +47,16 @@ block content
                     NL: NAME | o:NAME m:NC = Cons o m
                     FL: E | o:E | m:FC = Cons o m
                     EL: E | EC  | o:E m:EC = Cons o m
-                    V: v:V = Verb v [] [] | v:V r:E = Verb v [] r
-                    A: a:A = Adverb a [] [] | v:A r:E = Adverb v [] r
-                    C: N | c:N a:C = Call c a | l:N a:A = Adverb a l [] | l:N v:V = Verb v l []
-                         | l:N a:A r:E = Adverb a l r | l:N v:V r:E = Verb v l r
-                    N: NAME | S | HEX | L | D | F
-                    D: "[" "]" = [] | "["  l:EL "]" = Dict l
+                    C: N | c:N a:C = Call c a
+                    N: NAME | S | HEX | L | F
                     L: "(" ")" = [] | "([" c:NL "]" m:FL ")" = Table c m | "(" l:EL ")" = List l
                     F: "{" "}" = Lambda [] [] [] | "{[" c:NL "]" m:EL "}" = Lambda [] c m
                                                  | "{" m:EL "}" = Lambda [] [] m
 
-                    2. Порт Rust в System F (убраны лайфтаймы).
                     lazy n (Assign n b)               e k = D n b (ContAssign n k)
                          n (Cond v a l)               e k = D n v (ContCond l r k)
                          n (List l)                   e k = eve n l e k
                          n (Call c a)                 e k = D n a (ContCall c k)
-                         n (Verb v (Number _) r)      e k = D n r (ContVerb v l 0 k)
-                         n (Verb v _ (Number _))      e k = D n v (ContVerb v r 1 k)
-                         n (Verb v x y)               e k = D n x (ContVerb v y 0 k)
                          n (Name s)                   e k = cont (lookup n s e) k
                          n (Lambda _ x y)             e k = cont ((Lambda n x y) n) k
 
@@ -76,24 +81,5 @@ block content
                          n x        e (ContExpr (Cons a d) k) = eve n (Cons a d) k
                          n x        e (ContExpr r k)          = cont n x k
                          n x        e  ContRet                = emr x e k
-
-                h2#erased Erased
-                p Terms in untyped lambda pure language.
-                code.
-                    $ om print fst erase a "#List/Cons"
-                    ( λ Head
-                    → ( λ Tail
-                    → ( λ Cons
-                    → ( λ Nil
-                    → ((Cons Head) ((Tail Cons) Nil))))))
-                    ok
-
-                h2#extract Extract
-                p.
-                    Erlang extracted code. For other targets you may want to read
-                    <a href='/extract'> Code Extract</a> notes.
-                code.
-                    'Cons'() -> fun (Head) -> fun (Tail) -> fun (Cons) -> fun (Nil) ->
-                        ((Cons(Head))((Tail(Cons))(Nil))) end end end end.
 
         include ../../resourses.pug
