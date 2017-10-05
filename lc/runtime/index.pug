@@ -6,6 +6,14 @@ block title
 block content
     +header('//groupoid.space/groupoid.svg', 'Code Extraction', 'Groupoid Infinity Targets')
     article.main
+    -
+        var types = ['Publisher','Subscriber','Spawn','Send','Receive']
+    section.types
+        h1.types__title#taxonomy API
+        .types__row
+            ol.types__col
+                for k in types
+                    li.types__item: a(href='#'+k)= k.toUpperCase()
 
         h2#Abstract Low Latency Transport
         p.
