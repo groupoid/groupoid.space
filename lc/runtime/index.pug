@@ -1,0 +1,50 @@
+extends ../../layout.pug
+
+block title
+    title Runtime
+
+block content
+    +header('//groupoid.space/groupoid.svg', 'Code Extraction', 'Groupoid Infinity Targets')
+    article.main
+
+        h2#Abstract Low Latency Transport
+        p.
+            The InterCore bus constructed of number of SPMC queues per core. The bus itself
+            has start topology between cores and MPSC is organized as a computable function
+            over a set of publisher queues. Each core has exatcly one publisher queue.
+        p.
+            The InterCore protocol handler is called <b>poll_bus</b> and is a member of each <b>Scheduler</b>.
+            You may think of InterCore as teleport trasnport between processors as <b>poll_bus</b> is being fired
+            on each yield to scheduler and if any core has any message addressed to you since last yield on your
+            core, then your core before next task will execute the handler on this message.
+
+        h2#Publisher pub [capacity]
+        p.
+            <b>pub</b> creates new publisher CAS cursor for writing. Returns system-wide cursor Id.
+        code.
+            o) p: pub[16]
+
+        h2#Subscriber sub [publisher]
+        p.
+            <b>sub</b> created new subscriber CAS cursor based on given writer cursor. Return system-wide cursor Id for reading.
+        code.
+            o) s: sub[p]
+
+        h2#Spawn spawn[core;program;cursors]
+        p.
+            <b>spawn</b> created new Task on a given core. The Task could be O program or any LLVM code with compatible FFI.
+            Also you should specify the ownership list of cursors that are exclusively available to that Task.
+        code.
+            o) spawn[0;"etc/proc0";(0;1)]
+
+        h2#Send snd[writer;data]
+        p.
+            <b>snd</b> sends particular data to a given writer cursor. Returns nil if OK.
+        code.
+            o) snd[p;42]
+
+        h2#Receive rcv[reader]
+        p.
+            <b>rcv</b> returns data from the given reader cursor. If none then yields to scheduler for another task.
+        code.
+            o) rcv[s]
