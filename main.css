@@ -94,9 +94,6 @@ p {
     p {
       font-size: 22px; } }
 
-p:hover {
-  background: white; }
-
 mark {
   background: #FDF6E3;
   padding: 0px 2px;
@@ -250,10 +247,14 @@ aside {
       box-shadow: 0 8px 40px rgba(0, 0, 100, 0.15), inset 0 0 0 1px rgba(0, 0, 0, 0.1); }
   .index a {
     line-height: 1.5;
-    color: #979797;
+    color: #888;
     font-size: 24px; }
+  .index a[href^="#"] {
+    color: #BBBBBB; }
   .index a:hover {
     color: #3A98C8; }
+  .index a[href^="#"]:hover {
+    color: #BBBBBB; }
   .index h2 {
     font-size: 24px;
     text-align: left;
