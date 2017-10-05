@@ -14,15 +14,16 @@ block content
                 p.
                     The motivation of building interpreter that can be runned
                     on L1 sizes (limited to 64KB by code and data) came from
-                    sucess of LuaJIT, V8, HotSpot and vector lanaguage such as K, J.
-                    If we can build really fast VM for that interpreter and
-                    make stick to L1 sizes with enabled AVX instruction it
-                    can outperform any reasonable alternatives.
+                    sucess of LuaJIT, V8, HotSpot and vector lanaguages such as K, J.
+                    If we can build really fast VM for that interpreter
+                    (compact aligned bytecode) and make stick to L1 sizes
+                    with enabled AVX instruction it can outperform any reasonable alternatives.
 
                 p.
                     Such approach was taken when building O-CPS interpreter in Rust.
                     And following observations was made on calculating factorial (5) and
-                    ackerman function (3,4):
+                    ackerman function (3,4) and these results was observed even without
+                    bytecode VM!
 
                 code.
                     Rust    0
@@ -34,6 +35,7 @@ block content
                     Erlang  10699/1806/436/9
                     LuaJIT  33856
                 <br>
+
                 code.
                     akkerman_k     635 ns/iter (+/- 73)
                     akkerman_rust  8,968 ns/iter (+/- 322)
