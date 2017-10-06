@@ -113,7 +113,7 @@ func T                  ⟶ (:error,(:forall,T))
 </code><h2>Variables</h2><code>var N B       ⟶ var N B (proplists:is_defined N B)
 var N B true  ⟶ true
 var N B false ⟶ (:error,("free var",N,proplists:get_keys(B)))
-</code><h2>Shift</h2><code>sh (:var,(N,I)),N,P) when I>=P  ⟶ (var,(N,I+1))
+</code><h2>Shift</h2><code>sh (:var,(N,I)),N,P) when I>=P  ⟶ (:var,(N,I+1))
 sh ((:forall,(N,0)),(I,O)),N,P) ⟶ ((:forall,(N,0)),sh I N P,sh O N P+1)
 sh ((:lambda,(N,0)),(I,O)),N,P) ⟶ ((:lambda,(N,0)),sh I N P,sh O N P+1)
 sh (Q,(L,R),N,P)                ⟶ (Q,sh L N P,sh R N P)
@@ -131,7 +131,7 @@ sub T                       _ _ _ ⟶ T.
 </code><h2>Normalization</h2><code>norm :none                   ⟶ :none
 norm :any                    ⟶ :any
 norm (:app,(F,A))            ⟶ case norm F of
-                                ((:lambda,(N,0)),(I,O)) ⟶ norm (subst O N A)
+                                ((:lambda,(N,0)),(I,O)) ⟶ norm (sub O N A)
                                                      NF ⟶ (:app,(NF,norm A)) end
 norm (:remote,N)             ⟶ cache (norm N [])
 norm (:arrow,         (I,O)) ⟶ ((:forall,("_",0)),  (norm I,norm O))
@@ -145,22 +145,22 @@ eq (:var,(N,I))           (:var,(N,I))   ⟶ true
 eq (:remote,N)            (:remote,N)    ⟶ true
 eq ((:farall,(N1,0)),(I1,O1))
    ((:forall,(N2,0)),(I2,O2)) ⟶
-   let true = eq I1 I2 in eq O1 (subst (shift O2 N1 0) N2 (:var,(N1,0)) 0)
+   let true = eq I1 I2 in eq O1 (sub (sh O2 N1 0) N2 (:var,(N1,0)) 0)
 eq ((:lambda,(N1,0)),(I1,O1))
    ((:lambda,(N2,0)),(I2,O2)) ⟶
-   let true = eq I1 I2 in eq O1 (subst (shift O2 N1 0) N2 (:var,(N1,0)) 0)
+   let true = eq I1 I2 in eq O1 (sub (sh O2 N1 0) N2 (:var,(N1,0)) 0)
 eq (A,B)                      ⟶ (:error,(:eq,A,B))</code></section><h2>Type Checker<code>type (:star,N)               _ ⟶ (:star,N+1)
 type (:var,(N,I))            D ⟶ let true = var N D in keyget N D I
 type (:remote,N)             D ⟶ cache type N D
 type (:arrow,(I,O))          D ⟶ (:star,h(star(type I D)),star(type O D))
 type ((:forall,(N,0)),(I,O)) D ⟶ (:star,h(star(type I D)),star(type O [(N,norm I)|D]))
 type ((:lambda,(N,0)),(I,O)) D ⟶ let star (type I D),
-                                  NI = norm I in ((:forall,(N,0)),(NI,type(O,[(N,NI)|D])))
+                                  NI = norm I in ((:forall,(N,0)),(NI,type O [(N,NI)|D])))
 type (:app,(F,A))            D ⟶ let T = type(F,D),
                                   true = func T,
                                   ((:forall,(N,0)),(I,O)) = T,
                                   Q = type A D,
-                                  true = eq I Q in norm (subst O N A)
+                                  true = eq I Q in norm (sub O N A)
 </code></h2><section><h1>Passes</h1><h2 id="normal">Normalized</h2><p>Terms in OM language.</p><code>$ om show List/Cons
 
 λ (A: *)
