@@ -7,7 +7,7 @@
        (nil: Unit -> X)
        (cons: A -> X -> X)
 </code><h2>Introduce List Morphisms</h2><code>record listMor   (A: Type) (x1,x2: ListAlg A) : Type :=
-       (map:     x1.X $\rightarrow$ x2.X)
+       (map:     x1.X -> x2.X)
        (mapNil:  Path x2.X (map (x1.nil unit)) (x2.nil unit))
        (mapCons: ∀ (a: A) -> ∀ (x: x1) ->
                  Path x2.X (map (x1.cons a x)) (x2.cons a (map x)))
