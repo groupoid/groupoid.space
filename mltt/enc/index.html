@@ -4,16 +4,16 @@
 </code><h2>Representing Functor F</h2><code>F<sub>A</sub> = 1 + A * X
 </code><h2>Construct corresponding F-Algebra</h2><code>record listAlg (A: Type) : Type :=
        (X: Type)
-       (nil: Unit ⟶ X)
-       (cons: A ⟶ X ⟶ X)
+       (nil: Unit -> X)
+       (cons: A -> X -> X)
 </code><h2>Introduce List Morphisms</h2><code>record listMor   (A: Type) (x1,x2: ListAlg A) : Type :=
        (map:     x1.X $\rightarrow$ x2.X)
        (mapNil:  Path x2.X (map (x1.nil unit)) (x2.nil unit))
-       (mapCons: ∀ (a: A) ⟶ ∀ (x: x1) ⟶
+       (mapCons: ∀ (a: A) -> ∀ (x: x1) ->
                  Path x2.X (map (x1.cons a x)) (x2.cons a (map x)))
 </code><h2> Introduce connected points of List type</h2><code>record listPoint (A: Type) : Type :=
-       (point: ∀ (x: ListAlg A) ⟶ x.X)
-       (map: ∀ (x1,x2: listAlg A) ⟶ (m: ListMor A x1 x2) ⟶
+       (point: ∀ (x: ListAlg A) -> x.X)
+       (map: ∀ (x1,x2: listAlg A) -> (m: ListMor A x1 x2) ->
              Path x2.X (m.map (point x1)) (point x2))
 </code><figure>$$\def\mapright#1{\xrightarrow{{#1}}}
   \def\mapdown#1{\Big\downarrow\rlap{\raise2pt{\scriptstyle{#1}}}}

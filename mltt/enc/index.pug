@@ -26,22 +26,22 @@ block content
             code.
                 record listAlg (A: Type) : Type :=
                        (X: Type)
-                       (nil: Unit ⟶ X)
-                       (cons: A ⟶ X ⟶ X)
+                       (nil: Unit -> X)
+                       (cons: A -> X -> X)
 
             h2 Introduce List Morphisms
             code.
                 record listMor   (A: Type) (x1,x2: ListAlg A) : Type :=
                        (map:     x1.X $\rightarrow$ x2.X)
                        (mapNil:  Path x2.X (map (x1.nil unit)) (x2.nil unit))
-                       (mapCons: ∀ (a: A) ⟶ ∀ (x: x1) ⟶
+                       (mapCons: ∀ (a: A) -> ∀ (x: x1) ->
                                  Path x2.X (map (x1.cons a x)) (x2.cons a (map x)))
 
             h2  Introduce connected points of List type
             code.
                 record listPoint (A: Type) : Type :=
-                       (point: ∀ (x: ListAlg A) ⟶ x.X)
-                       (map: ∀ (x1,x2: listAlg A) ⟶ (m: ListMor A x1 x2) ⟶
+                       (point: ∀ (x: ListAlg A) -> x.X)
+                       (map: ∀ (x1,x2: listAlg A) -> (m: ListMor A x1 x2) ->
                              Path x2.X (m.map (point x1)) (point x2))
 
             figure.
