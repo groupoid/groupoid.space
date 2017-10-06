@@ -39,7 +39,7 @@ Inductive MLTT := Pi:     MLTT   -> MLTT -> MLTT
                 | U:      MLTT
                 | Con:    Label  -> list MLTT   -> MLTT
                 | Split:  Loc    -> list Branch -> MLTT
-                | Sum:    Binder -> NamedSum    -> MLTT      
+                | Sum:    Binder -> NamedSum    -> MLTT
                 | HIT:    HomotopyCalculus -> MLTT
                 | PI:     PiCalculus       -> MLTT
                 | EFF:    EffectCalculus   -> MLTT
