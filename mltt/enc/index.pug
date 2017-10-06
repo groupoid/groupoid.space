@@ -24,32 +24,25 @@ block content
 
             h2 Construct corresponding F-Algebra
             code.
-                listAlg (A : U) : U
-                    = (X: U)
-                    * (nil: Unit -> X)
-                    * (cons: A -> X -> X)
-                    * A
+                record listAlg (A: Type) : Type :=
+                       (X: Type)
+                       (nil: Unit ⟶ X)
+                       (cons: A ⟶ X ⟶ X)
 
             h2 Introduce List Morphisms
             code.
-                listMor (A: U) (x1 x2: listAlg A) : U
-                    = (map:     x1.1 -> x2.1)
-                    * (mapNil:  Path x2.1 (map (x1.2.1 unit))
-                                          (x2.2.1 unit))
-                    * (mapCons: (a:A) (x: x1.1) ->
-                                Path x2.1 (map (x1.2.2.1 a x))
-                                          (x2.2.2.1 a (map x)))
-                    * A
+                record listMor   (A: Type) (x1,x2: ListAlg A) : Type :=
+                       (map:     x1.X $\rightarrow$ x2.X)
+                       (mapNil:  Path x2.X (map (x1.nil unit)) (x2.nil unit))
+                       (mapCons: ∀ (a: A) ⟶ ∀ (x: x1) ⟶
+                                 Path x2.X (map (x1.cons a x)) (x2.cons a (map x)))
 
             h2  Introduce connected points of List type
             code.
-                listPoint (A: U) : U
-                    = (point: (x: listAlg A) -> x.1)
-                    * (map: (x1 x2: listAlg A)
-                            (m: listMor A x1 x2) ->
-                            Path x2.1 (m.1 (point x1))
-                                      (point x2))
-                    * A
+                record listPoint (A: Type) : Type :=
+                       (point: ∀ (x: ListAlg A) ⟶ x.X)
+                       (map: ∀ (x1,x2: listAlg A) ⟶ (m: ListMor A x1 x2) ⟶
+                             Path x2.X (m.map (point x1)) (point x2))
 
             figure.
                 $$\def\mapright#1{\xrightarrow{{#1}}}
