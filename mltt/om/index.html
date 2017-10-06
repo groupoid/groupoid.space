@@ -106,57 +106,57 @@ OM = U | I | ( OM )  | λ ( I : OM ) → OM
               | Lambda: name → OM → OM → OM    
               | Arrow: OM → OM → OM
               | Pi: name → OM → OM → OM.
-</code><h2>Universes</h2><code>star (:star,N) $\rightarrow$ N
-star _         $\rightarrow$ (:error, "*")
-</code><h2>Functions</h2><code>func ((:forall,),(I,O)) $\rightarrow$ true
-func T                  $\rightarrow$ (:error,(:forall,T))
-</code><h2>Variables</h2><code>var N B       $\rightarrow$ var N B (proplists:is_defined N B)
-var N B true  $\rightarrow$ true
-var N B false $\rightarrow$ (:error,("free var",N,proplists:get_keys(B)))
-</code><h2>Shift</h2><code>sh (:var,(N,I)),N,P) when I>=P  $\rightarrow$ (var,(N,I+1))
-sh ((:forall,(N,0)),(I,O)),N,P) $\rightarrow$ ((:forall,(N,0)),sh I N P,sh O N P+1)
-sh ((:lambda,(N,0)),(I,O)),N,P) $\rightarrow$ ((:lambda,(N,0)),sh I N P,sh O N P+1)
-sh (Q,(L,R),N,P)                $\rightarrow$ (Q,sh L N P,sh R N P)
-sh (T,N,P)                      $\rightarrow$ T
-</code><h2>Substitution</h2><code>sub Term Name Value               $\rightarrow$ sub Term Name Value 0
-sub (:arrow,         (I,O)) N V L $\rightarrow$ (:arrow,         sub I N V L,sub O N V L);
-sub ((:forall,(N,0)),(I,O)) N V L $\rightarrow$ ((:forall,(N,0)),sub I N V L,sub O N(sh V N 0)L+1)
-sub ((:forall,(F,X)),(I,O)) N V L $\rightarrow$ ((:forall,(F,X)),sub I N V L,sub O N(sh V F 0)L)
-sub ((:lambda,(N,0)),(I,O)) N V L $\rightarrow$ ((:lambda,(N,0)),sub I N V L,sub O N(sh V N 0)L+1)
-sub ((:lambda,(F,X)),(I,O)) N V L $\rightarrow$ ((:lambda,(F,X)),sub I N V L,sub O N(sh V F 0)L)
-sub (:app,           (F,A)) N V L $\rightarrow$ (:app,sub F N V L,sub A N V L)
-sub (:var,           (N,L)) N V L $\rightarrow$ V
-sub (:var,           (N,I)) N V L when I>L $\rightarrow$ (:var,(N,I-1))
-sub T                       _ _ _ $\rightarrow$ T.
-</code><h2>Normalization</h2><code>norm :none                   $\rightarrow$ :none
-norm :any                    $\rightarrow$ :any
-norm (:app,(F,A))            $\rightarrow$ case norm F of
-                                ((:lambda,(N,0)),(I,O)) $\rightarrow$ norm (subst O N A)
-                                                     NF $\rightarrow$ (:app,(NF,norm A)) end
-norm (:remote,N)             $\rightarrow$ cache (norm N [])
-norm (:arrow,         (I,O)) $\rightarrow$ ((:forall,("_",0)),(norm I,norm O))
-norm ((:forall,(N,0)),(I,O)) $\rightarrow$ ((:forall,(N,0)),    (norm I,norm O))
-norm ((:lambda,(N,0)),(I,O)) $\rightarrow$ ((:lambda,(N,0)),    (norm I,norm O))
-norm T                       $\rightarrow$ T
-</code><h2>Definitional Equality</h2><code>eq ((:forall,("_",0)), X) (:arrow,Y)     $\rightarrow$ eq X Y
-eq (:app,(F1,A1))         (:app,(F2,A2)) $\rightarrow$ let true = eq F1 F2 in eq A1 A2
-eq (:star,N)              (:star,N)      $\rightarrow$ true
-eq (:var,(N,I))           (:var,(N,I))   $\rightarrow$ true
-eq (:remote,N)            (:remote,N)    $\rightarrow$ true
+</code><h2>Universes</h2><code>star (:star,N) ⟶ N
+star _         ⟶ (:error, "*")
+</code><h2>Functions</h2><code>func ((:forall,),(I,O)) ⟶ true
+func T                  ⟶ (:error,(:forall,T))
+</code><h2>Variables</h2><code>var N B       ⟶ var N B (proplists:is_defined N B)
+var N B true  ⟶ true
+var N B false ⟶ (:error,("free var",N,proplists:get_keys(B)))
+</code><h2>Shift</h2><code>sh (:var,(N,I)),N,P) when I>=P  ⟶ (var,(N,I+1))
+sh ((:forall,(N,0)),(I,O)),N,P) ⟶ ((:forall,(N,0)),sh I N P,sh O N P+1)
+sh ((:lambda,(N,0)),(I,O)),N,P) ⟶ ((:lambda,(N,0)),sh I N P,sh O N P+1)
+sh (Q,(L,R),N,P)                ⟶ (Q,sh L N P,sh R N P)
+sh (T,N,P)                      ⟶ T
+</code><h2>Substitution</h2><code>sub Term Name Value               ⟶ sub Term Name Value 0
+sub (:arrow,         (I,O)) N V L ⟶ (:arrow,         sub I N V L,sub O N V L);
+sub ((:forall,(N,0)),(I,O)) N V L ⟶ ((:forall,(N,0)),sub I N V L,sub O N(sh V N 0)L+1)
+sub ((:forall,(F,X)),(I,O)) N V L ⟶ ((:forall,(F,X)),sub I N V L,sub O N(sh V F 0)L)
+sub ((:lambda,(N,0)),(I,O)) N V L ⟶ ((:lambda,(N,0)),sub I N V L,sub O N(sh V N 0)L+1)
+sub ((:lambda,(F,X)),(I,O)) N V L ⟶ ((:lambda,(F,X)),sub I N V L,sub O N(sh V F 0)L)
+sub (:app,           (F,A)) N V L ⟶ (:app,sub F N V L,sub A N V L)
+sub (:var,           (N,L)) N V L ⟶ V
+sub (:var,           (N,I)) N V L when I>L ⟶ (:var,(N,I-1))
+sub T                       _ _ _ ⟶ T.
+</code><h2>Normalization</h2><code>norm :none                   ⟶ :none
+norm :any                    ⟶ :any
+norm (:app,(F,A))            ⟶ case norm F of
+                                ((:lambda,(N,0)),(I,O)) ⟶ norm (subst O N A)
+                                                     NF ⟶ (:app,(NF,norm A)) end
+norm (:remote,N)             ⟶ cache (norm N [])
+norm (:arrow,         (I,O)) ⟶ ((:forall,("_",0)),(norm I,norm O))
+norm ((:forall,(N,0)),(I,O)) ⟶ ((:forall,(N,0)),    (norm I,norm O))
+norm ((:lambda,(N,0)),(I,O)) ⟶ ((:lambda,(N,0)),    (norm I,norm O))
+norm T                       ⟶ T
+</code><h2>Definitional Equality</h2><code>eq ((:forall,("_",0)), X) (:arrow,Y)     ⟶ eq X Y
+eq (:app,(F1,A1))         (:app,(F2,A2)) ⟶ let true = eq F1 F2 in eq A1 A2
+eq (:star,N)              (:star,N)      ⟶ true
+eq (:var,(N,I))           (:var,(N,I))   ⟶ true
+eq (:remote,N)            (:remote,N)    ⟶ true
 eq ((:farall,(N1,0)),(I1,O1))
-   ((:forall,(N2,0)),(I2,O2)) $\rightarrow$
+   ((:forall,(N2,0)),(I2,O2)) ⟶
    let true = eq I1 I2 in eq O1 (subst (shift O2 N1 0) N2 (:var,(N1,0)) 0)
 eq ((:lambda,(N1,0)),(I1,O1))
-   ((:lambda,(N2,0)),(I2,O2)) $\rightarrow$
+   ((:lambda,(N2,0)),(I2,O2)) ⟶
    let true = eq I1 I2 in eq O1 (subst (shift O2 N1 0) N2 (:var,(N1,0)) 0)
-eq (A,B)                      $\rightarrow$ (:error,(:eq,A,B))</code></section><h2>Type Checker<code>type (:star,N)               _ $\rightarrow$ (:star,N+1)
-type (:var,(N,I))            D $\rightarrow$ let true = var N D in keyget N D I
-type (:remote,N)             D $\rightarrow$ cache type N D
-type (:arrow,(I,O))          D $\rightarrow$ (:star,h(star(type I D)),star(type O D))
-type ((:forall,(N,0)),(I,O)) D $\rightarrow$ (:star,h(star(type I D)),star(type O [(N,norm I)|D]))
-type ((:lambda,(N,0)),(I,O)) D $\rightarrow$ let star (type I D),
+eq (A,B)                      ⟶ (:error,(:eq,A,B))</code></section><h2>Type Checker<code>type (:star,N)               _ ⟶ (:star,N+1)
+type (:var,(N,I))            D ⟶ let true = var N D in keyget N D I
+type (:remote,N)             D ⟶ cache type N D
+type (:arrow,(I,O))          D ⟶ (:star,h(star(type I D)),star(type O D))
+type ((:forall,(N,0)),(I,O)) D ⟶ (:star,h(star(type I D)),star(type O [(N,norm I)|D]))
+type ((:lambda,(N,0)),(I,O)) D ⟶ let star (type I D),
                                   NI = norm I in ((:forall,(N,0)),(NI,type(O,[(N,NI)|D])))
-type (:app,(F,A))            D $\rightarrow$ let T = type(F,D),
+type (:app,(F,A))            D ⟶ let T = type(F,D),
                                   true = func T,
                                   ((:forall,(N,0)),(I,O)) = T,
                                   Q = type A D,
