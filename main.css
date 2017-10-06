@@ -135,7 +135,7 @@ aside {
   width: 100%;
   z-index: 5; }
   .header__logo {
-    width: 150px;
+    width: 130px;
     position: relative; }
   .header__titles {
     position: relative;
@@ -151,8 +151,8 @@ aside {
     .header {
       flex-direction: row; }
       .header__logo {
-        width: 200px;
-        margin-right: 20px; }
+        width: 160px;
+        margin-right: 10px; }
       .header__title {
         font-size: 60px; }
       .header__subtitle {
