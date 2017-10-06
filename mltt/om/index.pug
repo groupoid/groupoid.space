@@ -223,7 +223,7 @@ block content
                                                     ((:lambda,(N,0)),(I,O)) ⟶ norm (subst O N A)
                                                                          NF ⟶ (:app,(NF,norm A)) end
                     norm (:remote,N)             ⟶ cache (norm N [])
-                    norm (:arrow,         (I,O)) ⟶ ((:forall,("_",0)),(norm I,norm O))
+                    norm (:arrow,         (I,O)) ⟶ ((:forall,("_",0)),  (norm I,norm O))
                     norm ((:forall,(N,0)),(I,O)) ⟶ ((:forall,(N,0)),    (norm I,norm O))
                     norm ((:lambda,(N,0)),(I,O)) ⟶ ((:lambda,(N,0)),    (norm I,norm O))
                     norm T                       ⟶ T
