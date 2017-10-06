@@ -26,7 +26,9 @@ html {
   height: 100%; }
 
 body {
-  min-height: 100%; }
+  min-height: 100%;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased; }
 
 h1, h2, h3, h4 {
   font-weight: normal; }
