@@ -96,6 +96,9 @@ p {
     p {
       font-size: 22px; } }
 
+p:hover {
+  background: white; }
+
 mark {
   background: #FDF6E3;
   padding: 0px 2px;
