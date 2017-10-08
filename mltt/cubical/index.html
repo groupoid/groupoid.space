@@ -1,5 +1,5 @@
 <!DOCTYPE html><html><head><meta charset="utf-8"><meta http-equiv="x-ua-compatible" content="ie=edge"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="author" content="Maxim Sokhatsky"><meta property="og:title" content="Groupoid Infinity"><meta property="og:image" content="//groupoid.space/grp.png"><meta property="og:type" content="website"><meta property="fb:app_id" content="118554188236439"><meta property="og:url" content="//groupoid.space"><meta property="og:description" content="Infinity Language"><link rel="stylesheet" href="//groupoid.space/main.css"><title>PATH ISO</title><script src="//cdnjs.cloudflare.com/ajax/libs/mathjax/2.6.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><script>MathJax.Hub.Config({ displayAlign: "left", tex2jax: { inlineMath: [['$','$'], ['\\(','\\)']], processEscapes: true } });
-</script></head><body class="content"><header class="header"><a href="//groupoid.space/"><img class="header__logo" src="//groupoid.space/groupoid.svg"/></a><div class="header__titles"><h1 class="header__title">Path Isomorphism</h1><h4 class="header__subtitle">Connecting two data types</h4></div></header><article class="main"><div class="om"><section><h1>Rant</h1><h2 id="nat">Background</h2><p>Just got a <b>cubical</b> type checker from Mortberg et all,
+</script></head><body class="content"><header class="header"><a href="//groupoid.space/"><img class="header__logo" src="//groupoid.space/groupoid.svg"/></a><div class="header__titles"><h1 class="header__title">Path Isomorphism</h1><h4 class="header__subtitle">Connecting two data types</h4></div></header><article class="main"><div class="om"><section><h1>Rant</h1><h2 id="nat">Background</h2><p>Just got a <mark>cubical</mark> type checker from Mortberg et all,
 and the first thing I wanted to try was a connecting
 two different values of two different types. As you may know,
 the core thing of Type Theory is equality or isomorphism
@@ -27,13 +27,13 @@ gr_3     (A : U) : U = (a b : A) -> gr_2     (Path A a b)</code><p>To model othe
 its properties. The desired property, in general,
 is to compare incomparable things (heterogenous equality):
 namely two different points of two different types.
-The cubical built-in <b>PathP</b> type is exactly such equality.
+The cubical built-in <mark>PathP</mark> type is exactly such equality.
 It connects different points of space with the function defined
 on I interval [0..1] that is smooth between values at interval edges.</p><h2 id="nat">Path between Elements</h2><p>So let us be clear, we want to compare two points of A and B
 types which both live un U. On the high level, we will use
-<b>Path U A B</b>. which is homogenous on U. At the low level we
-will use heterogenous <b>PathP (Path U A B) a b</b>:</p><code>PathTypes (A B: U) : U = PathP (&lt;i&gt; U) A B
-PathElem  (A B: U) (a: A) (b: B) (P: PathTypes A B) : U = PathP P a b</code><p>Let us try to build proof-term:</p><code>PathElem nat2 nat zero2 zero nat2nat</code><h2 id="nat">Path Isomorphism</h2><p>But how to construct elements of <b>Path U nat2 nat</b> ?</p><code>nat2nat : Path U nat2 nat = isoPath nat2 nat toNat fromNat fromNatK toNatK</code><p>There is already inside cubical an isoPath. The proof-term
+<mark>Path U A B</mark>. which is homogenous on U. At the low level we
+will use heterogenous <mark>PathP (Path U A B) a b</mark>:</p><code>PathTypes (A B: U) : U = PathP (&lt;i&gt; U) A B
+PathElem  (A B: U) (a: A) (b: B) (P: PathTypes A B) : U = PathP P a b</code><p>Let us try to build proof-term:</p><code>PathElem nat2 nat zero2 zero nat2nat</code><h2 id="nat">Path Isomorphism</h2><p>But how to construct elements of <mark>Path U nat2 nat</mark> ?</p><code>nat2nat : Path U nat2 nat = isoPath nat2 nat toNat fromNat fromNatK toNatK</code><p>There is already inside cubical an isoPath. The proof-term
 of isoPath implemented using glueing of types and composition
 primitives of type checker inside isoToEquiv lemma.</p><div class="semantics"><figure>$$Iso(A,B) = \sum_{f:A\rightarrow B}\sum_{g:B\rightarrow A}\Biggl(\prod_{x:A} Id_A(gfx,x)) \times \prod_{y:B} Id_B(fgy,y)\Biggr)$$</figure></div><code>isContr (A : U) : U = (x : A) * ((y : A) -> Path A x y)
 fiber (A B : U) (f : A -> B) (y : B) : U = (x : A) * Path B y (f x)
@@ -87,7 +87,7 @@ where
            &lt;i j&gt; comp (&lt;k&gt; B) (f (sq @ i @j)) [ (i = 0) -> s (p0 @ j),
                                                 (i = 1) -> s (p1 @ j),
                                                 (j = 1) -> s (f (p @ i)),
-                                                (j = 0) -> s y ]</code><p>Now we need to pass maps $$f$$ and $$g$$:</p><code>toNat : nat2 -> nat = split
+                                                (j = 0) -> s y ]</code><p>Now we need to pass maps <mark>f</mark> and <mark>g</mark>:</p><code>toNat : nat2 -> nat = split
     zero2 -> zero
     suc2 n -> suc (toNat n)
 

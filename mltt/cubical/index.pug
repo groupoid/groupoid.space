@@ -15,7 +15,7 @@ block content
 
                 h2#nat Background
                 p.
-                    Just got a <b>cubical</b> type checker from Mortberg et all,
+                    Just got a <mark>cubical</mark> type checker from Mortberg et all,
                     and the first thing I wanted to try was a connecting
                     two different values of two different types. As you may know,
                     the core thing of Type Theory is equality or isomorphism
@@ -55,15 +55,15 @@ block content
                     its properties. The desired property, in general,
                     is to compare incomparable things (heterogenous equality):
                     namely two different points of two different types.
-                    The cubical built-in <b>PathP</b> type is exactly such equality.
+                    The cubical built-in <mark>PathP</mark> type is exactly such equality.
                     It connects different points of space with the function defined
                     on I interval [0..1] that is smooth between values at interval edges.
                 h2#nat Path between Elements
                 p.
                     So let us be clear, we want to compare two points of A and B
                     types which both live un U. On the high level, we will use
-                    <b>Path U A B</b>. which is homogenous on U. At the low level we
-                    will use heterogenous <b>PathP (Path U A B) a b</b>:
+                    <mark>Path U A B</mark>. which is homogenous on U. At the low level we
+                    will use heterogenous <mark>PathP (Path U A B) a b</mark>:
                 code.
                     PathTypes (A B: U) : U = PathP (&lt;i&gt; U) A B
                     PathElem  (A B: U) (a: A) (b: B) (P: PathTypes A B) : U = PathP P a b
@@ -73,7 +73,7 @@ block content
                     PathElem nat2 nat zero2 zero nat2nat
                 h2#nat Path Isomorphism
                 p.
-                    But how to construct elements of <b>Path U nat2 nat</b> ?
+                    But how to construct elements of <mark>Path U nat2 nat</mark> ?
                 code.
                     nat2nat : Path U nat2 nat = isoPath nat2 nat toNat fromNat fromNatK toNatK
                 p.
@@ -146,7 +146,7 @@ block content
                                                                     (j = 1) -> s (f (p @ i)),
                                                                     (j = 0) -> s y ]
                 p.
-                    Now we need to pass maps $$f$$ and $$g$$:
+                    Now we need to pass maps <mark>f</mark> and <mark>g</mark>:
                 code.
                     toNat : nat2 -> nat = split
                         zero2 -> zero
