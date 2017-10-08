@@ -1,15 +1,7 @@
 <svg width="905" height="905" viewBox="0 0 905 905" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-<title>groupoid</title>
-<desc>Created using Figma</desc>
 <g id="Canvas" transform="translate(344 545)">
-<g id="groupoid">
-<g id="Page 1">
-<g id="Synrc Neo Mono">
 <g id="Vector" filter="url(#filter0_d)">
-<use xlink:href="#path0_fill" transform="translate(-304 -513)" fill="#FFFFFF"/>
-</g>
-</g>
-</g>
+<use xlink:href="#path0_fill" transform="translate(-304 -513)" fill="#F9FAFC"/>
 </g>
 </g>
 <defs>
