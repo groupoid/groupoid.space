@@ -1,4 +1,4 @@
-<!DOCTYPE html><html><head><meta charset="utf-8"><meta http-equiv="x-ua-compatible" content="ie=edge"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="author" content="Maxim Sokhatsky"><meta property="og:title" content="Groupoid Infinity"><meta property="og:image" content="//groupoid.space/grp.png"><meta property="og:type" content="website"><meta property="fb:app_id" content="118554188236439"><meta property="og:url" content="//groupoid.space"><meta property="og:description" content="Infinity Language"><link rel="stylesheet" href="//groupoid.space/main.css"><title>OM</title><script src="//cdnjs.cloudflare.com/ajax/libs/mathjax/2.6.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><script>MathJax.Hub.Config({ displayAlign: "left", tex2jax: { inlineMath: [['$','$'], ['\\(','\\)']], processEscapes: true } });
+<!DOCTYPE html><html><head><meta charset="utf-8"><meta http-equiv="x-ua-compatible" content="ie=edge"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="author" content="Maxim Sokhatsky"><meta property="og:title" content="Groupoid Infinity"><meta property="og:image" content="//groupoid.space/grp.png"><meta property="og:type" content="website"><meta property="fb:app_id" content="118554188236439"><meta property="og:url" content="//groupoid.space"><meta property="og:description" content="Infinity Language"><link rel="stylesheet" href="//groupoid.space/main.css"><title>PATH ISO</title><script src="//cdnjs.cloudflare.com/ajax/libs/mathjax/2.6.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><script>MathJax.Hub.Config({ displayAlign: "left", tex2jax: { inlineMath: [['$','$'], ['\\(','\\)']], processEscapes: true } });
 </script></head><body class="content"><header class="header"><a href="//groupoid.space/"><img class="header__logo" src="//groupoid.space/groupoid.svg"/></a><div class="header__titles"><h1 class="header__title">Path Isomorphism</h1><h4 class="header__subtitle">Connecting two data types</h4></div></header><article class="main"><div class="om"><section><h1>Rant</h1><h2 id="nat">Background</h2><p>Just got a <b>cubical</b> type checker from Mortberg et all,
 and the first thing I wanted to try was a connecting
 two different values of two different types. As you may know,
@@ -101,13 +101,13 @@ toNatK : (n : nat2) -> Path nat2 (fromNat (toNat n)) n = split
 
 fromNatK : (n : nat) -> Path nat (toNat (fromNat n)) n = split
     zero -> <_> zero
-    suc n -> &lt;i&gt; suc (fromNatK n @ i)</code><p>Now let's see what we have built:</p><pre>> PathElem nat2 nat zero2 zero nat2nat EVAL: PathP (<!0> Glue nat [ (!0 = 0) -> (nat2,(toNat,(\(y : B)
+    suc n -> &lt;i&gt; suc (fromNatK n @ i)</code><p>Now let's see what we have built:</p><code>> PathElem nat2 nat zero2 zero nat2nat</code><pre>EVAL: PathP (<!0> Glue nat [ (!0 = 0) -> (nat2,(toNat,(\(y : B)
 -> ((g y,&lt;i&gt; (s y) @ -i),\(z : fiber A B f y) -> lemIso A B f g
 s t y (g y) z.1 (&lt;i&gt; (s y) @ -i) z.2)) (A = nat2, B = nat, f =
 toNat, g = fromNat, s = fromNatK, t = toNatK))), (!0 = 1) ->
 (nat,((\(a : A) -> a) (A = nat),(\(a : A) -> ((a,refl A a),\(z:
 fiber A A (idfun A) a) -> contrSingl A a z.1 z.2)) (A = nat)))])
-zero2 zero</pre><p>And its normalized version:</p><pre>> :n PathElem nat2 nat zero2 zero nat2nat
+zero2 zero</pre><p>And its normalized version:</p><code>> :n PathElem nat2 nat zero2 zero nat2nat</code><pre>> :n PathElem nat2 nat zero2 zero nat2nat
 NORMEVAL: PathP (<!0> Glue nat [ (!0 = 0) -> (nat2,(toNat,\(y
 : nat) -> ((fromNat y,<!0> fromNatK y @ -!0),\(z : Sigma nat2
 (\(x : nat2) -> PathP (<!0> nat) y (toNat x))) -> <!0> (comp
