@@ -33,7 +33,7 @@ on interval $I=[0,1]$ that is smooth between values at interval edges.</p><h2 id
 types which both live un U. On the high level, we will use
 <mark>Path U A B</mark>. which is homogenous on U. At the low level we
 will use heterogenous <mark>PathP (Path U A B) a b</mark>:</p><code>PathTypes (A B: U) : U = PathP (&lt;i&gt; U) A B
-PathElem  (A B: U) (a: A) (b: B) (P: PathTypes A B) : U = PathP P a b</code><p>Let us try to build proof-term:</p><code>PathElem nat2 nat zero2 zero nat2nat</code><p>You may think of it as building proof of $0 = 0$.</p><h2 id="nat">Path Isomorphism</h2><p>But how to construct elements of <mark>Path U nat2 nat</mark> ?</p><code>nat2nat : Path U nat2 nat = isoPath nat2 nat toNat fromNat fromNatK toNatK</code><p>There is already inside cubical an isoPath. The proof-term
+PathElem  (A B: U) (a: A) (b: B) (P: PathTypes A B) : U = PathP P a b</code><p>Let us try to build proof-term:</p><code>PathElem nat2 nat zero2 zero nat2nat</code><p>You may think of it as building proof of $0_A = 0_B$.</p><h2 id="nat">Path Isomorphism</h2><p>But how to construct elements of <mark>Path U nat2 nat</mark> ?</p><code>nat2nat : Path U nat2 nat = isoPath nat2 nat toNat fromNat fromNatK toNatK</code><p>There is already inside cubical an isoPath. The proof-term
 of isoPath implemented using glueing of types and composition
 primitives of type checker inside isoToEquiv lemma.</p><div class="semantics"><figure>$$Iso(A,B) = \sum_{f:A\rightarrow B}\sum_{g:B\rightarrow A}\Biggl(\prod_{x:A} Id_A(gfx,x)) \times \prod_{y:B} Id_B(fgy,y)\Biggr)$$</figure></div><code>isContr (A : U) : U = (x : A) * ((y : A) -> Path A x y)
 fiber (A B : U) (f : A -> B) (y : B) : U = (x : A) * Path B y (f x)
