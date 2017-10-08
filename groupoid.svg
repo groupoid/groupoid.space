@@ -1,19 +1,15 @@
 <svg width="945" height="945" viewBox="0 0 945 945" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
 <title>groupoid_original</title>
 <desc>Created using Figma</desc>
-<g id="Canvas" transform="translate(1454 2483)">
+<g id="Canvas" transform="translate(1466 2831)">
 <g id="groupoid_original" filter="url(#filter0_d)">
-<g id="Page 1">
-<g id="Synrc Neo Mono">
 <g id="Vector">
-<use xlink:href="#path0_fill" transform="translate(-1394 -2431)" fill="#FFFFFF"/>
-</g>
-</g>
+<use xlink:href="#path0_fill" transform="translate(-1406 -2779)" fill="#FFFFFF"/>
 </g>
 </g>
 </g>
 <defs>
-<filter id="filter0_d" filterUnits="userSpaceOnUse" x="-1454" y="-2483" width="945" height="945" color-interpolation-filters="sRGB">
+<filter id="filter0_d" filterUnits="userSpaceOnUse" x="-1466" y="-2831" width="945" height="945" color-interpolation-filters="sRGB">
 <feFlood flood-opacity="0" result="BackgroundImageFix"/>
 <feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 255 0"/>
 <feOffset dx="0" dy="8"/>
