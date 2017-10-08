@@ -44,7 +44,7 @@ block content
                     paths between objects in many ways inside and the space of
                     terms is ∞-groupoid:
                 code.
-                    Path     (A : U) : U = (a b : A) -> PathP (&lt;i&gt; A) a b
+                    Path     (A : U) : U = (a b : A) -> PathP (<i> A) a b
                     prop     (A : U) : U = (a b : A) -> Path A a b
                     set      (A : U) : U = (a b : A) -> prop     (Path A a b)
                     groupoid (A : U) : U = (a b : A) -> set      (Path A a b)
@@ -65,7 +65,7 @@ block content
                     <b>Path U A B</b>. which is homogenous on U. At the low level we
                     will use heterogenous <b>PathP (Path U A B) a b</b>:
                 code.
-                    PathTypes (A B: U) : U = PathP (&lt;i&gt; U) A B
+                    PathTypes (A B: U) : U = PathP (<i> U) A B
                     PathElem  (A B: U) (a: A) (b: B) (P: PathTypes A B) : U = PathP P a b
                 p.
                     Let us try to build proof-term:
@@ -84,7 +84,7 @@ block content
                     isoPath (A B : U) (f : A -> B) (g : B -> A)
                             (s : (y : B) -> Path B (f (g y)) y)
                             (t : (x : A) -> Path A (g (f x)) x) : Path U A B =
-                            &lt;i%gt; -> Glue B [ (i = 0) -> (A,f,isoToEquiv A B f g s t)
+                            <i%gt; -> Glue B [ (i = 0) -> (A,f,isoToEquiv A B f g s t)
                                               , (i = 1) -> (B,idfun B,idIsEquiv B) ]
                 p.
                     Now we need to pass maps f and g:
@@ -98,59 +98,59 @@ block content
                         suc n -> suc2 (fromNat n)
 
                     toNatK : (n : nat2) -> Path nat2 (fromNat (toNat n)) n = split
-                        zero2 -> &lt;_&gt; zero2
-                        suc2 n -> &lt;i&gt; suc2 (toNatK n @ i)
+                        zero2 -> <_> zero2
+                        suc2 n -> <i> suc2 (toNatK n @ i)
 
                     fromNatK : (n : nat) -> Path nat (toNat (fromNat n)) n = split
-                        zero -> &lt;_&gt; zero
-                        suc n -> &lt;i&gt; suc (fromNatK n @ i)
+                        zero -> <_> zero
+                        suc n -> <i> suc (fromNatK n @ i)
                 p.
                     Now let's see what we have built:
                 pre.
-                    &gt; PathElem nat2 nat zero2 zero nat2nat EVAL: PathP (&lt;!0&gt; Glue nat [ (!0 = 0) -&gt; (nat2,(toNat,(\(y : B)
-                    -&gt; ((g y,&lt;i&gt; (s y) @ -i),\(z : fiber A B f y) -&gt; lemIso A B f g
-                    s t y (g y) z.1 (&lt;i&gt; (s y) @ -i) z.2)) (A = nat2, B = nat, f =
-                    toNat, g = fromNat, s = fromNatK, t = toNatK))), (!0 = 1) -&gt;
-                    (nat,((\(a : A) -&gt; a) (A = nat),(\(a : A) -&gt; ((a,refl A a),\(z:
-                    fiber A A (idfun A) a) -&gt; contrSingl A a z.1 z.2)) (A = nat)))])
+                    > PathElem nat2 nat zero2 zero nat2nat EVAL: PathP (<!0> Glue nat [ (!0 = 0) -> (nat2,(toNat,(\(y : B)
+                    -> ((g y,<i> (s y) @ -i),\(z : fiber A B f y) -> lemIso A B f g
+                    s t y (g y) z.1 (<i> (s y) @ -i) z.2)) (A = nat2, B = nat, f =
+                    toNat, g = fromNat, s = fromNatK, t = toNatK))), (!0 = 1) ->
+                    (nat,((\(a : A) -> a) (A = nat),(\(a : A) -> ((a,refl A a),\(z:
+                    fiber A A (idfun A) a) -> contrSingl A a z.1 z.2)) (A = nat)))])
                     zero2 zero
                 p.
                     And its normalized version:
                 pre.
-                    &gt; :n PathElem nat2 nat zero2 zero nat2nat
-                    NORMEVAL: PathP (&lt;!0&gt; Glue nat [ (!0 = 0) -&gt; (nat2,(toNat,\(y
-                    : nat) -&gt; ((fromNat y,&lt;!0&gt; fromNatK y @ -!0),\(z : Sigma nat2
-                    (\(x : nat2) -&gt; PathP (&lt;!0&gt; nat) y (toNat x))) -&gt; &lt;!0&gt; (comp
-                    (&lt;!1&gt; nat2) (fromNat y) [ (!0 = 0) -&gt; &lt;!1&gt; comp (&lt;!2&gt; nat2)
-                    (fromNat (fromNatK y @ -!1)) [ (!1 = 0) -&gt; &lt;!2&gt; fromNat y,
-                    (!1 = 1) -&gt; &lt;!2&gt; toNatK (fromNat y) @ !2 ], (!0 = 1) -&gt; &lt;!1&gt;
-                    comp (&lt;!2&gt; nat2) (fromNat (z.2 @ !1)) [ (!1 = 0) -&gt; &lt;!2&gt; fromNat y,
-                    (!1 = 1) -&gt; &lt;!2&gt; toNatK z.1 @ !2 ] ],&lt;!1&gt; comp (&lt;!2&gt; nat)
-                    (toNat (comp (&lt;!2&gt; nat2) (comp (&lt;!2&gt; nat2) (fromNat y) [(!0 = 0)
-                    -&gt; &lt;!2&gt; comp (&lt;!3&gt; nat2) (fromNat (fromNatK y @ (-!1 \/ -!2)))
-                    [ (!1 = 0) -&gt; &lt;!3&gt; fromNat y, (!1 = 1)(!2 = 1) -&gt; &lt;!3&gt; toNatK
-                    (fromNat y) @ !3, (!2 = 0) -&gt; &lt;!3&gt; fromNat y ], (!0 = 1) -&gt; &lt;!2&gt;
-                    comp (&lt;!3&gt; nat2) (fromNat (z.2 @ (!1 /\ !2))) [ (!1 = 0) -&gt; &lt;!3&gt;
-                    fromNat y, (!1 = 1)(!2 = 1) -&gt; &lt;!3&gt; toNatK z.1 @ !3, (!2 = 0) -&gt;
-                    &lt;!3&gt; fromNat y ], (!1 = 0) -&gt; &lt;!2&gt; fromNat y ]) [ (!0 = 0) -&gt; &lt;!2&gt;
-                    comp (&lt;!3&gt; nat2) (fromNat (fromNatK y @ -!1)) [ (!1 = 0) -&gt; &lt;!3&gt;
-                    fromNat y, (!1 = 1) -&gt; &lt;!3&gt; toNatK (fromNat y) @ (-!2 /\ !3),
-                    (!2 = 1) -&gt; &lt;!3&gt; fromNat (fromNatK y @ -!1) ], (!0 = 1) -&gt; &lt;!2&gt;
-                    comp (&lt;!3&gt; nat2) (fromNat (z.2 @ !1)) [ (!1 = 0) -&gt; &lt;!3&gt; fromNat
-                    y, (!1 = 1) -&gt; &lt;!3&gt; toNatK z.1 @ (-!2 /\ !3), (!2 = 1) -&gt; &lt;!3&gt;
-                    fromNat (z.2 @ !1) ], (!1 = 0) -&gt; &lt;!2&gt; fromNat y, (!1 = 1) -&gt;
-                    &lt;!2&gt; toNatK (comp (&lt;!1&gt; nat2) (fromNat y) [ (!0 = 0) -&gt; &lt;!1&gt;
-                    comp (&lt;!2&gt; nat2) (fromNat (fromNatK y @ -!1)) [ (!1 = 0) -&gt;
-                    &lt;!2&gt; fromNat y, (!1 = 1) -&gt; &lt;!2&gt; toNatK (fromNat y) @ !2 ],
-                    (!0 = 1) -&gt; &lt;!1&gt; comp (&lt;!2&gt; nat2) (fromNat (z.2 @ !1)) [ (!1 = 0)
-                    -&gt; &lt;!2&gt; fromNat y, (!1 = 1) -&gt; &lt;!2&gt; toNatK z.1 @ !2 ] ]) @ -!2 ]))
-                    [ (!0 = 0) -&gt; &lt;!2&gt; fromNatK (fromNatK y @ -!1) @ !2, (!0 = 1) -&gt;
-                    &lt;!2&gt; fromNatK (z.2 @ !1) @ !2, (!1 = 0) -&gt; &lt;!2&gt; fromNatK y @ !2,
-                    (!1 = 1) -&gt; &lt;!2&gt; fromNatK (toNat (comp (&lt;!1&gt; nat2) (fromNat y)
-                    [ (!0 = 0) -&gt; &lt;!1&gt; comp (&lt;!2&gt; nat2) (fromNat (fromNatK y @ -!1))
-                    [ (!1 = 0) -&gt; &lt;!2&gt; fromNat y, (!1 = 1) -&gt; &lt;!2&gt; toNatK (fromNat y)
-                    @ !2 ], (!0 = 1) -&gt; &lt;!1&gt; comp (&lt;!2&gt; nat2) (fromNat (z.2 @ !1))
-                    [ (!1 = 0) -&gt; &lt;!2&gt; fromNat y, (!1 = 1) -&gt; &lt;!2&gt; toNatK z.1 @ !2 ] ]))
-                    @ !2 ])))), (!0 = 1) -&gt; (nat,(\(a : nat) -&gt; a,\(a : nat) -&gt; ((a,&lt;!0&gt; a),
-                    \(z : Sigma nat (\(x : nat) -&gt; PathP (&lt;!0&gt; nat) a x)) -&gt; &lt;!0&gt;
-                    (z.2 @ !0,&lt;!1&gt; z.2 @ (!0 /\ !1))))) ]) zero2 zero
+                    > :n PathElem nat2 nat zero2 zero nat2nat
+                    NORMEVAL: PathP (<!0> Glue nat [ (!0 = 0) -> (nat2,(toNat,\(y
+                    : nat) -> ((fromNat y,<!0> fromNatK y @ -!0),\(z : Sigma nat2
+                    (\(x : nat2) -> PathP (<!0> nat) y (toNat x))) -> <!0> (comp
+                    (<!1> nat2) (fromNat y) [ (!0 = 0) -> <!1> comp (<!2> nat2)
+                    (fromNat (fromNatK y @ -!1)) [ (!1 = 0) -> <!2> fromNat y,
+                    (!1 = 1) -> <!2> toNatK (fromNat y) @ !2 ], (!0 = 1) -> <!1>
+                    comp (<!2> nat2) (fromNat (z.2 @ !1)) [ (!1 = 0) -> <!2> fromNat y,
+                    (!1 = 1) -> <!2> toNatK z.1 @ !2 ] ],<!1> comp (<!2> nat)
+                    (toNat (comp (<!2> nat2) (comp (<!2> nat2) (fromNat y) [(!0 = 0)
+                    -> <!2> comp (<!3> nat2) (fromNat (fromNatK y @ (-!1 \/ -!2)))
+                    [ (!1 = 0) -> <!3> fromNat y, (!1 = 1)(!2 = 1) -> <!3> toNatK
+                    (fromNat y) @ !3, (!2 = 0) -> <!3> fromNat y ], (!0 = 1) -> <!2>
+                    comp (<!3> nat2) (fromNat (z.2 @ (!1 /\ !2))) [ (!1 = 0) -> <!3>
+                    fromNat y, (!1 = 1)(!2 = 1) -> <!3> toNatK z.1 @ !3, (!2 = 0) ->
+                    <!3> fromNat y ], (!1 = 0) -> <!2> fromNat y ]) [ (!0 = 0) -> <!2>
+                    comp (<!3> nat2) (fromNat (fromNatK y @ -!1)) [ (!1 = 0) -> <!3>
+                    fromNat y, (!1 = 1) -> <!3> toNatK (fromNat y) @ (-!2 /\ !3),
+                    (!2 = 1) -> <!3> fromNat (fromNatK y @ -!1) ], (!0 = 1) -> <!2>
+                    comp (<!3> nat2) (fromNat (z.2 @ !1)) [ (!1 = 0) -> <!3> fromNat
+                    y, (!1 = 1) -> <!3> toNatK z.1 @ (-!2 /\ !3), (!2 = 1) -> <!3>
+                    fromNat (z.2 @ !1) ], (!1 = 0) -> <!2> fromNat y, (!1 = 1) ->
+                    <!2> toNatK (comp (<!1> nat2) (fromNat y) [ (!0 = 0) -> <!1>
+                    comp (<!2> nat2) (fromNat (fromNatK y @ -!1)) [ (!1 = 0) ->
+                    <!2> fromNat y, (!1 = 1) -> <!2> toNatK (fromNat y) @ !2 ],
+                    (!0 = 1) -> <!1> comp (<!2> nat2) (fromNat (z.2 @ !1)) [ (!1 = 0)
+                    -> <!2> fromNat y, (!1 = 1) -> <!2> toNatK z.1 @ !2 ] ]) @ -!2 ]))
+                    [ (!0 = 0) -> <!2> fromNatK (fromNatK y @ -!1) @ !2, (!0 = 1) ->
+                    <!2> fromNatK (z.2 @ !1) @ !2, (!1 = 0) -> <!2> fromNatK y @ !2,
+                    (!1 = 1) -> <!2> fromNatK (toNat (comp (<!1> nat2) (fromNat y)
+                    [ (!0 = 0) -> <!1> comp (<!2> nat2) (fromNat (fromNatK y @ -!1))
+                    [ (!1 = 0) -> <!2> fromNat y, (!1 = 1) -> <!2> toNatK (fromNat y)
+                    @ !2 ], (!0 = 1) -> <!1> comp (<!2> nat2) (fromNat (z.2 @ !1))
+                    [ (!1 = 0) -> <!2> fromNat y, (!1 = 1) -> <!2> toNatK z.1 @ !2 ] ]))
+                    @ !2 ])))), (!0 = 1) -> (nat,(\(a : nat) -> a,\(a : nat) -> ((a,<!0> a),
+                    \(z : Sigma nat (\(x : nat) -> PathP (<!0> nat) a x)) -> <!0>
+                    (z.2 @ !0,<!1> z.2 @ (!0 /\ !1))))) ]) zero2 zero
