@@ -35,7 +35,11 @@ types which both live un U. On the high level, we will use
 will use heterogenous <mark>PathP (Path U A B) a b</mark>:</p><code>PathTypes (A B: U) : U = PathP (&lt;i&gt; U) A B
 PathElem  (A B: U) (a: A) (b: B) (P: PathTypes A B) : U = PathP P a b</code><p>Let us try to build proof-term:</p><code>PathElem nat2 nat zero2 zero nat2nat</code><p>You may think of it as building proof of $0_A = 0_B$.</p><h2 id="nat">Path Isomorphism</h2><p>But how to construct elements of <mark>Path U nat2 nat</mark> ?</p><code>nat2nat : Path U nat2 nat = isoPath nat2 nat toNat fromNat fromNatK toNatK</code><p>There is already inside cubical an <mark>isoPath</mark>. The proof-term
 of isoPath implemented using glueing of types and composition
-primitives of type checker inside <mark>isoToEquiv</mark> lemma.</p><div class="semantics"><figure>$$Iso(A,B) = \sum_{f:A\rightarrow B}\sum_{g:B\rightarrow A}\Biggl(\prod_{x:A} Id_A(gfx,x)) \times \prod_{y:B} Id_B(fgy,y)\Biggr)$$</figure></div><code>isContr (A : U) : U = (x : A) * ((y : A) -> Path A x y)
+primitives of type checker inside <mark>isoToEquiv</mark> lemma.</p><div class="semantics"><figure>$$Iso(A,B) = \sum_{f:A\rightarrow B}\sum_{g:B\rightarrow A}\Biggl(\prod_{x:A} Id_A(gfx,x)) \times \prod_{y:B} Id_B(fgy,y)\Biggr)$$</figure></div><p>A type $A$ is contractible, or a singleton, if there is $a : A$,
+called the center of contraction, such that $a = x$ for all $x : A$:
+$$isContr(A) = \sum_{a:A}\prod_{x:A} a = x$$.</p><p>The fiber of a map $f : A \rightarrow B$ over a point
+$y : B$ is $$fib_f(y) = \sum f x = y$$.</p><p><mark>isEquiv</mark> is a contractible map $f: A \rightarrow B$, so that
+for all $y:B$ the fiber $fib_f(y)$ is contractible.</p><code>isContr (A : U) : U = (x : A) * ((y : A) -> Path A x y)
 fiber (A B : U) (f : A -> B) (y : B) : U = (x : A) * Path B y (f x)
 isEquiv (A B : U) (f : A -> B) : U = (y : B) -> isContr (fiber A B f y)
 contrSingl (A : U) (a b : A) (p : Path A a b) :

@@ -85,6 +85,16 @@ block content
                 .semantics
                     figure.
                         $$Iso(A,B) = \sum_{f:A\rightarrow B}\sum_{g:B\rightarrow A}\Biggl(\prod_{x:A} Id_A(gfx,x)) \times \prod_{y:B} Id_B(fgy,y)\Biggr)$$
+                p.
+                    A type $A$ is contractible, or a singleton, if there is $a : A$,
+                    called the center of contraction, such that $a = x$ for all $x : A$:
+                    $$isContr(A) = \sum_{a:A}\prod_{x:A} a = x$$.
+                p.
+                    The fiber of a map $f : A \rightarrow B$ over a point
+                    $y : B$ is $$fib_f(y) = \sum f x = y$$.
+                p.
+                    <mark>isEquiv</mark> is a contractible map $f: A \rightarrow B$, so that
+                    for all $y:B$ the fiber $fib_f(y)$ is contractible.
                 code.
                     isContr (A : U) : U = (x : A) * ((y : A) -> Path A x y)
                     fiber (A B : U) (f : A -> B) (y : B) : U = (x : A) * Path B y (f x)
