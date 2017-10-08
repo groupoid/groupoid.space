@@ -87,7 +87,7 @@ where
            &lt;i j&gt; comp (&lt;k&gt; B) (f (sq @ i @j)) [ (i = 0) -> s (p0 @ j),
                                                 (i = 1) -> s (p1 @ j),
                                                 (j = 1) -> s (f (p @ i)),
-                                                (j = 0) -> s y ]</code><p>Now we need to pass maps f and g:</p><code>toNat : nat2 -> nat = split
+                                                (j = 0) -> s y ]</code><p>Now we need to pass maps $$f$$ and $$g$$:</p><code>toNat : nat2 -> nat = split
     zero2 -> zero
     suc2 n -> suc (toNat n)
 
@@ -101,13 +101,13 @@ toNatK : (n : nat2) -> Path nat2 (fromNat (toNat n)) n = split
 
 fromNatK : (n : nat) -> Path nat (toNat (fromNat n)) n = split
     zero -> <_> zero
-    suc n -> &lt;i&gt; suc (fromNatK n @ i)</code><p>Now let's see what we have built:</p><code>> PathElem nat2 nat zero2 zero nat2nat</code><pre>EVAL: PathP (<!0> Glue nat [ (!0 = 0) -> (nat2,(toNat,(\(y : B)
+    suc n -> &lt;i&gt; suc (fromNatK n @ i)</code><h2>Final Proof Term</h2><p>Now let's see what we have built:</p><code>> PathElem nat2 nat zero2 zero nat2nat</code><pre>EVAL: PathP (<!0> Glue nat [ (!0 = 0) -> (nat2,(toNat,(\(y : B)
 -> ((g y,&lt;i&gt; (s y) @ -i),\(z : fiber A B f y) -> lemIso A B f g
 s t y (g y) z.1 (&lt;i&gt; (s y) @ -i) z.2)) (A = nat2, B = nat, f =
 toNat, g = fromNat, s = fromNatK, t = toNatK))), (!0 = 1) ->
 (nat,((\(a : A) -> a) (A = nat),(\(a : A) -> ((a,refl A a),\(z:
 fiber A A (idfun A) a) -> contrSingl A a z.1 z.2)) (A = nat)))])
-zero2 zero</pre><h2>Final Proof Term</h2><p>And its normalized version:</p><code>> :n PathElem nat2 nat zero2 zero nat2nat</code><pre>NORMEVAL: PathP (<!0> Glue nat [ (!0 = 0) -> (nat2,(toNat,\(y
+zero2 zero</pre><p>And its normalized version:</p><code>> :n PathElem nat2 nat zero2 zero nat2nat</code><pre>NORMEVAL: PathP (<!0> Glue nat [ (!0 = 0) -> (nat2,(toNat,\(y
 : nat) -> ((fromNat y,<!0> fromNatK y @ -!0),\(z : Sigma nat2
 (\(x : nat2) -> PathP (<!0> nat) y (toNat x))) -> <!0> (comp
 (<!1> nat2) (fromNat y) [ (!0 = 0) -> <!1> comp (<!2> nat2)
