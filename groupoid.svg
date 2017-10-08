@@ -1,22 +1,25 @@
-<svg width="945" height="945" viewBox="0 0 945 945" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-<title>Vector</title>
-<desc>Created using Figma</desc>
-<g id="Canvas" transform="translate(325 453)">
-<rect x="-325" y="-453" width="945" height="945" fill="#E5E5E5"/>
-<g id="Vector" filter="url(#filter0_d)">
-<use xlink:href="#path0_fill" transform="translate(-265 -401)" fill="#FFFFFF"/>
-</g>
-</g>
-<defs>
-<filter id="filter0_d" filterUnits="userSpaceOnUse" x="-325" y="-453" width="945" height="945" color-interpolation-filters="sRGB">
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="825px" height="826px" viewBox="0 0 825 826" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:sketch="http://www.bohemiancoding.com/sketch/ns">
+    <title>Synrc Neo</title>
+    <defs>
+<filter id="filter0_d" filterUnits="userSpaceOnUse" x="0" y="0" width="825" height="826" color-interpolation-filters="sRGB">
 <feFlood flood-opacity="0" result="BackgroundImageFix"/>
 <feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 255 0"/>
 <feOffset dx="0" dy="8"/>
-<feGaussianBlur stdDeviation="30"/>
-<feColorMatrix type="matrix" values="0 0 0 0 0.337255 0 0 0 0 0.8 0 0 0 0 0.94902 0 0 0 1 0"/>
+<feGaussianBlur stdDeviation="20"/>
+<feColorMatrix type="matrix" values="0 0 0 0 0.337255 0 0 0 0 0.8 0 0 0 0 0.94902 0 0 0 0.71 0"/>
 <feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow"/>
 <feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow" result="shape"/>
 </filter>
-<path id="path0_fill" fill-rule="evenodd" d="M 412.242 824.484C 639.916 824.484 824.484 639.916 824.484 412.242C 824.484 184.567 639.916 -3.11328e-06 412.242 -3.11328e-06C 184.567 -3.11328e-06 -2.11221e-06 184.567 -2.11221e-06 412.242C -2.11221e-06 639.916 184.567 824.484 412.242 824.484ZM 533.794 328.095C 571.27 376.128 718.126 442.41 683.7 603.661C 823.74 375.796 683.7 226.75 683.7 226.75C 594.284 137.001 442.041 210.496 533.794 328.095ZM 594.04 645.397C 557.093 738.093 342.99 831.513 171.385 634.708C 24.4719 466.221 82.5905 244.959 206.435 151.261C 410.162 -2.87529 585.076 125.415 585.076 125.415C 431.123 82.6627 359.825 262.662 477.01 372.346C 538.567 429.962 655.284 491.741 594.04 645.397ZM 442.847 660.213C 489.239 660.213 526.846 622.606 526.846 576.214C 526.846 529.823 489.239 492.215 442.847 492.215C 396.456 492.215 358.848 529.823 358.848 576.214C 358.848 622.606 396.456 660.213 442.847 660.213Z"/>
-</defs>
+<path id="path0_fill" fill-rule="evenodd" d="M443.263915,661.049963 C489.655457,661.049963 527.263018,623.442401 527.263018,577.05086 C527.263018,530.659318 489.655457,493.051757 443.263915,493.051757 C396.872374,493.051757 359.264812,530.659318 359.264812,577.05086 C359.264812,623.442401 396.872374,661.049963 443.263915,661.049963 L443.263915,661.049963 Z"></path>
+<path id="path1_fill" fill-rule="evenodd" d="M412.658617,825.320116 C640.33237,825.320116 824.900369,640.752118 824.900369,413.078364 C824.900369,185.403577 640.33237,0.836612 412.658617,0.836612 C184.983829,0.836612 0.4168646,185.403577 0.4168646,413.078364 C0.4168646,640.752118 184.983829,825.320116 412.658617,825.320116 Z M594.456532,646.233658 C557.50985,738.929899 343.406446,832.349786 171.801466,635.544567 C24.888813,467.05775 83.007336,245.79592 206.851522,152.097698 C410.57892,-2.0386832 585.493375,126.25182 585.493375,126.25182 C431.539967,83.499284 360.241661,263.498394 477.42736,373.182324 C538.984294,430.798623 655.700924,492.57733 594.456532,646.233658 Z M534.210601,328.931466 C571.687124,376.964479 718.542872,443.247009 684.116694,604.497925 C824.156555,376.63263 684.116701,227.586234 684.116699,227.586236 C594.700748,137.838025 442.457734,211.332722 534.210601,328.931466 Z"></path>
+    </defs>
+<g id="om" style="mix-blend-mode:normal;" filter="url(#filter0_d)">
+<g id="path" style="mix-blend-mode:normal;">
+<use xlink:href="#path0_fill" transform="translate(0 0)" fill="#F9FAFC" style="mix-blend-mode:normal;"/>
+</g>
+<g id="path" style="mix-blend-mode:normal;">
+<use xlink:href="#path1_fill" transform="translate(0 0)" fill="#F9FAFC" style="mix-blend-mode:normal;"/>
+</g>
+</g>
 </svg>
