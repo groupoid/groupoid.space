@@ -52,9 +52,9 @@ block content
                     that is smooth between values at interval edges.
                 p.
                     So let us be clean, we want to compare two points of A and B
-                    types which both live un U. So on top level we will use <b>Path U A B</b.
+                    types which both live un U. So on top level we will use <b>Path U A B</b>.
                     which is homogenous on U. At low level we will use heterogenous
-                    </b>PathP (Path U A B) a b</a>:
+                    <b>PathP (Path U A B) a b</b>:
                 code.
                     PathTypes (A B: U) : U = PathP (<i> U) A B
                     PathElem  (A B: U) (a: A) (b: B) (P: PathTypes A B) : U = PathP P a b
@@ -63,7 +63,7 @@ block content
                 code.
                     PathElem nat2 nat zero2 zero nat2nat
                 p.
-                    But how to construct elements of </b>Path U nat2 nat</b> ?
+                    But how to construct elements of <b>Path U nat2 nat</b> ?
                 code.
                     nat2nat : Path U nat2 nat = isoPath nat2 nat toNat fromNat fromNatK toNatK
                 p.
