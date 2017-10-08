@@ -5,7 +5,7 @@ two different values of two different types. As you may know,
 the core thing of Type Theory is equality or isomorphism
 or equivalence (which is the same thing but in different
 universes: 0, 1, 2, ...). Although cubical is U : U,
-this task is possible here.</p><p>So I will try with simple comparing two nat types.</p><code>$ cat isoPath.ctt
+this task is possible here.</p><p>So I will try a simple comparison of two nat types.</p><code>$ cat isoPath.ctt
 data nat = zero | suc (n : nat)
 data nat2 = zero2 | suc2 (n : nat2)
 
@@ -13,10 +13,10 @@ $ cubical isoPath.ctt
 > nat
 EVAL: nat
 > nat2
-EVAL: nat2</code><p>In MLTT propositional equality reflects in some sense
+EVAL: nat2</code><p>In MLTT, propositional equality reflects in some sense
 definitional which is usually built into typechecker.
-Everything that involves normalized term comparing takes
-its root from definitional equality.</p><p>The groupoid model gives us ∞-dimentional equality and also
+Everything that involves comparing of normalized terms
+stems from definitional equality.</p><p>The groupoid model gives us ∞-dimentional equality and also
 denies the uniqueness of identity proofs. That means we can build
 paths between objects in many distinguishable ways inside and the space of
 terms is ∞-groupoid:</p><code>Path     (A : U) : U = (a b : A) -> PathP (&lt;i&gt; A) a b
@@ -25,16 +25,16 @@ set      (A : U) : U = (a b : A) -> prop     (Path A a b)
 groupoid (A : U) : U = (a b : A) -> set      (Path A a b)
 gr_2     (A : U) : U = (a b : A) -> groupoid (Path A a b)
 gr_3     (A : U) : U = (a b : A) -> gr_2     (Path A a b)</code><p>To model other types of equalities, we need to design
-its properties. The desired property, in general,
+their properties. The desired property, in general,
 is to compare incomparable things (heterogenous equality):
 namely two different points of two different types.
 The cubical built-in <mark>PathP</mark> type is exactly such equality.
 It connects different points of space with the function defined
 on interval $I=[0,1]$ that is smooth between values at interval edges.</p><h2 id="nat">Path between Elements</h2><p>So let us be clear, we want to compare two points of A and B
-types which both live un U. On the high level, we will use
+types which both live on U. On the high level, we will use
 <mark>Path U A B</mark>. which is homogenous on U. At the low level we
 will use heterogenous <mark>PathP (Path U A B) a b</mark>:</p><code>PathTypes (A B: U) : U = PathP (&lt;i&gt; U) A B
-PathElem  (A B: U) (a: A) (b: B) (P: PathTypes A B) : U = PathP P a b</code><p>Let us try to build proof-term:</p><code>PathElem nat2 nat zero2 zero nat2nat</code><p>You may think of it as building proof of $0_A = 0_B$.</p><h2 id="nat">Path Isomorphism</h2><p>But how to construct elements of <mark>Path U nat2 nat</mark> ?</p><code>nat2nat : Path U nat2 nat = isoPath nat2 nat toNat fromNat fromNatK toNatK</code><p>There is already inside cubical an <mark>isoPath</mark>. The proof-term
+PathElem  (A B: U) (a: A) (b: B) (P: PathTypes A B) : U = PathP P a b</code><p>Let us try to build proof-term:</p><code>PathElem nat2 nat zero2 zero nat2nat</code><p>You may think of it as building proof of $0_A = 0_B$.</p><h2 id="nat">Path Isomorphism</h2><p>But how to construct elements of <mark>Path U nat2 nat</mark> ?</p><code>nat2nat : Path U nat2 nat = isoPath nat2 nat toNat fromNat fromNatK toNatK</code><p>There is already an <mark>isoPath</mark> inside cubical. The proof-term
 of isoPath implemented using glueing of types and composition
 primitives of type checker inside <mark>isoToEquiv</mark> lemma.</p><div class="semantics"><figure>$$Iso(A,B) = \sum_{f:A\rightarrow B}\sum_{g:B\rightarrow A}\Biggl(\prod_{x:A} Id_A(gfx,x)) \times \prod_{y:B} Id_B(fgy,y)\Biggr)$$</figure></div><code>isoPath (A B : U) (f : A -> B) (g : B -> A)
         (s : (y : B) -> Path B (f (g y)) y)
