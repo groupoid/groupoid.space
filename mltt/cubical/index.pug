@@ -99,16 +99,15 @@ block content
 
                     toNatK : (n : nat2) -> Path nat2 (fromNat (toNat n)) n = split
                         zero2 -> &lt;_&gt; zero2
-                        suc2 n -> &lt;i> suc2 (toNatK n @ i)
+                        suc2 n -> &lt;i&gt; suc2 (toNatK n @ i)
 
                     fromNatK : (n : nat) -> Path nat (toNat (fromNat n)) n = split
-                        zero -> &lt;_&gt zero
-                        suc n -> &lt;i&gt suc (fromNatK n @ i)
+                        zero -> &lt;_&gt; zero
+                        suc n -> &lt;i&gt; suc (fromNatK n @ i)
                 p.
                     Now let's see what we have built:
                 pre.
-                    &gt; PathElem nat2 nat zero2 zero nat2nat
-                    EVAL: PathP (&lt;!0&gt; Glue nat [ (!0 = 0) -&gt; (nat2,(toNat,(\(y : B)
+                    &gt; PathElem nat2 nat zero2 zero nat2nat EVAL: PathP (&lt;!0&gt; Glue nat [ (!0 = 0) -&gt; (nat2,(toNat,(\(y : B)
                     -&gt; ((g y,&lt;i&gt; (s y) @ -i),\(z : fiber A B f y) -&gt; lemIso A B f g
                     s t y (g y) z.1 (&lt;i&gt; (s y) @ -i) z.2)) (A = nat2, B = nat, f =
                     toNat, g = fromNat, s = fromNatK, t = toNatK))), (!0 = 1) -&gt;
