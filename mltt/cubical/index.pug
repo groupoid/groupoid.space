@@ -109,6 +109,7 @@ block content
                     fiber (A B : U) (f : A -> B) (y : B) : U = (x : A) * Path B y (f x)
                     contrSingl (A : U) (a b : A) (p : Path A a b) :
                         Path (singl A a) (a,refl A a) (b,p) = &lt;i&gt; (p @ i,&lt;j&gt; p @ i/\j)
+                h2 Equivalence
                 p.
                     <mark>isEquiv</mark> is a contractible map $f: A \rightarrow B$, so that
                     for all $y:B$ the fiber $fib_f(y)$ is contractible.
