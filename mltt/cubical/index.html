@@ -1,37 +1,45 @@
 <!DOCTYPE html><html><head><meta charset="utf-8"><meta http-equiv="x-ua-compatible" content="ie=edge"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="author" content="Maxim Sokhatsky"><meta property="og:title" content="Groupoid Infinity"><meta property="og:image" content="//groupoid.space/grp.png"><meta property="og:type" content="website"><meta property="fb:app_id" content="118554188236439"><meta property="og:url" content="//groupoid.space"><meta property="og:description" content="Infinity Language"><link rel="stylesheet" href="//groupoid.space/main.css"><title>OM</title><script src="//cdnjs.cloudflare.com/ajax/libs/mathjax/2.6.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><script>MathJax.Hub.Config({ displayAlign: "left", tex2jax: { inlineMath: [['$','$'], ['\\(','\\)']], processEscapes: true } });
-</script></head><body class="content"><header class="header"><a href="//groupoid.space/"><img class="header__logo" src="//groupoid.space/groupoid.svg"/></a><div class="header__titles"><h1 class="header__title">Path Isomorphisms</h1><h4 class="header__subtitle">Connecting two data types</h4></div></header><article class="main"><div class="om"><section><h1>Overview</h1><h2 id="nat">Background</h2><p>Just got a <b>cubical</b> typechecker from Mortberg et all,
-and first thing I wanted to try was a connecting two diffrent
-values of two different types. As you may know the core thing of Type Theory
-is equality/isomorphism/equivalence (which is same thing
-but in different universes: 0, 1, 2, ...). Despite
-<b>cubical</b> is U : U this task is possible here.</p><p>So I will try with simple comparing two nat types.</p><code>data nat = zero | suc (n : nat)
-data nat2 = zero2 | suc2 (n : nat2)</code><p>In MLTT propositional equality reflects it in some sense
+</script></head><body class="content"><header class="header"><a href="//groupoid.space/"><img class="header__logo" src="//groupoid.space/groupoid.svg"/></a><div class="header__titles"><h1 class="header__title">Path Isomorphism</h1><h4 class="header__subtitle">Connecting two data types</h4></div></header><article class="main"><div class="om"><section><h1>Overview</h1><h2 id="nat">Background</h2><p>Just got a <b>cubical</b> type checker from Mortberg et all,
+and the first thing I wanted to try was a connecting
+two different values of two different types. As you may know,
+the core thing of Type Theory is equality or isomorphism
+or equivalence (which is the same thing but in different
+universes: 0, 1, 2, ...). Despite cubical is U : U this task is possible here.</p><p>So I will try with simple comparing two nat types.</p><code>$ cat isoPath.ctt
+data nat = zero | suc (n : nat)
+data nat2 = zero2 | suc2 (n : nat2)
+
+$ cubical isoPath.ctt
+> nat
+EVAL: nat
+> nat2
+EVAL: nat2</code><p>In MLTT propositional equality reflects it in some sense
 definitional which is usually built into typechecker and.
 Everything that involves normalized term comparing takes
-its root from definitional equality.</p><p>The groupoid model gives us infinity dimentional equality and also
+its root from definitional equality.</p><p>The groupoid model gives us ∞-dimentional equality and also
 denies the uniqueness of identity proofs. That means we can build
 paths between objects in many ways inside and the space of
-terms is infinity groupoid:</p><code>Path     (A : U) : U = (a b : A) -> PathP (\(i: [0..1]) -> A) a b
+terms is ∞-groupoid:</p><code>Path     (A : U) : U = (a b : A) -> PathP (&lt;i&gt; A) a b
 prop     (A : U) : U = (a b : A) -> Path A a b
 set      (A : U) : U = (a b : A) -> prop     (Path A a b)
 groupoid (A : U) : U = (a b : A) -> set      (Path A a b)
 gr_2     (A : U) : U = (a b : A) -> groupoid (Path A a b)
-gr_3     (A : U) : U = (a b : A) -> gr_2     (Path A a b)</code><p>To model other types of equalities we need to design its properties.
-The desired property in general is to compare uncomparable things
-(heterogenous equality): namely two different points of two different types.
-The <b>cubical</b> built-in <b>PathP</b> type is exacly such equality.
-In connects different points of space with function defined on I interval [0..1]
-that is smooth between values at interval edges.</p><h2 id="nat">Task</h2><p>So let us be clean, we want to compare two points of A and B
-types which both live un U. So on top level we will use <b>Path U A B</b>.
-which is homogenous on U. At low level we will use heterogenous
-<b>PathP (Path U A B) a b</b>:</p><code>PathTypes (A B: U) : U = PathP (\(i: I) -> U) A B
-PathElem  (A B: U) (a: A) (b: B) (P: PathTypes A B) : U = PathP P a b</code><p>Lets try to build proofterm:</p><code>PathElem nat2 nat zero2 zero nat2nat</code><h2 id="nat">Path Isomorphism</h2><p>But how to construct elements of <b>Path U nat2 nat</b> ?</p><code>nat2nat : Path U nat2 nat = isoPath nat2 nat toNat fromNat fromNatK toNatK</code><p>There is already inside cubical an isoPath. The proof-term
+gr_3     (A : U) : U = (a b : A) -> gr_2     (Path A a b)</code><p>To model other types of equalities, we need to design
+its properties. The desired property, in general,
+is to compare incomparable things (heterogenous equality):
+namely two different points of two different types.
+The cubical built-in <b>PathP</b> type is exactly such equality.
+It connects different points of space with the function defined
+on I interval [0..1] that is smooth between values at interval edges.</p><h2 id="nat">Task</h2><p>So let us be clear, we want to compare two points of A and B
+types which both live un U. On the high level, we will use
+<b>Path U A B</b>. which is homogenous on U. At the low level we
+will use heterogenous <b>PathP (Path U A B) a b</b>:</p><code>PathTypes (A B: U) : U = PathP (&lt;i&gt; U) A B
+PathElem  (A B: U) (a: A) (b: B) (P: PathTypes A B) : U = PathP P a b</code><p>Let us try to build proof-term:</p><code>PathElem nat2 nat zero2 zero nat2nat</code><h2 id="nat">Path Isomorphism</h2><p>But how to construct elements of <b>Path U nat2 nat</b> ?</p><code>nat2nat : Path U nat2 nat = isoPath nat2 nat toNat fromNat fromNatK toNatK</code><p>There is already inside cubical an isoPath. The proof-term
 of isoPath implemented using glueing of types and composition
-primitives of typechecker inside isoToEquiv lemma.</p><code>isoPath (A B : U) (f : A -> B) (g : B -> A)
+primitives of type checker inside isoToEquiv lemma.</p><code>isoPath (A B : U) (f : A -> B) (g : B -> A)
         (s : (y : B) -> Path B (f (g y)) y)
         (t : (x : A) -> Path A (g (f x)) x) : Path U A B =
-        \(i: I) -> Glue B [ (i = 0) -> (A,f,isoToEquiv A B f g s t)
-                           , (i = 1) -> (B,idfun B,idIsEquiv B) ]</code><p>Not we need to pas maps f and g:</p><code>toNat : nat2 -> nat = split
+        &lt;i%gt; -> Glue B [ (i = 0) -> (A,f,isoToEquiv A B f g s t)
+                          , (i = 1) -> (B,idfun B,idIsEquiv B) ]</code><p>Now we need to pass maps f and g:</p><code>toNat : nat2 -> nat = split
     zero2 -> zero
     suc2 n -> suc (toNat n)
 
@@ -40,52 +48,52 @@ fromNat : nat -> nat2 = split
     suc n -> suc2 (fromNat n)
 
 toNatK : (n : nat2) -> Path nat2 (fromNat (toNat n)) n = split
-    zero2 -> <_> zero2
-    suc2 n -> <i> suc2 (toNatK n @ i)
+    zero2 -> &lt;_&gt; zero2
+    suc2 n -> &lt;i> suc2 (toNatK n @ i)
 
 fromNatK : (n : nat) -> Path nat (toNat (fromNat n)) n = split
-    zero -> <_> zero
-    suc n -> <i> suc (fromNatK n @ i)</code><p>Now let's see what we have built:</p><code>> PathElem nat2 nat zero2 zero nat2nat
-EVAL: PathP (<!0> Glue nat [ (!0 = 0) -> (nat2,(toNat,(\(y : B)
--> ((g y,<i> (s y) @ -i),\(z : fiber A B f y) -> lemIso A B f g
-s t y (g y) z.1 (<i> (s y) @ -i) z.2)) (A = nat2, B = nat, f =
-toNat, g = fromNat, s = fromNatK, t = toNatK))), (!0 = 1) ->
-(nat,((\(a : A) -> a) (A = nat),(\(a : A) -> ((a,refl A a),\(z:
-fiber A A (idfun A) a) -> contrSingl A a z.1 z.2)) (A = nat)))])
-zero2 zero</code><p>And its normalized version:</p><code>> :n PathElem nat2 nat zero2 zero nat2nat
-NORMEVAL: PathP (<!0> Glue nat [ (!0 = 0) -> (nat2,(toNat,\(y
-: nat) -> ((fromNat y,<!0> fromNatK y @ -!0),\(z : Sigma nat2
-(\(x : nat2) -> PathP (<!0> nat) y (toNat x))) -> <!0> (comp
-(<!1> nat2) (fromNat y) [ (!0 = 0) -> <!1> comp (<!2> nat2)
-(fromNat (fromNatK y @ -!1)) [ (!1 = 0) -> <!2> fromNat y,
-(!1 = 1) -> <!2> toNatK (fromNat y) @ !2 ], (!0 = 1) -> <!1>
-comp (<!2> nat2) (fromNat (z.2 @ !1)) [ (!1 = 0) -> <!2> fromNat y,
-(!1 = 1) -> <!2> toNatK z.1 @ !2 ] ],<!1> comp (<!2> nat)
-(toNat (comp (<!2> nat2) (comp (<!2> nat2) (fromNat y) [(!0 = 0)
--> <!2> comp (<!3> nat2) (fromNat (fromNatK y @ (-!1 \/ -!2)))
-[ (!1 = 0) -> <!3> fromNat y, (!1 = 1)(!2 = 1) -> <!3> toNatK
-(fromNat y) @ !3, (!2 = 0) -> <!3> fromNat y ], (!0 = 1) -> <!2>
-comp (<!3> nat2) (fromNat (z.2 @ (!1 /\ !2))) [ (!1 = 0) -> <!3>
-fromNat y, (!1 = 1)(!2 = 1) -> <!3> toNatK z.1 @ !3, (!2 = 0) ->
-<!3> fromNat y ], (!1 = 0) -> <!2> fromNat y ]) [ (!0 = 0) -> <!2>
-comp (<!3> nat2) (fromNat (fromNatK y @ -!1)) [ (!1 = 0) -> <!3>
-fromNat y, (!1 = 1) -> <!3> toNatK (fromNat y) @ (-!2 /\ !3),
-(!2 = 1) -> <!3> fromNat (fromNatK y @ -!1) ], (!0 = 1) -> <!2>
-comp (<!3> nat2) (fromNat (z.2 @ !1)) [ (!1 = 0) -> <!3> fromNat
-y, (!1 = 1) -> <!3> toNatK z.1 @ (-!2 /\ !3), (!2 = 1) -> <!3>
-fromNat (z.2 @ !1) ], (!1 = 0) -> <!2> fromNat y, (!1 = 1) ->
-<!2> toNatK (comp (<!1> nat2) (fromNat y) [ (!0 = 0) -> <!1>
-comp (<!2> nat2) (fromNat (fromNatK y @ -!1)) [ (!1 = 0) ->
-<!2> fromNat y, (!1 = 1) -> <!2> toNatK (fromNat y) @ !2 ],
-(!0 = 1) -> <!1> comp (<!2> nat2) (fromNat (z.2 @ !1)) [ (!1 = 0)
--> <!2> fromNat y, (!1 = 1) -> <!2> toNatK z.1 @ !2 ] ]) @ -!2 ]))
-[ (!0 = 0) -> <!2> fromNatK (fromNatK y @ -!1) @ !2, (!0 = 1) ->
-<!2> fromNatK (z.2 @ !1) @ !2, (!1 = 0) -> <!2> fromNatK y @ !2,
-(!1 = 1) -> <!2> fromNatK (toNat (comp (<!1> nat2) (fromNat y)
-[ (!0 = 0) -> <!1> comp (<!2> nat2) (fromNat (fromNatK y @ -!1))
-[ (!1 = 0) -> <!2> fromNat y, (!1 = 1) -> <!2> toNatK (fromNat y)
-@ !2 ], (!0 = 1) -> <!1> comp (<!2> nat2) (fromNat (z.2 @ !1))
-[ (!1 = 0) -> <!2> fromNat y, (!1 = 1) -> <!2> toNatK z.1 @ !2 ] ]))
-@ !2 ])))), (!0 = 1) -> (nat,(\(a : nat) -> a,\(a : nat) -> ((a,<!0> a),
-\(z : Sigma nat (\(x : nat) -> PathP (<!0> nat) a x)) -> <!0>
-(z.2 @ !0,<!1> z.2 @ (!0 /\ !1))))) ]) zero2 zero</code></section></div></article><footer class="footer"><img class="footer__logo" src="https://longchenpa.guru/seal.png" width="50"><span class="footer__copy">2016&mdash;2017 &copy; Groupoid Infinity</span></footer><script src="//groupoid.space/bundle.js"></script><script src="//groupoid.space/highlight.js"></script></body></html>
+    zero -> &lt;_&gt zero
+    suc n -> &lt;i&gt suc (fromNatK n @ i)</code><p>Now let's see what we have built:</p><pre>&gt; PathElem nat2 nat zero2 zero nat2nat
+EVAL: PathP (&lt;!0&gt; Glue nat [ (!0 = 0) -&gt; (nat2,(toNat,(\(y : B)
+-&gt; ((g y,&lt;i&gt; (s y) @ -i),\(z : fiber A B f y) -&gt; lemIso A B f g
+s t y (g y) z.1 (&lt;i&gt; (s y) @ -i) z.2)) (A = nat2, B = nat, f =
+toNat, g = fromNat, s = fromNatK, t = toNatK))), (!0 = 1) -&gt;
+(nat,((\(a : A) -&gt; a) (A = nat),(\(a : A) -&gt; ((a,refl A a),\(z:
+fiber A A (idfun A) a) -&gt; contrSingl A a z.1 z.2)) (A = nat)))])
+zero2 zero</pre><p>And its normalized version:</p><pre>&gt; :n PathElem nat2 nat zero2 zero nat2nat
+NORMEVAL: PathP (&lt;!0&gt; Glue nat [ (!0 = 0) -&gt; (nat2,(toNat,\(y
+: nat) -&gt; ((fromNat y,&lt;!0&gt; fromNatK y @ -!0),\(z : Sigma nat2
+(\(x : nat2) -&gt; PathP (&lt;!0&gt; nat) y (toNat x))) -&gt; &lt;!0&gt; (comp
+(&lt;!1&gt; nat2) (fromNat y) [ (!0 = 0) -&gt; &lt;!1&gt; comp (&lt;!2&gt; nat2)
+(fromNat (fromNatK y @ -!1)) [ (!1 = 0) -&gt; &lt;!2&gt; fromNat y,
+(!1 = 1) -&gt; &lt;!2&gt; toNatK (fromNat y) @ !2 ], (!0 = 1) -&gt; &lt;!1&gt;
+comp (&lt;!2&gt; nat2) (fromNat (z.2 @ !1)) [ (!1 = 0) -&gt; &lt;!2&gt; fromNat y,
+(!1 = 1) -&gt; &lt;!2&gt; toNatK z.1 @ !2 ] ],&lt;!1&gt; comp (&lt;!2&gt; nat)
+(toNat (comp (&lt;!2&gt; nat2) (comp (&lt;!2&gt; nat2) (fromNat y) [(!0 = 0)
+-&gt; &lt;!2&gt; comp (&lt;!3&gt; nat2) (fromNat (fromNatK y @ (-!1 \/ -!2)))
+[ (!1 = 0) -&gt; &lt;!3&gt; fromNat y, (!1 = 1)(!2 = 1) -&gt; &lt;!3&gt; toNatK
+(fromNat y) @ !3, (!2 = 0) -&gt; &lt;!3&gt; fromNat y ], (!0 = 1) -&gt; &lt;!2&gt;
+comp (&lt;!3&gt; nat2) (fromNat (z.2 @ (!1 /\ !2))) [ (!1 = 0) -&gt; &lt;!3&gt;
+fromNat y, (!1 = 1)(!2 = 1) -&gt; &lt;!3&gt; toNatK z.1 @ !3, (!2 = 0) -&gt;
+&lt;!3&gt; fromNat y ], (!1 = 0) -&gt; &lt;!2&gt; fromNat y ]) [ (!0 = 0) -&gt; &lt;!2&gt;
+comp (&lt;!3&gt; nat2) (fromNat (fromNatK y @ -!1)) [ (!1 = 0) -&gt; &lt;!3&gt;
+fromNat y, (!1 = 1) -&gt; &lt;!3&gt; toNatK (fromNat y) @ (-!2 /\ !3),
+(!2 = 1) -&gt; &lt;!3&gt; fromNat (fromNatK y @ -!1) ], (!0 = 1) -&gt; &lt;!2&gt;
+comp (&lt;!3&gt; nat2) (fromNat (z.2 @ !1)) [ (!1 = 0) -&gt; &lt;!3&gt; fromNat
+y, (!1 = 1) -&gt; &lt;!3&gt; toNatK z.1 @ (-!2 /\ !3), (!2 = 1) -&gt; &lt;!3&gt;
+fromNat (z.2 @ !1) ], (!1 = 0) -&gt; &lt;!2&gt; fromNat y, (!1 = 1) -&gt;
+&lt;!2&gt; toNatK (comp (&lt;!1&gt; nat2) (fromNat y) [ (!0 = 0) -&gt; &lt;!1&gt;
+comp (&lt;!2&gt; nat2) (fromNat (fromNatK y @ -!1)) [ (!1 = 0) -&gt;
+&lt;!2&gt; fromNat y, (!1 = 1) -&gt; &lt;!2&gt; toNatK (fromNat y) @ !2 ],
+(!0 = 1) -&gt; &lt;!1&gt; comp (&lt;!2&gt; nat2) (fromNat (z.2 @ !1)) [ (!1 = 0)
+-&gt; &lt;!2&gt; fromNat y, (!1 = 1) -&gt; &lt;!2&gt; toNatK z.1 @ !2 ] ]) @ -!2 ]))
+[ (!0 = 0) -&gt; &lt;!2&gt; fromNatK (fromNatK y @ -!1) @ !2, (!0 = 1) -&gt;
+&lt;!2&gt; fromNatK (z.2 @ !1) @ !2, (!1 = 0) -&gt; &lt;!2&gt; fromNatK y @ !2,
+(!1 = 1) -&gt; &lt;!2&gt; fromNatK (toNat (comp (&lt;!1&gt; nat2) (fromNat y)
+[ (!0 = 0) -&gt; &lt;!1&gt; comp (&lt;!2&gt; nat2) (fromNat (fromNatK y @ -!1))
+[ (!1 = 0) -&gt; &lt;!2&gt; fromNat y, (!1 = 1) -&gt; &lt;!2&gt; toNatK (fromNat y)
+@ !2 ], (!0 = 1) -&gt; &lt;!1&gt; comp (&lt;!2&gt; nat2) (fromNat (z.2 @ !1))
+[ (!1 = 0) -&gt; &lt;!2&gt; fromNat y, (!1 = 1) -&gt; &lt;!2&gt; toNatK z.1 @ !2 ] ]))
+@ !2 ])))), (!0 = 1) -&gt; (nat,(\(a : nat) -&gt; a,\(a : nat) -&gt; ((a,&lt;!0&gt; a),
+\(z : Sigma nat (\(x : nat) -&gt; PathP (&lt;!0&gt; nat) a x)) -&gt; &lt;!0&gt;
+(z.2 @ !0,&lt;!1&gt; z.2 @ (!0 /\ !1))))) ]) zero2 zero</pre></section></div></article><footer class="footer"><img class="footer__logo" src="https://longchenpa.guru/seal.png" width="50"><span class="footer__copy">2016&mdash;2017 &copy; Groupoid Infinity</span></footer><script src="//groupoid.space/bundle.js"></script><script src="//groupoid.space/highlight.js"></script></body></html>
