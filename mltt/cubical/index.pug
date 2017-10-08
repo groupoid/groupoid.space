@@ -85,6 +85,13 @@ block content
                 .semantics
                     figure.
                         $$Iso(A,B) = \sum_{f:A\rightarrow B}\sum_{g:B\rightarrow A}\Biggl(\prod_{x:A} Id_A(gfx,x)) \times \prod_{y:B} Id_B(fgy,y)\Biggr)$$
+                code.
+                    isoPath (A B : U) (f : A -> B) (g : B -> A)
+                            (s : (y : B) -> Path B (f (g y)) y)
+                            (t : (x : A) -> Path A (g (f x)) x) : Path U A B =
+                            &lt;i&gt; Glue B [ (i = 0) -> (A,f,isoToEquiv A B f g s t),
+                                         (i = 1) -> (B,idfun B,idIsEquiv B) ]
+                h2 Contractability and Fibers
                 p.
                     A type $A$ is contractible, or a singleton, if there is $a : A$,
                     called the center of contraction, such that $a = x$ for all $x : A$:
@@ -97,21 +104,20 @@ block content
                 .semantics
                     figure.
                         $$fib_f(y) = \sum f x = y$$.
+                code.
+                    isContr (A : U) : U = (x : A) * ((y : A) -> Path A x y)
+                    fiber (A B : U) (f : A -> B) (y : B) : U = (x : A) * Path B y (f x)
+                    contrSingl (A : U) (a b : A) (p : Path A a b) :
+                        Path (singl A a) (a,refl A a) (b,p) = &lt;i&gt; (p @ i,&lt;j&gt; p @ i/\j)
                 p.
                     <mark>isEquiv</mark> is a contractible map $f: A \rightarrow B$, so that
                     for all $y:B$ the fiber $fib_f(y)$ is contractible.
                 code.
-                    isContr (A : U) : U = (x : A) * ((y : A) -> Path A x y)
-                    fiber (A B : U) (f : A -> B) (y : B) : U = (x : A) * Path B y (f x)
                     isEquiv (A B : U) (f : A -> B) : U = (y : B) -> isContr (fiber A B f y)
-                    contrSingl (A : U) (a b : A) (p : Path A a b) :
-                        Path (singl A a) (a,refl A a) (b,p) = &lt;i&gt; (p @ i,&lt;j&gt; p @ i/\j)
-                code.
-                    isoPath (A B : U) (f : A -> B) (g : B -> A)
-                            (s : (y : B) -> Path B (f (g y)) y)
-                            (t : (x : A) -> Path A (g (f x)) x) : Path U A B =
-                            &lt;i&gt; Glue B [ (i = 0) -> (A,f,isoToEquiv A B f g s t),
-                                         (i = 1) -> (B,idfun B,idIsEquiv B) ]
+                p.
+                .semantics
+                    figure.
+                        $$Iso(A,B) \rightarrow Equiv(A,B)$$.
                 code.
                     isoToEquiv (A B : U) (f : A -> B) (g : B -> A)
                                (s : (y : B) -> Path B (f (g y)) y)
