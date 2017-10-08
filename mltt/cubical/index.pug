@@ -82,7 +82,7 @@ block content
                     primitives of type checker inside isoToEquiv lemma.
                 .semantics
                     figure.
-                        $$Iso(A,B) = \sum_{f:A\rightarrow B}\sum_{g:B\rightarrow A}\Biggl\prod_{x:A} Id_A(gfx,x)) \times \prod_{y:B} Id_B(fgy,y)\Biggr$$
+                        $$Iso(A,B) = \sum_{f:A\rightarrow B}\sum_{g:B\rightarrow A}\Biggl(\prod_{x:A} Id_A(gfx,x)) \times \prod_{y:B} Id_B(fgy,y)\Biggr)$$
                 code.
                     isoPath (A B : U) (f : A -> B) (g : B -> A)
                             (s : (y : B) -> Path B (f (g y)) y)
