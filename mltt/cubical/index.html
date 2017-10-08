@@ -35,7 +35,7 @@ types which both live un U. On the high level, we will use
 will use heterogenous <b>PathP (Path U A B) a b</b>:</p><code>PathTypes (A B: U) : U = PathP (<i> U) A B
 PathElem  (A B: U) (a: A) (b: B) (P: PathTypes A B) : U = PathP P a b</code><p>Let us try to build proof-term:</p><code>PathElem nat2 nat zero2 zero nat2nat</code><h2 id="nat">Path Isomorphism</h2><p>But how to construct elements of <b>Path U nat2 nat</b> ?</p><code>nat2nat : Path U nat2 nat = isoPath nat2 nat toNat fromNat fromNatK toNatK</code><p>There is already inside cubical an isoPath. The proof-term
 of isoPath implemented using glueing of types and composition
-primitives of type checker inside isoToEquiv lemma.</p><div class="semantics"><figure>$$Iso(A,B) = \sum_{f:A\rightarrow B}\sum_{g:B\rightarrow A}(\Pi_{x:A} Id_A(gfx,x)) \times \Pi_{y:B} Id_B(fgy,y)$$</figure></div><code>isoPath (A B : U) (f : A -> B) (g : B -> A)
+primitives of type checker inside isoToEquiv lemma.</p><div class="semantics"><figure>$$Iso(A,B) = \sum_{f:A\rightarrow B}\sum_{g:B\rightarrow A}(\prod_{x:A} Id_A(gfx,x)) \times \prod_{y:B} Id_B(fgy,y)$$</figure></div><code>isoPath (A B : U) (f : A -> B) (g : B -> A)
         (s : (y : B) -> Path B (f (g y)) y)
         (t : (x : A) -> Path A (g (f x)) x) : Path U A B =
         <i> Glue B [ (i = 0) -> (A,f,isoToEquiv A B f g s t),
