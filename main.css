@@ -26,7 +26,9 @@ html {
   height: 100%; }
 
 body {
-  min-height: 100%; }
+  min-height: 100%;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased; }
 
 h1, h2, h3, h4 {
   font-weight: normal; }
@@ -94,6 +96,9 @@ p {
     p {
       font-size: 22px; } }
 
+p:hover {
+  background: white; }
+
 mark {
   background: #FDF6E3;
   padding: 0px 2px;
@@ -133,7 +138,7 @@ aside {
   width: 100%;
   z-index: 5; }
   .header__logo {
-    width: 150px;
+    width: 130px;
     position: relative; }
   .header__titles {
     position: relative;
@@ -149,8 +154,8 @@ aside {
     .header {
       flex-direction: row; }
       .header__logo {
-        width: 200px;
-        margin-right: 20px; }
+        width: 160px;
+        margin-right: 10px; }
       .header__title {
         font-size: 60px; }
       .header__subtitle {
