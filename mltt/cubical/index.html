@@ -29,7 +29,7 @@ is to compare incomparable things (heterogenous equality):
 namely two different points of two different types.
 The cubical built-in <b>PathP</b> type is exactly such equality.
 It connects different points of space with the function defined
-on I interval [0..1] that is smooth between values at interval edges.</p><h2 id="nat">Task</h2><p>So let us be clear, we want to compare two points of A and B
+on I interval [0..1] that is smooth between values at interval edges.</p><h2 id="nat">Path between Elements</h2><p>So let us be clear, we want to compare two points of A and B
 types which both live un U. On the high level, we will use
 <b>Path U A B</b>. which is homogenous on U. At the low level we
 will use heterogenous <b>PathP (Path U A B) a b</b>:</p><code>PathTypes (A B: U) : U = PathP (<i> U) A B
