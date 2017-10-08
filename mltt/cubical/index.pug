@@ -44,7 +44,7 @@ block content
                     paths between objects in many ways inside and the space of
                     terms is ∞-groupoid:
                 code.
-                    Path     (A : U) : U = (a b : A) -> PathP (<i> A) a b
+                    Path     (A : U) : U = (a b : A) -> PathP (&lt;i&gt; A) a b
                     prop     (A : U) : U = (a b : A) -> Path A a b
                     set      (A : U) : U = (a b : A) -> prop     (Path A a b)
                     groupoid (A : U) : U = (a b : A) -> set      (Path A a b)
@@ -65,7 +65,7 @@ block content
                     <b>Path U A B</b>. which is homogenous on U. At the low level we
                     will use heterogenous <b>PathP (Path U A B) a b</b>:
                 code.
-                    PathTypes (A B: U) : U = PathP (<i> U) A B
+                    PathTypes (A B: U) : U = PathP (&lt;i&gt; U) A B
                     PathElem  (A B: U) (a: A) (b: B) (P: PathTypes A B) : U = PathP P a b
                 p.
                     Let us try to build proof-term:
@@ -88,19 +88,19 @@ block content
                     fiber (A B : U) (f : A -> B) (y : B) : U = (x : A) * Path B y (f x)
                     isEquiv (A B : U) (f : A -> B) : U = (y : B) -> isContr (fiber A B f y)
                     contrSingl (A : U) (a b : A) (p : Path A a b) :
-                        Path (singl A a) (a,refl A a) (b,p) = <i> (p @ i,<j> p @ i/\j)
+                        Path (singl A a) (a,refl A a) (b,p) = &lt;i&gt; (p @ i,<j> p @ i/\j)
                 code.
                     isoPath (A B : U) (f : A -> B) (g : B -> A)
                             (s : (y : B) -> Path B (f (g y)) y)
                             (t : (x : A) -> Path A (g (f x)) x) : Path U A B =
-                            <i> Glue B [ (i = 0) -> (A,f,isoToEquiv A B f g s t),
+                            &lt;i&gt; Glue B [ (i = 0) -> (A,f,isoToEquiv A B f g s t),
                                          (i = 1) -> (B,idfun B,idIsEquiv B) ]
                 code.
                     isoToEquiv (A B : U) (f : A -> B) (g : B -> A)
                                (s : (y : B) -> Path B (f (g y)) y)
                                (t : (x : A) -> Path A (g (f x)) x) : isEquiv A B f =
-                        \(y:B) -> ((g y,<i>s y@-i),\ (z:fiber A B f y) ->
-                               lemIso A B f g s t y (g y) z.1 (<i>s y@-i) z.2)
+                        \(y:B) -> ((g y,&lt;i&gt;s y@-i),\ (z:fiber A B f y) ->
+                               lemIso A B f g s t y (g y) z.1 (&lt;i&gt;s y@-i) z.2)
                 code.
                     idIsEquiv (A : U) : isEquiv A A (idfun A) =
                          \(a : A) -> ((a, refl A a),\(z : fiber A A (idfun A) a) ->
@@ -110,18 +110,18 @@ block content
                            (s : (y : B) -> Path B (f (g y)) y)
                            (t : (x : A) -> Path A (g (f x)) x)
                            (y : B) (x0 x1 : A) (p0 : Path B y (f x0)) (p1 : Path B y (f x1)) :
-                           Path (fiber A B f y) (x0,p0) (x1,p1) = <i> (p @ i,sq1 @ i)
+                           Path (fiber A B f y) (x0,p0) (x1,p1) = &lt;i&gt; (p @ i,sq1 @ i)
                     where
-                        rem0  : Path A (g y) x0 = <i> comp (<k> A) (g (p0 @ i)) [ (i = 1) -> t x0, (i = 0) -> <k> g y ]
-                        rem1  : Path A (g y) x1 = <i> comp (<k> A) (g (p1 @ i)) [ (i = 1) -> t x1, (i = 0) -> <k> g y ]
-                        p     : Path A x0 x1 = <i> comp (<k> A) (g y) [ (i = 0) -> rem0, (i = 1) -> rem1 ]
+                        rem0  : Path A (g y) x0 = &lt;i&gt; comp (<k> A) (g (p0 @ i)) [ (i = 1) -> t x0, (i = 0) -> <k> g y ]
+                        rem1  : Path A (g y) x1 = &lt;i&gt; comp (<k> A) (g (p1 @ i)) [ (i = 1) -> t x1, (i = 0) -> <k> g y ]
+                        p     : Path A x0 x1 = &lt;i&gt; comp (<k> A) (g y) [ (i = 0) -> rem0, (i = 1) -> rem1 ]
                         fill0 : Square A (g y) (g (f x0)) (g y) x0
-                                (<i> g (p0 @ i)) rem0 (<i> g y) (t x0)  =
+                                (&lt;i&gt; g (p0 @ i)) rem0 (&lt;i&gt; g y) (t x0)  =
                                  <i j> comp (<k> A) (g (p0 @ i)) [ (i = 1) -> <k> t x0 @ j /\ k,
                                                                    (i = 0) -> <k> g y,
                                                                    (j = 0) -> <k> g (p0 @ i) ]
                         fill1 : Square A (g y) (g (f x1)) (g y) x1
-                               (<i> g (p1 @ i)) rem1 (<i> g y) (t x1) =
+                               (&lt;i&gt; g (p1 @ i)) rem1 (&lt;i&gt; g y) (t x1) =
                                 <i j> comp (<k> A) (g (p1 @ i)) [ (i = 1) -> <k> t x1 @ j /\ k,
                                                                   (i = 0) -> <k> g y,
                                                                   (j = 0) -> <k> g (p1 @ i) ]
@@ -132,7 +132,7 @@ block content
                                                             (j = 0) -> <k> g y ]
 
                         sq : Square A (g y) (g y) (g (f x0)) (g (f x1))
-                             (<i> g y) (<i> g (f (p @ i)))
+                             (&lt;i&gt; g y) (&lt;i&gt; g (f (p @ i)))
                              (<j> g (p0 @ j)) (<j> g (p1 @ j)) =
                               <i j> comp (<k> A) (fill2 @ i @ j) [ (i = 0) -> <k> fill0 @ j @ -k,
                                                                    (i = 1) -> <k> fill1 @ j @ -k,
@@ -140,7 +140,7 @@ block content
                                                                    (j = 1) -> <k> t (p @ i) @ -k ]
 
                         sq1 : Square B y y (f x0) (f x1)
-                              (<k>y) (<i> f (p @ i)) p0 p1 =
+                              (<k>y) (&lt;i&gt; f (p @ i)) p0 p1 =
                                <i j> comp (<k> B) (f (sq @ i @j)) [ (i = 0) -> s (p0 @ j),
                                                                     (i = 1) -> s (p1 @ j),
                                                                     (j = 1) -> s (f (p @ i)),
@@ -158,17 +158,17 @@ block content
 
                     toNatK : (n : nat2) -> Path nat2 (fromNat (toNat n)) n = split
                         zero2 -> <_> zero2
-                        suc2 n -> <i> suc2 (toNatK n @ i)
+                        suc2 n -> &lt;i&gt; suc2 (toNatK n @ i)
 
                     fromNatK : (n : nat) -> Path nat (toNat (fromNat n)) n = split
                         zero -> <_> zero
-                        suc n -> <i> suc (fromNatK n @ i)
+                        suc n -> &lt;i&gt; suc (fromNatK n @ i)
                 p.
                     Now let's see what we have built:
                 pre.
                     > PathElem nat2 nat zero2 zero nat2nat EVAL: PathP (<!0> Glue nat [ (!0 = 0) -> (nat2,(toNat,(\(y : B)
-                    -> ((g y,<i> (s y) @ -i),\(z : fiber A B f y) -> lemIso A B f g
-                    s t y (g y) z.1 (<i> (s y) @ -i) z.2)) (A = nat2, B = nat, f =
+                    -> ((g y,&lt;i&gt; (s y) @ -i),\(z : fiber A B f y) -> lemIso A B f g
+                    s t y (g y) z.1 (&lt;i&gt; (s y) @ -i) z.2)) (A = nat2, B = nat, f =
                     toNat, g = fromNat, s = fromNatK, t = toNatK))), (!0 = 1) ->
                     (nat,((\(a : A) -> a) (A = nat),(\(a : A) -> ((a,refl A a),\(z:
                     fiber A A (idfun A) a) -> contrSingl A a z.1 z.2)) (A = nat)))])
