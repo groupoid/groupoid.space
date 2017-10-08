@@ -48,7 +48,7 @@ block content
                     The desired property in general is to compare uncomparable things
                     (heterogenous equality): namely two different points of two different types.
                     The <b>cubical</b> built-in <b>PathP</b> type is exacly such equality.
-                    In connects different points of space with function defined on interval [0..1]
+                    In connects different points of space with function defined on I interval [0..1]
                     that is smooth between values at interval edges.
                 p.
                     So let us be clean, we want to compare two points of A and B
@@ -56,7 +56,7 @@ block content
                     which is homogenous on U. At low level we will use heterogenous
                     <b>PathP (Path U A B) a b</b>:
                 code.
-                    PathTypes (A B: U) : U = PathP (\(i: [0..1] -> U) A B
+                    PathTypes (A B: U) : U = PathP (\(i: I) -> U) A B
                     PathElem  (A B: U) (a: A) (b: B) (P: PathTypes A B) : U = PathP P a b
                 p.
                     Lets try to build proofterm:
@@ -74,8 +74,8 @@ block content
                     isoPath (A B : U) (f : A -> B) (g : B -> A)
                             (s : (y : B) -> Path B (f (g y)) y)
                             (t : (x : A) -> Path A (g (f x)) x) : Path U A B =
-                            <i> Glue B [ (i = 0) -> (A,f,isoToEquiv A B f g s t)
-                                       , (i = 1) -> (B,idfun B,idIsEquiv B) ]
+                            \(i: I) -> Glue B [ (i = 0) -> (A,f,isoToEquiv A B f g s t)
+                                               , (i = 1) -> (B,idfun B,idIsEquiv B) ]
                 p.
                     Not we need to pas maps f and g:
                 code.
