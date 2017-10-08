@@ -149,7 +149,7 @@ eq ((:farall,(N1,0)),(I1,O1))
 eq ((:lambda,(N1,0)),(I1,O1))
    ((:lambda,(N2,0)),(I2,O2)) ->
    let true = eq I1 I2 in eq O1 (sub (sh O2 N1 0) N2 (:var,(N1,0)) 0)
-eq (A,B)                      -> (:error,(:eq,A,B))</code></section><h2>Type Checker<code>type (:star,N)               _ -> (:star,N+1)
+eq (A,B)                      -> (:error,(:eq,A,B))</code><h2>Type Checker</h2><code>type (:star,N)               _ -> (:star,N+1)
 type (:var,(N,I))            D -> let true = var N D in keyget N D I
 type (:remote,N)             D -> cache type N D
 type (:arrow,(I,O))          D -> (:star,h(star(type I D)),star(type O D))
@@ -161,7 +161,7 @@ type (:app,(F,A))            D -> let T = type(F,D),
                                   ((:forall,(N,0)),(I,O)) = T,
                                   Q = type A D,
                                   true = eq I Q in norm (sub O N A)
-</code></h2><section><h1>Passes</h1><h2 id="normal">Normalized</h2><p>Terms in OM language.</p><code>$ om show List/Cons
+</code></section><section><h1>Passes</h1><h2 id="normal">Normalized</h2><p>Terms in OM language.</p><code>$ om show List/Cons
 
 λ (A: *)
 → λ (Head: A)

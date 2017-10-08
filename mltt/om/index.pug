@@ -242,7 +242,7 @@ block content
                        ((:lambda,(N2,0)),(I2,O2)) ->
                        let true = eq I1 I2 in eq O1 (sub (sh O2 N1 0) N2 (:var,(N1,0)) 0)
                     eq (A,B)                      -> (:error,(:eq,A,B))
-            h2 Type Checker
+                h2 Type Checker
                 code.
                     type (:star,N)               _ -> (:star,N+1)
                     type (:var,(N,I))            D -> let true = var N D in keyget N D I
