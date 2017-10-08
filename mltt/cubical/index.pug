@@ -84,11 +84,20 @@ block content
                     figure.
                         $$Iso(A,B) = \sum_{f:A\rightarrow B}\sum_{g:B\rightarrow A}\Biggl(\prod_{x:A} Id_A(gfx,x)) \times \prod_{y:B} Id_B(fgy,y)\Biggr)$$
                 code.
+                    fiber (A B : U) (f : A -> B) (y : B) : U = (x : A) * Path B y (f x)
+                    isEquiv (A B : U) (f : A -> B) : U = (y : B) -> isContr (fiber A B f y)
+                code.
                     isoPath (A B : U) (f : A -> B) (g : B -> A)
                             (s : (y : B) -> Path B (f (g y)) y)
                             (t : (x : A) -> Path A (g (f x)) x) : Path U A B =
                             <i> Glue B [ (i = 0) -> (A,f,isoToEquiv A B f g s t),
                                          (i = 1) -> (B,idfun B,idIsEquiv B) ]
+                code.
+                    isoToEquiv (A B : U) (f : A -> B) (g : B -> A)
+                               (s : (y : B) -> Path B (f (g y)) y)
+                               (t : (x : A) -> Path A (g (f x)) x) : isEquiv A B f =
+                        \(y:B) -> ((g y,<i>s y@-i),\ (z:fiber A B f y) ->
+                               lemIso A B f g s t y (g y) z.1 (<i>s y@-i) z.2)
                 p.
                     Now we need to pass maps f and g:
                 code.
