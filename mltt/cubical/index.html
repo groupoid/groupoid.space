@@ -87,7 +87,7 @@ where
            &lt;i j&gt; comp (&lt;k&gt; B) (f (sq @ i @j)) [ (i = 0) -> s (p0 @ j),
                                                 (i = 1) -> s (p1 @ j),
                                                 (j = 1) -> s (f (p @ i)),
-                                                (j = 0) -> s y ]</code><p>Now we need to pass maps <mark>f</mark> and <mark>g</mark>:</p><code>toNat : nat2 -> nat = split
+                                                (j = 0) -> s y ]</code><p>Now we need to pass maps $f$ and $g$:</p><code>toNat : nat2 -> nat = split
     zero2 -> zero
     suc2 n -> suc (toNat n)
 
