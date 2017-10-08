@@ -20,18 +20,18 @@ gr_3     (A : U) : U = (a b : A) -> gr_2     (Path A a b)</code><p>To model othe
 The desired property in general is to compare uncomparable things
 (heterogenous equality): namely two different points of two different types.
 The <b>cubical</b> built-in <b>PathP</b> type is exacly such equality.
-In connects different points of space with function defined on interval [0..1]
+In connects different points of space with function defined on I interval [0..1]
 that is smooth between values at interval edges.</p><p>So let us be clean, we want to compare two points of A and B
 types which both live un U. So on top level we will use <b>Path U A B</b>.
 which is homogenous on U. At low level we will use heterogenous
-<b>PathP (Path U A B) a b</b>:</p><code>PathTypes (A B: U) : U = PathP (\(i: [0..1] -> U) A B
+<b>PathP (Path U A B) a b</b>:</p><code>PathTypes (A B: U) : U = PathP (\(i: I) -> U) A B
 PathElem  (A B: U) (a: A) (b: B) (P: PathTypes A B) : U = PathP P a b</code><p>Lets try to build proofterm:</p><code>PathElem nat2 nat zero2 zero nat2nat</code><p>But how to construct elements of <b>Path U nat2 nat</b> ?</p><code>nat2nat : Path U nat2 nat = isoPath nat2 nat toNat fromNat fromNatK toNatK</code><p>There is already inside cubical an isoPath. The proof-term
 of isoPath implemented using glueing of types and composition
 primitives of typechecker inside isoToEquiv lemma.</p><code>isoPath (A B : U) (f : A -> B) (g : B -> A)
         (s : (y : B) -> Path B (f (g y)) y)
         (t : (x : A) -> Path A (g (f x)) x) : Path U A B =
-        <i> Glue B [ (i = 0) -> (A,f,isoToEquiv A B f g s t)
-                   , (i = 1) -> (B,idfun B,idIsEquiv B) ]</code><p>Not we need to pas maps f and g:</p><code>toNat : nat2 -> nat = split
+        \(i: I) -> Glue B [ (i = 0) -> (A,f,isoToEquiv A B f g s t)
+                           , (i = 1) -> (B,idfun B,idIsEquiv B) ]</code><p>Not we need to pas maps f and g:</p><code>toNat : nat2 -> nat = split
     zero2 -> zero
     suc2 n -> suc (toNat n)
 
