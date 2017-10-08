@@ -38,8 +38,8 @@ of isoPath implemented using glueing of types and composition
 primitives of type checker inside isoToEquiv lemma.</p><code>isoPath (A B : U) (f : A -> B) (g : B -> A)
         (s : (y : B) -> Path B (f (g y)) y)
         (t : (x : A) -> Path A (g (f x)) x) : Path U A B =
-        <i%gt; -> Glue B [ (i = 0) -> (A,f,isoToEquiv A B f g s t)
-                          , (i = 1) -> (B,idfun B,idIsEquiv B) ]</code><p>Now we need to pass maps f and g:</p><code>toNat : nat2 -> nat = split
+        <i> Glue B [ (i = 0) -> (A,f,isoToEquiv A B f g s t),
+                     (i = 1) -> (B,idfun B,idIsEquiv B) ]</code><p>Now we need to pass maps f and g:</p><code>toNat : nat2 -> nat = split
     zero2 -> zero
     suc2 n -> suc (toNat n)
 

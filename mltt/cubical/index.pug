@@ -84,8 +84,8 @@ block content
                     isoPath (A B : U) (f : A -> B) (g : B -> A)
                             (s : (y : B) -> Path B (f (g y)) y)
                             (t : (x : A) -> Path A (g (f x)) x) : Path U A B =
-                            <i%gt; -> Glue B [ (i = 0) -> (A,f,isoToEquiv A B f g s t)
-                                              , (i = 1) -> (B,idfun B,idIsEquiv B) ]
+                            <i> Glue B [ (i = 0) -> (A,f,isoToEquiv A B f g s t),
+                                         (i = 1) -> (B,idfun B,idIsEquiv B) ]
                 p.
                     Now we need to pass maps f and g:
                 code.
