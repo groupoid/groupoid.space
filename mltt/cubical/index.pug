@@ -37,7 +37,7 @@ block content
                     paths between objects in many ways inside and the space of
                     terms is infinity groupoid:
                 code.
-                    Path     (A : U) : U = (a b : A) -> PathP (<i> A) a b
+                    Path     (A : U) : U = (a b : A) -> PathP (\(i: [0..1]) -> A) a b
                     prop     (A : U) : U = (a b : A) -> Path A a b
                     set      (A : U) : U = (a b : A) -> prop     (Path A a b)
                     groupoid (A : U) : U = (a b : A) -> set      (Path A a b)
