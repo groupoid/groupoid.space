@@ -56,7 +56,7 @@ block content
                     which is homogenous on U. At low level we will use heterogenous
                     <b>PathP (Path U A B) a b</b>:
                 code.
-                    PathTypes (A B: U) : U = PathP (<i> U) A B
+                    PathTypes (A B: U) : U = PathP (\(i: [0..1] -> U) A B
                     PathElem  (A B: U) (a: A) (b: B) (P: PathTypes A B) : U = PathP P a b
                 p.
                     Lets try to build proofterm:

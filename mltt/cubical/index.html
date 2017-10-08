@@ -24,7 +24,7 @@ In connects different points of space with function defined on interval [0..1]
 that is smooth between values at interval edges.</p><p>So let us be clean, we want to compare two points of A and B
 types which both live un U. So on top level we will use <b>Path U A B</b>.
 which is homogenous on U. At low level we will use heterogenous
-<b>PathP (Path U A B) a b</b>:</p><code>PathTypes (A B: U) : U = PathP (<i> U) A B
+<b>PathP (Path U A B) a b</b>:</p><code>PathTypes (A B: U) : U = PathP (\(i: [0..1] -> U) A B
 PathElem  (A B: U) (a: A) (b: B) (P: PathTypes A B) : U = PathP P a b</code><p>Lets try to build proofterm:</p><code>PathElem nat2 nat zero2 zero nat2nat</code><p>But how to construct elements of <b>Path U nat2 nat</b> ?</p><code>nat2nat : Path U nat2 nat = isoPath nat2 nat toNat fromNat fromNatK toNatK</code><p>There is already inside cubical an isoPath. The proof-term
 of isoPath implemented using glueing of types and composition
 primitives of typechecker inside isoToEquiv lemma.</p><code>isoPath (A B : U) (f : A -> B) (g : B -> A)
