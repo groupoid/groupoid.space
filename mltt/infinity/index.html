@@ -5,21 +5,22 @@ systems, data storages and stream processing, the core two languages:
 pi-calculus and stream calculus discovered to be connected and being
 driven by a language with quantifiers as primitives. So we started
 to look forward to a unified type checker.
-</p><h2>Pure Type System</h2><p>From the time Coquand at all discovered Calculus of Constructions,
-and Barendregt systemized its variations, a Pure Type System
+</p><h2>Pure Type System</h2><p>From the time Coquand at all discovered Calculus of Constructions&#91;6&#93;,
+and Barendregt&#91;7&#93; systemized its variations, a Pure Type System
 theory was developed. It is known also as Single Axiom System
-with only Pi-Type of MLTT, representing Functional Completeness.</p><code>data O<sub>1</sub> = U : nat → O<sub>1</sub>
+with only Pi-Type of MLTT&#91;2&#93;, representing Functional Completeness&#91;3&#93;.</p><code>data O<sub>1</sub> = U : nat → O<sub>1</sub>
         | Var: Ident → O<sub>1</sub>
         | App: O<sub>1</sub> → O<sub>1</sub> → O<sub>1</sub>
         | Lambda: Binder → O<sub>1</sub> → O<sub>1</sub> → O<sub>1</sub>
         | Arrow: O<sub>1</sub> → O<sub>1</sub> → O<sub>1</sub>
         | Pi: name → O<sub>1</sub> → O<sub>1</sub> → O<sub>1</sub>
 </code><p>&#91;1&#93;. S.MacLane. Categories for the Working Mathematician<br>
-&#91;4&#93;. P.Martin-Löf. An Intuitionistic Theory of Types. 1972  <br>
-&#91;2&#93;. W.Lawvere. Conceptual Mathematics. 1997  <br>
-&#91;3&#93;. P.Curien. Category theory: a programming language-oriented introduction. 2008  <br>
-&#91;5&#93;. T.Coquand. The Calculus of Constructions. 1988  <br>
-&#91;6&#93;. H.Barendregt. Lambda Calculus With Types. 2010  <br>
+&#91;2&#93;. P.Martin-Löf. An Intuitionistic Theory of Types. 1972  <br>
+&#91;3&#93;. N.Jacobs. Fibrations with indeterminates. 1994 <br>
+&#91;4&#93;. W.Lawvere. Conceptual Mathematics. 1997  <br>
+&#91;5&#93;. P.Curien. Category theory: a programming language-oriented introduction. 2008  <br>
+&#91;6&#93;. T.Coquand. The Calculus of Constructions. 1988 <br>
+&#91;7&#93;. H.Barendregt. Lambda Calculus With Types. 2010 <br>
 </p><h2>Contextual Completness</h2><p>The basic Core primitive which is needed for proving things
 is MLTT Sigma-Type, representing Contextual Completeness.
 This is needed for building Sigma pairs which are curried
