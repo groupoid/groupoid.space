@@ -30,17 +30,28 @@ as it contains PTS enriched with Sigma primitive.</p><code>data O<sub>2</sub> = 
         | Pair: O<sub>2</sub> → O<sub>2</sub> → O<sub>2</sub>
         | Fst: O<sub>2</sub> → O<sub>2</sub>
         | Snd: O<sub>2</sub> → O<sub>2</sub>
-</code><h2>(Co)-Inductive Types</h2><p>The further development of induction inside MLTT provers led
-to the theory of polynomial functors and well-founded trees,
+</code><h2>(Co)-Inductive Types</h2><p>The further development of induction<sup>5</sup> inside MLTT provers led
+to the theory of polynomial functors and well-founded trees<sup>4</sup>,
 known in programming languages as inductive types with data
-and record core primitives of type checker.</p><code>data O<sub>3</sub> = O<sub>2</sub>
+and record core primitives of type checker. In fact recursive inductive
+types<sup>3</sup> could be encoded in PTS using non-recursive representation
+Berarducci<sup>1</sup> or Categorical<sup>6</sup> encoding.</p><code>data O<sub>3</sub> = O<sub>2</sub>
         | Id: O<sub>3</sub> → O<sub>3</sub> → O<sub>3</sub>
         | IdPair: O<sub>3</sub> → O<sub>3</sub> → O<sub>3</sub>
         | IdJ: O<sub>3</sub> → O<sub>3</sub> → O<sub>3</sub> → O<sub>3</sub> → O<sub>3</sub> → O<sub>3</sub>
         | Sum: tele → list Branch → O<sub>3</sub>
         | Split: name → list Branch → O<sub>3</sub>
-        | Ctor: name → list O<sub>3</sub> → O<sub>3</sub>
-</code><h2>Higher Inductive Types</h2><p>The fundamental development of equality inside MLTT
+        | Ctor: name → list O<sub>3</sub> → O<sub>3</sub></code><p>The infinite coinductive trees are useful for modeling infinite
+process running and is part of Milner's Pi-calculus. Coinductive
+streams are part of any MLTT base library.</p><p>1. A.Berarducci. Automatic Synthesis of Typed Lambda-Programs. 1985
+2. F.Pfenning. Inductively defined types in the Calculus of Constructions. 1989
+3. P.Wadler. Recursive types for free. 1990
+4. N.Gambino. Wellfounded Trees and Dependent Polynomial Functors. 1995
+5. P.Dybjer. Inductive Famalies. 1997
+6. B.Jacobs. (Co)Algebras and (Co)Induction. 1997
+7. V.Vene. Categorical programming with (co)inductive types. 2000
+8. H.Geuvers. Dependent (Co)Inductive Types are Fibrational Dialgebras. 2015
+</p><h2>Higher Inductive Types</h2><p>The fundamental development of equality inside MLTT
 provers led us to the notion of ∞-groupoid as spaces.
 In this was Path identity type appeared in the core
 of type checker along with de Morgan algebra on
