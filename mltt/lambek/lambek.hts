@@ -10,17 +10,17 @@ listAlg (A : U) : U
     = (X: U)
     * (nil: Unit -> X)
     * (cons: A -> X -> X)
-    * A
+    * Unit
 -- morphisms in category of list algebras
 listMor (A: U) (x1 x2: listAlg A) : U
     = (map: x1.1 -> x2.1)
     * (mapNil: Path x2.1 (map (x1.2.1 unit)) (x2.2.1 unit))
     * (mapCons: (a:A) (x: x1.1) -> Path x2.1 (map (x1.2.2.1 a x)) (x2.2.2.1 a (map x)))
-    * A
+    * Unit
 -- the instances of lists are connected!
 listPoint (A: U) : U
     = (point: (x: listAlg A) -> x.1)
     * (map: (x1 x2: listAlg A)
             (m: listMor A x1 x2) ->
             Path x2.1 (m.1 (point x1)) (point x2))
-    * A
+    * Unit
