@@ -52,7 +52,8 @@ for all $y:B$ the fiber $fib_f(y)$ is contractible.</p><code>isEquiv (A B : U) (
     \(y:B) -> ((g y,&lt;i&gt;s y@-i),\ (z:fiber A B f y) ->
            lemIso A B f g s t y (g y) z.1 (&lt;i&gt;s y@-i) z.2)</code><code>idIsEquiv (A : U) : isEquiv A A (idfun A) =
      \(a : A) -> ((a, refl A a),\(z : fiber A A (idfun A) a) ->
-     contrSingl A a z.1 z.2)</code><h2>Commutative Square</h2><div class="semantics"><figure>$\require{AMScd}$
+     contrSingl A a z.1 z.2)</code><h2>Commutative Square</h2><p>For proving <mark>lemIso</mark> we need simple
+commutative square term which is higher 2-path.</p><div class="semantics"><figure>$\require{AMScd}$
 \begin{CD}
      a_0 @>u>> a_1\\
      @V r0 V V= @VV r1 V\\
