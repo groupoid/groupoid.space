@@ -52,12 +52,12 @@ streams are part of any MLTT base library.</p><p>1. A.Berarducci. Automatic Synt
 7. V.Vene. Categorical programming with (co)inductive types<br>
 8. H.Geuvers. Dependent (Co)Inductive Types are Fibrational Dialgebras. 2015 <br>
 </p><h2>Higher Inductive Types</h2><p>The fundamental development of equality inside MLTT
-provers led us to the notion of ∞-groupoid as spaces.
+provers led us to the notion of ∞-groupoid<sup>2</sup> as spaces.
 In this was Path identity type appeared in the core
 of type checker along with de Morgan algebra on
 built-in interval type. Glue, unglue composition
 and fill operations are also needed in the core
-for the univalence computability.</p><code>data O<sub>4</sub> = O<sub>3</sub>
+for the univalence computability<sup>7</sup>.</p><code>data O<sub>4</sub> = O<sub>3</sub>
         | Path: O<sub>4</sub> → O<sub>4</sub> → O<sub>4</sub>
         | PathLam: Binder → O<sub>4</sub> → O<sub>4</sub> → O<sub>4</sub>
         | PathApp: O<sub>4</sub> → Formula → O<sub>4</sub> → O<sub>4</sub>
@@ -65,8 +65,14 @@ for the univalence computability.</p><code>data O<sub>4</sub> = O<sub>3</sub>
         | Fill: O<sub>4</sub> → O<sub>4</sub> → O<sub>4</sub>
         | Glue: O<sub>4</sub> → O<sub>4</sub> → O<sub>4</sub>
         | GlueElem: O<sub>4</sub> → O<sub>4</sub> → O<sub>4</sub>
-        | UnGlueElem: O<sub>4</sub> → O<sub>4</sub> → O<sub>4</sub>
-</code></section><section><h2>Universes</h2><p>The universe system is completely described by the PTS SAR notation,
+        | UnGlueElem: O<sub>4</sub> → O<sub>4</sub> → O<sub>4</sub></code><p>1. T.Streicher. A groupoid model refutes UIP. 1994
+2. T.Streicher. The Groupoid Interpretation. 1996
+3. B.Jacobs. Categorical Logic and Type Theory. 1999
+4. S.Awodey. Homotopy Type Theory and Univalent Foundations. 2013
+5. S.Huber. A Cubical Type Theory. 2015
+6. A.Joyal. What is an elementary higher topos. 2014
+7. A.Mortberg. Cubical Type Theory: a constructive univalence axiom. 2017
+</p></section><section><h2>Universes</h2><p>The universe system is completely described by the PTS SAR notation,
 given by Barendregt. Find more info in
 <a href='../pure/#axioms'>Axioms and Inference Rules</a>
 of underlying Om intermediate language.</p><code>record PTS: * :=
