@@ -52,7 +52,15 @@ for all $y:B$ the fiber $fib_f(y)$ is contractible.</p><code>isEquiv (A B : U) (
     \(y:B) -> ((g y,&lt;i&gt;s y@-i),\ (z:fiber A B f y) ->
            lemIso A B f g s t y (g y) z.1 (&lt;i&gt;s y@-i) z.2)</code><code>idIsEquiv (A : U) : isEquiv A A (idfun A) =
      \(a : A) -> ((a, refl A a),\(z : fiber A A (idfun A) a) ->
-     contrSingl A a z.1 z.2)</code><code>lemIso (A B : U) (f : A -> B) (g : B -> A)
+     contrSingl A a z.1 z.2)</code><h2>Commutative Square</h2><div class="semantics"><figure>$\require{AMScd}$
+\begin{CD}
+     a_0 @>u>> a_1\\
+     @V r0 V V= @VV r1 V\\
+     b_0 @>>v> b_1
+\end{CD}</figure></div><code>Square (A : U) (a0 a1 b0 b1 : A)
+       (u : Path A a0 a1) (v : Path A b0 b1)
+       (r0 : Path A a0 b0) (r1 : Path A a1 b1) : U
+     = PathP (<i> (PathP (<j> A) (u @ i) (v @ i))) r0 r1</code><h2>Iso Lemma</h2><code>lemIso (A B : U) (f : A -> B) (g : B -> A)
        (s : (y : B) -> Path B (f (g y)) y)
        (t : (x : A) -> Path A (g (f x)) x)
        (y : B) (x0 x1 : A) (p0 : Path B y (f x0)) (p1 : Path B y (f x1)) :

@@ -130,6 +130,21 @@ block content
                     idIsEquiv (A : U) : isEquiv A A (idfun A) =
                          \(a : A) -> ((a, refl A a),\(z : fiber A A (idfun A) a) ->
                          contrSingl A a z.1 z.2)
+                h2 Commutative Square
+                .semantics
+                    figure.
+                        $\require{AMScd}$
+                        \begin{CD}
+                             a_0 @>u>> a_1\\
+                             @V r0 V V= @VV r1 V\\
+                             b_0 @>>v> b_1
+                        \end{CD}
+                code.
+                    Square (A : U) (a0 a1 b0 b1 : A)
+                           (u : Path A a0 a1) (v : Path A b0 b1)
+                           (r0 : Path A a0 b0) (r1 : Path A a1 b1) : U
+                         = PathP (<i> (PathP (<j> A) (u @ i) (v @ i))) r0 r1
+                h2 Iso Lemma
                 code.
                     lemIso (A B : U) (f : A -> B) (g : B -> A)
                            (s : (y : B) -> Path B (f (g y)) y)
