@@ -81,39 +81,12 @@ block content
                             | GlueElem: O<sub>4</sub> → O<sub>4</sub> → O<sub>4</sub>
                             | UnGlueElem: O<sub>4</sub> → O<sub>4</sub> → O<sub>4</sub>
 
-            section.langf
-                .langf__col
-                    h2#syntax Language Extensions
-                    code.
-                        Require Import core.
-                        Require Import homotopy.
-                        Require Import pi.
-                        Require Import stream.
-                        Require Import effect.
-
-                        Inductive MLTT := Pi:     MLTT   -> MLTT -> MLTT
-                                        | Lam:    Binder -> MLTT -> MLTT
-                                        | App:    MLTT   -> MLTT -> MLTT
-                                        | Sigma:  MLTT   -> MLTT -> MLTT
-                                        | Pair:   MLTT   -> MLTT -> MLTT
-                                        | Fst:    MLTT   -> MLTT
-                                        | Snd:    MLTT   -> MLTT
-                                        | Where:  MLTT   -> Decls -> MLTT
-                                        | Var:    Ident  -> MLTT
-                                        | U:      MLTT
-                                        | Con:    Label  -> list MLTT   -> MLTT
-                                        | Split:  Loc    -> list Branch -> MLTT
-                                        | Sum:    Binder -> NamedSum    -> MLTT
-                                        | HIT:    HomotopyCalculus -> MLTT
-                                        | PI:     PiCalculus       -> MLTT
-                                        | EFF:    EffectCalculus   -> MLTT
-                                        | STREAM: StreamCalculus   -> MLTT.
-
             section
-                h1 Calculus
+                h2 Universes
                 p.
-                    The type system is completely described by the PTS SAR notation, given by Barendregt.
-                    Find more info in <a href='../pure/#axioms'>Axioms and Inference Rules</a>
+                    The universe system is completely described by the PTS SAR notation,
+                    given by Barendregt. Find more info in
+                    <a href='../pure/#axioms'>Axioms and Inference Rules</a>
                     of underlying Om intermediate language.
                 code.
                     record PTS: * :=
