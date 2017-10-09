@@ -111,6 +111,7 @@ block content
                 code.
                     isContr (A : U) : U = (x : A) * ((y : A) -> Path A x y)
                     fiber (A B : U) (f : A -> B) (y : B) : U = (x : A) * Path B y (f x)
+                    refl (A : U) (a : A) : Path A a a = <i> a
                     contrSingl (A : U) (a b : A) (p : Path A a b) :
                         Path (singl A a) (a,refl A a) (b,p) = &lt;i&gt; (p @ i,&lt;j&gt; p @ i/\j)
                 h2 Equivalence
