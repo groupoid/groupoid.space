@@ -60,7 +60,7 @@ for all $y:B$ the fiber $fib_f(y)$ is contractible.</p><code>isEquiv (A B : U) (
 \end{CD}</figure></div><code>Square (A : U) (a0 a1 b0 b1 : A)
        (u : Path A a0 a1) (v : Path A b0 b1)
        (r0 : Path A a0 b0) (r1 : Path A a1 b1) : U
-     = PathP (<i> (PathP (<j> A) (u @ i) (v @ i))) r0 r1</code><h2>Iso Lemma</h2><code>lemIso (A B : U) (f : A -> B) (g : B -> A)
+     = PathP (&lt;i&gt; (PathP (&lt;j&gt; A) (u @ i) (v @ i))) r0 r1</code><h2>Iso Lemma</h2><code>lemIso (A B : U) (f : A -> B) (g : B -> A)
        (s : (y : B) -> Path B (f (g y)) y)
        (t : (x : A) -> Path A (g (f x)) x)
        (y : B) (x0 x1 : A) (p0 : Path B y (f x0)) (p1 : Path B y (f x1)) :

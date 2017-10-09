@@ -143,7 +143,7 @@ block content
                     Square (A : U) (a0 a1 b0 b1 : A)
                            (u : Path A a0 a1) (v : Path A b0 b1)
                            (r0 : Path A a0 b0) (r1 : Path A a1 b1) : U
-                         = PathP (<i> (PathP (<j> A) (u @ i) (v @ i))) r0 r1
+                         = PathP (&lt;i&gt; (PathP (&lt;j&gt; A) (u @ i) (v @ i))) r0 r1
                 h2 Iso Lemma
                 code.
                     lemIso (A B : U) (f : A -> B) (g : B -> A)
