@@ -1,24 +1,24 @@
 <!DOCTYPE html><html><head><meta charset="utf-8"><meta http-equiv="x-ua-compatible" content="ie=edge"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="author" content="Maxim Sokhatsky"><meta name="twitter:card" content="summary"><meta name="twitter:site" content="@5HT"><meta name="twitter:creator" content="@5HT"><meta name="twitter:image" content="https://groupoid.space/grp.png"><meta property="og:title" content="Groupoid Infinity"><meta property="og:image" content="https://groupoid.space/grp.png"><meta property="og:type" content="website"><meta property="fb:app_id" content="118554188236439"><meta property="og:url" content="https://groupoid.space"><meta property="og:description" content="Dependent Types"><link rel="stylesheet" href="//groupoid.space/main.css"><title>INFINITY</title></head><body class="content"><header class="header"><a href="//groupoid.space/"><img class="header__logo" src="//groupoid.space/groupoid.svg"/></a><div class="header__titles"><h1 class="header__title">Infinity Language</h1><h4 class="header__subtitle">MLTT Extensions</h4></div></header><article class="main"><div class="exe"><section><h2>Introduction</h2><p>The idea of Infinity Langauge came from the needs of unification and
-arranging different calculuses as an extensions to the core of the
-language with dependent types (or MLTT core). While been working on
-distributed systems, data storages and stream processing, the core
-two languages: pi calculus and stream calculus discovered to be
-connected and being driven by a language with quantifiers as a primitives.
-So we started to look forward for unificated typechecker.
+arranging different calculuses as extensions to the core of the language
+with dependent types (or MLTT core). While been working on distributed
+systems, data storages and stream processing, the core two languages:
+pi-calculus and stream calculus discovered to be connected and being
+driven by a language with quantifiers as primitives. So we started
+to look forward to a unified type checker.
 </p><h2>Pure Type System</h2><p>From the time Coquand at all discovered Calculus of Constructions,
-and Barendregt systemized its variations, a Pure Type System theory
-was developed. It is known also as Single Axiom System with
-only Pi-Type of MLTT, represeting Functional Complentess.</p><code>data O<sub>1</sub> = U : nat → O<sub>1</sub>
+and Barendregt systemized its variations, a Pure Type System
+theory was developed. It is known also as Single Axiom System
+with only Pi-Type of MLTT, representing Functional Completeness.</p><code>data O<sub>1</sub> = U : nat → O<sub>1</sub>
         | Var: Ident → O<sub>1</sub>
         | App: O<sub>1</sub> → O<sub>1</sub> → O<sub>1</sub>
         | Lambda: Binder → O<sub>1</sub> → O<sub>1</sub> → O<sub>1</sub>
         | Arrow: O<sub>1</sub> → O<sub>1</sub> → O<sub>1</sub>
         | Pi: name → O<sub>1</sub> → O<sub>1</sub> → O<sub>1</sub>
-</code><h2>Contextual Completness</h2><p>The basic Core primitive whish is needed for proving things
-is MLTT Sigma-Type, representing Contextual Completness. This
-is needed for building Sigma pairs, the carrier for the
-carried records. So called Pi-Sigma type checkers
-contains PTS encriched with Sigma primitive.</p><code>data O<sub>2</sub> = O<sub>1</sub>
+</code><h2>Contextual Completness</h2><p>The basic Core primitive which is needed for proving things
+is MLTT Sigma-Type, representing Contextual Completeness.
+This is needed for building Sigma pairs which are curried
+records. Usually, type checkers called Pi-Sigma provers
+as it contains PTS enriched with Sigma primitive.</p><code>data O<sub>2</sub> = O<sub>1</sub>
         | Sigma: name → O<sub>2</sub> → O<sub>2</sub> → O<sub>2</sub>
         | Pair: O<sub>2</sub> → O<sub>2</sub> → O<sub>2</sub>
         | Fst: O<sub>2</sub> → O<sub>2</sub>
@@ -26,8 +26,14 @@ contains PTS encriched with Sigma primitive.</p><code>data O<sub>2</sub> = O<sub
 </code><h2>(Co)-Inductive Types</h2><p>The further development of induction inside MLTT provers led to
 theory of polynomial functors and well founded trees, known in
 programming languages as inductive types with <mark>data</mark>
-and <mark>record</mark> core primitives of type checker.
-</p><h2>Higher Inductive Types</h2><p>The fundamental development of equality inside MLTT provers
+and <mark>record</mark> core primitives of type checker.</p><code>data O<sub>3</sub> = O<sub>2</sub>
+        | Id: O<sub>3</sub> → O<sub>3</sub> → O<sub>3</sub>
+        | IdPair: O<sub>3</sub> → O<sub>3</sub> → O<sub>3</sub>
+        | IdJ: O<sub>3</sub> → O<sub>3</sub> → O<sub>3</sub> → O<sub>3</sub> → O<sub>3</sub> → O<sub>3</sub>
+        | Sum: tele → list Branch → O<sub>3</sub>
+        | Split: name → list Branch → O<sub>3</sub>
+        | Con: name → list O<sub>3</sub> → O<sub>3</sub>
+</code><h2>Higher Inductive Types</h2><p>The fundamental development of equality inside MLTT provers
 led us to notion of ∞-groupoid as spaces. In this was
 Path identity type appeared in the core of type checker along
 with de Morgan algebra on built-in interval type. Glue, unglue
