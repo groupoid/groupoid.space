@@ -343,7 +343,7 @@ aside {
   display: inline-block;
   text-align: left;
   max-width: 100%;
-  padding-left: 32px; }
+  padding: 0 8px; }
   .types h1 {
     color: #7D8A96;
     font-size: 32px;
