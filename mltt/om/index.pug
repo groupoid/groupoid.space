@@ -9,6 +9,8 @@ block title
 block content
     +header('//groupoid.space/groupoid.svg', 'Pure Type System', 'OM &mdash; language with universal quntifier and infinity number of universes for typechecking and normalization')
     article.main
+        aside Maxim Sokhatsky
+            time DATE: 10 OCT 2017
         .om
             section
                 h1 Definition
@@ -25,7 +27,7 @@ block content
                     U₀ : U₁ : U₂ : U₃ : …
 
                     U₀ — propositions
-                    U₁ — values and sets       
+                    U₁ — values and sets
                     U₂ — types
                     U₃ — sorts
                 .semantics
@@ -46,7 +48,7 @@ block content
                 code.
                     S    (n : nat) = U n
                     A₁ (n m : nat) = U n : U m where m > n — cumulative
-                    R₁ (m n : nat) = U m ⟶ U n : U (max m n) — predicative      
+                    R₁ (m n : nat) = U m ⟶ U n : U (max m n) — predicative
                 p.
                     Note that predicative universes are incompatible with Church lambda term encoding.
                     You can switch predicative vs impredicative uninverses by typecheker parameter.
@@ -77,7 +79,7 @@ block content
                     However there is another option to have infinite
                     impredicative hierarchy.
                 code.
-                    A₂   (n : nat) = U n : U (n + 1) — non-cumulative      
+                    A₂   (n : nat) = U n : U (n + 1) — non-cumulative
                     R₂ (m n : nat) = U m ⟶ U n : U n — impredicative
 
                 .semantics
@@ -166,7 +168,7 @@ block content
                     <> = #option
                     I  = #identifier
                     U  = * < #number >
-                    OM = U | I | ( OM )  | λ ( I : OM ) → OM      
+                    OM = U | I | ( OM )  | λ ( I : OM ) → OM
                          OM OM | OM → OM | ∀ ( I : OM ) → OM
                 p.
                     Equivalent tree encoding for parsed terms is following:
@@ -174,7 +176,7 @@ block content
                     Inductive OM := Star: nat → OM
                                   | Var: name → OM
                                   | App: OM → OM → OM
-                                  | Lambda: name → OM → OM → OM    
+                                  | Lambda: name → OM → OM → OM
                                   | Arrow: OM → OM → OM
                                   | Pi: name → OM → OM → OM.
 

@@ -1,5 +1,5 @@
 <!DOCTYPE html><html><head><meta charset="utf-8"><meta http-equiv="x-ua-compatible" content="ie=edge"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="author" content="Maxim Sokhatsky"><meta property="og:title" content="Groupoid Infinity"><meta property="og:image" content="//groupoid.space/grp.png"><meta property="og:type" content="website"><meta property="fb:app_id" content="118554188236439"><meta property="og:url" content="//groupoid.space"><meta property="og:description" content="Infinity Language"><link rel="stylesheet" href="//groupoid.space/main.css"><title>OM</title><script src="//cdnjs.cloudflare.com/ajax/libs/mathjax/2.6.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><script>MathJax.Hub.Config({ displayAlign: "left", tex2jax: { inlineMath: [['$','$'], ['\\(','\\)']], processEscapes: true } });
-</script></head><body class="content"><header class="header"><a href="//groupoid.space/"><img class="header__logo" src="//groupoid.space/groupoid.svg"/></a><div class="header__titles"><h1 class="header__title">Pure Type System</h1><h4 class="header__subtitle">OM &mdash; language with universal quntifier and infinity number of universes for typechecking and normalization</h4></div></header><article class="main"><div class="om"><section><h1>Definition</h1><h2 id="nat">Universes</h2><p>The <b>OM</b> language is a higher-order dependently typed lambda calculus,
+</script></head><body class="content"><header class="header"><a href="//groupoid.space/"><img class="header__logo" src="//groupoid.space/groupoid.svg"/></a><div class="header__titles"><h1 class="header__title">Pure Type System</h1><h4 class="header__subtitle">OM &mdash; language with universal quntifier and infinity number of universes for typechecking and normalization</h4></div></header><article class="main"><aside>Maxim Sokhatsky<time>DATE: 10 OCT 2017</time></aside><div class="om"><section><h1>Definition</h1><h2 id="nat">Universes</h2><p>The <b>OM</b> language is a higher-order dependently typed lambda calculus,
 an extension of Coquand's Calculus of Constructions
 with the predicative/impredicative hierarchy of indexed universes.
 This extension is motivated avoiding paradoxes in dependent theory.
@@ -7,7 +7,7 @@ Also there is no fixpoint axiom needed for the definition
 of infinity term dependance.</p><code>U₀ : U₁ : U₂ : U₃ : …
 
 U₀ — propositions
-U₁ — values and sets       
+U₁ — values and sets
 U₂ — types
 U₃ — sorts</code><div class="semantics"><figure>\begin{equation}
  \tag{S}
@@ -20,7 +20,7 @@ the term's complexity and its dependency.
 The universes system is completely described by the following
 PTS notation (due to Barendregt):</p><code>S    (n : nat) = U n
 A₁ (n m : nat) = U n : U m where m > n — cumulative
-R₁ (m n : nat) = U m ⟶ U n : U (max m n) — predicative      </code><p>Note that predicative universes are incompatible with Church lambda term encoding.
+R₁ (m n : nat) = U m ⟶ U n : U (max m n) — predicative</code><p>Note that predicative universes are incompatible with Church lambda term encoding.
 You can switch predicative vs impredicative uninverses by typecheker parameter.</p><div class="semantics"><figure>$$
 \begin{equation}
 \tag{A₁}
@@ -39,7 +39,7 @@ $$
 </figure></div><h2 id="axioms">Impredicative Universes</h2><p>Propositional contractible bottom space is the only
 available extension to predicative hierarchy that not leads to inconsistency.
 However there is another option to have infinite
-impredicative hierarchy.</p><code>A₂   (n : nat) = U n : U (n + 1) — non-cumulative      
+impredicative hierarchy.</p><code>A₂   (n : nat) = U n : U (n + 1) — non-cumulative
 R₂ (m n : nat) = U m ⟶ U n : U n — impredicative
 </code><div class="semantics"><figure>$$
 \begin{equation}
@@ -99,11 +99,11 @@ abstractions and universal quantifications. This language is called Calculus
 of Construction and exists in various syntaxes. OM supports <b>Morte's</b> syntax.</p><code><> = #option
 I  = #identifier
 U  = * < #number >
-OM = U | I | ( OM )  | λ ( I : OM ) → OM      
+OM = U | I | ( OM )  | λ ( I : OM ) → OM
      OM OM | OM → OM | ∀ ( I : OM ) → OM</code><p>Equivalent tree encoding for parsed terms is following:</p><code>Inductive OM := Star: nat → OM
               | Var: name → OM
               | App: OM → OM → OM
-              | Lambda: name → OM → OM → OM    
+              | Lambda: name → OM → OM → OM
               | Arrow: OM → OM → OM
               | Pi: name → OM → OM → OM.
 </code><h2>Universes</h2><code>star (:star,N) -> N
