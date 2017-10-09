@@ -63,7 +63,7 @@ Inductive MLTT := Pi:     MLTT   -> MLTT -> MLTT
                 | EFF:    EffectCalculus   -> MLTT
                 | STREAM: StreamCalculus   -> MLTT.
 </code></div></section><section><h1>Calculus</h1><p>The type system is completely described by the PTS SAR notation, given by Barendregt.
-Find more info in <a href='../om/#axioms'>Axioms and Inference Rules</a>
+Find more info in <a href='../pure/#axioms'>Axioms and Inference Rules</a>
 of underlying Om intermediate language.</p><code>record PTS: * :=
        (S: ∀ (n: nat) → star n)
        (A: ∀ (i: nat) → type i (succ i))
