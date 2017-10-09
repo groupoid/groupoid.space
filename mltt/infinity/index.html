@@ -17,8 +17,8 @@ only Pi-Type of MLTT, represeting Functional Complentess.</p><code>data O<sub>1<
 </code><h2>Contextual Completness</h2><p>The basic Core primitive whish is needed for proving things
 is MLTT Sigma-Type, representing Contextual Completness. This
 is needed for building Sigma pairs, the carrier for the
-carried records. Usually type checkers called Pi-Sigma provers as
-it contains PTS encriched with Sigma primitive.</p><code>data O<sub>2</sub> = O<sub>1</sub>
+carried records. So called Pi-Sigma type checkers
+contains PTS encriched with Sigma primitive.</p><code>data O<sub>2</sub> = O<sub>1</sub>
         | Sigma: name → O<sub>2</sub> → O<sub>2</sub> → O<sub>2</sub>
         | Pair: O<sub>2</sub> → O<sub>2</sub> → O<sub>2</sub>
         | Fst: O<sub>2</sub> → O<sub>2</sub>
