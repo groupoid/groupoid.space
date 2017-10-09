@@ -8,6 +8,8 @@ block content
     article.main
         .exe
             section
+
+                h2 Introduction
                 p.
                     The idea of Infinity Langauge came from the needs of unification and
                     arranging different calculuses as an extensions to the core of the
@@ -15,29 +17,51 @@ block content
                     distributed systems, data storages and stream processing, the core
                     two languages: pi calculus and stream calculus discovered to be
                     connected and being driven by a language with quantifiers as a primitives.
+                    So we started to look forward for unificated typechecker.
+
+                h2 Pure Type System
                 p.
-                    Infinity is a dependently typed language for stream processing,
-                    distributed processing and text processing. We use Coq to prototype
-                    the standard library including the theories needed to be able to
-                    prove code invariants instead of testing them. Infinity is a source
-                    to source translator that lets you use different languages at runtime:
-                    Erlang, Rust, Clang, Futhark, Julia, etc.
+                    From the time Coquand at all discovered Calculus of Constructions,
+                    and Barendregt systemized its variations, a Pure Type System theory
+                    was developed. It is known also as Single Axiom System with
+                    only Pi-Type of MLTT, represeting Functional Complentess.
+                code.
+                    data O<sub>1</sub> = U : nat → O<sub>1</sub>
+                            | Var: Ident → O<sub>1</sub>
+                            | App: O<sub>1</sub> → O<sub>1</sub> → O<sub>1</sub>
+                            | Lambda: Binder → O<sub>1</sub> → O<sub>1</sub> → O<sub>1</sub>
+                            | Arrow: O<sub>1</sub> → O<sub>1</sub> → O<sub>1</sub>
+                            | Pi: name → O<sub>1</sub> → O<sub>1</sub> → O<sub>1</sub>
+
+                h2 Contextual Completness
                 p.
-                    Infinity language presents a solid and unified way of modeling inter-language
-                    computations and inter-system communications within a single language with
-                    compact core. We strive for utilizing parallel hardware such as GPU and
-                    SSE/AVX SIMD instructions and providing a robust and verified distributed
-                    environment with process and channels runtime.
+                    The basic Core primitive whish is needed for proving things
+                    is MLTT Sigma-Type, representing Contextual Completness. This
+                    is needed for building Sigma pairs, the carrier for the
+                    carried records. Usually type checkers called Pi-Sigma provers as
+                    it contains PTS encriched with Sigma primitive.
+                code.
+                    data O<sub>2</sub> = O<sub>1</sub>
+                            | Sigma: name → O<sub>2</sub> → O<sub>2</sub> → O<sub>2</sub>
+                            | Pair: O<sub>2</sub> → O<sub>2</sub> → O<sub>2</sub>
+                            | Fst: O<sub>2</sub> → O<sub>2</sub>
+                            | Snd: O<sub>2</sub> → O<sub>2</sub>
+
+                h2 (Co)-Inductive Types
                 p.
-                    Inf Language is built on top of CoC pure type system, predicative universes
-                    and inductive constructions you may find in other MLTT provers like Lean, Coq,
-                    Idris, Agda, and F*. As algebraїс prover, Inf supports <mark>data</mark>
-                    and <mark>record</mark> polynomial functors as fundamental language
-                    constructions implemented in a form of hygienic macros over the AST.
-                    Everything in Infinity Language is encoded as inductive construction:
-                    from the equality property up to process calculus.
-                    Both Infinity language and its macrosystem are built using AST types,
-                    described in this document.
+                    The further development of induction inside MLTT provers led to
+                    theory of polynomial functors and well founded trees, known in
+                    programming languages as inductive types with <mark>data</mark>
+                    and <mark>record</mark> core primitives of type checker.
+
+                h2 Higher Inductive Types
+                p.
+                    The fundamental development of equality inside MLTT provers
+                    led us to notion of ∞-groupoid as spaces. In this was
+                    Path identity type appeared in the core of type checker along
+                    with de Morgan algebra on built-in interval type. Glue, unglue
+                    composition and fill operations are also needed in the core for
+                    the univalence computability.
 
             section.langf
                 .langf__col
