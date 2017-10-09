@@ -32,14 +32,22 @@ and <mark>record</mark> core primitives of type checker.</p><code>data O<sub>3</
         | IdJ: O<sub>3</sub> → O<sub>3</sub> → O<sub>3</sub> → O<sub>3</sub> → O<sub>3</sub> → O<sub>3</sub>
         | Sum: tele → list Branch → O<sub>3</sub>
         | Split: name → list Branch → O<sub>3</sub>
-        | Con: name → list O<sub>3</sub> → O<sub>3</sub>
+        | Ctor: name → list O<sub>3</sub> → O<sub>3</sub>
 </code><h2>Higher Inductive Types</h2><p>The fundamental development of equality inside MLTT provers
 led us to notion of ∞-groupoid as spaces. In this was
 Path identity type appeared in the core of type checker along
 with de Morgan algebra on built-in interval type. Glue, unglue
 composition and fill operations are also needed in the core for
-the univalence computability.
-</p></section><section class="langf"><div class="langf__col"><h2 id="syntax">Language Extensions</h2><code>Require Import core.
+the univalence computability.</p><code>data O<sub>4</sub> = O<sub>3</sub>
+        | Path: O<sub>4</sub> → O<sub>4</sub> → O<sub>4</sub>
+        | PathLam: Binder → O<sub>4</sub> → O<sub>4</sub> → O<sub>4</sub>
+        | PathApp: O<sub>4</sub> → Formula → O<sub>4</sub> → O<sub>4</sub>
+        | Comp: O<sub>4</sub> → O<sub>4</sub> → O<sub>4</sub>
+        | Fill: O<sub>4</sub> → O<sub>4</sub> → O<sub>4</sub>
+        | Glue: O<sub>4</sub> → O<sub>4</sub> → O<sub>4</sub>
+        | GlueElem: O<sub>4</sub> → O<sub>4</sub> → O<sub>4</sub>
+        | UnGlueElem: O<sub>4</sub> → O<sub>4</sub> → O<sub>4</sub>
+</code></section><section class="langf"><div class="langf__col"><h2 id="syntax">Language Extensions</h2><code>Require Import core.
 Require Import homotopy.
 Require Import pi.
 Require Import stream.

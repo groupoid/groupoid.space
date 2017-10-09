@@ -60,7 +60,7 @@ block content
                             | IdJ: O<sub>3</sub> → O<sub>3</sub> → O<sub>3</sub> → O<sub>3</sub> → O<sub>3</sub> → O<sub>3</sub>
                             | Sum: tele → list Branch → O<sub>3</sub>
                             | Split: name → list Branch → O<sub>3</sub>
-                            | Con: name → list O<sub>3</sub> → O<sub>3</sub>
+                            | Ctor: name → list O<sub>3</sub> → O<sub>3</sub>
 
                 h2 Higher Inductive Types
                 p.
@@ -70,6 +70,16 @@ block content
                     with de Morgan algebra on built-in interval type. Glue, unglue
                     composition and fill operations are also needed in the core for
                     the univalence computability.
+                code.
+                    data O<sub>4</sub> = O<sub>3</sub>
+                            | Path: O<sub>4</sub> → O<sub>4</sub> → O<sub>4</sub>
+                            | PathLam: Binder → O<sub>4</sub> → O<sub>4</sub> → O<sub>4</sub>
+                            | PathApp: O<sub>4</sub> → Formula → O<sub>4</sub> → O<sub>4</sub>
+                            | Comp: O<sub>4</sub> → O<sub>4</sub> → O<sub>4</sub>
+                            | Fill: O<sub>4</sub> → O<sub>4</sub> → O<sub>4</sub>
+                            | Glue: O<sub>4</sub> → O<sub>4</sub> → O<sub>4</sub>
+                            | GlueElem: O<sub>4</sub> → O<sub>4</sub> → O<sub>4</sub>
+                            | UnGlueElem: O<sub>4</sub> → O<sub>4</sub> → O<sub>4</sub>
 
             section.langf
                 .langf__col
