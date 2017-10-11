@@ -24,7 +24,7 @@ block content
                 EVAL: nil
 
             h2#nat cons
-            p <mark>Cons</mark> is basic list constructor.
+            p <mark>cons</mark> is basic list constructor.
             code.
                 > let a : list nat = cons zero nil in a
                 Checking: a
@@ -35,7 +35,8 @@ block content
 
             h2 head (A: U) : list A -> maybe A
             p.
-                <mark>head</mark> extracts the first element of a list. In casse of List empiness returns Nothing otherwise Just a list element.
+                <mark>head</mark> extracts the first element of a list.
+                In case of list emptiness returns nothing otherwise just a list element.
             code.
                 > head nat nil
                 EVAL: nothing
@@ -44,7 +45,8 @@ block content
 
             h2 append (A : U) : list A -> list A -> list A
             p.
-                <mark>append</mark> is a list concatenation.
+                <mark>append</mark> is a list concatenation, it takes two lists
+                and returns a concatenated list.
             code.
                 > let a : list nat = append nat nil nil in a
                 Checking: a
