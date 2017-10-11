@@ -7,7 +7,8 @@ block content
     +header('/groupoid.svg', 'Infinity Types', 'Inductive Base Library')
     article.main
         .types
-            h1#taxonomy Recursion and Dependence
+            h1 Article
+            h2 The Design of Base Library
             -
                 var types = {
                         'nr nd +': ['bool', 'true', 'false', 'option', 'unit'],
@@ -101,7 +102,14 @@ block content
             section
                 h1 Coinductive
                 p.
-                    When you need to inspect the addendums of inductive tree defintions you can name the agruments of the constructor, these arguments called elements of the tuple or fields of the record. In this chapter we will use <mark>record</mark> Inf syntax, we only show how <mark>record</mark> and <mark>data</mark> are equal in example of <mark>unit</mark> and <mark>prod</mark> which are primitive forms of coinductive constructions.
+                    When you need to inspect the addendums of inductive tree
+                    defintions you can name the agruments of the constructor,
+                    these arguments called elements of the tuple or fields
+                    of the record. In this chapter we will use <mark>record</mark>
+                    Inf syntax, we only show how <mark>record</mark>
+                    and <mark>data</mark> are equal in example of
+                    <mark>unit</mark> and <mark>prod</mark> which
+                    are primitive forms of coinductive constructions.
 
                 h2#prod Product
                 code.
