@@ -21,14 +21,16 @@ like Agda, Coq, Lean, F*, Idris are based on Barendregt
 and Coquand' CoC with different flavors of infinity universe hierarchies
 and Calculus of Inductive Constructions. Some of them are automated and some
 are trying to be and general purpose programming languages with proving facilities.
-</p><h2 id="cubical">Cubical Provers</h2><p>The further extensions of MLTT theory is a Homotopy Types needed
+</p><h2 id="cubical">Cubical Type Theory</h2><p>The further extensions of MLTT theory is a Homotopy Types needed
 for reasoning about abstract shapes and multidimentional path types.
+The motivation of chosing Cubical and not Globular or Simplical
+is due to computability of the univalence axiom.
 </p><h2 id="inf">Infinity Language</h2><p><mark>From PTS to HTS</mark>. We want to have flexible detachable
 layers on top of PTS core. Then Sigma for proving.
 Then well-founded trees or polynomial functors as known as data and record.
 Then higher path types, interval arithmetic, glue and comp for HIT.
 Each layers is driven by differenth math, the common in only
-the method -- category theory.</p><p><mark>Extensible Language Design.</mark> Encoding of inductive types is based on categorical semantic
+the method &mdash; category theory.</p><p><mark>Extensible Language Design.</mark> Encoding of inductive types is based on categorical semantic
 of compilation to CoC. All other syntax constructions are inductive definitions, plugged
 into the stream parser. AST of the CoC language is also defined in terms of inductive
 constructions and thus allowed in the macros. The language of polynomial functors (data
