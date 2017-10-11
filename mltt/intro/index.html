@@ -1,9 +1,12 @@
-<!DOCTYPE html><html><head><meta charset="utf-8"><meta http-equiv="x-ua-compatible" content="ie=edge"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="author" content="Maxim Sokhatsky"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:site" content="@5HT"><meta name="twitter:creator" content="@5HT"><meta name="twitter:image" content="https://groupoid.space/card2.png"><meta property="og:title" content="Groupoid Infinity"><meta property="og:image" content="https://groupoid.space/card2.png"><meta property="og:type" content="website"><meta property="fb:app_id" content="118554188236439"><meta property="og:url" content="https://groupoid.space"><meta property="og:description" content="MLTT Language with Extensions"><link rel="stylesheet" href="//groupoid.space/main.css"><title>INTRO</title></head><body class="content"><header class="header"><a href="//groupoid.space/"><img class="header__logo" src="//groupoid.space/groupoid.svg"/></a><div class="header__titles"><h1 class="header__title">Intro</h1><h4 class="header__subtitle">Canvas of Computable Functions Theories and Provers</h4></div></header><article class="main"><aside>Maxim Sokhatsky<time>15 FEB 16</time></aside><div class="intro"><h2 id="fpga">LISP</h2><p>Untyped lambda calculus was discovered as an inner language of the space
+<!DOCTYPE html><html><head><meta charset="utf-8"><meta http-equiv="x-ua-compatible" content="ie=edge"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="author" content="Maxim Sokhatsky"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:site" content="@5HT"><meta name="twitter:creator" content="@5HT"><meta name="twitter:image" content="https://groupoid.space/card2.png"><meta property="og:title" content="Groupoid Infinity"><meta property="og:image" content="https://groupoid.space/card2.png"><meta property="og:type" content="website"><meta property="fb:app_id" content="118554188236439"><meta property="og:url" content="https://groupoid.space"><meta property="og:description" content="MLTT Language with Extensions"><link rel="stylesheet" href="//groupoid.space/main.css"><title>INTRO</title></head><body class="content"><header class="header"><a href="//groupoid.space/"><img class="header__logo" src="//groupoid.space/groupoid.svg"/></a><div class="header__titles"><h1 class="header__title">Intro</h1><h4 class="header__subtitle">History of Math Provers</h4></div></header><article class="main"><aside>Maxim Sokhatsky<time>15 FEB 16</time></aside><div class="intro"><h2 id="fpga">LISP as Extraction Target</h2><p>Untyped lambda calculus was discovered as an inner language of the space
 at the origin (Curry, Church, 1932). This language was manifested as LISP (McCarthy, 1958)
 that was built upon: cons, nil, eq, atom, car, cdr, lambda, apply and id.
 It was parts of inductive types lately known as inductive type constructors.
 Still, untyped lambda calculus is used as an extraction target for many
 provers (Idris, F*), and also manifests in different domain languages (JavaScript, Erlang).
+</p><h2 id="auto">AUTOMATH</h2><p>The first computer prover AUTOMATH was created by the lead of de Bruijn, 1967.
+Type theory beneath AUTOMAT is typed lambda calculus and this was the first
+prover based on Curry–Howard correspondence.
 </p><h2 id="fpga">ML/LCF</h2><p>Further teardown of inner space language was ML language, founded merely on algebraic
 datatypes and algebra on higher terms rather than categorical semantic. Lately, it
 was fixed with categorical methods in CPL (Hagino, 1987) and Charity (Cockett, 1992).
@@ -11,18 +14,21 @@ Milner, assisted by Morris and Newey designed Meta Language for the purpose of b
 in early 70-s. LCF was a predecessor family of automated math provers: HOL88,
 HOL90, HOL98 and HOL/Isabelle which is now built using Poly/ML.
 </p><h2 id="other">Fully Automated Provers</h2><p>In that period during 80-90s other automated math systems were appeared:
-AUTOMATH (de Bruijn, 1967), Mizar (Trybulec, 1989), PVS (Owre, Rushby, Shankar, 1995),
+Mizar (Trybulec, 1989), PVS (Owre, Rushby, Shankar, 1995),
 ACL2 (Boyer, Kaufmann, Moore, 1996) and Otter (McCune, 1996).
 </p><h2 id="mltt">MLTT</h2><p>Contemporary provers (built upon consistent Martin-Löf Type Theory, 1972)
 like Agda, Coq, Lean, F*, Idris are based on Barendregt
 and Coquand' CoC with different flavors of infinity universe hierarchies
 and Calculus of Inductive Constructions. Some of them are automated and some
 are trying to be and general purpose programming languages with proving facilities.
-</p><h2 id="fpga">OM/INF</h2><p><mark>No Fixpoint and Induction in Core.</mark> We came up with pure CoC core having predicative
-and impredicative universe hierarchies and macro extensions. Other MLTT cores have additional
-axioms like Fixpoint and Induction (and even more) — something we strive to escape
-because it leads to the complex core. No, we don't have Fixpoint, and yes,
-we implemented Induction principle in pure CoC.</p><p><mark>Extensible Language Design.</mark> Encoding of inductive types is based on categorical semantic
+</p><h2 id="cubical">Cubical Provers</h2><p>The further extensions of MLTT theory is a Homotopy Types needed
+for reasoning about abstract shapes and multidimentional path types.
+</p><h2 id="inf">Infinity Language</h2><p><mark>From PTS to HTS</mark>. We want to have flexible detachable
+layers on top of PTS core. Then Sigma for proving.
+Then well-founded trees or polynomial functors as known as data and record.
+Then higher path types, interval arithmetic, glue and comp for HIT.
+Each layers is driven by differenth math, the common in only
+the method -- category theory.</p><p><mark>Extensible Language Design.</mark> Encoding of inductive types is based on categorical semantic
 of compilation to CoC. All other syntax constructions are inductive definitions, plugged
 into the stream parser. AST of the CoC language is also defined in terms of inductive
 constructions and thus allowed in the macros. The language of polynomial functors (data

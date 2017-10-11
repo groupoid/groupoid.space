@@ -4,12 +4,12 @@ block title
     title INTRO
 
 block content
-    +header('//groupoid.space/groupoid.svg', 'Intro', 'Canvas of Computable Functions Theories and Provers')
+    +header('//groupoid.space/groupoid.svg', 'Intro', 'History of Math Provers')
     article.main
         aside Maxim Sokhatsky
             time 15 FEB 16
         .intro
-            h2#fpga LISP
+            h2#fpga LISP as Extraction Target
             p.
                 Untyped lambda calculus was discovered as an inner language of the space
                 at the origin (Curry, Church, 1932). This language was manifested as LISP (McCarthy, 1958)
@@ -17,6 +17,12 @@ block content
                 It was parts of inductive types lately known as inductive type constructors.
                 Still, untyped lambda calculus is used as an extraction target for many
                 provers (Idris, F*), and also manifests in different domain languages (JavaScript, Erlang).
+
+            h2#auto AUTOMATH
+            p.
+                The first computer prover AUTOMATH was created by the lead of de Bruijn, 1967.
+                Type theory beneath AUTOMAT is typed lambda calculus and this was the first
+                prover based on Curry–Howard correspondence.
 
             h2#fpga ML/LCF
             p.
@@ -30,7 +36,7 @@ block content
             h2#other Fully Automated Provers
             p.
                 In that period during 80-90s other automated math systems were appeared:
-                AUTOMATH (de Bruijn, 1967), Mizar (Trybulec, 1989), PVS (Owre, Rushby, Shankar, 1995),
+                Mizar (Trybulec, 1989), PVS (Owre, Rushby, Shankar, 1995),
                 ACL2 (Boyer, Kaufmann, Moore, 1996) and Otter (McCune, 1996).
 
             h2#mltt MLTT
@@ -41,13 +47,19 @@ block content
                 and Calculus of Inductive Constructions. Some of them are automated and some
                 are trying to be and general purpose programming languages with proving facilities.
 
-            h2#fpga OM/INF
+            h2#cubical Cubical Provers
             p.
-                <mark>No Fixpoint and Induction in Core.</mark> We came up with pure CoC core having predicative
-                and impredicative universe hierarchies and macro extensions. Other MLTT cores have additional
-                axioms like Fixpoint and Induction (and even more) — something we strive to escape
-                because it leads to the complex core. No, we don't have Fixpoint, and yes,
-                we implemented Induction principle in pure CoC.
+                The further extensions of MLTT theory is a Homotopy Types needed
+                for reasoning about abstract shapes and multidimentional path types.
+
+            h2#inf Infinity Language
+            p.
+                <mark>From PTS to HTS</mark>. We want to have flexible detachable
+                layers on top of PTS core. Then Sigma for proving.
+                Then well-founded trees or polynomial functors as known as data and record.
+                Then higher path types, interval arithmetic, glue and comp for HIT.
+                Each layers is driven by differenth math, the common in only
+                the method -- category theory.
             p.
                 <mark>Extensible Language Design.</mark> Encoding of inductive types is based on categorical semantic
                 of compilation to CoC. All other syntax constructions are inductive definitions, plugged
