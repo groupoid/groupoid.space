@@ -7,65 +7,49 @@ block content
     article.main.list
         section
             h1 List
-            p.
-                List package consists of three modules: <mark>List</mark>
-                inductive data type definition and its constructors;
-                <mark>Lists</mark> natural transformations or generic functions;
-                and <mark>List.Theory</mark> theorems.
+            p List package consists of three modules: <mark>list</mark>
+              inductive data type definition and its constructors <mark>nil</mark> and <mark>cons</mark>;
+              <mark>list</mark> natural transformations or generic functions;
+              and <mark>theory</mark> theorems.
             code.
-                data List: (A:*) → * :=
-                     (Nil: () → List A)
-                     (Cons: A → List A → List A)
+            data list (A : U) = nil
+                              | cons (a : A) (as : list A)
 
-            h2#list Nil
-            p <mark>Nil</mark> construction is terminal element of List data type.
+            h2#list nil
+            p <mark>nil</mark> construction is terminal element of List data type.
             code.
-                > Nil
-                : []
+                > let a : list nat = nil in a
+                Checking: a
+                EVAL: nil
 
-            h2#nat Cons
+            h2#nat cons
             p <mark>Cons</mark> is basic list constructor.
             code.
-                > Cons 69 (Cons 88 (Cons 69 []))
-                "EXE"
+                > let a : list nat = cons zero nil in a
+                Checking: a
+                EVAL: cons zero nil
 
         section
             h1 Generics
-            p.
-                These are exactly generic functions from CL, or generics from Java,
-                or natural transformations from Category Theory. It is basically a library of functions that manipulate List data type instances.
-            code.
-                record Lists: (A: *) → * :=
-                       (append: List A → List A)
-                       (head: List A → option A)
-                       (tail: List A → option A)
-                       (null: List A → bool)
-                       (all)
-                       (any)
-                       (concat)
-                       (empty)
-                       (filter)
-                       (flip)
-                       (length)
-                       (map)
-                       (pure)
-                       (replicate)
-                       (reverse)
 
-            h2#empty append
-            p <mark>append</mark> is a list concatenation.
-            code.
-                > Lists.append [] []
-                : []
-
-            h2#bool head
+            h2 head (A: U) : list A -> maybe A
             p.
                 <mark>head</mark> extracts the first element of a list. In casse of List empiness returns Nothing otherwise Just a list element.
-
             code.
-                > Lists.head []
-                : Nothing
+                > head nat nil
+                EVAL: nothing
 
-            h2#vector tail
+            h2 tail (A: U) : list A -> maybe (list A)
 
+            h2 append (A : U) : list A -> list A -> list A
+            p.
+                <mark>append</mark> is a list concatenation.
+            code.
+                > let a : list nat = append nat nil nil in a
+                Checking: a
+                EVAL: nil
 
+            h2 reverse (A : U) : list A -> list A = split
+            h2 map (A B:U) (f:A->B) : list A -> list B = split
+            h2 reverse (A : U) : list A -> list A = split
+            h2 foldr (A B:U) (f: A->B->B) (Z: B) : list A -> B = split
