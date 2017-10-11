@@ -1,0 +1,71 @@
+extends ../../../layout.pug
+
+block title
+    title LIST
+
+block content
+    article.main.list
+        section
+            h1 List
+            p.
+                List package consists of three modules: <mark>List</mark>
+                inductive data type definition and its constructors;
+                <mark>Lists</mark> natural transformations or generic functions;
+                and <mark>List.Theory</mark> theorems.
+            code.
+                data List: (A:*) → * :=
+                     (Nil: () → List A)
+                     (Cons: A → List A → List A)
+
+            h2#list Nil
+            p <mark>Nil</mark> construction is terminal element of List data type.
+            code.
+                > Nil
+                : []
+
+            h2#nat Cons
+            p <mark>Cons</mark> is basic list constructor.
+            code.
+                > Cons 69 (Cons 88 (Cons 69 []))
+                "EXE"
+
+        section
+            h1 Generics
+            p.
+                These are exactly generic functions from CL, or generics from Java,
+                or natural transformations from Category Theory. It is basically a library of functions that manipulate List data type instances.
+            code.
+                record Lists: (A: *) → * :=
+                       (append: List A → List A)
+                       (head: List A → option A)
+                       (tail: List A → option A)
+                       (null: List A → bool)
+                       (all)
+                       (any)
+                       (concat)
+                       (empty)
+                       (filter)
+                       (flip)
+                       (length)
+                       (map)
+                       (pure)
+                       (replicate)
+                       (reverse)
+
+            h2#empty append
+            p <mark>append</mark> is a list concatenation.
+            code.
+                > Lists.append [] []
+                : []
+
+            h2#bool head
+            p.
+                <mark>head</mark> extracts the first element of a list. In casse of List empiness returns Nothing otherwise Just a list element.
+
+            code.
+                > Lists.head []
+                : Nothing
+
+            h2#vector tail
+
+
