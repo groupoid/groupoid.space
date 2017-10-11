@@ -7,13 +7,14 @@ block content
     article.main.list
         section
             h1 List
-            p List package consists of three modules: <mark>list</mark>
-              inductive data type definition and its constructors <mark>nil</mark> and <mark>cons</mark>;
-              <mark>list</mark> natural transformations or generic functions;
-              and <mark>theory</mark> theorems.
+            p.
+                List package consists of three modules: <mark>list</mark>
+                inductive data type definition and its constructors <mark>nil</mark>
+                and <mark>cons</mark>; <mark>list</mark> natural transformations
+                or generic functions; and list <mark>theory</mark> or theorems.
             code.
-            data list (A : U) = nil
-                              | cons (a : A) (as : list A)
+                data list (A : U) = nil
+                                  | cons (a : A) (as : list A)
 
             h2#list nil
             p <mark>nil</mark> construction is terminal element of List data type.
