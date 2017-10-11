@@ -54,6 +54,26 @@ block content
                     groupoid (A : U) : U = (a b : A) -> set      (Path A a b)
                     gr_2     (A : U) : U = (a b : A) -> groupoid (Path A a b)
                     gr_3     (A : U) : U = (a b : A) -> gr_2     (Path A a b)
+                h3 n-groupoid
+                code.
+                    mutual
+                      rec (A: U) (a b: A): (k: nat) -> U = split
+                        zero -> Path A a b
+                        succ n -> n_grpd (Path A a b) n
+                      n_grpd (A: U) (n: nat): U = (a b: A) -> ((rec A a b) n)
+
+                   prop      (A: U): U = n_grpd A zero
+                   set       (A: U): U = n_grpd A (succ zero)
+                   groupoid  (A: U): U = n_grpd A (succ (succ zero))
+
+                h3 ∞-groupoid
+                code.
+                   inf_grpd (A: U): U =
+                            (carrier: A)
+                          * (eq: (a b: A) -> Path A a b)
+                          * (next: (a b: A) -> inf_grpd (Path A a b))
+                          * Unit
+
                 p.
                     To model other types of equalities, we need to design
                     their properties. The desired property, in general,

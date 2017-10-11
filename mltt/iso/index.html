@@ -25,7 +25,21 @@ prop     (A : U) : U = (a b : A) -> Path A a b
 set      (A : U) : U = (a b : A) -> prop     (Path A a b)
 groupoid (A : U) : U = (a b : A) -> set      (Path A a b)
 gr_2     (A : U) : U = (a b : A) -> groupoid (Path A a b)
-gr_3     (A : U) : U = (a b : A) -> gr_2     (Path A a b)</code><p>To model other types of equalities, we need to design
+gr_3     (A : U) : U = (a b : A) -> gr_2     (Path A a b)</code><h3>n-groupoid</h3><code> mutual
+   rec (A: U) (a b: A): (k: nat) -> U = split
+     zero -> Path A a b
+     succ n -> n_grpd (Path A a b) n
+   n_grpd (A: U) (n: nat): U = (a b: A) -> ((rec A a b) n)
+
+prop      (A: U): U = n_grpd A zero
+set       (A: U): U = n_grpd A (succ zero)
+groupoid  (A: U): U = n_grpd A (succ (succ zero))
+</code><h3>∞-groupoid</h3><code>inf_grpd (A: U): U =
+         (carrier: A)
+       * (eq: (a b: A) -> Path A a b)
+       * (next: (a b: A) -> inf_grpd (Path A a b))
+       * Unit
+</code><p>To model other types of equalities, we need to design
 their properties. The desired property, in general,
 is to compare incomparable things (heterogenous equality):
 namely two different points of two different types.
