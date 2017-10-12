@@ -40,6 +40,7 @@ block content
                 In case of list emptiness returns nothing otherwise just a list element.
             pre.
                 > head nat nil
+            pre.
                 EVAL: nothing
 
             h2 tail (A: U): list A → maybe (list A)
@@ -54,7 +55,7 @@ block content
                 and returns a concatenated list.
             pre.
                 > let a: list nat = append nat nil nil in a
-                Checking: a
+            pre.
                 EVAL: nil
 
             h2 reverse (A: U): list A → list A
@@ -62,24 +63,25 @@ block content
                 Reverse a list.
             pre.
                 > reverse S opc
+            pre.
                 EVAL: cons C (cons P (cons O nil))
 
             h2 map (A B: U) (f: A → B) : list A → list B
             p.
             pre.
                 > let a: list nat = map nat nat (\(x: nat) -> pred x) (cons n3 nil) in a
-                Checking: a
+            pre.
                 EVAL: cons (suc (suc zero)) nil
 
             h2 foldl (A B: U) (f: B → A → B) (Z: B): list A → B
             p.
             pre.
                 > let a: nat = foldl nat nat (\(x: nat) (y: nat) -> add x y) one (cons zero nil) in a
-                Checking: a
+            pre.
                 EVAL: suc zero
             h2 foldr (A B: U) (f: A → B → B) (Z: B): list A → B
             p.
             pre.
                 > let b: nat = foldr nat nat (\(x: nat) (y: nat) -> add x y) one (cons zero nil) in b
-                Checking: b
+            pre.
                 EVAL: suc zero
