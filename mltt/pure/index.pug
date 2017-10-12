@@ -154,14 +154,15 @@ block content
                     as Logical Framework for the Pi type:
                 code.
                     pi (A: U) (B: A -> U) : U = (x: A) -> B x
+
                     Pi (A: U) : U
                         = (intro:  (A -> U) -> U)
                         * (lambda: (B: A -> U) -> pi A B -> intro B)
                         * (app:    (B: A -> U) -> intro B -> pi A B)
                         * (applam: (B: A -> U) (f: pi A B) -> (a: A) ->
-                                   Path (B a) ((app B (lambda B f)) a) (f a))
+                          Path (B a) ((app B (lambda B f)) a) (f a))
                         * (lamapp: (B: A -> U) (p: intro B) ->
-                                   Path (intro B) (lambda B (\(a:A) -> app B p a)) p)
+                          Path (intro B) (lambda B (\(a:A) -> app B p a)) p)
                         * Unit
 
                 h2#ast Syntax

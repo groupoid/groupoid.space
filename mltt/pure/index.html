@@ -89,14 +89,15 @@ $$</figure><figure>$$
 $$
 </figure></div><p>This language could be embedded in itself and used
 as Logical Framework for the Pi type:</p><code>pi (A: U) (B: A -> U) : U = (x: A) -> B x
+
 Pi (A: U) : U
     = (intro:  (A -> U) -> U)
     * (lambda: (B: A -> U) -> pi A B -> intro B)
     * (app:    (B: A -> U) -> intro B -> pi A B)
     * (applam: (B: A -> U) (f: pi A B) -> (a: A) ->
-               Path (B a) ((app B (lambda B f)) a) (f a))
+      Path (B a) ((app B (lambda B f)) a) (f a))
     * (lamapp: (B: A -> U) (p: intro B) ->
-               Path (intro B) (lambda B (\(a:A) -> app B p a)) p)
+      Path (intro B) (lambda B (\(a:A) -> app B p a)) p)
     * Unit
 </code><h2 id="ast">Syntax</h2><p>The terms of OM consist of <b>nat</b> indexed stars, variables, applications,
 abstractions and universal quantifications. This language is called Calculus
