@@ -122,6 +122,7 @@ aside {
   font-size: 20px;
   text-align: right; }
   aside time, aside div {
+    margin-bottom: 20px;
     display: block; }
 
 .header {
