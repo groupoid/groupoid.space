@@ -153,6 +153,7 @@ block content
                     This language could be embedded in itself and used
                     as Logical Framework for the Pi type:
                 code.
+                    pi (A: U) (B: A -> U) : U = (x: A) -> B x
                     Pi (A: U) : U
                         = (intro:  (A -> U) -> U)
                         * (lambda: (B: A -> U) -> pi A B -> intro B)
