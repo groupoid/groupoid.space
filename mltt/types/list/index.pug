@@ -13,7 +13,7 @@ block content
                 inductive data type definition and its constructors <mark>nil</mark>
                 and <mark>cons</mark>; <mark>list</mark> natural transformations
                 or generic functions; and list <mark>theory</mark> or theorems.
-            pre.
+            code.
                 data list (A: U) = nil
                      | cons (a: A) (as: list A)
 
@@ -21,66 +21,62 @@ block content
             p <mark>nil</mark> construction is terminal element of list data type.
             pre.
                 > let a: list nat = nil in a
-                Checking: a
+            pre.
                 EVAL: nil
 
             h2 cons
             p <mark>cons</mark> is basic list constructor.
             pre.
                 > let a: list nat = cons zero nil in a
-                Checking: a
+            pre.
                 EVAL: cons zero nil
 
         section
             h1 Generics
 
             h2 head (A: U): list A → maybe A
-            p.
-                <mark>head</mark> extracts the first element of a list.
-                In case of list emptiness returns nothing otherwise just a list element.
+            p Returns just a first element of a list, if any. If none returns nothing.
             pre.
                 > head nat nil
             pre.
                 EVAL: nothing
 
             h2 tail (A: U): list A → maybe (list A)
+            p Returns just a second field of head cons, if any. If none returns nothing.
             pre.
                 > let a:maybe (list nat) = tail nat (cons n1 (cons n2 nil)) in a
-                Checking: a
+            pre.
                 EVAL: just (cons (suc (suc zero)) nil)
 
             h2 append (A: U): list A → list A → list A
-            p.
-                <mark>append</mark> is a list concatenation, it takes two lists
-                and returns a concatenated list.
+            p Concatenates two lists into a new list.
             pre.
                 > let a: list nat = append nat nil nil in a
             pre.
                 EVAL: nil
 
             h2 reverse (A: U): list A → list A
-            p.
-                Reverse a list.
+            p Reverse a list.
             pre.
                 > reverse S opc
             pre.
                 EVAL: cons C (cons P (cons O nil))
 
             h2 map (A B: U) (f: A → B) : list A → list B
-            p.
+            p Maps each element of a list to a new list.
             pre.
                 > let a: list nat = map nat nat (\(x: nat) -> pred x) (cons n3 nil) in a
             pre.
                 EVAL: cons (suc (suc zero)) nil
 
             h2 foldl (A B: U) (f: B → A → B) (Z: B): list A → B
-            p.
+            p Folds a list by accumulating value from the left.
             pre.
                 > let a: nat = foldl nat nat (\(x: nat) (y: nat) -> add x y) one (cons zero nil) in a
             pre.
                 EVAL: suc zero
             h2 foldr (A B: U) (f: A → B → B) (Z: B): list A → B
-            p.
+            p Folds a list by accumulating value from the right.
             pre.
                 > let b: nat = foldr nat nat (\(x: nat) (y: nat) -> add x y) one (cons zero nil) in b
             pre.
