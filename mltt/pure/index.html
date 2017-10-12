@@ -88,12 +88,13 @@ $$</figure><figure>$$
 \end{equation}
 $$
 </figure></div><p>This language could be embedded in itself and used
-as Logical Framework for the Pi type:</p><code>Record Pi (A: Type) :=
-       intro: (A → Type) → Type
-       lambda: (B: A → Type) → ∀ (a: A) → B a → intro B
-       app: (B: A → Type) → intro B → ∀ (a: A) → B a
-       app-lam (B: A → Type) (f: ∀ (a: A) → B a): ∀ (a: A) → app (fun f) a ==> f a
-       lam-app (B: A → Type) (p: intro B): fun (λ (a: A) → app p a) ==> p.
+as Logical Framework for the Pi type:</p><code>Pi (A: U) : U
+    = (intro:  (A -> U) -> U)
+    * (lambda: (B: A -> U) -> pi A B -> intro B)
+    * (app:    (B: A -> U) -> intro B -> pi A B)
+    * (applam: (B: A -> U) (f: pi A B) -> (a: A) -> Path (B a) ((app B (lambda B f)) a) (f a))
+    * (lamapp: (B: A -> U) (p: intro B) -> Path (intro B) (lambda B (\(a:A) -> app B p a)) p)
+    * Unit
 </code><h2 id="ast">Syntax</h2><p>The terms of OM consist of <b>nat</b> indexed stars, variables, applications,
 abstractions and universal quantifications. This language is called Calculus
 of Construction and exists in various syntaxes. OM supports <b>Morte's</b> syntax.</p><code><> = #option
