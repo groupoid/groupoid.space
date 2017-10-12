@@ -8,51 +8,78 @@ block content
         section
             h1 List
             p.
-                <a href="https://raw.githubusercontent.com/groupoid/infinity/master/base/list.ctt">List package</a> consists of three modules: <mark>list</mark>
+                <a href="https://raw.githubusercontent.com/groupoid/infinity/master/base/list.ctt">List package</a>
+                consists of three modules: <mark>list</mark>
                 inductive data type definition and its constructors <mark>nil</mark>
                 and <mark>cons</mark>; <mark>list</mark> natural transformations
                 or generic functions; and list <mark>theory</mark> or theorems.
-            code.
-                data list (A : U) = nil
-                                  | cons (a : A) (as : list A)
+            pre.
+                data list (A: U) = nil
+                     | cons (a: A) (as: list A)
 
-            h2#list nil
-            p <mark>nil</mark> construction is terminal element of List data type.
-            code.
-                > let a : list nat = nil in a
+            h2 nil
+            p <mark>nil</mark> construction is terminal element of list data type.
+            pre.
+                > let a: list nat = nil in a
                 Checking: a
                 EVAL: nil
 
-            h2#nat cons
+            h2 cons
             p <mark>cons</mark> is basic list constructor.
-            code.
-                > let a : list nat = cons zero nil in a
+            pre.
+                > let a: list nat = cons zero nil in a
                 Checking: a
                 EVAL: cons zero nil
 
         section
             h1 Generics
 
-            h2 head (A: U) : list A -> maybe A
+            h2 head (A: U): list A -> maybe A
             p.
                 <mark>head</mark> extracts the first element of a list.
                 In case of list emptiness returns nothing otherwise just a list element.
-            code.
+            pre.
                 > head nat nil
                 EVAL: nothing
 
-            h2 tail (A: U) : list A -> maybe (list A)
+            h2 tail (A: U): list A -> maybe (list A)
+            pre.
+                > let a:maybe (list nat) = tail nat (cons n1 (cons n2 nil)) in a
+                Checking: a
+                EVAL: just (cons (suc (suc zero)) nil)
 
-            h2 append (A : U) : list A -> list A -> list A
+            h2 append (A: U): list A -> list A -> list A
             p.
                 <mark>append</mark> is a list concatenation, it takes two lists
                 and returns a concatenated list.
-            code.
-                > let a : list nat = append nat nil nil in a
+            pre.
+                > let a: list nat = append nat nil nil in a
                 Checking: a
                 EVAL: nil
 
-            h2 reverse (A : U) : list A -> list A
-            h2 map (A B:U) (f:A->B) : list A -> list B
-            h2 reverse (A : U) : list A -> list A
-            h2 foldr (A B:U) (f: A->B->B) (Z: B) : list A -> B
+            h2 reverse (A: U): list A -> list A
+            p.
+                Reverse a list.
+            pre.
+                > reverse S opc
+                EVAL: cons C (cons P (cons O nil))
+
+            h2 map (A B: U) (f: A -> B) : list A -> list B
+            p.
+            pre.
+                > let a: list nat = map nat nat (\(x: nat) -> pred x) (cons n3 nil) in a
+                Checking: a
+                EVAL: cons (suc (suc zero)) nil
+
+            h2 foldl (A B: U) (f: B -> A -> B) (Z: B): list A -> B
+            p.
+            pre.
+                > let a: nat = foldl nat nat (\(x: nat) (y: nat) -> add x y) one (cons zero nil) in a
+                Checking: a
+                EVAL: suc zero
+            h2 foldr (A B: U) (f: A -> B -> B) (Z: B): list A -> B
+            p.
+            pre.
+                > let b: nat = foldr nat nat (\(x: nat) (y: nat) -> add x y) one (cons zero nil) in b
+                Checking: b
+                EVAL: suc zero
