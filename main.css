@@ -121,9 +121,7 @@ aside {
   padding: 8px;
   font-size: 20px;
   text-align: right; }
-
-aside time, aside div {
-  margin-bottom: 30px;
+  aside time, aside div {
     display: block; }
 
 .header {
