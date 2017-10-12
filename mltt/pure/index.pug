@@ -157,8 +157,10 @@ block content
                         = (intro:  (A -> U) -> U)
                         * (lambda: (B: A -> U) -> pi A B -> intro B)
                         * (app:    (B: A -> U) -> intro B -> pi A B)
-                        * (applam: (B: A -> U) (f: pi A B) -> (a: A) -> Path (B a) ((app B (lambda B f)) a) (f a))
-                        * (lamapp: (B: A -> U) (p: intro B) -> Path (intro B) (lambda B (\(a:A) -> app B p a)) p)
+                        * (applam: (B: A -> U) (f: pi A B) -> (a: A) ->
+                                   Path (B a) ((app B (lambda B f)) a) (f a))
+                        * (lamapp: (B: A -> U) (p: intro B) ->
+                                   Path (intro B) (lambda B (\(a:A) -> app B p a)) p)
                         * Unit
 
                 h2#ast Syntax
