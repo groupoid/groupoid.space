@@ -10,23 +10,23 @@ EVAL: nil
 </pre><h2>cons</h2><p><mark>cons</mark> is basic list constructor.</p><pre>> let a: list nat = cons zero nil in a
 Checking: a
 EVAL: cons zero nil
-</pre></section><section><h1>Generics</h1><h2>head (A: U): list A -> maybe A</h2><p><mark>head</mark> extracts the first element of a list.
+</pre></section><section><h1>Generics</h1><h2>head (A: U): list A → maybe A</h2><p><mark>head</mark> extracts the first element of a list.
 In case of list emptiness returns nothing otherwise just a list element.</p><pre>> head nat nil
 EVAL: nothing
-</pre><h2>tail (A: U): list A -> maybe (list A)</h2><pre>> let a:maybe (list nat) = tail nat (cons n1 (cons n2 nil)) in a
+</pre><h2>tail (A: U): list A → maybe (list A)</h2><pre>> let a:maybe (list nat) = tail nat (cons n1 (cons n2 nil)) in a
 Checking: a
 EVAL: just (cons (suc (suc zero)) nil)
-</pre><h2>append (A: U): list A -> list A -> list A</h2><p><mark>append</mark> is a list concatenation, it takes two lists
+</pre><h2>append (A: U): list A → list A → list A</h2><p><mark>append</mark> is a list concatenation, it takes two lists
 and returns a concatenated list.</p><pre>> let a: list nat = append nat nil nil in a
 Checking: a
 EVAL: nil
-</pre><h2>reverse (A: U): list A -> list A</h2><p>Reverse a list.</p><pre>> reverse S opc
+</pre><h2>reverse (A: U): list A → list A</h2><p>Reverse a list.</p><pre>> reverse S opc
 EVAL: cons C (cons P (cons O nil))
-</pre><h2>map (A B: U) (f: A -> B) : list A -> list B</h2><p></p><pre>> let a: list nat = map nat nat (\(x: nat) -> pred x) (cons n3 nil) in a
+</pre><h2>map (A B: U) (f: A → B) : list A → list B</h2><p></p><pre>> let a: list nat = map nat nat (\(x: nat) -> pred x) (cons n3 nil) in a
 Checking: a
 EVAL: cons (suc (suc zero)) nil
-</pre><h2>foldl (A B: U) (f: B -> A -> B) (Z: B): list A -> B</h2><p></p><pre>> let a: nat = foldl nat nat (\(x: nat) (y: nat) -> add x y) one (cons zero nil) in a
+</pre><h2>foldl (A B: U) (f: B → A → B) (Z: B): list A → B</h2><p></p><pre>> let a: nat = foldl nat nat (\(x: nat) (y: nat) -> add x y) one (cons zero nil) in a
 Checking: a
-EVAL: suc zero</pre><h2>foldr (A B: U) (f: A -> B -> B) (Z: B): list A -> B</h2><p></p><pre>> let b: nat = foldr nat nat (\(x: nat) (y: nat) -> add x y) one (cons zero nil) in b
+EVAL: suc zero</pre><h2>foldr (A B: U) (f: A → B → B) (Z: B): list A → B</h2><p></p><pre>> let b: nat = foldr nat nat (\(x: nat) (y: nat) -> add x y) one (cons zero nil) in b
 Checking: b
 EVAL: suc zero</pre></section></article><footer class="footer"><img class="footer__logo" src="https://longchenpa.guru/seal.png" width="50"><span class="footer__copy">2016&mdash;2017 &copy; Groupoid Infinity</span></footer><script src="//groupoid.space/bundle.js"></script><script src="//groupoid.space/highlight.js"></script></body></html>
