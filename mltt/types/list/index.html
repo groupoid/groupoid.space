@@ -6,7 +6,8 @@ or generic functions; and list <mark>theory</mark> or theorems.</p><code>data li
      | cons (a: A) (as: list A)
 </code><h2>nil</h2><p><mark>nil</mark> construction is terminal element of list data type.</p><pre>> let a: list nat = nil in a</pre><pre>EVAL: nil
 </pre><h2>cons</h2><p><mark>cons</mark> is basic list constructor.</p><pre>> let a: list nat = cons zero nil in a</pre><pre>EVAL: cons zero nil
-</pre></section><section><h1>Generics</h1><h2>head (A: U): list A → maybe A</h2><p>Returns just a first element of a list, if any. If none returns nothing.</p><pre>> head nat nil</pre><pre>EVAL: nothing
+</pre></section><section><h1>Generics</h1><h2>length (A: U): list A → nat</h2><p>Returns length of a list.</p><pre>> length nat nil</pre><pre>EVAL: zero
+</pre><h2>head (A: U): list A → maybe A</h2><p>Returns just a first element of a list, if any. If none returns nothing.</p><pre>> head nat nil</pre><pre>EVAL: nothing
 </pre><h2>tail (A: U): list A → maybe (list A)</h2><p>Returns just a second field of head cons, if any. If none returns nothing.</p><pre>> let a:maybe (list nat) = tail nat (cons n1 (cons n2 nil)) in a</pre><pre>EVAL: just (cons (suc (suc zero)) nil)
 </pre><h2>append (A: U): list A → list A → list A</h2><p>Concatenates two lists into a new list.</p><pre>> let a: list nat = append nat nil nil in a</pre><pre>EVAL: nil
 </pre><h2>reverse (A: U): list A → list A</h2><p>Reverse a list.</p><code>data S = O | P | C

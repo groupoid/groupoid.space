@@ -36,6 +36,13 @@ block content
         section
             h1 Generics
 
+            h2 length (A: U): list A → nat
+            p Returns length of a list.
+            pre.
+                > length nat nil
+            pre.
+                EVAL: zero
+
             h2 head (A: U): list A → maybe A
             p Returns just a first element of a list, if any. If none returns nothing.
             pre.
