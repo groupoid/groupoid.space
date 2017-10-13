@@ -74,8 +74,12 @@ block content
             h2 filter (A: U) (p: A → bool) : list A → list A
 
             p Filters a list with a predicate function.
+            code.
+                f: nat -> bool = split
+                    zero -> true
+                    suc -> false
             pre.
-                filter nat f (cons zero (cons n1 (cons n2 (cons n3 (cons zero nil)))))
+                > filter nat f (cons zero (cons n1 (cons n2 (cons n3 (cons zero nil)))))
             pre.
                 EVAL: cons zero (cons zero nil)
 
