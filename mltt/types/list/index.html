@@ -9,7 +9,8 @@ or generic functions; and list <mark>theory</mark> or theorems.</p><code>data li
 </pre></section><section><h1>Generics</h1><h2>head (A: U): list A → maybe A</h2><p>Returns just a first element of a list, if any. If none returns nothing.</p><pre>> head nat nil</pre><pre>EVAL: nothing
 </pre><h2>tail (A: U): list A → maybe (list A)</h2><p>Returns just a second field of head cons, if any. If none returns nothing.</p><pre>> let a:maybe (list nat) = tail nat (cons n1 (cons n2 nil)) in a</pre><pre>EVAL: just (cons (suc (suc zero)) nil)
 </pre><h2>append (A: U): list A → list A → list A</h2><p>Concatenates two lists into a new list.</p><pre>> let a: list nat = append nat nil nil in a</pre><pre>EVAL: nil
-</pre><h2>reverse (A: U): list A → list A</h2><p>Reverse a list.</p><pre>> reverse S opc</pre><pre>EVAL: cons C (cons P (cons O nil))
+</pre><h2>reverse (A: U): list A → list A</h2><p>Reverse a list.</p><code>data S = O | P | C
+opc: list S = cons O (cons P (cons C nil))</code><pre>> reverse S opc</pre><pre>EVAL: cons C (cons P (cons O nil))
 </pre><h2>map (A B: U) (f: A → B) : list A → list B</h2><p>Maps each element of a list to a new list.</p><pre>> let a: list nat = map nat nat (\(x: nat) -> pred x) (cons n3 nil) in a</pre><pre>EVAL: cons (suc (suc zero)) nil
 </pre><h2>filter (A: U) (p: A → bool) : list A → list A</h2><p>Filters a list with a predicate function.</p><code>f: nat -> bool = split
     zero -> true
