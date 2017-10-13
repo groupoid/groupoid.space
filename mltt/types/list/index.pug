@@ -83,6 +83,14 @@ block content
             pre.
                 EVAL: cons zero (cons zero nil)
 
+            h2 uncons (A: U): list A -> maybe ((a: A) * (list A))
+
+            p Splits a list onto head and tail and returns sigma pair.
+            pre.
+                > uncons nat (cons one (cons zero nil))
+            pre.
+                EVAL: just ((suc zero,cons zero nil))
+
             h2 foldl (A B: U) (f: B → A → B) (Z: B): list A → B
             p Folds a list by accumulating value from the left.
             pre.
