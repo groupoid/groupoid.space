@@ -85,20 +85,20 @@ block content
 
             h2 uncons (A: U): list A -> maybe ((a: A) * (list A))
 
-            p Splits a list onto head and tail and returns sigma pair.
+            p Splits a list onto a head and a tail and returns a sigma pair.
             pre.
                 > uncons nat (cons one (cons zero nil))
             pre.
                 EVAL: just ((suc zero,cons zero nil))
 
             h2 foldl (A B: U) (f: B → A → B) (Z: B): list A → B
-            p Folds a list by accumulating value from the left.
+            p Folds a list by accumulating a value from the left.
             pre.
                 > let a: nat = foldl nat nat (\(x: nat) (y: nat) -> add x y) one (cons zero nil) in a
             pre.
                 EVAL: suc zero
             h2 foldr (A B: U) (f: A → B → B) (Z: B): list A → B
-            p Folds a list by accumulating value from the right.
+            p Folds a list by accumulating a value from the right.
             pre.
                 > let b: nat = foldr nat nat (\(x: nat) (y: nat) -> add x y) one (cons zero nil) in b
             pre.
