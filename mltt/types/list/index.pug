@@ -71,6 +71,14 @@ block content
             pre.
                 EVAL: cons (suc (suc zero)) nil
 
+            h2 filter (A: U) (p: A → bool) : list A → list A
+
+            p Filters a list with a predicate function.
+            pre.
+                filter nat f (cons zero (cons n1 (cons n2 (cons n3 (cons zero nil)))))
+            pre.
+                EVAL: cons zero (cons zero nil)
+
             h2 foldl (A B: U) (f: B → A → B) (Z: B): list A → B
             p Folds a list by accumulating value from the left.
             pre.
