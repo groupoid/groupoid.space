@@ -27,8 +27,8 @@ block content
                         'n': 'Not a',
                         'r': 'Recursive',
                         'd': 'Dependent',
-                        '+': 'Inductive',
-                        '*': 'Coinductive'
+                        '+': 'Coproducts',
+                        '*': 'Products'
                     }
             .type
                 for v, k in types
@@ -42,7 +42,7 @@ block content
                             li= `${k.toUpperCase()}: ${v}`
 
             section
-                h1 Inductive
+                h1 Sums
                 p.
                     Inductive types are the dependent version of generalized algebraic data types used in ML. With inductive and coinductive types you can model polynomial higher order functors that define generic trees and their constructors. Two very basic and known inductions are over natural numbers and lists, we show them the more detailed description.
 
@@ -102,7 +102,7 @@ block content
                          (nil: vector A nat.zero)
                          (cons: A → vector A n → vector A (nat.succ n))
             section
-                h1 Coinductive
+                h1 Products
                 p.
                     When you need to inspect the addendums of inductive tree
                     defintions you can name the agruments of the constructor,
