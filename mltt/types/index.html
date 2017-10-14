@@ -36,7 +36,7 @@ are primitive forms of coinductive constructions.
 record prod (A,B: Type): := (pr1: A) (pr2: B)
 </code><h2 id="unit">Unit</h2><code>data unit: Type := (star: () → unit)
 record unit: Type := (star: ())
-</code><h2 id="stream">Stream</h2><p><mark>stream</mark> is a record form of the list's <mark>cons</mark> constructor. It models the infinity list that has no terminal element.</p><code>record stream (A: Type): Type :=
+</code><h2><a name='stream'><a href='stream/'>Stream</a></a></h2><p><mark>stream</mark> is a record form of the list's <mark>cons</mark> constructor. It models the infinity list that has no terminal element.</p><code>record stream (A: Type): Type :=
        (head: A)
        (tail: stream A)
 </code><h2 id="pure">Pure</h2><code>record pure (P: Type → Type) (A: Type): Type :=
