@@ -105,7 +105,7 @@
 
     \paragraph{}
     Теорія категорій широко застосовується як інструмент для математиків у тому числі і
-    при аналізі програмного забезпечення. Теорію категорій можна вважати наближенням абстрактної алгебри функцій.
+    при аналізі програмного забезпечення. Теорію категорій можна вважати абстрактною алгеброю функцій.
     Дамо конструктивне визначення категорії.
     Категорії (програми) визначаються переліком своїх об’єктів (типів) та своїх
     морфізмів (функцій), а також бінарною операцією композиції,
@@ -124,7 +124,6 @@
 
 
 \begin{fullwidth}[width=\linewidth+3cm]
-\hspace{1cm}
 \begingroup
 \parbox[t][][l]{0.60\textwidth}{
 
@@ -468,17 +467,41 @@ $\otimes$  &:& $\pi \mid \pi$\\
 \end{center}
 
 \newpage
-%\gdef\capnames{
-%    \gdef\figurename{Рисунок}
-%    \gdef\chaptername{ГЛАВА}
-%    \gdef\appendixname{ПРИЛОЖЕНИЕ}
-%    \gdef\bibname{СПИСО1}
-%    \gdef\refname{СПИСО2}
-%    \gdef\bibname{СПИСО3}
-%    \gdef\contentsname{СОДЕРЖАНИЕ}
-%    \bibliographystyle{gost2008s}
-%}
+\section{Дослідження середовищ виконання}
 
+\subsection{Agda та M-Alonso}
+
+\subsection{Coq та coq.io}
+
+\subsection{Rust}
+
+\subsection{Erlang}
+
+\section{Архітектура компонентів системи}
+
+\begin{center}
+\begin{tikzpicture}
+\tikzstyle{every initial by arrow}=[]
+    \node (a) at (0,0) {\bf Interpreter};
+    \node (b) at (0,5) {\bf Extractor};
+    \node (c) at (5,0) {\bf Prover};
+    \node (d) at (5,5) {\bf Library};
+    \node (e) at (2.5,2.5) {\bf OM};
+    \draw [->] (b) to node [left] {Runs} (a);
+    \draw [->] (c) to node [below] {Compiles} (a);
+    \draw [->] (c) to node [above] {Impl} (a);
+    \draw [->] (e) to node [above,sloped] {Erase} (a);
+    \draw [->] (d) to node [above,sloped] {Normalize} (e);
+    \draw [->] (d) to node [below,sloped] {Desugar} (e);
+    \draw [->] (d) to node [above] {Extracts} (b);
+    \draw [->] (c) to node [right] {Impl} (d);
+    \draw [->] (e) to node [above,sloped] {Extracts} (b);
+    \draw [->] (c) to node [below,sloped] {Desugar} (e);
+    \draw [->] (c) to node [above,sloped] {Impl} (e);
+\end{tikzpicture}
+\end{center}
+
+\newpage
 
 \begin{fullwidth}[width=\linewidth+4cm]
 \begin{thebibliography}{99}
