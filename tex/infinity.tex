@@ -1,44 +1,13 @@
-% copyright (c) 2015 Synrc Research Center
+\documentclass[9pt]{memoir}
 
-\documentclass[11pt,oneside]{article}
-
-\input{synrc.tex}
+\input{new.tex}
 \begin{document}
 
-\thispagestyle{empty}
-\begin{center}
+\titleINF
 
-\begin{minipage}[t]{2cm}
-    \includegraphics[scale=0.4]{img/S}
-\end{minipage}
-\begin{minipage}[t]{12cm}
-    \begin{flushright}
-        \textsc{{\Large {\bf {\color{Blue}syn}{\color{OrangeRed}rc} research center s.r.o.}}}\\
-        \textsc{Roháčova 141/18, Praha 3 13000, Czech Republic}\\
-    \end{flushright}
-\end{minipage}
+\chapter{Вступ}
 
-\vspace{3cm}
-
-    \vspace{3cm}   {\Large \bf Системна інженерія та верифікація\\ \vspace{0.2cm} уніфікованого обчислювального середовища}\par
-    \vspace{1cm}   {\Large \bf System Engineering and Verification\\ \vspace{0.2cm} of Unified Execution Environment}\par
-    \vspace{3cm}   {\Large Павло Маслянко, Київський Політехнічний Інститут\par}
-    \vspace{0.3cm} {\Large Максим Сохацький, Synrc Research Center\par}
-    \vspace{4cm}   {\Large Листопад 2017}
-
-\end{center}
-
-\newpage
-\vspace{2cm}
-\tableofcontents
-\newpage
-\section{Вступ}
-
-\vspace{1cm}
-
-%\vspace{0.5cm}
-
-\subsection{Системна інженерія та верифікація}
+\section{Системна інженерія та верифікація}
 
     Протягом історії обчислювальної техніки було створено різні класи та способи обчислень,
     різні тоеорії та підходи до програмування таких систем, різні класи систем програмування.
@@ -63,14 +32,8 @@
     метематичним інструментом для формалізації мов програмування та довільних
     математичних теорій які описуються логіками вищих порядків.
 
-    \paragraph{}
-    Завдання цього дослідження є побудова єдиної системи, яка поєднує середовище
-    викодання та систему верифікації програмного забезпечення. Це прикладне дослідження,
-    яке є фьюжином фундаментальної математики та інженерних систем з формальними методами верицікації.
-    Методи цього дослідження є суто теоретичними.
-
 \newpage
-\subsection{Історія систем верифікації}
+\section{Історія систем верифікації}
 
     \paragraph{}
     Перші спроби пошуку формального фундаменту для теорії обчислень були покладені
@@ -105,10 +68,9 @@
     такі як Mizar (Трибулєк, 1989). PVS (Оур, Рушбі, Шанкар, 1995),
     ACL2 на базі Common Lisp (Боєр, Кауфман, Мур, 1996), Otter (МакКюн, 1996).
 
-    \paragraph{}
 
 \newpage
-\subsection{Методи верифікації}
+\section{Методи верифікації}
 
     \paragraph{}
     Можна виділити два підходи до верифікації. Перший застосовується де вже є
@@ -128,6 +90,12 @@
     Lean побудована на мові C++ від Microsoft Research та Універсистету Каргені-Мелона;
     Idris подудована на мові Haskell Едвіна Бреді з шотландського Університету ім. св. Андрія;
     F* -- окремий проект Microsoft Research.
+
+    \paragraph{}
+    Завдання цього дослідження є побудова єдиної системи, яка поєднує середовище
+    викодання та систему верифікації програмного забезпечення. Це прикладне дослідження,
+    яке є фьюжином фундаментальної математики та інженерних систем з формальними методами верицікації.
+    Методи цього дослідження є суто теоретичними.
 
 \newpage
 \section{Метематичне забезпечення}
@@ -154,6 +122,9 @@
     Є різні мови, у тому числі і графічні, представлення категорної семантики, однак у цій роботі
     ми будемо використовувати теоретико-логічні формулювання.
 
+
+\begin{fullwidth}[width=\linewidth+3cm]
+\hspace{1cm}
 \begingroup
 \parbox[t][][l]{0.60\textwidth}{
 
@@ -192,6 +163,9 @@
 }
 \endgroup
 
+\end{fullwidth}
+
+\newpage
     \paragraph{}
     Композиція показує можливість звязувати область значень попереднього обчислення (кодомен)
     та область визначення наступного обчислення (домен). Композиція є фундаментальною властивістю морфізмів.
@@ -225,6 +199,8 @@ $7.$ & $id \circ f = f$\\
     елімінатори $\sigma$ зі спільним кодоменом. Як видно добуток є дуальний до суми з точністю до направлення стрілок,
     таким чином елімінатори $\pi$ та $\sigma$ є оберненими, тобто $\pi \circ \sigma = \sigma \circ \pi = id$.
 
+\begin{fullwidth}[width=\linewidth+2cm]
+\hspace{1cm}
 \begingroup
 \parbox[t][][l]{0.40\textwidth}{
 
@@ -246,7 +222,7 @@ $7.$ & $id \circ f = f$\\
 \end{prooftree}
 
 }
-\hspace{0.1cm}
+\hspace{0cm}
 \parbox[t][][r]{0.60\textwidth}{
 
 \begin{prooftree}
@@ -268,6 +244,7 @@ $7.$ & $id \circ f = f$\\
 
 }
 \endgroup
+\end{fullwidth}
 
     \paragraph{}
     Також додамо тут аксіому множення морфізмів, яка
@@ -312,6 +289,8 @@ $\langle \pi_1, \pi_2 \rangle = id$\\
     Визначається також рекурсивний механізм виклику функції
     з довільною кількістю аргументів.
 
+\begin{fullwidth}
+\hspace{-2cm}
 \begingroup
 \parbox[t][][l]{0.40\textwidth}{
 
@@ -332,7 +311,7 @@ $\langle \pi_1, \pi_2 \rangle = id$\\
 \end{prooftree}
 
 }
-\hspace{0.1cm}
+\hspace{1cm}
 \parbox[t][][r]{0.60\textwidth}{
 
 \begin{center}
@@ -350,6 +329,7 @@ $curry\ apply = id$\\
 
 }
 \endgroup
+\end{fullwidth}
 
 \newpage
     \subsection{Числення процесів}
@@ -402,30 +382,27 @@ $\otimes$  &:& $\pi \mid \pi$\\
     Системи з залежними типами як верифікаційні математичні формальні моделі
     для доведення корректності. Система $\Sigma$ та $\Pi$ типів, як кванторів
     існування та узагальнення. Системи Mizar, Coq, Agda, Idris, F*, Lean. Ми будемо
-    використовувати автоматизовану систему теорем Lean від Microsoft Research.
+    використовувати cubicaltt, Coq та Lean для доведення MLTT моделей.
 
     \paragraph{}
     Розбудовуючи певний фреймворк чи систему конструктивними методами
     так чи інакше доведеться зробити певний вибір у мові та способі кодування.
     Так при розробці теорії абстрактної алгебри в Coq були використані
-    поліморфні індуктивні структури\cite{coqalg}. Однак Agda та Idris використувують
+    поліморфні індуктивні структури. Однак Agda та Idris використувують
     для побудови алгебраїчної теорії типи класів, а у Idris взагалі відсутні
     поліморфірні індуктивні структури та коіндуктивні структури. В Lean
     теж відсутні коіндуктивні структури проте повністю реалізована теорія
     HoTT на нерекурсивних поліморфних структурах що обєднує основні чотири
     класи математичних теорій: логіка, топологія, теорія множин, теорія типів.
-    Як було показано Стефаном Касом\cite{kaes}, одна з
-
+    Як було показано Стефаном Касом, одна з
     стратегій імплементації типів класів --- це використання поліморфних структур.
-    Хоча в Lean також підтримуються типи класів нами була вибрана стратегія
-    імплементації нашої теорії з використаннями нерекурсивних індуктивних структур,
-    що дозволить нам оперувати з персистентними структурами на низькому рівні.
-    Крім того такий спосіб кодування ієрархій повністю відповідає семантиці Erlang,
-    де немає типів класів, а дані передаються запаковані в кортежі-структури.
+    В Lean також підтримуються типи класів.
 
+\newpage
     \subsection{Логіка та квантори}
 
-    Далі йдуть квантори $\forall$ та $\exists$ які теж виражаються як конструкції типів:
+    Модель логік вищого порядку та квантори $\forall$ та $\exists$ які
+    теж виражаються як конструкції типів:
 
 \begingroup
 \parbox[t][][l]{0.40\textwidth}{
@@ -490,24 +467,34 @@ $\otimes$  &:& $\pi \mid \pi$\\
 \end{tabular}
 \end{center}
 
-
-
-
 \newpage
-\begin{thebibliography}{9}
+%\gdef\capnames{
+%    \gdef\figurename{Рисунок}
+%    \gdef\chaptername{ГЛАВА}
+%    \gdef\appendixname{ПРИЛОЖЕНИЕ}
+%    \gdef\bibname{СПИСО1}
+%    \gdef\refname{СПИСО2}
+%    \gdef\bibname{СПИСО3}
+%    \gdef\contentsname{СОДЕРЖАНИЕ}
+%    \bibliographystyle{gost2008s}
+%}
 
-\subsection*{Category Theory}
+
+\begin{fullwidth}[width=\linewidth+4cm]
+\begin{thebibliography}{99}
+
+%\subsection*{Category Theory}
 \bibitem{maclane}    S.MacLane \textit{Categories for the Working Mathematician} 1972
 \bibitem{lawvere}    W.Lawvere \textit{Conceptual Mathematics} 1997
 \bibitem{curien}     P.Curien \textit{Category theory: a programming language-oriented introduction} 2008
 
-\subsection*{Pure Type Systems}
+%\subsection*{Pure Type Systems}
 \bibitem{martinlof}  P.Martin-Löf \textit{Intuitionistic Type Theory} 1984
 \bibitem{coquand}    T.Coquand \textit{The Calculus of Constructions.} 1988
 \bibitem{henk}       E.Meijer \textit{Henk: a typed intermediate language} 1997
 \bibitem{barendregt} H.Barendregt \textit{Lambda Calculus With Types} 2010
 
-\subsection*{Inductive Type Systems}
+%\subsection*{Inductive Type Systems}
 \bibitem{pfenning}   F.Pfenning \textit{Inductively defined types in the Calculus of Constructions} 1989
 \bibitem{wadler}     P.Wadler \textit{Recursive types for free} 1990
 \bibitem{gambino}    N.Gambino \textit{Wellfounded Trees and Dependent Polynomial Functors} 1995
@@ -521,7 +508,7 @@ $\otimes$  &:& $\pi \mid \pi$\\
 % \bibitem{commpi}     Robin Milner. \textit{Communicating and Mobile Systems: The $\pi$-calculus.} 1999.
 % \bibitem{polypi}     Robin Milner. \textit{The Polyadic $\pi$-Calculus: A Tutorial.} 1993.
 
-\subsection*{Homotopy Type Systems}
+%\subsection*{Homotopy Type Systems}
 \bibitem{streicher0} T.Streicher \textit{A groupoid model refutes uniqueness of identity proofs} 1994
 \bibitem{streicher}  T.Streicher \textit{The Groupoid Interpretation of Type Theory} 1996
 \bibitem{jacobs2}    B.Jacobs \textit{Categorical Logic and Type Theory} 1999
@@ -531,5 +518,6 @@ $\otimes$  &:& $\pi \mid \pi$\\
 \bibitem{mortberg}   A.Mortberg \textit{Cubical Type Theory: a constructive univalence axiom} 2017
 
 \end{thebibliography}
+\end{fullwidth}
 
 \end{document}
