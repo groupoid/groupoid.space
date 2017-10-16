@@ -30,18 +30,24 @@ as it contains PTS enriched with Sigma primitive.</p><code>data O<sub>2</sub> = 
         | Pair: O<sub>2</sub> → O<sub>2</sub> → O<sub>2</sub>
         | Fst: O<sub>2</sub> → O<sub>2</sub>
         | Snd: O<sub>2</sub> → O<sub>2</sub>
-</code><h2>(Co)-Inductive Types</h2><p>The further development of induction<sup>5</sup> inside MLTT provers led
+</code><h2>Identity Types</h2><p></p><code>data O<sub>3</sub> = O<sub>2</sub>
+        | Id: O<sub>3</sub> → O<sub>3</sub> → O<sub>3</sub>
+        | IdPair: O<sub>3</sub> → O<sub>3</sub> → O<sub>3</sub>
+        | IdJ: O<sub>3</sub> → O<sub>3</sub> → O<sub>3</sub> → O<sub>3</sub> → O<sub>3</sub> → O<sub>3</sub></code><p>1. E.Bishop. Foundations of Constructive Analysis. 1967 <br>
+2. T.Streicher, M.Hofmann. The groupoid interpretation of type theory. 1996 <br>
+3. G.Barthe, V.Capretta. Setoids in type theory. 2003 <br>
+4. M.Sozeau, N.Tabareau. Internalizing Intensional Type Theory 2013 <br>
+5. V.Voevodsky. Identity types in the C-systems defined by a universe category. 2015 <br>
+6. D.Selsam,L.de Moura. Congruence Closure in Intensional Type Theory. 2016 <br>
+</p><h2>(Co)-Inductive Types</h2><p>The further development of induction<sup>5</sup> inside MLTT provers led
 to the theory of polynomial functors and well-founded trees<sup>4</sup>,
 known in programming languages as inductive types with data
 and record core primitives of type checker. In fact recursive inductive
 types<sup>3</sup> could be encoded in PTS using non-recursive representation
-Berarducci<sup>1</sup> or Categorical<sup>6</sup> encoding.</p><code>data O<sub>3</sub> = O<sub>2</sub>
-        | Id: O<sub>3</sub> → O<sub>3</sub> → O<sub>3</sub>
-        | IdPair: O<sub>3</sub> → O<sub>3</sub> → O<sub>3</sub>
-        | IdJ: O<sub>3</sub> → O<sub>3</sub> → O<sub>3</sub> → O<sub>3</sub> → O<sub>3</sub> → O<sub>3</sub>
-        | Sum: tele → list Branch → O<sub>3</sub>
-        | Split: name → list Branch → O<sub>3</sub>
-        | Ctor: name → list O<sub>3</sub> → O<sub>3</sub></code><p>The non-well-founded trees or infinite coinductive trees<sup>6,8</sup>
+Berarducci<sup>1</sup> or Categorical<sup>6</sup> encoding.</p><code>data O<sub>4</sub> = O<sub>3</sub>
+        | Sum: tele → list Branch → O<sub>4</sub>
+        | Split: name → list Branch → O<sub>4</sub>
+        | Ctor: name → list O<sub>4</sub> → O<sub>4</sub></code><p>The non-well-founded trees or infinite coinductive trees<sup>6,8</sup>
 are useful for modeling infinite process running which is part
 of Milner's Pi-calculus. Coinductive streams are part of any MLTT base library.</p><p>1. A.Berarducci. Automatic Synthesis of Typed Lambda-Programs. 1985 <br>
 2. F.Pfenning. Inductively defined types in the CoC. 1989 <br>
@@ -57,15 +63,15 @@ In this was Path identity type appeared in the core
 of type checker along with de Morgan algebra on
 built-in interval type. Glue, unglue composition
 and fill operations are also needed in the core
-for the univalence computability<sup>7</sup>.</p><code>data O<sub>4</sub> = O<sub>3</sub>
-        | Path: O<sub>4</sub> → O<sub>4</sub> → O<sub>4</sub>
-        | PathLam: Binder → O<sub>4</sub> → O<sub>4</sub> → O<sub>4</sub>
-        | PathApp: O<sub>4</sub> → Formula → O<sub>4</sub> → O<sub>4</sub>
-        | Comp: O<sub>4</sub> → O<sub>4</sub> → O<sub>4</sub>
-        | Fill: O<sub>4</sub> → O<sub>4</sub> → O<sub>4</sub>
-        | Glue: O<sub>4</sub> → O<sub>4</sub> → O<sub>4</sub>
-        | GlueElem: O<sub>4</sub> → O<sub>4</sub> → O<sub>4</sub>
-        | UnGlueElem: O<sub>4</sub> → O<sub>4</sub> → O<sub>4</sub></code><p>1. T.Streicher. A groupoid model refutes UIP. 1994 <br>
+for the univalence computability<sup>7</sup>.</p><code>data O<sub>5</sub> = O<sub>4</sub>
+        | Path: O<sub>5</sub> → O<sub>5</sub> → O<sub>4</sub>
+        | PathLam: Binder → O<sub>5</sub> → O<sub>5</sub> → O<sub>5</sub>
+        | PathApp: O<sub>5</sub> → Formula → O<sub>5</sub> → O<sub>5</sub>
+        | Comp: O<sub>5</sub> → O<sub>5</sub> → O<sub>5</sub>
+        | Fill: O<sub>5</sub> → O<sub>5</sub> → O<sub>5</sub>
+        | Glue: O<sub>5</sub> → O<sub>5</sub> → O<sub>5</sub>
+        | GlueElem: O<sub>5</sub> → O<sub>5</sub> → O<sub>5</sub>
+        | UnGlueElem: O<sub>5</sub> → O<sub>5</sub> → O<sub>5</sub></code><p>1. T.Streicher. A groupoid model refutes UIP. 1994 <br>
 2. T.Streicher. The Groupoid Interpretation. 1996 <br>
 3. B.Jacobs. Categorical Logic and Type Theory. 1999 <br>
 4. S.Awodey. Homotopy Type Theory and Univalent Foundations. 2013 <br>
