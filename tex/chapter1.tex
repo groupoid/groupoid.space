@@ -94,6 +94,47 @@
 \section{Метематичне забезпечення}
 \vspace{0.3cm}
 
+    \subsection{Інтуітіоністична теорія типів Мартіна Льофа}
+    Пер Мартін Льоф в 1972 році запропонував $\Pi$, $\Sigma$ та $Id$
+    у якості основних фундаментальних типів. З тих пір усі сучасні системи типів
+    для пруверів побувані наслідуючи цю модель. Було показано, що мова такої системи
+    типів є внутрішнією мовою локальних декартово-замкнених категорій. $\Pi$ та $\Sigma$
+    кодують безпосереднь логічні кванторти $\forall$ та $\exists$, а тип $\rightarrow$ є
+    частковим випадком $\Pi$-типу, коли кодомен не залежить від домена.
+
+    \paragraph{}
+    Аксіоми:
+\begin{equation}
+\tag{$\Pi$}
+\dfrac{\Gamma\ x:A \vdash B : Type\ \ \ \Gamma\ \vdash A : Type}
+      {\Gamma\ \vdash \Pi (x : A) \rightarrow B x : Type}
+\end{equation}
+
+\begin{equation}
+\tag{$\Sigma$}
+\dfrac{\Gamma\ x:A \vdash B : Type\ \ \ \Gamma\ \vdash A : Type}
+      {\Gamma\ \vdash \Sigma (x : A) \ B x : Type}
+\end{equation}
+
+\begin{equation}
+\tag{$Id$}
+\dfrac{\Gamma\ \vdash a b: A\ \ \ \ \Gamma\ \vdash A : Type }
+      {\Gamma\ \vdash Id_A (a,b)}
+\end{equation}
+
+    Теореми:
+\begin{center}
+\begin{tabular}{lll}
+  рефлексивність &:& $Id_A(a,a)$ \\
+  підстановка     &:& $Id_A(a,a') \rightarrow B(x=a) \rightarrow B(x=a')$ \\
+  симетричність  &:& $Id_A(a,b) \rightarrow Id_A(b,a)$  \\
+  транзитивність &:& $Id_A(a,b) \rightarrow Id_A(b,c) \rightarrow Id_A(a,c)$ \\
+  конгруентність &:& $(f: A \rightarrow B) \rightarrow Id_A(x,x') \rightarrow Id_B(f(x),f(x'))$ \\
+\end{tabular}
+\end{center}
+
+
+\newpage
 \subsection{Теорія категорій}
 
     \paragraph{}
@@ -119,6 +160,7 @@
     Аксіоми:
 \vspace{-0.5cm}
 \begin{fullwidth}[width=\linewidth+3cm]
+\hspace{-2cm}
 \parbox[t][][l]{0.60\textwidth}{
 \begin{prooftree}
 \AxiomC{$\Gamma\ \vdash f: A \rightarrow B$ }
@@ -185,7 +227,7 @@
     Аксіоми:
 \vspace{-0.5cm}
 \begin{fullwidth}[width=\linewidth+2cm]
-\hspace{-3cm}
+\hspace{-0.5cm}
 \parbox[t][][l]{0.50\textwidth}{
 
 \begin{prooftree}
@@ -281,6 +323,7 @@ $\langle \pi_1, \pi_2 \rangle = id$
 
 
 \begin{fullwidth}
+\hspace{-2cm}
 \begingroup
 \parbox[t][][l]{0.40\textwidth}{
 
@@ -326,45 +369,6 @@ $curry\ apply = id$\\
 
 
 \newpage
-    \subsection{Інтуітіоністична теорія типів Мартіна Льофа}
-    Пер Мартін Льоф в 1972 році запропонував $\Pi$, $\Sigma$ та $Id$
-    у якості основних фундаментальних типів. З тих пір усі сучасні системи типів
-    для пруверів побувані наслідуючи цю модель. Було показано, що мова такої системи
-    типів є внутрішнією мовою локальних декартово-замкнених категорій. $\Pi$ та $\Sigma$
-    кодують безпосереднь логічні кванторти $\forall$ та $\exists$, а тип $\rightarrow$ є
-    частковим випадком $\Pi$-типу, коли кодомен не залежить від домена.
-
-    \paragraph{}
-    Аксіоми:
-\begin{equation}
-\tag{$\Pi$}
-\dfrac{\Gamma\ x:A \vdash B : Type\ \ \ \Gamma\ \vdash A : Type}
-      {\Gamma\ \vdash \Pi (x : A) \rightarrow B x : Type}
-\end{equation}
-
-\begin{equation}
-\tag{$\Sigma$}
-\dfrac{\Gamma\ x:A \vdash B : Type\ \ \ \Gamma\ \vdash A : Type}
-      {\Gamma\ \vdash \Sigma (x : A) \ B x : Type}
-\end{equation}
-
-\begin{equation}
-\tag{$Id$}
-\dfrac{\Gamma\ \vdash a b: A\ \ \ \ \Gamma\ \vdash A : Type }
-      {\Gamma\ \vdash Id_A (a,b)}
-\end{equation}
-
-    Теореми:
-\begin{center}
-\begin{tabular}{lll}
-  рефлексивність &:& $Id_A(a,a)$ \\
-  підстановка     &:& $Id_A(a,a') \rightarrow B(x=a) \rightarrow B(x=a')$ \\
-  симетричність  &:& $Id_A(a,b) \rightarrow Id_A(b,a)$  \\
-  транзитивність &:& $Id_A(a,b) \rightarrow Id_A(b,c) \rightarrow Id_A(a,c)$ \\
-  конгруентність &:& $(f: A \rightarrow B) \rightarrow Id_A(x,x') \rightarrow Id_B(f(x),f(x'))$ \\
-\end{tabular}
-\end{center}
-
     \subsection{Індуктивні типи}
     Системи з залежними типами як верифікаційні математичні формальні моделі
     для доведення корректності. Система $\Sigma$ та $\Pi$ типів, як кванторів
@@ -437,7 +441,7 @@ $\otimes$  &:& $\pi \mid \pi$\\
 
 \subsection{Coq та coq.io}
 
-\subsection{Rust}
+\subsection{Rust та L4}
 
 \subsection{Erlang}
 
