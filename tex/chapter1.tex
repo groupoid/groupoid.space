@@ -107,7 +107,7 @@
     приводяться та авто-постулуються в нижніх аксіомах. Аксіома формації
     морфізмів буде даватися як введеня експоненти після визначення декартового добутку.
     Поки що тут буде визначатися тільки композиція морфізмів. Об’єкти $A$ та $B$ морфізма $f: A \rightarrow B$
-    називаються домен та кодомен відповідно.
+    називаються домен та кодомен відповідно. Композиція є фундаментальною властивістю морфізмів.
 
     \paragraph{}
     Інтро аксіоми -- асоціативність композиції та права і ліва композиції одниці показують,
@@ -115,11 +115,11 @@
     Є різні мови, у тому числі і графічні, представлення категорної семантики, однак у цій роботі
     ми будемо використовувати теоретико-логічні формулювання.
 
-
+    \paragraph{}
+    Аксіоми:
+\vspace{-0.5cm}
 \begin{fullwidth}[width=\linewidth+3cm]
-\begingroup
 \parbox[t][][l]{0.60\textwidth}{
-
 \begin{prooftree}
 \AxiomC{$\Gamma\ \vdash f: A \rightarrow B$ }
 \AxiomC{$\Gamma\ \vdash g: B \rightarrow C$ }
@@ -153,25 +153,15 @@
 \end{prooftree}
 
 }
-\endgroup
 
 \end{fullwidth}
-
-\newpage
-    \paragraph{}
-    Композиція показує можливість звязувати область значень попереднього обчислення (кодомен)
-    та область визначення наступного обчислення (домен). Композиція є фундаментальною властивістю морфізмів.
-
-\paragraph{}
-\begin{tabular}{lll}
-$1.$ & $A: *$\\
-$2.$ & $A: *\ ,\ B: * \implies f: A \rightarrow B$\\
-$3.$ & $f: B \rightarrow C\ ,\ g: A \rightarrow B \implies f \circ g : A \rightarrow C$\\
-$4.$ & $(f \circ g) \circ h = f \circ (g \circ h)$\\
-$5.$ & $A \implies id : A \rightarrow A$\\
-$6.$ & $f \circ id = f$\\
-$7.$ & $id \circ f = f$\\
-\end{tabular}
+%Теореми:
+%\begin{center}
+%$(f \circ g) \circ h = f \circ (g \circ h)$\\
+%$A \implies id : A \rightarrow A$\\
+%$f \circ id = f$\\
+%$id \circ f = f$\\
+%\end{center}
 
 \newpage
 \subsection{Алгебраїчні типи даних}
@@ -191,10 +181,19 @@ $7.$ & $id \circ f = f$\\
     елімінатори $\sigma$ зі спільним кодоменом. Як видно добуток є дуальний до суми з точністю до направлення стрілок,
     таким чином елімінатори $\pi$ та $\sigma$ є оберненими, тобто $\pi \circ \sigma = \sigma \circ \pi = id$.
 
+    \paragraph{}
+    Аксіоми:
+\vspace{-0.5cm}
 \begin{fullwidth}[width=\linewidth+2cm]
-\hspace{1cm}
-\begingroup
-\parbox[t][][l]{0.40\textwidth}{
+\hspace{-3cm}
+\parbox[t][][l]{0.50\textwidth}{
+
+\begin{prooftree}
+\AxiomC{$\Gamma \vdash\ f:A \rightarrow B$ }
+\AxiomC{$\Gamma \vdash\ g:A \rightarrow C$ }
+\AxiomC{$\Gamma \vdash\ B \times C$ }
+\TrinaryInfC{$\Gamma \vdash\ \langle f,g \rangle : A \rightarrow B \times C$ }
+\end{prooftree}
 
 \begin{prooftree}
 \AxiomC{$\Gamma\ x: A \times B$ }
@@ -215,7 +214,7 @@ $7.$ & $id \circ f = f$\\
 
 }
 \hspace{0cm}
-\parbox[t][][r]{0.60\textwidth}{
+\parbox[t][][r]{0.50\textwidth}{
 
 \begin{prooftree}
 \AxiomC{}
@@ -225,41 +224,40 @@ $7.$ & $id \circ f = f$\\
 \begin{prooftree}
 \AxiomC{$\Gamma \vdash\  a:A$ }
 \AxiomC{$\Gamma \vdash\  b:B$ }
-\BinaryInfC{$\Gamma\vdash a\ |\ b : A \otimes B$}
+\BinaryInfC{$\Gamma\vdash a\ |\ b : A + B$}
 \end{prooftree}
 
 \begin{prooftree}
-\AxiomC{$\Gamma\ x: A \otimes B$ }
-\UnaryInfC{$\Gamma \vdash \sigma_1: A \rightarrow A \otimes B$;
-           $\Gamma \vdash \sigma_2: B \rightarrow A \otimes B$}
+\AxiomC{$\Gamma\ x: A + B$ }
+\UnaryInfC{$\Gamma \vdash \sigma_1: A \rightarrow A + B$;
+           $\Gamma \vdash \sigma_2: B \rightarrow A + B$}
 \end{prooftree}
-
-}
-\endgroup
-\end{fullwidth}
-
-    \paragraph{}
-    Також додамо тут аксіому множення морфізмів, яка
-    випливає з визначення добутка, яка необхідна для
-    забезпечення аплікативного програмування.
 
 \begin{prooftree}
 \AxiomC{$\Gamma \vdash\ f:A \rightarrow B$ }
 \AxiomC{$\Gamma \vdash\ g:A \rightarrow C$ }
-\AxiomC{$\Gamma \vdash\ B \times C$ }
-\TrinaryInfC{$\Gamma \vdash\ \langle f,g \rangle : A \rightarrow B \times C$ }
+\AxiomC{$\Gamma \vdash\ B + C$ }
+\TrinaryInfC{$\Gamma \vdash\ [f,g] : A \rightarrow B + C$ }
 \end{prooftree}
-
-\begin{center}
-%$(f \circ g) \circ h = f \circ (g \circ h)$\\
-%$f \circ id = f$\\
-%$id \circ f = f$\\
-$\pi_1 \circ \langle f, g \rangle = f$\\
+}
+\end{fullwidth}
+    Теореми:
+\begin{fullwidth}[width=\linewidth+2cm]
+\parbox[t][][l]{0.5\textwidth}{
+$(f \circ g) \circ h = f \circ (g \circ h)$\\
+$f \circ id = f$\\
+$id \circ f = f$\\
+$\pi_1 \circ \langle f, g \rangle = f$
+}
+%\hspace{-3cm}
+\vspace{-1cm}
+\parbox[t][][r]{0.4\textwidth}{
 $\pi_2 \circ \langle f, g \rangle = g$\\
 $\langle f \circ \pi_1, f \circ \pi_2 \rangle = f$\\
 $\langle f, g \rangle \circ h = \langle f \circ h, g \circ h \rangle$\\
-$\langle \pi_1, \pi_2 \rangle = id$\\
-\end{center}
+$\langle \pi_1, \pi_2 \rangle = id$
+}
+\end{fullwidth}
 
 \newpage
 
@@ -268,12 +266,12 @@ $\langle \pi_1, \pi_2 \rangle = id$\\
     та констант у вигляді термів пропонує операції абстракції та аплікації, що визначає
     достатньо лаконічну та потужну структуру обчислень з функціями вищих порядків,
     та метатипизаціями, такими як System F, яка була запропонована
-    вперше Робіном Мілнером в мові ML, та зараз присутня в більш складних,
-    таких як System F$\omega$, системах Haskell та Scala.
+    вперше Робіном Мілнером в мові ML, та зараз присутня в більш складних типових системах,
+    таких як System F$\omega$, та системах Haskell та Scala.
 
     \paragraph{}
-    Щоб пояснити функції з категоріальнї точки зору потрібно пояснити категоріальні
-    експоненти $f : A^B$,  які є аналогами фукціональних просторів $f: A \rightarrow B$.
+    З категоріальнї точки зору експоненти $f : A^B$ є аналогами
+    фукціональних просторів $f: A \rightarrow B$.
     Так як ми вже визначили добутки та термінали, то ми можемо визначити і експоненти,
     опускаючи усі категоріальні подробиці ми визначимо конструювання функції (операція абстракції),
     яка параметризується змінною $x$ у середовищі $\Gamma$; та її елімінатора -- операції аплікації
@@ -281,13 +279,15 @@ $\langle \pi_1, \pi_2 \rangle = id$\\
     Визначається також рекурсивний механізм виклику функції
     з довільною кількістю аргументів.
 
+
 \begin{fullwidth}
-\hspace{-2cm}
 \begingroup
 \parbox[t][][l]{0.40\textwidth}{
 
+    Аксіоми:
+
 \begin{prooftree}
-\AxiomC{$\Gamma  x:A \vdash M : B$}
+\AxiomC{$\Gamma\ x:A \vdash M : B$}
 \UnaryInfC{$\Gamma \vdash \lambda\ x\ .\ M : A \rightarrow B$}
 \end{prooftree}
 
@@ -306,6 +306,8 @@ $\langle \pi_1, \pi_2 \rangle = id$\\
 \hspace{1cm}
 \parbox[t][][r]{0.60\textwidth}{
 
+Теореми:
+
 \begin{center}
 $apply \circ \langle (curry\ f) \circ \pi_1 , \pi_2 \rangle = f$\\
 $curry\ apply \circ \langle g \circ \pi_1, \pi_2 \rangle) = g$\\
@@ -313,15 +315,74 @@ $apply \circ \langle curry\ f, g \rangle = f \circ \langle id , g\rangle$\\
 $(curry\ f) \circ g = curry\ (f \circ \langle g \circ \pi_1,\pi_2\rangle)$\\
 $curry\ apply = id$\\
 \end{center}
+}
+\endgroup
+\end{fullwidth}
 
 \begin{center}
 Об’єкти : $\bot\ |\ \rightarrow\ |\ \times$\\
 Морфізми : $id\ |\ f \circ g\ |\ \langle f, g \rangle\ |\ apply\ |\ \lambda\ |\ curry$
 \end{center}
 
-}
-\endgroup
-\end{fullwidth}
+
+\newpage
+    \subsection{Інтуітіоністична теорія типів Мартіна Льофа}
+    Пер Мартін Льоф в 1972 році запропонував $\Pi$, $\Sigma$ та $Id$
+    у якості основних фундаментальних типів. З тих пір усі сучасні системи типів
+    для пруверів побувані наслідуючи цю модель. Було показано, що мова такої системи
+    типів є внутрішнією мовою локальних декартово-замкнених категорій. $\Pi$ та $\Sigma$
+    кодують безпосереднь логічні кванторти $\forall$ та $\exists$, а тип $\rightarrow$ є
+    частковим випадком $\Pi$-типу, коли кодомен не залежить від домена.
+
+    \paragraph{}
+    Аксіоми:
+\begin{equation}
+\tag{$\Pi$}
+\dfrac{\Gamma\ x:A \vdash B : Type\ \ \ \Gamma\ \vdash A : Type}
+      {\Gamma\ \vdash \Pi (x : A) \rightarrow B x : Type}
+\end{equation}
+
+\begin{equation}
+\tag{$\Sigma$}
+\dfrac{\Gamma\ x:A \vdash B : Type\ \ \ \Gamma\ \vdash A : Type}
+      {\Gamma\ \vdash \Sigma (x : A) \ B x : Type}
+\end{equation}
+
+\begin{equation}
+\tag{$Id$}
+\dfrac{\Gamma\ \vdash a b: A\ \ \ \ \Gamma\ \vdash A : Type }
+      {\Gamma\ \vdash Id_A (a,b)}
+\end{equation}
+
+    Теореми:
+\begin{center}
+\begin{tabular}{lll}
+  рефлексивність &:& $Id_A(a,a)$ \\
+  підстановка     &:& $Id_A(a,a') \rightarrow B(x=a) \rightarrow B(x=a')$ \\
+  симетричність  &:& $Id_A(a,b) \rightarrow Id_A(b,a)$  \\
+  транзитивність &:& $Id_A(a,b) \rightarrow Id_A(b,c) \rightarrow Id_A(a,c)$ \\
+  конгруентність &:& $(f: A \rightarrow B) \rightarrow Id_A(x,x') \rightarrow Id_B(f(x),f(x'))$ \\
+\end{tabular}
+\end{center}
+
+    \subsection{Індуктивні типи}
+    Системи з залежними типами як верифікаційні математичні формальні моделі
+    для доведення корректності. Система $\Sigma$ та $\Pi$ типів, як кванторів
+    існування та узагальнення. Системи Mizar, Coq, Agda, Idris, F*, Lean. Ми будемо
+    використовувати cubicaltt, Coq та Lean для доведення MLTT моделей.
+
+    \paragraph{}
+    Розбудовуючи певний фреймворк чи систему конструктивними методами
+    так чи інакше доведеться зробити певний вибір у мові та способі кодування.
+    Так при розробці теорії абстрактної алгебри в Coq були використані
+    поліморфні індуктивні структури. Однак Agda та Idris використувують
+    для побудови алгебраїчної теорії типи класів, а у Idris взагалі відсутні
+    поліморфірні індуктивні структури та коіндуктивні структури. В Lean
+    теж відсутні коіндуктивні структури проте повністю реалізована теорія
+    HoTT на нерекурсивних поліморфних структурах що обєднує основні чотири
+    класи математичних теорій: логіка, топологія, теорія множин, теорія типів.
+    Як було показано Стефаном Касом, одна з стратегій імплементації типів
+    класів --- це використання поліморфних структур.
 
 \newpage
     \subsection{Числення процесів}
@@ -370,99 +431,9 @@ $\otimes$  &:& $\pi \mid \pi$\\
 \end{center}
 
 \newpage
-    \subsection{Інтуітіоністична теорія типів Мартіна Льофа}
-    Системи з залежними типами як верифікаційні математичні формальні моделі
-    для доведення корректності. Система $\Sigma$ та $\Pi$ типів, як кванторів
-    існування та узагальнення. Системи Mizar, Coq, Agda, Idris, F*, Lean. Ми будемо
-    використовувати cubicaltt, Coq та Lean для доведення MLTT моделей.
-
-    \paragraph{}
-    Розбудовуючи певний фреймворк чи систему конструктивними методами
-    так чи інакше доведеться зробити певний вибір у мові та способі кодування.
-    Так при розробці теорії абстрактної алгебри в Coq були використані
-    поліморфні індуктивні структури. Однак Agda та Idris використувують
-    для побудови алгебраїчної теорії типи класів, а у Idris взагалі відсутні
-    поліморфірні індуктивні структури та коіндуктивні структури. В Lean
-    теж відсутні коіндуктивні структури проте повністю реалізована теорія
-    HoTT на нерекурсивних поліморфних структурах що обєднує основні чотири
-    класи математичних теорій: логіка, топологія, теорія множин, теорія типів.
-    Як було показано Стефаном Касом, одна з
-    стратегій імплементації типів класів --- це використання поліморфних структур.
-    В Lean також підтримуються типи класів.
-
-\newpage
-    \subsection{Логіка та квантори}
-
-    Модель логік вищого порядку та квантори $\forall$ та $\exists$ які
-    теж виражаються як конструкції типів:
-
-\begingroup
-\parbox[t][][l]{0.40\textwidth}{
-
-\begin{prooftree}
-\AxiomC{$\Gamma\ x: A \vdash B$ }
-\AxiomC{$\Gamma\ \vdash A$ }
-\BinaryInfC{$\Gamma\ \vdash \Pi (x : A) B $}
-\end{prooftree}
-
-\begin{prooftree}
-\AxiomC{$\Gamma\ x: A \vdash B$ }
-\AxiomC{$\Gamma\ \vdash A$ }
-\BinaryInfC{$\Gamma\ \vdash \Sigma (x : A) B $}
-\end{prooftree}
-
-}
-\hspace{0.1cm}
-\parbox[t][][r]{0.60\textwidth}{
-
-\begin{prooftree}
-\AxiomC{$\Gamma\ \vdash a : A$ }
-\AxiomC{$\Gamma\ x : A \vdash B$ }
-\AxiomC{$\Gamma\ b : B (x=a)$ }
-\TrinaryInfC{$\Gamma\ \vdash (a,b) : \Pi (x : A) B $}
-\end{prooftree}
-
-
-\begin{prooftree}
-\AxiomC{$\Gamma\ \vdash a : A$ }
-\AxiomC{$\Gamma\ x : A \vdash B$ }
-\AxiomC{$\Gamma\ b : B (x=a)$ }
-\TrinaryInfC{$\Gamma\ \vdash (a,b) : \Sigma (x : A) B $}
-\end{prooftree}
-
-}
-\endgroup
-
-\begingroup
-\parbox[t][][l]{0.40\textwidth}{
-
-\begin{prooftree}
-\AxiomC{$\Gamma\ \vdash x: A$ }
-\AxiomC{$\Gamma\ \vdash x': A$ }
-\BinaryInfC{$\Gamma\ \vdash Id_A (x,x')$}
-\end{prooftree}
-
-}
-\hspace{0.1cm}
-\parbox[t][][r]{0.60\textwidth}{
-
-}\endgroup
-
-
-\begin{center}
-\begin{tabular}{lll}
-  рефлексивність &:& $Id_A(a,a)$ \\
-  підстановка     &:& $Id_A(a,a') \rightarrow B(x=a) \rightarrow B(x=a')$ \\
-  симетричність  &:& $Id_A(a,b) \rightarrow Id_A(b,a)$  \\
-  транзитивність &:& $Id_A(a,b) \rightarrow Id_A(b,c) \rightarrow Id_A(a,c)$ \\
-  конгруентність &:& $(f: A \rightarrow B) \rightarrow Id_A(x,x') \rightarrow Id_B(f(x),f(x'))$ \\
-\end{tabular}
-\end{center}
-
-\newpage
 \section{Дослідження середовищ виконання}
 
-\subsection{Agda та M-Alonso}
+Для вибору підходящих кандидатів на середовище виконання результуючих програм,
 
 \subsection{Coq та coq.io}
 

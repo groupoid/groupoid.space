@@ -1,8 +1,6 @@
 \addtocontents{toc}{\protect\newpage}
 \chapter{Система з однією аксіомою}
 
-\section{Мова зі строгою нормалізацією}
-
    \paragraph{}
    Мова програмування Ом -- це мова з залежними типами, яка є розширенням
    числення конструкцій (Calculus of Constructions, CoC) Тері Кокуанда. Саме з числення
@@ -28,6 +26,7 @@ $$
 \end{cases}
 $$
 
+\newpage
    \paragraph{}
    An intermediate Om language is based on Henk\cite{henk} languages described first
    by Erik Meijer and Simon Peyton Jones in 1997. Leter on in 2015 Morte impementation
@@ -40,7 +39,7 @@ $$
    and able to produce verifiable peace of code that can be distributed over the networks,
    compiled at target with safe trusted linkage.
 
-   \subsection{BNF}
+   \section{Синтаксис}
 \vspace{0.5cm}
    Om syntax is compatible with $\lambda C$ Coquand's Calculus of Constructions presented
    in Morte and Henk languages. However it has extension in a part of specifying
@@ -60,16 +59,18 @@ $$
 Equivalent tree encoding for parsed terms is following:
 \vspace{0.5cm}
 \begin{lstlisting}[mathescape=true]
-    Inductive OM := Star: nat $\rightarrow$ OM
-                  | Var: name $\rightarrow$ OM
-                  | App: OM $\rightarrow$ OM $\rightarrow$ OM
-                  | Lambda: name $\rightarrow$ OM $\rightarrow$ OM $\rightarrow$ OM
-                  | Arrow: OM $\rightarrow$ OM $\rightarrow$ OM
-                  | Pi: name $\rightarrow$ OM $\rightarrow$ OM $\rightarrow$ OM.
+    data name = list nat
+
+    data om = star (n: nat)
+            | var (n: name)
+            | app (f a: om)
+            | lambda (x: name) (d c: om)
+            | arrow (d c: om)
+            | pi (x: name) (d c: om)
 \end{lstlisting}
 
 \newpage
-\subsection{Universes}
+\section{Всесвіти}
 
 The OM language is a higher-order dependently typed lambda calculus,
 an extension of Coquand's Calculus of Constructions
@@ -95,7 +96,7 @@ of infinity term dependance.
 {Type_o}
 \end{equation}
 
-\subsection{Predicative Universes}
+\section{Предикативні всесвіти}
 
 All terms obey the A ranking inside the sequence of S universes,
 and the complexity R of the dependent term is equal to a maximum of
@@ -126,7 +127,7 @@ You can switch predicative vs impredicative uninverses by typecheker parameter.
 \]
 
 \newpage
-\subsection{Impredicative Universes}
+\section{Імпредикативні всесвіти}
 Propositional contractible bottom space is the only
 available extension to predicative hierarchy that not leads to inconsistency.
 However there is another option to have infinite
@@ -152,7 +153,7 @@ impredicative hierarchy.
 {Type_i \rightarrow Type_{j} : Type_{j}}
 \end{equation}
 
-\subsection{Single Axiom Language}
+\section{Система з однією аксіомою}
 
 This langauge is called one axiom language (or pure) as eliminator
 and introduction adjoint functors inferred from type formation rule.
@@ -215,9 +216,8 @@ record Pi (A: Type) :=
 
 \newpage
 
-\lstset{xleftmargin=-3cm}
 
-   \subsection{Hierarchy}
+   \section{Ієрархії}
 
 \begin{lstlisting}[mathescape=true]
 dep Arg Out impredicative $\rightarrow$ Out
@@ -226,113 +226,117 @@ dep Arg Out predicative   $\rightarrow$ max Arg Out
 h Arg Out $\rightarrow$ dep Arg Out om:hierarchy(impredicative)
 \end{lstlisting}
 
-   \subsection{Universes}
+   \section{Перевірка всесвітів}
 
 \begin{lstlisting}[mathescape=true]
-star (:star,N) $\rightarrow$ N
-star _         $\rightarrow$ (:error, "*")
+star (:*,N) $\rightarrow$ N
+star _      $\rightarrow$ (:error, "*")
 \end{lstlisting}
 
-   \subsection{Functions}
+   \section{Перевірка $\Pi$-типів}
 
 \begin{lstlisting}[mathescape=true]
-func ((:forall,),(I,O)) $\rightarrow$ true
-func T                  $\rightarrow$ (:error,(:forall,T))
+fun ((:$\forall$,),(I,O)) $\rightarrow$ true
+fun T             $\rightarrow$ (:error,(:$\forall$,T))
 \end{lstlisting}
 
-   \subsection{Variables}
+   \section{Перевірка змінних}
 
 \begin{lstlisting}[mathescape=true]
-var N B                $\rightarrow$ var N B (proplists:is_defined N B)
-var N B true           $\rightarrow$ true
-var N B false          $\rightarrow$ (:error,("free var",N,proplists:get_keys(B)))
+var N B        $\rightarrow$ var N B (proplists:is_defined N B)
+var N B true   $\rightarrow$ true
+var N B false  $\rightarrow$ (:error,("free var",N,proplists:get_keys(B)))
 \end{lstlisting}
 
-   \subsection{Shift}
+   \section{Індекси де Брейна}
 
 \begin{lstlisting}[mathescape=true]
-sh (:var,(N,I)),N,P) when I>=P  $\rightarrow$ (var,(N,I+1))
-sh ((:forall,(N,0)),(I,O)),N,P) $\rightarrow$ ((:forall,(N,0)),sh I N P,sh O N P+1)
-sh ((:lambda,(N,0)),(I,O)),N,P) $\rightarrow$ ((:lambda,(N,0)),sh I N P,sh O N P+1)
-sh (Q,(L,R),N,P)                $\rightarrow$ (Q,sh L N P,sh R N P)
-sh (T,N,P)                      $\rightarrow$ T
+sh (:var,(N,I)),N,P) when I>=P $\rightarrow$ (:var,(N,I+1))
+sh ((:$\forall$,(N,0)),(I,O)),N,P)      $\rightarrow$ ((:$\forall$,(N,0)),sh I N P,sh O N P+1)
+sh ((:$\lambda$,(N,0)),(I,O)),N,P)      $\rightarrow$ ((:$\lambda$,(N,0)),sh I N P,sh O N P+1)
+sh (Q,(L,R),N,P)               $\rightarrow$ (Q,sh L N P,sh R N P)
+sh (T,N,P)                     $\rightarrow$ T
 \end{lstlisting}
 
-   \subsection{Substitution}
+   \section{Нормалізація}
 
 \begin{lstlisting}[mathescape=true]
-sub Term Name Value               $\rightarrow$ sub Term Name Value 0
-sub (:arrow,         (I,O)) N V L $\rightarrow$ (:arrow,         sub I N V L,sub O N V L);
-sub ((:forall,(N,0)),(I,O)) N V L $\rightarrow$ ((:forall,(N,0)),sub I N V L,sub O N(sh V N 0)L+1)
-sub ((:forall,(F,X)),(I,O)) N V L $\rightarrow$ ((:forall,(F,X)),sub I N V L,sub O N(sh V F 0)L)
-sub ((:lambda,(N,0)),(I,O)) N V L $\rightarrow$ ((:lambda,(N,0)),sub I N V L,sub O N(sh V N 0)L+1)
-sub ((:lambda,(F,X)),(I,O)) N V L $\rightarrow$ ((:lambda,(F,X)),sub I N V L,sub O N(sh V F 0)L)
-sub (:app,           (F,A)) N V L $\rightarrow$ (:app,sub F N V L,sub A N V L)
-sub (:var,           (N,L)) N V L $\rightarrow$ V
-sub (:var,           (N,I)) N V L when I>L $\rightarrow$ (:var,(N,I-1))
-sub T                       _ _ _ $\rightarrow$ T.
-\end{lstlisting}
-
-   \subsection{Normalization}
-
-\begin{lstlisting}[mathescape=true]
-norm :none                   $\rightarrow$ :none
-norm :any                    $\rightarrow$ :any
-norm (:app,(F,A))            $\rightarrow$ case norm F of
-                                ((:lambda,(N,0)),(I,O)) $\rightarrow$ norm (subst O N A)
-                                                     NF $\rightarrow$ (:app,(NF,norm A)) end
-norm (:remote,N)             $\rightarrow$ cache (norm N [])
-norm (:arrow,         (I,O)) $\rightarrow$ ((:forall,("_",0)),(norm I,norm O))
-norm ((:forall,(N,0)),(I,O)) $\rightarrow$ ((:forall,(N,0)),    (norm I,norm O))
-norm ((:lambda,(N,0)),(I,O)) $\rightarrow$ ((:lambda,(N,0)),    (norm I,norm O))
-norm T                       $\rightarrow$ T
+norm :none              $\rightarrow$ :none
+norm :any               $\rightarrow$ :any
+norm (:app,(F,A))       $\rightarrow$ case norm F of
+                            ((:$\lambda$,(N,0)),(I,O)) $\rightarrow$ norm (subst O N A)
+                            NF $\rightarrow$ (:a,(NF,norm A)) end
+norm (:remote,N)        $\rightarrow$ cache (norm N [])
+norm (:$\rightarrow$,         (I,O)) $\rightarrow$ ((:$\forall$,("_",0)),(norm I,norm O))
+norm ((:$\forall$,(N,0)),(I,O)) $\rightarrow$ ((:$\forall$,(N,0)),      (norm I,norm O))
+norm ((:$\lambda$,(N,0)),(I,O)) $\rightarrow$ ((:$\lambda$,(N,0)),      (norm I,norm O))
+norm T                  $\rightarrow$ T
 \end{lstlisting}
 
 \lstset{xleftmargin=0cm}
 
-   \subsection{Definitional Equality}
+\newpage
+
+   \section{Підстановка}
 
 \begin{lstlisting}[mathescape=true]
-eq ((:forall,("_",0)), X) (:arrow,Y)     $\rightarrow$ eq X Y
-eq (:app,(F1,A1))         (:app,(F2,A2)) $\rightarrow$ let true = eq F1 F2 in eq A1 A2
-eq (:star,N)              (:star,N)      $\rightarrow$ true
-eq (:var,(N,I))           (:var,(N,I))   $\rightarrow$ true
-eq (:remote,N)            (:remote,N)    $\rightarrow$ true
-eq ((:farall,(N1,0)),(I1,O1))
-   ((:forall,(N2,0)),(I2,O2)) $\rightarrow$
-   let true = eq I1 I2 in eq O1 (subst (shift O2 N1 0) N2 (:var,(N1,0)) 0)
-eq ((:lambda,(N1,0)),(I1,O1))
-   ((:lambda,(N2,0)),(I2,O2)) $\rightarrow$
-   let true = eq I1 I2 in eq O1 (subst (shift O2 N1 0) N2 (:var,(N1,0)) 0)
-eq (A,B)                      $\rightarrow$ (:error,(:eq,A,B))
-\end{lstlisting}
-
-   \subsection{Type Checker}
-
-\begin{lstlisting}[mathescape=true]
-type (:star,N)               _ $\rightarrow$ (:star,N+1)
-type (:var,(N,I))            D $\rightarrow$ let true = var N D in keyget N D I
-type (:remote,N)             D $\rightarrow$ cache type N D
-type (:arrow,(I,O))          D $\rightarrow$ (:star,h(star(type I D)),star(type O D))
-type ((:forall,(N,0)),(I,O)) D $\rightarrow$ (:star,h(star(type I D)),star(type O [(N,norm I)|D]))
-type ((:lambda,(N,0)),(I,O)) D $\rightarrow$ let star (type I D),
-                                  NI = norm I in ((:forall,(N,0)),(NI,type(O,[(N,NI)|D])))
-type (:app,(F,A))            D $\rightarrow$ let T = type(F,D),
-                                  true = func T,
-                                  ((:forall,(N,0)),(I,O)) = T,
-                                  Q = type A D,
-                                  true = eq I Q in norm (subst O N A)
+sub Term Name Value          $\rightarrow$ sub Term Name Value 0
+sub (:$\rightarrow$,         (I,O)) N V L $\rightarrow$ (:$\rightarrow$,           sub I N V L,sub O N V L);
+sub ((:$\forall$,(N,0)),(I,O)) N V L $\rightarrow$ ((:$\forall$,(N,0)),sub I N V L,sub O N(sh V N 0)L+1)
+sub ((:$\forall$,(F,X)),(I,O)) N V L $\rightarrow$ ((:$\forall$,(F,X)),sub I N V L,sub O N(sh V F 0)L)
+sub ((:$\lambda$,(N,0)),(I,O)) N V L $\rightarrow$ ((:$\lambda$,(N,0)),sub I N V L,sub O N(sh V N 0)L+1)
+sub ((:$\lambda$,(F,X)),(I,O)) N V L $\rightarrow$ ((:$\lambda$,(F,X)),sub I N V L,sub O N(sh V F 0)L)
+sub (:app,      (F,A)) N V L $\rightarrow$ (:app,sub F N V L,sub A N V L)
+sub (:var,      (N,I)) N V L when I>L $\rightarrow$ (:var,(N,I-1))
+sub (:var,      (N,L)) N V L $\rightarrow$ V
+sub T                  _ _ _ $\rightarrow$ T.
 \end{lstlisting}
 
 
-\subsection{Target Erlang VM and LLVM platforms}
+\lstset{xleftmargin=0cm}
+
+
+   \section{Рівність за визначенням}
+
+\begin{lstlisting}[mathescape=true]
+eq ((:$\forall$,("_",0)), X)     (:$\rightarrow$,Y)        $\rightarrow$ eq X Y
+eq (:app,(F1,A1))       (:a,(F2,A2)) $\rightarrow$ let true = eq F1 F2 in eq A1 A2
+eq (:*,N)               (:*,N)       $\rightarrow$ true
+eq (:var,(N,I))         (:var,(N,I)) $\rightarrow$ true
+eq (:remote,N)          (:remote,N)  $\rightarrow$ true
+eq ((:$\forall$,(N1,0)),(I1,O1)) ((:$\forall$,(N2,0)),(I2,O2)) $\rightarrow$
+   let true = eq I1 I2 in eq O1 (sub (sh O2 N1 0) N2 (:var,(N1,0)) 0)
+eq ((:$\lambda$,(N1,0)),(I1,O1)) ((:$\lambda$,(N2,0)),(I2,O2)) $\rightarrow$
+   let true = eq I1 I2 in eq O1 (sub (sh O2 N1 0) N2 (:var,(N1,0)) 0)
+eq (A,B) $\rightarrow$ (:error,(:eq,A,B))
+\end{lstlisting}
+
+   \section{Перевірка типів}
+
+\begin{lstlisting}[mathescape=true]
+type (:*,N)                _ $\rightarrow$ (:*,N+1)
+type (:v,(N,I))            D $\rightarrow$ let true = var N D in keyget N D I
+type (:#,N)                D $\rightarrow$ cache type N D
+type (:$\rightarrow$,(I,O))             D $\rightarrow$ (:*,h(star(type I D)),star(type O D))
+type ((:$\forall$,(N,0)),(I,O))     D $\rightarrow$ (:*,h(star(type I D)),star(type O [(N,norm I)|D]))
+type ((:$\lambda$,(N,0)),(I,O))     D $\rightarrow$ let star (type I D),
+                                NI = norm I in ((:$\forall$,(N,0)),(NI,type(O,[(N,NI)|D])))
+type (:a,(F,A))            D $\rightarrow$ let T = type(F,D),
+                                true = fun T,
+                                ((:$\forall$,(N,0)),(I,O)) = T,
+                                Q = type A D,
+                                true = eq I Q in norm (subst O N A)
+\end{lstlisting}
+
+
+\section{Екстракт в платформу Erlang/OTP}
 
    \paragraph{}
    This works expect to compile to limited target platforms. For now Erlang, Haskell and LLVM is awaiting.
    Erlang version is expected to be useful both on LING and BEAM Erlang virtual machines.
 
 \newpage
-   \section{Exe Macrosystem}
+   \section*{Exe Macrosystem}
 
    Exe is a general purpose functional language with functors, lambdas on types, recursive algebraic types,
    higher order functions, corecursion, free monad for effects encoding. It compilers
@@ -340,7 +344,7 @@ type (:app,(F,A))            D $\rightarrow$ let T = type(F,D),
    This language intended to be useful enough to encode KVS (database), N2O (web framework) and
    BPE (processes) applications.
 
-   \subsection{Compiler Passes}
+   \section*{Compiler Passes}
 
    The underlying OM typechecker and compiler is a target language for EXE general purpose language.
    \begin{center}
@@ -353,7 +357,7 @@ type (:app,(F,A))            D $\rightarrow$ let T = type(F,D),
    \end{tabular}
    \end{center}
 
-   \subsection{BNF}
+   \section*{BNF}
 
 \begin{lstlisting}[mathescape=true]
     <> ::= #option
@@ -377,7 +381,7 @@ type (:app,(F,A))            D $\rightarrow$ let T = type(F,D),
 \end{lstlisting}
 
 \newpage
-  \subsection{Inductive Types}
+  \section{Індуктивні типи}
 
   \paragraph{}
   There are two types of recursion: one is least fixed point (as $F_A\ X = 1 + A\times X$
@@ -386,7 +390,7 @@ type (:app,(F,A))            D $\rightarrow$ let T = type(F,D),
   and the second is greatest fixed point or recursion withour a base (as $F_A\ X = A\times X $) ---
   such kind of recursion on infinite lists (codata, streams, coinductive types) we can call recursive products.\\
 
-  \subsection{Polynomial Functors}
+  \section{Поліноміальні функтори}
   Least fixed point trees are called well-founded trees and encode polynomial functors.
 
   \paragraph{}
@@ -404,7 +408,7 @@ type (:app,(F,A))            D $\rightarrow$ let T = type(F,D),
   as an non-recursive definitions of folds that include in indentity signature all the
   constructor components of (co)inductive type.
 \newpage
-  \subsection{Lists}
+  \section{Кодування List}
   The data type of lists over a given set A can be represented as the initial algebra
   $(\mu L_A, in)$ of the functor $L_A(X) = 1 + (A \times X)$. Denote $\mu L_A = List(A)$.
   The constructor functions $nil: 1 \rightarrow List(A)$ and
@@ -466,9 +470,9 @@ foldl = \lambda\ f\ v\ xs = foldr\ (\lambda\ xg\rightarrow\ (\lambda \rightarrow
 $$
 
 \vspace{1cm}
-\subsection{Normal Forms}
+\section{Нормальні форми}
 
-\subsubsection*{Lists/Map}
+\subsection*{Lists/Map}
 {\fontfamily{pcr}\selectfont
 \vspace{0.5cm}
 $\lambda$ (a: *) $\rightarrow$ $\lambda$ (b: *) $\rightarrow$ $\lambda$ (f: a $\rightarrow$ b) $\rightarrow$ $\lambda$ (xs: $\forall$ (List: *)
@@ -481,43 +485,3 @@ $\rightarrow$ List) $\rightarrow$ $\lambda$ (List: *) $\rightarrow$ $\lambda$ (C
 ($\lambda$ (List: *) $\rightarrow$ $\lambda$ (Cons: $\forall$ (head: b) $\rightarrow$ $\forall$ (tail: List) $\rightarrow$
 List) $\rightarrow$ $\lambda$ (Nil: List) $\rightarrow$ Nil)
 }
-
-\newpage
-\subsection{Prelude Base Library}
-
-\lstset{xleftmargin=-2.65cm}
-
-\begin{lstlisting}[mathescape=true]
-
-             data Nat: Type :=
-                  (Zero: Unit $\rightarrow$ Nat)
-                  (Succ: Nat $\rightarrow$ Nat)
-
-             data List (A: Type) : Type :=
-                  (Nil: Unit $\rightarrow$ List A)
-                  (Cons: A $\rightarrow$ List A $\rightarrow$ List A)
-
-           record list: Type :=
-                  (len: List A $\rightarrow$ integer)
-                  ((++): List A $\rightarrow$ List A $\rightarrow$ List A)
-                  (map: (A,B: Type) (A $\rightarrow$ B) $\rightarrow$ (List A $\rightarrow$ List B))
-                  (filter: (A $\rightarrow$ bool) $\rightarrow$ (List A $\rightarrow$ List A))
-
-           record String: List Nat := List.Nil
-
-             data IO: Type :=
-                  (getLine: (String $\rightarrow$ IO) $\rightarrow$ IO)
-                  (putLint: String $\rightarrow$ IO)
-                  (pure: () $\rightarrow$ IO)
-
-           record IO: Type :=
-                  (data: String)
-                  ([>>=]: ...)
-
-           record Morte: Type :=
-                  (recursive: IO.replicateM Nat.Five
-                              (IO.[>>=] IO.data Unit IO.getLine IO.putLine))
-
-\end{lstlisting}
-
-\lstset{xleftmargin=0cm}
