@@ -264,8 +264,8 @@ sh (T,N,P)                     $\rightarrow$ T
 norm :none              $\rightarrow$ :none
 norm :any               $\rightarrow$ :any
 norm (:app,(F,A))       $\rightarrow$ case norm F of
-                            ((:$\lambda$,(N,0)),(I,O)) $\rightarrow$ norm (subst O N A)
-                            NF $\rightarrow$ (:a,(NF,norm A)) end
+                            ((:$\lambda$,(N,0)),(I,O)) $\rightarrow$ norm (sub O N A)
+                            NF $\rightarrow$ (:app,(NF,norm A)) end
 norm (:remote,N)        $\rightarrow$ cache (norm N [])
 norm (:$\rightarrow$,         (I,O)) $\rightarrow$ ((:$\forall$,("_",0)),(norm I,norm O))
 norm ((:$\forall$,(N,0)),(I,O)) $\rightarrow$ ((:$\forall$,(N,0)),      (norm I,norm O))
