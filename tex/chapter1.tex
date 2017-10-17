@@ -530,9 +530,9 @@ data branch (A: U) =        br (n: name) (a: list name) (t: A)
 data label  (A: U) =       lab (n: name) (t: tele A)
 
 data $O_4$ = $O_3$
-         | sum  (t: tele $O_4$) (labels:      list (label $O_4$))
-         | case (n: name)     (branches: list (branch $O_4$))
-         | ctor (n: name)     (args:     list $O_4$)
+         | sum  (n: name) (t: tele $O_4$) (labels:      list (label $O_4$))
+         | case (n: name) (t: ind)      (branches: list (branch $O_4$))
+         | ctor (n: name)               (args:     list $O_4$)
 \end{lstlisting}
 
 \newpage
