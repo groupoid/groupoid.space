@@ -74,7 +74,7 @@ snd (A B: U): tuple A B -> B = split pair a b -> b</code><p></p><h3>Paramorphism
     = alg (fmap (fix F) A F (\(x: fix F) ->
     prepro A F nt alg (cata (fix F) F (\(y: F(fix F))
     -> Fix (nt(y))) x)) (unfix F f))
-</code><h3>Prepromorphism</h3><code>postpro (A: U) (F: U -> U) (nt : F(fix F) ->
+</code><h3>Postpromorphism</h3><code>postpro (A: U) (F: U -> U) (nt : F(fix F) ->
     F(fix F)) (coalg: A -> F A) (a: A): fix F
     = Fix(fmap A (fix F) F (\(x: A) ->
     ana (fix F) F (\(y: fix F) -> nt(unfix F y))
