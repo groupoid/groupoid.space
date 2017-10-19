@@ -194,8 +194,8 @@ block content
                     gapo (A B: U) (F: U -> U) (coalg: A -> F A)
                         (coalg2: B -> F(either A B)) (b: B): fix F
                         = Fix((fmap (either A B) (fix F) F (\(x: either A B)
-                        -> either_ A B (fix F) (\(y: A) -> ana A F coalg y) (\(z: B)
-                        -> gapo A B F coalg coalg2 z) x) (coalg2 b)))
+                        -> either_ A B (fix F) (\(y: A) -> ana A F coalg y)
+                        (\(z: B) -> gapo A B F coalg coalg2 z) x) (coalg2 b)))
 
                 p.
                     The code is <a href="https://raw.githubusercontent.com/groupoid/infinity/master/base/lambek.ctt">here</a>.

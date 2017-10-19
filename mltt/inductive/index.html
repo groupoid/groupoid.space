@@ -84,6 +84,6 @@ snd (A B: U): tuple A B -> B = split pair a b -> b</code><p></p><h3>Paramorphism
 </code><h3>Gapomorphism</h3><code>gapo (A B: U) (F: U -> U) (coalg: A -> F A)
     (coalg2: B -> F(either A B)) (b: B): fix F
     = Fix((fmap (either A B) (fix F) F (\(x: either A B)
-    -> either_ A B (fix F) (\(y: A) -> ana A F coalg y) (\(z: B)
-    -> gapo A B F coalg coalg2 z) x) (coalg2 b)))
+    -> either_ A B (fix F) (\(y: A) -> ana A F coalg y)
+    (\(z: B) -> gapo A B F coalg coalg2 z) x) (coalg2 b)))
 </code><p>The code is <a href="https://raw.githubusercontent.com/groupoid/infinity/master/base/lambek.ctt">here</a>.</p></section></div></article><footer class="footer"><img class="footer__logo" src="https://longchenpa.guru/seal.png" width="50"><span class="footer__copy">2016&mdash;2017 &copy; Groupoid Infinity</span></footer><script src="//groupoid.space/bundle.js"></script><script src="//groupoid.space/highlight.js"></script></body></html>
