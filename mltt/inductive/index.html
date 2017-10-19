@@ -1,0 +1,33 @@
+<!DOCTYPE html><html><head><meta charset="utf-8"><meta http-equiv="x-ua-compatible" content="ie=edge"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="author" content="Maxim Sokhatsky"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:site" content="@5HT"><meta name="twitter:creator" content="@5HT"><meta name="twitter:image" content="https://groupoid.space/card2.png"><meta property="og:title" content="Groupoid Infinity"><meta property="og:image" content="https://groupoid.space/card2.png"><meta property="og:type" content="website"><meta property="fb:app_id" content="118554188236439"><meta property="og:url" content="https://groupoid.space"><meta property="og:description" content="MLTT Language with Extensions"><link rel="stylesheet" href="//groupoid.space/main.css?v=2"><title>INDUCTIVE</title><script src="//cdnjs.cloudflare.com/ajax/libs/mathjax/2.6.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><script>MathJax.Hub.Config({ displayAlign: "left", tex2jax: { inlineMath: [['$','$'], ['\\(','\\)']], processEscapes: true } });
+</script></head><body class="content"><header class="header"><a href="//groupoid.space/"><img class="header__logo" src="../../groupoid.svg"/></a><div class="header__titles"><h1 class="header__title">Path Isomorphism</h1><h4 class="header__subtitle">Comparing two Zeros</h4></div></header><article class="main"><div class="om"><section><h1>Article</h1></section></div><aside>Denis Stoyanov<Maxim>Sokhatsky</Maxim><time>DATE: 19 OCT 2017</time></aside><div class="om"><section><h2 id="nat">Abstract</h2><p>This work shows how to encode inductive types using recursion schemes.
+Unlike Church-Boem-Berarducci encoding, that can encode inductive types
+without fixpoint, recursion shcemes require the fixpoint contructor
+in the typechecker core in order to express this encoding.</p><p></p><h2 id="nat">Prelude<We>will use <mark>cubical</mark> typechecker for modeling. You may want</We><to>try this in Agda, Idris, Coq or any MLTT prover. First we need to</to><set>up inductive type typle, because the <b>para</b> is unexpressible</set><with>Sigma pair type.</with></h2><code>data tuple (A B: U) = pair (a: A) (b: B)
+fst (A B: U): tuple A B -> A = split pair a b -> a
+snd (A B: U): tuple A B -> B = split pair a b -> b</code><p>Then assume we have fmap defined somewhere else.</p><code>fmap (A B: U) (F: U -> U): (A -> B) -> F A -> F B = undefined
+</code><h2>Fixpoint</h2><p>The core fixpoint reflection type is parametrized by functor
+and has only one contructor with value of this functor applied to fixpoint itself.
+We also need functions for projecting and embedding valued to/from
+fixpoint functiorial stream.</p><code>data fix (F: U -> U) = Fix (point: F (fix F))
+unfix (F: U -> U): fix F -> F (fix F) = split Fix f -> f
+embed (F: U -> U): F (fix F) -> fix F = \(x: F (fix F)) -> Fix x
+</code><h2>Catamorphism</h2><p>Catamorphism is known as generalized version of fold.</p><code>cata (A: U) (F: U -> U) (alg: F A -> A) (f: fix F): A
+    = alg (fmap (fix F) A F (cata A F alg) (unfix F f))</code><h2>Iniductive</h2><p>Lets rewrite fix data type as a structure:</p><code>ind (F: U -> U) (A: U): U
+    = (in_: F (fix F) -> fix F)
+    * (unfix_: fix F -> F (fix F))
+    * (fold_: (F A -> A) -> fix F -> A)
+    * Unit</code><p>Then instance of this type class would be:</p><code>inductive (F: U -> U) (A: U): ind F A
+    = (embed F,unfix F,cata A F,tt)
+</code><h2>Inductive List Nat</h2><p>Here is example of inductive encoding of list nat:</p><code>> inductive list nat</code><pre>EVAL: ((\(x : F (fix F)) -> Fix x) (F = (\(A : U) -> list)),
+(unfix (\(A : U) -> list),((\(alg : Pi \(_ : F A) -> A) ->
+\(f : fix F) -> alg (fmap (fix F) A F (cata A F alg)
+(unfix F f))) (A = nat, F = (\(A : U) -> list)),tt)))
+</pre><h2>Anamorphism</h2><code>ana  (A: U) (F: U -> U) (coalg: A -> F A) (a: A): fix F
+    = Fix (fmap A (fix F) F (ana A F coalg) (coalg a))
+</code><h2>Hylomorphism</h2><code>hylo (A B: U) (F: U -> U)
+     (alg: F B -> B) (coalg: A -> F A) (a: A): B
+    = alg (fmap A B F (hylo A B F alg coalg) (coalg a))
+</code><h2>Paramorphism</h2><code>para (A: U) (F: U -> U)
+     (psi: F (tuple (fix F) A) -> A) (f: fix F): A
+    = psi (fmap (fix F) (tuple (fix F) A) F (\(m: fix F)
+    -> pair m (para A F psi m)) (unfix F f))</code></section></div></article><footer class="footer"><img class="footer__logo" src="https://longchenpa.guru/seal.png" width="50"><span class="footer__copy">2016&mdash;2017 &copy; Groupoid Infinity</span></footer><script src="//groupoid.space/bundle.js"></script><script src="//groupoid.space/highlight.js"></script></body></html>
