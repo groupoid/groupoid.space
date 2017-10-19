@@ -57,7 +57,7 @@ block content
                 code.
                     ind (F: U -> U) (A: U): U
                         = (in_: F (fix F) -> fix F)
-                        * (unfix_: fix F -> F (fix F))
+                        * (in_rev: fix F -> F (fix F))
                         * (fold_: (F A -> A) -> fix F -> A)
                         * Unit
                 p.
@@ -65,6 +65,21 @@ block content
                 code.
                     inductive (F: U -> U) (A: U): ind F A
                         = (embed F,unfix F,cata A F,tt)
+
+                h2 Coinductive
+                p.
+                    All arrows are reversed, in is out, fold is ufold.
+                code.
+                    coind (F: U -> U) (A: U): U
+                        = (out_: F (fix F) -> fix F)
+                        * (out_rev: fix F -> F (fix F))
+                        * (unfold_: (F A -> A) -> fix F -> A)
+                        * Unit
+                p.
+                    Then instance of this type class would be:
+                code.
+                    coinductive (F: U -> U) (A: U) : coind A F
+                        = (unfix F,embed F,ana A F,tt)
 
                 h2 Inductive List Nat
                 p.
@@ -95,8 +110,11 @@ block content
                 p.
 
                 h3 Anamorphism
+                p.
+                    Anamorphism is used to build instances of coinductive
+                    data types and represents generic stream unfold.
                 code.
-                    ana  (A: U) (F: U -> U) (coalg: A -> F A) (a: A): fix F
+                    ana (A: U) (F: U -> U) (coalg: A -> F A) (a: A): fix F
                         = Fix (fmap A (fix F) F (ana A F coalg) (coalg a))
 
                 h3 Hylomorphism

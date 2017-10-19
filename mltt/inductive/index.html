@@ -15,10 +15,16 @@ Assume we have fmap defined somewhere else.</p><code>fmap (A B: U) (F: U -> U): 
 </code><h2>Inductive</h2><p>Let's rewrite fix data type as an interface structure along
 with its fold:</p><code>ind (F: U -> U) (A: U): U
     = (in_: F (fix F) -> fix F)
-    * (unfix_: fix F -> F (fix F))
+    * (in_rev: fix F -> F (fix F))
     * (fold_: (F A -> A) -> fix F -> A)
     * Unit</code><p>Then instance of this type class would be:</p><code>inductive (F: U -> U) (A: U): ind F A
     = (embed F,unfix F,cata A F,tt)
+</code><h2>Coinductive</h2><p>All arrows are reversed, in is out, fold is ufold.</p><code>coind (F: U -> U) (A: U): U
+    = (out_: F (fix F) -> fix F)
+    * (out_rev: fix F -> F (fix F))
+    * (unfold_: (F A -> A) -> fix F -> A)
+    * Unit</code><p>Then instance of this type class would be:</p><code>coinductive (F: U -> U) (A: U) : coind A F
+    = (unfix F,embed F,ana A F,tt)
 </code><h2>Inductive List Nat</h2><p>Here is example of inductive encoding of list nat:</p><code>> inductive list</code><pre>EVAL: (\(A : U) -> (embed F,(unfix F,(cata A F,tt)))) (F = (\(A : U) -> list))</pre><code>> inductive list nat</code><pre>EVAL: ((\(x : F (fix F)) -> Fix x) (F = (\(A : U) -> list)),
 (unfix (\(A : U) -> list),((\(alg : Pi \(_ : F A) -> A) ->
 \(f : fix F) -> alg (fmap (fix F) A F (cata A F alg)
@@ -27,7 +33,8 @@ with its fold:</p><code>ind (F: U -> U) (A: U): U
 You may use Sigma, but in case of PTS with self types
 you need this:</p><code>data tuple (A B: U) = pair (a: A) (b: B)
 fst (A B: U): tuple A B -> A = split pair a b -> a
-snd (A B: U): tuple A B -> B = split pair a b -> b</code><p></p><h3>Anamorphism</h3><code>ana  (A: U) (F: U -> U) (coalg: A -> F A) (a: A): fix F
+snd (A B: U): tuple A B -> B = split pair a b -> b</code><p></p><h3>Anamorphism</h3><p>Anamorphism is used to build instances of coinductive
+data types and represents generic stream unfold.</p><code>ana (A: U) (F: U -> U) (coalg: A -> F A) (a: A): fix F
     = Fix (fmap A (fix F) F (ana A F coalg) (coalg a))
 </code><h3>Hylomorphism</h3><code>hylo (A B: U) (F: U -> U)
      (alg: F B -> B) (coalg: A -> F A) (a: A): B
