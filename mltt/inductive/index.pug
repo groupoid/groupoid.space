@@ -117,6 +117,15 @@ block content
                     F (ana A F coalg) (coalg a))) (A = nat, F = (\(A :
                     U) -> stream)),tt)))
 
+                h2 Hylomorphism
+                p.
+                    Hylomorphism is a bi-functor that could be taken as axiom,
+                    as all other recursion schemas are derivable from it.
+                code.
+                    hylo (A B: U) (F: U -> U)
+                         (alg: F B -> B) (coalg: A -> F A) (a: A): B
+                        = alg (fmap A B F (hylo A B F alg coalg) (coalg a))
+
                 h2 Appendix
 
                 h3 Prelude
@@ -129,13 +138,6 @@ block content
                     fst (A B: U): tuple A B -> A = split pair a b -> a
                     snd (A B: U): tuple A B -> B = split pair a b -> b
                 p.
-
-
-                h3 Hylomorphism
-                code.
-                    hylo (A B: U) (F: U -> U)
-                         (alg: F B -> B) (coalg: A -> F A) (a: A): B
-                        = alg (fmap A B F (hylo A B F alg coalg) (coalg a))
 
                 h3 Paramorphism
                 code.

@@ -38,14 +38,15 @@ data types and represents generic stream unfold.</p><code>ana (A: U) (F: U -> U)
 \(_ : A) -> F A) -> \(a : A) -> Fix (fmap A (fix F)
 F (ana A F coalg) (coalg a))) (A = nat, F = (\(A :
 U) -> stream)),tt)))
-</pre><h2>Appendix</h2><h3>Prelude</h3><p>First we need to set up an inductive type tuple for para.
+</pre><h2>Hylomorphism</h2><p>Hylomorphism is a bi-functor that could be taken as axiom,
+as all other recursion schemas are derivable from it.</p><code>hylo (A B: U) (F: U -> U)
+     (alg: F B -> B) (coalg: A -> F A) (a: A): B
+    = alg (fmap A B F (hylo A B F alg coalg) (coalg a))
+</code><h2>Appendix</h2><h3>Prelude</h3><p>First we need to set up an inductive type tuple for para.
 You may use Sigma, but in case of PTS with self types
 you need this:</p><code>data tuple (A B: U) = pair (a: A) (b: B)
 fst (A B: U): tuple A B -> A = split pair a b -> a
-snd (A B: U): tuple A B -> B = split pair a b -> b</code><p></p><h3>Hylomorphism</h3><code>hylo (A B: U) (F: U -> U)
-     (alg: F B -> B) (coalg: A -> F A) (a: A): B
-    = alg (fmap A B F (hylo A B F alg coalg) (coalg a))
-</code><h3>Paramorphism</h3><code>para (A: U) (F: U -> U)
+snd (A B: U): tuple A B -> B = split pair a b -> b</code><p></p><h3>Paramorphism</h3><code>para (A: U) (F: U -> U)
      (psi: F (tuple (fix F) A) -> A) (f: fix F): A
     = psi (fmap (fix F) (tuple (fix F) A) F (\(m: fix F)
     -> pair m (para A F psi m)) (unfix F f))
