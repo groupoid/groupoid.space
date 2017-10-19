@@ -132,11 +132,20 @@ block content
 
                 h3 Prelude
                 p.
-                    First we need to set up an inductive type tuple for para.
-                    You may use Sigma, but in case of PTS with self types
-                    you need this:
+                    First we need to set up an inductive type tuple for para
+                    and either type for apomorphism.
                 code.
-                    data tuple (A B: U) = pair (a: A) (b: B)
+                    data tuple  (A B: U) = pair  (a: A) (b: B)
+                    data either (A B: U) = left  (a: A)
+                                         | right (b: B)
+
+                    either_ (A B C: U): (A -> C) -> (B -> C) ->
+                                        (either A B) -> C
+                        = \(b: A -> C) -> \(c: B -> C) ->
+                            split@(either A B -> C) with
+                                left x -> b x
+                                right y -> c y
+
                     fst (A B: U): tuple A B -> A = split pair a b -> a
                     snd (A B: U): tuple A B -> B = split pair a b -> b
                 p.
@@ -147,6 +156,46 @@ block content
                          (psi: F (tuple (fix F) A) -> A) (f: fix F): A
                         = psi (fmap (fix F) (tuple (fix F) A) F (\(m: fix F)
                         -> pair m (para A F psi m)) (unfix F f))
+
+                h3 Zygomorphism
+                code.
+                    zygo (A B: U) (F: U -> U) (g: F A -> A)
+                         (alg: F (tuple A B) -> B) (f: fix F): B
+                        = snd A B (cata (tuple A B) F (\(x: F (tuple A B))
+                        -> pair (g(fmap (tuple A B) A F (\(y: tuple A B)
+                        -> fst A B y) x)) (alg x)) f)
+
+                h3 Prepromorphism
+                code.
+                    prepro (A: U) (F: U -> U) (nt: F(fix F) ->
+                        F(fix F)) (alg: F A -> A) (f: fix F): A
+                        = alg(fmap (fix F) A F (\(x: fix F) ->
+                        prepro A F nt alg (cata (fix F) F (\(y: F(fix F))
+                        -> Fix (nt(y))) x)) (unfix F f))
+
+                h3 Prepromorphism
+                code.
+                    postpro (A: U) (F: U -> U) (nt : F(fix F) ->
+                        F(fix F)) (coalg: A -> F A) (a: A): fix F
+                        = Fix(fmap A (fix F) F (\(x: A) ->
+                        ana (fix F) F (\(y: fix F)
+                        -> nt(unfix F y)) (postpro A F nt coalg x)) (coalg a))
+
+                h3 Apomorphism
+                code.
+                    apo (A: U) (F: U -> U) (coalg: A ->
+                        F(either (fix F) A)) (a: A): fix F
+                        = Fix(fmap (either (fix F) A) (fix F) F
+                        (\(x: either (fix F) A) -> either_ (fix F) A (fix F)
+                        (idfun (fix F)) (apo A F coalg) x) (coalg a))
+
+                h3 Gapomorphism
+                code.
+                    gapo (A B: U) (F: U -> U) (coalg: A -> F A)
+                        (coalg2: B -> F(either A B)) (b: B): fix F
+                        = Fix((fmap (either A B) (fix F) F (\(x: either A B)
+                        -> either_ A B (fix F) (\(y: A) -> ana A F coalg y) (\(z: B)
+                        -> gapo A B F coalg coalg2 z) x) (coalg2 b)))
 
                 p.
                     The code is <a href="https://raw.githubusercontent.com/groupoid/infinity/master/base/lambek.ctt">here</a>.
