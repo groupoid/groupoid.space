@@ -52,7 +52,8 @@ block content
 
                 h2 Inductive
                 p.
-                    Let's rewrite fix data type as a structure:
+                    Let's rewrite fix data type as an interface structure along
+                    with its fold:
                 code.
                     ind (F: U -> U) (A: U): U
                         = (in_: F (fix F) -> fix F)
