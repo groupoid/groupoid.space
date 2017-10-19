@@ -22,12 +22,12 @@ embed (F: U -> U): F (fix F) -> fix F = \(x: F (fix F)) -> Fix x
 (unfix (\(A : U) -> list),((\(alg : Pi \(_ : F A) -> A) ->
 \(f : fix F) -> alg (fmap (fix F) A F (cata A F alg)
 (unfix F f))) (A = nat, F = (\(A : U) -> list)),tt)))
-</pre><h2>Anamorphism</h2><code>ana  (A: U) (F: U -> U) (coalg: A -> F A) (a: A): fix F
+</pre><h2>Appendix</h2><h3>Anamorphism</h3><code>ana  (A: U) (F: U -> U) (coalg: A -> F A) (a: A): fix F
     = Fix (fmap A (fix F) F (ana A F coalg) (coalg a))
-</code><h2>Hylomorphism</h2><code>hylo (A B: U) (F: U -> U)
+</code><h3>Hylomorphism</h3><code>hylo (A B: U) (F: U -> U)
      (alg: F B -> B) (coalg: A -> F A) (a: A): B
     = alg (fmap A B F (hylo A B F alg coalg) (coalg a))
-</code><h2>Paramorphism</h2><code>para (A: U) (F: U -> U)
+</code><h3>Paramorphism</h3><code>para (A: U) (F: U -> U)
      (psi: F (tuple (fix F) A) -> A) (f: fix F): A
     = psi (fmap (fix F) (tuple (fix F) A) F (\(m: fix F)
     -> pair m (para A F psi m)) (unfix F f))</code></section></div></article><footer class="footer"><img class="footer__logo" src="https://longchenpa.guru/seal.png" width="50"><span class="footer__copy">2016&mdash;2017 &copy; Groupoid Infinity</span></footer><script src="//groupoid.space/bundle.js"></script><script src="//groupoid.space/highlight.js"></script></body></html>
