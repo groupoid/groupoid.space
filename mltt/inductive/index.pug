@@ -44,6 +44,8 @@ block content
                     Assume we have fmap defined somewhere else.
                 code.
                     fmap (A B: U) (F: U -> U): (A -> B) -> F A -> F B = undefined
+                p.
+                    Then cata is defined as follows:
                 code.
                     cata (A: U) (F: U -> U) (alg: F A -> A) (f: fix F): A
                         = alg (fmap (fix F) A F (cata A F alg) (unfix F f))
