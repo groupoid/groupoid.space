@@ -39,7 +39,9 @@ data types and represents generic stream unfold.</p><code>ana (A: U) (F: U -> U)
 F (ana A F coalg) (coalg a))) (A = nat, F = (\(A :
 U) -> stream)),tt)))
 </pre><h2>Hylomorphism</h2><p>Hylomorphism is a bi-functor that could be taken as axiom,
-as all other recursion schemas are derivable from it.</p><code>hylo (A B: U) (F: U -> U)
+as all other recursion schemas are derivable from it.
+More common, (Co)-Inductive types could be represented
+as di-algebras.</p><code>hylo (A B: U) (F: U -> U)
      (alg: F B -> B) (coalg: A -> F A) (a: A): B
     = alg (fmap A B F (hylo A B F alg coalg) (coalg a))
 </code><h2>Appendix</h2><h3>Prelude</h3><p>First we need to set up an inductive type tuple for para.
