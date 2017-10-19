@@ -12,7 +12,7 @@ embed (F: U -> U): F (fix F) -> fix F = \(x: F (fix F)) -> Fix x
 </code><h2>Catamorphism</h2><p>Catamorphism is known as generalized version of fold.
 Assume we have fmap defined somewhere else.</p><code>fmap (A B: U) (F: U -> U): (A -> B) -> F A -> F B = undefined</code><p>Then cata is defined as follows:</p><code>cata (A: U) (F: U -> U) (alg: F A -> A) (f: fix F): A
     = alg (fmap (fix F) A F (cata A F alg) (unfix F f))
-</code><h2>Inductive</h2><p>Lets rewrite fix data type as a structure:</p><code>ind (F: U -> U) (A: U): U
+</code><h2>Inductive</h2><p>Let's rewrite fix data type as a structure:</p><code>ind (F: U -> U) (A: U): U
     = (in_: F (fix F) -> fix F)
     * (unfix_: fix F -> F (fix F))
     * (fold_: (F A -> A) -> fix F -> A)
