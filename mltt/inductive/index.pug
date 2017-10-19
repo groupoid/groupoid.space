@@ -24,10 +24,6 @@ block content
                     in the typechecker core in order to express this encoding.
                     We will use <mark>cubical</mark> typechecker for modeling. You may want
                     to try this in Agda, Idris, Coq or any MLTT prover.
-                p.
-                    Then assume we have fmap defined somewhere else.
-                code.
-                    fmap (A B: U) (F: U -> U): (A -> B) -> F A -> F B = undefined
 
                 h2 Fixpoint
                 p.
@@ -45,6 +41,9 @@ block content
                 h2 Catamorphism
                 p.
                     Catamorphism is known as generalized version of fold.
+                    Assume we have fmap defined somewhere else.
+                code.
+                    fmap (A B: U) (F: U -> U): (A -> B) -> F A -> F B = undefined
                 code.
                     cata (A: U) (F: U -> U) (alg: F A -> A) (f: fix F): A
                         = alg (fmap (fix F) A F (cata A F alg) (unfix F f))
