@@ -111,3 +111,6 @@ block content
                          (psi: F (tuple (fix F) A) -> A) (f: fix F): A
                         = psi (fmap (fix F) (tuple (fix F) A) F (\(m: fix F)
                         -> pair m (para A F psi m)) (unfix F f))
+
+                p.
+                    The code is <a href="https://raw.githubusercontent.com/groupoid/infinity/master/base/lambek.ctt">here</a>.
