@@ -49,7 +49,8 @@ block content
                 code.
                     cata (A: U) (F: U -> U) (alg: F A -> A) (f: fix F): A
                         = alg (fmap (fix F) A F (cata A F alg) (unfix F f))
-                h2 Iniductive
+
+                h2 Inductive
                 p.
                     Lets rewrite fix data type as a structure:
                 code.
