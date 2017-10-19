@@ -66,16 +66,17 @@ snd (A B: U): tuple A B -> B = split pair a b -> b</code><p></p><h3>Paramorphism
     = snd A B (cata (tuple A B) F (\(x: F (tuple A B))
     -> pair (g(fmap (tuple A B) A F (\(y: tuple A B)
     -> fst A B y) x)) (alg x)) f)
-</code><h3>Prepromorphism</h3><code>prepro (A: U) (F: U -> U) (nt: F(fix F) ->
-    F(fix F)) (alg: F A -> A) (f: fix F): A
-    = alg(fmap (fix F) A F (\(x: fix F) ->
+</code><h3>Prepromorphism</h3><code>prepro (A: U) (F: U -> U)
+       (nt: F(fix F) -> F(fix F)) (alg: F A -> A)
+       (f: fix F): A
+    = alg (fmap (fix F) A F (\(x: fix F) ->
     prepro A F nt alg (cata (fix F) F (\(y: F(fix F))
     -> Fix (nt(y))) x)) (unfix F f))
 </code><h3>Prepromorphism</h3><code>postpro (A: U) (F: U -> U) (nt : F(fix F) ->
     F(fix F)) (coalg: A -> F A) (a: A): fix F
     = Fix(fmap A (fix F) F (\(x: A) ->
-    ana (fix F) F (\(y: fix F)
-    -> nt(unfix F y)) (postpro A F nt coalg x)) (coalg a))
+    ana (fix F) F (\(y: fix F) -> nt(unfix F y))
+    (postpro A F nt coalg x)) (coalg a))
 </code><h3>Apomorphism</h3><code>apo (A: U) (F: U -> U) (coalg: A ->
     F(either (fix F) A)) (a: A): fix F
     = Fix(fmap (either (fix F) A) (fix F) F

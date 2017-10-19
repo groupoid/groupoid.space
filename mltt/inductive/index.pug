@@ -167,9 +167,10 @@ block content
 
                 h3 Prepromorphism
                 code.
-                    prepro (A: U) (F: U -> U) (nt: F(fix F) ->
-                        F(fix F)) (alg: F A -> A) (f: fix F): A
-                        = alg(fmap (fix F) A F (\(x: fix F) ->
+                    prepro (A: U) (F: U -> U)
+                           (nt: F(fix F) -> F(fix F)) (alg: F A -> A)
+                           (f: fix F): A
+                        = alg (fmap (fix F) A F (\(x: fix F) ->
                         prepro A F nt alg (cata (fix F) F (\(y: F(fix F))
                         -> Fix (nt(y))) x)) (unfix F f))
 
@@ -178,8 +179,8 @@ block content
                     postpro (A: U) (F: U -> U) (nt : F(fix F) ->
                         F(fix F)) (coalg: A -> F A) (a: A): fix F
                         = Fix(fmap A (fix F) F (\(x: A) ->
-                        ana (fix F) F (\(y: fix F)
-                        -> nt(unfix F y)) (postpro A F nt coalg x)) (coalg a))
+                        ana (fix F) F (\(y: fix F) -> nt(unfix F y))
+                        (postpro A F nt coalg x)) (coalg a))
 
                 h3 Apomorphism
                 code.
