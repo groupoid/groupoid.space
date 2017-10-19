@@ -105,6 +105,18 @@ block content
                     \(f : fix F) -> alg (fmap (fix F) A F (cata A F alg)
                     (unfix F f))) (A = nat, F = (\(A : U) -> list)),tt)))
 
+                h2 Coinductive Stream Nat
+                p.
+                    Here is example of coinductive encoding of stream nat:
+                code.
+                    > coinductive stream nat
+                pre.
+                    EVAL: (unfix (\(A : U) -> stream),((\(x : F (fix F))
+                    -> Fix x) (F = (\(A : U) -> stream)),((\(coalg : Pi
+                    \(_ : A) -> F A) -> \(a : A) -> Fix (fmap A (fix F)
+                    F (ana A F coalg) (coalg a))) (A = nat, F = (\(A :
+                    U) -> stream)),tt)))
+
                 h2 Appendix
 
                 h3 Prelude

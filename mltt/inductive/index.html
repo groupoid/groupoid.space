@@ -33,6 +33,11 @@ data types and represents generic stream unfold.</p><code>ana (A: U) (F: U -> U)
 (unfix (\(A : U) -> list),((\(alg : Pi \(_ : F A) -> A) ->
 \(f : fix F) -> alg (fmap (fix F) A F (cata A F alg)
 (unfix F f))) (A = nat, F = (\(A : U) -> list)),tt)))
+</pre><h2>Coinductive Stream Nat</h2><p>Here is example of coinductive encoding of stream nat:</p><code>> coinductive stream nat</code><pre>EVAL: (unfix (\(A : U) -> stream),((\(x : F (fix F))
+-> Fix x) (F = (\(A : U) -> stream)),((\(coalg : Pi
+\(_ : A) -> F A) -> \(a : A) -> Fix (fmap A (fix F)
+F (ana A F coalg) (coalg a))) (A = nat, F = (\(A :
+U) -> stream)),tt)))
 </pre><h2>Appendix</h2><h3>Prelude</h3><p>First we need to set up an inductive type tuple for para.
 You may use Sigma, but in case of PTS with self types
 you need this:</p><code>data tuple (A B: U) = pair (a: A) (b: B)
