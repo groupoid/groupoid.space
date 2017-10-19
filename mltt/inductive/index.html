@@ -21,7 +21,7 @@ embed (F: U -> U): F (fix F) -> fix F = \(x: F (fix F)) -> Fix x
     * (fold_: (F A -> A) -> fix F -> A)
     * Unit</code><p>Then instance of this type class would be:</p><code>inductive (F: U -> U) (A: U): ind F A
     = (embed F,unfix F,cata A F,tt)
-</code><h2>Inductive List Nat</h2><p>Here is example of inductive encoding of list nat:</p><code>> inductive list nat</code><pre>EVAL: ((\(x : F (fix F)) -> Fix x) (F = (\(A : U) -> list)),
+</code><h2>Inductive List Nat</h2><p>Here is example of inductive encoding of list nat:</p><code>> inductive list</code><pre>EVAL: (\(A : U) -> (embed F,(unfix F,(cata A F,tt)))) (F = (\(A : U) -> list))</pre><code>> inductive list nat</code><pre>EVAL: ((\(x : F (fix F)) -> Fix x) (F = (\(A : U) -> list)),
 (unfix (\(A : U) -> list),((\(alg : Pi \(_ : F A) -> A) ->
 \(f : fix F) -> alg (fmap (fix F) A F (cata A F alg)
 (unfix F f))) (A = nat, F = (\(A : U) -> list)),tt)))

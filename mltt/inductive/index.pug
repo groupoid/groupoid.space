@@ -74,6 +74,10 @@ block content
                 p.
                     Here is example of inductive encoding of list nat:
                 code.
+                    > inductive list
+                pre.
+                    EVAL: (\(A : U) -> (embed F,(unfix F,(cata A F,tt)))) (F = (\(A : U) -> list))
+                code.
                     > inductive list nat
                 pre.
                     EVAL: ((\(x : F (fix F)) -> Fix x) (F = (\(A : U) -> list)),
