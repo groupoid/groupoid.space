@@ -20,19 +20,10 @@ block content
                 p.
                     This work shows how to encode inductive types using recursion schemes.
                     Unlike Church-Boem-Berarducci encoding, that can encode inductive types
-                    without fixpoint, recursion shcemes require the fixpoint contructor
+                    without fixpoint, recursion shcemes require the fixpoint constructor
                     in the typechecker core in order to express this encoding.
-                p.
-                h2 Prelude
-                p.
                     We will use <mark>cubical</mark> typechecker for modeling. You may want
-                    to try this in Agda, Idris, Coq or any MLTT prover. First we need to
-                    set up inductive type typle, because the <b>para</b> is unexpressible
-                    with Sigma pair type.
-                code.
-                    data tuple (A B: U) = pair (a: A) (b: B)
-                    fst (A B: U): tuple A B -> A = split pair a b -> a
-                    snd (A B: U): tuple A B -> B = split pair a b -> b
+                    to try this in Agda, Idris, Coq or any MLTT prover.
                 p.
                     Then assume we have fmap defined somewhere else.
                 code.
@@ -88,6 +79,16 @@ block content
                     (unfix F f))) (A = nat, F = (\(A : U) -> list)),tt)))
 
                 h2 Appendix
+
+                h3 Prelude
+                p.
+                    First we need to
+                    set up an inductive type tuple for para.
+                code.
+                    data tuple (A B: U) = pair (a: A) (b: B)
+                    fst (A B: U): tuple A B -> A = split pair a b -> a
+                    snd (A B: U): tuple A B -> B = split pair a b -> b
+                p.
 
                 h3 Anamorphism
                 code.
