@@ -9,10 +9,8 @@ with Sigma pair type.</p><code>data tuple (A B: U) = pair (a: A) (b: B)
 fst (A B: U): tuple A B -> A = split pair a b -> a
 snd (A B: U): tuple A B -> B = split pair a b -> b</code><p>Then assume we have fmap defined somewhere else.</p><code>fmap (A B: U) (F: U -> U): (A -> B) -> F A -> F B = undefined
 </code><h2>Fixpoint</h2><p>The core fixpoint reflection type is parametrized by functor
-and has only one contructor with value of this functor applied to fixpoint itself.
-We also need functions for projecting and embedding valued to/from
-fixpoint functiorial stream.</p><code>data fix (F: U -> U) = Fix (point: F (fix F))
-unfix (F: U -> U): fix F -> F (fix F) = split Fix f -> f
+and has only one contructor with value of this functor applied to fixpoint itself.</p><code>data fix (F: U -> U) = Fix (point: F (fix F))</code><p>We also need functions for projecting and embedding valued to/from
+fixpoint functiorial stream.</p><code>unfix (F: U -> U): fix F -> F (fix F) = split Fix f -> f
 embed (F: U -> U): F (fix F) -> fix F = \(x: F (fix F)) -> Fix x
 </code><h2>Catamorphism</h2><p>Catamorphism is known as generalized version of fold.</p><code>cata (A: U) (F: U -> U) (alg: F A -> A) (f: fix F): A
     = alg (fmap (fix F) A F (cata A F alg) (unfix F f))</code><h2>Iniductive</h2><p>Lets rewrite fix data type as a structure:</p><code>ind (F: U -> U) (A: U): U

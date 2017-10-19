@@ -42,10 +42,12 @@ block content
                 p.
                     The core fixpoint reflection type is parametrized by functor
                     and has only one contructor with value of this functor applied to fixpoint itself.
+                code.
+                    data fix (F: U -> U) = Fix (point: F (fix F))
+                p.
                     We also need functions for projecting and embedding valued to/from
                     fixpoint functiorial stream.
                 code.
-                    data fix (F: U -> U) = Fix (point: F (fix F))
                     unfix (F: U -> U): fix F -> F (fix F) = split Fix f -> f
                     embed (F: U -> U): F (fix F) -> fix F = \(x: F (fix F)) -> Fix x
 
