@@ -21,8 +21,9 @@ Assume we have fmap defined somewhere else.</p><code>fmap (A B: U) (F: U -> U): 
 (unfix (\(A : U) -> list),((\(alg : Pi \(_ : F A) -> A) ->
 \(f : fix F) -> alg (fmap (fix F) A F (cata A F alg)
 (unfix F f))) (A = nat, F = (\(A : U) -> list)),tt)))
-</pre><h2>Appendix</h2><h3>Prelude</h3><p>First we need to
-set up an inductive type tuple for para.</p><code>data tuple (A B: U) = pair (a: A) (b: B)
+</pre><h2>Appendix</h2><h3>Prelude</h3><p>First we need to set up an inductive type tuple for para.
+You may use Sigma, but in case of PTS with self types
+you need this:</p><code>data tuple (A B: U) = pair (a: A) (b: B)
 fst (A B: U): tuple A B -> A = split pair a b -> a
 snd (A B: U): tuple A B -> B = split pair a b -> b</code><p></p><h3>Anamorphism</h3><code>ana  (A: U) (F: U -> U) (coalg: A -> F A) (a: A): fix F
     = Fix (fmap A (fix F) F (ana A F coalg) (coalg a))

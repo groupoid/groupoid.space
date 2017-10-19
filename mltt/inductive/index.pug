@@ -83,8 +83,9 @@ block content
 
                 h3 Prelude
                 p.
-                    First we need to
-                    set up an inductive type tuple for para.
+                    First we need to set up an inductive type tuple for para.
+                    You may use Sigma, but in case of PTS with self types
+                    you need this:
                 code.
                     data tuple (A B: U) = pair (a: A) (b: B)
                     fst (A B: U): tuple A B -> A = split pair a b -> a
