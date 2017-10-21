@@ -5,6 +5,11 @@ block title
     script(src='//cdnjs.cloudflare.com/ajax/libs/mathjax/2.6.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML')
     script.
         MathJax.Hub.Config({ displayAlign: "left",
+                             jax: ["input/TeX", "input/MathML", "input/AsciiMath", "output/CommonHTML", "output/NativeMML"],
+                             extensions: ["tex2jax.js", "asciimath2jax.js", "mml2jax.js", "MathMenu.js", "MathZoom.js"],
+                             AsciiMath: { useMathMLspacing: true },
+                             TeX: { extensions: ["AMSmath.js", "AMSsymbols.js", "autoload-all.js"] },
+                             MathML: { extensions: ["mml3.js", "content-mathml.js"] },
                              AuthorInit: function() {
                                 MathJax.Hub.Register.StartupHook("TeX AMSmath Ready", function() {
                                       var TEX = MathJax.InputJax.TeX;
