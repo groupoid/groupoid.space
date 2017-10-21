@@ -44,10 +44,14 @@ to the theory of polynomial functors and well-founded trees<sup>4</sup>,
 known in programming languages as inductive types with data
 and record core primitives of type checker. In fact recursive inductive
 types<sup>3</sup> could be encoded in PTS using non-recursive representation
-Berarducci<sup>1</sup> or Categorical<sup>6</sup> encoding.</p><code>data O<sub>4</sub> = O<sub>3</sub>
-        | Sum: tele → list Branch → O<sub>4</sub>
-        | Split: name → list Branch → O<sub>4</sub>
-        | Ctor: name → list O<sub>4</sub> → O<sub>4</sub></code><p>The non-well-founded trees or infinite coinductive trees<sup>6,8</sup>
+Berarducci<sup>1</sup> or Categorical<sup>6</sup> encoding.</p><code>data tele   (A: U) = empty | tel: name → A → tele A
+data branch (A: U) =         br: name → list name → A
+data label  (A: U) =         lab: name → tele A
+
+data O<sub>4</sub> = O<sub>3</sub>
+        | Sum: name → tele → list (label O<sub>4</sub>)
+        | Split: name → list (branch O<sub>4</sub>)
+        | Ctor: name → list O<sub>4</sub></code><p>The non-well-founded trees or infinite coinductive trees<sup>6,8</sup>
 are useful for modeling infinite process running which is part
 of Milner's Pi-calculus. Coinductive streams are part of any MLTT base library.</p><p>1. A.Berarducci. Automatic Synthesis of Typed Lambda-Programs. 1985 <br>
 2. F.Pfenning. Inductively defined types in the CoC. 1989 <br>
