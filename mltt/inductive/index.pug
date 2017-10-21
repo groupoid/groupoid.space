@@ -8,15 +8,17 @@ block title
                              TeX: { extensions: ["AMSmath.js", "AMSsymbols.js", "autoload-all.js"] },
                              extensions: ["tex2jax.js", "asciimath2jax.js", "mml2jax.js", "MathMenu.js", "MathZoom.js"],
                              AuthorInit: function() {
-                                MathJax.Hub.Register.StartupHook("TeX AMSmath Ready", function() {
-                                      var TEX = MathJax.InputJax.TeX;
-                                      TEX.Definitions.Add({
-                                        macros: {
+                                 MathJax.Hub.Register.StartupHook("TeX AMSmath Ready", function() {
+                                     var TEX = MathJax.InputJax.TeX;
+                                     TEX.Definitions.Add({
+                                         macros: {
                                            llparenthesis: ['Macro', '\\mathopen{\u2987}'],
-                                           rrparenthesis: ['Macro', '\\mathclose{\u2988}']
+                                           rrparenthesis: ['Macro', '\\mathclose{\u2988}'],
+                                           llbracket:     ['Macro', '\\mathopen{\u27E6}'],
+                                           rrbracket:     ['Macro', '\\mathclose{\u27E7}'],
                                          }
-                                      });
-                                });
+                                     });
+                                 });
                              },
                              tex2jax: { inlineMath: [['$','$'], ['\\(','\\)']],
                                         processEscapes: true }
@@ -69,6 +71,28 @@ block content
                     cata (A: U) (F: U -> U) (alg: F A -> A) (f: fix F): A
                         = alg (fmap (fix F) A F (cata A F alg) (unfix F f))
 
+                h2 F-Algebra
+                p.
+                .semantics
+                    figure.
+                        $\require{AMScd}$
+                        \begin{CD}
+                             F C @>\varphi>> C\\
+                             @V F f V V\ =\ @VV f V\\
+                             F D @>>\psi> D
+                        \end{CD}
+                        $f \circ \varphi = \psi \circ F f$
+
+                    figure.
+                        $\require{AMScd}$
+                        \begin{CD}
+                             C @>\varphi>> F C\\
+                             @V f V V\ =\ @VV F f V\\
+                             D @>\psi>> F D
+                        \end{CD}
+                        $\psi \circ f = F f \circ \varphi$
+
+                h2 Initial Algebra
                 p.
                 .semantics
                     figure.
@@ -81,9 +105,9 @@ block content
 
                         $\require{AMScd}$
                         \begin{CD}
-                             F \mu F @>in>> \mu F\\
-                             @V fmap\ =\ F \llparenthesis \varphi \rrparenthesis V V\ =\ @VV \llparenthesis \varphi \rrparenthesis\ =\ cata V\\
-                             F C @>>\varphi> C
+                             C @>\phi>> F C\\
+                             @V ana\ =\ \llbracket \phi \rrbrackeet V V\ =\ @VV fmap\ =\ F \llbracket \phi \rrbrackeet V\\
+                             \nu F @>out>> F \nu F
                         \end{CD}
 
                 h2 Inductive

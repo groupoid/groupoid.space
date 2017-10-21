@@ -2,15 +2,17 @@
                         TeX: { extensions: ["AMSmath.js", "AMSsymbols.js", "autoload-all.js"] },
                         extensions: ["tex2jax.js", "asciimath2jax.js", "mml2jax.js", "MathMenu.js", "MathZoom.js"],
                         AuthorInit: function() {
-                           MathJax.Hub.Register.StartupHook("TeX AMSmath Ready", function() {
-                                 var TEX = MathJax.InputJax.TeX;
-                                 TEX.Definitions.Add({
-                                   macros: {
+                            MathJax.Hub.Register.StartupHook("TeX AMSmath Ready", function() {
+                                var TEX = MathJax.InputJax.TeX;
+                                TEX.Definitions.Add({
+                                    macros: {
                                       llparenthesis: ['Macro', '\\mathopen{\u2987}'],
-                                      rrparenthesis: ['Macro', '\\mathclose{\u2988}']
+                                      rrparenthesis: ['Macro', '\\mathclose{\u2988}'],
+                                      llbracket:     ['Macro', '\\mathopen{\u27E6}'],
+                                      rrbracket:     ['Macro', '\\mathclose{\u27E7}'],
                                     }
-                                 });
-                           });
+                                });
+                            });
                         },
                         tex2jax: { inlineMath: [['$','$'], ['\\(','\\)']],
                                    processEscapes: true }
@@ -31,7 +33,21 @@ embed (F: U -> U): F (fix F) -> fix F = \(x: F (fix F)) -> Fix x
 Assume we have fmap defined somewhere else. It is used
 to construct instances of inductive datatypes.</p><code>fmap (A B: U) (F: U -> U): (A -> B) -> F A -> F B = undefined</code><p>Then cata is defined as follows:</p><code>cata (A: U) (F: U -> U) (alg: F A -> A) (f: fix F): A
     = alg (fmap (fix F) A F (cata A F alg) (unfix F f))
-</code><p></p><div class="semantics"><figure>$\require{AMScd}$
+</code><h2>F-Algebra</h2><p></p><div class="semantics"><figure>$\require{AMScd}$
+\begin{CD}
+     F C @>\varphi>> C\\
+     @V F f V V\ =\ @VV f V\\
+     F D @>>\psi> D
+\end{CD}
+$f \circ \varphi = \psi \circ F f$
+</figure><figure>$\require{AMScd}$
+\begin{CD}
+     C @>\varphi>> F C\\
+     @V f V V\ =\ @VV F f V\\
+     D @>\psi>> F D
+\end{CD}
+$\psi \circ f = F f \circ \varphi$
+</figure></div><h2>Initial Algebra</h2><p></p><div class="semantics"><figure>$\require{AMScd}$
 \begin{CD}
      F \mu F @>in>> \mu F\\
      @V fmap\ =\ F \llparenthesis \varphi \rrparenthesis V V\ =\ @VV \llparenthesis \varphi \rrparenthesis\ =\ cata V\\
@@ -40,9 +56,9 @@ to construct instances of inductive datatypes.</p><code>fmap (A B: U) (F: U -> U
 
 $\require{AMScd}$
 \begin{CD}
-     F \mu F @>in>> \mu F\\
-     @V fmap\ =\ F \llparenthesis \varphi \rrparenthesis V V\ =\ @VV \llparenthesis \varphi \rrparenthesis\ =\ cata V\\
-     F C @>>\varphi> C
+     C @>\phi>> F C\\
+     @V ana\ =\ \llbracket \phi \rrbrackeet V V\ =\ @VV fmap\ =\ F \llbracket \phi \rrbrackeet V\\
+     \nu F @>out>> F \nu F
 \end{CD}
 </figure></div><h2>Inductive</h2><p>Let's rewrite fix data type as an interface structure along
 with its fold:</p><code>ind (F: U -> U) (A: U): U
