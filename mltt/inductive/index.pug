@@ -4,7 +4,21 @@ block title
     title INDUCTIVE
     script(src='//cdnjs.cloudflare.com/ajax/libs/mathjax/2.6.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML')
     script.
-        MathJax.Hub.Config({ displayAlign: "left", tex2jax: { inlineMath: [['$','$'], ['\\(','\\)']], processEscapes: true } });
+        MathJax.Hub.Config({ displayAlign: "left",
+                             AuthorInit: function() {
+                                MathJax.Hub.Register.StartupHook("TeX AMSmath Ready", function() {
+                                      var TEX = MathJax.InputJax.TeX;
+                                      TEX.Definitions.Add({
+                                        macros: {
+                                           llparenthesis: ['Macro', '\\mathopen{\u2987}'],
+                                           rrparenthesis: ['Macro', '\\mathclose{\u2988}'],
+                                         }
+                                      });
+                                });
+                             },
+                             tex2jax: { inlineMath: [['$','$'], ['\\(','\\)']],
+                                        processEscapes: true }
+                         });
 
 block content
     +header('../../groupoid.svg', '(Co)-Inductive Data Types', 'Well-founded Trees and Corecursion')
