@@ -118,6 +118,16 @@ snd (A B: U): tuple A B -> B = split pair a b -> b</code><p></p><h3>Paramorphism
      (psi: F (tuple (fix F) A) -> A) (f: fix F): A
     = psi (fmap (fix F) (tuple (fix F) A) F (\(m: fix F)
     -> pair m (para A F psi m)) (unfix F f))
+</code><h3>Metamorphism</h3><code>meta  (A B: U) (F: U -> U)
+      (f: A -> F A) (e: B -> A)
+      (g: F B -> B) (t: fix F): fix F
+    = ana A F f (e (cata B F g t))
+</code><h3>Mutumorphism</h3><code>mutu (A B: U) (F: U -> U)
+     (f: F (tuple A B) -> B)
+     (g: F (tuple B A) -> A)
+     (t: fix F): A
+   = g (fmap (fix F) (tuple B A) F (\(x: fix F) ->
+     pair (mutu B A F g f x) (mutu A B F f g x)) (unfix F t))
 </code><h3>Zygomorphism</h3><code>zygo (A B: U) (F: U -> U) (g: F A -> A)
      (alg: F (tuple A B) -> B) (f: fix F): B
     = snd A B (cata (tuple A B) F (\(x: F (tuple A B))
@@ -144,4 +154,27 @@ snd (A B: U): tuple A B -> B = split pair a b -> b</code><p></p><h3>Paramorphism
     = Fix((fmap (either A B) (fix F) F (\(x: either A B)
     -> either_ A B (fix F) (\(y: A) -> ana A F coalg y)
     (\(z: B) -> gapo A B F coalg coalg2 z) x) (coalg2 b)))
+</code><h2>Morphisms on Initial Objects</h2><h3>Histomorphism</h3><code>histo (A:U) (F: U->U) (f: F (cofree F A) -> A) (z: fix F): A =
+  extract A F ((cata (cofree F A) F (\(x: F (cofree F A)) ->
+    CoFree (Fix (CoBindF (f x) ((fmap (cofree F A)
+    (fix (cofreeF F A)) F (uncofree A F) x)))))) z) where
+  extract (A: U) (F: U -> U): cofree F A -> A = split
+    CoFree f -> unpack_fix f where
+  unpack_fix: fix (cofreeF F A) -> A = split
+    Fix f -> unpack_cofree f where
+  unpack_cofree: cofreeF F A (fix (cofreeF F A)) -> A = split
+    CoBindF a -> a
+</code><h3>Futumorphism</h3><code>futu (A: U) (F: U -> U) (f: A -> F (free F A)) (a: A): fix F =
+    Fix (fmap (free F A) (fix F) F (\(z: free F A) -> w z) (f a)) where
+  w: free F A -> fix F = split
+    Free x -> unpack x where
+  unpack_free: freeF F A (fix (freeF F A)) -> fix F = split
+    ReturnF x -> futu A F f x
+    BindF g -> Fix (fmap (fix (freeF F A)) (fix F) F (\(x: fix (freeF F A)) -> w (Free x)) g)
+  unpack: fix (freeF F A) -> fix F = split
+    Fix x -> unpack_free x
+</code><h3>Chronomorphism</h3><code>chrono (A B: U) (F: U -> U)
+   (f: F (cofree F B) -> B)
+   (g: A -> F (free F A))
+   (a: A): B = histo B F f (futu A F g a)
 </code><p>The code is <a href="https://raw.githubusercontent.com/groupoid/infinity/master/base/lambek.ctt">here</a>.</p></section></div></article><footer class="footer"><img class="footer__logo" src="https://longchenpa.guru/seal.png" width="50"><span class="footer__copy">2016&mdash;2017 &copy; Groupoid Infinity</span></footer><script src="//groupoid.space/bundle.js"></script><script src="//groupoid.space/highlight.js"></script></body></html>
