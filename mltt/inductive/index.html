@@ -34,7 +34,7 @@ to construct instances of inductive datatypes.</p><code>fmap (A B: U) (F: U -> U
 </code><p></p><div class="semantics"><figure>$\require{AMScd}$
 \begin{CD}
      F \mu F @>in>> \mu F\\
-     @V fmap = F \mathopen{\u2987} \varphi \rrparenthesis V V= @VV \llparenthesis \varphi \rrparenthesis = cata V\\
+     @V fmap = F \llparenthesis \varphi \rrparenthesis V V= @VV \llparenthesis \varphi \rrparenthesis = cata V\\
      F C @>>\varphi> C
 \end{CD}
 </figure></div><h2>Inductive</h2><p>Let's rewrite fix data type as an interface structure along
