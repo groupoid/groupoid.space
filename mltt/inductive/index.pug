@@ -58,21 +58,13 @@ block content
                     unfix (F: U -> U): fix F -> F (fix F) = split Fix f -> f
                     embed (F: U -> U): F (fix F) -> fix F = \(x: F (fix F)) -> Fix x
 
-                h2 Catamorphism
-                p.
-                    Catamorphism is known as generalized version of fold.
-                    Assume we have fmap defined somewhere else. It is used
-                    to construct instances of inductive datatypes.
-                code.
-                    fmap (A B: U) (F: U -> U): (A -> B) -> F A -> F B = undefined
-                p.
-                    Then cata is defined as follows:
-                code.
-                    cata (A: U) (F: U -> U) (alg: F A -> A) (f: fix F): A
-                        = alg (fmap (fix F) A F (cata A F alg) (unfix F f))
-
                 h2 F-Algebra
                 p.
+                    F-Algebras gives us a categorical understanding recursive types.
+                    Let $F : C \rightarrow C$ be an endofunctor on category $C$.
+                    An F-algebra is a pair $(C, \phi)$, where C is an object and $\phi\ : F\ C \rightarrow C$
+                    an arrow in the category C. The object C is the carrier and the functor
+                    F is the signature of the algebra. Reversing arrows gives us F-coalgebra.
                 .semantics
                     figure.
                         $\require{AMScd}$
@@ -94,6 +86,11 @@ block content
 
                 h2 Initial Algebra
                 p.
+                    A F-algebra $(\mu F, in)$ is the initial F-algebra if for any F-algebra $(C, \varphi)$
+                    there exists a unique arrow $\llparenthesis \varphi \rrparenthesis : \mu F \rightarrow C$ where $f = \llparenthesis \varphi \rrparenthesis$
+                    and is called catamorphism. Similar a F-coalgebra $(\nu F, out)$ is the terminal
+                    F-coalgebra if for any F-coalgebra $(C, \varphi)$ there exists unique arrow
+                    $\llbracket \varphi \rrbracket : C \rightarrow \nu F$ where $f = \llbracket \varphi \rrbracket$
                 .semantics
                     figure.
                         $\require{AMScd}$
@@ -112,6 +109,20 @@ block content
                              \nu F @>>out> F \nu F
                         \end{CD}
                         $out \circ f =  F f \circ \phi == f = \llbracket \phi \rrbracket$
+
+                h2 Catamorphism
+                p.
+                    Catamorphism is known as generalized version of fold.
+                    Assume we have fmap defined somewhere else. It is used
+                    to construct instances of inductive datatypes.
+                code.
+                    fmap (A B: U) (F: U -> U): (A -> B) -> F A -> F B = undefined
+                p.
+                    Then cata is defined as follows:
+                code.
+                    cata (A: U) (F: U -> U) (alg: F A -> A) (f: fix F): A
+                        = alg (fmap (fix F) A F (cata A F alg) (unfix F f))
+
 
                 h2 Inductive
                 p.
