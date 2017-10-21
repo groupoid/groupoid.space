@@ -53,6 +53,15 @@ block content
                     cata (A: U) (F: U -> U) (alg: F A -> A) (f: fix F): A
                         = alg (fmap (fix F) A F (cata A F alg) (unfix F f))
 
+                .semantics
+                    figure.
+                        $\require{AMScd}$
+                        \begin{CD}
+                             F \mu F @>in>> \mu F\\
+                             @V fmap = F \varphi V V= @VV \varphi = cata V\\
+                             F C @>>\varphi> C
+                        \end{CD}
+
                 h2 Inductive
                 p.
                     Let's rewrite fix data type as an interface structure along

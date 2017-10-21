@@ -15,7 +15,13 @@ embed (F: U -> U): F (fix F) -> fix F = \(x: F (fix F)) -> Fix x
 Assume we have fmap defined somewhere else. It is used
 to construct instances of inductive datatypes.</p><code>fmap (A B: U) (F: U -> U): (A -> B) -> F A -> F B = undefined</code><p>Then cata is defined as follows:</p><code>cata (A: U) (F: U -> U) (alg: F A -> A) (f: fix F): A
     = alg (fmap (fix F) A F (cata A F alg) (unfix F f))
-</code><h2>Inductive</h2><p>Let's rewrite fix data type as an interface structure along
+</code><div class="semantics"><figure>$\require{AMScd}$
+\begin{CD}
+     F \mu F @>in>> \mu F\\
+     @V fmap = F \varphi V V= @VV \varphi = cata V\\
+     F C @>>\varphi> C
+\end{CD}
+</figure></div><h2>Inductive</h2><p>Let's rewrite fix data type as an interface structure along
 with its fold:</p><code>ind (F: U -> U) (A: U): U
     = (in_: F (fix F) -> fix F)
     * (in_rev: fix F -> F (fix F))
