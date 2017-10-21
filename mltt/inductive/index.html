@@ -154,7 +154,14 @@ snd (A B: U): tuple A B -> B = split pair a b -> b</code><p></p><h3>Paramorphism
     = Fix((fmap (either A B) (fix F) F (\(x: either A B)
     -> either_ A B (fix F) (\(y: A) -> ana A F coalg y)
     (\(z: B) -> gapo A B F coalg coalg2 z) x) (coalg2 b)))
-</code><h2>Morphisms on Initial Objects</h2><h3>Histomorphism</h3><code>histo (A:U) (F: U->U) (f: F (cofree F A) -> A) (z: fix F): A =
+</code><h2>Morphisms on Initial Objects</h2><code>data freeF   (F: U -> U) (A B: U)  = ReturnF (a: A) | BindF (f: F B)
+data cofreeF (F: U -> U) (A B: U)  = CoBindF (a: A)         (f: F B)
+data free    (F: U -> U) (A: U)    = Free    (_: fix (freeF     F A))
+data cofree  (F: U -> U) (A: U)    = CoFree  (_: fix (cofreeF   F A))
+
+unfree   (A: U) (F: U -> U): free   F A -> fix (freeF   F A) = split Free   a -> a
+uncofree (A: U) (F: U -> U): cofree F A -> fix (cofreeF F A) = split CoFree a -> a
+</code><h3>Histomorphism</h3><code>histo (A:U) (F: U->U) (f: F (cofree F A) -> A) (z: fix F): A =
   extract A F ((cata (cofree F A) F (\(x: F (cofree F A)) ->
     CoFree (Fix (CoBindF (f x) ((fmap (cofree F A)
     (fix (cofreeF F A)) F (uncofree A F) x)))))) z) where

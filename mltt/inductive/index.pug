@@ -288,6 +288,14 @@ block content
                         (\(z: B) -> gapo A B F coalg coalg2 z) x) (coalg2 b)))
 
                 h2 Morphisms on Initial Objects
+                code.
+                    data freeF   (F: U -> U) (A B: U)  = ReturnF (a: A) | BindF (f: F B)
+                    data cofreeF (F: U -> U) (A B: U)  = CoBindF (a: A)         (f: F B)
+                    data free    (F: U -> U) (A: U)    = Free    (_: fix (freeF     F A))
+                    data cofree  (F: U -> U) (A: U)    = CoFree  (_: fix (cofreeF   F A))
+
+                    unfree   (A: U) (F: U -> U): free   F A -> fix (freeF   F A) = split Free   a -> a
+                    uncofree (A: U) (F: U -> U): cofree F A -> fix (cofreeF F A) = split CoFree a -> a
 
                 h3 Histomorphism
                 code.
