@@ -5,6 +5,7 @@ block title
     script(src='//cdn.mathjax.org/mathjax/latest/MathJax.js')
     script.
         MathJax.Hub.Config({ displayAlign: "left",
+                             jax: ["input/TeX", "input/MathML", "input/AsciiMath", "output/CommonHTML", "output/NativeMML"],
                              TeX: { extensions: ["AMSmath.js", "AMSsymbols.js", "autoload-all.js"] },
                              extensions: ["tex2jax.js", "asciimath2jax.js", "mml2jax.js", "MathMenu.js", "MathZoom.js"],
                              AuthorInit: function() {
