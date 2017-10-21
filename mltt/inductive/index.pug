@@ -2,10 +2,11 @@ extends ../../layout.pug
 
 block title
     title INDUCTIVE
-    script(src='//cdnjs.cloudflare.com/ajax/libs/mathjax/2.6.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML')
+    script(src='//cdn.mathjax.org/mathjax/latest/MathJax.js')
     script.
         MathJax.Hub.Config({ displayAlign: "left",
                              TeX: { extensions: ["AMSmath.js", "AMSsymbols.js", "autoload-all.js"] },
+                             extensions: ["tex2jax.js", "asciimath2jax.js", "mml2jax.js", "MathMenu.js", "MathZoom.js"],
                              AuthorInit: function() {
                                 MathJax.Hub.Register.StartupHook("TeX AMSmath Ready", function() {
                                       var TEX = MathJax.InputJax.TeX;
@@ -20,17 +21,6 @@ block title
                              tex2jax: { inlineMath: [['$','$'], ['\\(','\\)']],
                                         processEscapes: true }
                          });
-
-        (function(d, script) {
-          script = d.createElement('script');
-          script.type = 'text/javascript';
-          script.async = true;
-          script.onload = function() {
-            // remote script has loaded
-          };
-          script.src = 'https://cdn.mathjax.org/mathjax/latest/MathJax.js';
-          d.getElementsByTagName('head')[0].appendChild(script);
-        }(document));
 
 block content
     +header('../../groupoid.svg', '(Co)-Inductive Data Types', 'Well-founded Trees and Corecursion')
