@@ -102,13 +102,16 @@ block content
                              @V fmap\ =\ F \llparenthesis \varphi \rrparenthesis V V\ =\ @VV \llparenthesis \varphi \rrparenthesis\ =\ cata V\\
                              F C @>>\varphi> C
                         \end{CD}
+                        $f \circ in = \varphi \circ F f == f = \llparenthesis \varphi \rrparenthesis$
 
+                    figure.
                         $\require{AMScd}$
                         \begin{CD}
                              C @>\phi>> F C\\
-                             @V ana\ =\ \llbracket \phi \rrbrackeet V V\ =\ @VV fmap\ =\ F \llbracket \phi \rrbrackeet V\\
+                             @V ana\ =\ \llbracket \phi \rrbracket V V\ =\ @VV fmap\ =\ F \llbracket \phi \rrbracket V\\
                              \nu F @>out>> F \nu F
                         \end{CD}
+                        $out \circ f =  F f \circ \phi == f = \llbracket \phi \rrbracket$
 
                 h2 Inductive
                 p.
