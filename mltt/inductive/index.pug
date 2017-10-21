@@ -201,9 +201,7 @@ block content
                          (alg: F B -> B) (coalg: A -> F A) (a: A): B
                         = alg (fmap A B F (hylo A B F alg coalg) (coalg a))
 
-                h2 Appendix
-
-                h3 Prelude
+                h2 Prelude
                 p.
                     First we need to set up an inductive type tuple for para
                     and either type for apomorphism.
@@ -223,12 +221,74 @@ block content
                     snd (A B: U): tuple A B -> B = split pair a b -> b
                 p.
 
+                h2 Primitive Recursion
+
                 h3 Paramorphism
                 code.
                     para (A: U) (F: U -> U)
                          (psi: F (tuple (fix F) A) -> A) (f: fix F): A
                         = psi (fmap (fix F) (tuple (fix F) A) F (\(m: fix F)
                         -> pair m (para A F psi m)) (unfix F f))
+
+                h3 Apomorphism
+                code.
+                    apo (A: U) (F: U -> U) (coalg: A ->
+                        F(either (fix F) A)) (a: A): fix F
+                        = Fix(fmap (either (fix F) A) (fix F) F
+                        (\(x: either (fix F) A) -> either_ (fix F) A (fix F)
+                        (idfun (fix F)) (apo A F coalg) x) (coalg a))
+
+                h3 Gapomorphism
+                code.
+                    gapo (A B: U) (F: U -> U) (coalg: A -> F A)
+                        (coalg2: B -> F(either A B)) (b: B): fix F
+                        = Fix((fmap (either A B) (fix F) F (\(x: either A B)
+                        -> either_ A B (fix F) (\(y: A) -> ana A F coalg y)
+                        (\(z: B) -> gapo A B F coalg coalg2 z) x) (coalg2 b)))
+
+                h2 Morphisms on (Co)-Initial Objects
+                code.
+                    data freeF   (F: U -> U) (A B: U)  = ReturnF (a: A) | BindF (f: F B)
+                    data cofreeF (F: U -> U) (A B: U)  = CoBindF (a: A)         (f: F B)
+                    data free    (F: U -> U) (A: U)    = Free    (_: fix (freeF     F A))
+                    data cofree  (F: U -> U) (A: U)    = CoFree  (_: fix (cofreeF   F A))
+
+                    unfree   (A: U) (F: U -> U): free   F A -> fix (freeF   F A) = split Free   a -> a
+                    uncofree (A: U) (F: U -> U): cofree F A -> fix (cofreeF F A) = split CoFree a -> a
+
+                h3 Histomorphism
+                code.
+                    histo (A:U) (F: U->U) (f: F (cofree F A) -> A) (z: fix F): A =
+                      extract A F ((cata (cofree F A) F (\(x: F (cofree F A)) ->
+                        CoFree (Fix (CoBindF (f x) ((fmap (cofree F A)
+                        (fix (cofreeF F A)) F (uncofree A F) x)))))) z) where
+                      extract (A: U) (F: U -> U): cofree F A -> A = split
+                        CoFree f -> unpack_fix f where
+                      unpack_fix: fix (cofreeF F A) -> A = split
+                        Fix f -> unpack_cofree f where
+                      unpack_cofree: cofreeF F A (fix (cofreeF F A)) -> A = split
+                        CoBindF a -> a
+
+                h3 Futumorphism
+                code.
+                    futu (A: U) (F: U -> U) (f: A -> F (free F A)) (a: A): fix F =
+                        Fix (fmap (free F A) (fix F) F (\(z: free F A) -> w z) (f a)) where
+                      w: free F A -> fix F = split
+                        Free x -> unpack x where
+                      unpack_free: freeF F A (fix (freeF F A)) -> fix F = split
+                        ReturnF x -> futu A F f x
+                        BindF g -> Fix (fmap (fix (freeF F A)) (fix F) F (\(x: fix (freeF F A)) -> w (Free x)) g)
+                      unpack: fix (freeF F A) -> fix F = split
+                        Fix x -> unpack_free x
+
+                h3 Chronomorphism
+                code.
+                    chrono (A B: U) (F: U -> U)
+                       (f: F (cofree F B) -> B)
+                       (g: A -> F (free F A))
+                       (a: A): B = histo B F f (futu A F g a)
+
+                h2 Appendix
 
                 h3 Metamorphism
                 code.
@@ -270,64 +330,6 @@ block content
                         = Fix(fmap A (fix F) F (\(x: A) ->
                         ana (fix F) F (\(y: fix F) -> nt(unfix F y))
                         (postpro A F nt coalg x)) (coalg a))
-
-                h3 Apomorphism
-                code.
-                    apo (A: U) (F: U -> U) (coalg: A ->
-                        F(either (fix F) A)) (a: A): fix F
-                        = Fix(fmap (either (fix F) A) (fix F) F
-                        (\(x: either (fix F) A) -> either_ (fix F) A (fix F)
-                        (idfun (fix F)) (apo A F coalg) x) (coalg a))
-
-                h3 Gapomorphism
-                code.
-                    gapo (A B: U) (F: U -> U) (coalg: A -> F A)
-                        (coalg2: B -> F(either A B)) (b: B): fix F
-                        = Fix((fmap (either A B) (fix F) F (\(x: either A B)
-                        -> either_ A B (fix F) (\(y: A) -> ana A F coalg y)
-                        (\(z: B) -> gapo A B F coalg coalg2 z) x) (coalg2 b)))
-
-                h2 Morphisms on Initial Objects
-                code.
-                    data freeF   (F: U -> U) (A B: U)  = ReturnF (a: A) | BindF (f: F B)
-                    data cofreeF (F: U -> U) (A B: U)  = CoBindF (a: A)         (f: F B)
-                    data free    (F: U -> U) (A: U)    = Free    (_: fix (freeF     F A))
-                    data cofree  (F: U -> U) (A: U)    = CoFree  (_: fix (cofreeF   F A))
-
-                    unfree   (A: U) (F: U -> U): free   F A -> fix (freeF   F A) = split Free   a -> a
-                    uncofree (A: U) (F: U -> U): cofree F A -> fix (cofreeF F A) = split CoFree a -> a
-
-                h3 Histomorphism
-                code.
-                    histo (A:U) (F: U->U) (f: F (cofree F A) -> A) (z: fix F): A =
-                      extract A F ((cata (cofree F A) F (\(x: F (cofree F A)) ->
-                        CoFree (Fix (CoBindF (f x) ((fmap (cofree F A)
-                        (fix (cofreeF F A)) F (uncofree A F) x)))))) z) where
-                      extract (A: U) (F: U -> U): cofree F A -> A = split
-                        CoFree f -> unpack_fix f where
-                      unpack_fix: fix (cofreeF F A) -> A = split
-                        Fix f -> unpack_cofree f where
-                      unpack_cofree: cofreeF F A (fix (cofreeF F A)) -> A = split
-                        CoBindF a -> a
-
-                h3 Futumorphism
-                code.
-                    futu (A: U) (F: U -> U) (f: A -> F (free F A)) (a: A): fix F =
-                        Fix (fmap (free F A) (fix F) F (\(z: free F A) -> w z) (f a)) where
-                      w: free F A -> fix F = split
-                        Free x -> unpack x where
-                      unpack_free: freeF F A (fix (freeF F A)) -> fix F = split
-                        ReturnF x -> futu A F f x
-                        BindF g -> Fix (fmap (fix (freeF F A)) (fix F) F (\(x: fix (freeF F A)) -> w (Free x)) g)
-                      unpack: fix (freeF F A) -> fix F = split
-                        Fix x -> unpack_free x
-
-                h3 Chronomorphism
-                code.
-                    chrono (A B: U) (F: U -> U)
-                       (f: F (cofree F B) -> B)
-                       (g: A -> F (free F A))
-                       (a: A): B = histo B F f (futu A F g a)
 
                 p.
                     The code is <a href="https://raw.githubusercontent.com/groupoid/infinity/master/base/lambek.ctt">here</a>.

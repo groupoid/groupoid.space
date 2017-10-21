@@ -101,7 +101,7 @@ More common, (Co)-Inductive types could be represented
 as di-algebras.</p><code>hylo (A B: U) (F: U -> U)
      (alg: F B -> B) (coalg: A -> F A) (a: A): B
     = alg (fmap A B F (hylo A B F alg coalg) (coalg a))
-</code><h2>Appendix</h2><h3>Prelude</h3><p>First we need to set up an inductive type tuple for para
+</code><h2>Prelude</h2><p>First we need to set up an inductive type tuple for para
 and either type for apomorphism.</p><code>data tuple  (A B: U) = pair  (a: A) (b: B)
 data either (A B: U) = left  (a: A)
                      | right (b: B)
@@ -114,36 +114,10 @@ either_ (A B C: U): (A -> C) -> (B -> C) ->
             right y -> c y
 
 fst (A B: U): tuple A B -> A = split pair a b -> a
-snd (A B: U): tuple A B -> B = split pair a b -> b</code><p></p><h3>Paramorphism</h3><code>para (A: U) (F: U -> U)
+snd (A B: U): tuple A B -> B = split pair a b -> b</code><p></p><h2>Primitive Recursion</h2><h3>Paramorphism</h3><code>para (A: U) (F: U -> U)
      (psi: F (tuple (fix F) A) -> A) (f: fix F): A
     = psi (fmap (fix F) (tuple (fix F) A) F (\(m: fix F)
     -> pair m (para A F psi m)) (unfix F f))
-</code><h3>Metamorphism</h3><code>meta  (A B: U) (F: U -> U)
-      (f: A -> F A) (e: B -> A)
-      (g: F B -> B) (t: fix F): fix F
-    = ana A F f (e (cata B F g t))
-</code><h3>Mutumorphism</h3><code>mutu (A B: U) (F: U -> U)
-     (f: F (tuple A B) -> B)
-     (g: F (tuple B A) -> A)
-     (t: fix F): A
-   = g (fmap (fix F) (tuple B A) F (\(x: fix F) ->
-     pair (mutu B A F g f x) (mutu A B F f g x)) (unfix F t))
-</code><h3>Zygomorphism</h3><code>zygo (A B: U) (F: U -> U) (g: F A -> A)
-     (alg: F (tuple A B) -> B) (f: fix F): B
-    = snd A B (cata (tuple A B) F (\(x: F (tuple A B))
-    -> pair (g(fmap (tuple A B) A F (\(y: tuple A B)
-    -> fst A B y) x)) (alg x)) f)
-</code><h3>Prepromorphism</h3><code>prepro (A: U) (F: U -> U)
-       (nt: F(fix F) -> F(fix F)) (alg: F A -> A)
-       (f: fix F): A
-    = alg (fmap (fix F) A F (\(x: fix F) ->
-    prepro A F nt alg (cata (fix F) F (\(y: F(fix F))
-    -> Fix (nt(y))) x)) (unfix F f))
-</code><h3>Postpromorphism</h3><code>postpro (A: U) (F: U -> U) (nt : F(fix F) ->
-    F(fix F)) (coalg: A -> F A) (a: A): fix F
-    = Fix(fmap A (fix F) F (\(x: A) ->
-    ana (fix F) F (\(y: fix F) -> nt(unfix F y))
-    (postpro A F nt coalg x)) (coalg a))
 </code><h3>Apomorphism</h3><code>apo (A: U) (F: U -> U) (coalg: A ->
     F(either (fix F) A)) (a: A): fix F
     = Fix(fmap (either (fix F) A) (fix F) F
@@ -154,7 +128,7 @@ snd (A B: U): tuple A B -> B = split pair a b -> b</code><p></p><h3>Paramorphism
     = Fix((fmap (either A B) (fix F) F (\(x: either A B)
     -> either_ A B (fix F) (\(y: A) -> ana A F coalg y)
     (\(z: B) -> gapo A B F coalg coalg2 z) x) (coalg2 b)))
-</code><h2>Morphisms on Initial Objects</h2><code>data freeF   (F: U -> U) (A B: U)  = ReturnF (a: A) | BindF (f: F B)
+</code><h2>Morphisms on (Co)-Initial Objects</h2><code>data freeF   (F: U -> U) (A B: U)  = ReturnF (a: A) | BindF (f: F B)
 data cofreeF (F: U -> U) (A B: U)  = CoBindF (a: A)         (f: F B)
 data free    (F: U -> U) (A: U)    = Free    (_: fix (freeF     F A))
 data cofree  (F: U -> U) (A: U)    = CoFree  (_: fix (cofreeF   F A))
@@ -184,4 +158,30 @@ uncofree (A: U) (F: U -> U): cofree F A -> fix (cofreeF F A) = split CoFree a ->
    (f: F (cofree F B) -> B)
    (g: A -> F (free F A))
    (a: A): B = histo B F f (futu A F g a)
+</code><h2>Appendix</h2><h3>Metamorphism</h3><code>meta  (A B: U) (F: U -> U)
+      (f: A -> F A) (e: B -> A)
+      (g: F B -> B) (t: fix F): fix F
+    = ana A F f (e (cata B F g t))
+</code><h3>Mutumorphism</h3><code>mutu (A B: U) (F: U -> U)
+     (f: F (tuple A B) -> B)
+     (g: F (tuple B A) -> A)
+     (t: fix F): A
+   = g (fmap (fix F) (tuple B A) F (\(x: fix F) ->
+     pair (mutu B A F g f x) (mutu A B F f g x)) (unfix F t))
+</code><h3>Zygomorphism</h3><code>zygo (A B: U) (F: U -> U) (g: F A -> A)
+     (alg: F (tuple A B) -> B) (f: fix F): B
+    = snd A B (cata (tuple A B) F (\(x: F (tuple A B))
+    -> pair (g(fmap (tuple A B) A F (\(y: tuple A B)
+    -> fst A B y) x)) (alg x)) f)
+</code><h3>Prepromorphism</h3><code>prepro (A: U) (F: U -> U)
+       (nt: F(fix F) -> F(fix F)) (alg: F A -> A)
+       (f: fix F): A
+    = alg (fmap (fix F) A F (\(x: fix F) ->
+    prepro A F nt alg (cata (fix F) F (\(y: F(fix F))
+    -> Fix (nt(y))) x)) (unfix F f))
+</code><h3>Postpromorphism</h3><code>postpro (A: U) (F: U -> U) (nt : F(fix F) ->
+    F(fix F)) (coalg: A -> F A) (a: A): fix F
+    = Fix(fmap A (fix F) F (\(x: A) ->
+    ana (fix F) F (\(y: fix F) -> nt(unfix F y))
+    (postpro A F nt coalg x)) (coalg a))
 </code><p>The code is <a href="https://raw.githubusercontent.com/groupoid/infinity/master/base/lambek.ctt">here</a>.</p></section></div></article><footer class="footer"><img class="footer__logo" src="https://longchenpa.guru/seal.png" width="50"><span class="footer__copy">2016&mdash;2017 &copy; Groupoid Infinity</span></footer><script src="//groupoid.space/bundle.js"></script><script src="//groupoid.space/highlight.js"></script></body></html>
