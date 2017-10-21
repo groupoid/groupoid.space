@@ -53,12 +53,13 @@ block content
                     cata (A: U) (F: U -> U) (alg: F A -> A) (f: fix F): A
                         = alg (fmap (fix F) A F (cata A F alg) (unfix F f))
 
+                p.
                 .semantics
                     figure.
                         $\require{AMScd}$
                         \begin{CD}
                              F \mu F @>in>> \mu F\\
-                             @V fmap = F \varphi V V= @VV \varphi = cata V\\
+                             @V fmap = F \llbracket \varphi \rrbracket V V= @VV \llbracket \varphi \rrbracket = cata V\\
                              F C @>>\varphi> C
                         \end{CD}
 
