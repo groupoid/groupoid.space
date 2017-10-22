@@ -25,7 +25,7 @@ block title
                          };
 
 block content
-    +header('../../groupoid.svg', '(Co)-Inductive Data Types', 'Well-founded Trees and Corecursion')
+    +header('../../groupoid.svg', '(Co)-Inductive Data Types', 'Well-founded Trees and Corecursion in Martin-Löf Type Theory with Fixpoint')
     article.main
         .om
             section
@@ -62,7 +62,7 @@ block content
                 p.
                     F-Algebras gives us a categorical understanding recursive types.
                     Let $F : C \rightarrow C$ be an endofunctor on category $C$.
-                    An F-algebra is a pair $(C, \phi)$, where C is an object and $\phi\ : F\ C \rightarrow C$
+                    An F-algebra is a pair $(C, \varphi)$, where C is an object and $\varphi\ : F\ C \rightarrow C$
                     an arrow in the category C. The object C is the carrier and the functor
                     F is the signature of the algebra. Reversing arrows gives us F-coalgebra.
                 .semantics
@@ -78,19 +78,19 @@ block content
                     figure.
                         $\require{AMScd}$
                         \begin{CD}
-                             C @>\varphi>> F C\\
+                             C @>\phi>> F C\\
                              @V f V V\ =\ @VV F f V\\
                              D @>>\psi> F D
                         \end{CD}
-                        $\psi \circ f = F f \circ \varphi$
+                        $\psi \circ f = F f \circ \phi$
 
                 h2 Initial Algebra
                 p.
                     A F-algebra $(\mu F, in)$ is the initial F-algebra if for any F-algebra $(C, \varphi)$
                     there exists a unique arrow $\llparenthesis \varphi \rrparenthesis : \mu F \rightarrow C$ where $f = \llparenthesis \varphi \rrparenthesis$
                     and is called catamorphism. Similar a F-coalgebra $(\nu F, out)$ is the terminal
-                    F-coalgebra if for any F-coalgebra $(C, \varphi)$ there exists unique arrow
-                    $\llbracket \varphi \rrbracket : C \rightarrow \nu F$ where $f = \llbracket \varphi \rrbracket$
+                    F-coalgebra if for any F-coalgebra $(C, \phi)$ there exists unique arrow
+                    $\llbracket \phi \rrbracket : C \rightarrow \nu F$ where $f = \llbracket \phi \rrbracket$
                 .semantics
                     figure.
                         $\require{AMScd}$

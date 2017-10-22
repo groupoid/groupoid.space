@@ -17,7 +17,7 @@
                         tex2jax: { inlineMath: [['$','$'], ['\\(','\\)']],
                                    processEscapes: true }
                     };
-</script></head><body class="content"><header class="header"><a href="//groupoid.space/"><img class="header__logo" src="../../groupoid.svg"/></a><div class="header__titles"><h1 class="header__title">(Co)-Inductive Data Types</h1><h4 class="header__subtitle">Well-founded Trees and Corecursion</h4></div></header><article class="main"><div class="om"><section><h1>Article</h1></section></div><aside>Denis Stoyanov<br>Maxim Sokhatsky<time>DATE: 19 OCT 2017</time></aside><div class="om"><section><h2>Abstract</h2><p>This work shows how to encode inductive types using recursion schemes.
+</script></head><body class="content"><header class="header"><a href="//groupoid.space/"><img class="header__logo" src="../../groupoid.svg"/></a><div class="header__titles"><h1 class="header__title">(Co)-Inductive Data Types</h1><h4 class="header__subtitle">Well-founded Trees and Corecursion in Martin-Löf Type Theory with Fixpoint</h4></div></header><article class="main"><div class="om"><section><h1>Article</h1></section></div><aside>Denis Stoyanov<br>Maxim Sokhatsky<time>DATE: 19 OCT 2017</time></aside><div class="om"><section><h2>Abstract</h2><p>This work shows how to encode inductive types using recursion schemes.
 Unlike Church-Boem-Berarducci encoding, that can encode inductive types
 without fixpoint, recursion shcemes require the fixpoint constructor
 in the typechecker core in order to express this encoding.
@@ -31,7 +31,7 @@ fixpoint functiorial stream.</p><code>unfix (F: U -> U): fix F -> F (fix F) = sp
 embed (F: U -> U): F (fix F) -> fix F = \(x: F (fix F)) -> Fix x
 </code><h2>F-Algebra</h2><p>F-Algebras gives us a categorical understanding recursive types.
 Let $F : C \rightarrow C$ be an endofunctor on category $C$.
-An F-algebra is a pair $(C, \phi)$, where C is an object and $\phi\ : F\ C \rightarrow C$
+An F-algebra is a pair $(C, \varphi)$, where C is an object and $\varphi\ : F\ C \rightarrow C$
 an arrow in the category C. The object C is the carrier and the functor
 F is the signature of the algebra. Reversing arrows gives us F-coalgebra.</p><div class="semantics"><figure>$\require{AMScd}$
 \begin{CD}
@@ -42,16 +42,16 @@ F is the signature of the algebra. Reversing arrows gives us F-coalgebra.</p><di
 $f \circ \varphi = \psi \circ F f$
 </figure><figure>$\require{AMScd}$
 \begin{CD}
-     C @>\varphi>> F C\\
+     C @>\phi>> F C\\
      @V f V V\ =\ @VV F f V\\
      D @>>\psi> F D
 \end{CD}
-$\psi \circ f = F f \circ \varphi$
+$\psi \circ f = F f \circ \phi$
 </figure></div><h2>Initial Algebra</h2><p>A F-algebra $(\mu F, in)$ is the initial F-algebra if for any F-algebra $(C, \varphi)$
 there exists a unique arrow $\llparenthesis \varphi \rrparenthesis : \mu F \rightarrow C$ where $f = \llparenthesis \varphi \rrparenthesis$
 and is called catamorphism. Similar a F-coalgebra $(\nu F, out)$ is the terminal
-F-coalgebra if for any F-coalgebra $(C, \varphi)$ there exists unique arrow
-$\llbracket \varphi \rrbracket : C \rightarrow \nu F$ where $f = \llbracket \varphi \rrbracket$</p><div class="semantics"><figure>$\require{AMScd}$
+F-coalgebra if for any F-coalgebra $(C, \phi)$ there exists unique arrow
+$\llbracket \phi \rrbracket : C \rightarrow \nu F$ where $f = \llbracket \phi \rrbracket$</p><div class="semantics"><figure>$\require{AMScd}$
 \begin{CD}
      F \mu F @>in>> \mu F\\
      @V fmap\ =\ F \llparenthesis \varphi \rrparenthesis V V\ =\ @VV \llparenthesis \varphi \rrparenthesis\ =\ cata V\\
