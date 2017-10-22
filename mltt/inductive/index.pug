@@ -62,27 +62,28 @@ block content
                 p.
                     F-Algebras gives us a categorical understanding recursive types.
                     Let $F : C \rightarrow C$ be an endofunctor on category $C$.
-                    An F-algebra is a pair $(C, \varphi)$, where C is an object and $\varphi\ : F\ C \rightarrow C$
-                    an arrow in the category C. The object C is the carrier and the functor
+                    An F-algebra is a pair $(A, \varphi)$, where A
+                    is an object and $\varphi\ : F\ A \rightarrow A$
+                    is an morphism in the category $C$. The object A is the carrier and the functor
                     F is the signature of the algebra. Reversing arrows gives us F-coalgebra.
                 .semantics
                     figure.
                         $\require{AMScd}$
                         \begin{CD}
-                             F C @>\varphi>> C\\
-                             @V F f V V\ =\ @VV f V\\
-                             F D @>>\varpsi> D
+                            F C @>\varphi>> C\\
+                            @V F f V V\ =\ @VV f V\\
+                            F D @>>\psi> D
                         \end{CD}
-                        $f \circ \varphi = \varpsi \circ F f$
+                        $f \circ \varphi = \psi \circ F f$
 
                     figure.
                         $\require{AMScd}$
                         \begin{CD}
-                             C @>\phi>> F C\\
-                             @V f V V\ =\ @VV F f V\\
-                             D @>>\psi> F D
+                            C @>\phi>> F C\\
+                            @V f V V\ =\ @VV F f V\\
+                            D @>>\psi^*> F D
                         \end{CD}
-                        $\psi \circ f = F f \circ \phi$
+                        $\psi^* \circ f = F f \circ \phi$
 
                 h2 Initial Algebra
                 p.
@@ -109,6 +110,16 @@ block content
                              \nu F @>>out> F \nu F
                         \end{CD}
                         $out \circ f =  F f \circ \phi == f = \llbracket \phi \rrbracket$
+
+                h2 Example of Initial Algebra
+                p.
+                    The data type of <mark>list</mark> over a given set
+                    A can be represented as the initial algebra $\mu\ L_A in$
+                    of the functor $L_A(X) = 1 + (A \times X)$.
+                    Denote $\mu\ L_A = List (A)$. The constructor
+                    functions $nil: 1 \rightarrow List (A)$ and $cons: A \times
+                    List(A) \rightarrow List(A)$ are defined by $nil = in \circ inl$
+                    and $cons = in \circ inr$, so $in = [nil,cons]$.
 
                 h2 Catamorphism
                 p.

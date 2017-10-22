@@ -31,22 +31,23 @@ fixpoint functiorial stream.</p><code>unfix (F: U -> U): fix F -> F (fix F) = sp
 embed (F: U -> U): F (fix F) -> fix F = \(x: F (fix F)) -> Fix x
 </code><h2>F-Algebra</h2><p>F-Algebras gives us a categorical understanding recursive types.
 Let $F : C \rightarrow C$ be an endofunctor on category $C$.
-An F-algebra is a pair $(C, \varphi)$, where C is an object and $\varphi\ : F\ C \rightarrow C$
-an arrow in the category C. The object C is the carrier and the functor
+An F-algebra is a pair $(A, \varphi)$, where A
+is an object and $\varphi\ : F\ A \rightarrow A$
+is an morphism in the category $C$. The object A is the carrier and the functor
 F is the signature of the algebra. Reversing arrows gives us F-coalgebra.</p><div class="semantics"><figure>$\require{AMScd}$
 \begin{CD}
-     F C @>\varphi>> C\\
-     @V F f V V\ =\ @VV f V\\
-     F D @>>\varpsi> D
+    F C @>\varphi>> C\\
+    @V F f V V\ =\ @VV f V\\
+    F D @>>\psi> D
 \end{CD}
-$f \circ \varphi = \varpsi \circ F f$
+$f \circ \varphi = \psi \circ F f$
 </figure><figure>$\require{AMScd}$
 \begin{CD}
-     C @>\phi>> F C\\
-     @V f V V\ =\ @VV F f V\\
-     D @>>\psi> F D
+    C @>\phi>> F C\\
+    @V f V V\ =\ @VV F f V\\
+    D @>>\psi^*> F D
 \end{CD}
-$\psi \circ f = F f \circ \phi$
+$\psi^* \circ f = F f \circ \phi$
 </figure></div><h2>Initial Algebra</h2><p>A F-algebra $(\mu F, in)$ is the initial F-algebra if for any F-algebra $(C, \varphi)$
 there exists a unique arrow $\llparenthesis \varphi \rrparenthesis : \mu F \rightarrow C$ where $f = \llparenthesis \varphi \rrparenthesis$
 and is called catamorphism. Similar a F-coalgebra $(\nu F, out)$ is the terminal
@@ -65,7 +66,14 @@ $f \circ in = \varphi \circ F f == f = \llparenthesis \varphi \rrparenthesis$
      \nu F @>>out> F \nu F
 \end{CD}
 $out \circ f =  F f \circ \phi == f = \llbracket \phi \rrbracket$
-</figure></div><h2>Catamorphism</h2><p>Catamorphism is known as generalized version of fold.
+</figure></div><h2>Example of Initial Algebra</h2><p>The data type of <mark>list</mark> over a given set
+A can be represented as the initial algebra $\mu\ L_A in$
+of the functor $L_A(X) = 1 + (A \times X)$.
+Denote $\mu\ L_A = List (A)$. The constructor
+functions $nil: 1 \rightarrow List (A)$ and $cons: A \times
+List(A) \rightarrow List(A)$ are defined by $nil = in \circ inl$
+and $cons = in \circ inr$, so $in = [nil,cons]$.
+</p><h2>Catamorphism</h2><p>Catamorphism is known as generalized version of fold.
 Assume we have fmap defined somewhere else. It is used
 to construct instances of inductive datatypes.</p><code>fmap (A B: U) (F: U -> U): (A -> B) -> F A -> F B = undefined</code><p>Then cata is defined as follows:</p><code>cata (A: U) (F: U -> U) (alg: F A -> A) (f: fix F): A
     = alg (fmap (fix F) A F (cata A F alg) (unfix F f))
