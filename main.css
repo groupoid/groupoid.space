@@ -44,6 +44,9 @@ ul {
 img, figure {
   vertical-align: middle; }
 
+img {
+  margin-left: 20px; }
+
 .content {
   min-height: 100%;
   font-family: local;
