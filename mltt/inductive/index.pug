@@ -4,7 +4,7 @@ block title
     title INDUCTIVE
     script(src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-MML-AM_CHTML')
     script.
-     window.MathJax = { jax: ["input/TeX", "input/MathML", "input/AsciiMath", "output/CommonHTML", "output/NativeMML"],
+     MathJax.Hub.Config({ jax: ["input/TeX", "input/MathML", "input/AsciiMath", "output/CommonHTML", "output/NativeMML"],
                              TeX: { extensions: ["AMSmath.js", "AMSsymbols.js", "autoload-all.js"] },
                              extensions: ["tex2jax.js", "asciimath2jax.js", "mml2jax.js", "MathMenu.js", "MathZoom.js"],
                              AuthorInit: function() {
@@ -22,7 +22,7 @@ block title
                              },
                              tex2jax: { inlineMath: [['$','$'], ['\\(','\\)']],
                                         processEscapes: true }
-                         };
+                         });
 
 block content
     +header('../../groupoid.svg', '(Co)-Inductive Data Types', 'Well-founded Trees and Corecursion in Martin-Löf Type Theory with Fixpoint')
