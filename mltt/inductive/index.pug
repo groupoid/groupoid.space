@@ -7,6 +7,7 @@ block title
      window.MathJax = { jax: ["input/TeX", "input/MathML", "input/AsciiMath", "output/CommonHTML", "output/NativeMML"],
                              TeX: { extensions: ["AMSmath.js", "AMSsymbols.js", "autoload-all.js"] },
                              extensions: ["tex2jax.js", "asciimath2jax.js", "mml2jax.js", "MathMenu.js", "MathZoom.js"],
+                             "HTML-CSS": { imageFont: null }
                              AuthorInit: function() {
                                  MathJax.Hub.Register.StartupHook("TeX AMSmath Ready", function() {
                                      var TEX = MathJax.InputJax.TeX;
