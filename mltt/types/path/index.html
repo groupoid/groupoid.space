@@ -25,7 +25,7 @@ so you can easily define homogenous <mark>Path</mark>:</p><code>Path (A : U) (a 
     = PathP (&lt;i&gt; A) a b</code><p>The Path identity type defines a Path space. Elements
 of that space are functions from interval $[0,1]$ to
 a values of that path space.
-</p></section><section><h1>Intro</h1><h2>refl (A : U) (a : A) : Path A a a</h2><p>Returns a reflexivity path space for a given value of the type.
+</p></section><section><h1>Intro</h1><h2>Reflexivity Path Space</h2><code>refl (A : U) (a : A) : Path A a a</code><p>Returns a reflexivity path space for a given value of the type.
 The inhabitant of that path space is the lambda on the homotopy
 interval $[0,1]$ that returns a constant value a. Written in
 syntax as <mark>&lt;i&gt; a</mark>.
