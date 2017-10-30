@@ -112,7 +112,7 @@ data EX (t:Type): Type := (intro: effect ()  (exception t))
             λ (f,g: Type → Type)
             → (∀ (x,y: Type) → R x y)
             → Ro x y (f x) (g y)
-</code><h2 id="eq">a(href='path/') Path Identity</h2><code>record Id (A: Type): Type :=
+</code><h2 id="eq">a(name='path') <a href='path/'>Path</a></h2><code>record Id (A: Type): Type :=
        (Id: A → A → Type)
        (refl (a: A): Id a a)
        (Predicate: ∀ (x,y: A) → Id A x y → Type)
