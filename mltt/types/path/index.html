@@ -34,14 +34,14 @@ syntax as <mark>&lt;i&gt; a</mark>.
 
 contrSingl (A : U) (a b : A) (p : Path A a b):
     Path (singl A a) (a,refl A a) (b,p)</code><p>Proof that singleton is contractible space. Implemented as
-<marl>&lt;i&gt; (p @ i,<j> p @ i/\j)</mark>.
+<mark>&lt;i&gt; (p @ i,<j> p @ i/\j)</mark>.
 </p><h2>Map</h2><code>mapOnPath (A B : U) (f : A -> B)
     (a b : A) (p : Path A a b):
     Path B (f a) (f b)</code><p>Maps a given path space between values of one type
 to path space of another type by an encode function between types.
 Implemented as lambda defined on $[0,1]$ that returns
 application of encode function to path application of
-the given path to lamda argument. In the syntax this is
+the given path to lamda argument
 <mark>&lt;i&gt f (p @ i)</mark>.
 </p><h1>Eliminators</h1><h2>Transport</h2><code>trans (A B : U) (p : Path U A B)
       (a : A) : B</code><p>Transports a value of the left type to the value of the right type
