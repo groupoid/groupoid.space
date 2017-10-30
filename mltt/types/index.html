@@ -125,7 +125,7 @@ data EX (t:Type): Type := (intro: effect ()  (exception t))
 data Eq (A:Type): A → A → Prop :=
      (refl: ∀ (x:A) → Eq A x x)
 
-Path (A : U) (a b : A): U = PathP (<i> A) a b
+Path (A : U) (a b : A): U = PathP (&lt;i&gt; A) a b
 </code><h2 id="exists">Exists</h2><code>data Exists (A:Type) (P: A → Type): Prop :=
      (intro: ∀ (x:A) → P x → exists P x)
 </code><h2 id="cat">Cat</h2><code>record Cat: Type :=
