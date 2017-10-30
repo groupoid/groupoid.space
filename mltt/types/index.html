@@ -112,10 +112,10 @@ data EX (t:Type): Type := (intro: effect ()  (exception t))
             λ (f,g: Type → Type)
             → (∀ (x,y: Type) → R x y)
             → Ro x y (f x) (g y)
-</code><h2 id="eq">Eq</h2><code>record Id (A: Type): Type :=
+</code><h2 id="eq">a(src='path/') Path Identity</h2><code>record Id (A: Type): Type :=
        (Id: A → A → Type)
        (refl (a: A): Id a a)
-       (Predicate: ∀ (x,y: A) → Id x y → Type)
+       (Predicate: ∀ (x,y: A) → Id A x y → Type)
        (Forall (C: Predicate): ∀ (x,y: A) → ∀ (p: Id x y) → C x y p)
        (∆ (C: Predicate): ∀ (x: A) → C x x (refl x))
        (axiom-J (C: Predicate): ∆ C → Forall C)
@@ -124,6 +124,8 @@ data EX (t:Type): Type := (intro: effect ()  (exception t))
 
 data Eq (A:Type): A → A → Prop :=
      (refl: ∀ (x:A) → Eq A x x)
+
+Path (A : U) (a b : A): U = PathP (<i> A) a b
 </code><h2 id="exists">Exists</h2><code>data Exists (A:Type) (P: A → Type): Prop :=
      (intro: ∀ (x:A) → P x → exists P x)
 </code><h2 id="cat">Cat</h2><code>record Cat: Type :=

@@ -1,0 +1,115 @@
+extends ../../../layout.pug
+
+block title
+    title PATH
+    script(src='//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML')
+    script.
+     window.MathJax = { jax: ["input/TeX", "input/MathML", "input/AsciiMath", "output/CommonHTML", "output/NativeMML"],
+                             TeX: { extensions: ["AMSmath.js", "AMSsymbols.js", "autoload-all.js"] },
+                             extensions: ["tex2jax.js", "asciimath2jax.js", "mml2jax.js", "MathMenu.js", "MathZoom.js"],
+                             "HTML-CSS": { imageFont: null },
+                             AuthorInit: function() {
+                                 MathJax.Hub.Register.StartupHook("TeX AMSmath Ready", function() {
+                                     var TEX = MathJax.InputJax.TeX;
+                                     TEX.Definitions.Add({
+                                         macros: {
+                                           llparenthesis: ['Macro', '\\mathopen{\u2987}'],
+                                           rrparenthesis: ['Macro', '\\mathclose{\u2988}'],
+                                           llbracket:     ['Macro', '\\mathopen{\u27E6}'],
+                                           rrbracket:     ['Macro', '\\mathclose{\u27E7}'],
+                                         }
+                                     });
+                                 });
+                             },
+                             tex2jax: { inlineMath: [['$','$'], ['\\(','\\)']],
+                                        processEscapes: true }
+                         };
+
+block content
+    article.main
+        .om
+            section
+                h1 path
+        aside <a href="..">Base Library</a>
+            time Published: 16 OCT 2017
+        .om
+            section
+                p.
+                    <a href="https://raw.githubusercontent.com/groupoid/infinity/master/base/spath.ctt">Path package</a>
+                    contains basic theorems about general homotopy path types.
+                    In the core cubical has heterogenous <mark>PathP</mark> type,
+                    so you can easily define homogenous <mark>Path</mark>:
+                code.
+                    Path (A : U) (a b : A) : U
+                        = PathP (&lt;i&gt; A) a b
+                p.
+                    The Path identity type defines a Path space. Elements
+                    of that space are functions from interval $[0,1]$ to
+                    a values of that path space.
+
+            section
+                h1 Intro
+
+                h2 refl (A : U) (a : A) : Path A a a
+                p.
+                    Returns a reflexivity path space for a given value of the type.
+                    The inhabitant of that path space is the lambda on the homotopy
+                    interval $[0,1]$ that returns a constant value a. Written in
+                    syntax as <mark>&lt;i&gt; a</mark>.
+
+                h1 Lemmas
+
+                h2 Contractability of Singleton
+                code.
+                    singl (A : U) (a : A) : U
+                        = (x : A) * Path A a x
+
+                    contrSingl (A : U) (a b : A) (p : Path A a b):
+                        Path (singl A a) (a,refl A a) (b,p)
+                p.
+                    Proof that singleton is contractible space. Implemented as
+                    <marl>&lt;i&gt; (p @ i,<j> p @ i/\j)</mark>.
+
+                h2 Map
+                code.
+                    mapOnPath (A B : U) (f : A -> B)
+                        (a b : A) (p : Path A a b):
+                        Path B (f a) (f b)
+                p.
+                    Maps a given path space between values of one type
+                    to path space of another type by an encode function between types.
+                    Implemented as lambda defined on $[0,1]$ that returns
+                    application of encode function to path application of
+                    the given path to lamda argument. In the syntax this is
+                    <mark>&lt;i&gt f (p @ i)</mark>.
+
+                h1 Eliminators
+
+                h2 Transport
+                code.
+                    trans (A B : U) (p : Path U A B)
+                          (a : A) : B
+                p.
+                    Transports a value of the left type to the value of the right type
+                    by a given path element of the path space between left and right type.
+                    Defined as path composition with $[]$ of a over a path p
+                    <mark>comp p a []</mark>.
+
+                h2 Substitution
+                code.
+                    subst (A : U) (P : A -> U)
+                          (a b : A) (p : Path A a b)
+                          (u : P a) : P b
+                p.
+                    Acts like transport of mapOnPath value, representing the
+                    dependent function transport or substitution.
+
+                h2 Dependent Eliminator
+                code.
+                    J (A: U) (a b: A) (P: singl A a -> U)
+                      (u: P (a,refl A a)) (p: Path A a b): P (b,p)
+                p.
+                    J is formulated in a form of Paulin-Mohring and implemented using
+                    two facts that singleton are contractible and dependent function
+                    transport.
+

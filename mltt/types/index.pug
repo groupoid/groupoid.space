@@ -272,12 +272,12 @@ block content
                                 → (∀ (x,y: Type) → R x y)
                                 → Ro x y (f x) (g y)
 
-                h2#eq Eq
+                h2#eq a(src='path/') Path Identity
                 code.
                     record Id (A: Type): Type :=
                            (Id: A → A → Type)
                            (refl (a: A): Id a a)
-                           (Predicate: ∀ (x,y: A) → Id x y → Type)
+                           (Predicate: ∀ (x,y: A) → Id A x y → Type)
                            (Forall (C: Predicate): ∀ (x,y: A) → ∀ (p: Id x y) → C x y p)
                            (∆ (C: Predicate): ∀ (x: A) → C x x (refl x))
                            (axiom-J (C: Predicate): ∆ C → Forall C)
@@ -286,6 +286,8 @@ block content
 
                     data Eq (A:Type): A → A → Prop :=
                          (refl: ∀ (x:A) → Eq A x x)
+
+                    Path (A : U) (a b : A): U = PathP (<i> A) a b
 
                 h2#exists Exists
                 code.

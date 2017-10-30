@@ -1,0 +1,58 @@
+<!DOCTYPE html><html><head><meta charset="utf-8"><meta http-equiv="x-ua-compatible" content="ie=edge"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="author" content="Maxim Sokhatsky"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:site" content="@5HT"><meta name="twitter:creator" content="@5HT"><meta name="twitter:image" content="https://groupoid.space/card2.png"><meta property="og:title" content="Groupoid Infinity"><meta property="og:image" content="https://groupoid.space/card2.png"><meta property="og:type" content="website"><meta property="fb:app_id" content="118554188236439"><meta property="og:url" content="https://groupoid.space"><meta property="og:description" content="MLTT Language with Extensions"><link rel="stylesheet" href="https://groupoid.space/main.css?v=6"><title>PATH</title><script src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML"></script><script>window.MathJax = { jax: ["input/TeX", "input/MathML", "input/AsciiMath", "output/CommonHTML", "output/NativeMML"],
+                        TeX: { extensions: ["AMSmath.js", "AMSsymbols.js", "autoload-all.js"] },
+                        extensions: ["tex2jax.js", "asciimath2jax.js", "mml2jax.js", "MathMenu.js", "MathZoom.js"],
+                        "HTML-CSS": { imageFont: null },
+                        AuthorInit: function() {
+                            MathJax.Hub.Register.StartupHook("TeX AMSmath Ready", function() {
+                                var TEX = MathJax.InputJax.TeX;
+                                TEX.Definitions.Add({
+                                    macros: {
+                                      llparenthesis: ['Macro', '\\mathopen{\u2987}'],
+                                      rrparenthesis: ['Macro', '\\mathclose{\u2988}'],
+                                      llbracket:     ['Macro', '\\mathopen{\u27E6}'],
+                                      rrbracket:     ['Macro', '\\mathclose{\u27E7}'],
+                                    }
+                                });
+                            });
+                        },
+                        tex2jax: { inlineMath: [['$','$'], ['\\(','\\)']],
+                                   processEscapes: true }
+                    };
+</script></head><body class="content"><article class="main"><div class="om"><section><h1>path</h1></section></div><aside><a href="..">Base Library</a><time>Published: 16 OCT 2017</time></aside><div class="om"><section><p><a href="https://raw.githubusercontent.com/groupoid/infinity/master/base/spath.ctt">Path package</a>
+contains basic theorems about general homotopy path types.
+In the core cubical has heterogenous <mark>PathP</mark> type,
+so you can easily define homogenous <mark>Path</mark>:</p><code>Path (A : U) (a b : A) : U
+    = PathP (&lt;i&gt; A) a b</code><p>The Path identity type defines a Path space. Elements
+of that space are functions from interval $[0,1]$ to
+a values of that path space.
+</p></section><section><h1>Intro</h1><h2>refl (A : U) (a : A) : Path A a a</h2><p>Returns a reflexivity path space for a given value of the type.
+The inhabitant of that path space is the lambda on the homotopy
+interval $[0,1]$ that returns a constant value a. Written in
+syntax as <mark>&lt;i&gt; a</mark>.
+</p><h1>Lemmas</h1><h2>Contractability of Singleton</h2><code>singl (A : U) (a : A) : U
+    = (x : A) * Path A a x
+
+contrSingl (A : U) (a b : A) (p : Path A a b):
+    Path (singl A a) (a,refl A a) (b,p)</code><p>Proof that singleton is contractible space. Implemented as
+<marl>&lt;i&gt; (p @ i,<j> p @ i/\j)</mark>.
+</p><h2>Map</h2><code>mapOnPath (A B : U) (f : A -> B)
+    (a b : A) (p : Path A a b):
+    Path B (f a) (f b)</code><p>Maps a given path space between values of one type
+to path space of another type by an encode function between types.
+Implemented as lambda defined on $[0,1]$ that returns
+application of encode function to path application of
+the given path to lamda argument. In the syntax this is
+<mark>&lt;i&gt f (p @ i)</mark>.
+</p><h1>Eliminators</h1><h2>Transport</h2><code>trans (A B : U) (p : Path U A B)
+      (a : A) : B</code><p>Transports a value of the left type to the value of the right type
+by a given path element of the path space between left and right type.
+Defined as path composition with $[]$ of a over a path p
+<mark>comp p a []</mark>.
+</p><h2>Substitution</h2><code>subst (A : U) (P : A -> U)
+      (a b : A) (p : Path A a b)
+      (u : P a) : P b</code><p>Acts like transport of mapOnPath value, representing the
+dependent function transport or substitution.
+</p><h2>Dependent Eliminator</h2><code>J (A: U) (a b: A) (P: singl A a -> U)
+  (u: P (a,refl A a)) (p: Path A a b): P (b,p)</code><p>J is formulated in a form of Paulin-Mohring and implemented using
+two facts that singleton are contractible and dependent function
+transport.</p></section></div></article><footer class="footer"><img class="footer__logo" src="https://longchenpa.guru/seal.png" width="50"><span class="footer__copy">2016&mdash;2017 &copy; <a href="//groupoid.space/team.html" style="color:white;">Groupoid Infinity</a></span></footer><script src="https://groupoid.space/bundle.js"></script><script src="https://groupoid.space/highlight.js"></script></body></html>
