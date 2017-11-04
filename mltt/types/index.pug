@@ -13,7 +13,7 @@ block content
             h2 The Design of Base Library
             -
                 var types = {
-                        'nr nd +': ['bool', 'true', 'false', 'option', 'unit'],
+                        'nr nd +': ['bool', 'true', 'false', 'maybe', 'unit'],
                         'r nd +': ['nat', 'list', 'io', 'ioi'],
                         'nr d +': ['path', 'exists'],
                         'rd +': ['vector'],
@@ -55,9 +55,26 @@ block content
                          (zero: () → nat)
                          (succ: nat → nat)
 
+                h2#maybe Maybe
+                p.
+                    Maybe has representing functor M<sub>A</sub>(X) = 1 + A.
+                    It used for wrapping values with optional nothing consdtructor.
+                    In ML-style languages this type is called Option (Miranda, ML).
+                code.
+                    data maybe (n: Type): Type :=
+                         (nothing: maybe n)
+                         (just: n → maybe n)
+
                 h2 <a name='list'><a href='list/'>List</a></a>
                 p.
-                    The data type of <mark>list</mark> over a given set A can be represented as the initial algebra (&mu;&nbsp;L<sub>A</sub>,&nbsp;in) of the functor L<sub>A</sub>(X) = 1 + (A &times; X). Denote &mu; L<sub>A</sub> = List(A). The constructor functions nil: 1 &rightarrow; List(A) and cons: A &times; List(A) &rightarrow; List(A) are defined by nil = in ◦ inl and cons = in ◦ inr, so in = <mark>[nil,cons]</mark>.
+                    The data type of <mark>list</mark> over a given set A can
+                    be represented as the initial algebra (&mu;&nbsp;L<sub>A</sub>,&nbsp;in)
+                    of the functor L<sub>A</sub>(X) = 1 + (A &times; X).
+                    Denote &mu; L<sub>A</sub> = List(A). The constructor
+                    functions nil: 1 &rightarrow; List(A) and cons: A
+                    &times; List(A) &rightarrow; List(A) are defined
+                    by nil = in ◦ inl and cons = in ◦ inr, so
+                    in = <mark>[nil,cons]</mark>.
 
                 code.
                     data list: (A: Type) → Type :=
