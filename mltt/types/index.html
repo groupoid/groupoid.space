@@ -53,7 +53,7 @@ record unit: Type := (star: ())
        (tail: stream A)
 </code><h2 id="pure">Pure</h2><code>record pure (P: Type → Type) (A: Type): Type :=
        (return: P A)
-</code><h2 id="functor">Functor</h2><code>record functor (F: Type → Type) (A B: Type): Type :=
+</code><h2><a name='functor'><a href='functor/'>Functor</a></a></h2><p>Runtime functor.</p><code>record functor (F: Type → Type) (A B: Type): Type :=
        (fmap: (A → B) → F A → F B)</code><p>Functor carried with theorem fields.</p><code>record Functor (F: Type → Type): Type :=
        (fmap: ∀ (A,B: Type) → (A → B) → F A → F B)
        (id: ∀ (A: Type) (x: F A) → Equ (fmap id x) x)

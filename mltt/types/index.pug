@@ -153,7 +153,8 @@ block content
                     record pure (P: Type → Type) (A: Type): Type :=
                            (return: P A)
 
-                h2#functor Functor
+                h2 <a name='functor'><a href='functor/'>Functor</a></a>
+                p Runtime functor.
                 code.
                     record functor (F: Type → Type) (A B: Type): Type :=
                            (fmap: (A → B) → F A → F B)

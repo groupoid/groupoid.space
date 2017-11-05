@@ -1,0 +1,49 @@
+extends ../../../layout.pug
+
+block title
+    title functor
+
+block content
+    article.main.list
+        section
+            h1 functor
+            aside <a href="..">Base Library</a>
+                time Published: 5 NOV 2017
+            p.
+                <a href="https://raw.githubusercontent.com/groupoid/infinity/master/priv/control.ctt">Functor package</a>
+                contains functor implementation and laws packed in Sigma container.
+            code.
+                functor (F: U -> U): U
+                    = (fmap: (A B: U) -> (A -> B) -> F A -> F B)
+                    * (id: (A: U) -> (x: F A) -> Path (F A) (fmap A A (idfun A) x) x)
+                    * (compose: (A B C: U) (f: B -> C) (g: A -> B) (x: F A) ->
+                      Path (F C) (fmap A C (o A B C f g) x)
+                           ((o (F A) (F B) (F C) (fmap B C f) (fmap A B g)) x)) * Unit
+            p.
+                The package also contains proof-free code for runtime facilities.
+            code.
+                functor_ (A B: U) (F: U -> U): U
+                    = (fmap: (A -> B) -> F A -> F B) * Unit
+
+        section
+            h1 Implementation
+
+            h2 fmap
+            p.
+                For a given function, its domain and codomain, the <mark>fmap</mark>
+                returns a function on domain and codomain that are constructed
+                by applying a functor to original domain and codomain.
+
+            h1 Laws
+
+            h2 id
+            p.
+                Functorial <mark>id</mark> law states that <mark>fmap</mark> preserves the id functions.
+                I.e. applying a functor to types should preserve the identity properties.
+
+            h2 id
+            p.
+                Functorial <mark>Compose</mark> law states that <mark>fmap</mark>
+                preserves the composition over functors applied to types.
+                I.e. when you have composition of two functions, functor will
+                preserve its composition.
