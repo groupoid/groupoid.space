@@ -65,7 +65,7 @@ block content
                     is shown how we can define the proper signature of intro
                     constructor.
 
-                h1 Eliminators and Induction
+                h1 Eliminators
 
                 h2 Pair accessors
                 code.
@@ -85,6 +85,9 @@ block content
                            (g: (a: A) (b: B a) -> C (a, b))
                            (p: Sigma A B): C p
                         = g p.1 p.2
+                p.
+                    Recursor is the special case of induction when
+                    the family $C$ is constant.
 
                 h1 Theorems
 
@@ -95,7 +98,7 @@ block content
                             Path U
                                  (Path (Sigma A B) t u)
                                  ( (p : Path A t.1 u.1)
-                                 * PathP (<i> B (p @ i))
+                                 * PathP (&lt;i&gt; B (p @ i))
                                          t.2
                                          u.2)
 
@@ -104,7 +107,7 @@ block content
                     pathSig2 (A:U) (P : A -> U)
                              (t u : Sigma A P)
                              (pp : (p : Path A t.1 u.1)
-                                 * PathP (<i> P (p @ i))
+                                 * PathP (&lt;i&gt; P (p @ i))
                                          t.2
                                          u.2) :
                              Path (Sigma A P) t u

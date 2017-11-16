@@ -35,7 +35,7 @@ disjoint union) over a given type.
     = (a,b)</code><p>Pair constructor is also built in core as $(a,b)$. Here
 is shown how we can define the proper signature of intro
 constructor.
-</p><h1>Eliminators and Induction</h1><h2>Pair accessors</h2><code>pr1 (A: U) (B: A -> U)
+</p><h1>Eliminators</h1><h2>Pair accessors</h2><code>pr1 (A: U) (B: A -> U)
     (x: Sigma A B): A = x.1
 
 pr2 (A: U) (B: A -> U)
@@ -45,19 +45,20 @@ accessor should be applied followed by <mark>.1</mark>.
        (C: Sigma A B -> U)
        (g: (a: A) (b: B a) -> C (a, b))
        (p: Sigma A B): C p
-    = g p.1 p.2
-</code><h1>Theorems</h1><h2>pathSig</h2><code>pathSig (A:U) (B : A -> U)
+    = g p.1 p.2</code><p>Recursor is the special case of induction when
+the family $C$ is constant.
+</p><h1>Theorems</h1><h2>pathSig</h2><code>pathSig (A:U) (B : A -> U)
         (t u : Sigma A B) :
         Path U
              (Path (Sigma A B) t u)
              ( (p : Path A t.1 u.1)
-             * PathP (<i> B (p @ i))
+             * PathP (&lt;i&gt; B (p @ i))
                      t.2
                      u.2)
 </code><h2>pathSig2</h2><code>pathSig2 (A:U) (P : A -> U)
          (t u : Sigma A P)
          (pp : (p : Path A t.1 u.1)
-             * PathP (<i> P (p @ i))
+             * PathP (&lt;i&gt; P (p @ i))
                      t.2
                      u.2) :
          Path (Sigma A P) t u
