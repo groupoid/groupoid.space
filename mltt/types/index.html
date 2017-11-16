@@ -65,7 +65,7 @@ extend pure F A, functor F A B
 </code><h2 id="monad">Monad</h2><code>record monad: (F: Type → Type) → (A B: Type) → Type
 extend pure F A, functor F A B)
     := (join: F (F A) → F B)
-</code><h2 id="sigma">Sigma</h2><code>record sigma (A: Type) (B: A → Type): Type :=
+</code><h2><a name='sigma'><a href='sigma/'>Sigma</a></a></h2><code>record sigma (A: Type) (B: A → Type): Type :=
        (pr1: A)
        (pr2: B pr1)
 </code></section><section><h1>I/O Monads</h1><p>Recursive and Corecursive Monads.</p><h2 id="io">IO</h2><p>Finite I/O</p><code>data IO (A: Type): Type :=

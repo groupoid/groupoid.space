@@ -1,0 +1,120 @@
+extends ../../../layout.pug
+
+block title
+    title SIGMA
+    script(src='//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML')
+    script.
+     window.MathJax = { jax: ["input/TeX", "input/MathML", "input/AsciiMath", "output/CommonHTML", "output/NativeMML"],
+                             TeX: { extensions: ["AMSmath.js", "AMSsymbols.js", "autoload-all.js"] },
+                             extensions: ["tex2jax.js", "asciimath2jax.js", "mml2jax.js", "MathMenu.js", "MathZoom.js"],
+                             "HTML-CSS": { imageFont: null },
+                             AuthorInit: function() {
+                                 MathJax.Hub.Register.StartupHook("TeX AMSmath Ready", function() {
+                                     var TEX = MathJax.InputJax.TeX;
+                                     TEX.Definitions.Add({
+                                         macros: {
+                                           llparenthesis: ['Macro', '\\mathopen{\u2987}'],
+                                           rrparenthesis: ['Macro', '\\mathclose{\u2988}'],
+                                           llbracket:     ['Macro', '\\mathopen{\u27E6}'],
+                                           rrbracket:     ['Macro', '\\mathclose{\u27E7}'],
+                                         }
+                                     });
+                                 });
+                             },
+                             tex2jax: { inlineMath: [['$','$'], ['\\(','\\)']],
+                                        processEscapes: true }
+                         };
+
+block content
+    article.main
+        .om
+            section
+                h1 sigma
+        aside <a href="..">Base Library</a>
+            time Published: 16 OCT 2017
+        .om
+            section
+                p.
+                    <a href="https://raw.githubusercontent.com/groupoid/infinity/master/priv/sigma.ctt">Path package</a>
+                    contains basic theorems about sigma types. Sigma type is built in core.
+                code.
+                    Sigma (A : U)
+                          (B : A -> U) : U
+                        = (x : A) * B x
+                p.
+                    All the constructions on $\Sigma$-types arise as straightforward
+                    generalizations of the ones for product types.
+                    the type of the second component of a pair
+                    to vary depending on the choice of the first component.
+                    This is called a dependent pair type, because in set theory
+                    it corresponds to an indexed sum (in the sense of coproduct or
+                    disjoint union) over a given type.
+
+            section
+                h1 Intro
+
+                h2 Pair
+                code.
+                    make (A : U)
+                         (a : A)
+                         (B: A -> U)
+                         (b: B a): Sigma A B
+                        = (a,b)
+                p.
+                    Pair constructor is also built in core as $(a,b)$. Here
+                    is shown how we can define the proper signature of intro
+                    constructor.
+
+                h1 Eliminators and Induction
+
+                h2 Pair accessors
+                code.
+                    pr1 (A: U) (B: A -> U)
+                        (x: Sigma A B): A = x.1
+
+                    pr2 (A: U) (B: A -> U)
+                        (x: Sigma A B): B (pr1 A B x) = x.2
+                p.
+                    If you want to access deep sigma a series of <mark>.2</mark>
+                    accessor should be applied followed by <mark>.1</mark>.
+
+                h2 Induction
+                code.
+                    sigInd (A: U) (B: A -> U)
+                           (C: Sigma A B -> U)
+                           (g: (a: A) (b: B a) -> C (a, b))
+                           (p: Sigma A B): C p
+                        = g p.1 p.2
+
+                h1 Theorems
+
+                h2 pathSig
+                code.
+                    pathSig (A:U) (B : A -> U)
+                            (t u : Sigma A B) :
+                            Path U
+                                 (Path (Sigma A B) t u)
+                                 ( (p : Path A t.1 u.1)
+                                 * PathP (<i> B (p @ i))
+                                         t.2
+                                         u.2)
+
+                h2 pathSig2
+                code.
+                    pathSig2 (A:U) (P : A -> U)
+                             (t u : Sigma A P)
+                             (pp : (p : Path A t.1 u.1)
+                                 * PathP (<i> P (p @ i))
+                                         t.2
+                                         u.2) :
+                             Path (Sigma A P) t u
+
+                h2 pathSig3
+                code.
+                    pathSig3 (A:U) (P : A -> U)
+                             (t u : Sigma A P)
+                             (pp : (p : Path A t.1 u.1)
+                                 * Path (P u.1)
+                                        (transport (<i>P (p @ i)) t.2)
+                                        u.2) :
+                             Path (Sigma A P) t u
