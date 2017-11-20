@@ -58,11 +58,10 @@ two facts that singleton are contractible and dependent function
 transport.
 </p><h2>Dependent Eliminator</h2><code>J (A : U) (a : A) (C : (x : A) -> Path A a x -> U)
   (d : C a (refl A a)) (x : A) (p : Path A a x) : C x p</code><p>J from HoTT book.
-
-</p><h2>Function Extensionality Inv</h2><code>funExtInv (A B: U) (f g: A -> B)
+</p><h1>Function Extensionality</h1><h2>Non-dependent</h2><code>funExt (A B: U) (f g : A -> B)
+       (p : (x : A) -> Path B (f x) (g x))
+       : Path (A -> B) f g</code><p></p><h2>Inverse</h2><code>funExtInv (A B: U) (f g: A -> B)
           (p : Path (A -> B) f g) (x: A)
-          : Path B (f x) (g x)</code><p></p><h2>Function Extensionality Non Dependent</h2><code>funExtNonDep (A B: U) (f g : A -> B)
-             (p : (x : A) -> Path B (f x) (g x))
-             : Path (A -> B) f g</code><p></p><h2>Function Extensionality Dependent</h2><code>funExt (A : U) (B : A -> U) (f g : (x : A) -> B x)
-       (p : (x : A) -> Path (B x) (f x) (g x))
-       : Path ((y : A) -> B y) f g</code><p></p></section></div></article><footer class="footer"><img class="footer__logo" src="https://longchenpa.guru/seal.png" width="50"><span class="footer__copy">2016&mdash;2017 &copy; <a href="//groupoid.space/team.html" style="color:white;">Groupoid Infinity</a></span></footer><script src="https://groupoid.space/bundle.js"></script><script src="https://groupoid.space/highlight.js"></script></body></html>
+          : Path B (f x) (g x)</code><p></p><h2>Dependent</h2><code>piExt (A : U) (B : A -> U) (f g : (x : A) -> B x)
+      (p : (x : A) -> Path (B x) (f x) (g x))
+      : Path ((y : A) -> B y) f g</code><p></p></section></div></article><footer class="footer"><img class="footer__logo" src="https://longchenpa.guru/seal.png" width="50"><span class="footer__copy">2016&mdash;2017 &copy; <a href="//groupoid.space/team.html" style="color:white;">Groupoid Infinity</a></span></footer><script src="https://groupoid.space/bundle.js"></script><script src="https://groupoid.space/highlight.js"></script></body></html>

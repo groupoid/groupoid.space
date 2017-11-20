@@ -122,24 +122,25 @@ block content
                 p.
                     J from HoTT book.
 
+                h1 Function Extensionality
 
-                h2 Function Extensionality Inv
+                h2 Non-dependent
+                code.
+                    funExt (A B: U) (f g : A -> B)
+                           (p : (x : A) -> Path B (f x) (g x))
+                           : Path (A -> B) f g
+                p.
+
+                h2 Inverse
                 code.
                     funExtInv (A B: U) (f g: A -> B)
                               (p : Path (A -> B) f g) (x: A)
                               : Path B (f x) (g x)
                 p.
 
-                h2 Function Extensionality Non Dependent
+                h2 Dependent
                 code.
-                    funExtNonDep (A B: U) (f g : A -> B)
-                                 (p : (x : A) -> Path B (f x) (g x))
-                                 : Path (A -> B) f g
-                p.
-
-                h2 Function Extensionality Dependent
-                code.
-                    funExt (A : U) (B : A -> U) (f g : (x : A) -> B x)
-                           (p : (x : A) -> Path (B x) (f x) (g x))
-                           : Path ((y : A) -> B y) f g
+                    piExt (A : U) (B : A -> U) (f g : (x : A) -> B x)
+                          (p : (x : A) -> Path (B x) (f x) (g x))
+                          : Path ((y : A) -> B y) f g
                 p.
