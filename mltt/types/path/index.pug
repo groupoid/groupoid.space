@@ -106,12 +106,40 @@ block content
                     Acts like transport of mapOnPath value, representing the
                     dependent function transport or substitution.
 
-                h2 Dependent Eliminator
+                h2 J by Paulin-Mohring
                 code.
-                    J (A: U) (a b: A) (P: singl A a -> U)
+                    JPM (A: U) (a b: A) (P: singl A a -> U)
                       (u: P (a,refl A a)) (p: Path A a b): P (b,p)
                 p.
-                    J is formulated in a form of Paulin-Mohring and implemented using
+                    JPM is formulated in a form of Paulin-Mohring and implemented using
                     two facts that singleton are contractible and dependent function
                     transport.
 
+                h2 Dependent Eliminator
+                code.
+                    J (A : U) (a : A) (C : (x : A) -> Path A a x -> U)
+                      (d : C a (refl A a)) (x : A) (p : Path A a x) : C x p
+                p.
+                    J from HoTT book.
+
+
+                h2 Function Extensionality Inv
+                code.
+                    funExtInv (A B: U) (f g: A -> B)
+                              (p : Path (A -> B) f g) (x: A)
+                              : Path B (f x) (g x)
+                p.
+
+                h2 Function Extensionality Non Dependent
+                code.
+                    funExtNonDep (A B: U) (f g : A -> B)
+                                 (p : (x : A) -> Path B (f x) (g x))
+                                 : Path (A -> B) f g
+                p.
+
+                h2 Function Extensionality Dependent
+                code.
+                    funExt (A : U) (B : A -> U) (f g : (x : A) -> B x)
+                           (p : (x : A) -> Path (B x) (f x) (g x))
+                           : Path ((y : A) -> B y) f g
+                p.
