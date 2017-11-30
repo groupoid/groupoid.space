@@ -34,11 +34,25 @@ block content
             p.
                 <a href="https://raw.githubusercontent.com/groupoid/infinity/master/priv/cat.ctt">Cat package</a>
                 contains precategory and category definition from HoTT book.
+            h2 precategory
             p.
                 Precategory defined as set of $hom_A(a,b)$ where $a,b:A$
                 are objects defined by its $id$ arrows.
                 Properfies of left and right units included with composition c
                 and its associativity.
+            p.
+                More formal, precategory $A$ consists of the following.
+                (i) A type $A_0$, whose elements are called objects. We write $a: A$ for $a: A_0$.
+                (ii) For each $a,b: A$, a set $hom_A(a,b)$, whose elements are called arrows or morphisms.
+                (iii) For each $a: A$, a morphism $1_a : hom_A(a,a)$, called the identity morphism.
+                (iv) For each $a,b,c: A$, a function
+                $hom_A(b,c) \rightarrow hom_A(a,b) \rightarrow hom_A(a,c)$
+                called composition, and denoted $g \circ f$.
+                (v) For each $a,b: A$ and $f: hom_A(a,b)$, we have
+                $f = 1_b \circ f$ and $f = f \circ 1_a$.
+                (vi) For each $a,b,c,d: A$ and
+                $f: hom_A(a,b), $g: hom_A(b,c)$, $h: homA(c,d)$,
+                we have $h \circ (g \circ f ) = (h \circ g) \circ f$.
             code.
                 cat: U = (A: U) * (A -> A -> U)
 
@@ -60,6 +74,7 @@ block content
                 path    (C: precategory) (x: carrier C): hom C x x = C.2.1 x
                 compose (C: precategory) (x y z: carrier C)
                         (f: hom C x y) (g: hom C y z): hom C x z = C.2.2.1 x y z f g
+            h2 iso
             p.
                 A morphism f : $hom_A(a,b)$ is an iso
                 if there is a morphism g : hom<sub>A</sub>(b,a) such that
@@ -69,6 +84,7 @@ block content
             p.
                 If A is a precategory and $a,b: A$,
                 then $a = b \rightarrow iso_A(a,b)$ (idtoiso).
+            h2 category
             p.
                 A category is a precategory such that for all $a,b:A$,
                 the function idtoiso is an equivalence.
