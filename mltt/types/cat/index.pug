@@ -53,6 +53,14 @@ block content
 
                 precategory: U = (C: cat) * isPrecategory C
             p.
+                Accessors of the precategory structure.
+            code.
+                carrier (C: precategory): U = C.1.1
+                hom     (C: precategory) (a b: carrier C): U = C.1.2 a b
+                path    (C: precategory) (x: carrier C): hom C x x = C.2.1 x
+                compose (C: precategory) (x y z: carrier C)
+                        (f: hom C x y) (g: hom C y z): hom C x z = C.2.2.1 x y z f g
+            p.
                 A morphism f : $hom_A(a,b)$ is an iso
                 if there is a morphism g : hom<sub>A</sub>(b,a) such that
                 $1_a =_\eta g \circ f$ and

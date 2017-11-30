@@ -140,7 +140,7 @@ data Eq (A:Type): A → A → Prop :=
 Path (A : U) (a b : A): U = PathP (&lt;i&gt; A) a b
 </code><h2 id="exists">Exists</h2><code>data Exists (A:Type) (P: A → Type): Prop :=
      (intro: ∀ (x:A) → P x → exists P x)
-</code><h2 id="path"><a name="cat"><a href='cat/'>Path</a></a></h2><code>record Cat: Type :=
+</code><h2 id="cat"><a name="cat"><a href='cat/'>Cat</a></a></h2><code>record Cat: Type :=
        (Ob: Type)
        (Hom:   ∀ (dom,cod: Ob) → Setoid)
        (Id:    ∀ (x: Ob) → Hom x x)

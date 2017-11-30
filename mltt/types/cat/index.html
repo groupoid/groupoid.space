@@ -33,7 +33,11 @@ isPrecategory (C: cat): U
   * ( (x y z w: C.1) -> (f: C.2 x y) -> (g: C.2 y z) -> (h: C.2 z w) ->
     Path (C.2 x w) (c x z w (c x y z f g) h) (c x y w f (c y z w g h)))
 
-precategory: U = (C: cat) * isPrecategory C</code><p>A morphism f : $hom_A(a,b)$ is an iso
+precategory: U = (C: cat) * isPrecategory C</code><p>Accessors of the precategory structure.</p><code>carrier (C: precategory): U = C.1.1
+hom     (C: precategory) (a b: carrier C): U = C.1.2 a b
+path    (C: precategory) (x: carrier C): hom C x x = C.2.1 x
+compose (C: precategory) (x y z: carrier C)
+        (f: hom C x y) (g: hom C y z): hom C x z = C.2.2.1 x y z f g</code><p>A morphism f : $hom_A(a,b)$ is an iso
 if there is a morphism g : hom<sub>A</sub>(b,a) such that
 $1_a =_\eta g \circ f$ and
 $f \circ g =_\epsilon 1_b = g$. "f is iso" is
