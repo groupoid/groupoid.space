@@ -6,12 +6,19 @@ contains functor implementation and laws packed in Sigma container.</p><code>fun
       Path (F C) (fmap A C (o A B C f g) x)
            ((o (F A) (F B) (F C) (fmap B C f) (fmap A B g)) x)) * Unit</code><p>The package also contains proof-free code for runtime facilities.</p><code>functor_ (A B: U) (F: U -> U): U
     = (fmap: (A -> B) -> F A -> F B) * Unit
-</code></section><section><h1>Implementation</h1><h2>fmap</h2><p>For a given function, its domain and codomain, the <mark>fmap</mark>
+</code></section><section><h1>Implementation</h1><h2>fmap</h2><code>fmap: (A B: U) -> (A -> B) -> F A -> F B</code><p>For a given function, its domain and codomain, the <mark>fmap</mark>
 returns a function on domain and codomain that are constructed
 by applying a functor to original domain and codomain.
-</p><h1>Laws</h1><h2>id</h2><p>Functorial <mark>id</mark> law states that <mark>fmap</mark> preserves the id functions.
+</p><h1>Laws</h1><h2>id</h2><code>id: (A: U) -> (x: F A) ->
+    Path (F A) (fmap A A (idfun A) x) x</code><p>Functorial <mark>id</mark> law states that <mark>fmap</mark> preserves the id functions.
 I.e. applying a functor to types should preserve the identity properties.
-</p><h2>compose</h2><p>Functorial <mark>Compose</mark> law states that <mark>fmap</mark>
+</p><h2>compose</h2><code>compose (A B C: U) (f: B -> C) (g: A -> B) (x: F A) ->
+    Path (F C) (fmap A C (o A B C f g) x)
+         ((o (F A) (F B) (F C) (fmap B C f) (fmap A B g)) x)</code><p>Functorial <mark>Compose</mark> law states that <mark>fmap</mark>
 preserves the composition over functors applied to types.
 I.e. when you have composition of two functions, functor will
-preserve its composition.</p></section></article><footer class="footer"><img class="footer__logo" src="https://longchenpa.guru/seal.png" width="50"><span class="footer__copy">2016&mdash;2017 &copy; <a href="//groupoid.space/team.html" style="color:white;">Groupoid Infinity</a></span></footer><script src="https://groupoid.space/bundle.js"></script><script src="https://groupoid.space/highlight.js"></script></body></html>
+preserve its composition.
+</p><h1>Functor Instances</h1><h2>Id Type</h2><code>idtype (A: U): U = A
+</code><h2>Const Type</h2><code>consttype (A B: U): U = A
+</code><h2>Function Type</h2><code>functiontype (A B: U): U = A -> B
+</code><h2>Composition Type</h2><code>comptype (F G: U -> U) (t: U): U = F (G t)</code></section></article><footer class="footer"><img class="footer__logo" src="https://longchenpa.guru/seal.png" width="50"><span class="footer__copy">2016&mdash;2017 &copy; <a href="//groupoid.space/team.html" style="color:white;">Groupoid Infinity</a></span></footer><script src="https://groupoid.space/bundle.js"></script><script src="https://groupoid.space/highlight.js"></script></body></html>

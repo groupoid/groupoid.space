@@ -19,7 +19,7 @@ block content
                         'rd +': ['vector'],
                         'nr nd *': ['prod', 'pure', 'functor', 'applicative', 'monad'],
                         'r nd *': ['stream', 'process', 'effect', 'eff.monad', 'eff.handler'],
-                        'nr d *': ['sigma', 'setoid', 'proper', 'respect'],
+                        'nr d *': ['sigma', 'setoid', 'proper', 'respect' ],
                         'rd *': ['cat', 'groupoid']
                     }
 
@@ -312,7 +312,7 @@ block content
                     data Exists (A:Type) (P: A → Type): Prop :=
                          (intro: ∀ (x:A) → P x → exists P x)
 
-                h2#cat Cat
+                h2#path <a name="cat"><a href='cat/'>Path</a></a>
                 code.
                     record Cat: Type :=
                            (Ob: Type)

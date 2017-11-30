@@ -29,6 +29,8 @@ block content
             h1 Implementation
 
             h2 fmap
+            code.
+                fmap: (A B: U) -> (A -> B) -> F A -> F B
             p.
                 For a given function, its domain and codomain, the <mark>fmap</mark>
                 returns a function on domain and codomain that are constructed
@@ -37,13 +39,38 @@ block content
             h1 Laws
 
             h2 id
+            code.
+                id: (A: U) -> (x: F A) ->
+                    Path (F A) (fmap A A (idfun A) x) x
             p.
                 Functorial <mark>id</mark> law states that <mark>fmap</mark> preserves the id functions.
                 I.e. applying a functor to types should preserve the identity properties.
 
             h2 compose
+            code.
+                compose (A B C: U) (f: B -> C) (g: A -> B) (x: F A) ->
+                    Path (F C) (fmap A C (o A B C f g) x)
+                         ((o (F A) (F B) (F C) (fmap B C f) (fmap A B g)) x)
             p.
                 Functorial <mark>Compose</mark> law states that <mark>fmap</mark>
                 preserves the composition over functors applied to types.
                 I.e. when you have composition of two functions, functor will
                 preserve its composition.
+
+            h1 Functor Instances
+
+            h2 Id Type
+            code.
+                idtype (A: U): U = A
+
+            h2 Const Type
+            code.
+                consttype (A B: U): U = A
+
+            h2 Function Type
+            code.
+                functiontype (A B: U): U = A -> B
+
+            h2 Composition Type
+            code.
+                comptype (F G: U -> U) (t: U): U = F (G t)
