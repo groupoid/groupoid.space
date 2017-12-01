@@ -1,13 +1,9 @@
-<!DOCTYPE html><html><head><meta charset="utf-8"><meta http-equiv="x-ua-compatible" content="ie=edge"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="author" content="Maxim Sokhatsky"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:site" content="@5HT"><meta name="twitter:creator" content="@5HT"><meta name="twitter:image" content="https://groupoid.space/card2.png"><meta property="og:title" content="Groupoid Infinity"><meta property="og:image" content="https://groupoid.space/card2.png"><meta property="og:type" content="website"><meta property="fb:app_id" content="118554188236439"><meta property="og:url" content="https://groupoid.space"><meta property="og:description" content="MLTT Language with Extensions"><link rel="stylesheet" href="https://groupoid.space/main.css?v=6"><title>Types</title></head><body class="content"><header class="header"><a href="//groupoid.space/"><img class="header__logo" src="/groupoid.svg"/></a><div class="header__titles"><h1 class="header__title">Infinity Types</h1><h4 class="header__subtitle">Inductive Base Library</h4></div></header><article class="main"><div class="om"><section><h1>Article</h1></section></div><div class="types"><h2>The Design of Base Library</h2><div class="type"><ol class="type__col"><h3>NR ND +</h3><li><a href="#bool">BOOL</a></li><li><a href="#true">TRUE</a></li><li><a href="#false">FALSE</a></li><li><a href="#maybe">MAYBE</a></li><li><a href="#unit">UNIT</a></li></ol><ol class="type__col"><h3>R ND +</h3><li><a href="#nat">NAT</a></li><li><a href="#list">LIST</a></li><li><a href="#io">IO</a></li><li><a href="#ioi">IOI</a></li></ol><ol class="type__col"><h3>NR D +</h3><li><a href="#path">PATH</a></li><li><a href="#exists">EXISTS</a></li></ol><ol class="type__col"><h3>RD +</h3><li><a href="#vector">VECTOR</a></li></ol><ol class="type__col"><h3>NR ND *</h3><li><a href="#prod">PROD</a></li><li><a href="#pure">PURE</a></li><li><a href="#functor">FUNCTOR</a></li><li><a href="#applicative">APPLICATIVE</a></li><li><a href="#monad">MONAD</a></li></ol><ol class="type__col"><h3>R ND *</h3><li><a href="#stream">STREAM</a></li><li><a href="#process">PROCESS</a></li><li><a href="#effect">EFFECT</a></li><li><a href="#eff.monad">EFF.MONAD</a></li><li><a href="#eff.handler">EFF.HANDLER</a></li></ol><ol class="type__col"><h3>NR D *</h3><li><a href="#sigma">SIGMA</a></li><li><a href="#setoid">SETOID</a></li><li><a href="#proper">PROPER</a></li><li><a href="#respect">RESPECT</a></li></ol><ol class="type__col"><h3>RD *</h3><li><a href="#cat">CAT</a></li><li><a href="#propset">PROPSET</a></li><li><a href="#groupoid">GROUPOID</a></li></ol></div><div class="legend"><ul class="legend__col"><li>N: Not a</li></ul><ul class="legend__col"><li>R: Recursive</li></ul><ul class="legend__col"><li>D: Dependent</li></ul><ul class="legend__col"><li>+: Coproducts</li></ul><ul class="legend__col"><li>*: Products</li></ul></div><section><h1>Coproducts</h1><p>Inductive types are the dependent version of generalized algebraic data types used in ML. With inductive and coinductive types you can model polynomial higher order functors that define generic trees and their constructors. Two very basic and known inductions are over natural numbers and lists, we show them the more detailed description.
+<!DOCTYPE html><html><head><meta charset="utf-8"><meta http-equiv="x-ua-compatible" content="ie=edge"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="author" content="Maxim Sokhatsky"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:site" content="@5HT"><meta name="twitter:creator" content="@5HT"><meta name="twitter:image" content="https://groupoid.space/card2.png"><meta property="og:title" content="Groupoid Infinity"><meta property="og:image" content="https://groupoid.space/card2.png"><meta property="og:type" content="website"><meta property="fb:app_id" content="118554188236439"><meta property="og:url" content="https://groupoid.space"><meta property="og:description" content="MLTT Language with Extensions"><link rel="stylesheet" href="https://groupoid.space/main.css?v=7"><title>Types</title></head><body class="content"><header class="header"><a href="//groupoid.space/"><img class="header__logo" src="../../groupoid.svg"/></a><div class="header__titles"><h1 class="header__title">Infinity Types</h1><h4 class="header__subtitle">Inductive Base Library</h4></div></header><article class="main"><div class="om"><section><h1>Article</h1></section></div><div class="types"><h2>The Design of Base Library</h2><div class="type"><ol class="type__col"><h3>NR ND +</h3><li><a href="#bool">BOOL</a></li><li><a href="#true">TRUE</a></li><li><a href="#false">FALSE</a></li><li><a href="#maybe">MAYBE</a></li><li><a href="#unit">UNIT</a></li></ol><ol class="type__col"><h3>R ND +</h3><li><a href="#nat">NAT</a></li><li><a href="#list">LIST</a></li><li><a href="#io">IO</a></li><li><a href="#ioi">IOI</a></li></ol><ol class="type__col"><h3>NR D +</h3><li><a href="#path">PATH</a></li><li><a href="#exists">EXISTS</a></li><li><a href="#iso">ISO</a></li><li><a href="#equiv">EQUIV</a></li></ol><ol class="type__col"><h3>RD +</h3><li><a href="#vector">VECTOR</a></li></ol><ol class="type__col"><h3>NR ND *</h3><li><a href="#prod">PROD</a></li><li><a href="#pure">PURE</a></li><li><a href="#functor">FUNCTOR</a></li><li><a href="#applicative">APPLICATIVE</a></li><li><a href="#monad">MONAD</a></li></ol><ol class="type__col"><h3>R ND *</h3><li><a href="#stream">STREAM</a></li><li><a href="#process">PROCESS</a></li><li><a href="#effect">EFFECT</a></li><li><a href="#eff.monad">EFF.MONAD</a></li><li><a href="#eff.handler">EFF.HANDLER</a></li></ol><ol class="type__col"><h3>NR D *</h3><li><a href="#sigma">SIGMA</a></li><li><a href="#setoid">SETOID</a></li><li><a href="#proper">PROPER</a></li><li><a href="#respect">RESPECT</a></li></ol><ol class="type__col"><h3>RD *</h3><li><a href="#cat">CAT</a></li><li><a href="#propset">PROPSET</a></li><li><a href="#groupoid">GROUPOID</a></li></ol></div><div class="legend"><ul class="legend__col"><li>N: Not a</li></ul><ul class="legend__col"><li>R: Recursive</li></ul><ul class="legend__col"><li>D: Dependent</li></ul><ul class="legend__col"><li>+: Coproducts</li></ul><ul class="legend__col"><li>*: Products</li></ul></div></div><div class="om"><section><h1>Coproducts</h1></section></div><section><p>Inductive types are the dependent version of generalized algebraic data types used in ML. With inductive and coinductive types you can model polynomial higher order functors that define generic trees and their constructors. Two very basic and known inductions are over natural numbers and lists, we show them the more detailed description.
 </p><h2 id="nat">Nat</h2><p>Pointed Unary System is a category nat with the terminal object
-and a carrier <mark>nat</mark> having morphism <mark>[zero: 1<sub>nat</sub> → nat, succ: nat → nat]</mark>. The initial object of nat is called Natural Number Object and models Peano axiom set.</p><code>data nat: Type :=
-     (zero: () → nat)
-     (succ: nat → nat)
+and a carrier <mark>nat</mark> having morphism <mark>[zero: 1<sub>nat</sub> → nat, succ: nat → nat]</mark>. The initial object of nat is called Natural Number Object and models Peano axiom set.</p><code>data nat = zero | succ (n:nat)
 </code><h2><a name='maybe'><a href='maybe/'>Maybe</a></a></h2><p>Maybe has representing functor M<sub>A</sub>(X) = 1 + A.
 It used for wrapping values with optional nothing consdtructor.
-In ML-style languages this type is called Option (Miranda, ML).</p><code>data maybe (n: Type): Type :=
-     (nothing: maybe n)
-     (just: n → maybe n)
+In ML-style languages this type is called Option (Miranda, ML).</p><code>data maybe (A: U) = nothing | just (x: A)
 </code><h2><a name='list'><a href='list/'>List</a></a></h2><p>The data type of <mark>list</mark> over a given set A can
 be represented as the initial algebra (&mu;&nbsp;L<sub>A</sub>,&nbsp;in)
 of the functor L<sub>A</sub>(X) = 1 + (A &times; X).
@@ -16,27 +12,21 @@ functions nil: 1 &rightarrow; List(A) and cons: A
 &times; List(A) &rightarrow; List(A) are defined
 by nil = in ◦ inl and cons = in ◦ inr, so
 in = <mark>[nil,cons]</mark>.
-</p><code>data list: (A: Type) → Type :=
-     (nil: () → list A)
-     (cons: A → list A → list A)
+</p><code>data list (A: U) = nil | cons (x:A) (xs: list A)
 
-record lists (A,B: Type): Type :=
-       (len: list A → integer)
-       ('++': list A → list A → list A)
-       (map: (A → B) → (list A → list B))
-       (filter: (A → bool) → (list A → list A)))
-</code><h2 id="sum">Sum</h2><p><mark>sum</mark> is a meta-representation form of <mark>data</mark> inductive Inf syntax construction. For the internal form see <mark>Data</mark> AST construction.</p><code>data sum (A,B: Type): Type :=
-     (left: A → sum)
-     (right: B → sum)
-</code><h2 id="empty">Empty</h2><p><mark>empty</mark> is a bottom type used as zero or terminal for <mark>sum</mark> inductive type. This type nas no constructors or with empty body.</p><code>data empty: Type := ()
-</code><h2 id="bool">Bool</h2><p><mark>bool</mark> is run-time version of the boolean logic you may use in your general purpose applications. It has only two unit constructors <mark>[true,false]</mark> and functions: <mark>[and,or]</mark>.</p><code>data bool: Type :=
-     (true: () → bool)
-     (false: () → bool)
+len (A: U): list A -> integer
+'++' (A: U): list A -> list A -> list A
+map (A B: U): (A -> B) -> list A -> list B
+filter (A: U): (A -> bool) -> list A -> list A
+</code><h2 id="sum">Either</h2><p><mark>either</mark> is a meta-representation form of
+<mark>data</mark> inductive syntax construction.</p><code>data either (A B: U) = left (x: A) | right (y: B)
+</code><h2 id="empty">Empty</h2><p><mark>empty</mark> is a bottom type used as zero or terminal for <mark>sum</mark> inductive type. This type nas no constructors or with empty body.</p><code>data empty =
+</code><h2 id="bool">Bool</h2><p><mark>bool</mark> is run-time version of the boolean logic you may use in your general purpose applications. It has only two unit constructors <mark>[true,false]</mark> and functions: <mark>[and,or]</mark>.</p><code>data bool = false | true
 </code><h2 id="vector">Vector</h2><p><mark>vector</mark> is the inductive defintion of limited length list.
 Through it depends on term <mark>nat</mark> it can be used on reasoning
-about single discrete dimention of the space, bringing very basic inductive logic. It can be used for reasoning about <mark>sqrt</mark>, as latter for any fractional exponent has correspondent number of roots inscribed in a circle on a complex surface. When vector is not dependent on nat its encoding should match with regular <mark>list</mark>.</p><code>data vector (A: Type) (N: nat): Type :=
-     (nil: vector A nat.zero)
-     (cons: A → vector A n → vector A (nat.succ n))</code></section><section><h1>Products</h1><p>When you need to inspect the addendums of inductive tree
+about single discrete dimention of the space, bringing very basic inductive logic. It can be used for reasoning about <mark>sqrt</mark>, as latter for any fractional exponent has correspondent number of roots inscribed in a circle on a complex surface. When vector is not dependent on nat its encoding should match with regular <mark>list</mark>.</p><code>data vector (A: U) (n: nat)
+   = nil
+   | cons (x: A) (xs: vector A (pred n))</code></section><div class="om"><section><h1>Products</h1></section></div><section><p>When you need to inspect the addendums of inductive tree
 defintions you can name the agruments of the constructor,
 these arguments called elements of the tuple or fields
 of the record. In this chapter we will use <mark>record</mark>
@@ -44,28 +34,55 @@ Inf syntax, we only show how <mark>record</mark>
 and <mark>data</mark> are equal in example of
 <mark>unit</mark> and <mark>prod</mark> which
 are primitive forms of coinductive constructions.
-</p><h2 id="prod">Product</h2><code>data prod (A,B: Type): Type := (cons: A → B → prod)
-record prod (A,B: Type): := (pr1: A) (pr2: B)
-</code><h2 id="unit">Unit</h2><code>data unit: Type := (star: () → unit)
-record unit: Type := (star: ())
-</code><h2><a name='stream'><a href='stream/'>Stream</a></a></h2><p><mark>stream</mark> is a record form of the list's <mark>cons</mark> constructor. It models the infinity list that has no terminal element.</p><code>record stream (A: Type): Type :=
-       (head: A)
-       (tail: stream A)
+</p><h2 id="prod">Product</h2><code>data prod (A B: U) = mk (x: A) (y: B)
+prod (A B: U): U = (_: A) * B
+
+pi1 (A B: U) (x: prod A B): A = x.1
+pi2 (A B: U) (x: prod A B): B = x.2
+</code><h2 id="unit">Unit</h2><code>data unit = star
+</code><h2><a name='stream'><a href='stream/'>Stream</a></a></h2><p><mark>stream</mark> is a record form of the list's
+<mark>cons</mark> constructor. It models the infinity
+list that has no terminal element.</p><code>data stream (A : U) = cons (x : A) (xs : stream A)
 </code><h2><a name='functor'><a href='functor/'>Functor</a></a></h2><p>Runtime functor.</p><code>functor_ (F: U -> U): U = (A B: U) -> (A -> B) -> F A -> F B</code><p>Functor carried with theorem fields.</p><code>functor (F: U -> U): U
     = (fmap: (A B: U) -> (A -> B) -> F A -> F B)
     * (id: (A: U) -> (x: F A) -> Path (F A) (fmap A A (idfun A) x) x)
     * (compose: (A B C: U) (f: B -> C) (g: A -> B) (x: F A) ->
       Path (F C) (fmap A C (o A B C f g) x)
-</code><h2 id="applicative">Applicative</h2><code>record applicative (F: Type → Type) (A,B: Type): Type
-extend pure F A, functor F A B
-    := (ap: F (A → B) → F A → F B)
-</code><h2 id="monad">Monad</h2><code>record monad: (F: Type → Type) → (A B: Type) → Type
-extend pure F A, functor F A B)
-    := (join: F (F A) → F B)
-</code><h2><a name='sigma'><a href='sigma/'>Sigma</a></a></h2><code>record sigma (A: Type) (B: A → Type): Type :=
-       (pr1: A)
-       (pr2: B pr1)
-</code></section><section><h1>I/O Monads</h1><p>Recursive and Corecursive Monads.</p><h2 id="io">IO</h2><p>Finite I/O</p><code>data IO (A: Type): Type :=
+    * Unit
+</code><h2 id="applicative">Control</h2><code>data fix (F: U -> U) = Fix (point: F (fix F))
+data freeF   (F: U -> U) (A B: U)  = ReturnF (a: A) | BindF (f: F B)
+data cofreeF (F: U -> U) (A B: U)  = CoBindF (a: A)         (f: F B)
+data free    (F: U -> U) (A: U)    = Free    (_: fix (freeF     F A))
+data cofree  (F: U -> U) (A: U)    = CoFree  (_: fix (cofreeF   F A))
+
+pure (F: U -> U): U
+    = (return: (A: U) -> A -> F A)
+    * Unit
+
+applicative (F: U -> U): U
+    = (pure_: (A: U) -> pure A F)
+    * (functor_: functor F)
+    * (ap: (A B: U) -> F (A -> B) -> F A -> F B)
+    * Unit
+</code><h2 id="monad">Monad</h2><code>monad (F: U -> U): U
+    = (pure_: (A: U) -> pure A F)
+    * (functor_: functor F)
+    * (join: (A B: U) -> F (F A) -> F B)
+    * Unit
+
+comonad (F: U -> U): U
+    = (pure_: (A: U) -> pure A F)
+    * (functor_: functor F)
+    * (extract: (A: U) -> F A -> A)
+    * (duplicate: (A: U) -> F A -> F (F A))
+    * (extend: (A B: U) -> (F A -> B) -> F A -> F B)
+    * Unit
+</code><h2><a name='sigma'><a href='sigma/'>Sigma</a></a></h2><code>Sigma (A: U) (B: A -> U): U
+
+make (A: U) (B: A -> U) (a: A) (b: B a): Sigma A B
+pr1 (A: U) (B: A -> U) (x: Sigma A B): A
+pr2 (A: U) (B: A -> U) (x: Sigma A B): B (pr1 A B x)
+</code></section><div class="om"><section><h1>I/O Monads</h1></section></div><section><p>Recursive and Corecursive Monads.</p><h2 id="io">IO</h2><p>Finite I/O</p><code>data IO (A: Type): Type :=
      (getLine: (String → IO) → IO)
      (putLine: String → IO → IO)
      (pure: A → IO)</code><p>Example:</p><code>(main: IO.replicateM 100 (IO.>>= IO.data () IO.getLine IO.putLine))
@@ -86,7 +103,7 @@ data IOI (A,State: Type) :=
                         IOI.putLine r (Maybe IOI.data)
                         str (Maybe.Nothing IOI.data))
                     (IOI.getLine r (Maybe IOI.data)
-                                (Maybe.Just IOI.data))))</code></section><section><h1>Effects</h1><p>Programming effect system with single Monad and Effect Handlers.</p><h2 id="effect">Effect</h2><code>record effect (v:Type) (r:Type): Type :=
+                                (Maybe.Just IOI.data))))</code></section><div class="om"><section><h1>Effects</h1><p>Programming effect system with single Monad and Effect Handlers.</p></section></div><section><h2 id="effect">Effect</h2><code>record effect (v:Type) (r:Type): Type :=
        (values: v)
        (resource: r)
        (computation: (v → r))
@@ -104,19 +121,43 @@ data EX (t:Type): Type := (intro: effect ()  (exception t))
                 (m: Type → Type): Type :=
     (action: ∀ (r: res) (eff: e t res resk)
                 (k: ∀ (x: t) → resk x → m a) → m a)
-</code></section><section><h1>Logic</h1><p>Basic Theories: Equality, Congruence, Categories, Setoid.</p><h2 id="path"><a name="path"><a href='path/'>Path</a></a></h2><code>Path (A: U) (a b: A) : U
+</code></section><div class="om"><section><h1>Logic</h1></section></div><section><p>Basic Theories: Equality, Congruence, Categories, Setoid.</p><h2 id="path"><a name="proto"><a href='proto/'>Proto</a></a></h2><code>idfun (A: U) (a: A): A
+constfun (A B: U) (a: A) (b: B): A
+o (A B C: U) (f: B -> C) (g: A -> B): A -> C
+and (A B: U): U = (_: A) * B
+</code><h2 id="path"><a name="path"><a href='path/'>Path</a></a></h2><code>Path (A: U) (a b: A) : U
 sym  (A: U) (a b: A) (p: Path A a b): Path A b a
 refl (A: U) (a: A) : Path A a a
 singl (A: U) (a: A) : U
 trans (A B: U) (p: Path U A B) (a: A) : B
 subst (A: U) (P: A -> U) (a b: A) (p: Path A a b) (e: P a): P b
+mapOnPath (A B: U) (f: A -> B) (a b: A) (p: Path A a b): Path B (f a) (f b)
+composition (A: U) (a b c: A) (p: Path A a b) (q: Path A b c): Path A a c
+</code><h2 id="cat"><a name="propset"><a href='propset/'>Propset</a></a></h2><code>isContr (A: U): U = (x: A) * ((y: A) -> Path A x y)
+isProp  (A: U): U = n_grpd A Z
+isSet   (A: U): U = n_grpd A (S Z)
+</code><h2 id="path"><a name="equiv"><a href='equiv/'>Equiv</a></a></h2><code>fiber   (A B: U) (f: A -> B) (y: B): U = (x: A) * Path B y (f x)
+isEquiv (A B: U) (f: A -> B): U = (y: B) -> isContr (fiber A B f y)
+equiv   (A B: U): U = (f: A -> B) * isEquiv A B f
+</code><h2 id="cat"><a name="iso"><a href='iso/'>Iso</a></a></h2><code>Square (A : U) (a0 a1 b0 b1 : A)
+       (u : Path A a0 a1) (v : Path A b0 b1)
+       (r0 : Path A a0 b0) (r1 : Path A a1 b1) : U
 
-mapOnPath (A B: U) (f: A -> B) (a b: A) (p: Path A a b):
-  Path B (f a) (f b)
-composition (A: U) (a b c: A) (p: Path A a b) (q: Path A b c):
-  Path A a c
-</code><h2 id="exists">Exists</h2><code>data Exists (A: U) (P: A -> U) =
-     intro (x:A) (y: P x)
+lemIso (A B : U) (f : A -> B) (g : B -> A)
+       (s : (y : B) -> Path B (f (g y)) y)
+       (t : (x : A) -> Path A (g (f x)) x)
+       (y : B) (x0 x1 : A)
+       (p0 : Path B y (f x0))
+       (p1 : Path B y (f x1)):
+       Path (fiber A B f y) (x0,p0) (x1,p1)
+
+isoToEquiv (A B: U) (f: A -> B) (g: B -> A)
+       (s: (y: B) -> Path B (f (g y)) y)
+       (t: (x: A) -> Path A (g (f x)) x): isEquiv A B f
+
+isoPath (A B: U) (f: A -> B) (g: B -> A)
+      (s: (y: B) -> Path B (f (g y)) y)
+      (t: (x: A) -> Path A (g (f x)) x): Path U A B
 </code><h2 id="cat"><a name="cat"><a href='cat/'>Cat</a></a></h2><code>isPrecategory (C: cat): U
   = (id: (x: C.1) -> C.2 x x)
   * (c: (x y z: C.1) -> C.2 x y -> C.2 y z -> C.2 x z)
@@ -125,9 +166,6 @@ composition (A: U) (a b c: A) (p: Path A a b) (q: Path A b c):
   * (right: (x y: C.1) -> (f: C.2 x y) -> Path (C.2 x y) (c x y y f (id y)) f)
   * ( (x y z w: C.1) -> (f: C.2 x y) -> (g: C.2 y z) -> (h: C.2 z w) ->
   Path (C.2 x w) (c x z w (c x y z f g) h) (c x y w f (c y z w g h)))
-</code><h2 id="cat"><a name="propset"><a href='propset/'>Propset</a></a></h2><code>isContr (A: U): U = (x: A) * ((y: A) -> Path A x y)
-isProp  (A: U): U = n_grpd A Z
-isSet   (A: U): U = n_grpd A (S Z)
 </code><h2 id="setoid">Setoid</h2><p>Setoid in essence is a type with an equality.
 Type theory has its own equality type, which could
 be treated as the simplest non-trivial dependent type,
@@ -160,4 +198,4 @@ gives us a concept of &infin;-Groupoid.
 </p><code>inf_grpd (A: U): U
   = (carrier: A)
   * (eq: (a b: A) -> Path A a b)
-  * ((a b: A) -> inf_grpd (Path A a b))</code></section></div></article><footer class="footer"><img class="footer__logo" src="https://longchenpa.guru/seal.png" width="50"><span class="footer__copy">2016&mdash;2017 &copy; <a href="//groupoid.space/team.html" style="color:white;">Groupoid Infinity</a></span></footer><script src="https://groupoid.space/bundle.js"></script><script src="https://groupoid.space/highlight.js"></script></body></html>
+  * ((a b: A) -> inf_grpd (Path A a b))</code></section></article><footer class="footer"><img class="footer__logo" src="https://longchenpa.guru/seal.png" width="50"><span class="footer__copy">2016&mdash;2017 &copy; <a href="//groupoid.space/team.html" style="color:white;">Groupoid Infinity</a></span></footer><script src="https://groupoid.space/bundle.js"></script><script src="https://groupoid.space/highlight.js"></script></body></html>

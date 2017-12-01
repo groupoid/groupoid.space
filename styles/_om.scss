@@ -1,7 +1,9 @@
 .om {
 
-    section + section {
-        margin-top: 50px;
+    section {
+        h1 {
+            margin-top: 50px;
+        }
     }
 
     h1 {
@@ -17,7 +19,7 @@
     }
 
     h1 + h2 {
-        margin-top: 0px; 
+        margin-top: 20px; 
     }
 
     h3 {

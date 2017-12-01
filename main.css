@@ -272,7 +272,7 @@ aside {
     margin: 0 0 10px;
     text-transform: uppercase; }
 
-.om section + section {
+.om section h1 {
   margin-top: 50px; }
 
 .om h1 {
@@ -287,7 +287,7 @@ aside {
       font-size: 40px; } }
 
 .om h1 + h2 {
-  margin-top: 0px; }
+  margin-top: 20px; }
 
 .om h3 {
   max-width: 100%;
