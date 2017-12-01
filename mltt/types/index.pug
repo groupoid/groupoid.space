@@ -187,8 +187,8 @@ block content
                 data free    (F: U -> U) (A: U)    = Free    (_: fix (freeF     F A))
                 data cofree  (F: U -> U) (A: U)    = CoFree  (_: fix (cofreeF   F A))
 
-                pure (F: U -> U): U
-                    = (return: (A: U) -> A -> F A)
+                pure (A: U) (F: U -> U): U
+                    = (return: A -> F A)
                     * Unit
 
                 applicative (F: U -> U): U
