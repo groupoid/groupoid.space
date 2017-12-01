@@ -9,7 +9,8 @@ block content
         .om
             section
                 h1 Article
-            aside Maxim Sokhatsky
+            aside Andy Melnikov
+                <br>Maxim Sokhatsky<br>
                 time DATE: 1 DEC 2017
             p.
                 This library is dedicated to <b>cubical</b>-compatible
@@ -21,15 +22,20 @@ block content
                 <b>equiv</b> (fiber, eqiuv) and <b>iso</b> (lemIso, isoPath).
                 This machinery is enough to prove univalence axiom.
             p.
-                The library has rich recursion scheme primitives
-                in <b>lambek</b> module, basic <b>nat</b>,
-                <b>list</b>, <b>stream</b> funtionality.
-                The very basic theorems are given in <b>pi</b>, <b>iso_pi</b>,
-                <b>sigma</b>, <b>iso_sigma</b>, <b>retract</b> modules.
+                (i) The library has rich recursion scheme primitives
+                in lambek module, while very basic nat, list, stream
+                functionality. (ii) The very basic theorems are given
+                in pi, iso_pi, sigma, iso_sigma, retract modules.
+                (iii) The library has category theory theorems from
+                HoTT book in cat, fun and category modules.
+                (iv) The library also includes some impredicative
+                categorical encoding sketches in coproduct_set.
+                lambek also includes inductive semantics modeled
+                with cata/ana recursion and fixpoint adjoints in/out.
             p.
                 This library is best to read with HoTT book.
         .types
-            h2 The Design of Base Library
+            h2 Base Library Modules
             -
                     var types = {
                         'nr nd +': [ 'bool', 'maybe', 'unit', 'empty', 'either' ],
