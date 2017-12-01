@@ -309,26 +309,19 @@ block content
 
                 h2#exists Exists
                 code.
-                    data Exists (A:Type) (P: A → Type): Prop :=
-                         (intro: ∀ (x:A) → P x → exists P x)
+                    data Exists (A:Type) (P: A -> Type) =
+                         intro (x:A) (y: P x)
 
                 h2#cat <a name="cat"><a href='cat/'>Cat</a></a>
                 code.
-                    record Cat: Type :=
-                           (Ob: Type)
-                           (Hom:   ∀ (dom,cod: Ob) → Setoid)
-                           (Id:    ∀ (x: Ob) → Hom x x)
-                           (Comp:  ∀ (x,y,z: Ob) → Hom x y → Hom y z → Hom x z)
-                           (Dom₁ₒ:  ∀ (x,y: Ob) (f: Hom x y) → (Hom.Equ x y (Comp x x y id f) f))
-                           (Cod₁ₒ:  ∀ (x,y: Ob) (f: Hom x y) → (Hom.Equ x y (Comp x y y f id) f))
-                           (Subst₁: ∀ (x,y,z: Ob) →
-                                    Proper (Respect Equ (Respect Equ Equ)) (Comp x y z))
-                           (Substₒ: ∀ (x,y,z: Ob) (f₁,f₂: Hom x y) (g₁,g₂: Hom y z)
-                                    → (Hom.Equ x y f₁ f₂) → (Hom.Equ y z g₁ g₂)
-                                    → (Hom.Equ x z (Comp x y z f₁ g₁) (Comp x y z f₂ g₂)))
-                           (Assocₒ: ∀ (x,y,z,w: Ob) (f: Hom x y) (g: Hom y z) (h: Hom z w)
-                                    → (Hom.Equ x w (Comp x y w f (Comp y z w g h))
-                                                   (Comp x z w (Comp x y z f g) h)))
+                    isPrecategory (C: cat): U
+                      = (id: (x: C.1) -> C.2 x x)
+                      * (c: (x y z: C.1) -> C.2 x y -> C.2 y z -> C.2 x z)
+                      * (homSet: (x y: C.1) -> isSet (C.2 x y))
+                      * (left: (x y: C.1) -> (f: C.2 x y) -> Path (C.2 x y) (c x x y (id x) f) f)
+                      * (right: (x y: C.1) -> (f: C.2 x y) -> Path (C.2 x y) (c x y y f (id y)) f)
+                      * ( (x y z w: C.1) -> (f: C.2 x y) -> (g: C.2 y z) -> (h: C.2 z w) ->
+                      Path (C.2 x w) (c x z w (c x y z f g) h) (c x y w f (c y z w g h)))
 
                 h2#cat <a name="propset"><a href='propset/'>Propset</a></a>
                 code.
@@ -338,22 +331,43 @@ block content
 
                 h2#setoid Setoid
                 p.
-                    Setoid in essence is a type with an equality. Type theory has its own equality type, which could be treated as the simplest non-trivial dependent type, however the behavior of this kind of equality is defined with additional axioms, that may be optional in minimal type theory. The neat thing about Setoid is that categorical constructions on setoids give us equality on all (Co)inductive types, which is not dependent on properties of underlying type theory.
+                    Setoid in essence is a type with an equality.
+                    Type theory has its own equality type, which could
+                    be treated as the simplest non-trivial dependent type,
+                    however the behavior of this kind of equality is
+                    defined with additional axioms, that may be optional
+                    in minimal type theory. The neat thing about Setoid
+                    is that categorical constructions on setoids give
+                    us equality on all (Co)inductive types, which is
+                    not dependent on properties of underlying type theory.
+
                 code.
-                    record Setoid: Type :=
-                           (Carrier: Type)
-                           (Equ: Carrier → Carrier → Prop)
-                           (Refl: ∀ (x: Carrier) → Equ x x)
-                           (Trans: ∀ (x₁,x₂,x₃: Carrier) → Equ x₁ x₂ → Equ x₂ x₃ → Equ x₁ x₃)
-                           (Sym: ∀ (x₁,x₂: Carrier) → Equ x₁ x₂ → Equ x₂ x₁)
+                    Setoid (A: U): U
+                      = (Carrier: A)
+                      * (Equ: (a b: A) -> Path A a b)
+                      * (Refl: (x: A) -> Equ x x)
+                      * (Trans: (x₁,x₂,x₃: A) -> Equ x₁ x₂ -> Equ x₂ x₃ -> Equ x₁ x₃)
+                      * (Sym: (x₁,x₂: A) -> Equ x₁ x₂ -> Equ x₂ x₁)
 
                 h2#groupoid Groupoid
                 p.
-                    <mark>Groupoid</mark> is a multidimensional generalization of <mark>Setoid</mark> type, which has equalities on equalities and operations between them. Gropoid was introduced in algebraїс topology for the purposes of homotopy theory and has the potential to replace the notion of topological space since groupoid covers all the properties of topological space from the homotopy perspective. The ultimate equality on universum of all types was shown in HoTT setting, thus type theory became successful for reasoning about homotopies. Iterating a Groupoid record over infinity number of universes that hold objects and homomorphisms gives us a concept of &infin;-Groupoid.
+                    <mark>Groupoid</mark> is a multidimensional
+                    generalization of <mark>Setoid</mark> type,
+                    which has equalities on equalities and operations
+                    between them. Gropoid was introduced in algebraїс
+                    topology for the purposes of homotopy theory and
+                    has the potential to replace the notion of topological
+                    space since groupoid covers all the properties of
+                    topological space from the homotopy perspective.
+                    The ultimate equality on universum of all types
+                    was shown in HoTT setting, thus type theory
+                    became successful for reasoning about homotopies.
+                    Iterating a Groupoid record over infinity number
+                    of universes that hold objects and homomorphisms
+                    gives us a concept of &infin;-Groupoid.
 
                 code.
-                    record Groupoid: Type :=
-                           (ob: Type)
-                           (hom: ∀ (a,b: ob) → (Hom a b) → Groupoid)
-
-
+                    inf_grpd (A: U): U
+                      = (carrier: A)
+                      * (eq: (a b: A) -> Path A a b)
+                      * ((a b: A) -> inf_grpd (Path A a b))
