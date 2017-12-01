@@ -148,23 +148,17 @@ block content
                            (head: A)
                            (tail: stream A)
 
-                h2#pure Pure
-                code.
-                    record pure (P: Type → Type) (A: Type): Type :=
-                           (return: P A)
-
                 h2 <a name='functor'><a href='functor/'>Functor</a></a>
                 p Runtime functor.
                 code.
-                    record functor (F: Type → Type) (A B: Type): Type :=
-                           (fmap: (A → B) → F A → F B)
+                    functor_ (F: U -> U): U = (A B: U) -> (A -> B) -> F A -> F B
                 p Functor carried with theorem fields.
                 code.
-                    record Functor (F: Type → Type): Type :=
-                           (fmap: ∀ (A,B: Type) → (A → B) → F A → F B)
-                           (id: ∀ (A: Type) (x: F A) → Equ (fmap id x) x)
-                           (comp: ∀ (A,B,C: Type) (f: B → C) (g: A → B) (x: F A)
-                                  → Equ (fmap (f ◦ g) x) ((fmap f ◦ fmap g) x))
+                    functor (F: U -> U): U
+                        = (fmap: (A B: U) -> (A -> B) -> F A -> F B)
+                        * (id: (A: U) -> (x: F A) -> Path (F A) (fmap A A (idfun A) x) x)
+                        * (compose: (A B C: U) (f: B -> C) (g: A -> B) (x: F A) ->
+                          Path (F C) (fmap A C (o A B C f g) x)
 
                 h2#applicative Applicative
                 code.
@@ -258,58 +252,23 @@ block content
                 h1 Logic
                 p Basic Theories: Equality, Congruence, Categories, Setoid.
 
-                h2#true True
-                code.
-                    data True: Prop :=
-                         (intro: () → True)
-
-                h2#false False
-                code.
-                    data False: Prop := ()
-
-                h2#inhabited Inhabited
-                code.
-                    data Inhabited (A: Type): Prop :=
-                         (intro: A -> Inhabited A)
-
-                h2#proper Proper
-                code.
-                    record Proper (A: Type) (R: A → A → Prop) (m: A): Prop :=
-                           (Proof: R m m)
-
-                h2#respect Respect / Congruence
-                code.
-                    define Respect (A,B: Type)
-                                   (C: A → Type)
-                                   (D: B → Type)
-                                   (R: A → B → Prop)
-                        (Ro: ∀ (x: A) (y: B) → C x → D y → Prop) :
-                                (∀ (x: A) → C x) → (∀ (x: B) → D x)
-                                → Prop :=
-                                λ (f,g: Type → Type)
-                                → (∀ (x,y: Type) → R x y)
-                                → Ro x y (f x) (g y)
-
                 h2#path <a name="path"><a href='path/'>Path</a></a>
                 code.
-                    record Id (A: Type): Type :=
-                           (Id: A → A → Type)
-                           (refl (a: A): Id a a)
-                           (Predicate: ∀ (x,y: A) → Id A x y → Type)
-                           (Forall (C: Predicate): ∀ (x,y: A) → ∀ (p: Id x y) → C x y p)
-                           (∆ (C: Predicate): ∀ (x: A) → C x x (refl x))
-                           (axiom-J (C: Predicate): ∆ C → Forall C)
-                           (computation-rule (C: Predicate) (t: ∆ C):
-                                            ∀ (x: A) → (J C t x x (refl x)) '==>' (t x) )
+                    Path (A: U) (a b: A) : U
+                    sym  (A: U) (a b: A) (p: Path A a b): Path A b a
+                    refl (A: U) (a: A) : Path A a a
+                    singl (A: U) (a: A) : U
+                    trans (A B: U) (p: Path U A B) (a: A) : B
+                    subst (A: U) (P: A -> U) (a b: A) (p: Path A a b) (e: P a): P b
 
-                    data Eq (A:Type): A → A → Prop :=
-                         (refl: ∀ (x:A) → Eq A x x)
-
-                    Path (A : U) (a b : A): U = PathP (&lt;i&gt; A) a b
+                    mapOnPath (A B: U) (f: A -> B) (a b: A) (p: Path A a b):
+                      Path B (f a) (f b)
+                    composition (A: U) (a b c: A) (p: Path A a b) (q: Path A b c):
+                      Path A a c
 
                 h2#exists Exists
                 code.
-                    data Exists (A:Type) (P: A -> Type) =
+                    data Exists (A: U) (P: A -> U) =
                          intro (x:A) (y: P x)
 
                 h2#cat <a name="cat"><a href='cat/'>Cat</a></a>

@@ -51,14 +51,11 @@ record unit: Type := (star: ())
 </code><h2><a name='stream'><a href='stream/'>Stream</a></a></h2><p><mark>stream</mark> is a record form of the list's <mark>cons</mark> constructor. It models the infinity list that has no terminal element.</p><code>record stream (A: Type): Type :=
        (head: A)
        (tail: stream A)
-</code><h2 id="pure">Pure</h2><code>record pure (P: Type → Type) (A: Type): Type :=
-       (return: P A)
-</code><h2><a name='functor'><a href='functor/'>Functor</a></a></h2><p>Runtime functor.</p><code>record functor (F: Type → Type) (A B: Type): Type :=
-       (fmap: (A → B) → F A → F B)</code><p>Functor carried with theorem fields.</p><code>record Functor (F: Type → Type): Type :=
-       (fmap: ∀ (A,B: Type) → (A → B) → F A → F B)
-       (id: ∀ (A: Type) (x: F A) → Equ (fmap id x) x)
-       (comp: ∀ (A,B,C: Type) (f: B → C) (g: A → B) (x: F A)
-              → Equ (fmap (f ◦ g) x) ((fmap f ◦ fmap g) x))
+</code><h2><a name='functor'><a href='functor/'>Functor</a></a></h2><p>Runtime functor.</p><code>functor_ (F: U -> U): U = (A B: U) -> (A -> B) -> F A -> F B</code><p>Functor carried with theorem fields.</p><code>functor (F: U -> U): U
+    = (fmap: (A B: U) -> (A -> B) -> F A -> F B)
+    * (id: (A: U) -> (x: F A) -> Path (F A) (fmap A A (idfun A) x) x)
+    * (compose: (A B C: U) (f: B -> C) (g: A -> B) (x: F A) ->
+      Path (F C) (fmap A C (o A B C f g) x)
 </code><h2 id="applicative">Applicative</h2><code>record applicative (F: Type → Type) (A,B: Type): Type
 extend pure F A, functor F A B
     := (ap: F (A → B) → F A → F B)
@@ -107,38 +104,18 @@ data EX (t:Type): Type := (intro: effect ()  (exception t))
                 (m: Type → Type): Type :=
     (action: ∀ (r: res) (eff: e t res resk)
                 (k: ∀ (x: t) → resk x → m a) → m a)
-</code></section><section><h1>Logic</h1><p>Basic Theories: Equality, Congruence, Categories, Setoid.</p><h2 id="true">True</h2><code>data True: Prop :=
-     (intro: () → True)
-</code><h2 id="false">False</h2><code>data False: Prop := ()
-</code><h2 id="inhabited">Inhabited</h2><code>data Inhabited (A: Type): Prop :=
-     (intro: A -> Inhabited A)
-</code><h2 id="proper">Proper</h2><code>record Proper (A: Type) (R: A → A → Prop) (m: A): Prop :=
-       (Proof: R m m)
-</code><h2 id="respect">Respect / Congruence</h2><code>define Respect (A,B: Type)
-               (C: A → Type)
-               (D: B → Type)
-               (R: A → B → Prop)
-    (Ro: ∀ (x: A) (y: B) → C x → D y → Prop) :
-            (∀ (x: A) → C x) → (∀ (x: B) → D x)
-            → Prop :=
-            λ (f,g: Type → Type)
-            → (∀ (x,y: Type) → R x y)
-            → Ro x y (f x) (g y)
-</code><h2 id="path"><a name="path"><a href='path/'>Path</a></a></h2><code>record Id (A: Type): Type :=
-       (Id: A → A → Type)
-       (refl (a: A): Id a a)
-       (Predicate: ∀ (x,y: A) → Id A x y → Type)
-       (Forall (C: Predicate): ∀ (x,y: A) → ∀ (p: Id x y) → C x y p)
-       (∆ (C: Predicate): ∀ (x: A) → C x x (refl x))
-       (axiom-J (C: Predicate): ∆ C → Forall C)
-       (computation-rule (C: Predicate) (t: ∆ C):
-                        ∀ (x: A) → (J C t x x (refl x)) '==>' (t x) )
+</code></section><section><h1>Logic</h1><p>Basic Theories: Equality, Congruence, Categories, Setoid.</p><h2 id="path"><a name="path"><a href='path/'>Path</a></a></h2><code>Path (A: U) (a b: A) : U
+sym  (A: U) (a b: A) (p: Path A a b): Path A b a
+refl (A: U) (a: A) : Path A a a
+singl (A: U) (a: A) : U
+trans (A B: U) (p: Path U A B) (a: A) : B
+subst (A: U) (P: A -> U) (a b: A) (p: Path A a b) (e: P a): P b
 
-data Eq (A:Type): A → A → Prop :=
-     (refl: ∀ (x:A) → Eq A x x)
-
-Path (A : U) (a b : A): U = PathP (&lt;i&gt; A) a b
-</code><h2 id="exists">Exists</h2><code>data Exists (A:Type) (P: A -> Type) =
+mapOnPath (A B: U) (f: A -> B) (a b: A) (p: Path A a b):
+  Path B (f a) (f b)
+composition (A: U) (a b c: A) (p: Path A a b) (q: Path A b c):
+  Path A a c
+</code><h2 id="exists">Exists</h2><code>data Exists (A: U) (P: A -> U) =
      intro (x:A) (y: P x)
 </code><h2 id="cat"><a name="cat"><a href='cat/'>Cat</a></a></h2><code>isPrecategory (C: cat): U
   = (id: (x: C.1) -> C.2 x x)
