@@ -20,7 +20,7 @@ block content
                         'nr nd *': ['prod', 'pure', 'functor', 'applicative', 'monad'],
                         'r nd *': ['stream', 'process', 'effect', 'eff.monad', 'eff.handler'],
                         'nr d *': ['sigma', 'setoid', 'proper', 'respect' ],
-                        'rd *': ['cat', 'groupoid']
+                        'rd *': ['cat', 'propset', 'groupoid']
                     }
 
                     var legend = {
@@ -329,6 +329,12 @@ block content
                            (Assocₒ: ∀ (x,y,z,w: Ob) (f: Hom x y) (g: Hom y z) (h: Hom z w)
                                     → (Hom.Equ x w (Comp x y w f (Comp y z w g h))
                                                    (Comp x z w (Comp x y z f g) h)))
+
+                h2#cat <a name="propset"><a href='propset/'>Propset</a></a>
+                code.
+                    isContr (A: U): U = (x: A) * ((y: A) -> Path A x y)
+                    isProp  (A: U): U = n_grpd A Z
+                    isSet   (A: U): U = n_grpd A (S Z)
 
                 h2#setoid Setoid
                 p.

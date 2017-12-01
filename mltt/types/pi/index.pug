@@ -1,0 +1,64 @@
+extends ../../../layout.pug
+
+block title
+    title PI
+    script(src='//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML')
+    script.
+     window.MathJax = { jax: ["input/TeX", "input/MathML", "input/AsciiMath", "output/CommonHTML", "output/NativeMML"],
+                             TeX: { extensions: ["AMSmath.js", "AMSsymbols.js", "autoload-all.js"] },
+                             extensions: ["tex2jax.js", "asciimath2jax.js", "mml2jax.js", "MathMenu.js", "MathZoom.js"],
+                             "HTML-CSS": { imageFont: null },
+                             AuthorInit: function() {
+                                 MathJax.Hub.Register.StartupHook("TeX AMSmath Ready", function() {
+                                     var TEX = MathJax.InputJax.TeX;
+                                     TEX.Definitions.Add({
+                                         macros: {
+                                           llparenthesis: ['Macro', '\\mathopen{\u2987}'],
+                                           rrparenthesis: ['Macro', '\\mathclose{\u2988}'],
+                                           llbracket:     ['Macro', '\\mathopen{\u27E6}'],
+                                           rrbracket:     ['Macro', '\\mathclose{\u27E7}'],
+                                         }
+                                     });
+                                 });
+                             },
+                             tex2jax: { inlineMath: [['$','$'], ['\\(','\\)']],
+                                        processEscapes: true }
+                         };
+
+block content
+    article.main
+        .om
+            section
+                h1 pi
+        aside <a href="..">Base Library</a>
+            time Published: 16 OCT 2017
+        .om
+            section
+                p.
+                    <a href="https://raw.githubusercontent.com/groupoid/infinity/master/priv/pi.ctt">Pi package</a>
+                    contains basic theorems about sigma types. Sigma type is built in core.
+                code.
+                    Pi (A: U) (P: A->U): U = (x: A) -> P x
+                p.
+                    All the constructions on $\Pi$-types arise as straightforward
+                    generalizations of the ones for function types.
+                    The type of function codomain is allowed to be
+                    perametrized by the value from the domain type.
+
+            section
+                h2 Intro
+                code.
+                    intro (A : U) (B: A -> U)
+                           (a : A) (b: B a): A -> B a
+                         = \(x: A) -> b
+                p.
+                    Lambda constructor is also built in core as primitive.
+                    It defines the element of functional space.
+
+                h2 Application
+                code.
+                    app (A : U) (B: A -> U)
+                        (a : A) (f: A -> B a): B a = f a
+                p.
+                    Application is correspondent Lambda eliminator.
+

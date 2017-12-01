@@ -18,8 +18,8 @@
                         tex2jax: { inlineMath: [['$','$'], ['\\(','\\)']],
                                    processEscapes: true }
                     };
-</script></head><body class="content"><article class="main"><div class="om"><section><h1>sigma</h1></section></div><aside><a href="..">Base Library</a><time>Published: 16 OCT 2017</time></aside><div class="om"><section><p><a href="https://raw.githubusercontent.com/groupoid/infinity/master/priv/sigma.ctt">Path package</a>
-contains basic theorems about sigma types. Sigma type is built in core.</p><code>Sigma (A : U)
+</script></head><body class="content"><article class="main"><div class="om"><section><h1>sigma</h1></section></div><aside><a href="..">Base Library</a><time>Published: 16 OCT 2017</time></aside><div class="om"><section><p><a href="https://raw.githubusercontent.com/groupoid/infinity/master/priv/sigma.ctt">Sigma package</a>
+contains basic theorems about sigma types. Sigma type is built in MLTT core.</p><code>Sigma (A : U)
       (B : A -> U) : U
     = (x : A) * B x</code><p>All the constructions on $\Sigma$-types arise as straightforward
 generalizations of the ones for product types.
@@ -45,7 +45,7 @@ accessor should be applied followed by <mark>.1</mark>.
        (C: Sigma A B -> U)
        (g: (a: A) (b: B a) -> C (a, b))
        (p: Sigma A B): C p
-    = g p.1 p.2</code><p>Recursor is the special case of induction when
+     = g p.1 p.2</code><p>Recursor is the special case of induction when
 the family $C$ is constant.
 </p><h1>Theorems</h1><h2>pathSig</h2><code>pathSig (A:U) (B : A -> U)
         (t u : Sigma A B) :
@@ -55,17 +55,11 @@ the family $C$ is constant.
              * PathP (&lt;i&gt; B (p @ i))
                      t.2
                      u.2)
-</code><h2>pathSig2</h2><code>pathSig2 (A:U) (P : A -> U)
-         (t u : Sigma A P)
-         (pp : (p : Path A t.1 u.1)
-             * PathP (&lt;i&gt; P (p @ i))
-                     t.2
-                     u.2) :
-         Path (Sigma A P) t u
-</code><h2>pathSig3</h2><code>pathSig3 (A:U) (P : A -> U)
-         (t u : Sigma A P)
-         (pp : (p : Path A t.1 u.1)
-             * Path (P u.1)
-                    (transport (&lt;i&gt; P (p @ i)) t.2)
-                    u.2) :
-         Path (Sigma A P) t u</code></section></div></article><footer class="footer"><img class="footer__logo" src="https://longchenpa.guru/seal.png" width="50"><span class="footer__copy">2016&mdash;2017 &copy; <a href="//groupoid.space/team.html" style="color:white;">Groupoid Infinity</a></span></footer><script src="https://groupoid.space/bundle.js"></script><script src="https://groupoid.space/highlight.js"></script></body></html>
+</code><h2>corSigProp</h2><code>corSigProp (A:U) (B:A-> U)
+    (pB: (x:A) -> isProp (B x))
+    (t u: Sigma A B) (p:Path A t.1 u.1):
+    isProp (PathP (<i>B (p@i)) t.2 u.2)
+</code><h2>corSigSet</h2><code>corSigSet (A:U) (B:A-> U)
+    (sB: (x:A) -> isSet (B x))
+    (t u: Sigma A B) (p: Path A t.1 u.1):
+    isProp (PathP (<i>B (p@i)) t.2 u.2)</code></section></div></article><footer class="footer"><img class="footer__logo" src="https://longchenpa.guru/seal.png" width="50"><span class="footer__copy">2016&mdash;2017 &copy; <a href="//groupoid.space/team.html" style="color:white;">Groupoid Infinity</a></span></footer><script src="https://groupoid.space/bundle.js"></script><script src="https://groupoid.space/highlight.js"></script></body></html>

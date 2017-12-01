@@ -35,8 +35,8 @@ block content
         .om
             section
                 p.
-                    <a href="https://raw.githubusercontent.com/groupoid/infinity/master/priv/sigma.ctt">Path package</a>
-                    contains basic theorems about sigma types. Sigma type is built in core.
+                    <a href="https://raw.githubusercontent.com/groupoid/infinity/master/priv/sigma.ctt">Sigma package</a>
+                    contains basic theorems about sigma types. Sigma type is built in MLTT core.
                 code.
                     Sigma (A : U)
                           (B : A -> U) : U
@@ -84,7 +84,7 @@ block content
                            (C: Sigma A B -> U)
                            (g: (a: A) (b: B a) -> C (a, b))
                            (p: Sigma A B): C p
-                        = g p.1 p.2
+                         = g p.1 p.2
                 p.
                     Recursor is the special case of induction when
                     the family $C$ is constant.
@@ -102,22 +102,16 @@ block content
                                          t.2
                                          u.2)
 
-                h2 pathSig2
+                h2 corSigProp
                 code.
-                    pathSig2 (A:U) (P : A -> U)
-                             (t u : Sigma A P)
-                             (pp : (p : Path A t.1 u.1)
-                                 * PathP (&lt;i&gt; P (p @ i))
-                                         t.2
-                                         u.2) :
-                             Path (Sigma A P) t u
+                    corSigProp (A:U) (B:A-> U)
+                        (pB: (x:A) -> isProp (B x))
+                        (t u: Sigma A B) (p:Path A t.1 u.1):
+                        isProp (PathP (<i>B (p@i)) t.2 u.2)
 
-                h2 pathSig3
+                h2 corSigSet
                 code.
-                    pathSig3 (A:U) (P : A -> U)
-                             (t u : Sigma A P)
-                             (pp : (p : Path A t.1 u.1)
-                                 * Path (P u.1)
-                                        (transport (&lt;i&gt; P (p @ i)) t.2)
-                                        u.2) :
-                             Path (Sigma A P) t u
+                    corSigSet (A:U) (B:A-> U)
+                        (sB: (x:A) -> isSet (B x))
+                        (t u: Sigma A B) (p: Path A t.1 u.1):
+                        isProp (PathP (<i>B (p@i)) t.2 u.2)

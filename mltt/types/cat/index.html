@@ -48,19 +48,19 @@ precategory: U = (C: cat) * isPrecategory C</code><p>Accessors of the precategor
 hom     (C: precategory) (a b: carrier C): U = C.1.2 a b
 path    (C: precategory) (x: carrier C): hom C x x = C.2.1 x
 compose (C: precategory) (x y z: carrier C)
-        (f: hom C x y) (g: hom C y z): hom C x z = C.2.2.1 x y z f g</code><h2>iso</h2><p>A morphism f : $hom_A(a,b)$ is an iso
+        (f: hom C x y) (g: hom C y z): hom C x z = C.2.2.1 x y z f g
+</code><h2>iso</h2><p>A morphism f : $hom_A(a,b)$ is an iso
 if there is a morphism g : hom<sub>A</sub>(b,a) such that
 $1_a =_\eta g \circ f$ and
 $f \circ g =_\epsilon 1_b = g$. "f is iso" is
 a mere proposition.</p><p>If A is a precategory and $a,b: A$,
-then $a = b \rightarrow iso_A(a,b)$ (idtoiso).</p><h2>category</h2><p>A category is a precategory such that for all $a,b:A$,
-the function idtoiso is an equivalence.</p><code>iso (C: precategory) (A B: carrier C): U
+then $a = b \rightarrow iso_A(a,b)$ (idtoiso).</p><code>iso (C: precategory) (A B: carrier C): U
   = (f: hom C A B)
   * (g: hom C B A)
   * (eta: Path (hom C A A) (compose C A B A f g) (path C A))
   * (Path (hom C B B) (compose C B A B g f) (path C B))
-
-isCategory (C: precategory): U
+</code><h2>category</h2><p>A category is a precategory such that for all $a,b:A$,
+the function idtoiso is an equivalence.</p><code>isCategory (C: precategory): U
    = (A: carrier C) ->
      isContr ((B: carrier C) * iso C A B)
 

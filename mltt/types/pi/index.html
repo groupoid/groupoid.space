@@ -1,0 +1,31 @@
+<!DOCTYPE html><html><head><meta charset="utf-8"><meta http-equiv="x-ua-compatible" content="ie=edge"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="author" content="Maxim Sokhatsky"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:site" content="@5HT"><meta name="twitter:creator" content="@5HT"><meta name="twitter:image" content="https://groupoid.space/card2.png"><meta property="og:title" content="Groupoid Infinity"><meta property="og:image" content="https://groupoid.space/card2.png"><meta property="og:type" content="website"><meta property="fb:app_id" content="118554188236439"><meta property="og:url" content="https://groupoid.space"><meta property="og:description" content="MLTT Language with Extensions"><link rel="stylesheet" href="https://groupoid.space/main.css?v=6"><title>PI</title><script src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML"></script><script>window.MathJax = { jax: ["input/TeX", "input/MathML", "input/AsciiMath", "output/CommonHTML", "output/NativeMML"],
+                        TeX: { extensions: ["AMSmath.js", "AMSsymbols.js", "autoload-all.js"] },
+                        extensions: ["tex2jax.js", "asciimath2jax.js", "mml2jax.js", "MathMenu.js", "MathZoom.js"],
+                        "HTML-CSS": { imageFont: null },
+                        AuthorInit: function() {
+                            MathJax.Hub.Register.StartupHook("TeX AMSmath Ready", function() {
+                                var TEX = MathJax.InputJax.TeX;
+                                TEX.Definitions.Add({
+                                    macros: {
+                                      llparenthesis: ['Macro', '\\mathopen{\u2987}'],
+                                      rrparenthesis: ['Macro', '\\mathclose{\u2988}'],
+                                      llbracket:     ['Macro', '\\mathopen{\u27E6}'],
+                                      rrbracket:     ['Macro', '\\mathclose{\u27E7}'],
+                                    }
+                                });
+                            });
+                        },
+                        tex2jax: { inlineMath: [['$','$'], ['\\(','\\)']],
+                                   processEscapes: true }
+                    };
+</script></head><body class="content"><article class="main"><div class="om"><section><h1>pi</h1></section></div><aside><a href="..">Base Library</a><time>Published: 16 OCT 2017</time></aside><div class="om"><section><p><a href="https://raw.githubusercontent.com/groupoid/infinity/master/priv/pi.ctt">Pi package</a>
+contains basic theorems about sigma types. Sigma type is built in core.</p><code>Pi (A: U) (P: A->U): U = (x: A) -> P x</code><p>All the constructions on $\Pi$-types arise as straightforward
+generalizations of the ones for function types.
+The type of function codomain is allowed to be
+perametrized by the value from the domain type.
+</p></section><section><h2>Intro</h2><code>intro (A : U) (B: A -> U)
+       (a : A) (b: B a): A -> B a
+     = \(x: A) -> b</code><p>Lambda constructor is also built in core as primitive.
+It defines the element of functional space.
+</p><h2>Application</h2><code>app (A : U) (B: A -> U)
+    (a : A) (f: A -> B a): B a = f a</code><p>Application is correspondent Lambda eliminator.</p></section></div></article><footer class="footer"><img class="footer__logo" src="https://longchenpa.guru/seal.png" width="50"><span class="footer__copy">2016&mdash;2017 &copy; <a href="//groupoid.space/team.html" style="color:white;">Groupoid Infinity</a></span></footer><script src="https://groupoid.space/bundle.js"></script><script src="https://groupoid.space/highlight.js"></script></body></html>
