@@ -107,11 +107,11 @@ block content
                     corSigProp (A:U) (B:A-> U)
                         (pB: (x:A) -> isProp (B x))
                         (t u: Sigma A B) (p:Path A t.1 u.1):
-                        isProp (PathP (<i>B (p@i)) t.2 u.2)
+                        isProp (PathP (&lt;i&gt;B (p@i)) t.2 u.2)
 
                 h2 corSigSet
                 code.
                     corSigSet (A:U) (B:A-> U)
                         (sB: (x:A) -> isSet (B x))
                         (t u: Sigma A B) (p: Path A t.1 u.1):
-                        isProp (PathP (<i>B (p@i)) t.2 u.2)
+                        isProp (PathP (&lt;i&gt;B (p@i)) t.2 u.2)
