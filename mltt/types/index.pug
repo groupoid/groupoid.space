@@ -9,18 +9,37 @@ block content
         .om
             section
                 h1 Article
+            aside Maxim Sokhatsky
+                time DATE: 1 DEC 2017
+            p.
+                This library is dedicated to <b>cubical</b>-compatible
+                typecheckers based on homotopy interval
+                <b>[0,1]</b> and MLTT as a core. The base library is founded
+                on top of 5 core modules: <b>proto</b> (composition, id, const),
+                <b>path</b> (subst, trans, cong, refl, singl, sym),
+                <b>propset</b> (isContr, isProp, isSet),
+                <b>equiv</b> (fiber, eqiuv) and <b>iso</b> (lemIso, isoPath).
+                This machinery is enough to prove univalence axiom.
+            p.
+                The library has rich recursion scheme primitives
+                in <b>lambek</b> module, basic <b>nat</b>,
+                <b>list</b>, <b>stream</b> funtionality.
+                The very basic theorems are given in <b>pi</b>, <b>iso_pi</b>,
+                <b>sigma</b>, <b>iso_sigma</b>, <b>retract</b> modules.
+            p.
+                This library is best to read with HoTT book.
         .types
             h2 The Design of Base Library
             -
                     var types = {
-                        'nr nd +': ['bool', 'true', 'false', 'maybe', 'unit'],
-                        'r nd +': ['nat', 'list', 'io', 'ioi'],
-                        'nr d +': ['path', 'exists', 'iso', 'equiv'],
-                        'rd +': ['vector'],
-                        'nr nd *': ['prod', 'pure', 'functor', 'applicative', 'monad'],
-                        'r nd *': ['stream', 'process', 'effect', 'eff.monad', 'eff.handler'],
-                        'nr d *': ['sigma', 'setoid', 'proper', 'respect' ],
-                        'rd *': ['cat', 'propset', 'groupoid']
+                        'nr nd +': [ 'bool', 'maybe', 'unit', 'empty', 'either' ],
+                        'r nd +': [ 'nat', 'list' ],
+                        'nr d +': [ 'path', 'proto', 'iso', 'equiv' ],
+                        'rd +': [ 'vector' ],
+                        'nr nd *': [ 'pure', 'functor', 'applicative', 'monad' ],
+                        'r nd *': [ 'stream' ],
+                        'nr d *': [ 'sigma', 'setoid' ],
+                        'rd *': [ 'cat', 'propset', 'groupoid' ]
                     }
 
                     var legend = {
@@ -52,11 +71,11 @@ block content
             h2#nat Nat
             p.
                 Pointed Unary System is a category nat with the terminal object
-                and a carrier <mark>nat</mark> having morphism <mark>[zero: 1<sub>nat</sub> → nat, succ: nat → nat]</mark>. The initial object of nat is called Natural Number Object and models Peano axiom set.
+                and a carrier <b>nat</b> having morphism <b>[zero: 1<sub>nat</sub> → nat, succ: nat → nat]</b>. The initial object of nat is called Natural Number Object and models Peano axiom set.
             code.
                 data nat = zero | succ (n:nat)
 
-            h2 <a name='maybe'><a href='maybe/'>Maybe</a></a>
+            h2#maybe <a name='maybe'><a href='maybe/'>Maybe</a></a>
             p.
                 Maybe has representing functor M<sub>A</sub>(X) = 1 + A.
                 It used for wrapping values with optional nothing consdtructor.
@@ -64,16 +83,16 @@ block content
             code.
                 data maybe (A: U) = nothing | just (x: A)
 
-            h2 <a name='list'><a href='list/'>List</a></a>
+            h2#list <a name='list'><a href='list/'>List</a></a>
             p.
-                The data type of <mark>list</mark> over a given set A can
+                The data type of <b>list</b> over a given set A can
                 be represented as the initial algebra (&mu;&nbsp;L<sub>A</sub>,&nbsp;in)
                 of the functor L<sub>A</sub>(X) = 1 + (A &times; X).
                 Denote &mu; L<sub>A</sub> = List(A). The constructor
                 functions nil: 1 &rightarrow; List(A) and cons: A
                 &times; List(A) &rightarrow; List(A) are defined
                 by nil = in ◦ inl and cons = in ◦ inr, so
-                in = <mark>[nil,cons]</mark>.
+                in = <b>[nil,cons]</b>.
 
             code.
                 data list (A: U) = nil | cons (x:A) (xs: list A)
@@ -83,30 +102,31 @@ block content
                 map (A B: U): (A -> B) -> list A -> list B
                 filter (A: U): (A -> bool) -> list A -> list A
 
-            h2#sum Either
+            h2#either Either
             p.
-                <mark>either</mark> is a meta-representation form of
-                <mark>data</mark> inductive syntax construction.
+                <b>either</b> is a meta-representation form of
+                <b>data</b> inductive syntax construction.
             code.
                 data either (A B: U) = left (x: A) | right (y: B)
 
             h2#empty Empty
             p.
-                <mark>empty</mark> is a bottom type used as zero or terminal for <mark>sum</mark> inductive type. This type nas no constructors or with empty body.
+                <b>empty</b> is a bottom type used as statement without proof.
+                Represents logical false.
             code.
                 data empty =
 
             h2#bool Bool
             p.
-                <mark>bool</mark> is run-time version of the boolean logic you may use in your general purpose applications. It has only two unit constructors <mark>[true,false]</mark> and functions: <mark>[and,or]</mark>.
+                <b>bool</b> is run-time version of the boolean logic you may use in your general purpose applications. It has only two unit constructors <b>[true,false]</b> and functions: <b>[and,or]</b>.
             code.
                 data bool = false | true
 
             h2#vector Vector
             p.
-                <mark>vector</mark> is the inductive defintion of limited length list.
-                Through it depends on term <mark>nat</mark> it can be used on reasoning
-                about single discrete dimention of the space, bringing very basic inductive logic. It can be used for reasoning about <mark>sqrt</mark>, as latter for any fractional exponent has correspondent number of roots inscribed in a circle on a complex surface. When vector is not dependent on nat its encoding should match with regular <mark>list</mark>.
+                <b>vector</b> is the inductive defintion of limited length list.
+                Through it depends on term <b>nat</b> it can be used on reasoning
+                about single discrete dimention of the space, bringing very basic inductive logic. It can be used for reasoning about <b>sqrt</b>, as latter for any fractional exponent has correspondent number of roots inscribed in a circle on a complex surface. When vector is not dependent on nat its encoding should match with regular <b>list</b>.
             code.
                 data vector (A: U) (n: nat)
                    = nil
@@ -119,33 +139,25 @@ block content
                 When you need to inspect the addendums of inductive tree
                 defintions you can name the agruments of the constructor,
                 these arguments called elements of the tuple or fields
-                of the record. In this chapter we will use <mark>record</mark>
-                Inf syntax, we only show how <mark>record</mark>
-                and <mark>data</mark> are equal in example of
-                <mark>unit</mark> and <mark>prod</mark> which
+                of the record. In this chapter we will use <b>record</b>
+                Inf syntax, we only show how <b>record</b>
+                and <b>data</b> are equal in example of
+                <b>unit</b> and <b>prod</b> which
                 are primitive forms of coinductive constructions.
-
-            h2#prod Product
-            code.
-                data prod (A B: U) = mk (x: A) (y: B)
-                prod (A B: U): U = (_: A) * B
-
-                pi1 (A B: U) (x: prod A B): A = x.1
-                pi2 (A B: U) (x: prod A B): B = x.2
 
             h2#unit Unit
             code.
                 data unit = star
 
-            h2 <a name='stream'><a href='stream/'>Stream</a></a>
+            h2#stream <a name='stream'><a href='stream/'>Stream</a></a>
             p.
-                <mark>stream</mark> is a record form of the list's
-                <mark>cons</mark> constructor. It models the infinity
+                <b>stream</b> is a record form of the list's
+                <b>cons</b> constructor. It models the infinity
                 list that has no terminal element.
             code.
                 data stream (A : U) = cons (x : A) (xs : stream A)
 
-            h2 <a name='functor'><a href='functor/'>Functor</a></a>
+            h2#functor <a name='functor'><a href='functor/'>Functor</a></a>
             p.
                  Runtime functor.
             code.
@@ -160,6 +172,7 @@ block content
                       Path (F C) (fmap A C (o A B C f g) x)
                     * Unit
 
+            h2#pure
             h2#applicative Control
             code.
                 data fix (F: U -> U) = Fix (point: F (fix F))
@@ -194,7 +207,13 @@ block content
                     * (extend: (A B: U) -> (F A -> B) -> F A -> F B)
                     * Unit
 
-            h2 <a name='sigma'><a href='sigma/'>Sigma</a></a>
+        .om
+            section
+                h1 Logic
+        section
+            p Basic Theories: Equality, Congruence, Categories, Setoid.
+
+            h2#sigma <a name='sigma'><a href='sigma/'>Sigma</a></a>
             code.
                 Sigma (A: U) (B: A -> U): U
 
@@ -202,87 +221,13 @@ block content
                 pr1 (A: U) (B: A -> U) (x: Sigma A B): A
                 pr2 (A: U) (B: A -> U) (x: Sigma A B): B (pr1 A B x)
 
-        .om
-            section
-                h1 I/O Monads
-        section
-            p Recursive and Corecursive Monads.
-
-            h2#io IO
-            p Finite I/O
+            h2#pi <a name='pi'><a href='pi/'>Pi</a></a>
             code.
-                data IO (A: Type): Type :=
-                     (getLine: (String → IO) → IO)
-                     (putLine: String → IO → IO)
-                     (pure: A → IO)
-            p Example:
-            code.
-                (main: IO.replicateM 100 (IO.>>= IO.data () IO.getLine IO.putLine))
+                Pi (A: U) (P: A -> U): U
+                intro (A: U) (B: A -> U) (a: A) (b: B a): A -> B a
+                app (A: U) (B: A -> U) (a: A) (f: A -> B a): B a
 
-            h2#ioi IOI
-            p Infinity I/O
-            code.
-                data IOI.F (A,State: Type): Type :=
-                     (getLine: (String → State) → IO)
-                     (putLine: String → State → IO)
-                     (pure: A → IO)
-
-                data IOI (A,State: Type) :=
-                     (intro: State -> (State -> IOI.F A State) -> IOI)
-
-            p Example:
-            code.
-                record Main: Type :=
-                (main: λ (r: Type) ->
-                    IOI.MkIO r (Maybe IOI.data) (Maybe.Nothing IOI.data)
-                                ( λ (m: Maybe IOI.data) ->
-                                    Maybe.maybe IOI.data m
-                                    (IOI.F r (Maybe IOI.data))
-                                    ( λ (str: IOI.data) ->
-                                        IOI.putLine r (Maybe IOI.data)
-                                        str (Maybe.Nothing IOI.data))
-                                    (IOI.getLine r (Maybe IOI.data)
-                                                (Maybe.Just IOI.data))))
-        .om
-            section
-                h1 Effects
-                p Programming effect system with single Monad and Effect Handlers.
-
-        section
-            h2#effect Effect
-            code.
-                record effect (v:Type) (r:Type): Type :=
-                       (values: v)
-                       (resource: r)
-                       (computation: (v → r))
-                       (handler: effect v r → monad effect v r)
-
-                data RA: Type          := (intro: effect nat (random nat))
-                data IO (t:Type): Type := (intro: effect t   (file t))
-                data EX (t:Type): Type := (intro: effect ()  (exception t))
-
-            h2: a(name='eff.monad') Eff.Monad
-            code.
-                data Eff.Monad (eff: list effect)
-                               (m: Type → Type)
-                               (a: Type): Type :=
-                     (intro: eff m a xs (\ (v: Type) → xs)
-                              → monad_eff xs m a)
-
-            h2: a(name='eff.handler') Eff.Handler
-            code.
-                record Eff.Handler (e: effect)
-                                (m: Type → Type): Type :=
-                    (action: ∀ (r: res) (eff: e t res resk)
-                                (k: ∀ (x: t) → resk x → m a) → m a)
-
-        .om
-            section
-                h1 Logic
-        section
-            p Basic Theories: Equality, Congruence, Categories, Setoid.
-
-            h2#path <a name="proto"><a href='proto/'>Proto</a></a>
+            h2#proto <a name="proto"><a href='proto/'>Proto</a></a>
             code.
                 idfun (A: U) (a: A): A
                 constfun (A B: U) (a: A) (b: B): A
@@ -300,19 +245,19 @@ block content
                 mapOnPath (A B: U) (f: A -> B) (a b: A) (p: Path A a b): Path B (f a) (f b)
                 composition (A: U) (a b c: A) (p: Path A a b) (q: Path A b c): Path A a c
 
-            h2#cat <a name="propset"><a href='propset/'>Propset</a></a>
+            h2#propset <a name="propset"><a href='propset/'>Propset</a></a>
             code.
                 isContr (A: U): U = (x: A) * ((y: A) -> Path A x y)
                 isProp  (A: U): U = n_grpd A Z
                 isSet   (A: U): U = n_grpd A (S Z)
 
-            h2#path <a name="equiv"><a href='equiv/'>Equiv</a></a>
+            h2#equiv <a name="equiv"><a href='equiv/'>Equiv</a></a>
             code.
                 fiber   (A B: U) (f: A -> B) (y: B): U = (x: A) * Path B y (f x)
                 isEquiv (A B: U) (f: A -> B): U = (y: B) -> isContr (fiber A B f y)
                 equiv   (A B: U): U = (f: A -> B) * isEquiv A B f
 
-            h2#cat <a name="iso"><a href='iso/'>Iso</a></a>
+            h2#iso <a name="iso"><a href='iso/'>Iso</a></a>
             code.
                 Square (A : U) (a0 a1 b0 b1 : A)
                        (u : Path A a0 a1) (v : Path A b0 b1)
@@ -367,8 +312,8 @@ block content
 
             h2#groupoid Groupoid
             p.
-                <mark>Groupoid</mark> is a multidimensional
-                generalization of <mark>Setoid</mark> type,
+                <b>Groupoid</b> is a multidimensional
+                generalization of <b>Setoid</b> type,
                 which has equalities on equalities and operations
                 between them. Gropoid was introduced in algebraїс
                 topology for the purposes of homotopy theory and
