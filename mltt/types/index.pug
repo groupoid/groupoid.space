@@ -38,7 +38,7 @@ block content
             h2 Base Library Modules
             -
                     var types = {
-                        'nr nd +': [ 'bool', 'maybe', 'unit', 'empty', 'either' ],
+                        'nr nd +': [ 'unit', 'bool', 'maybe', 'either' ],
                         'r nd +': [ 'nat', 'list' ],
                         'nr d +': [ 'path', 'proto', 'iso', 'equiv' ],
                         'rd +': [ 'vector' ],
@@ -77,7 +77,10 @@ block content
             h2#nat Nat
             p.
                 Pointed Unary System is a category nat with the terminal object
-                and a carrier <b>nat</b> having morphism <b>[zero: 1<sub>nat</sub> → nat, succ: nat → nat]</b>. The initial object of nat is called Natural Number Object and models Peano axiom set.
+                and a carrier <b>nat</b> having morphism <b>[zero:
+                1<sub>nat</sub> → nat, succ: nat → nat]</b>. The initial
+                object of nat is called Natural Number Object and models
+                Peano axiom set.
             code.
                 data nat = zero | succ (n:nat)
 
@@ -104,27 +107,20 @@ block content
                 data list (A: U) = nil | cons (x:A) (xs: list A)
 
                 len (A: U): list A -> integer
-                '++' (A: U): list A -> list A -> list A
-                map (A B: U): (A -> B) -> list A -> list B
+                ++  (A: U): list A -> list A -> list A
+                map  (A B: U): (A -> B) -> list A -> list B
                 filter (A: U): (A -> bool) -> list A -> list A
 
-            h2#either Either
+            h2#either <a name='either'><a href='either/'>Either</a></a>
             p.
-                <b>either</b> is a meta-representation form of
-                <b>data</b> inductive syntax construction.
+                <b>either</b> is a representation for sum types or disjunction.
             code.
                 data either (A B: U) = left (x: A) | right (y: B)
 
-            h2#empty Empty
-            p.
-                <b>empty</b> is a bottom type used as statement without proof.
-                Represents logical false.
-            code.
-                data empty =
-
             h2#bool Bool
             p.
-                <b>bool</b> is run-time version of the boolean logic you may use in your general purpose applications. It has only two unit constructors <b>[true,false]</b> and functions: <b>[and,or]</b>.
+                <b>bool</b> is run-time version of the boolean logic you
+                may use in your general purpose applications.
             code.
                 data bool = false | true
 
@@ -132,7 +128,12 @@ block content
             p.
                 <b>vector</b> is the inductive defintion of limited length list.
                 Through it depends on term <b>nat</b> it can be used on reasoning
-                about single discrete dimention of the space, bringing very basic inductive logic. It can be used for reasoning about <b>sqrt</b>, as latter for any fractional exponent has correspondent number of roots inscribed in a circle on a complex surface. When vector is not dependent on nat its encoding should match with regular <b>list</b>.
+                about single discrete dimention of the space, bringing very
+                basic inductive logic. It can be used for reasoning about
+                <b>sqrt</b>, as latter for any fractional exponent has
+                correspondent number of roots inscribed in a circle on
+                a complex surface. When vector is not dependent on nat
+                its encoding should match with regular <b>list</b>.
             code.
                 data vector (A: U) (n: nat)
                    = nil

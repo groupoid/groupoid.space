@@ -14,9 +14,12 @@ HoTT book in cat, fun and category modules.
 (iv) The library also includes some impredicative
 categorical encoding sketches in coproduct_set.
 lambek also includes inductive semantics modeled
-with cata/ana recursion and fixpoint adjoints in/out.</p><p>This library is best to read with HoTT book.</p></div><div class="types"><h2>Base Library Modules</h2><div class="type"><ol class="type__col"><h3>NR ND +</h3><li><a href="#bool">BOOL</a></li><li><a href="#maybe">MAYBE</a></li><li><a href="#unit">UNIT</a></li><li><a href="#empty">EMPTY</a></li><li><a href="#either">EITHER</a></li></ol><ol class="type__col"><h3>R ND +</h3><li><a href="#nat">NAT</a></li><li><a href="#list">LIST</a></li></ol><ol class="type__col"><h3>NR D +</h3><li><a href="#path">PATH</a></li><li><a href="#proto">PROTO</a></li><li><a href="#iso">ISO</a></li><li><a href="#equiv">EQUIV</a></li></ol><ol class="type__col"><h3>RD +</h3><li><a href="#vector">VECTOR</a></li></ol><ol class="type__col"><h3>NR ND *</h3><li><a href="#pure">PURE</a></li><li><a href="#functor">FUNCTOR</a></li><li><a href="#applicative">APPLICATIVE</a></li><li><a href="#monad">MONAD</a></li></ol><ol class="type__col"><h3>R ND *</h3><li><a href="#stream">STREAM</a></li></ol><ol class="type__col"><h3>NR D *</h3><li><a href="#sigma">SIGMA</a></li><li><a href="#setoid">SETOID</a></li></ol><ol class="type__col"><h3>RD *</h3><li><a href="#cat">CAT</a></li><li><a href="#propset">PROPSET</a></li><li><a href="#groupoid">GROUPOID</a></li></ol></div><div class="legend"><ul class="legend__col"><li>N: Not a</li></ul><ul class="legend__col"><li>R: Recursive</li></ul><ul class="legend__col"><li>D: Dependent</li></ul><ul class="legend__col"><li>+: Coproducts</li></ul><ul class="legend__col"><li>*: Products</li></ul></div></div><div class="om"><section><h1>Coproducts</h1></section></div><section><p>Inductive types are the dependent version of generalized algebraic data types used in ML. With inductive and coinductive types you can model polynomial higher order functors that define generic trees and their constructors. Two very basic and known inductions are over natural numbers and lists, we show them the more detailed description.
+with cata/ana recursion and fixpoint adjoints in/out.</p><p>This library is best to read with HoTT book.</p></div><div class="types"><h2>Base Library Modules</h2><div class="type"><ol class="type__col"><h3>NR ND +</h3><li><a href="#unit">UNIT</a></li><li><a href="#bool">BOOL</a></li><li><a href="#maybe">MAYBE</a></li><li><a href="#either">EITHER</a></li></ol><ol class="type__col"><h3>R ND +</h3><li><a href="#nat">NAT</a></li><li><a href="#list">LIST</a></li></ol><ol class="type__col"><h3>NR D +</h3><li><a href="#path">PATH</a></li><li><a href="#proto">PROTO</a></li><li><a href="#iso">ISO</a></li><li><a href="#equiv">EQUIV</a></li></ol><ol class="type__col"><h3>RD +</h3><li><a href="#vector">VECTOR</a></li></ol><ol class="type__col"><h3>NR ND *</h3><li><a href="#pure">PURE</a></li><li><a href="#functor">FUNCTOR</a></li><li><a href="#applicative">APPLICATIVE</a></li><li><a href="#monad">MONAD</a></li></ol><ol class="type__col"><h3>R ND *</h3><li><a href="#stream">STREAM</a></li></ol><ol class="type__col"><h3>NR D *</h3><li><a href="#sigma">SIGMA</a></li><li><a href="#setoid">SETOID</a></li></ol><ol class="type__col"><h3>RD *</h3><li><a href="#cat">CAT</a></li><li><a href="#propset">PROPSET</a></li><li><a href="#groupoid">GROUPOID</a></li></ol></div><div class="legend"><ul class="legend__col"><li>N: Not a</li></ul><ul class="legend__col"><li>R: Recursive</li></ul><ul class="legend__col"><li>D: Dependent</li></ul><ul class="legend__col"><li>+: Coproducts</li></ul><ul class="legend__col"><li>*: Products</li></ul></div></div><div class="om"><section><h1>Coproducts</h1></section></div><section><p>Inductive types are the dependent version of generalized algebraic data types used in ML. With inductive and coinductive types you can model polynomial higher order functors that define generic trees and their constructors. Two very basic and known inductions are over natural numbers and lists, we show them the more detailed description.
 </p><h2 id="nat">Nat</h2><p>Pointed Unary System is a category nat with the terminal object
-and a carrier <b>nat</b> having morphism <b>[zero: 1<sub>nat</sub> → nat, succ: nat → nat]</b>. The initial object of nat is called Natural Number Object and models Peano axiom set.</p><code>data nat = zero | succ (n:nat)
+and a carrier <b>nat</b> having morphism <b>[zero:
+1<sub>nat</sub> → nat, succ: nat → nat]</b>. The initial
+object of nat is called Natural Number Object and models
+Peano axiom set.</p><code>data nat = zero | succ (n:nat)
 </code><h2 id="maybe"><a name='maybe'><a href='maybe/'>Maybe</a></a></h2><p>Maybe has representing functor M<sub>A</sub>(X) = 1 + A.
 It used for wrapping values with optional nothing consdtructor.
 In ML-style languages this type is called Option (Miranda, ML).</p><code>data maybe (A: U) = nothing | just (x: A)
@@ -31,17 +34,20 @@ in = <b>[nil,cons]</b>.
 </p><code>data list (A: U) = nil | cons (x:A) (xs: list A)
 
 len (A: U): list A -> integer
-'++' (A: U): list A -> list A -> list A
-map (A B: U): (A -> B) -> list A -> list B
+++  (A: U): list A -> list A -> list A
+map  (A B: U): (A -> B) -> list A -> list B
 filter (A: U): (A -> bool) -> list A -> list A
-</code><h2 id="either">Either</h2><p><b>either</b> is a meta-representation form of
-<b>data</b> inductive syntax construction.</p><code>data either (A B: U) = left (x: A) | right (y: B)
-</code><h2 id="empty">Empty</h2><p><b>empty</b> is a bottom type used as statement without proof.
-Represents logical false.</p><code>data empty =
-</code><h2 id="bool">Bool</h2><p><b>bool</b> is run-time version of the boolean logic you may use in your general purpose applications. It has only two unit constructors <b>[true,false]</b> and functions: <b>[and,or]</b>.</p><code>data bool = false | true
+</code><h2 id="either"><a name='either'><a href='either/'>Either</a></a></h2><p><b>either</b> is a representation for sum types or disjunction.</p><code>data either (A B: U) = left (x: A) | right (y: B)
+</code><h2 id="bool">Bool</h2><p><b>bool</b> is run-time version of the boolean logic you
+may use in your general purpose applications.</p><code>data bool = false | true
 </code><h2 id="vector">Vector</h2><p><b>vector</b> is the inductive defintion of limited length list.
 Through it depends on term <b>nat</b> it can be used on reasoning
-about single discrete dimention of the space, bringing very basic inductive logic. It can be used for reasoning about <b>sqrt</b>, as latter for any fractional exponent has correspondent number of roots inscribed in a circle on a complex surface. When vector is not dependent on nat its encoding should match with regular <b>list</b>.</p><code>data vector (A: U) (n: nat)
+about single discrete dimention of the space, bringing very
+basic inductive logic. It can be used for reasoning about
+<b>sqrt</b>, as latter for any fractional exponent has
+correspondent number of roots inscribed in a circle on
+a complex surface. When vector is not dependent on nat
+its encoding should match with regular <b>list</b>.</p><code>data vector (A: U) (n: nat)
    = nil
    | cons (x: A) (xs: vector A (pred n))</code></section><div class="om"><section><h1>Products</h1></section></div><section><p>When you need to inspect the addendums of inductive tree
 defintions you can name the agruments of the constructor,
