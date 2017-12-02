@@ -22,6 +22,33 @@ block content
                     driven by a language with quantifiers as primitives. So we started
                     to look forward to a unified type checker.
 
+                h2 Layered Core
+                .macro
+                    .macro__col
+                        h3#om PTS
+                        ol
+                            li: a(href='#pi') PI
+                    .macro__col
+                        h3#macro MLTT
+                        ol
+                            li: a(href='#pi') PI
+                            li: a(href='#sigma') SIGMA
+                            li: a(href='#id') ID
+                    .macro__col
+                        h3#macro HTS
+                        ol
+                            li: a(href='#pi') PI
+                            li: a(href='#hts') PATH
+                            li: a(href='#hts') COMP
+                    .macro__col
+                        h3#eff CUBICAL
+                        ol
+                            li: a(href='#pi') PI
+                            li: a(href='#sigma') SIGMA
+                            li: a(href='#hts') PATH
+                            li: a(href='#hts') COMP
+                            li: a(href='#hts') GLUE
+
                 h2 Pure Type System
                 p.
                     From the time Coquand at all discovered Calculus of Constructions<sup>6</sup>,
@@ -148,29 +175,3 @@ block content
                            (R: ∀ (i: nat) → ∀ (j: nat)
                                           → pi i j (max i j))
 
-                h2 DIY Type System
-                .macro
-                    .macro__col
-                        h3#om PTS
-                        ol
-                            li: a(href='#pi') PI
-                    .macro__col
-                        h3#macro MLTT
-                        ol
-                            li: a(href='#pi') PI
-                            li: a(href='#sigma') SIGMA
-                            li: a(href='#id') ID
-                    .macro__col
-                        h3#macro COMPACT
-                        ol
-                            li: a(href='#pi') PI
-                            li: a(href='#hts') PATH
-                            li: a(href='#hts') COMP
-                    .macro__col
-                        h3#eff CUBICAL
-                        ol
-                            li: a(href='#pi') PI
-                            li: a(href='#sigma') SIGMA
-                            li: a(href='#hts') PATH
-                            li: a(href='#hts') COMP
-                            li: a(href='#hts') GLUE
