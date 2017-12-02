@@ -14,15 +14,20 @@ HoTT book in cat, fun and category modules.
 (iv) The library also includes some impredicative
 categorical encoding sketches in coproduct_set.
 lambek also includes inductive semantics modeled
-with cata/ana recursion and fixpoint adjoints in/out.</p><p>This library is best to read with HoTT book.</p></div><div class="types"><h2>Base Library Modules</h2><div class="type"><ol class="type__col"><h3>NR ND +</h3><li><a href="#unit">UNIT</a></li><li><a href="#bool">BOOL</a></li><li><a href="#maybe">MAYBE</a></li><li><a href="#either">EITHER</a></li></ol><ol class="type__col"><h3>R ND +</h3><li><a href="#nat">NAT</a></li><li><a href="#list">LIST</a></li></ol><ol class="type__col"><h3>NR D +</h3><li><a href="#path">PATH</a></li><li><a href="#proto">PROTO</a></li><li><a href="#iso">ISO</a></li><li><a href="#equiv">EQUIV</a></li></ol><ol class="type__col"><h3>RD +</h3><li><a href="#vector">VECTOR</a></li></ol><ol class="type__col"><h3>NR ND *</h3><li><a href="#pure">PURE</a></li><li><a href="#functor">FUNCTOR</a></li><li><a href="#applicative">APPLICATIVE</a></li><li><a href="#monad">MONAD</a></li></ol><ol class="type__col"><h3>R ND *</h3><li><a href="#stream">STREAM</a></li></ol><ol class="type__col"><h3>NR D *</h3><li><a href="#sigma">SIGMA</a></li><li><a href="#setoid">SETOID</a></li></ol><ol class="type__col"><h3>RD *</h3><li><a href="#cat">CAT</a></li><li><a href="#propset">PROPSET</a></li><li><a href="#groupoid">GROUPOID</a></li></ol></div><div class="legend"><ul class="legend__col"><li>N: Not a</li></ul><ul class="legend__col"><li>R: Recursive</li></ul><ul class="legend__col"><li>D: Dependent</li></ul><ul class="legend__col"><li>+: Coproducts</li></ul><ul class="legend__col"><li>*: Products</li></ul></div></div><div class="om"><section><h1>Coproducts</h1></section></div><section><p>Inductive types are the dependent version of generalized algebraic data types used in ML. With inductive and coinductive types you can model polynomial higher order functors that define generic trees and their constructors. Two very basic and known inductions are over natural numbers and lists, we show them the more detailed description.
-</p><h2 id="nat">Nat</h2><p>Pointed Unary System is a category nat with the terminal object
+with cata/ana recursion and fixpoint adjoints in/out.</p><p>This library is best to read with HoTT book.</p></div><div class="types"><h2>Base Library Modules</h2><div class="type"><ol class="type__col"><h3>NR ND +</h3><li><a href="#unit">UNIT</a></li><li><a href="#bool">BOOL</a></li><li><a href="#maybe">MAYBE</a></li><li><a href="#either">EITHER</a></li></ol><ol class="type__col"><h3>R ND +</h3><li><a href="#nat">NAT</a></li><li><a href="#list">LIST</a></li></ol><ol class="type__col"><h3>NR D +</h3><li><a href="#path">PATH</a></li><li><a href="#proto">PROTO</a></li><li><a href="#iso">ISO</a></li><li><a href="#equiv">EQUIV</a></li></ol><ol class="type__col"><h3>RD +</h3><li><a href="#vector">VECTOR</a></li></ol><ol class="type__col"><h3>NR ND *</h3><li><a href="#pure">PURE</a></li><li><a href="#functor">FUNCTOR</a></li><li><a href="#applicative">APPLICATIVE</a></li><li><a href="#monad">MONAD</a></li></ol><ol class="type__col"><h3>R ND *</h3><li><a href="#stream">STREAM</a></li></ol><ol class="type__col"><h3>NR D *</h3><li><a href="#sigma">SIGMA</a></li><li><a href="#setoid">SETOID</a></li></ol><ol class="type__col"><h3>RD *</h3><li><a href="#cat">CAT</a></li><li><a href="#propset">PROPSET</a></li><li><a href="#groupoid">GROUPOID</a></li></ol></div><div class="legend"><ul class="legend__col"><li>N: Not a</li></ul><ul class="legend__col"><li>R: Recursive</li></ul><ul class="legend__col"><li>D: Dependent</li></ul><ul class="legend__col"><li>+: Coproducts</li></ul><ul class="legend__col"><li>*: Products</li></ul></div></div><div class="om"><section><h1>Coproducts</h1></section></div><section><p>Inductive types are the dependent version of generalized
+algebraic data types used in ML. With inductive and
+coinductive types you can model polynomial higher order
+functors that define generic trees and their constructors.
+</p><h2 id="nat"><a name='nat'><a href='nat/'>Nat</a></a></h2><p>Pointed Unary System is a category nat with the terminal object
 and a carrier <b>nat</b> having morphism <b>[zero:
 1<sub>nat</sub> → nat, succ: nat → nat]</b>. The initial
 object of nat is called Natural Number Object and models
-Peano axiom set.</p><code>data nat = zero | succ (n:nat)
+Peano axiom set.</p><code>data nat = zero | succ (n: nat)
 </code><h2 id="maybe"><a name='maybe'><a href='maybe/'>Maybe</a></a></h2><p>Maybe has representing functor M<sub>A</sub>(X) = 1 + A.
 It used for wrapping values with optional nothing consdtructor.
-In ML-style languages this type is called Option (Miranda, ML).</p><code>data maybe (A: U) = nothing | just (x: A)
+In ML-style languages this type is called Option (Miranda, ML).
+There is an <a href="https://raw.githubusercontent.com/groupoid/infinity/master/priv/maybenat.ctt">isomorphims</a>
+between <b>(fix maybe)</b> and <b>nat</b>.</p><code>data maybe (A: U) = nothing | just (x: A)
 </code><h2 id="list"><a name='list'><a href='list/'>List</a></a></h2><p>The data type of <b>list</b> over a given set A can
 be represented as the initial algebra (&mu;&nbsp;L<sub>A</sub>,&nbsp;in)
 of the functor L<sub>A</sub>(X) = 1 + (A &times; X).
@@ -38,9 +43,9 @@ len (A: U): list A -> integer
 map  (A B: U): (A -> B) -> list A -> list B
 filter (A: U): (A -> bool) -> list A -> list A
 </code><h2 id="either"><a name='either'><a href='either/'>Either</a></a></h2><p><b>either</b> is a representation for sum types or disjunction.</p><code>data either (A B: U) = left (x: A) | right (y: B)
-</code><h2 id="bool">Bool</h2><p><b>bool</b> is run-time version of the boolean logic you
+</code><h2 id="bool"><a name='bool'><a href='bool/'>Bool</a></a></h2><p><b>bool</b> is run-time version of the boolean logic you
 may use in your general purpose applications.</p><code>data bool = false | true
-</code><h2 id="vector">Vector</h2><p><b>vector</b> is the inductive defintion of limited length list.
+</code><h2 id="vector"><a name='vector'><a href='vector/'>Vector</a></a></h2><p><b>vector</b> is the inductive defintion of limited length list.
 Through it depends on term <b>nat</b> it can be used on reasoning
 about single discrete dimention of the space, bringing very
 basic inductive logic. It can be used for reasoning about
@@ -101,6 +106,7 @@ make (A: U) (B: A -> U) (a: A) (b: B a): Sigma A B
 pr1 (A: U) (B: A -> U) (x: Sigma A B): A
 pr2 (A: U) (B: A -> U) (x: Sigma A B): B (pr1 A B x)
 </code><h2 id="pi"><a name='pi'><a href='pi/'>Pi</a></a></h2><code>Pi (A: U) (P: A -> U): U
+
 intro (A: U) (B: A -> U) (a: A) (b: B a): A -> B a
 app (A: U) (B: A -> U) (a: A) (f: A -> B a): B a
 </code><h2 id="proto"><a name="proto"><a href='proto/'>Proto</a></a></h2><code>idfun (A: U) (a: A): A
@@ -108,6 +114,7 @@ constfun (A B: U) (a: A) (b: B): A
 o (A B C: U) (f: B -> C) (g: A -> B): A -> C
 and (A B: U): U = (_: A) * B
 </code><h2 id="path"><a name="path"><a href='path/'>Path</a></a></h2><code>Path (A: U) (a b: A) : U
+
 sym  (A: U) (a b: A) (p: Path A a b): Path A b a
 refl (A: U) (a: A) : Path A a a
 singl (A: U) (a: A) : U

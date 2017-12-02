@@ -72,9 +72,12 @@ block content
                 h1 Coproducts
         section
             p.
-                Inductive types are the dependent version of generalized algebraic data types used in ML. With inductive and coinductive types you can model polynomial higher order functors that define generic trees and their constructors. Two very basic and known inductions are over natural numbers and lists, we show them the more detailed description.
+                Inductive types are the dependent version of generalized
+                algebraic data types used in ML. With inductive and
+                coinductive types you can model polynomial higher order
+                functors that define generic trees and their constructors.
 
-            h2#nat Nat
+            h2#nat <a name='nat'><a href='nat/'>Nat</a></a>
             p.
                 Pointed Unary System is a category nat with the terminal object
                 and a carrier <b>nat</b> having morphism <b>[zero:
@@ -82,13 +85,15 @@ block content
                 object of nat is called Natural Number Object and models
                 Peano axiom set.
             code.
-                data nat = zero | succ (n:nat)
+                data nat = zero | succ (n: nat)
 
             h2#maybe <a name='maybe'><a href='maybe/'>Maybe</a></a>
             p.
                 Maybe has representing functor M<sub>A</sub>(X) = 1 + A.
                 It used for wrapping values with optional nothing consdtructor.
                 In ML-style languages this type is called Option (Miranda, ML).
+                There is an <a href="https://raw.githubusercontent.com/groupoid/infinity/master/priv/maybenat.ctt">isomorphims</a>
+                between <b>(fix maybe)</b> and <b>nat</b>.
             code.
                 data maybe (A: U) = nothing | just (x: A)
 
@@ -117,14 +122,14 @@ block content
             code.
                 data either (A B: U) = left (x: A) | right (y: B)
 
-            h2#bool Bool
+            h2#bool <a name='bool'><a href='bool/'>Bool</a></a>
             p.
                 <b>bool</b> is run-time version of the boolean logic you
                 may use in your general purpose applications.
             code.
                 data bool = false | true
 
-            h2#vector Vector
+            h2#vector <a name='vector'><a href='vector/'>Vector</a></a>
             p.
                 <b>vector</b> is the inductive defintion of limited length list.
                 Through it depends on term <b>nat</b> it can be used on reasoning
@@ -231,6 +236,7 @@ block content
             h2#pi <a name='pi'><a href='pi/'>Pi</a></a>
             code.
                 Pi (A: U) (P: A -> U): U
+
                 intro (A: U) (B: A -> U) (a: A) (b: B a): A -> B a
                 app (A: U) (B: A -> U) (a: A) (f: A -> B a): B a
 
@@ -244,6 +250,7 @@ block content
             h2#path <a name="path"><a href='path/'>Path</a></a>
             code.
                 Path (A: U) (a b: A) : U
+
                 sym  (A: U) (a b: A) (p: Path A a b): Path A b a
                 refl (A: U) (a: A) : Path A a a
                 singl (A: U) (a: A) : U
