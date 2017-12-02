@@ -18,7 +18,10 @@ with cata/ana recursion and fixpoint adjoints in/out.</p><p>This library is best
 algebraic data types used in ML. With inductive and
 coinductive types you can model polynomial higher order
 functors that define generic trees and their constructors.
-</p><h2 id="nat"><a name='nat'><a href='nat/'>Nat</a></a></h2><p>Pointed Unary System is a category nat with the terminal object
+</p><h2 id="unit">Unit</h2><code>data unit = star
+</code><h2 id="bool"><a name='bool'><a href='bool/'>Bool</a></a></h2><p><b>bool</b> is run-time version of the boolean logic you
+may use in your general purpose applications.</p><code>data bool = false | true
+</code><h2 id="nat"><a name='nat'><a href='nat/'>Nat</a></a></h2><p>Pointed Unary System is a category nat with the terminal object
 and a carrier <b>nat</b> having morphism <b>[zero:
 1<sub>nat</sub> → nat, succ: nat → nat]</b>. The initial
 object of nat is called Natural Number Object and models
@@ -28,6 +31,7 @@ It used for wrapping values with optional nothing consdtructor.
 In ML-style languages this type is called Option (Miranda, ML).
 There is an <a href="https://raw.githubusercontent.com/groupoid/infinity/master/priv/maybenat.ctt">isomorphims</a>
 between <b>(fix maybe)</b> and <b>nat</b>.</p><code>data maybe (A: U) = nothing | just (x: A)
+</code><h2 id="either"><a name='either'><a href='either/'>Either</a></a></h2><p><b>either</b> is a representation for sum types or disjunction.</p><code>data either (A B: U) = left (x: A) | right (y: B)
 </code><h2 id="list"><a name='list'><a href='list/'>List</a></a></h2><p>The data type of <b>list</b> over a given set A can
 be represented as the initial algebra (&mu;&nbsp;L<sub>A</sub>,&nbsp;in)
 of the functor L<sub>A</sub>(X) = 1 + (A &times; X).
@@ -42,9 +46,6 @@ len (A: U): list A -> integer
 ++  (A: U): list A -> list A -> list A
 map  (A B: U): (A -> B) -> list A -> list B
 filter (A: U): (A -> bool) -> list A -> list A
-</code><h2 id="either"><a name='either'><a href='either/'>Either</a></a></h2><p><b>either</b> is a representation for sum types or disjunction.</p><code>data either (A B: U) = left (x: A) | right (y: B)
-</code><h2 id="bool"><a name='bool'><a href='bool/'>Bool</a></a></h2><p><b>bool</b> is run-time version of the boolean logic you
-may use in your general purpose applications.</p><code>data bool = false | true
 </code><h2 id="vector"><a name='vector'><a href='vector/'>Vector</a></a></h2><p><b>vector</b> is the inductive defintion of limited length list.
 Through it depends on term <b>nat</b> it can be used on reasoning
 about single discrete dimention of the space, bringing very
@@ -62,7 +63,9 @@ Inf syntax, we only show how <b>record</b>
 and <b>data</b> are equal in example of
 <b>unit</b> and <b>prod</b> which
 are primitive forms of coinductive constructions.
-</p><h2 id="unit">Unit</h2><code>data unit = star
+</p><h2 id="prod"><a name='prod'><a href='prod/'>Prod</a></a></h2><p><b>prod</b> is a representation for non-dependent
+product types or conjunction.</p><code>data prod (A B: U) = mk (x: A) (y: B)
+prod (A B: U) (x: A) (y: B): (_: A) * B = (x,y)
 </code><h2 id="stream"><a name='stream'><a href='stream/'>Stream</a></a></h2><p><b>stream</b> is a record form of the list's
 <b>cons</b> constructor. It models the infinity
 list that has no terminal element.</p><code>data stream (A : U) = cons (x : A) (xs : stream A)
@@ -100,12 +103,12 @@ comonad (F: U -> U): U
     * (duplicate: (A: U) -> F A -> F (F A))
     * (extend: (A B: U) -> (F A -> B) -> F A -> F B)
     * Unit
-</code></section><div class="om"><section><h1>Logic</h1></section></div><section><p>Basic Theories: Equality, Congruence, Categories, Setoid.</p><h2 id="sigma"><a name='sigma'><a href='sigma/'>Sigma</a></a></h2><code>Sigma (A: U) (B: A -> U): U
+</code></section><div class="om"><section><h1>Logic</h1></section></div><section><p>Basic Theories: Equality, Congruence, Categories, Setoid.</p><h2 id="sigma"><a name='sigma'><a href='sigma/'>Sigma</a></a></h2><p>Sigma is a generalization or dependent version of Prod.</p><code>Sigma (A: U) (B: A -> U): U
 
 make (A: U) (B: A -> U) (a: A) (b: B a): Sigma A B
 pr1 (A: U) (B: A -> U) (x: Sigma A B): A
 pr2 (A: U) (B: A -> U) (x: Sigma A B): B (pr1 A B x)
-</code><h2 id="pi"><a name='pi'><a href='pi/'>Pi</a></a></h2><code>Pi (A: U) (P: A -> U): U
+</code><h2 id="pi"><a name='pi'><a href='pi/'>Pi</a></a></h2><p>Pi is a dependent version of a function <b>f: A -> B</b>.</p><code>Pi (A: U) (P: A -> U): U
 
 intro (A: U) (B: A -> U) (a: A) (b: B a): A -> B a
 app (A: U) (B: A -> U) (a: A) (f: A -> B a): B a

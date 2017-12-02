@@ -77,6 +77,17 @@ block content
                 coinductive types you can model polynomial higher order
                 functors that define generic trees and their constructors.
 
+            h2#unit Unit
+            code.
+                data unit = star
+
+            h2#bool <a name='bool'><a href='bool/'>Bool</a></a>
+            p.
+                <b>bool</b> is run-time version of the boolean logic you
+                may use in your general purpose applications.
+            code.
+                data bool = false | true
+
             h2#nat <a name='nat'><a href='nat/'>Nat</a></a>
             p.
                 Pointed Unary System is a category nat with the terminal object
@@ -97,6 +108,12 @@ block content
             code.
                 data maybe (A: U) = nothing | just (x: A)
 
+            h2#either <a name='either'><a href='either/'>Either</a></a>
+            p.
+                <b>either</b> is a representation for sum types or disjunction.
+            code.
+                data either (A B: U) = left (x: A) | right (y: B)
+
             h2#list <a name='list'><a href='list/'>List</a></a>
             p.
                 The data type of <b>list</b> over a given set A can
@@ -115,19 +132,6 @@ block content
                 ++  (A: U): list A -> list A -> list A
                 map  (A B: U): (A -> B) -> list A -> list B
                 filter (A: U): (A -> bool) -> list A -> list A
-
-            h2#either <a name='either'><a href='either/'>Either</a></a>
-            p.
-                <b>either</b> is a representation for sum types or disjunction.
-            code.
-                data either (A B: U) = left (x: A) | right (y: B)
-
-            h2#bool <a name='bool'><a href='bool/'>Bool</a></a>
-            p.
-                <b>bool</b> is run-time version of the boolean logic you
-                may use in your general purpose applications.
-            code.
-                data bool = false | true
 
             h2#vector <a name='vector'><a href='vector/'>Vector</a></a>
             p.
@@ -157,9 +161,13 @@ block content
                 <b>unit</b> and <b>prod</b> which
                 are primitive forms of coinductive constructions.
 
-            h2#unit Unit
+            h2#prod <a name='prod'><a href='prod/'>Prod</a></a>
+            p.
+                <b>prod</b> is a representation for non-dependent
+                product types or conjunction.
             code.
-                data unit = star
+                data prod (A B: U) = mk (x: A) (y: B)
+                prod (A B: U) (x: A) (y: B): (_: A) * B = (x,y)
 
             h2#stream <a name='stream'><a href='stream/'>Stream</a></a>
             p.
@@ -226,6 +234,8 @@ block content
             p Basic Theories: Equality, Congruence, Categories, Setoid.
 
             h2#sigma <a name='sigma'><a href='sigma/'>Sigma</a></a>
+            p.
+                Sigma is a generalization or dependent version of Prod.
             code.
                 Sigma (A: U) (B: A -> U): U
 
@@ -234,6 +244,8 @@ block content
                 pr2 (A: U) (B: A -> U) (x: Sigma A B): B (pr1 A B x)
 
             h2#pi <a name='pi'><a href='pi/'>Pi</a></a>
+            p.
+                Pi is a dependent version of a function <b>f: A -> B</b>.
             code.
                 Pi (A: U) (P: A -> U): U
 
