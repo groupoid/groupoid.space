@@ -1,5 +1,16 @@
-\documentclass[a4paper,9pt]{memoir}
+\documentclass[9pt]{memoir}
+
 \input{synrc.tex}
+
+\settrimmedsize{297mm}{210mm}{*}
+\setlength{\trimtop}{0pt}
+\setlength{\trimedge}{\stockwidth}
+\addtolength{\trimedge}{-\paperwidth}
+\setulmargins{4cm}{*}{*}
+\setlrmargins{*}{*}{1.5}
+\setmarginnotes{17pt}{51pt}{\onelineskip}
+\setheadfoot{\onelineskip}{2\onelineskip}
+
 \begin{document}
 \titleINF
 \include{chapter1}
