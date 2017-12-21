@@ -170,6 +170,17 @@ extract4 (A: maybe Inductive): maybe Erlang
 
 \section{Операційні семантики}
 \section{Мови та Мовні рівні}
+
+\begin{lstlisting}
+System F-omega
+Kind κ = * | κ → κ | ···
+Con c  =
+       | arr(c₁; c₂) c₁ → c₂        (Con, Con) Con
+       | all {κ} (u.c) ∀ (u ∷ κ). c (Kind, Con.Con) Con
+       | lam {κ} (u.c) λ (u ∷ κ). c (Kind, Con.Con) Con
+       | app(c₁; c₂) c₁ (c₂)        (Con, Con) Con
+\end{lstlisting}
+
 \section{Середовище виконання (ОС)}
 \section{Специфікації мов}
 \section{Властивості}
