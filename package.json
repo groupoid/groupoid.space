@@ -8,10 +8,13 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
-  "type": "git",
-  "url": "git://github.com/groupoid/groupoid.space"
-   },
+    "type": "git",
+    "url": "git://github.com/groupoid/groupoid.space"
+  },
   "author": "Arseniy Bushyn",
   "license": "ISC",
-  "preinstall": "npm i -g node-sass && npm i -g pug-cli"
+  "preinstall": "npm i -g node-sass && npm i -g pug-cli",
+  "dependencies": {
+    "pug": "^2.0.0-rc.4"
+  }
 }
