@@ -1,0 +1,281 @@
+\documentclass{aip-cp}
+\usepackage{listings}
+\usepackage[numbers]{natbib}
+\usepackage[only,llbracket,rrbracket,llparenthesis,rrparenthesis]{stmaryrd}
+\usepackage{graphicx}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{txfonts}
+\usepackage[utf8]{inputenc}
+\usepackage{url}
+
+\begin{document}
+\title{From Pure Type Systems to Homotopy Calculus: The layering of type systems as its protocols.}
+\author[aff1]{Maksym Sokhatskyi\corref{cor1}}
+\eaddress[url]{https://groupoid.space}
+\author[aff1]{Pavlo Maslianko\corref{cor3}}
+
+\affil[aff1]{National Technical University of Ukraine ``Igor Sikorsky Kyiv Polytechnical Institute''}
+\corresp[cor1]{maxim@synrc.com}
+\corresp[cor3]{mppdom@i.ua}
+
+\maketitle
+\begin{abstract}
+We expose the layered models of type systems with the arising complexity.
+While designing the language or typechecker it is useful to do a separation or reusing of AST trees.
+In the result tower we have four languages: 1) PTS\footnote{Pure Type System, Henk Barendregt} \cite{Erik97} with infinite number of universes;
+2) MLTT\footnote{Martin-Löf Type Theory, as for 1984} \cite{Lof84} system with Pi, Sigma and Equ;
+3) Calculus of Inductive Constructions \cite{Mohring15} --- system with induction principle using backends as
+encodings: IR-types\footnote{Induction-Recursion} \cite{Dagand13} and W-types\footnote{Wellfounded Trees} backeds;
+4) Homotopy Calculus with interval [0,1] \cite{Mortberg17}. The models are given in cubical type checker,
+which is CCHM-fibrations\footnote{Cohen-Coquand-Huber-Mörtberg fibrations} \cite{Orton17} based typechecker.
+The central part and main motivation in type theory is Equality type that is fully
+derivable with its eliminators and computational rules in CCHM model. We show examples of
+Path Equality from a future base library and give some insights on future development.
+\end{abstract}
+
+\section{Introduction}
+The idea of Infinity Langauge came from the needs of unification and
+arranging different calculuses as extensions to the core of the language
+with dependent types (or MLTT core). E.g. pi-calculus (spawn, send, recv, pub, sub)
+and stream calculus (map, scan, concat, reduce, iota, fold, split) are connected
+as streams represents variables in pi-caluclus. This gives us a direction to build
+a solution towards unified layered type checker.
+
+This typechecker should introduce new complexity on each layer while
+remain compatible with properties on previous layer. Here is shown:
+1) Pure Type System with infinite number of universes for consistency as a base calculus;
+2) Martin-Löf Type Theory as intermediate calculus with sigma and identity reasnoning for pattern matching;
+3) EXE calculus with inductive types, inductively recursive IR-encoding and W-types encoding and derivable induction principle, therefore fixpoint type.
+4) Homotopy calculus based on interval $[0,1]$, its introduction, eliminators, composition and gluening.
+
+\begin{table}[h]
+\caption{Type Systems}
+\label{tab:a}
+\tabcolsep7pt\begin{tabular}{lcccc}
+\hline
+\tch{1}{c}{b}{PTS} & \tch{1}{c}{b}{MLTT} & \tch{1}{c}{b}{CiC} & \tch{1}{c}{b}{CCHM}\\
+\hline
+PI        & PI    & PI    & PI \\
+          & SIGMA & SIGMA & SIGMA \\
+          & ID\footnote{as for MLTT-84.}   & ID    & PATH \\
+          &       & INDUCTION   & COMPOSITION \\
+          &       &       & GLUENING \\
+\hline
+\end{tabular}
+\end{table}
+
+\section{Pure Type Systems}
+
+From the time Coquand at all discovered Calculus of Constructions \cite{Coq88},
+and Barendregt \cite{Henk93} systemized its variations, a Pure Type System
+theory was developed. It is known also as Single Axiom System
+with only Pi-Type of MLTT \cite{Lof84}, representing functional completeness.
+
+\begin{lstlisting}[mathescape=true]
+data pts
+    = star             (n: nat)
+    | var    (x: name) (l: nat)
+    | pi     (x: name) (l: nat) (d c: pts)
+    | lambda (x: name) (l: nat) (d c: pts)
+    | app                       (f a: pts)
+\end{lstlisting}
+
+\section{Contextual Completeness}
+
+The basic Core primitive which is needed for proving things
+is MLTT Sigma-Type, representing Contextual Completeness.
+This is needed for building Sigma pairs which are curried
+records. Usually, type checkers called Pi-Sigma provers
+as it contains PTS enriched with Sigma primitive.
+
+\begin{lstlisting}[mathescape=true]
+data exists
+    = prev (a: pts)
+    | sigma (n: name) (a b: exists)
+    | pair (a b: exists)
+    | fst (p: exists)
+    | snd (p: exists)
+\end{lstlisting}
+
+E.g. one may want to define vectors as refinement type of list type using sigma pair construction:
+
+\begin{lstlisting}[mathescape=true]
+    vector (n: nat) (A: U): U
+       = (c: list nat)
+       * (Path nat (length nat c) n)
+\end{lstlisting}
+
+instead of using initial object with restriction in second parameter of vcons constructor:
+
+\begin{lstlisting}[mathescape=true]
+    data vector (A: U) (n: nat)
+       = vnil
+       | vcons (x: A) (xs: vector A (pred n))
+\end{lstlisting}
+
+We created an PTS typechecker for Erlang/OTP platform \footnote{https://github.com/groupoid/om}.
+The download and run instructions could be obtained from Github page.
+
+\section{Identity Types}
+
+Starting from appearence of MLTT systems there was a question about derivability of equality
+along with J eiminator and functional extensionality. While IR-encoding \cite{Dagand13} provides the
+useful descriptive mechanism for handling equality eliminators, more accurate homotopical
+interval as model of equality is encoded internally within CCHM-fibrations system \cite{Orton17}.
+The induction type could also be modelled using setoids \cite{Bishop67}.
+
+\begin{lstlisting}[mathescape=true]
+data identity
+    = prev (a: exists)
+    | id (a b: identity)
+    | idpair (a b: identity)
+    | idelim (a b c d e: identity)
+\end{lstlisting}
+
+\newpage
+\subsection{Typing Rules}
+
+\begin{equation}
+\tag{$Id$-formation}
+\dfrac
+  {a:A\ \ \ \ b:A\ \ \ \ A:Type}
+  {Id(A,a,b) : Type}
+\end{equation}
+
+\begin{equation}
+\tag{$Id$-intro}
+\dfrac
+  {a:A}
+  {refl(A,a) : Id(A,a,a) }
+\end{equation}
+
+\begin{equation}
+\tag{$J$-elimination}
+\dfrac
+  {p:Id(a,b)\ \ \ \ x,y:A\ \ \ \ u:Id(x,y) \vdash E:Type\ \ \ \ x:A \vdash d: E\ [x/y,\ refl(x)/u]}
+  {J(a,b,p,(x,y,u)\ d) : E\ [a/x,\ b/y,\ p/u]}
+\end{equation}
+
+\begin{equation}
+\tag{$Id$-computation}
+\dfrac
+  {a,x,y:A,\ \ \ \ u:Id(x,y) \vdash E:Type\ \ \ \ x:A \vdash d:E\ [x/y,\ refl(x)/u]}
+  {J(a,a,refl(a),(x,y,u)\ d) = d\ [a/x] : E\ [a/y,\ refl(a)/u]}
+\end{equation}
+
+\begin{lstlisting}[mathescape=true]
+Path   (A: U) (a b: A): U = PathP (<i> A) a b
+refl   (A: U) (a: A): Path A a a = <i> a
+singl  (A: U) (a: A): U = (x : A) * Path A a x
+sym    (A: U) (a b: A) (p: Path A a b): Path A b a = <i> p @ -i
+trans  (A B: U) (p: Path U A B) (a: A): B = comp p a []
+\end{lstlisting}
+
+\begin{lstlisting}[mathescape=true]
+cong   (A B: U) (f: A -> B) (a b: A) (p: Path A a b):
+    Path B (f a) (f b) = <i> f (p @ i)
+
+funExt (A B: U) (f g: A -> B) (p: (x: A) -> Path B (f x) (g x)):
+    Path (A -> B) f g = <i> \(a : A) -> p a @ i
+
+mapOnPath (A B: U) (f: A -> B) (a b: A) (p: Path A a b):
+    Path B (f a) (f b) = <i> f (p @ i)
+
+subst (A: U) (P: A -> U) (a b: A) (p: Path A a b) (e: P a):
+    P b = comp (<i> P (p @ i)) e []
+
+contrSingl (A: U) (a b: A) (p: Path A a b):
+    Path (singl A a) (a,refl A a) (b,p) = <i> (p @ i,<j> p @ i/\j)
+\end{lstlisting}
+
+J is formulated in a form of Paulin-Mohring and implemented
+using two facts that singleton are contractible and dependent function transport.
+
+\begin{lstlisting}[mathescape=true]
+JPM (A: U) (a b: A) (P: singl A a -> U) (u: P (a,refl A a)) (p: Path A a b):
+    P (b,p) = subst (singl A a) T (a,refl A a) (b,p) (contrSingl A a b p) u
+    where T (z : singl A a) : U = P z
+\end{lstlisting}
+
+Another J based on path induction from HoTT book \cite{HoTT13}.
+
+\begin{lstlisting}[mathescape=true]
+J (A: U) (a: A) (C: (x : A) -> Path A a x -> U)
+  (d: C a (refl A a)) (x : A) (p: Path A a x) : C x p =
+    subst (singl A a) T (a, refl A a) (x, p) (contrSingl A a x p) d
+      where T (z: singl A a): U = C (z.1) (z.2)
+\end{lstlisting}
+
+\begin{lstlisting}[mathescape=true]
+composition (A: U) (a b c: A) (p: Path A a b) (q: Path A b c): Path A a c
+    = <i> comp (<j>A) (p @ i) [ (i = 1) -> q, (i=0) -> <j> a ]
+\end{lstlisting}
+
+\section{Inductive Types}
+
+The further development of induction \cite{Dybjer94,Vene00} inside MLTT provers led
+to the theory of polynomial functors and well-founded trees \cite{Gambino03},
+known in programming languages as inductive types with data
+and record core primitives of type checker. In fact recursive inductive
+types \cite{Wadler90} could be encoded in PTS using non-recursive representation
+Berarducci \cite {Bohm85} or categorical encoding.
+
+\begin{lstlisting}[mathescape=true]
+data tele (A: U)   = emp | tel (n: name) (b: A) (t: tele A)
+data branch (A: U) =        br (n: name) (args: list name) (term: A)
+data label (A: U)  =       lab (n: name) (t: tele A)
+
+data ind
+    = data_  (n: name) (t: tele ind) (labels:   list (label ind))
+    | case   (n: name) (t: ind)      (branches: list (branch ind))
+    | ctor   (n: name)               (args:     list ind)
+\end{lstlisting}
+
+The non-well-founded trees or infinite coinductive trees \cite{Jacobs97,Basold16}
+are useful for modeling infinite process running which is
+part of Milner's Pi-calculus. Coinductive streams are
+part of any MLTT base library.
+
+We gathered several models in lambek module of base library \footnote{https://github.com/groupoid/infinity/blob/master/priv/lambek.ctt}.
+It includes: 1) Recursion Schemes; 2) Catamorphism Inductive Encoding; 3) IR-encoding 4) F-Algebra encoding.
+
+\section{Proofs using CHMM cubical typechecker}
+
+Here we show how to use Path equality from CCHM {\bf cubical} typechecker:
+
+\begin{lstlisting}[mathescape=true]
+add_comm (a : nat) : (n : nat) -> Path nat (add a n) (add n a) = split
+  zero  -> <i> add_zero a @ -i
+  suc m -> <i> comp (<_> nat) (suc (add_comm a m @ i))
+                    [ (i = 0) -> <j> suc (add a m)
+                    , (i = 1) -> <j> add_suc m a @ -j ]
+\end{lstlisting}
+
+and how it is differ e.g. with inductive based proofs from {\bf Coq}:
+
+\begin{lstlisting}[mathescape=true]
+Theorem plus_comm : forall n m : nat, n + m = m + n.
+Proof.
+  intros n m.
+  induction n as [| n' Sn' ].
+  - simpl. rewrite <- plus_n_0. reflexivity.
+  - simpl. rewrite <- plus_n_Sm. rewrite <- Sn'. reflexivity.
+Qed.
+\end{lstlisting}
+
+
+\section{Higher Inductive Types}
+
+The fundamental development of equality inside MLTT
+provers led us to the notion of $\infty$-groupoid \cite{Streicher95} as spaces.
+In this was Path identity type appeared in the core
+of type checker along with de Morgan algebra on
+built-in interval type. Glue, unglue composition
+and fill operations are also needed in the core
+for the univalence computability \cite{Mortberg17}.
+
+\bibliographystyle{aipnum-cp}
+\bibliography{equ}
+
+\end{document}
