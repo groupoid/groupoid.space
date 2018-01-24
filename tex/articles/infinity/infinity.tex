@@ -10,7 +10,7 @@
 \usepackage{url}
 
 \begin{document}
-\title{From Pure Type Systems to Homotopy Calculus: The layering of type systems as its protocols.}
+\title{Pure Type Systems to Homotopy Calculus:\\ The Infinity Languages Stack}
 \author[aff1]{Maksym Sokhatskyi\corref{cor1}}
 \eaddress[url]{https://groupoid.space}
 \author[aff1]{Pavlo Maslianko\corref{cor3}}
@@ -81,6 +81,45 @@ data pts
     | app                       (f a: pts)
 \end{lstlisting}
 
+This language is called one axiom language (or pure) as eliminator
+and introduction rules inferred from type formation rule.
+The only computation rule of Pi type is called beta-reduction.
+
+\begin{equation}
+\tag{$\Pi$-formation}
+\dfrac
+{x:A \vdash B : Type}
+{\Pi\ (x:A) \rightarrow B : Type}
+\end{equation}
+
+\begin{equation}
+\tag{$\lambda$-intro}
+\dfrac
+{x:A \vdash b : B}
+{\lambda\ (x:A) \rightarrow b : \Pi\ (x: A) \rightarrow B }
+\end{equation}
+
+\begin{equation}
+\tag{$App$-elimination}
+\dfrac
+{f: (\Pi\ (x:A) \rightarrow B)\ \ \ a: A}
+{f\ a : B\ [a/x]}
+\end{equation}
+
+\begin{equation}
+\tag{$\beta$-computation}
+\dfrac
+{x:A \vdash b: B\ \ \ a:A}
+{(\lambda\ (x:A) \rightarrow b)\ a = b\ [a/x] : B\ [a/x]}
+\end{equation}
+
+\begin{equation}
+\tag{subst}
+\dfrac
+{\pi_1 : A\ \ \ \ u:A \vdash \pi_2 : B}
+{[\pi_1/u]\ \pi_2 : B}
+\end{equation}
+
 \section{Contextual Completeness}
 
 The basic Core primitive which is needed for proving things
@@ -123,18 +162,18 @@ Starting from appearence of MLTT systems there was a question about derivability
 along with J eiminator and functional extensionality. While IR-encoding \cite{Dagand13} provides the
 useful descriptive mechanism for handling equality eliminators, more accurate homotopical
 interval as model of equality is encoded internally within CCHM-fibrations system \cite{Orton17}.
-The induction type could also be modelled using setoids \cite{Bishop67}.
+The identity type could also be modelled using setoids \cite{Bishop67}.
 
 \begin{lstlisting}[mathescape=true]
 data identity
     = prev (a: exists)
     | id (a b: identity)
     | idpair (a b: identity)
-    | idelim (a b c d e: identity)
+    | idelim (a b pa pb u: identity)
 \end{lstlisting}
 
-\newpage
-\subsection{Typing Rules}
+The core of elimination rule is substitution or transport that gives as
+a fact of equality of points in dependent types indexed by two points with a given equality.
 
 \begin{equation}
 \tag{$Id$-formation}
@@ -164,6 +203,11 @@ data identity
   {J(a,a,refl(a),(x,y,u)\ d) = d\ [a/x] : E\ [a/y,\ refl(a)/u]}
 \end{equation}
 
+The elimination rule of indentity type cannot be expressed inside MLTT. That is why in all provers
+before CCHM-based cubical was encoded J eliminator as part of AST and core language primitive.
+However lately we where able to model a theory where J is derivable using $[0,1]$
+homotopy interval \cite{Mortberg17}.
+
 \begin{lstlisting}[mathescape=true]
 Path   (A: U) (a b: A): U = PathP (<i> A) a b
 refl   (A: U) (a: A): Path A a a = <i> a
@@ -171,6 +215,10 @@ singl  (A: U) (a: A): U = (x : A) * Path A a x
 sym    (A: U) (a b: A) (p: Path A a b): Path A b a = <i> p @ -i
 trans  (A B: U) (p: Path U A B) (a: A): B = comp p a []
 \end{lstlisting}
+
+The differences between congruence, functional extensionality,
+substitution and contractablity of singletons are given in explicit manner
+by their cubical definitions.
 
 \begin{lstlisting}[mathescape=true]
 cong   (A B: U) (f: A -> B) (a b: A) (p: Path A a b):
@@ -188,6 +236,8 @@ subst (A: U) (P: A -> U) (a b: A) (p: Path A a b) (e: P a):
 contrSingl (A: U) (a b: A) (p: Path A a b):
     Path (singl A a) (a,refl A a) (b,p) = <i> (p @ i,<j> p @ i/\j)
 \end{lstlisting}
+
+\subsection{Identity Eliminator J}
 
 J is formulated in a form of Paulin-Mohring and implemented
 using two facts that singleton are contractible and dependent function transport.
@@ -227,10 +277,39 @@ data branch (A: U) =        br (n: name) (args: list name) (term: A)
 data label (A: U)  =       lab (n: name) (t: tele A)
 
 data ind
-    = data_  (n: name) (t: tele ind) (labels:   list (label ind))
+    = prev   (a: identity)
+    | data_  (n: name) (t: tele ind) (labels:   list (label ind))
     | case   (n: name) (t: ind)      (branches: list (branch ind))
     | ctor   (n: name)               (args:     list ind)
 \end{lstlisting}
+
+                    \begin{equation}
+                    \tag{$W$-formation}
+                    \dfrac
+                    {A:Type\ \ \ \ x:A\ \ \ \ B(x):Type}
+                    {W (x:A) \rightarrow B(x) : Type}
+                    \end{equation}
+
+                    \begin{equation}
+                    \tag{$W$-intro}
+                    \dfrac
+                    {a:A\ \ \ \ t: B(a) \rightarrow W}
+                    {sup(a,t) : W}
+                    \end{equation}
+
+                    \begin{equation}
+                    \tag{$W$-elimination}
+                    \dfrac
+                    {w: W \vdash C(w) : Type\ \ \ \ x:A,\ u:B(x) \rightarrow W,\ \ \ \ v:\Pi (y:B(x)) \rightarrow C(u(y)) \vdash c(x,u,v):C(sup(x,u))}
+                    {w:W \vdash wrec(w,c):C(w)}
+                    \end{equation}
+
+                    \begin{equation}
+                    \tag{$W$-computation}
+                    \dfrac
+                    {w: W \vdash C(w) : Type\ \ \ \ x:A,\ u:B(x) \rightarrow W,\ \ \ \ v:\Pi (y:B(x)) \rightarrow C(u(y)) \vdash c(x,u,v):C(sup(x,u))}
+                    {x:A,\ \ \ \ u:B(x) \rightarrow W \vdash wrec(sup(x,u),c)\ =\ c(x,u,\lambda (y:B(x)) \rightarrow wrec(u(y),c)):C(sup(x,u))}
+                    \end{equation}
 
 The non-well-founded trees or infinite coinductive trees \cite{Jacobs97,Basold16}
 are useful for modeling infinite process running which is
@@ -239,6 +318,30 @@ part of any MLTT base library.
 
 We gathered several models in lambek module of base library \footnote{https://github.com/groupoid/infinity/blob/master/priv/lambek.ctt}.
 It includes: 1) Recursion Schemes; 2) Catamorphism Inductive Encoding; 3) IR-encoding 4) F-Algebra encoding.
+
+
+\section{Higher Inductive Types}
+
+The fundamental development of equality inside MLTT
+provers led us to the notion of $\infty$-groupoid \cite{Streicher95} as spaces.
+In this was Path identity type appeared in the core
+of type checker along with de Morgan algebra on
+built-in interval type. Glue, unglue composition
+and fill operations are also needed in the core
+for the univalence computability \cite{Mortberg17}.
+
+\begin{lstlisting}[mathescape=true]
+data hts
+    = prev (a: inductive)
+    | path (a b: hts)
+    | path_lam (n: name) (a b: hts)
+    | path_app (f: name) (a b: hts)
+    | comp_ (a b: hts)
+    | fill_ (a b c: hts)
+    | glue_ (a b c: hts)
+    | glue_elem (a b: hts)
+    | unglue_elem (a b: hts)
+\end{lstlisting}
 
 \section{Proofs using CHMM cubical typechecker}
 
@@ -263,17 +366,6 @@ Proof.
   - simpl. rewrite <- plus_n_Sm. rewrite <- Sn'. reflexivity.
 Qed.
 \end{lstlisting}
-
-
-\section{Higher Inductive Types}
-
-The fundamental development of equality inside MLTT
-provers led us to the notion of $\infty$-groupoid \cite{Streicher95} as spaces.
-In this was Path identity type appeared in the core
-of type checker along with de Morgan algebra on
-built-in interval type. Glue, unglue composition
-and fill operations are also needed in the core
-for the univalence computability \cite{Mortberg17}.
 
 \bibliographystyle{aipnum-cp}
 \bibliography{equ}
