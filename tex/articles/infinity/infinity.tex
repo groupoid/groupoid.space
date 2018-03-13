@@ -10,7 +10,7 @@
 \usepackage{url}
 
 \begin{document}
-\title{Pure Type Systems to Homotopy Calculus:\\ The Infinity Languages Stack}
+\title{Pure Type Systems to Homotopy Calculus:\\ The Infinity Language Stack}
 \author[aff1]{Maksym Sokhatskyi\corref{cor1}}
 \eaddress[url]{https://groupoid.space}
 \author[aff1]{Pavlo Maslianko\corref{cor3}}
@@ -22,13 +22,14 @@
 \maketitle
 \begin{abstract}
 We expose the layered models of type systems with the arising complexity.
-While designing the language or typechecker it is useful to do a separation or reusing of AST trees.
-In the result tower we have four languages: 1) PTS\footnote{Pure Type System, Henk Barendregt} \cite{Erik97} with infinite number of universes;
+While designing the language or type checker it is useful to do a separation or reusing of AST trees.
+In the resulting tower we have four languages:
+1) PTS\footnote{Pure Type System, Henk Barendregt} \cite{Erik97} with infinite number of universes;
 2) MLTT\footnote{Martin-Löf Type Theory, as for 1984} \cite{Lof84} system with Pi, Sigma and Equ;
 3) Calculus of Inductive Constructions \cite{Mohring15} --- system with induction principle using backends as
-encodings: IR-types\footnote{Induction-Recursion} \cite{Dagand13} and W-types\footnote{Wellfounded Trees} backeds;
+encodings: IR-types\footnote{Induction-Recursion} \cite{Dagand13} and W-types\footnote{Wellfounded Trees} backends;
 4) Homotopy Calculus with interval [0,1] \cite{Mortberg17}. The models are given in cubical type checker,
-which is CCHM-fibrations\footnote{Cohen-Coquand-Huber-Mörtberg fibrations} \cite{Orton17} based typechecker.
+which is CCHM-fibrations\footnote{Cohen-Coquand-Huber-Mörtberg fibrations} \cite{Orton17} based type checker.
 The central part and main motivation in type theory is Equality type that is fully
 derivable with its eliminators and computational rules in CCHM model. We show examples of
 Path Equality from a future base library and give some insights on future development.
@@ -39,13 +40,13 @@ The idea of Infinity Langauge came from the needs of unification and
 arranging different calculuses as extensions to the core of the language
 with dependent types (or MLTT core). E.g. pi-calculus (spawn, send, recv, pub, sub)
 and stream calculus (map, scan, concat, reduce, iota, fold, split) are connected
-as streams represents variables in pi-caluclus. This gives us a direction to build
+as streams represent variables in pi-calculus. This gives us a direction to build
 a solution towards unified layered type checker.
 
-This typechecker should introduce new complexity on each layer while
-remain compatible with properties on previous layer. Here is shown:
+This type checker should introduce new complexity on each layer while
+remaining compatible with properties on previous layer. Here is shown:
 1) Pure Type System with infinite number of universes for consistency as a base calculus;
-2) Martin-Löf Type Theory as intermediate calculus with sigma and identity reasnoning for pattern matching;
+2) Martin-Löf Type Theory as intermediate calculus with sigma and identity reasoning for pattern matching;
 3) EXE calculus with inductive types, inductively recursive IR-encoding and W-types encoding and derivable induction principle, therefore fixpoint type.
 4) Homotopy calculus based on interval $[0,1]$, its introduction, eliminators, composition and gluening.
 
@@ -76,9 +77,9 @@ with only Pi-Type of MLTT \cite{Lof84}, representing functional completeness.
 data pts
     = star             (n: nat)
     | var    (x: name) (l: nat)
-    | pi     (x: name) (l: nat) (d c: pts)
-    | lambda (x: name) (l: nat) (d c: pts)
-    | app                       (f a: pts)
+    | pi     (x: name) (l: nat) (d c: lang)
+    | lambda (x: name) (l: nat) (d c: lang)
+    | app                       (f a: lang)
 \end{lstlisting}
 
 This language is called one axiom language (or pure) as eliminator
@@ -120,7 +121,7 @@ The only computation rule of Pi type is called beta-reduction.
 {[\pi_1/u]\ \pi_2 : B}
 \end{equation}
 
-\section{Contextual Completeness}
+\section{Sigma Types}
 
 The basic Core primitive which is needed for proving things
 is MLTT Sigma-Type, representing Contextual Completeness.
@@ -130,11 +131,10 @@ as it contains PTS enriched with Sigma primitive.
 
 \begin{lstlisting}[mathescape=true]
 data exists
-    = prev (a: pts)
-    | sigma (n: name) (a b: exists)
-    | pair (a b: exists)
-    | fst (p: exists)
-    | snd (p: exists)
+    = sigma (n: name) (a b: lang)
+    | pair (a b: lang)
+    | fst (p: lang)
+    | snd (p: lang)
 \end{lstlisting}
 
 E.g. one may want to define vectors as refinement type of list type using sigma pair construction:
@@ -153,26 +153,26 @@ instead of using initial object with restriction in second parameter of vcons co
        | vcons (x: A) (xs: vector A (pred n))
 \end{lstlisting}
 
-We created an PTS typechecker for Erlang/OTP platform \footnote{https://github.com/groupoid/om}.
+We created an PTS type checker for Erlang/OTP platform \footnote{https://github.com/groupoid/om}.
 The download and run instructions could be obtained from Github page.
 
 \section{Identity Types}
 
-Starting from appearence of MLTT systems there was a question about derivability of equality
-along with J eiminator and functional extensionality. While IR-encoding \cite{Dagand13} provides the
-useful descriptive mechanism for handling equality eliminators, more accurate homotopical
-interval as model of equality is encoded internally within CCHM-fibrations system \cite{Orton17}.
-The identity type could also be modelled using setoids \cite{Bishop67}.
+Starting from an appearance of MLTT systems there was a question about derivability of equality
+along with J eliminator and functional extensionality. While IR-encoding \cite{Dagand13} provides
+the useful descriptive mechanism for handling equality eliminators, homotopical interval
+as a model of equality is encoded internally within CCHM-fibrations system \cite{Orton17}. The
+identity type could also be modeled using setoids \cite{Bishop67}, but it will lacks functional
+extensionality which is also non-derivable in MLTT systems.
 
 \begin{lstlisting}[mathescape=true]
 data identity
-    = prev (a: exists)
-    | id (a b: identity)
-    | idpair (a b: identity)
-    | idelim (a b pa pb u: identity)
+    = id (a b: lang)
+    | idpair (a b: lang)
+    | idelim (a b pa pb u: lang)
 \end{lstlisting}
 
-The core of elimination rule is substitution or transport that gives as
+The core of elimination rule is a substitution or transport that gives as
 a fact of equality of points in dependent types indexed by two points with a given equality.
 
 \begin{equation}
@@ -204,9 +204,10 @@ a fact of equality of points in dependent types indexed by two points with a giv
 \end{equation}
 
 The elimination rule of indentity type cannot be expressed inside MLTT. That is why in all provers
-before CCHM-based cubical was encoded J eliminator as part of AST and core language primitive.
+before CCHM-based cubical have encoded J eliminator as part of AST and core language primitive.
 However lately we where able to model a theory where J is derivable using $[0,1]$
-homotopy interval \cite{Mortberg17}.
+homotopy interval \cite{Mortberg17} and CCHM-fibrations. Here is example of Identity Type theory
+using cubical type checker:
 
 \begin{lstlisting}[mathescape=true]
 Path   (A: U) (a b: A): U = PathP (<i> A) a b
@@ -237,7 +238,7 @@ contrSingl (A: U) (a b: A) (p: Path A a b):
     Path (singl A a) (a,refl A a) (b,p) = <i> (p @ i,<j> p @ i/\j)
 \end{lstlisting}
 
-\subsection{Identity Eliminator J}
+\subsection*{Identity Eliminator J}
 
 J is formulated in a form of Paulin-Mohring and implemented
 using two facts that singleton are contractible and dependent function transport.
@@ -277,39 +278,38 @@ data branch (A: U) =        br (n: name) (args: list name) (term: A)
 data label (A: U)  =       lab (n: name) (t: tele A)
 
 data ind
-    = prev   (a: identity)
-    | data_  (n: name) (t: tele ind) (labels:   list (label ind))
-    | case   (n: name) (t: ind)      (branches: list (branch ind))
-    | ctor   (n: name)               (args:     list ind)
+    = data_  (n: name) (t: tele lang) (labels:   list (label lang))
+    | case   (n: name) (t: lang)      (branches: list (branch lang))
+    | ctor   (n: name)                (args:     list lang)
 \end{lstlisting}
 
-                    \begin{equation}
-                    \tag{$W$-formation}
-                    \dfrac
-                    {A:Type\ \ \ \ x:A\ \ \ \ B(x):Type}
-                    {W (x:A) \rightarrow B(x) : Type}
-                    \end{equation}
+\begin{equation}
+\tag{$W$-formation}
+\dfrac
+{A:Type\ \ \ \ x:A\ \ \ \ B(x):Type}
+{W (x:A) \rightarrow B(x) : Type}
+\end{equation}
 
-                    \begin{equation}
-                    \tag{$W$-intro}
-                    \dfrac
-                    {a:A\ \ \ \ t: B(a) \rightarrow W}
-                    {sup(a,t) : W}
-                    \end{equation}
+\begin{equation}
+\tag{$W$-intro}
+\dfrac
+{a:A\ \ \ \ t: B(a) \rightarrow W}
+{sup(a,t) : W}
+\end{equation}
 
-                    \begin{equation}
-                    \tag{$W$-elimination}
-                    \dfrac
-                    {w: W \vdash C(w) : Type\ \ \ \ x:A,\ u:B(x) \rightarrow W,\ \ \ \ v:\Pi (y:B(x)) \rightarrow C(u(y)) \vdash c(x,u,v):C(sup(x,u))}
-                    {w:W \vdash wrec(w,c):C(w)}
-                    \end{equation}
+\begin{equation}
+\tag{$W$-elimination}
+\dfrac
+{w: W \vdash C(w) : Type\ \ \ \ x:A,\ u:B(x) \rightarrow W,\ \ \ \ v:\Pi (y:B(x)) \rightarrow C(u(y)) \vdash c(x,u,v):C(sup(x,u))}
+{w:W \vdash wrec(w,c):C(w)}
+\end{equation}
 
-                    \begin{equation}
-                    \tag{$W$-computation}
-                    \dfrac
-                    {w: W \vdash C(w) : Type\ \ \ \ x:A,\ u:B(x) \rightarrow W,\ \ \ \ v:\Pi (y:B(x)) \rightarrow C(u(y)) \vdash c(x,u,v):C(sup(x,u))}
-                    {x:A,\ \ \ \ u:B(x) \rightarrow W \vdash wrec(sup(x,u),c)\ =\ c(x,u,\lambda (y:B(x)) \rightarrow wrec(u(y),c)):C(sup(x,u))}
-                    \end{equation}
+\begin{equation}
+\tag{$W$-computation}
+\dfrac
+{w: W \vdash C(w) : Type\ \ \ \ x:A,\ u:B(x) \rightarrow W,\ \ \ \ v:\Pi (y:B(x)) \rightarrow C(u(y)) \vdash c(x,u,v):C(sup(x,u))}
+{x:A,\ \ \ \ u:B(x) \rightarrow W \vdash wrec(sup(x,u),c)\ =\ c(x,u,\lambda (y:B(x)) \rightarrow wrec(u(y),c)):C(sup(x,u))}
+\end{equation}
 
 The non-well-founded trees or infinite coinductive trees \cite{Jacobs97,Basold16}
 are useful for modeling infinite process running which is
@@ -317,8 +317,11 @@ part of Milner's Pi-calculus. Coinductive streams are
 part of any MLTT base library.
 
 We gathered several models in lambek module of base library \footnote{https://github.com/groupoid/infinity/blob/master/priv/lambek.ctt}.
-It includes: 1) Recursion Schemes; 2) Catamorphism Inductive Encoding; 3) IR-encoding 4) F-Algebra encoding.
-
+It includes:
+1) Recursion Schemes;
+2) Catamorphism Inductive Encoding;
+3) IR-encoding \cite{Dagand13};
+4) F-Algebra encoding  \cite{Hinze13}.
 
 \section{Higher Inductive Types}
 
@@ -332,20 +335,19 @@ for the univalence computability \cite{Mortberg17}.
 
 \begin{lstlisting}[mathescape=true]
 data hts
-    = prev (a: inductive)
-    | path (a b: hts)
-    | path_lam (n: name) (a b: hts)
-    | path_app (f: name) (a b: hts)
-    | comp_ (a b: hts)
-    | fill_ (a b c: hts)
-    | glue_ (a b c: hts)
-    | glue_elem (a b: hts)
-    | unglue_elem (a b: hts)
+    = path (a b: lang)
+    | path_lam (n: name) (a b: lang)
+    | path_app (f: name) (a b: lang)
+    | comp_ (a b: lang)
+    | fill_ (a b c: lang)
+    | glue_ (a b c: lang)
+    | glue_elem (a b: lang)
+    | unglue_elem (a b: lang)
 \end{lstlisting}
 
-\section{Proofs using CHMM cubical typechecker}
+\section{Comparing Homotopical and Inductive proofs}
 
-Here we show how to use Path equality from CCHM {\bf cubical} typechecker:
+Here we show how to use Path equality from CCHM {\bf cubical} type checker:
 
 \begin{lstlisting}[mathescape=true]
 add_comm (a : nat) : (n : nat) -> Path nat (add a n) (add n a) = split
@@ -367,7 +369,33 @@ Proof.
 Qed.
 \end{lstlisting}
 
+\section{Conclusion}
+In this article we gave a simple AST definitions for tower of languages
+on top of Pure Type System, show a cubical terms for Identity types, compare
+the inductive and homotopical proof styles. The main motivation in
+layering the complex proving languages is to simplify the reasoning about them,
+manage and reduce the stack of calculuses.
+
+\begin{lstlisting}[mathescape=true]
+data lang
+   = PTS (_: pts)
+   | SIGMA (_: exists)
+   | ID (_: identity)
+   | INDUCTION (_: ind)
+   | CUBICAL (_: hts)
+\end{lstlisting}
+
+Such decoupling of top level language brings modularity to its essence,
+the type checker. We can reason about properties of cacluluses polymorphically
+disregarding of underlying types in computational equations, such as
+$Path\ (B\ a)\ ((app\ B\ (lambda\ B\ f))\ a)\ (f\ a)$. Here we don't know $a$ is
+term of PTS or SIGMA language, this equation holds for all terms $a$.
+We treating language core as AST sum of sublanguages, that is
+extendable to the needed set of language features.
+
 \bibliographystyle{aipnum-cp}
-\bibliography{equ}
+\bibliography{infinity}
+\newpage
+\tableofcontents
 
 \end{document}
