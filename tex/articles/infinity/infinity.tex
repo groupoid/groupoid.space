@@ -89,22 +89,22 @@ The only computation rule of Pi type is called beta-reduction.
 \begin{equation}
 \tag{$\Pi$-formation}
 \dfrac
-{x:A \vdash B : Type}
-{\Pi\ (x:A) \rightarrow B : Type}
+{A : Type \vdash B : A \rightarrow Type}
+{\Pi\ (x:A) \rightarrow B(x) : Type}
 \end{equation}
 
 \begin{equation}
 \tag{$\lambda$-intro}
 \dfrac
 {x:A \vdash b : B}
-{\lambda\ (x:A) \rightarrow b : \Pi\ (x: A) \rightarrow B }
+{\lambda\ (x:A) \rightarrow b : \Pi\ (x:A) \rightarrow B(x) }
 \end{equation}
 
 \begin{equation}
 \tag{$App$-elimination}
 \dfrac
-{f: (\Pi\ (x:A) \rightarrow B)\ \ \ a: A}
-{f\ a : B\ [a/x]}
+{f: (\Pi\ (x:A) \rightarrow B x)\ \ \ a: A}
+{f\ a : B x\ [a/x]}
 \end{equation}
 
 \begin{equation}
@@ -137,6 +137,35 @@ data exists
     | snd (p: lang)
 \end{lstlisting}
 
+\begin{equation}
+\tag{$\Sigma$-formation}
+\dfrac
+{x:A \vdash B : Type}
+{\Sigma\ (x:A) * B x : Type}
+\end{equation}
+
+\begin{equation}
+\tag{$\Sigma$-intro}
+\dfrac
+{x:A \vdash b : B(x), a: A}
+{(a,b) : \Sigma\ (x:A) * B(x) }
+\end{equation}
+
+\begin{equation}
+\tag{$\pi_1$-elimination}
+\dfrac
+{A: type, B: A -> Type}
+{\pi_1 : \Sigma\ (x:A) * B x \rightarrow A}
+\end{equation}
+
+\begin{equation}
+\tag{$\pi_1$-elimination}
+\dfrac
+{A: type, B: A -> Type}
+{\pi_2 : \Sigma\ (x:A) * B x \rightarrow B x}
+\end{equation}
+
+\newpage
 E.g. one may want to define vectors as refinement type of list type using sigma pair construction:
 
 \begin{lstlisting}[mathescape=true]
@@ -155,6 +184,7 @@ instead of using initial object with restriction in second parameter of vcons co
 
 We created an PTS type checker for Erlang/OTP platform \footnote{https://github.com/groupoid/om}.
 The download and run instructions could be obtained from Github page.
+
 
 \section{Identity Types}
 
@@ -217,6 +247,7 @@ sym    (A: U) (a b: A) (p: Path A a b): Path A b a = <i> p @ -i
 trans  (A B: U) (p: Path U A B) (a: A): B = comp p a []
 \end{lstlisting}
 
+\newpage
 The differences between congruence, functional extensionality,
 substitution and contractablity of singletons are given in explicit manner
 by their cubical definitions.
