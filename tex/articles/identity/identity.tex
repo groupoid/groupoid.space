@@ -1,4 +1,4 @@
-% copyright (c) 2015 Synrc Research Center
+% copyright (c) 2018 Groupoid Infinity
 
 \documentclass{svproc}
 \usepackage{amscd}
@@ -13,28 +13,42 @@
 
 \begin{document}
 
-\title{Constructive Proof that Nat equals Fix Maybe}
+\title{Constructive proofs \\
+       of heterogeneous equalities in CTT}
 \author{Maksym Sokhatskyi and Pavlo Maslianko}
 \institute{National Technical University of Ukraine ``Igor Sikorsky Kyiv Polytechnical Institute''}
 
 \maketitle
 
+\begin{abstract}
+This paper represents the very small part of the developed base library for homotopical
+prover based on Cubical Type Theory. We demonstrate the usage of this library by
+showing how to build a constructive proof of heterogeneous equality, the simple
+and elegant formulation of the equality problem, that was impossible to achieve in pure MLTT.
+The machinery used in this article unveils the internal aspect of path equalities and isomorphism,
+used e.g. for proving univalence axiom, that became possible only in 2017.
+As an example of complex proof that was impossible to construct in earlier theories
+we took isomorphism between Nat and Fix Maybe datatypes and built a constructive
+proof of equality between elements of these datatypes. This approach could be extended
+to any complex isomorphic data types.
+\end{abstract}
+
 \section{Intro}
 
-After formulating Type Theory for model quantifiers using Pi and Sigma types in 1972\cite{Lof72}
-Per Martin-Lof added identity Equ types in 1984\cite{Lof84}. Later identity types was extended
+After formulating Type Theory for model quantifiers using Pi and Sigma types in 1972 \cite{Lof72}
+Per Martin-Lof added Equality types in 1984 \cite{Lof84}. Later equality types were extended
 to non-trivial structural higher equalities as was shown by Martin Hofmann
-and Thomas Streicher in 1998\cite{Hofmann96}. However formal constructing of identity type
-eliminators was made possible after introduction of Cubical Type Theory in 2017\cite{Mortberg17}.
+and Thomas Streicher in 1996 \cite{Hofmann96}. However formal constructing of identity type
+eliminators was made possible after introduction of Cubical Type Theory in 2017 \cite{Mortberg17}.
 CTT extends MLTT with interval I=[0,1] and its de Morgan algebra: 0, 1, r, min(r,s), max(r,s)
 allowing constructive proofs of earlier models based on groupoid interpretation.
 
-In this paper we want to present the constructive formulation of proof
+In this paper, we want to present the constructive formulation of proof
 that two values of different types are equal using constructive heterogenous equality.
-At the end we will use both Path Isomorphism and Univalence for that purposes.
-During story of comparing two zeros we will show minimal set of primitives needed
-for performing this task in cubical type checker. Most of
-them were imposible to derive in pure MLTT. We show these primitives in dependency order
+In the end, we will use both Path Isomorphism and Univalence for that purposes \cite{HoTT}.
+During the story of comparing two zeros, we will show the minimal set of primitives needed
+for performing this task in the cubical type checker. Most of
+them were impossible to derive in pure MLTT. We show these primitives in dependency order
 while constructing our proof. They cover different topics in type theory, namely:
 
 \begin{itemize}
@@ -47,13 +61,39 @@ while constructing our proof. They cover different topics in type theory, namely
 \item Nat = Fix Maybe
 \end{itemize}
 
-These primitives form a valuable part of
-base library, so this arcticle could be considered as an brief introduction
-to several modules: {\bf proto\_path}, {\bf proto\_equiv}, {\bf pi},
-{\bf sigma}, {\bf mltt}, {\bf path}, {\bf iso}.
+\section{Research Formal Description}
+
+As a formal description of the research includes all cubical programs as research object,
+type theory ingenral and MLTT and CTT inparticular as research subject,
+direct proof construction as logical method and encoded cubical
+base library and examples as research results.
+
+{\bf Research object}. The homotopy type theory base libraries in Agda, Cubical, and Coq.
+While modern Agda has the cubical mode, Coq lacks of the computational semantics of path primitives
+while has HoTT library. The real programming language is not enough to
+develop the software and theorems, the language shoud be shipped with base library. In this article
+we unvail the practical implementation of base library for cubical typecheckers.
+
+{\bf Research subject}. We will analyze the base library through the needs of particular features,
+like basic theorems, heterogenous path equalities, univalence, basic HITs like truncations, run-time
+versions of the list, nat, and stream datatypes. Most theorems used in the article
+could be formulated in MLTT while most proofs can only be constructed in CTT.
+
+{\bf Research methods}. The formal definition of MLTT theory and constructive
+implementation of its instance that supplied with minimal but comprehensive base library that
+can be used for verifying homotopical and run-time models. As an example the
+constructive proofs of heterogenous equalities between types and elements was chosen to implement.
+
+{\bf Research results}. Research result is presented as source code repository that can be used by
+cubicle language and contains the minimal base library used in this article.
+These primitives form a valuable part of base library, so this arcticle could be
+considered as an brief introduction to several modules: {\bf proto\_path}, {\bf proto\_equiv}, {\bf pi},
+{\bf sigma}, {\bf mltt}, {\bf path}, {\bf iso}. But the library has even more modules, that
+exceed the scope of this article so you may refer to source code
+repository\footnote{http://github.com/groupoid/infinity}.
 
 \begin{figure}[h]
-  \centerline{\includegraphics[scale=0.26]{baselib}}
+  \centerline{\includegraphics[scale=0.36]{baselib}}
   \caption{The Groupoid Infinity base library}
 \end{figure}
 
@@ -167,11 +207,11 @@ $$D : \prod_{x,y:A}^{A:U_i} x =_A y \rightarrow U_{i+1},\ \ \
 Eliminator of Equality has complex form and underivable in MLTT.
 
 \begin{lstlisting}[mathescape=true]
-Equ       (A: U) (x y: A): U = undefined
-reflect   (A: U) (a: A): Equ A a a = undefined
-D         (A: U) : U = (x y: A) -> Equ A x y -> U
-J         (A: U) (x y: A) (C: D A) (d: C x x (reflect A x))
-          (p: Equ A x y): C x y p = undefined
+Equ     (A: U) (x y: A): U = undefined
+reflect (A: U) (a: A): Equ A a a = undefined
+D       (A: U) : U = (x y: A) -> Equ A x y -> U
+J       (A: U) (x y: A) (C: D A) (d: C x x (reflect A x))
+                     (p: Equ A x y): C x y p = undefined
 \end{lstlisting}
 
 Starting from MLTT until cubicaltt there was no computational semantics
@@ -190,7 +230,19 @@ until introdure cubical primitives, here is just MLTT signature of HeteroEqu
 which is undervable in MLTT.
 
 \begin{lstlisting}[mathescape=true]
-HeteroEqu (A B: U) (a: A) (b: B) (P: Equ U A B) : U = undefined
+HeteroEqu (A B:U)(a:A)(b:B)(P:Equ U A B):U = undefined
+\end{lstlisting}
+
+E.g. we can define Setoid specification \cite{Bishop67} as not-MLTT basis
+for equality types. These signatures are also underivable in MLTT.
+
+$$symm : \prod_{a,b:A} \prod_{p:a =_A b} b =_A a,\ \ \ 
+  transitivity : \prod_{a,b,c: A} \prod_{p: a =_A b} \prod_{q: b =_A c} a =_A c$$
+
+\begin{lstlisting}[mathescape=true]
+sym  (A:U)(a b:A)(p:Equ A a b): Equ A b a = undefined
+transitivity (A:U)(a b c:A)(p: Equ A a b)(q: Equ A b c):
+             Equ A a c = undefined
 \end{lstlisting}
 
 \newpage
@@ -258,7 +310,7 @@ isomorphism and heterogenous equality.
 
 \begin{lstlisting}[mathescape=true]
 Heterogenous Path: (p: Path U A B) -> PathP p A B
-Function over [0,1]: `<i> A`.
+Abstraction over [0,1]: `<i> A`.
 Application of Path to [0,1]: `<i> p @ i`
 Path Composition: `comp (Path A a b) x []`.
 Path Gluening: `Glue A B [] -> Path U A B`
@@ -266,12 +318,6 @@ Min: `<i j> p @ i /\ j)`.
 Max: `<i j> p @ i \/ j)`.
 \end{lstlisting}
 
-\begin{lstlisting}[mathescape=true]
-composition (A : U) (a b c : A) (p : Path A a b)
-    (q : Path A b c) : Path A a c
-    = <i> comp (<j>A) (p @ i) [ (i=1) -> q,
-                                (i=0) -> <j> a ]
-\end{lstlisting}
 
 \section{Contractability and Higher Equalities}
 
@@ -315,9 +361,12 @@ implementation of reflection rule as lambda over interval $[0,1]$ that
 return constant value $a$ on all domain.
 
 \begin{lstlisting}[mathescape=true]
-Path (A:U) (a b: A): U = PathP (<i> A) a b
-HeteroEqu (A B: U) (a: A) (b: B) (P: Equ U A B) : U = Path P a b
-refl (A:U) (a: A): Path A a a = <i> a
+Path (A:U)(a b:A):U = PathP (<i>A) a b
+HeteroEqu (A B:U)(a:A)(b:B)(P:Equ U A B):U = Path P a b
+refl (A:U)(a:A):Path A a a = <i> a
+sym (A:U)(a b:A) (p: Path A a b): Path A b a = <i> p @ -i
+composition (A: U)(a b c:A)(p: Path A a b) (q: Path A b c):
+    Path A a c = comp (<i> Path A a (q @ i)) p []
 \end{lstlisting}
 
 $$trans : \prod_{p:A=_U B}^{A,B:U} \prod_{a:A} B,\ \ \ singleton : \prod_{x:A}^{A:U} \sum_{y:A} x =_A y $$
@@ -348,14 +397,14 @@ contrSingl (A : U) (a b : A) (p : Path A a b):
            = <i> (p @ i, <j> p @ i /\ j )
 \end{lstlisting}
 
-Then we can derive J using $contrSingl$ and $subst$:
+Then we can derive J using $contrSingl$ and $subst$ as defined in HoTT\cite{HoTT}:
 
 \begin{lstlisting}[mathescape=true]
-J (A : U) (x y: A) (C: D A)
-  (d : C x x (refl A x)) (p: Path A x y) : C x y p =
-    subst (singl A x) T (x, refl A x) (y, p)
-    (contrSingl A x y p) d where T (z : singl A x) : U
-    = C (z.1) (z.2)
+J (A:U)(x y:A)(C: D A)(d:C x x (refl A x))
+         (p:Path A x y): C x y p =
+   subst (singl A x) T (x,refl A x)
+         (y,p) (contrSingl A x y p) d where
+       T (z:singl A x):U = C (z.1) (z.2)
 \end{lstlisting}
 
 These function are defined in {\bf proto\_path} module, and all of them
@@ -366,20 +415,15 @@ except singleton definition are underivable in MLTT.
 Function extensionality is another example of underivable theorems in MLTT, it
 states if two functions with the same type and they always equals for
 any point from domain, we can prove that these function are equal.
-We distinguish dependent and non-dependent versions by signature,
-however proof term is the same in both cases.
+$funExt$ as functional property is placed in {\bf pi} module.
 
-$$funExtDependent: \prod_{[f,g: (x:A) \rightarrow B(x)]}^{A: U,B:A\rightarrow U}\prod_{[x:A,p:A\rightarrow f(x) =_{B(x)} g(x)]} f =_{A\rightarrow B(x)} g$$
+$$funExt: \prod_{[f,g: (x:A) \rightarrow B(x)]}^{A: U,B:A\rightarrow U}\prod_{[x:A,p:A\rightarrow f(x) =_{B(x)} g(x)]} f =_{A\rightarrow B(x)} g$$
 
 \begin{lstlisting}[mathescape=true]
-funExtDependent  (A: U) (B: A -> U)
-       (f g: (x : A) -> B x)
-       (p : (x : A) -> Path (B x) (f x) (g x)) :
-       Path ((y : A) -> B y) f g = <i> \(a : A) -> (p a) @ i
-
-funExt (A B: U) (f g: A -> B)
-       (p: (x : A) -> Path B (f x) (g x)):
-       Path (A -> B) f g = <i> \(a : A) -> p a @ i
+funExt (A: U) (B: A->U)
+       (f g: (x:A)->B(x))
+       (p: (x:A)->Path (B x) (f x) (g x)):
+       Path ((y:A)->B y) f g=<i>\(a:A)->(p a)@i
 \end{lstlisting}
 
 \section{Fibers and Equivalence}
@@ -398,17 +442,21 @@ can prove that singletons are contractible and write a conversion
 function $X=_U Y \rightarrow equiv(X,Y)$.
 
 \begin{lstlisting}[mathescape=true]
-fiber   (A B: U) (f: A -> B) (y: B): U = (x: A) * Path B y (f x)
-isEquiv (A B: U) (f: A -> B): U = (y: B) -> isContr (fiber A B f y)
-equiv   (A B: U): U = (f: A -> B) * isEquiv A B f
+fiber   (A B:U)(f:A->B)(y:B):U = (x:A) * Path B y (f x)
+isEquiv (A B:U)(f:A->B):U = (y:B) -> isContr (fiber A B f y)
+equiv   (A B:U):U = (f:A->B) * isEquiv A B f
 
 singletonIsContractible (A:U) (a:A): isContr (singl A a)
     = ((a,refl A a), \ (z:(x:A) * Path A a x) ->
     contrSingl A a z.1 z.2)
 
-pathToEquiv (A X : U) (p : Path U X A) : equiv X A
+pathToEquiv (A X: U) (p: Path U X A): equiv X A
     = subst U (equiv A) A X p (idEquiv A)
 \end{lstlisting}
+
+$equiv$ type is compatible with cubicaltt typechecker and it instance
+can be passed as parameter for Glue operation. So all $equiv$ functions and properties
+is placed in separate {\bf equiv} module.
 
 \section{Isomorphism}
 
@@ -422,7 +470,7 @@ $$isoToEquiv(A,B) : Iso(A,B) \rightarrow Equiv(A,B)$$
 $$isoToPath(A,B) : Iso(A,B) \rightarrow A =_U B$$
 
 $lemIso$ proof is a bit longread, you may refer to Github
-repository\footnote{http://github.com/groupois/infinity/tree/master/priv/iso.ctt}.
+repository\footnote{http://github.com/groupoid/infinity/tree/master/priv/iso.ctt}.
 The by proof of $isoToEquiv$ using $lemIso$ we define $isoToPath$ as
 Glue of A and B types, providing $equiv(A,B)$. Glue operation first appear in
 proving transprt values of different type across their path equalities which are being constructed
@@ -430,67 +478,121 @@ using encode and decode functions that represent isomorphism. Also Glue operatio
 appears in constructive implementation of Univalence axiom\cite{Mortberg17}.
 
 \begin{lstlisting}[mathescape=true]
-lemIso  (A B : U) (f: A->B) (g:B->A)
+lemIso  (A B:U) (f: A->B) (g:B->A)
         (s: (y:B) -> Path B (f(g(y)))y)
         (t: (x:A) -> Path A (g(f(x)))x) (y:B) (x0 x1:A)
         (p0: Path B y (f(x0))) (p1: Path B y (f(x1))):
         Path (fiber A B f y) (x0,p0) (x1,p1) = undefined
 
-isoToEquiv (A B: U) (f: A -> B) (g: B -> A)
-        (s: (y: B) -> Path B (f (g y)) y)
-        (t: (x: A) -> Path A (g (f x)) x): isEquiv A B f =
+isoToEquiv (A B: U) (f:A->B) (g:B->A)
+        (s: (y:B) -> Path B (f(g(y))) y)
+        (t: (x:A) -> Path A (g(f(x))) x): isEquiv A B f =
   \(y:B) -> ((g y,<i>s y@-i),\ (z:fiber A B f y) ->
     lemIso A B f g s t y (g y) z.1 (<i>s y@-i) z.2)
 
 isoToPath (A B:U) (f:A->B)(g:B->A)
-        (s: (y:B)->Path B (f(g(y)))y)
-        (t: (x:A)->Path A (g(f(x)))x): Path U A B =
+        (s: (y:B) -> Path B (f(g(y)))y)
+        (t: (x:A) -> Path A (g(f(x)))x): Path U A B =
         <i> Glue B [(i=0)->(A,f,isoToEquiv A B f g s t),
                     (i=1)->(B,idfun B,idIsEquiv B) ]
 \end{lstlisting}
 
+Isomorphism definitions are placed in three different modules due to dependency
+optimisation: {\bf iso}, {\bf iso\_pi}, {\bf iso\_sigma}. Latter two contains
+main theorems about paths in Pi and Sigma spaces.
+
 \newpage
 \section{Nat = Fix Maybe}
 
-\begin{lstlisting}[mathescape=true]
-natToMaybe: nat -> fix maybe = split
-  zero -> Fix nothing
-  suc n -> Fix (just (natToMaybe n))
+Now we can prove $Iso(Nat,Fix(Maybe))$ and $Nat =_U Fix(Maybe)$. First we need to introduce
+datatypes and then write encode and decode functions to build up an isomorphism.
+Then by using conversion from $Iso$ to $Path$ we get the heterogenous equality
+of values in $Nat$ and $Fix(Maybe)$. We can build transport between any isomorphic data types
+by providing ecode and decode functions.
 
-maybeToNat : fix maybe -> nat = split
-  Fix m -> split nothing -> zero
-                 just f -> suc (maybeToNat f)
+\begin{lstlisting}[mathescape=true]
+
+data fix (F:U->U) = Fix (point: F (fix F))
+data nat          = zero    | suc  (n: nat)
+data maybe (A:U)  = nothing | just (a: A)
+
+natToMaybe: nat -> fix maybe = split
+     zero -> Fix nothing
+     suc n -> Fix (just (natToMaybe n))
+
+maybeToNat: fix maybe -> nat = split
+     Fix m -> split nothing -> zero
+                    just f -> suc (maybeToNat f)
 
 natMaybeIso: (a: nat) ->
-    Path nat (maybeToNat (natToMaybe a)) a = split
-         zero -> <i> zero
-         suc n -> <i> suc (natMaybeIso n @ i)
+     Path nat (maybeToNat (natToMaybe a)) a = split
+          zero -> <i> zero
+          suc n -> <i> suc (natMaybeIso n @ i)
 
-maybeNatIso : (a : fix maybe) ->
-    Path (fix maybe) (natToMaybe (maybeToNat a)) a = split
-         Fix m -> split nothing -> <i> Fix nothing
-                        just f -> <i> Fix (just (maybeNatIso f @ i))
+maybeNatIso: (a : fix maybe) ->
+     Path (fix maybe) (natToMaybe (maybeToNat a)) a = split
+          Fix m -> split nothing -> <i> Fix nothing
+                         just f -> <i> Fix (just (maybeNatIso f @ i))
 
-maybenat_ : Path U (fix maybe) nat
-    = isoPath (fix maybe) nat
-              maybeToNat natToMaybe
-              natMaybeIso maybeNatIso
+maybenat: Path U (fix maybe) nat
+     = isoToPath (fix maybe) nat
+                 maybeToNat natToMaybe
+                 natMaybeIso maybeNatIso
+\end{lstlisting}
 
-> PathElem nat2 nat zero2 zero nat2nat
-EVAL: PathP (<!0> Glue nat [ (!0 = 0) -> (nat2,(toNat,(\(y : B)
--> ((g y,&lt;i&gt; (s y) @ -i),\(z : fiber A B f y) -> lemIso A B f g
-s t y (g y) z.1 (&lt;i&gt; (s y) @ -i) z.2)) (A = nat2, B = nat, f =
-toNat, g = fromNat, s = fromNatK, t = toNatK))), (!0 = 1) ->
-(nat,((\(a : A) -> a) (A = nat),(\(a : A) -> ((a,refl A a),\(z:
-fiber A A (idfun A) a) -> contrSingl A a z.1 z.2)) (A = nat)))])
-zero2 zero
+\newpage
+The result term of equaluty between two zeros of Nat and Fix Maybe is given by isomorphism.
+
+\begin{lstlisting}[mathescape=true]
+> HeteroEqu (fix maybe) nat (Fix nothing) zero maybenat
+
+EVAL: PathP (<!0> Glue nat [ (!0 = 0) -> (fix (\(A : U) -> maybe),
+(maybeToNat,(\(y : B) -> ((g y,<i> (s y) @ -i),\(z : fiber A B f y)
+-> lemIso A B f g s t y (g y) z.1 (<i> (s y) @ -i) z.2))
+(A = (fix (\(A : U) -> maybe)), B = nat, f = maybeToNat,
+g = natToMaybe, s = natMaybeIso, t = maybeNatIso))),
+(!0 = 1) -> (nat,((\(a : A) -> a) (A = nat),(\(a : A) ->
+((a,refl A a),\(z : fiber A A (idfun A) a) ->
+contrSingl A a z.1 z.2)) (A = nat))) ]) (Fix nothing) zero
 \end{lstlisting}
 
 \section{Conclusion}
-As you can see EXE language has enough expressive power to be used for
-drawing MLTT axioms in computer science articles and papers.
 
-\newpage
+At the moment only two provers that support CTT exists, this is Agda and Cubical \cite{Mortberg17}.
+We developed a base library for cubical type checkers and described the approach
+of how to deal with heterogeneous equalities by the example of proving Iso(Nat,Fix(Maybe)).
+
+Homotopical core in the prover is essential for proving math theorems in geometry,
+topology, category theory, homotopy theory. But it also useful
+for proving with fewer efforts even simple theorems like commutativity of Nat. By pattern matching
+on the edges to can specify continuous (homotopical) transformations of types
+and values across paths.
+
+We propose a general-purpose base library for modeling math systems using univalent foundations
+and cubical type checker.
+{\bf MLTT Foundation}: the set of modules with axioms and theorems for Pi, Sigma and Path types, the basis of MLTT theory.
+                       Among them: pi, sigma, proto, proto\_equiv,
+                       proto\_path, path, function, mltt.
+{\bf Univalence Foundation}: the basic theorems about isomorphisms of MLTT types. Useful for
+                             proving transport between types, include following modules:
+                             iso, iso\_pi, iso\_sigma, trunc, equiv, univ.
+{\bf Category Theory}: the model of Category Theory following \cite{HoTT} definitions. It includes:
+                     cat, pushout, fun, grothendieck.
+{\bf Runtime Types}: the models for run-time systems, properties of which could be proved using
+                     univalend foundations: binnat, bool, control, either, list,
+                     maybe, stream, nat, lambek.
+{\bf Set Theory}: The basic theorems about set theory and higher groupoids:
+                  hedberg, girard, propset.
+{\bf Geometry}: Higher Inductive Types: circle, helix, quotient, retract, etc.
+{\bf Algebra}: Abstract algebra, such as Monoid, Gropop, Semogroupo, Monad, etc: algstruct, functor, monad.
+
+The amount of code needed for Iso(Nat,Fix(Maybe)) proof is around 400 LOC in modules.
+The further development of base library implies: 1) extending run-time facilities;
+2) making it useful for building long-running systems and processes; 3) implement the inductive-recursive model for inductive types (development of lambek module). The main aim
+is to bring homotopical univalent foundations for run-time systems and models. Our base library
+could be used as a first-class mathematical modeling tool or as a sandbox for developing
+run-time systems and proving its properties, followed with code extraction to pure type systems
+and/or run-time interpreters.
 
 \bibliographystyle{aipnum-cp}
 \bibliography{identity}
