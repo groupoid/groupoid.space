@@ -81,25 +81,27 @@ like basic theorems, heterogeneous path equalities, univalence, basic HITs like 
 versions of the list, nat, and stream datatypes. Most theorems used in the article
 could be formulated in MLTT while most proofs can only be constructed in CTT.
 
+
+\begin{figure}[h]
+  \centerline{\includegraphics[scale=0.36]{baselib}}
+  \caption{Base Library}
+\end{figure}
+
+{\bf Research results}. Research result is presented as source code repository that can be used by
+cubicaltt language and contains the minimal base library used in this article.
+These primitives form a valuable part of base library, so this arcticle could be
+considered as an brief introduction to several modules: {\bf proto\_path}, {\bf proto\_equiv}, {\bf pi},
+{\bf sigma}, {\bf mltt}, {\bf path}, {\bf iso}. But the library has even more modules, that
+exceed the scope of this article so you may refer to source code
+repository\footnote{http://github.com/groupoid/infinity}. Brief list of base library modules is given
+in Conclusion.
+
 {\bf Research methods}. The formal definition of MLTT theory and constructive
 implementation of its instance that supplied with minimal but comprehensive base library that
 can be used for verifying homotopical and run-time models. As an example the
 constructive proofs of heterogeneous equalities between types and elements was chosen to implement.
 
-{\bf Research results}. Research result is presented as source code repository that can be used by
-cubicle language and contains the minimal base library used in this article.
-These primitives form a valuable part of base library, so this arcticle could be
-considered as an brief introduction to several modules: {\bf proto\_path}, {\bf proto\_equiv}, {\bf pi},
-{\bf sigma}, {\bf mltt}, {\bf path}, {\bf iso}. But the library has even more modules, that
-exceed the scope of this article so you may refer to source code
-repository\footnote{http://github.com/groupoid/infinity}.
 
-\begin{figure}[h]
-  \centerline{\includegraphics[scale=0.36]{baselib}}
-  \caption{The Groupoid Infinity base library}
-\end{figure}
-
-\newpage
 \section{MLTT Type Theory}
 
 \subsection{Syntax Notes}
