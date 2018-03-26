@@ -558,9 +558,9 @@ contrSingl A a z.1 z.2)) (A = nat))) ]) (Fix nothing) zero
 
 \section{Conclusion}
 
-At the moment only two provers that support CTT exists, this is Agda and Cubical \cite{Mortberg17}.
+At the moment only two provers that support CTT exists, this is Agda \cite{Ulf09} and Cubical \cite{Mortberg17}.
 We developed a base library for cubical type checkers and described the approach
-of how to deal with heterogeneous equalities by the example of proving Iso(Nat,Fix(Maybe)).
+of how to deal with heterogeneous equalities by the example of proving $Nat =_U Fix Maybe$.
 
 Homotopical core in the prover is essential for proving math theorems in geometry,
 topology, category theory, homotopy theory. But it also useful
@@ -586,7 +586,7 @@ and cubical type checker.
 {\bf Geometry}: Higher Inductive Types: circle, helix, quotient, retract, etc.
 {\bf Algebra}: Abstract algebra, such as Monoid, Gropop, Semogroupo, Monad, etc: algstruct, functor, monad.
 
-The amount of code needed for Iso(Nat,Fix(Maybe)) proof is around 400 LOC in modules.
+The amount of code needed for $Nat =_U Fix Maybe$ proof is around 400 LOC in modules.
 The further development of base library implies: 1) extending run-time facilities;
 2) making it useful for building long-running systems and processes; 3) implement the inductive-recursive model for inductive types (development of lambek module). The main aim
 is to bring homotopical univalent foundations for run-time systems and models. Our base library
