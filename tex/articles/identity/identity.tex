@@ -22,29 +22,31 @@
 
 \begin{abstract}
 This paper represents the very small part of the developed base library for homotopical
-prover based on Cubical Type Theory. We demonstrate the usage of this library by
+prover based on Cubical Type Theory announced in 2017. We demonstrate the usage of this library by
 showing how to build a constructive proof of heterogeneous equality, the simple
 and elegant formulation of the equality problem, that was impossible to achieve in pure MLTT.
 The machinery used in this article unveils the internal aspect of path equalities and isomorphism,
-used e.g. for proving univalence axiom, that became possible only in 2017.
+used e.g. for proving univalence axiom, that became possible only in CTT.
 As an example of complex proof that was impossible to construct in earlier theories
 we took isomorphism between Nat and Fix Maybe datatypes and built a constructive
 proof of equality between elements of these datatypes. This approach could be extended
 to any complex isomorphic data types.
 \end{abstract}
 
+\keywords{Cubical Type Theory, Isomorphism, Heterogeneous Equality}
+
 \section{Intro}
 
-After formulating Type Theory for model quantifiers using Pi and Sigma types in 1972 \cite{Lof72}
-Per Martin-Lof added Equality types in 1984 \cite{Lof84}. Later equality types were extended
+After formulating Type Theory to model quantifiers using Pi and Sigma types in 1972 \cite{Lof72}
+Per Martin-Lof added Equ equality types in 1984 \cite{Lof84}. Later Equ types were extended
 to non-trivial structural higher equalities as was shown by Martin Hofmann
-and Thomas Streicher in 1996 \cite{Hofmann96}. However formal constructing of identity type
-eliminators was made possible after introduction of Cubical Type Theory in 2017 \cite{Mortberg17}.
+and Thomas Streicher in 1996 \cite{Hofmann96}. However formal constructing of Equ type
+eliminators was made possible only after introducing Cubical Type Theory in 2017 \cite{Mortberg17}.
 CTT extends MLTT with interval I=[0,1] and its de Morgan algebra: 0, 1, r, min(r,s), max(r,s)
 allowing constructive proofs of earlier models based on groupoid interpretation.
 
 In this paper, we want to present the constructive formulation of proof
-that two values of different types are equal using constructive heterogenous equality.
+that two values of different types are equal using constructive heterogeneous equality.
 In the end, we will use both Path Isomorphism and Univalence for that purposes \cite{HoTT}.
 During the story of comparing two zeros, we will show the minimal set of primitives needed
 for performing this task in the cubical type checker. Most of
@@ -53,12 +55,12 @@ while constructing our proof. They cover different topics in type theory, namely
 
 \begin{itemize}
 \item Complete Formal Specification of MLTT
-\item Contractability and Infinity Groupoids
+\item Contractability and n-Groupoids
 \item Constructive J
 \item Functional Extensionality
 \item Fibers and Equivalence
 \item Isomorphism
-\item Nat = Fix Maybe
+\item Heterogeneous equality: Nat = Fix Maybe
 \end{itemize}
 
 \section{Research Formal Description}
@@ -75,14 +77,14 @@ develop the software and theorems, the language shoud be shipped with base libra
 we unvail the practical implementation of base library for cubical typecheckers.
 
 {\bf Research subject}. We will analyze the base library through the needs of particular features,
-like basic theorems, heterogenous path equalities, univalence, basic HITs like truncations, run-time
+like basic theorems, heterogeneous path equalities, univalence, basic HITs like truncations, run-time
 versions of the list, nat, and stream datatypes. Most theorems used in the article
 could be formulated in MLTT while most proofs can only be constructed in CTT.
 
 {\bf Research methods}. The formal definition of MLTT theory and constructive
 implementation of its instance that supplied with minimal but comprehensive base library that
 can be used for verifying homotopical and run-time models. As an example the
-constructive proofs of heterogenous equalities between types and elements was chosen to implement.
+constructive proofs of heterogeneous equalities between types and elements was chosen to implement.
 
 {\bf Research results}. Research result is presented as source code repository that can be used by
 cubicle language and contains the minimal base library used in this article.
@@ -223,7 +225,7 @@ data Equality (A:U) (x y:A) = refl_ (_: Equ A x y)
 reflection (A:U) (a:A): Equality A a a = refl_ (reflect A a)
 \end{lstlisting}
 
-Heterogenous equality is needed for computational rule of Equ type.
+Heterogeneous equality is needed for computational rule of Equ type.
 And also this is crucial to our main task, constructive
 comparison of two values of different types. We leave the definition blank
 until introdure cubical primitives, here is just MLTT signature of HeteroEqu
@@ -286,7 +288,7 @@ MLTT (A:U): U
 \end{lstlisting}
 
 Even more complex challanges on Equ type was introduced such
-as heterogenous equality $HeteroEqu$ needed to formulation
+as heterogeneous equality $HeteroEqu$ needed to formulation
 of computational rule $Id\_Comp$ of $Equ$ type. Presheaf model of Type Theory, specifically
 Cubical Sets with interval $[0,1]$ and
 its algebra was introduced to solve derivability issues. So the instance of MLTT is packed
@@ -306,10 +308,10 @@ The path equality is modeled as an interval [0,1] with
 its de Morgan algebra 0, 1, r, min(r,s), max(r,s). According to underlying theory
 it has lambdas, application, composition and gluening of [0,1] interval and Min and Max
 functions over interval arguments. This is enought to formulate and prove path
-isomorphism and heterogenous equality.
+isomorphism and heterogeneous equality.
 
 \begin{lstlisting}[mathescape=true]
-Heterogenous Path: (p: Path U A B) -> PathP p A B
+Heterogeneous Path: (p: Path U A B) -> PathP p A B
 Abstraction over [0,1]: `<i> A`.
 Application of Path to [0,1]: `<i> p @ i`
 Path Composition: `comp (Path A a b) x []`.
@@ -356,7 +358,7 @@ GRPOUPOID : U = (X:U) * isGroupoid X
 \newpage
 \section{Constructive J}
 
-The very basic ground of type checker is heterogenous equality $PathP$ and contructive
+The very basic ground of type checker is heterogeneous equality $PathP$ and contructive
 implementation of reflection rule as lambda over interval $[0,1]$ that
 return constant value $a$ on all domain.
 
@@ -365,7 +367,7 @@ Path (A:U)(a b:A):U = PathP (<i>A) a b
 HeteroEqu (A B:U)(a:A)(b:B)(P:Equ U A B):U = Path P a b
 refl (A:U)(a:A):Path A a a = <i> a
 sym (A:U)(a b:A) (p: Path A a b): Path A b a = <i> p @ -i
-composition (A: U)(a b c:A)(p: Path A a b) (q: Path A b c):
+transitivity (A: U)(a b c:A)(p: Path A a b) (q: Path A b c):
     Path A a c = comp (<i> Path A a (q @ i)) p []
 \end{lstlisting}
 
@@ -462,7 +464,7 @@ is placed in separate {\bf equiv} module.
 
 The general idea to build path between values of different type is first
 to build isomorphism between types, defined as decode and encode functions (f and g),
-such that $f \circ g = id, g \circ f = id$.
+such that $f \circ g = id_A, g \circ f = id_B$.
 
 $$Iso(A,B) = \sum_{[f:A\rightarrow B]}\sum_{[g:B\rightarrow A]}\Biggl( \prod_{x:A} [ g(f(x)) =_A x ] \times \prod_{y:B} [ f(g(y) =_B y ] \Biggr)$$
 
@@ -506,7 +508,7 @@ main theorems about paths in Pi and Sigma spaces.
 
 Now we can prove $Iso(Nat,Fix(Maybe))$ and $Nat =_U Fix(Maybe)$. First we need to introduce
 datatypes and then write encode and decode functions to build up an isomorphism.
-Then by using conversion from $Iso$ to $Path$ we get the heterogenous equality
+Then by using conversion from $Iso$ to $Path$ we get the heterogeneous equality
 of values in $Nat$ and $Fix(Maybe)$. We can build transport between any isomorphic data types
 by providing ecode and decode functions.
 
