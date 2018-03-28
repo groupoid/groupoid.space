@@ -22,9 +22,9 @@
 
 \begin{abstract}
 This paper represents the very small part of the developed base library for homotopical
-prover based on Cubical Type Theory announced in 2017. We demonstrate the usage of this library by
+prover based on Cubical Type Theory (CTT) announced in 2017. We demonstrate the usage of this library by
 showing how to build a constructive proof of heterogeneous equality, the simple
-and elegant formulation of the equality problem, that was impossible to achieve in pure MLTT.
+and elegant formulation of the equality problem, that was impossible to achieve in pure Martin-Löf Type Theory (MLTT).
 The machinery used in this article unveils the internal aspect of path equalities and isomorphism,
 used e.g. for proving univalence axiom, that became possible only in CTT.
 As an example of complex proof that was impossible to construct in earlier theories
@@ -38,7 +38,7 @@ to any complex isomorphic data types.
 \section{Intro}
 
 After formulating Type Theory to model quantifiers using Pi and Sigma types in 1972 \cite{Lof72}
-Per Martin-Lof added Equ equality types in 1984 \cite{Lof84}. Later Equ types were extended
+Per Martin-Löf added Equ equality types in 1984 \cite{Lof84}. Later Equ types were extended
 to non-trivial structural higher equalities as was shown by Martin Hofmann
 and Thomas Streicher in 1996 \cite{Hofmann96}. However formal constructing of Equ type
 eliminators was made possible only after introducing Cubical Type Theory in 2017 \cite{Mortberg17}.
@@ -82,11 +82,6 @@ versions of the list, nat, and stream datatypes. Most theorems used in the artic
 could be formulated in MLTT while most proofs can only be constructed in CTT.
 
 
-\begin{figure}[h]
-  \centerline{\includegraphics[scale=0.36]{baselib}}
-  \caption{Base Library}
-\end{figure}
-
 {\bf Research results}. Research result is presented as source code repository that can be used by
 cubicaltt language and contains the minimal base library used in this article.
 These primitives form a valuable part of base library, so this arcticle could be
@@ -96,13 +91,23 @@ exceed the scope of this article so you may refer to source code
 repository\footnote{http://github.com/groupoid/infinity}. Brief list of base library modules is given
 in Conclusion.
 
+\begin{figure}[h]
+  \centerline{\includegraphics[scale=0.36]{cutbase}}
+  \caption{Base Library used in Article}
+\end{figure}
+
 {\bf Research methods}. The formal definition of MLTT theory and constructive
 implementation of its instance that supplied with minimal but comprehensive base library that
 can be used for verifying homotopical and run-time models. As an example the
 constructive proofs of heterogeneous equalities between types and elements was chosen to implement.
 
-
 \section{MLTT Type Theory}
+
+MLTT is considered as contemporary common math modeling language for different parts of mathematics.
+Thanks to Vladimir Voevodsky this was extended to Geometry, Topology and Homotopy Theory
+using MLTT-based Coq proof assistant. He formulated the univalence principle $Iso(A,B)=(A=B)$,
+however constructive proof that isomorphism equals to equality and equivalences is possible only
+in Cubical Type Theory (Agda and Cubical type checkers).
 
 \subsection{Syntax Notes}
 
@@ -303,8 +308,7 @@ instance (A: U): MLTT A
        Equ A, reflect A, J A, comp5 A, tt)
 \end{lstlisting}
 
-\newpage
-\section{Path interval operations}
+\section{Informal Definition of Cubical Type Theory}
 
 The path equality is modeled as an interval [0,1] with
 its de Morgan algebra 0, 1, r, min(r,s), max(r,s). According to underlying theory
@@ -312,16 +316,35 @@ it has lambdas, application, composition and gluening of [0,1] interval and Min 
 functions over interval arguments. This is enought to formulate and prove path
 isomorphism and heterogeneous equality.
 
-\begin{lstlisting}[mathescape=true]
-Heterogeneous Path: (p: Path U A B) -> PathP p A B
-Abstraction over [0,1]: `<i> A`.
-Application of Path to [0,1]: `<i> p @ i`
-Path Composition: `comp (Path A a b) x []`.
-Path Gluening: `Glue A B [] -> Path U A B`
-Min: `<i j> p @ i /\ j)`.
-Max: `<i j> p @ i \/ j)`.
-\end{lstlisting}
+{\bf Heterogeneous Path}. The PathP formation rule defines a heterogenous path
+between elements of two types A and B for which Path exists A = B.
 
+{\bf Abstraction over [0,1]}. Path lambda abstraction is a function which is defined on $[0,1]$:
+$f: [0,1] \rightarrow A$.
+
+{\bf Min, Max and Invert}. In the body of lambda abstraction besides path application
+de Morgan operation also could be used: $i \wedge j$, $i \vee j$, $-i$ and constants $0$ and $1$.
+
+{\bf Application of path to element of [0,1]}. When path lambda is defined, the path term
+in the body of the function could be reduced using lambda parameter applied to path term.
+
+{\bf Path composition}. The composition operation states that being extensible
+is preserved along paths: if a path is extensible at 0, then it is extensible at 1.
+
+{\bf Path gluening}. The path gluening is an operation that allows to build
+path from equivalences.
+
+\section{The Formal Definition of Problem}
+
+Let us have two types $A$ and $B$. And we have some theorems proved for $A$ and functions
+$f: A -> B$ and $g: B -> A$ such that $f \circ g = id_A$ and $g \circ f = id_B$. Then we
+can prove $Iso(A,B) \rightarrow Equ(A,B)$. The result values would be proof that
+elements of $A$ and $B$ are equal --- $HeteroEqu$. We will go from the primitives to the final proof.
+As an example we took Nat and Fix Maybe datatype and will prove $Iso(Nat,Fix(Maybe))$.
+And then we prove the $HeteroEqu nat (fix maybe)$.
+
+\begin{lstlisting}[mathescape=true]
+\end{lstlisting}
 
 \section{Contractability and Higher Equalities}
 
@@ -357,7 +380,6 @@ SET       : U = (X:U) * isSet  X
 GRPOUPOID : U = (X:U) * isGroupoid X
 \end{lstlisting}
 
-\newpage
 \section{Constructive J}
 
 The very basic ground of type checker is heterogeneous equality $PathP$ and contructive
@@ -505,17 +527,15 @@ Isomorphism definitions are placed in three different modules due to dependency
 optimisation: {\bf iso}, {\bf iso\_pi}, {\bf iso\_sigma}. Latter two contains
 main theorems about paths in Pi and Sigma spaces.
 
-\newpage
 \section{Nat = Fix Maybe}
 
-Now we can prove $Iso(Nat,Fix(Maybe))$ and $Nat =_U Fix(Maybe)$. First we need to introduce
-datatypes and then write encode and decode functions to build up an isomorphism.
-Then by using conversion from $Iso$ to $Path$ we get the heterogeneous equality
-of values in $Nat$ and $Fix(Maybe)$. We can build transport between any isomorphic data types
-by providing ecode and decode functions.
+Now we can prove $Iso(Nat, Fix(Maybe))$ and $Nat =_U Fix(Maybe)$.
+First we need to introduce datatypes $Nat, Fix, Maybe$ and then write encode and decode
+functions to build up an isomorphism. Then by using conversion
+from $Iso$ to $Path$ we get the heterogeneous equality of values in $Nat$ and $Fix(Maybe)$.
+We can build transport between any isomorphic data types by providing ecode and decode functions.
 
 \begin{lstlisting}[mathescape=true]
-
 data fix (F:U->U) = Fix (point: F (fix F))
 data nat          = zero    | suc  (n: nat)
 data maybe (A:U)  = nothing | just (a: A)
@@ -544,7 +564,6 @@ maybenat: Path U (fix maybe) nat
                  natMaybeIso maybeNatIso
 \end{lstlisting}
 
-\newpage
 The result term of equaluty between two zeros of Nat and Fix Maybe is given by isomorphism.
 
 \begin{lstlisting}[mathescape=true]
@@ -590,7 +609,12 @@ and cubical type checker.
 {\bf Geometry}: Higher Inductive Types: circle, helix, quotient, retract, etc.
 {\bf Algebra}: Abstract algebra, such as Monoid, Gropop, Semogroupo, Monad, etc: algstruct, functor, monad.
 
-The amount of code needed for $Nat =_U Fix Maybe$ proof is around 400 LOC in modules.
+\begin{figure}[h]
+  \centerline{\includegraphics[scale=0.36]{baselib}}
+  \caption{Full Base Library for Homotopical Proving}
+\end{figure}
+
+The amount of code needed for $Nat =_U Fix(Maybe)$ proof is around 400 LOC in modules.
 The further development of base library implies: 1) extending run-time facilities;
 2) making it useful for building long-running systems and processes; 3) implement the inductive-recursive model for inductive types (development of lambek module). The main aim
 is to bring homotopical univalent foundations for run-time systems and models. Our base library
