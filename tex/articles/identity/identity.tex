@@ -78,9 +78,8 @@ we unvail the practical implementation of base library for cubical typecheckers.
 
 {\bf Research subject}. We will analyze the base library through the needs of particular features,
 like basic theorems, heterogeneous path equalities, univalence, basic HITs like truncations, run-time
-versions of the list, nat, and stream datatypes. Most theorems used in the article
-could be formulated in MLTT while most proofs can only be constructed in CTT.
-
+versions of the list, nat, and stream datatypes. We use Martin-Löf Type Theory as a subject and
+its extention CTT.
 
 {\bf Research results}. Research result is presented as source code repository that can be used by
 cubicaltt language and contains the minimal base library used in this article.
@@ -93,7 +92,7 @@ in Conclusion.
 
 \begin{figure}[h]
   \centerline{\includegraphics[scale=0.36]{cutbase}}
-  \caption{Base Library used in Article}
+  \caption{Base library and its dependencies used in article}
 \end{figure}
 
 {\bf Research methods}. The formal definition of MLTT theory and constructive
@@ -108,6 +107,12 @@ Thanks to Vladimir Voevodsky this was extended to Geometry, Topology and Homotop
 using MLTT-based Coq proof assistant. He formulated the univalence principle $Iso(A,B)=(A=B)$,
 however constructive proof that isomorphism equals to equality and equivalences is possible only
 in Cubical Type Theory (Agda and Cubical type checkers).
+
+In this section we will briefly discribe the basic notion of MLTT, then will give a formal
+description of MLTT and the informal primitives of CTT. Only after that will start
+the proof of heterogeneous equality ended up with proofterm. MLTT consist of
+$\Pi$, $\Sigma$ and $Equ$ types living in a Hierarchy of universes $U_i : U_{i+1}$. We will
+also give an extended equality $HeteroEqu$ which is needed for our proof.
 
 \subsection{Syntax Notes}
 
@@ -133,11 +138,12 @@ be translated to cubicaltt in our article.
 \begin{equation}
 \tag{natural deduction}
 \dfrac
-{(A: U)\ (B: A \rightarrow U)}
-{(x: A) \rightarrow B(x): U}
+{(A: U_i)\ (B: A \rightarrow U_j)}
+{(x: A) \rightarrow B(x): U_{max(i,j)}}
 \end{equation}
 \\
-Equvalent definition in cubicaltt.
+Equvalent definition in cubicaltt (which is inconstend $U : U$ but
+this won't affect correctness of our proof):
 
 \begin{equation}
 \tag{cubicaltt}
@@ -289,9 +295,11 @@ MLTT (A:U): U
   * (Id_Intro:   (a:A) -> Equ A a a)
   * (Id_Elim:    (a x: A) (C: predicate A a)
                  (d:C a(Id_Intro a))(p:Equ A a x)->C x p)
-  * (Id_Comp:    (x y:A)(C: D A)(p: Equ A x y) (b: C x x (reflect A x))
-                 (X: Equ U (C x x (reflect A x)) (C x y p)) ->
-                 HeteroEqu X b (J A x C b y p)) * Unit
+  * (Id_Comp:    (x y:A)(C: D A)(p: Equ A x y)
+                              (b: C x x (reflect A x))
+                       (X: Equ U (C x x (reflect A x))
+                                 (C x y p)) ->
+                   HeteroEqu X b (J A x C b y p)) * Unit
 \end{lstlisting}
 
 Even more complex challanges on Equ type was introduced such
@@ -334,14 +342,14 @@ is preserved along paths: if a path is extensible at 0, then it is extensible at
 {\bf Path gluening}. The path gluening is an operation that allows to build
 path from equivalences.
 
-\section{The Formal Definition of Problem}
+\section{Constructive proofs of heterogeneous equalities}
 
 Let us have two types $A$ and $B$. And we have some theorems proved for $A$ and functions
 $f: A -> B$ and $g: B -> A$ such that $f \circ g = id_A$ and $g \circ f = id_B$. Then we
 can prove $Iso(A,B) \rightarrow Equ(A,B)$. The result values would be proof that
 elements of $A$ and $B$ are equal --- $HeteroEqu$. We will go from the primitives to the final proof.
 As an example we took Nat and Fix Maybe datatype and will prove $Iso(Nat,Fix(Maybe))$.
-And then we prove the $HeteroEqu nat (fix maybe)$.
+And then we prove the $HeteroEqu(Nat,Fix(Maybe))$.
 
 \begin{lstlisting}[mathescape=true]
 \end{lstlisting}
@@ -583,7 +591,7 @@ contrSingl A a z.1 z.2)) (A = nat))) ]) (Fix nothing) zero
 
 At the moment only two provers that support CTT exists, this is Agda \cite{Ulf09} and Cubical \cite{Mortberg17}.
 We developed a base library for cubical type checkers and described the approach
-of how to deal with heterogeneous equalities by the example of proving $Nat =_U Fix Maybe$.
+of how to deal with heterogeneous equalities by the example of proving $Nat =_U Fix(Maybe)$.
 
 Homotopical core in the prover is essential for proving math theorems in geometry,
 topology, category theory, homotopy theory. But it also useful
@@ -611,10 +619,11 @@ and cubical type checker.
 
 \begin{figure}[h]
   \centerline{\includegraphics[scale=0.36]{baselib}}
-  \caption{Full Base Library for Homotopical Proving}
+  \caption{Full base library dependencies}
 \end{figure}
 
 The amount of code needed for $Nat =_U Fix(Maybe)$ proof is around 400 LOC in modules.
+
 The further development of base library implies: 1) extending run-time facilities;
 2) making it useful for building long-running systems and processes; 3) implement the inductive-recursive model for inductive types (development of lambek module). The main aim
 is to bring homotopical univalent foundations for run-time systems and models. Our base library
