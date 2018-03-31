@@ -33,16 +33,19 @@ proof of equality between elements of these datatypes. This approach could be ex
 to any complex isomorphic data types.
 \end{abstract}
 
-\keywords{Cubical Type Theory, Isomorphism, Heterogeneous Equality}
+\keywords{Formal Methods, Type Theory, Computer Languages,
+          Theoretical Computer Science, Applied Mathematics,
+          Isomorphism, Heterogeneous Equality, Cubical Type Theory,
+          Martin-Löf Type Theory}
 
 \section{Intro}
 
 After formulating Type Theory to model quantifiers using Pi and Sigma types in 1972 \cite{Lof72}
 Per Martin-Löf added Equ equality types in 1984 \cite{Lof84}. Later Equ types were extended
-to non-trivial structural higher equalities as was shown by Martin Hofmann
+to non-trivial structural higher equalities ($\infty$-groupoid model) as was shown by Martin Hofmann
 and Thomas Streicher in 1996 \cite{Hofmann96}. However formal constructing of Equ type
 eliminators was made possible only after introducing Cubical Type Theory in 2017 \cite{Mortberg17}.
-CTT extends MLTT with interval I=[0,1] and its de Morgan algebra: 0, 1, r, min(r,s), max(r,s)
+CTT extends MLTT with interval I=[0,1] and its de Morgan algebra: 0, 1, r, -r, min(r,s), max(r,s)
 allowing constructive proofs of earlier models based on groupoid interpretation.
 
 In this paper, we want to present the constructive formulation of proof
@@ -97,16 +100,19 @@ in Conclusion.
 
 {\bf Research methods}. The formal definition of MLTT theory and constructive
 implementation of its instance that supplied with minimal but comprehensive base library that
-can be used for verifying homotopical and run-time models. As an example the
-constructive proofs of heterogeneous equalities between types and elements was chosen to implement.
+can be used for verifying homotopical and run-time models. The type theory itself is a modeling
+language, logical framework and research method. The MLTT is a particular type theory with
+$Universes$, $\Pi$, $\Sigma$ and $Equ$ types. This is common denominator for a series of provers
+based on MLTT such as Coq, Agda, Cubical, Idris. In the article we will use Cubical language.
 
 \section{MLTT Type Theory}
 
 MLTT is considered as contemporary common math modeling language for different parts of mathematics.
-Thanks to Vladimir Voevodsky this was extended to Geometry, Topology and Homotopy Theory
-using MLTT-based Coq proof assistant. He formulated the univalence principle $Iso(A,B)=(A=B)$,
+Thanks to Vladimir Voevodsky this was extended to Homotopy Theory
+using MLTT-based Coq proof assistant \footnote{http://github.com/UniMath}.
+Also he formulated the univalence principle $Iso(A,B)=(A=B)$ \cite{HoTT},
 however constructive proof that isomorphism equals to equality and equivalences is possible only
-in Cubical Type Theory (Agda and Cubical type checkers).
+in Cubical Type Theory \cite{Mortberg17} (Agda and Cubical type checkers).
 
 In this section we will briefly discribe the basic notion of MLTT, then will give a formal
 description of MLTT and the informal primitives of CTT. Only after that will start
@@ -171,7 +177,7 @@ Pi types represent spaces of dependent functions.
 With Pi type we have one lambda constructor
 and one application eliminator. When $B$ is not dependent on $x:A$
 the Pi is just a non-dependent total function $A \rightarrow B$.
-Pi has one lambda function constructor, and its eliminator, the application.
+Pi has one lambda function constructor, and its eliminator, the application \cite{HoTT, Lof72, Lof84, Hofmann86, Mortberg17, Ulf09}.
 
 $$Pi(A,B) = \prod_{x:A} B(x) : U,\ \ \ 
   \lambda x . b : \prod_{x:A} B(x)$$
@@ -190,7 +196,7 @@ Sigma types represents a dependent cartesian products.
 With sigma type we have pair constructor and two eliminators,
 its first and second projections. When $B$ is not dependent on $x:A$
 the Sigma is just a non-dependent product $A \times B$.
-Sigma has one pair constructor and two eliminators, its projections.
+Sigma has one pair constructor and two eliminators, its projections. \cite{HoTT}
 
 $$Sigma(A,B) = \sum_{x:A} B(x) : U,\ \ \ 
   (a,b) : \sum_{x:A} B(x)$$
@@ -208,11 +214,11 @@ pr1 (A:U) (B:A->U) (x: Sigma A B): A = x.1
 pr2 (A:U) (B:A->U) (x: Sigma A B): B (pr1 A B x) = x.2
 \end{lstlisting}
 
-\newpage
 \subsection{Equ types}
 
-For modeling propositional equality later in 1984 was introduced Equ type.
-However unlike Pi and Sigma the eliminator J of Equ type is not derivanle in MLTT.
+For modeling propositional equality later in 1984 was introduced Equ type. \cite{Lof84}
+However unlike Pi and Sigma the eliminator J of Equ type is
+not derivable in MLTT. \cite{HoTT}
 
 $$Equ(x,y) = \prod_{x,y:A} x =_A y : U,\ \ \ 
   reflect : \prod_{a:A} a =_A a$$
@@ -331,7 +337,7 @@ between elements of two types A and B for which Path exists A = B.
 $f: [0,1] \rightarrow A$.
 
 {\bf Min, Max and Invert}. In the body of lambda abstraction besides path application
-de Morgan operation also could be used: $i \wedge j$, $i \vee j$, $-i$ and constants $0$ and $1$.
+de Morgan operation also could be used: $i \wedge j$, $i \vee j$, $i$, $-i$ and constants $0$ and $1$.
 
 {\bf Application of path to element of [0,1]}. When path lambda is defined, the path term
 in the body of the function could be reduced using lambda parameter applied to path term.
@@ -345,7 +351,7 @@ path from equivalences.
 \section{Constructive proofs of heterogeneous equalities}
 
 Let us have two types $A$ and $B$. And we have some theorems proved for $A$ and functions
-$f: A -> B$ and $g: B -> A$ such that $f \circ g = id_A$ and $g \circ f = id_B$. Then we
+$f: A \rightarrow B$ and $g: B \rightarrow A$ such that $f \circ g = id_A$ and $g \circ f = id_B$. Then we
 can prove $Iso(A,B) \rightarrow Equ(A,B)$. The result values would be proof that
 elements of $A$ and $B$ are equal --- $HeteroEqu$. We will go from the primitives to the final proof.
 As an example we took Nat and Fix Maybe datatype and will prove $Iso(Nat,Fix(Maybe))$.
@@ -586,6 +592,11 @@ g = natToMaybe, s = natMaybeIso, t = maybeNatIso))),
 ((a,refl A a),\(z : fiber A A (idfun A) a) ->
 contrSingl A a z.1 z.2)) (A = nat))) ]) (Fix nothing) zero
 \end{lstlisting}
+
+We admit that normalized (expanded) term has the size of one printed page.
+Inside it contains the encode and decode functions and identity proofs
+about their composition. So we can reconstruct everything up to homotopical
+primitives or replace the isomorphic encoding with arbitrary code.
 
 \section{Conclusion}
 
