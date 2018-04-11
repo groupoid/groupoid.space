@@ -13,8 +13,9 @@
 
 \begin{document}
 
-\title{Constructive proofs \\
-       of heterogeneous equalities in CTT}
+\title{Constructive Proofs \\
+       of Heterogeneous Equalities \\
+       in Cubical Type Theory}
 \author{Maksym Sokhatskyi and Pavlo Maslianko}
 \institute{National Technical University of Ukraine ``Igor Sikorsky Kyiv Polytechnical Institute''}
 
@@ -50,11 +51,11 @@ allowing constructive proofs of earlier models based on groupoid interpretation.
 
 In this paper, we want to present the constructive formulation of proof
 that two values of different types are equal using constructive heterogeneous equality.
-In the end, we will use both Path Isomorphism and Univalence for that purposes \cite{HoTT}.
+In the end, we will use path isomorphism for that purposes \cite{HoTT}.
 During the story of comparing two zeros, we will show the minimal set of primitives needed
 for performing this task in the cubical type checker. Most of
 them were impossible to derive in pure MLTT. We show these primitives in dependency order
-while constructing our proof. They cover different topics in type theory, namely:
+while constructing our proof. It covers different topics in type theory, namely:
 
 \begin{itemize}
 \item Complete Formal Specification of MLTT
@@ -63,7 +64,7 @@ while constructing our proof. They cover different topics in type theory, namely
 \item Functional Extensionality
 \item Fibers and Equivalence
 \item Isomorphism
-\item Heterogeneous equality: Nat = Fix Maybe
+\item Heterogeneous equality
 \end{itemize}
 
 \section{Research Formal Description}
@@ -177,7 +178,8 @@ Pi types represent spaces of dependent functions.
 With Pi type we have one lambda constructor
 and one application eliminator. When $B$ is not dependent on $x:A$
 the Pi is just a non-dependent total function $A \rightarrow B$.
-Pi has one lambda function constructor, and its eliminator, the application \cite{HoTT, Lof72, Lof84, Hofmann86, Mortberg17, Ulf09}.
+Pi has one lambda function constructor, and its eliminator, the
+application \cite{HoTT, Lof72, Lof84, Hofmann96, Mortberg17, Ulf09}.
 
 $$Pi(A,B) = \prod_{x:A} B(x) : U,\ \ \ 
   \lambda x . b : \prod_{x:A} B(x)$$
@@ -196,7 +198,8 @@ Sigma types represents a dependent cartesian products.
 With sigma type we have pair constructor and two eliminators,
 its first and second projections. When $B$ is not dependent on $x:A$
 the Sigma is just a non-dependent product $A \times B$.
-Sigma has one pair constructor and two eliminators, its projections. \cite{HoTT}
+Sigma has one pair constructor and two eliminators, its projections
+\cite{HoTT, Lof72, Lof84, Hofmann96, Mortberg17, Ulf09}.
 
 $$Sigma(A,B) = \sum_{x:A} B(x) : U,\ \ \ 
   (a,b) : \sum_{x:A} B(x)$$
@@ -218,7 +221,7 @@ pr2 (A:U) (B:A->U) (x: Sigma A B): B (pr1 A B x) = x.2
 
 For modeling propositional equality later in 1984 was introduced Equ type. \cite{Lof84}
 However unlike Pi and Sigma the eliminator J of Equ type is
-not derivable in MLTT. \cite{HoTT}
+not derivable in MLTT \cite{Hofmann96, Mortberg17, HoTT}.
 
 $$Equ(x,y) = \prod_{x,y:A} x =_A y : U,\ \ \ 
   reflect : \prod_{a:A} a =_A a$$
@@ -330,11 +333,11 @@ it has lambdas, application, composition and gluening of [0,1] interval and Min 
 functions over interval arguments. This is enought to formulate and prove path
 isomorphism and heterogeneous equality.
 
-{\bf Heterogeneous Path}. The PathP formation rule defines a heterogenous path
+{\bf Heterogeneous Path}. The HeteroPath formation rule defines a heterogenous path
 between elements of two types A and B for which Path exists A = B.
 
 {\bf Abstraction over [0,1]}. Path lambda abstraction is a function which is defined on $[0,1]$:
-$f: [0,1] \rightarrow A$.
+$f: [0,1] \rightarrow A$. Path lambda abstraction is an element of Path type.
 
 {\bf Min, Max and Invert}. In the body of lambda abstraction besides path application
 de Morgan operation also could be used: $i \wedge j$, $i \vee j$, $i$, $-i$ and constants $0$ and $1$.
@@ -583,14 +586,15 @@ The result term of equaluty between two zeros of Nat and Fix Maybe is given by i
 \begin{lstlisting}[mathescape=true]
 > HeteroEqu (fix maybe) nat (Fix nothing) zero maybenat
 
-EVAL: PathP (<!0> Glue nat [ (!0 = 0) -> (fix (\(A : U) -> maybe),
-(maybeToNat,(\(y : B) -> ((g y,<i> (s y) @ -i),\(z : fiber A B f y)
--> lemIso A B f g s t y (g y) z.1 (<i> (s y) @ -i) z.2))
-(A = (fix (\(A : U) -> maybe)), B = nat, f = maybeToNat,
-g = natToMaybe, s = natMaybeIso, t = maybeNatIso))),
-(!0 = 1) -> (nat,((\(a : A) -> a) (A = nat),(\(a : A) ->
-((a,refl A a),\(z : fiber A A (idfun A) a) ->
-contrSingl A a z.1 z.2)) (A = nat))) ]) (Fix nothing) zero
+EVAL: PathP (<!0> Glue nat [ (!0 = 0) -> (fix (\(A : U) ->
+maybe), (maybeToNat,(\(y : B) -> ((g y,<i> (s y) @ -i),
+\(z : fiber A B f y) -> lemIso A B f g s t y (g y) z.1
+(<i> (s y) @ -i) z.2)) (A = (fix (\(A : U) -> maybe)),
+B = nat, f = maybeToNat, g = natToMaybe, s = natMaybeIso,
+t = maybeNatIso))), (!0 = 1) -> (nat,((\(a : A) -> a)
+(A = nat),(\(a : A) -> ((a,refl A a),\(z : fiber A A
+(idfun A) a) -> contrSingl A a z.1 z.2)) (A = nat))) ])
+(Fix nothing) zero
 \end{lstlisting}
 
 We admit that normalized (expanded) term has the size of one printed page.
