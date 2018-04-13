@@ -16,7 +16,7 @@
 
 \begin{document}
 
-\title{Mathematical Components for Cubical}
+\title{Mathematical Components for Cubical Syntax}
 \author{Maksym Sokhatskyi $^1$ and Pavlo Maslianko $^1$}
 \date{
     $^1$ National Technical University of Ukraine ``Igor Sikorsky Kyiv Polytechnical Institute''
@@ -31,9 +31,11 @@ Keywords: Formal Methods, Type Theory, Computer Languages,
           Cubical Type Theory, Martin-Löf Type Theory
 \end{abstract}
 
+\tableofcontents
+
 \section{Intro}
 
-This library is dedicated to cubical-compatible type checkers based
+This library is dedicated to cubical-compatible type checkers \cite{Mortberg17} based
 on homotopy interval [0,1] and MLTT as a core. The base library is
 founded on top of 5 core modules: proto (composition, id, const),
 path (subst, trans, cong, refl, singl, sym), prop, set (isContr, isProp, isSet),
@@ -64,7 +66,7 @@ unit        & nat    & path    & vector \\
 bool        & list   & proto   & fin \\
 either      &        & iso     &  \\
 maybe       &        & equiv   &  \\
-            &        &         &  \\
+empty       &        & pi       &  \\
 \hline
 \thead{NR*ND} & \thead{R*ND} & \thead{NR*D} & \thead{R*D}\\
 \hline
@@ -75,58 +77,165 @@ monad       &        &         & groupoid \\
 \end{tabular}
 \end{table}
 
-\section{MLTT}
+\section{MLTT as Modeling Language}
 
-\subsection{Pi}
-\subsection{Sigma}
-\subsection{Identity Type}
+As MLTT language is used for modeling the base library should include its definition and theorems.
+The {\bf mltt} module is also a great syntax example of Cubical Type Checker.
+
+\subsection{Pi and Sigma}
 
 \begin{lstlisting}[mathescape=true]
-Path     (A: U) (a b: A): U =
-singl    (A: U) (a: A): U =
-refl     (A: U) (a: A): Path A a a =
-sym      (A: U) (a b: A) (p: Path A a b): Path A b a =
-inv      (A: U) (a b: A) (p: Path A a b): Path A b a =
-eta      (A: U) (a: A): singl A a =
-contr    (A: U) (a b: A) (p: Path A a b): Path (singl A a) (eta A a) (b,p) =
-cong   (A B: U) (f: A->B) (a b: A) (p: Path A a b): Path B (f a) (f b) =
-trans  (A B: U) (p: Path U A B) (a : A): B =
-subst    (A: U) (P: A->U) (a b: A) (p: Path A a b) (e: P a): P b =
+Pi (A:U) (P:A->U): U = (x:A) -> P x
+lambda (A:U) (B:A->U) (a: A) (b: B a): A -> B a = \(x: A) -> b
+app (A:U) (B:A->U) (a: A) (f: A -> B a): B a = f a
+Sigma (A:U) (B:A->U): U = (x: A) * B x
+pair (A:U) (B:A->U) (a: A) (b: B a): Sigma A B = (a,b)
+pr1 (A:U) (B:A->U) (x: Sigma A B): A = x.1
+pr2 (A:U) (B:A->U) (x: Sigma A B): B (pr1 A B x) = x.2
+\end{lstlisting}
+
+\subsection{Identity Type}
+
+Identity types or Prop types (when using PTS and built-in definitional equality for type checking
+normalized term forms with means of identity) are both considered to be erased in run-time.
+
+\begin{lstlisting}[mathescape=true]
+Path     (A: U) (a b: A): U
+singl    (A: U) (a: A): U
+refl     (A: U) (a: A): Path A a a
+sym      (A: U) (a b: A) (p: Path A a b): Path A b a
+eta      (A: U) (a: A): singl A a
+contr    (A: U) (a b: A) (p: Path A a b): Path (singl A a) (eta A a) (b,p)
+cong   (A B: U) (f: A->B) (a b: A) (p: Path A a b): Path B (f a) (f b)
+subst    (A: U) (P: A->U) (a b: A) (p: Path A a b) (e: P a): P b
 J        (A: U) (a: A) (C: (x: A) -> Path A a x -> U)
       (d: C a (refl A a)) (x: A) (p: Path A a x): C x p
    = subst (singl A a) T (eta A a) (x, p) (contr A a x p) d
            where T (z: singl A a): U = C (z.1) (z.2)
 \end{lstlisting}
 
-\newpage
+\subsection{$\infty$-Groupoid and h-Types}
+
+\begin{lstlisting}[mathescape=true]
+data N = Z | S (n: N)
+\end{lstlisting}
+
+\begin{lstlisting}[mathescape=true]
+n_grpd (A: U) (n: N): U = (a b: A) -> ((rec A a b) n) where
+  rec (A: U) (a b: A): (k: N) -> U = split
+    Z -> Path A a b
+    S n -> n_grpd (Path A a b) n
+\end{lstlisting}
+
+\begin{lstlisting}
+inf_grpd (A: U): U
+  = (carrier: A)
+  * (eq: (a b: A) -> Path A a b)
+  * ((a b: A) -> inf_grpd (Path A a b))
+\end{lstlisting}
+
+\begin{lstlisting}[mathescape=true]
+isContr     (A: U): U = (x: A) * ((y: A) -> Path A x y)
+isProp      (A: U): U = n_grpd A Z
+isSet       (A: U): U = n_grpd A (S Z)
+isGroupoid  (A: U): U = n_grpd A (S (S Z))
+isGrp2      (A: U): U = n_grpd A (S (S (S Z)))
+isGrp3      (A: U): U = n_grpd A (S (S (S (S Z))))
+isInfinityGroupoid (A: U): U = inf_grpd A
+\end{lstlisting}
+
+\begin{lstlisting}[mathescape=true]
+PROP         : U = (X:U) * isProp X
+SET          : U = (X:U) * isSet X
+GROUPOID     : U = (X:U) * isGroupoid X
+INF_GROUPOID : U = (X:U) * isInfinityGroupoid X
+\end{lstlisting}
+
+\subsection{Operational Semantics}
+
+By using such definition of MLTT we can commit the basic properties
+of dependent theory, computational rules. The proofs are trivial
+with {\bf refl} function.
+
+\begin{lstlisting}[mathescape=true]
+comp1 (A:U)(B:A->U)(a:A)(f:A->B a):
+      Equ(B a)(app A B a (lambda A B a (f a)))(f a)
+
+comp2 (A:U)(B:A->U)(a:A)(f:A->B a): Equ(A->B a) f (\(x:A)->f x)
+comp3 (A:U)(B:A->U)(a:A)(b: B a): Equ A a (pr1 A B (a,b))
+comp4 (A:U)(B:A->U)(a:A)(b: B a): Equ (B a) b (pr2 A B (a,b))
+comp5 (A:U)(B:A->U)(p:Sigma A B): Equ (Sigma A B) p (pr1 A B p,pr2 A B p)
+\end{lstlisting}
+
 \section{Runtime Types}
 
+The purpose of run-time types is to build solid ground for
+writing type checkers, evaluating results and printing models to console,
+writing formally verified infinitely runned free comonadic processes.
+
+\subsection{Proto}
+
+\begin{lstlisting}[mathescape=true]
+idfun (A: U) (a: A): A = a
+constfun (A B: U) (a: B): A -> B = \(_:A) -> a
+o (A B C: U) (f: B -> C) (g: A -> B): A -> C = \(x:A) -> f (g x)
+both (A B: U): U = (_:A) * B
+\end{lstlisting}
+
 \subsection{Empty and Unit}
+
+The very basic types are empty type without elements and unit type with single element.
+Interpreting types as propositions leads us to efq and neg eliminators of Empty type useful
+for proving decidability, stablity and hedberg theorem.
 
 \begin{lstlisting}[mathescape=true]
 data Empty =
 data Unit = tt
-\end{lstlisting}
 
-\subsection{Bool}
-
-\begin{lstlisting}[mathescape=true]
-data bool = false | true
-neg_: bool -> bool
-or_:  bool -> bool -> bool
-and_: bool -> bool -> bool
-bool_case (A: U) (f t: A): bool -> A
-bool_eq: bool -> bool -> bool
+efq        (A: U): Empty -> A = split {}
+neg        (A: U): U = A -> Empty
+dec        (A: U): U = either A (neg A)
+stable     (A: U): U = neg (neg A) -> A
+hedberg (A:U) (h: (a x:A) -> stable (Path A a x)) : isSet A
 \end{lstlisting}
 
 \subsection{Either and Tuple}
 
+Either and Tuple are dual inductive data types. They are widely used
+in all base library and are basic control structures.
+
 \begin{lstlisting}[mathescape=true]
-data or (A B: U) = inl (a: A) | inr (b: B)
+data either (A B: U) = inl (a: A) | inr (b: B)
 data tuple (A B: U) = pair (a: A) (b: B)
+
+case (A B C: U) (b: A -> C) (c: B -> C): either A B -> C
+fst (A B: U): tuple A B -> A
+snd (A B: U): tuple A B -> B
+\end{lstlisting}
+
+\subsection{Bool}
+
+The basic hedberg therem could be used to prove that bool is set.
+Bool is application data type it is rarely used inside run-time library
+however it is used is real world applications. Here we provide a proof
+that bool is set by providing the proof that for any
+
+\begin{lstlisting}[mathescape=true]
+data bool = false | true
+
+bool_case (A: U) (f t: A): bool -> A = split { false -> f ; true -> t }
+bool_dec: (b1 b2: bool) -> dec (Path bool b1 b2)
+bool_isSet: isSet bool = hedberg bool bool_dec
 \end{lstlisting}
 
 \subsection{Maybe and Nat}
+
+Maybe and Nat are very useful for monadic protocol handling
+and basic number processing. Nat data types is isomorphic
+to infinite GMP positive integers of Erlang virtual machine.
+Base library also include formal proof that fix maybe equals nat.
+Maybe and Nat types are used in list library for handling special cases
+for empty string.
 
 \begin{lstlisting}[mathescape=true]
 data maybe (A: U) = nothing | just (a: A)
@@ -134,6 +243,11 @@ data nat = zero | succ (n: nat)
 \end{lstlisting}
 
 \subsection{List}
+
+List implented as very simple data type but no simplier
+that needed to implement type checker. List data type is
+used to model categorical semantics of dependent type theory
+as Categories with Famalies by Dybjer in {\bf cwf} module.
 
 \begin{lstlisting}[mathescape=true]
 data list (A: U) = nil | cons (a: A) (as: list A)
@@ -144,13 +258,12 @@ tail (A: U): list A -> maybe (list A)
 nth (A: U): nat -> list A -> maybe A
 append (A: U): list A -> list A -> list A
 reverse (A: U): list A -> list A = rev nil where
-map (A B: U) (f: A -> B) : list A -> list B = split
-zipWith (A B C: U) (f: A -> B -> C): list A -> list B -> list C
+map (A B: U) (f: A -> B): list A -> list B = split
 zip (A B: U): list A -> list B -> list (tuple A B)
 foldr (A B: U) (f: A -> B -> B) (Z: B): list A -> B
 foldl (A B: U) (f: B -> A -> B) (Z: B): list A -> B
-switch (A: U) (a b: Unit -> list A) : bool -> list A
-filter (A: U) (p: A -> bool) : list A -> list A
+switch (A: U) (a b: Unit -> list A): bool -> list A
+filter (A: U) (p: A -> bool): list A -> list A
 uncons (A: U): list A -> maybe ((a: A) * (list A))
 length (A: U): list A -> nat
 list_eq (A: eq): list A.1 -> list A.1 -> bool
@@ -161,13 +274,10 @@ list_eq (A: eq): list A.1 -> list A.1 -> bool
 \begin{lstlisting}[mathescape=true]
 data stream (A: U) = cons (x: A) (xs: stream A)
 
-tail (A: U): stream A -> stream A = split cons x xs -> xs
-head (A: U): stream A -> A = split cons x xs -> x
-fib (a b: nat): stream nat = cons a (fib b (add a b))
-seq (start: nat): stream nat = cons start (seq (succ start))
-ones:  stream nat = cons one ones
-zeros: stream nat = cons zero zeros
-nats:  stream nat = seq zero
+tail (A: U):      stream A -> stream A
+head (A: U):      stream A -> A
+fib (a b: nat):   stream nat
+seq (start: nat): stream nat
 \end{lstlisting}
 
 \subsection{Vector and Fin}
@@ -178,60 +288,220 @@ data fin (n: nat) = fzero | fsucc (_: fin (pred n))
 \end{lstlisting}
 
 \subsection{IO}
+
+We extracted the pure function for the following IO free structure that
+encode the two functions for reading and printing string values in
+Church encoding. The demonstarted program could be seen in Om project.
+
+\begin{lstlisting}[mathescape=true]
+data IO (A: U)
+  = getLine (fun: String -> IO A)
+  | putLine (io: IO A) (str: String)
+  | pure (finish: A)
+
+main: U = replicateM 100 (>>= String () getLine putLine)
+\end{lstlisting}
+
 \subsection{IOI}
+
+\begin{lstlisting}[mathescape=true]
+data IOI.F (A State: U)
+   = getLine: (fun: String -> State)
+   | putLine: (str: String) (state: State)
+   | pure: (finish: A)
+
+data IOI (A State: U) =
+     intro: (init: State)
+            (action: State -> IOI.F A State)
+\end{lstlisting}
+
+\newpage
+\section{Control Structures}
+
+SKI combinatoric lambda caclulus was developed by Ukranian Logician
+Moisei Isaievich Sheinfinkel. It could be used as basis for computational
+foundation just like lambda caclulus. Later Connor McBride developer the SKI
+intro Applicative typeclass. It is known that SKI is just an Church
+encoded Applicative. Now Applicative typeclass is a mandatory tool in any base library.
+
+\begin{equation}
+ S = apply : (x \rightarrow b \rightarrow c) \rightarrow (x \rightarrow b) \rightarrow (x \rightarrow c)
+\end{equation}
+\begin{equation}
+ K = pure  : a \rightarrow (x \rightarrow a)
+\end{equation}
+\begin{equation}
+ I = S K K
+\end{equation}
+
+We show here the developer's logic behind the scenes of implementation. Fir we need
+to cut all basic type classes like Pure, Applicative, Functor, CoFunctor,
+ContraFunctor, CoContraFunctor and their flip eliminators. Another powerful control
+structure from came from Category Theory are Monad and CoMonad that will be used
+for modeling IO later in the article.
+
+\subsection{Signatures}
+
+\begin{lstlisting}[mathescape=true]
+pure                   A  -> F A
+extract              F A  ->   A
+extend         (F A -> B) -> F A -> F B
+apply          F (A -> B) -> F A -> F B
+fmap             (A -> B) -> F A -> F B
+unmap        (F A -> F B) ->  (A -> B)
+contra           (B -> A) -> F A -> F B
+uncontra     (F A -> F B) ->  (B -> A)
+cofmap           (B -> A) -> F B -> F A
+uncofmap     (F B -> F A) ->  (B -> A)
+cocontra         (A -> B) -> F B -> F A
+uncocontra   (F B -> F A) ->  (A -> B)
+join              F (F A) -> F A
+dup                  F A  -> F (F A)
+bind_sig        F A ->(A  -> F B)-> F B
+\end{lstlisting}
+
+The we build up a signatures of type clases build as sigma encoded contexts or telescopes.
+The signatures are made external for code compactification.
+Then we select F: U -> U functor as common head for sigma types.
+All quantifiers for members and laws are carried within projections.
+Projections contains full signature except F. These types could be considered for run-time.
+Also you may read Oleg Kiselev Type-Classes in ML. \footnote{http://okmij.org/ftp/Computation/typeclass.html}
+Here is we encode type-classes with Sigma and instances with nested tuples.
+
+\subsection{Run-time types}
+
+\begin{lstlisting}[mathescape=true]
+pure_:        U = (F:U->U)*pure_sig F
+functor_:     U = (F:U->U)*fmap_sig F
+applicative_: U = (F:U->U)*(_:pure_sig F)*(_:fmap_sig F)*(apply_sig F)
+monad_:       U = (_:applicative_)*(bind_sig F.1)
+\end{lstlisting}
+
+\subsection{Accessors}
+
+Accessor are common technique in Type Refinement approach for beautifying the code.
+
+\begin{lstlisting}[mathescape=true]
+fmap (a: functor_):     fmap_sig  a.1 = a.2
+pure (a: applicative_): pure_sig  a.1 = a.2.1
+amap (a: applicative_): fmap_sig  a.1 = a.2.2.1
+ap   (a: applicative_): apply_sig a.1 = a.2.2.2
+\end{lstlisting}
+
+\subsection{Theorems as Proof Carried Code}
+
+The formal definition of control structures comes in Type Refinement apprach when
+we separate the algebraic structure and its properties. Such we defined the {\bf functor}
+as $\Sigma_{F:U->U} fmap_F$. An the Functor has two laws $fmap \circ id = id$ and
+$ fmap(o(g,h)) = o(fmap(g),fmap(h))$:
+
+\begin{lstlisting}[mathescape=true]
+isFunctor (F: functor_): U
+    = (id: (A: U) -> (x: F.1 A) ->
+           Path (F.1 A) x ((fmap F) A A (idfun A) x))
+    * (compose: (A B C:U) (f:B->C) (g:A->B) (x:F.1 A) ->
+      Path (F.1 C) (F.2 A C (o A B C f g) x)
+       ((o (F.1 A) (F.1 B) (F.1 C)
+           (F.2 B C f) (F.2 A B g)) x)) * Unit
+\end{lstlisting}
+
+Then we can define the FUNCTOR as Sigma of fuctor signature and functor properties:
+
+\begin{lstlisting}[mathescape=true]
+FUNCTOR:     U = (f: functor_) * isFunctor f
+APPLICATIVE: U = (f: applicative_)
+               * (_: isFunctor (f.1,f.2.2.1))
+               * isApplicative f
+MONAD:       U = (f: monad_)
+               * (_: isFunctor (f.1,f.2.2.1))
+               * (_: isApplicative (f.1,f.2.1,f.2.2.1,f.2.2.2.1))
+               * isMonad f
+\end{lstlisting}
+
+We do not show here the full Control library only the Functor instance due to sizes of the terms.
 
 \newpage
 \section{F-Algebras and Recursion Schemes}
 
-  A F-algebra $(\mu F, in)$ is the initial F-algebra if for any F-algebra $(C, \varphi)$
-  there exists a unique arrow $\llparenthesis \varphi \rrparenthesis : \mu F \rightarrow C$ where $f = \llparenthesis \varphi \rrparenthesis$
-  and is called catamorphism. Similar a F-coalgebra $(\nu F, out)$ is the terminal
-  F-coalgebra if for any F-coalgebra $(C, \varphi)$ there exists unique arrow
-  $\llbracket \varphi \rrbracket : C \rightarrow \nu F$ where $f =
-  \llbracket \varphi \rrbracket$
+A F-algebra $(\mu F, in)$ is the initial F-algebra if for any F-algebra $(C, \varphi)$
+there exists a unique arrow $\llparenthesis \varphi \rrparenthesis : \mu F \rightarrow C$ where $f = \llparenthesis \varphi \rrparenthesis$
+and is called catamorphism. Similar a F-coalgebra $(\nu F, out)$ is the terminal
+F-coalgebra if for any F-coalgebra $(C, \varphi)$ there exists unique arrow
+$\llbracket \varphi \rrbracket : C \rightarrow \nu F$ where $f =
+\llbracket \varphi \rrbracket$
 
 \begin{center}
 \begin{tabular}{lcl}
 \begin{tikzcd}
-  F\ \mu F \arrow{d}[left]{F\ \llparenthesis \varphi \rrparenthesis} \arrow{r}{in} & \mu F \arrow{d}{\llparenthesis \varphi \rrparenthesis} \\
-  F C \arrow{r}{\varphi} & C \end{tikzcd} & & \begin{tikzcd}
-  C \arrow{d}[left]{ \llbracket \varphi \rrbracket} \arrow{r}{\phi} & F\ C\arrow{d}{F\ \llbracket \varphi \rrbracket} \\
-  \nu F \arrow{r}{out} & F \nu F\end{tikzcd} \\
-  \ & \  &\  \\
-  $f \circ in = \varphi \circ F\ f \equiv f = \llparenthesis \varphi \rrparenthesis$& &
-  $out \circ f = F\ f \circ \varphi \equiv f = \llbracket \varphi \rrbracket$ \\
+F\ \mu F \arrow{d}[left]{F\ \llparenthesis \varphi \rrparenthesis} \arrow{r}{in} & \mu F \arrow{d}{\llparenthesis \varphi \rrparenthesis} \\
+F C \arrow{r}{\varphi} & C \end{tikzcd} & & \begin{tikzcd}
+C \arrow{d}[left]{ \llbracket \varphi \rrbracket} \arrow{r}{\phi} & F\ C\arrow{d}{F\ \llbracket \varphi \rrbracket} \\
+\nu F \arrow{r}{out} & F \nu F\end{tikzcd} \\
+\ & \  &\  \\
+$f \circ in = \varphi \circ F\ f \equiv f = \llparenthesis \varphi \rrparenthesis$& &
+$out \circ f = F\ f \circ \varphi \equiv f = \llbracket \varphi \rrbracket$ \\
 \end{tabular}
 \end{center}
 
+
 \subsection{Fixpoint and Free Structures}
 
+Free and Cofree represent terminated or non-terminated sequence of functorial
+bindings defined as $\mu x . a + f x$ and $\nu x . a * f x$ where $\mu < fix < \nu$.
+Also we defined
+
 \begin{lstlisting}[mathescape=true]
-data freeF   (F:U->U)(A B:U)= ReturnF (a:A) | BindF(f:F B)
-data cofreeF (F:U->U)(A B:U)= CoBindF (a:A) (f: F B)
-data free    (F:U->U)(A:U)  = Free    (_:fix(freeF F A))
-data cofree  (F:U->U)(A:U)  = CoFree  (_:fix(cofreeF F A))
-
-unfree   (A: U) (F: U -> U): free   F A -> fix (freeF   F A)
-  = split Free   a -> a
-
-uncofree (A: U) (F: U -> U): cofree F A -> fix (cofreeF F A)
-  = split CoFree a -> a
+data fix    (F:U->U)= Fix (point: F (fix F))
+out_        (F:U->U): fix F -> F (fix F) = split Fix f -> f
+in_         (F:U->U): F (fix F) -> fix F = \(x: F (fix F)) -> Fix x
+data mu     (F:U->U) (A B:U) = Return (a: A) | Bind (f: F B)
+data nu     (F:U->U) (A B:U) = CoBind (a: A)        (f: F B)
+data free   (F:U->U) (A:U)   = Free    (_: fix (mu F A))
+data cofree (F:U->U) (A:U)   = CoFree  (_: fix (nu F A))
+unfree      (F:U->U) (A:U):  free   F A -> fix (mu F A)
+uncofree    (F:U->U) (A:U):  cofree F A -> fix (nu F A)
 \end{lstlisting}
 
-\subsection{Catamorphism}
+\subsection{Catamorphism and Futumorphism}
 
 \begin{lstlisting}[mathescape=true]
-cata (A: U) (F: U -> U) (X: functor F)
-     (alg: F A -> A) (f: fix F): A
-   = alg (X.1 (fix F) A (cata A F X alg) (out_ F f))
+cata (A: U) (F: functor_) (alg: F.1 A -> A) (f: fix F.1): A
+   = alg (F.2 (fix F.1) A (cata A F alg) (out_ F.1 f))
 \end{lstlisting}
 
-\subsection{Anamorphism}
+\begin{lstlisting}[mathescape=true]
+futu (A: U) (F: functor_)
+     (f: A -> F.1 (free F.1 A)) (a: A): fix F.1
+  = Fix (F.2 (free F.1 A) (fix F.1) (\(z: free F.1 A) -> w z) (f a)) where
+  w: free F.1 A -> fix F.1 = split
+    Free x -> unpack_fix x where
+  unpack_free: mu F.1 A (fix (mu F.1 A)) -> fix F.1 = split
+    Return x -> futu A F f x
+    Bind g -> Fix (F.2 (fix (mu F.1 A)) (fix F.1)
+                        (\(x: fix (mu F.1 A)) -> w (Free x)) g)
+  unpack_fix: fix (mu F.1 A) -> fix F.1 = split
+    Fix x -> unpack_free x
+\end{lstlisting}
+
+\subsection{Anamorphism and Histomorphism}
 
 \begin{lstlisting}[mathescape=true]
-ana (A: U) (F: U -> U) (X: functor F)
-    (coalg: A -> F A) (a: A): fix F
-  = Fix (X.1 A (fix F) (ana A F X coalg) (coalg a))
+ana  (A: U) (F: functor_) (coalg: A -> F.1 A) (a: A): fix F.1
+   = Fix (F.2 A (fix F.1) (ana A F coalg) (coalg a))
+\end{lstlisting}
+
+\begin{lstlisting}[mathescape=true]
+histo (A:U) (F: functor_)
+      (f: F.1 (cofree F.1 A) -> A) (z: fix F.1): A
+  = extract A ((cata (cofree F.1 A) F (\(x: F.1 (cofree F.1 A)) ->
+    CoFree (Fix (CoBind (f x) ((F.2 (cofree F.1 A)
+    (fix (nu F.1 A)) (uncofree F.1 A) x)))))) z) where
+  extract (A: U): cofree F.1 A -> A = split
+    CoFree f -> unpack_fix f where
+  unpack_fix: fix (nu F.1 A) -> A = split
+    Fix f -> unpack_cofree f where
+  unpack_cofree: nu F.1 A (fix (nu F.1 A)) -> A = split
+    CoBind a -> a
 \end{lstlisting}
 
 \subsection{Inductive Types}
@@ -264,8 +534,11 @@ coinductive (F: U -> U) (A: U) (X: functor F): coind A F
   = (out_ F,in_ F,ana A F X,tt)
 \end{lstlisting}
 
+
 \newpage
-\section{Algebraic Structures}
+\section{Algebra}
+
+\subsection{Monoid and Commutative Monoid}
 
 \begin{lstlisting}[mathescape=true]
 isAssociative (M: U) (op: M -> M -> M) : U
@@ -289,6 +562,8 @@ isCMonoid (M: SET): U
   * (isCommutative M.1 m.1)
 \end{lstlisting}
 
+\subsection{Group and Abelian Group}
+
 \begin{lstlisting}[mathescape=true]
 isGroup (G: SET): U
   = (m: isMonoid G)
@@ -301,6 +576,8 @@ isAbGroup (G: SET): U
   = (g: isGroup G)
   * (isCommutative G.1 g.1.1)
 \end{lstlisting}
+
+\subsection{Ring and Abelian Ring}
 
 \begin{lstlisting}[mathescape=true]
 isRing (R: SET): U
@@ -319,18 +596,34 @@ isAbRing (R: SET): U
 \newpage
 \section{Category Theory}
 
-\begin{lstlisting}[mathescape=true]
-isAbRing (R: SET): U
-  = (mul: isCMonoid R)
-  * (add: isAbGroup R)
-  * (isDistributive R.1 add.1.1.1 mul.1.1)
-\end{lstlisting}
+More formal, precategory $A$ consists of the following:
+(i)   A type $A_0$, whose elements are called objects. We write $a: A$ for $a: A_0$.
+(ii)  For each $a,b: A$, a set $hom_A(a,b)$, whose elements are called arrows or morphisms.
+(iii) For each $a: A$, a morphism $1_a : hom_A(a,a)$, called the identity morphism.
+(iv)  For each $a,b,c: A$, a function $hom_A(b,c) \rightarrow hom_A(a,b) \rightarrow hom_A(a,c)$
+      called composition, and denoted $g \circ f$.
+(v)   For each $a,b: A$ and $f: hom_A(a,b)$, we have $f = 1_b \circ f$ and $f = f \circ 1_a$.
+(vi)  For each $a,b,c,d: A$ and $f: hom_A(a,b)$, $g: hom_A(b,c)$, $h: homA(c,d)$,
+      we have $h \circ (g \circ f ) = (h \circ g) \circ f$.
 
-\subsection{Precategory}
+\subsection{Signature}
+
+We divide the carrier, morphisms as algebraic structure of category
+definition (in essense CT is an abstract algebra of functions) and laws (theorems)
+or categorical properies, defined as equalities on morphisms:
 
 \begin{lstlisting}[mathescape=true]
 cat: U = (A: U) * (A -> A -> U)
+\end{lstlisting}
 
+\subsection{Accessors}
+
+\subsection{Theorems}
+
+We define theorems section as predicate in a form of Sigma
+which is usual a carrier for theorems.
+
+\begin{lstlisting}[mathescape=true]
 isPrecategory (C: cat): U
   = (id:      (x: C.1) -> C.2 x x)
   * (c:       (x y z:C.1)->C.2 x y->C.2 y z->C.2 x z)
@@ -343,45 +636,43 @@ isPrecategory (C: cat): U
               (g: C.2 y z) -> (h: C.2 z w) ->
               Path (C.2 x w) (c x z w (c x y z f g) h)
               (c x y w f (c y z w g h))) * Unit
+
+category: U = (C: cat) * isPrecategory C
 \end{lstlisting}
+
+\subsection{Accessors}
+
+Due to the nature of minimalistic syntax for each algebraic structure
+should be defined the accessors for its projections to avoid long projection
+composition, e.g. 2.2.2.2.2.1.
 
 \begin{lstlisting}[mathescape=true]
 carrier (C: precategory): U = C.1.1
 hom     (C: precategory) (a b: carrier C): U = C.1.2 a b
 path    (C: precategory) (x: carrier C): hom C x x = C.2.1 x
-compose (C: precategory) (x y z: carrier C)
-        (f: hom C x y) (g: hom C y z): hom C x z
-        = C.2.2.1 x y z f g
+compose (C: precategory) (x y z: carrier C) (f: hom C x y)
+        (g: hom C y z): hom C x z = C.2.2.1 x y z f g
 \end{lstlisting}
 
 \subsection{Terminal and Initial Objects}
 
+Initiality and Terminality encoded directly from its definition.
+
 \begin{lstlisting}[mathescape=true]
 isInitial (C: precategory) (x: carrier C): U
   = (y: carrier C) -> isContr (hom C x y)
-\end{lstlisting}
 
-\begin{lstlisting}[mathescape=true]
 isTerminal (C: precategory) (y: carrier C): U
   = (x: carrier C) -> isContr (hom C x y)
+
+initialObject (C: precategory): U = (x:carrier C) * isInitial C x
+terminalObject (C: precategory): U = (y:carrier C) * isTerminal C y
 \end{lstlisting}
 
-\begin{lstlisting}[mathescape=true]
-initialObject (C: precategory): U
-  = (x: carrier C)
-  * isInitial C x
-\end{lstlisting}
+\subsection{Functors}
 
 \begin{lstlisting}[mathescape=true]
-terminalObject (C: precategory): U
-  = (y: carrier C)
-  * isTerminal C y
-\end{lstlisting}
-
-\subsection{Functor}
-
-\begin{lstlisting}[mathescape=true]
-catfunctor (A B: precategory): U
+functor (A B: precategory): U
   = (ob:   carrier A -> carrier B)
   * (mor:  (x y: carrier A) ->
            hom A x y -> hom B (ob x) (ob y))
@@ -393,25 +684,8 @@ catfunctor (A B: precategory): U
            (compose B (ob x) (ob y) (ob z) (mor x y f) (mor y z g))) * Unit
 \end{lstlisting}
 
-\section{Proto}
-
-\begin{lstlisting}[mathescape=true]
-case   (A B C: U)(b:A->C)(c:B->C):or A B->C = split{inl x->b(x);inr y->c(y)}
-fst      (A B: U): tuple A B -> A = split pair a b -> a
-snd      (A B: U): tuple A B -> B = split pair a b -> b
-idfun      (A: U) (a: A): A = a
-constfun   (A B: U) (a: B): A -> B = \(_:A) -> a
-o      (A B C: U) (f: B -> C) (g: A -> B): A -> C = \(x:A) -> f (g x)
-and      (A B: U): U = (_:A) * B
-\end{lstlisting}
-
-\begin{lstlisting}[mathescape=true]
-efq        (A: U): Empty -> A = split {}
-neg        (A: U): U = A -> Empty
-dneg  (A:U) (a:A): neg (neg A) = \(h: neg A) -> h a
-dec        (A: U): U = or A (neg A)
-stable     (A: U): U = neg (neg A) -> A
-\end{lstlisting}
-
+\bibliographystyle{plain}
+\bibliography{types}
 
 \end{document}
+
