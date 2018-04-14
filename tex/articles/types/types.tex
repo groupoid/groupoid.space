@@ -26,13 +26,45 @@
 \maketitle
 
 \begin{abstract}
-Keywords: Formal Methods, Type Theory, Computer Languages,
+
+The introduction of path spaces and its eliminators in cubical type theory (CTT)
+as core type checker primitives calls for re-examination the proofs for mathematical components
+in base libraries of the major provers Coq, Agda, F*, Lean.
+They provide successful interpretation of calculus of inductive constructions
+with predicative hierarchies, however the homotopical foundation of CTT demonstrates
+computational semantics of univalence axiom and different kind of proofs by using path
+composition and kan filling operations.
+
+We present a base library compatible with Cubical language \cite{Mortberg17}
+with respect to both run-time types and its mathematical models.
+This library is about to extract to run-time languages from cubical syntax.
+The basic core of the library contains abstractions for Pi, Sigma and Path types,
+prop, set, and groupoid hierarchy, fixpoint, control structures, recursion schemes,
+algebraic hierarchy, and category theory.
+
+Despite minimalistic cubical syntax lacks type classes we show the elegant
+way of encoding type classes in cubical. Also, the minimalistic syntax
+gives us a lightweight extension to the pure type system (PTS) core
+and simple and more straightforward extraction to it for a subset of CTT programs.
+
+This article demonstrates an approach of type refinement to create
+the library where run-time types and its mathematical models can be
+easily separated while remain fit each other.
+So we cover here only models needed for modeling run-time theories
+while touching homotopical and geometrical models left for further
+articles, as for quotient sets, circle, sphere, h-pushout, truncations,
+iso, univalence, and other HoTT types.
+\\
+\\
+{\bf Keywords}: Formal Methods, Type Theory, Computer Languages,
           Theoretical Computer Science, Applied Mathematics,
           Cubical Type Theory, Martin-Löf Type Theory
 \end{abstract}
 
+\newpage
 \tableofcontents
 
+\newpage
 \section{Intro}
 
 This library is dedicated to cubical-compatible type checkers \cite{Mortberg17} based
@@ -52,6 +84,27 @@ HoTT book in cat, fun and category modules.
 of dependent types presented in Cwf module.
 
 This library is best to read with HoTT book.
+
+{\bf Research object}. The homotopy type theory base libraries in Agda, Cubical, and Coq.
+While modern Agda has the cubical mode, Coq lacks of the computational semantics of path primitives
+while has HoTT library. The real programming language is not enough to
+develop the software and theorems, the language shoud be shipped with base library. In this article
+we unvail the practical implementation of base library for cubical typecheckers.
+
+{\bf Research subject}. We will analyze the base library through the needs of particular features,
+like basic theorems, heterogeneous path equalities, univalence, basic HITs like truncations, run-time
+versions of the list, nat, and stream datatypes. We use Martin-Löf Type Theory as a subject and
+its extention CTT.
+
+{\bf Research results}. Research result is presented as source code repository that can be used by
+cubicaltt language and contains the minimal base library used in this article.
+These primitives form a valuable part of base library, so this arcticle could be
+considered as an brief introduction to several modules: {\bf path}, {\bf equiv}, {\bf pi},
+{\bf sigma}, {\bf mltt}, {\bf path}, {\bf iso}, {\bf cat}, {\bf algebra}, {\bf recursion}.
+But the library has even more modules, that
+exceed the scope of this article so you may refer to source code
+repository\footnote{http://github.com/groupoid/infinity}. Brief list of base library modules is given
+in Conclusion.
 
 \begin{table}[h]
 \centering
@@ -388,7 +441,7 @@ amap (a: applicative_): fmap_sig  a.1 = a.2.2.1
 ap   (a: applicative_): apply_sig a.1 = a.2.2.2
 \end{lstlisting}
 
-\subsection{Theorems as Proof Carried Code}
+\subsection{Theorems as Proof-carrying Code}
 
 The formal definition of control structures comes in Type Refinement apprach when
 we separate the algebraic structure and its properties. Such we defined the {\bf functor}
