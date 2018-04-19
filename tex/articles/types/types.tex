@@ -67,12 +67,36 @@ iso, univalence, and other HoTT types.
 \newpage
 \section{Intro}
 
+{\bf Research object}. The homotopy type theory base libraries in Agda, Cubical, Lean, and Coq.
+While modern Lean and Agda has the cubical mode, Coq lacks the computational semantics of path primitives
+while has HoTT library. The real programming language is not enough to
+develop the software and theorems, the language should be shipped with base library. In this article,
+we unveil the practical implementation of the base library for cubical type checkers with respect to
+target run-time environments.
+
+{\bf Research subject}. We will analyze the base library through the needs of particular features,
+like basic theorems about MLTT (Pi, Sigma, Equ, HeteroEqu), run-time types and data
+structures (Empty, Unit, Maybe, Nat, List, Either, Tuple), control structires (Functor, CoFunctor,
+ContraFunctor, CoContraFunctor, Applicative, CoApplicative, Monad, CoMonad, Inductive, CoInductive),
+algebra tower (Monoid, CMonoid, Group, AbGroup, Ring, AbRing), and category
+theory (Category, Functor, Initial, Terminal, Adjoint).
+We use Martin-Löf Type Theory as a subject and its extension CTT.
+
+{\bf Research results}. Research result is presented as source code repository that can be used by
+cubicaltt language and contains the minimal base library used in this article.
+These primitives form a valuable part of base library, so this article could be
+considered as an brief introduction to several modules: {\bf pi},
+{\bf sigma}, {\bf path}, {\bf prop}, {\bf set}, {\bf control}, {\bf iso},
+{\bf equiv}, {\bf cat}, {\bf algebra}, {\bf recursion}.
+But the library has even more modules, that
+exceed the scope of this article so you may refer to source code
+repository\footnote{http://github.com/groupoid/infinity}.
+
 This library is dedicated to cubical-compatible type checkers \cite{Mortberg17} based
 on homotopy interval [0,1] and MLTT as a core. The base library is
 founded on top of 5 core modules: proto (composition, id, const),
-path (subst, trans, cong, refl, singl, sym), prop, set (isContr, isProp, isSet),
-equiv (fiber, eqiuv) and iso (lemIso, isoPath).
-This machinery is enough to prove univalence axiom.
+path (subst, trans, cong, refl, singl, sym), prop, set (isContr, isProp, isSet, isInfinityGroupoid),
+equiv (fiber, eqiuv) and iso (lemIso, isoPath). This machinery is enough to prove univalence axiom.
 
 (i) The library has rich recursion scheme primitives
 in recursion module, while very basic nat, list, stream
@@ -83,28 +107,7 @@ HoTT book in cat, fun and category modules.
 (iv) The library also includes categorical encoding
 of dependent types presented in Cwf module.
 
-This library is best to read with HoTT book.
-
-{\bf Research object}. The homotopy type theory base libraries in Agda, Cubical, and Coq.
-While modern Agda has the cubical mode, Coq lacks of the computational semantics of path primitives
-while has HoTT library. The real programming language is not enough to
-develop the software and theorems, the language shoud be shipped with base library. In this article
-we unvail the practical implementation of base library for cubical typecheckers.
-
-{\bf Research subject}. We will analyze the base library through the needs of particular features,
-like basic theorems, heterogeneous path equalities, univalence, basic HITs like truncations, run-time
-versions of the list, nat, and stream datatypes. We use Martin-Löf Type Theory as a subject and
-its extention CTT.
-
-{\bf Research results}. Research result is presented as source code repository that can be used by
-cubicaltt language and contains the minimal base library used in this article.
-These primitives form a valuable part of base library, so this arcticle could be
-considered as an brief introduction to several modules: {\bf path}, {\bf equiv}, {\bf pi},
-{\bf sigma}, {\bf mltt}, {\bf path}, {\bf iso}, {\bf cat}, {\bf algebra}, {\bf recursion}.
-But the library has even more modules, that
-exceed the scope of this article so you may refer to source code
-repository\footnote{http://github.com/groupoid/infinity}. Brief list of base library modules is given
-in Conclusion.
+This library is best to read guided by HoTT book.
 
 \begin{table}[h]
 \centering
@@ -130,27 +133,37 @@ monad       &        &         & groupoid \\
 \end{tabular}
 \end{table}
 
+\newpage
 \section{MLTT as Modeling Language}
 
 As MLTT language is used for modeling the base library should include its definition and theorems.
-The {\bf mltt} module is also a great syntax example of Cubical Type Checker.
+The {\bf mltt} module contains the theorems of operational semantics of
+dependent type theory and MLTT model.
 
 \subsection{Pi and Sigma}
 
+Pi and Sigma modules provide basic theorems about dependent products and sum.
+Here is tautology alias definitions for better syntax understanding.
+In run-time Sigma is being transformed into pair and lambda into functions.
+All type annotations and term dependence information are being erased.
+
 \begin{lstlisting}[mathescape=true]
-Pi (A:U) (P:A->U): U = (x:A) -> P x
-lambda (A:U) (B:A->U) (a: A) (b: B a): A -> B a = \(x: A) -> b
-app (A:U) (B:A->U) (a: A) (f: A -> B a): B a = f a
-Sigma (A:U) (B:A->U): U = (x: A) * B x
-pair (A:U) (B:A->U) (a: A) (b: B a): Sigma A B = (a,b)
-pr1 (A:U) (B:A->U) (x: Sigma A B): A = x.1
-pr2 (A:U) (B:A->U) (x: Sigma A B): B (pr1 A B x) = x.2
+Pi     (A:U) (P:A->U): U = (x:A) -> P x
+lambda (A:U) (B:A->U) (a: A) (b: B a): A -> B a = \ (x: A) -> b
+app    (A:U) (B:A->U) (a: A) (f: A -> B a): B a = f a
+Sigma  (A:U) (B:A->U): U = (x: A) * B x
+pair   (A:U) (B:A->U) (a: A) (b: B a): Sigma A B = (a,b)
+pr1    (A:U) (B:A->U) (x: Sigma A B): A = x.1
+pr2    (A:U) (B:A->U) (x: Sigma A B): B (pr1 A B x) = x.2
 \end{lstlisting}
 
 \subsection{Identity Type}
 
 Identity types or Prop types (when using PTS and built-in definitional equality for type checking
 normalized term forms with means of identity) are both considered to be erased in run-time.
+For modeling propositional equality later in 1984 was introduced Equ type. \cite{Lof84}
+However unlike Pi and Sigma the eliminator J of Equ type is
+not derivable in MLTT \cite{Hofmann96, Mortberg17, HoTT}.
 
 \begin{lstlisting}[mathescape=true]
 Path     (A: U) (a b: A): U
@@ -169,9 +182,15 @@ J        (A: U) (a: A) (C: (x: A) -> Path A a x -> U)
 
 \subsection{$\infty$-Groupoid and h-Types}
 
+The reasoning about higher equalties is made through explicit recursion.
+We encode the level of path dimention through embedded natural numbers in the definition.
+
 \begin{lstlisting}[mathescape=true]
 data N = Z | S (n: N)
 \end{lstlisting}
+
+As foundation we provide recursive and corecursive versions of groupoid definitions.
+h-Types \cite{HoTT} (Prop, Set, Groupoid, etc) are defined through these primitives.
 
 \begin{lstlisting}[mathescape=true]
 n_grpd (A: U) (n: N): U = (a b: A) -> ((rec A a b) n) where
@@ -187,6 +206,8 @@ inf_grpd (A: U): U
   * ((a b: A) -> inf_grpd (Path A a b))
 \end{lstlisting}
 
+As you can see, h-Types properties are just eliminated recursors.
+
 \begin{lstlisting}[mathescape=true]
 isContr     (A: U): U = (x: A) * ((y: A) -> Path A x y)
 isProp      (A: U): U = n_grpd A Z
@@ -196,6 +217,8 @@ isGrp2      (A: U): U = n_grpd A (S (S (S Z)))
 isGrp3      (A: U): U = n_grpd A (S (S (S (S Z))))
 isInfinityGroupoid (A: U): U = inf_grpd A
 \end{lstlisting}
+
+And finally the definitions as refined h-Types through its properties.
 
 \begin{lstlisting}[mathescape=true]
 PROP         : U = (X:U) * isProp X
@@ -208,25 +231,56 @@ INF_GROUPOID : U = (X:U) * isInfinityGroupoid X
 
 By using such definition of MLTT we can commit the basic properties
 of dependent theory, computational rules. The proofs are trivial
-with {\bf refl} function.
+with {\bf refl} function. Here is full list of inference rules properties.
+
+\begin{equation} (\\(x:A) \rightarrow f(x))(a) = f(a) \end{equation}
+\begin{equation} f = (\\(x:A) \rightarrow f(x)) \end{equation}
+\begin{equation} pr_1 (a,b) = a \end{equation}
+\begin{equation} pr_2 (a,b) = b \end{equation}
+\begin{equation} (pr_1 p,pr_2 p) = p \end{equation}
 
 \begin{lstlisting}[mathescape=true]
-comp1 (A:U)(B:A->U)(a:A)(f:A->B a):
-      Equ(B a)(app A B a (lambda A B a (f a)))(f a)
-
-comp2 (A:U)(B:A->U)(a:A)(f:A->B a): Equ(A->B a) f (\(x:A)->f x)
-comp3 (A:U)(B:A->U)(a:A)(b: B a): Equ A a (pr1 A B (a,b))
-comp4 (A:U)(B:A->U)(a:A)(b: B a): Equ (B a) b (pr2 A B (a,b))
-comp5 (A:U)(B:A->U)(p:Sigma A B): Equ (Sigma A B) p (pr1 A B p,pr2 A B p)
+MLTT (A:U): U
+  = (Pi_Former:  (A->U)->U)
+  * (Pi_Intro:   (B:A->U) (a:A)->B a->(A->B a))
+  * (Pi_Elim:    (B:A->U) (a:A)->(A->B a)->B a)
+  * (Pi_Comp1:   (B:A->U) (a:A) (f:A->B a) -> Equ (B a)
+                 (Pi_Elim B a (Pi_Intro B a (f a)))(f a))
+  * (Pi_Comp2:   (B: A->U) (a:A) (f:A->B a) ->
+                 Equ (A->B a) f (\(x:A)->Pi_Elim B a f))
+  * (Sig_Former: (A->U)->U)
+  * (Sig_Intro:  (B:A->U) (a:A)->(b:B a)->Sigma A B)
+  * (Sig_Elim1:  (B:A->U)->(_: Sigma A B)->A)
+  * (Sig_Elim2:  (B:A->U)->(x: Sigma A B)->B (pr1 A B x))
+  * (Sig_Comp1:  (B:A->U) (a:A) (b: B a)->Equ A a
+                 (Sigma_Elim1 B (Sigma_Intro B a b)))
+  * (Sig_Comp2:  (B:A->U) (a:A) (b:B a)->Equ (B a) b
+                 (Sigma_Elim2 B (a,b)))
+  * (Id_Former:  A->A->U)
+  * (Id_Intro:   (a:A) -> Equ A a a)
+  * (Id_Elim:    (a x: A) (C: predicate A a)
+                 (d:C a(Id_Intro a))(p:Equ A a x)->C x p)
+  * (Id_Comp:    (x y:A)(C: D A)(p: Equ A x y)
+                              (b: C x x (reflect A x))
+                       (X: Equ U (C x x (reflect A x))
+                                 (C x y p)) ->
+                   HeteroEqu X b (J A x C b y p)) * Unit
 \end{lstlisting}
 
+\newpage
 \section{Runtime Types}
 
 The purpose of run-time types is to build solid ground for
 writing type checkers, evaluating results and printing models to console,
 writing formally verified infinitely runned free comonadic processes.
+In one framework we can combine the powerful semantics of CTT and
+homotopical primitives to prove properties of run-time types in
+a more simplier and elegant way.
 
 \subsection{Proto}
+
+Proto module contains very basic common functions of id, composition and
+non-inductive cartesian non-dependent product.
 
 \begin{lstlisting}[mathescape=true]
 idfun (A: U) (a: A): A = a
@@ -254,8 +308,9 @@ hedberg (A:U) (h: (a x:A) -> stable (Path A a x)) : isSet A
 
 \subsection{Either and Tuple}
 
-Either and Tuple are dual inductive data types. They are widely used
-in all base library and are basic control structures.
+Either and Tuple are dual inductive data types.
+They are  basic control structures and widely through all base library.
+The tuple semantically same as both but is ready to pattern machthing.
 
 \begin{lstlisting}[mathescape=true]
 data either (A B: U) = inl (a: A) | inr (b: B)
@@ -268,15 +323,16 @@ snd (A B: U): tuple A B -> B
 
 \subsection{Bool}
 
-The basic hedberg therem could be used to prove that bool is set.
+The basic hedberg theorem could be used to prove that bool is set.
 Bool is application data type it is rarely used inside run-time library
 however it is used is real world applications. Here we provide a proof
-that bool is set by providing the proof that for any
+that bool is set by providing the proof that for any booleans path
+between them is decidable.
 
 \begin{lstlisting}[mathescape=true]
 data bool = false | true
 
-bool_case (A: U) (f t: A): bool -> A = split { false -> f ; true -> t }
+bool_case (A: U) (f t: A): bool -> A = split { false->f; true->t }
 bool_dec: (b1 b2: bool) -> dec (Path bool b1 b2)
 bool_isSet: isSet bool = hedberg bool bool_dec
 \end{lstlisting}
@@ -295,12 +351,15 @@ data maybe (A: U) = nothing | just (a: A)
 data nat = zero | succ (n: nat)
 \end{lstlisting}
 
+Also we provide constructive proof that $Fix Maybe = Nat$.
+
 \subsection{List}
 
-List implented as very simple data type but no simplier
+List implemented as very simple data type but no simplier
 that needed to implement type checker. List data type is
 used to model categorical semantics of dependent type theory
 as Categories with Famalies by Dybjer in {\bf cwf} module.
+At the rest list has pretty standard implementation.
 
 \begin{lstlisting}[mathescape=true]
 data list (A: U) = nil | cons (a: A) (as: list A)
@@ -317,12 +376,14 @@ foldr (A B: U) (f: A -> B -> B) (Z: B): list A -> B
 foldl (A B: U) (f: B -> A -> B) (Z: B): list A -> B
 switch (A: U) (a b: Unit -> list A): bool -> list A
 filter (A: U) (p: A -> bool): list A -> list A
-uncons (A: U): list A -> maybe ((a: A) * (list A))
 length (A: U): list A -> nat
 list_eq (A: eq): list A.1 -> list A.1 -> bool
 \end{lstlisting}
 
 \subsection{Stream}
+
+Stream module provide model for infinity streams, IO, and other corecursive models,
+provide basic theorems about streams bisimulation (equality).
 
 \begin{lstlisting}[mathescape=true]
 data stream (A: U) = cons (x: A) (xs: stream A)
@@ -331,20 +392,38 @@ tail (A: U):      stream A -> stream A
 head (A: U):      stream A -> A
 fib (a b: nat):   stream nat
 seq (start: nat): stream nat
+
+data Bisimilar (A: U) (xs ys: stream A) =
+     bisimilar (h: Path A (head A xs) (head A ys))
+          (t: Bisimilar A (tail A xs) (tail A ys))
+
+bisimilarityIsEquality (A: U) (xs ys: stream A):
+     Path U (Bisimilar A xs ys) (Path (stream A) xs ys)
 \end{lstlisting}
 
 \subsection{Vector and Fin}
 
+Vector and Fin are basic dependent inductive types. Fin types is used
+in several models, e.g. for naming type constructors in the de Brujin fashion.
+
 \begin{lstlisting}[mathescape=true]
-data vector (A: U) (n: nat) = vnil | bcons (x: A) (xs: vector A (pred n))
-data fin (n: nat) = fzero | fsucc (_: fin (pred n))
+data vector (A:U)(n:nat) = vnil  | vcons (x:A)(xs:vector A (pred n))
+data fin         (n:nat) = fzero | fsucc (pre: fin (pred n))
+\end{lstlisting}
+
+Cubical Syntax lacks of full GADT support, so we need to ban using
+type constructors and provide its typeable versions:
+
+\begin{lstlisting}[mathescape=true]
+fz (n: nat): Fin (succ n)          = fzero
+fs (n: nat): Fin n -> Fin (succ n) = \(x: Fin n) -> fsucc x
 \end{lstlisting}
 
 \subsection{IO}
 
-We extracted the pure function for the following IO free structure that
-encode the two functions for reading and printing string values in
-Church encoding. The demonstarted program could be seen in Om project.
+We extracted the pure function for the following IO free structure
+that encode the two functions for reading and printing string values in Church encoding.
+The demonstarted program could be seen in Om project \footnote{http://github.com/groupoid/om}.
 
 \begin{lstlisting}[mathescape=true]
 data IO (A: U)
@@ -355,7 +434,10 @@ data IO (A: U)
 main: U = replicateM 100 (>>= String () getLine putLine)
 \end{lstlisting}
 
-\subsection{IOI}
+\subsection{IO Infinity}
+
+The infinity IO sample is also provided by Om project \footnote{http://github.com/groupoid/om}
+ans demonstrate the cofree comonadic encoding of process running.
 
 \begin{lstlisting}[mathescape=true]
 data IOI.F (A State: U)
@@ -368,14 +450,50 @@ data IOI (A State: U) =
             (action: State -> IOI.F A State)
 \end{lstlisting}
 
+We put Erlang Coinductive Bindings as pure function to comonad instance:
+
+\begin{lstlisting}[mathescape=true]
+copure()    -> fun (_) -> fun (IO) -> IO end end.
+cogetLine() -> fun(IO) -> fun(_) ->
+               L = ch:list(io:get_line("> ")),
+               ch:ap(IO,[L]) end end.
+coputLine() -> fun (S) -> fun(IO) ->
+               X = ch:unlist(S),
+               io:put_chars(": "++X),
+               case X of "0\n" -> list([]);
+                             _ -> corec() end end end.
+corec()     -> ap('Morte':corecursive(),
+               [copure(),cogetLine(),coputLine(),copure(),list([])]).
+\end{lstlisting}
+
+Extract the Erlang program from Abstract Syntax:
+
+\begin{lstlisting}[mathescape=true]
+
+> om_extract:extract("priv/normal/IOI").
+ok
+> Active: module loaded: {reloaded,'IOI'}
+\end{lstlisting}
+
+And run the program in run-time environment.
+
+\begin{lstlisting}[mathescape=true]
+> om:corec().
+> 1
+: 1
+> 0
+: 0
+#Fun<List.3.113171260>
+\end{lstlisting}
+
 \newpage
 \section{Control Structures}
 
 SKI combinatoric lambda caclulus was developed by Ukranian Logician
 Moisei Isaievich Sheinfinkel. It could be used as basis for computational
-foundation just like lambda caclulus. Later Connor McBride developer the SKI
-intro Applicative typeclass. It is known that SKI is just an Church
-encoded Applicative. Now Applicative typeclass is a mandatory tool in any base library.
+foundation just like lambda caclulus. Later Connor McBride evolved the SKI
+into Applicative type-class. It is known that SKI is just an Church encoded Applicative.
+Now Applicative type-class is a mandatory tool in any base library.
 
 \begin{equation}
  S = apply : (x \rightarrow b \rightarrow c) \rightarrow (x \rightarrow b) \rightarrow (x \rightarrow c)
@@ -387,11 +505,11 @@ encoded Applicative. Now Applicative typeclass is a mandatory tool in any base l
  I = S K K
 \end{equation}
 
-We show here the developer's logic behind the scenes of implementation. Fir we need
+We show here the developer's logic behind the scenes of implementation. First we need
 to cut all basic type classes like Pure, Applicative, Functor, CoFunctor,
 ContraFunctor, CoContraFunctor and their flip eliminators. Another powerful control
-structure from came from Category Theory are Monad and CoMonad that will be used
-for modeling IO later in the article.
+structure from came from Category Theory are Monad and CoMonad that is used
+for modeling IO.
 
 \subsection{Signatures}
 
@@ -410,18 +528,22 @@ cocontra         (A -> B) -> F B -> F A
 uncocontra   (F B -> F A) ->  (A -> B)
 join              F (F A) -> F A
 dup                  F A  -> F (F A)
-bind_sig        F A ->(A  -> F B)-> F B
+bind            F A ->(A  -> F B)-> F B
 \end{lstlisting}
 
 The we build up a signatures of type clases build as sigma encoded contexts or telescopes.
 The signatures are made external for code compactification.
-Then we select F: U -> U functor as common head for sigma types.
+Then we select $F: U \rightarrow U$ functor as common head for sigma types.
 All quantifiers for members and laws are carried within projections.
 Projections contains full signature except F. These types could be considered for run-time.
 Also you may read Oleg Kiselev Type-Classes in ML. \footnote{http://okmij.org/ftp/Computation/typeclass.html}
 Here is we encode type-classes with Sigma and instances with nested tuples.
 
+\newpage
 \subsection{Run-time types}
+
+Coupling signatures with type-class parameters gives us a notion of run-time types.
+All type-value projections along with parameters are being erased during code extraction.
 
 \begin{lstlisting}[mathescape=true]
 pure_:        U = (F:U->U)*pure_sig F
@@ -432,7 +554,9 @@ monad_:       U = (_:applicative_)*(bind_sig F.1)
 
 \subsection{Accessors}
 
-Accessor are common technique in Type Refinement approach for beautifying the code.
+Accessors are common technique in Type Refinement approach for beautifying the code.
+As cubical syntax provide only .1 and .2 notion for projections it is good to have
+named field accessors for all projections.
 
 \begin{lstlisting}[mathescape=true]
 fmap (a: functor_):     fmap_sig  a.1 = a.2
@@ -443,10 +567,16 @@ ap   (a: applicative_): apply_sig a.1 = a.2.2.2
 
 \subsection{Theorems as Proof-carrying Code}
 
-The formal definition of control structures comes in Type Refinement apprach when
-we separate the algebraic structure and its properties. Such we defined the {\bf functor}
-as $\Sigma_{F:U->U} fmap_F$. An the Functor has two laws $fmap \circ id = id$ and
-$ fmap(o(g,h)) = o(fmap(g),fmap(h))$:
+The formal definition of control structures comes in Type Refinement approach when
+we separate the algebraic structure and its properties.
+
+\subsection*{Functor}
+
+Such we defined the {\bf functor}
+as $\Sigma_{F:U->U} fmap_F$. And the Functor has two laws:
+
+\begin{equation} o(fmap,id) = id \end{equation}
+\begin{equation} fmap(o(g,h)) = o(fmap(g),fmap(h)) \end{equation}
 
 \begin{lstlisting}[mathescape=true]
 isFunctor (F: functor_): U
@@ -456,6 +586,34 @@ isFunctor (F: functor_): U
       Path (F.1 C) (F.2 A C (o A B C f g) x)
        ((o (F.1 A) (F.1 B) (F.1 C)
            (F.2 B C f) (F.2 A B g)) x)) * Unit
+\end{lstlisting}
+
+\newpage
+\subsection*{Applicative}
+
+Being applicative property contains applicative laws:
+
+\begin{equation} ap(pure(id),x) = id(x) \end{equation}
+\begin{equation} ap(pure(f),pure(x)) = pure(f(x)) \end{equation}
+\begin{equation} ap(ap(ap(pure(o),u),v),w) = ap(u,ap(v,w)) \end{equation}
+\begin{equation} ap(u,pure(y)) = ap(pure(\\f.f(y)),u) \end{equation}
+
+\begin{lstlisting}[mathescape=true]
+isApplicative (F: applicative_): U
+    = (id:  (A:U) -> (x: F.1 A) ->
+       Path (F.1 A) x (ap F A A (pure F (id A) (idfun A)) x))
+    * (hom: (A B:U)(f:A->B)(x: A) ->
+       Path (F.1 B) (pure F B (f x))
+                    (ap F A B (pure F (A->B) f) (pure F A x)))
+    * (cmp: (A B C:U)(v: F.1(A->B))(u:F.1(B->C))(w:F.1 A) ->
+       Path (F.1 C) (ap F B C u (ap F A B v w))
+                    (ap F A C (ap F (A->B) (A->C)
+                              (ap F (B->C) ((A->B)->(A->C))
+                    (pure F (ot A B C) (o A B C)) u) v) w))
+    * (xchg: (A B:U)(x:A)(u:F.1(A->B))(f:A->B) ->
+       Path (F.1 B) (ap F A B u ((pure F) A x))
+                    (ap F (A->B) B (pure F ((A->B)->B)
+                                   (\(f:A->B)->f(x))) u)) * Unit
 \end{lstlisting}
 
 Then we can define the FUNCTOR as Sigma of fuctor signature and functor properties:
@@ -471,7 +629,8 @@ MONAD:       U = (f: monad_)
                * isMonad f
 \end{lstlisting}
 
-We do not show here the full Control library only the Functor instance due to sizes of the terms.
+We do not show here the full Control library (only the Functor and Applicative instances)
+due to sizes of the terms.
 
 \newpage
 \section{F-Algebras and Recursion Schemes}
@@ -495,7 +654,6 @@ $f \circ in = \varphi \circ F\ f \equiv f = \llparenthesis \varphi \rrparenthesi
 $out \circ f = F\ f \circ \varphi \equiv f = \llbracket \varphi \rrbracket$ \\
 \end{tabular}
 \end{center}
-
 
 \subsection{Fixpoint and Free Structures}
 
@@ -557,7 +715,7 @@ histo (A:U) (F: functor_)
     CoBind a -> a
 \end{lstlisting}
 
-\subsection{Inductive Types}
+\subsection{Inductive and Coninductive Types}
 
 \begin{lstlisting}[mathescape=true]
 ind (A: U) (F: U -> U): U
@@ -571,8 +729,6 @@ ind (A: U) (F: U -> U): U
 inductive (F: U -> U) (A: U) (X: functor F): ind A F
   = (in_ F,out_ F,cata A F X,tt)
 \end{lstlisting}
-
-\subsection{Coinductive Types}
 
 \begin{lstlisting}[mathescape=true]
 coind (A: U) (F: U -> U): U
@@ -671,6 +827,18 @@ cat: U = (A: U) * (A -> A -> U)
 
 \subsection{Accessors}
 
+Due to the nature of minimalistic syntax for each algebraic structure
+should be defined the accessors for its projections to avoid long projection
+composition, e.g. 2.2.2.2.2.1.
+
+\begin{lstlisting}[mathescape=true]
+carrier (C: precategory): U = C.1.1
+hom     (C: precategory) (a b: carrier C): U = C.1.2 a b
+path    (C: precategory) (x: carrier C): hom C x x = C.2.1 x
+compose (C: precategory) (x y z: carrier C) (f: hom C x y)
+        (g: hom C y z): hom C x z = C.2.2.1 x y z f g
+\end{lstlisting}
+
 \subsection{Theorems}
 
 We define theorems section as predicate in a form of Sigma
@@ -691,20 +859,6 @@ isPrecategory (C: cat): U
               (c x y w f (c y z w g h))) * Unit
 
 category: U = (C: cat) * isPrecategory C
-\end{lstlisting}
-
-\subsection{Accessors}
-
-Due to the nature of minimalistic syntax for each algebraic structure
-should be defined the accessors for its projections to avoid long projection
-composition, e.g. 2.2.2.2.2.1.
-
-\begin{lstlisting}[mathescape=true]
-carrier (C: precategory): U = C.1.1
-hom     (C: precategory) (a b: carrier C): U = C.1.2 a b
-path    (C: precategory) (x: carrier C): hom C x x = C.2.1 x
-compose (C: precategory) (x y z: carrier C) (f: hom C x y)
-        (g: hom C y z): hom C x z = C.2.2.1 x y z f g
 \end{lstlisting}
 
 \subsection{Terminal and Initial Objects}
@@ -737,6 +891,40 @@ functor (A B: precategory): U
            (compose B (ob x) (ob y) (ob z) (mor x y f) (mor y z g))) * Unit
 \end{lstlisting}
 
+\newpage
+\section{Conclusion}
+
+\begin{table}[h]
+\centering
+\caption{Groupoid Infinity Base Library}
+\label{tab:a}
+\tabcolsep7pt
+\begin{tabular}{lcccccccc}
+\hline
+\thead{Module}&\thead{LOC}&\thead{Module}&\thead{LOC}&\thead{Module}&\thead{LOC}&\thead{Module}&\thead{LOC} \\
+\hline
+algrbra        & 360    & binnat         & 147 & bool\_theory   & 118    & cat            & 33  \\
+cat\_theory    & 1094   & circle         & 66  & collection     & 22     & control        & 71  \\
+csystem        & 508    & cwf            & 82  & dagand         & 54     & discor         & 43  \\
+equiv          & 60     & girard         & 51  & hedberg        & 28     & helix          & 242 \\
+int            & 38     & interval       & 31  & iso            & 68     & iso\_pi        & 39  \\
+iso\_prop      & 8      & iso\_sigma     & 57  & list           & 63     & list\_theory   & 26  \\
+maybe          & 19     & maybe\_nat     & 29  & maybe\_theory  & 47     & mltt           & 55  \\
+nat            & 65     & nat\_theory    & 123 & ordinal        & 67     & path           & 39  \\
+pi             & 15     & prop           & 48  & proto          & 20     & proto\_equiv   & 16  \\
+proto\_path    & 16     & pushuout       & 6   & quotient       & 31     & recursion      & 98  \\
+retract        & 10     & set            & 96  & sigma          & 36     & stream         & 10  \\
+stream\_theory & 125    & trunc          & 32  & univ           & 136    & vector         & 7   \\
+\hline
+\end{tabular}
+\end{table}
+
+\begin{figure}[h]
+  \centerline{\includegraphics[scale=0.36]{baselib}}
+  \caption{Base library and its dependencies used in article}
+\end{figure}
+
+\newpage
 \bibliographystyle{plain}
 \bibliography{types}
 
