@@ -866,13 +866,12 @@ category: U = (C: cat) * isPrecategory C
 Initiality and Terminality encoded directly from its definition.
 
 \begin{lstlisting}[mathescape=true]
-isInitial (C: precategory) (x: carrier C): U
-  = (y: carrier C) -> isContr (hom C x y)
-
+isInitial  (C: precategory) (x: carrier C): U
+         = (y: carrier C) -> isContr (hom C x y)
 isTerminal (C: precategory) (y: carrier C): U
-  = (x: carrier C) -> isContr (hom C x y)
+         = (x: carrier C) -> isContr (hom C x y)
 
-initialObject (C: precategory): U = (x:carrier C) * isInitial C x
+initialObject  (C: precategory): U = (x:carrier C) * isInitial  C x
 terminalObject (C: precategory): U = (y:carrier C) * isTerminal C y
 \end{lstlisting}
 
