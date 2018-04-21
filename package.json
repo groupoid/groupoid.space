@@ -15,6 +15,8 @@
   "license": "ISC",
   "preinstall": "npm i -g node-sass && npm i -g pug-cli",
   "dependencies": {
-    "pug": "^2.0.0-rc.4"
+    "npm": "^5.8.0",
+    "pug": "^2.0.0-rc.4",
+    "sass": "^1.2.1"
   }
 }

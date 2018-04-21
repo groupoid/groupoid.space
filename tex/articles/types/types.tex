@@ -56,7 +56,7 @@ articles, as for quotient sets, circle, sphere, h-pushout, truncations,
 iso, univalence, and other HoTT types.
 \\
 \\
-{\bf Keywords}: Formal Methods, Type Theory, Computer Languages,
+{\bf Keywords}: Formal Methods, Type Theory, Programming Languages,
           Theoretical Computer Science, Applied Mathematics,
           Cubical Type Theory, Martin-Löf Type Theory
 \end{abstract}
@@ -180,6 +180,8 @@ J        (A: U) (a: A) (C: (x: A) -> Path A a x -> U)
            where T (z: singl A a): U = C (z.1) (z.2)
 \end{lstlisting}
 
+You can build setoid \cite{Bishop67} definition using sym, refl and cong.
+
 \subsection{$\infty$-Groupoid and h-Types}
 
 The reasoning about higher equalties is made through explicit recursion.
@@ -215,23 +217,25 @@ isSet       (A: U): U = n_grpd A (S Z)
 isGroupoid  (A: U): U = n_grpd A (S (S Z))
 isGrp2      (A: U): U = n_grpd A (S (S (S Z)))
 isGrp3      (A: U): U = n_grpd A (S (S (S (S Z))))
+...
 isInfinityGroupoid (A: U): U = inf_grpd A
 \end{lstlisting}
 
 And finally the definitions as refined h-Types through its properties.
 
 \begin{lstlisting}[mathescape=true]
-PROP         : U = (X:U) * isProp X
-SET          : U = (X:U) * isSet X
-GROUPOID     : U = (X:U) * isGroupoid X
-INF_GROUPOID : U = (X:U) * isInfinityGroupoid X
+PROP         : U = (X:U) * isProp(X)
+SET          : U = (X:U) * isSet(X)
+GROUPOID     : U = (X:U) * isGroupoid(X)
+INF_GROUPOID : U = (X:U) * isInfinityGroupoid(X)
 \end{lstlisting}
 
 \subsection{Operational Semantics}
 
 By using such definition of MLTT we can commit the basic properties
 of dependent theory, computational rules. The proofs are trivial
-with {\bf refl} function. Here is full list of inference rules properties.
+with {\bf refl} function and could be found in {\bf mltt} module.
+Here is full list of inference rules properties.
 
 \begin{equation} (\\(x:A) \rightarrow f(x))(a) = f(a) \end{equation}
 \begin{equation} f = (\\(x:A) \rightarrow f(x)) \end{equation}
@@ -283,10 +287,10 @@ Proto module contains very basic common functions of id, composition and
 non-inductive cartesian non-dependent product.
 
 \begin{lstlisting}[mathescape=true]
-idfun (A: U) (a: A): A = a
-constfun (A B: U) (a: B): A -> B = \(_:A) -> a
-o (A B C: U) (f: B -> C) (g: A -> B): A -> C = \(x:A) -> f (g x)
-both (A B: U): U = (_:A) * B
+idfun      (A:U) (a:A): A = a
+constfun (A B:U) (a:B): A->B = \(_:A)->a
+o      (A B C:U) (f: B->C) (g: A->B): A->C = \(x:A)->f(g(x))
+both     (A B:U): U = (_:A) * B
 \end{lstlisting}
 
 \subsection{Empty and Unit}
@@ -303,7 +307,7 @@ efq        (A: U): Empty -> A = split {}
 neg        (A: U): U = A -> Empty
 dec        (A: U): U = either A (neg A)
 stable     (A: U): U = neg (neg A) -> A
-hedberg (A:U) (h: (a x:A) -> stable (Path A a x)) : isSet A
+hedberg    (A: U) (h: (a x:A) -> stable (Path A a x)): isSet(A)
 \end{lstlisting}
 
 \subsection{Either and Tuple}
@@ -351,9 +355,9 @@ data maybe (A: U) = nothing | just (a: A)
 data nat = zero | succ (n: nat)
 \end{lstlisting}
 
-Also we provide constructive proof that $Fix Maybe = Nat$.
+Also we provide constructive proof that $Fix(Maybe) = Nat$.
 
-\subsection{List}
+\subsection{List and Stream}
 
 List implemented as very simple data type but no simplier
 that needed to implement type checker. List data type is
@@ -380,7 +384,7 @@ length (A: U): list A -> nat
 list_eq (A: eq): list A.1 -> list A.1 -> bool
 \end{lstlisting}
 
-\subsection{Stream}
+\subsection*{Stream}
 
 Stream module provide model for infinity streams, IO, and other corecursive models,
 provide basic theorems about streams bisimulation (equality).
@@ -419,7 +423,7 @@ fz (n: nat): Fin (succ n)          = fzero
 fs (n: nat): Fin n -> Fin (succ n) = \(x: Fin n) -> fsucc x
 \end{lstlisting}
 
-\subsection{IO}
+\subsection{IO and Infinity IO}
 
 We extracted the pure function for the following IO free structure
 that encode the two functions for reading and printing string values in Church encoding.
@@ -434,7 +438,7 @@ data IO (A: U)
 main: U = replicateM 100 (>>= String () getLine putLine)
 \end{lstlisting}
 
-\subsection{IO Infinity}
+\subsection*{IO Infinity}
 
 The infinity IO sample is also provided by Om project \footnote{http://github.com/groupoid/om}
 ans demonstrate the cofree comonadic encoding of process running.
@@ -815,11 +819,11 @@ More formal, precategory $A$ consists of the following:
 (vi)  For each $a,b,c,d: A$ and $f: hom_A(a,b)$, $g: hom_A(b,c)$, $h: homA(c,d)$,
       we have $h \circ (g \circ f ) = (h \circ g) \circ f$.
 
-\subsection{Signature}
+\subsection{Signatures}
 
 We divide the carrier, morphisms as algebraic structure of category
-definition (in essense CT is an abstract algebra of functions) and laws (theorems)
-or categorical properies, defined as equalities on morphisms:
+definition (in essense CT is an abstract algebra of functions) and laws (theorems
+or categorical properies, defined as equalities on morphisms):
 
 \begin{lstlisting}[mathescape=true]
 cat: U = (A: U) * (A -> A -> U)
@@ -871,8 +875,8 @@ isInitial  (C: precategory) (x: carrier C): U
 isTerminal (C: precategory) (y: carrier C): U
          = (x: carrier C) -> isContr (hom C x y)
 
-initialObject  (C: precategory): U = (x:carrier C) * isInitial  C x
-terminalObject (C: precategory): U = (y:carrier C) * isTerminal C y
+initial  (C: precategory): U = (x:carrier C) * isInitial C x
+terminal (C: precategory): U = (y:carrier C) * isTerminal C y
 \end{lstlisting}
 
 \subsection{Functors}

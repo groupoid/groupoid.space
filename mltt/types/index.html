@@ -27,7 +27,7 @@ and a carrier <b>nat</b> having morphism <b>[zero:
 object of nat is called Natural Number Object and models
 Peano axiom set.</p><code>data nat = zero | succ (n: nat)
 </code><h2 id="maybe"><a name='maybe'><a href='maybe/'>Maybe</a></a></h2><p>Maybe has representing functor M<sub>A</sub>(X) = 1 + A.
-It used for wrapping values with optional nothing consdtructor.
+It used for wrapping values with optional nothing constructor.
 In ML-style languages this type is called Option (Miranda, ML).
 There is an <a href="https://raw.githubusercontent.com/groupoid/infinity/master/priv/maybenat.ctt">isomorphims</a>
 between <b>(fix maybe)</b> and <b>nat</b>.</p><code>data maybe (A: U) = nothing | just (x: A)
