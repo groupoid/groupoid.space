@@ -451,7 +451,7 @@ adjoint (C D: precategory) (F: catfunctor D C) (G: catfunctor C D) : U
   : isCategory (sipPrecategory X S)
 </code><p>see <a href="http://5ht.co/hott.pdf">HoTT</a>:
     9.8 The structure identity principle.
-</p></section><div class="om"><section><h1>Univalent Foundation</h1></section></div><section><h2 id="equiv"><a name="equiv"><a href='equiv/'>Equiv</a></a></h2><code>fiber   (A B: U) (f: A -> B) (y: B): U = (x: A) * Path B y (f x)
+</p></section><div class="om"><section><h1>Univalent Foundations</h1></section></div><section><h2 id="equiv"><a name="equiv"><a href='equiv/'>Equiv</a></a></h2><code>fiber   (A B: U) (f: A -> B) (y: B): U = (x: A) * Path B y (f x)
 isEquiv (A B: U) (f: A -> B): U = (y: B) -> isContr (fiber A B f y)
 equiv   (A B: U): U = (f: A -> B) * isEquiv A B f
 </code><h2 id="retract">Retract and Section</h2><code>section (A B:U) (f:A->B) (g:B->A): U = (b:B) -> Path B (f(g(b))) b
