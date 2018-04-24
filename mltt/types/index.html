@@ -107,12 +107,11 @@ isInfinityGroupoid (A: U): U = inf_grpd A</code><br><code>PROP         : U = (X:
 SET          : U = (X:U) * isSet X
 GROUPOID     : U = (X:U) * isGroupoid X
 INF_GROUPOID : U = (X:U) * isInfinityGroupoid X
-</code></section><div class="om"><section><h1>Run-Time Data Types</h1></section></div><section><p>Inductive Types represents polynomial functors
+</code></section><div class="om"><section><h1>Inductive Data Types</h1></section></div><section><p>Inductive Types represents polynomial functors
 equiped with recursor and indunction principle.
 Inductive types used for specification the
 evaluation protocol for particular computations.
-</p><h2 id="empty">Empty</h2><p>Well <b>empty</b> type is not a run-time really.
-It lacks both introduction rules and eliminators.
+</p><h2 id="empty">Empty</h2><p><b>empty</b> type lacks both introduction rules and eliminators.
 However it has recursor and induction.</p><code>data empty =</code><br><code>emptyRec (C: U): empty -> C = split {}
 emptyInd (C: empty -> U): (z: empty) -> C z = split {}
 </code><h2 id="unit">Unit</h2><code>data unit = star</code><br><code>unitRec (C: U) (x: C): unit -> C = split tt -> x
