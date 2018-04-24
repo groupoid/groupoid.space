@@ -93,9 +93,9 @@ We use Martin-Löf Type Theory as a subject and its extension with [0,1] interva
 {\bf Research results}. Research result is presented as source code repository that can be used by
 cubicaltt language and contains the minimal base library used in this article.
 These primitives form a valuable part of base library, so this article could be
-considered as an brief introduction to several modules: {\bf pi},
-{\bf sigma}, {\bf path}, {\bf prop}, {\bf set}, {\bf control}, {\bf iso},
-{\bf equiv}, {\bf cat}, {\bf algebra}, {\bf recursion}.
+considered as an brief introduction to several topics: {\bf MLTT}, {\bf Runtime Types},
+{\bf Control Structures},  {\bf Recursive Schemes},
+{\bf Abstract Algebra}, {\bf Category Theory}.
 But the library has even more modules, that
 exceed the scope of this article so you may refer to source code
 repository\footnote{http://github.com/groupoid/infinity}.
@@ -155,7 +155,8 @@ Types taxonomy shows us the core types categorized by a several axis:
 As Martin-Löf Type Theory is used as modeling language,
 the base library should include its definition and theorems.
 The {\bf mltt} module contains the theorems of operational semantics of
-dependent type theory and MLTT model.
+dependent type theory and MLTT model, while {\bf cwf} and {\bf csystem}
+modules contain its categorical semantics.
 
 \subsection{Pi and Sigma}
 
@@ -163,6 +164,7 @@ Pi and Sigma modules provide basic theorems about dependent products and sum.
 Here is tautology alias definitions for better syntax understanding.
 In run-time Sigma is being transformed into pair and lambda into functions.
 All type annotations and term dependence information are being erased.
+Basic Pi and Sigma definitions are given in {\bf pi} and {\bf sigma} modules.
 
 \begin{lstlisting}[mathescape=true]
 Pi     (A:U) (B:A->U): U = (x:A) -> B(x)
@@ -181,7 +183,8 @@ normalized term forms with means of identity) are both considered to be erased i
 For modeling propositional equality later in 1984 was introduced Equ type. \cite{Lof84}
 However unlike Pi and Sigma the eliminator J of Equ type is
 not derivable in MLTT \cite{Hofmann96, Mortberg17, HoTT}.
-Here we give the constructive J definition in CTT.
+Here we give the constructive J definition in CTT. Basic laws of Identity Type
+are given in {\bf proto\_path} module.
 
 \begin{lstlisting}[mathescape=true]
 Path     (A: U) (a b: A): U
@@ -251,6 +254,8 @@ GROUPOID     : U = (X:U) * isGroupoid(X)
 INF_GROUPOID : U = (X:U) * isInfinityGroupoid(X)
 \end{lstlisting}
 
+The groupoids are defined in {\bf path} module.
+
 \subsection{Operational Semantics}
 
 By using such definition of MLTT we can commit the basic properties
@@ -316,13 +321,15 @@ a more simplier and elegant way.
 
 \subsection{Proto}
 
-Proto module contains very basic common functions of id, composition and
-non-inductive cartesian non-dependent product.
+The {\bf proto} module contains very basic common functions of id, composition and
+synonims for intro and eliminators of Pi type, in dependent and non-dependent fasion.
+Th {\bf proto} contains almost all short cuts to internal language constructions,
+while {\bf pi} and {\bf sigma} modules contains only dependent versions.
 
 \begin{lstlisting}[mathescape=true]
-idfun      (A:U) (a:A): A = a
-constfun (A B:U) (a:B): A->B = \(_:A)->a
-o      (A B C:U) (f: B->C) (g: A->B): A->C = \(x:A)->f(g(x))
+idfun    (A:U) (a:A): A = a
+const  (A B:U) (a:B): A->B = \(_:A)->a
+o    (A B C:U) (f: B->C) (g: A->B): A->C = \(x:A)->f(g(x))
 \end{lstlisting}
 
 \subsection{Empty and Unit}
@@ -359,8 +366,8 @@ snd  (A B: U): tuple A B -> B
 
 \subsection{Bool}
 
-The basic hedberg theorem could be used to prove that bool is set.
-Bool is application data type it is rarely used inside run-time library
+The basic {\bf hedberg} theorem module could be used to prove that bool is set.
+The {\bf bool} module is rarely used inside run-time library
 however it is used is real world applications. Here we provide a proof
 that bool is set by providing the proof that for any booleans path
 between them is decidable.
@@ -368,26 +375,26 @@ between them is decidable.
 \begin{lstlisting}[mathescape=true]
 data bool = false | true
 
-neg_: bool -> bool
-    = split { false -> true ; true -> false }
-or_ :  bool -> bool -> bool
-    = split { false -> idfun bool ; true -> constfun bool bool true }
-and_: bool -> bool -> bool
-    = split { false -> constfun bool bool false ; true -> idfun bool }
+a1: U = bool -> bool
+a2: U = bool -> bool -> bool
 
-bool_case (A: U) (f t: A): bool -> A = split { false->f; true->t }
+neg_: a1 = split { false->true; true->false}
+or_ : a2 = split { false->idfun bool;true->const bool(bool)true }
+and_: a2 = split { false->const bool(bool)false;true->idfun bool }
+
+bool_case (A: U) (f t: A): bool->A = split { false->f; true->t }
 bool_dec: (b1 b2: bool) -> dec (Path bool b1 b2)
 bool_isSet: isSet bool = hedberg bool bool_dec
 \end{lstlisting}
 
 \subsection{Maybe and Nat}
 
-Maybe and Nat are very useful for monadic protocol handling
+The {\bf maybe} and {\bf nat} modules are very useful for monadic protocol handling
 and basic number processing. Nat data types is isomorphic
 to infinite GMP positive integers of Erlang virtual machine.
 Base library also include formal proof that fix maybe equals nat.
 Maybe and Nat types are used in list library for handling special cases
-for empty string.
+of empty string and its length.
 
 \begin{lstlisting}[mathescape=true]
 data maybe (A: U) = nothing | just (a: A)
@@ -398,8 +405,8 @@ Also we provide constructive proof that $Fix(Maybe) = Nat$.
 
 \subsection{List and Stream}
 
-List implemented as very simple data type but no simplier
-that needed to implement type checker. List data type is
+The {\bf list} module implemented as very simple data type but no simplier
+than needed to implement the type checker. List data type is
 used to model categorical semantics of dependent type theory
 as Categories with Famalies by Dybjer in {\bf cwf} module.
 At the rest list has pretty standard implementation.
@@ -423,7 +430,7 @@ length  (A: U): list A -> nat
 list_eq (A: eq): list A.1 -> list A.1 -> bool
 \end{lstlisting}
 
-Stream module provide model for infinity streams, IO, and other corecursive models,
+The {\bf stream} module provide model for infinity streams, IO, and other corecursive models,
 provide basic theorems about streams bisimulation (equality).
 
 \begin{lstlisting}[mathescape=true]
@@ -464,7 +471,7 @@ fs (n: nat): Fin n -> Fin (succ n) = \(x: Fin n) -> fsucc x
 
 We extracted the pure function for the following IO free structure
 that encode the two functions for reading and printing string values in Church encoding.
-The demonstarted program could be seen in Om project \footnote{http://github.com/groupoid/om}.
+The demonstarted program could be seen in Om project \footnote{https://github.com/groupoid/om/blob/master/priv/normal/Morte/recursive}.
 
 \begin{lstlisting}[mathescape=true]
 data IO (A: U)
@@ -475,7 +482,7 @@ data IO (A: U)
 main: U = replicateM 100 (>>= String () getLine putLine)
 \end{lstlisting}
 
-The infinity IO sample is also provided by Om project \footnote{http://github.com/groupoid/om}
+The infinity IO sample is also provided by Om project \footnote{https://github.com/groupoid/om/blob/master/priv/normal/Morte/corecursive}
 ans demonstrate the cofree comonadic encoding of process running.
 
 \begin{lstlisting}[mathescape=true]
@@ -503,14 +510,13 @@ corec()     -> ap('Morte':corecursive(),
                [copure(),cogetLine(),coputLine(),copure(),list([])]).
 \end{lstlisting}
 
-Extract the Erlang program from Abstract Syntax and run the program:
-
-\begin{lstlisting}[mathescape=true]
-
-> om_extract:extract("priv/normal/IOI"),  om:corec().
-> 1
-: 1
-\end{lstlisting}
+%Extract the Erlang program from Abstract Syntax and run the program:
+%
+%\begin{lstlisting}[mathescape=true]
+%> om_extract:extract("priv/normal/IOI"),  om:corec().
+%> 1
+%: 1
+%\end{lstlisting}
 
 \newpage
 \section{Control Structures}
@@ -520,6 +526,7 @@ Moisei Isaievich Sheinfinkel. It could be used as basis for computational
 foundation just like lambda caclulus. Later Connor McBride \cite{McBride08} evolved the SKI
 into Applicative type-class. It is known that SKI is just an Church encoded Applicative.
 Now Applicative type-class is a mandatory tool in any base library.
+All control structures are given in {\bf control} module.
 
 \begin{equation}
  S = apply : (x \rightarrow b \rightarrow c) \rightarrow (x \rightarrow b) \rightarrow (x \rightarrow c)
@@ -542,21 +549,21 @@ for modeling IO.
 Here is given all signatures supported in control base library, mainly functors and monads.
 
 \begin{lstlisting}[mathescape=true]
-pure                   A  -> F A
-extract              F A  ->   A
-extend         (F A -> B) -> F A -> F B
-apply          F (A -> B) -> F A -> F B
-fmap             (A -> B) -> F A -> F B
-unmap        (F A -> F B) ->  (A -> B)
-contra           (B -> A) -> F A -> F B
-uncontra     (F A -> F B) ->  (B -> A)
-cofmap           (B -> A) -> F B -> F A
-uncofmap     (F B -> F A) ->  (B -> A)
-cocontra         (A -> B) -> F B -> F A
-uncocontra   (F B -> F A) ->  (A -> B)
-join              F (F A) -> F A
-dup                  F A  -> F (F A)
-bind            F A ->(A  -> F B)-> F B
+pure_sig                   A  -> F A
+extract_sig              F A  ->   A
+extend_sig         (F A -> B) -> F A -> F B
+appl_sig           F (A -> B) -> F A -> F B
+fmap_sig             (A -> B) -> F A -> F B
+unmap_sig        (F A -> F B) ->  (A -> B)
+contra_sig           (B -> A) -> F A -> F B
+uncontra_sig     (F A -> F B) ->  (B -> A)
+cofmap_sig           (B -> A) -> F B -> F A
+uncofmap_sig     (F B -> F A) ->  (B -> A)
+cocontra_sig         (A -> B) -> F B -> F A
+uncocontra_sig   (F B -> F A) ->  (A -> B)
+join_sig              F (F A) -> F A
+dup_sig                  F A  -> F (F A)
+bind_sig            F A ->(A  -> F B)-> F B
 \end{lstlisting}
 
 The we build up a signatures of type clases build as sigma encoded contexts or telescopes.
@@ -591,10 +598,10 @@ As cubical syntax provide only .1 and .2 notion for projections it is good to ha
 named field accessors for all projections.
 
 \begin{lstlisting}[mathescape=true]
-fmap (a: functor_):     fmap_sig  a.1 = a.2
-pure (a: applicative_): pure_sig  a.1 = a.2.1
-amap (a: applicative_): fmap_sig  a.1 = a.2.2.1
-ap   (a: applicative_): apply_sig a.1 = a.2.2.2
+fmap (a: functor_):     fmap_sig a.1 = a.2
+pure (a: applicative_): pure_sig a.1 = a.2.1
+amap (a: applicative_): fmap_sig a.1 = a.2.2.1
+ap   (a: applicative_): appl_sig a.1 = a.2.2.2
 \end{lstlisting}
 
 \subsection{Theorems as Proof-carrying Code}

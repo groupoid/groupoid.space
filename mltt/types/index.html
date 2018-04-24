@@ -1,37 +1,134 @@
-<!DOCTYPE html><html><head><meta charset="utf-8"><meta http-equiv="x-ua-compatible" content="ie=edge"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="author" content="Maxim Sokhatsky"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:site" content="@5HT"><meta name="twitter:creator" content="@5HT"><meta name="twitter:image" content="https://groupoid.space/card2.png"><meta property="og:title" content="Groupoid Infinity"><meta property="og:image" content="https://groupoid.space/card2.png"><meta property="og:type" content="website"><meta property="fb:app_id" content="118554188236439"><meta property="og:url" content="https://groupoid.space"><meta property="og:description" content="MLTT Language with Extensions"><link rel="stylesheet" href="https://groupoid.space/main.css?v=7"><title>Types</title></head><body class="content"><header class="header"><a href="//groupoid.space/"><img class="header__logo" src="../../groupoid.svg"/></a><div class="header__titles"><h1 class="header__title">Infinity Types</h1><h4 class="header__subtitle">Inductive Base Library</h4></div></header><article class="main"><div class="om"><section><h1>Article</h1></section><aside>Andy Melnikov<br>Maxim Sokhatsky<br><time>DATE: 1 DEC 2017</time></aside><p>This library is dedicated to <b>cubical</b>-compatible
+<!DOCTYPE html><html><head><meta charset="utf-8"><meta http-equiv="x-ua-compatible" content="ie=edge"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="author" content="Maxim Sokhatsky"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:site" content="@5HT"><meta name="twitter:creator" content="@5HT"><meta name="twitter:image" content="https://groupoid.space/card2.png"><meta property="og:title" content="Groupoid Infinity"><meta property="og:image" content="https://groupoid.space/card2.png"><meta property="og:type" content="website"><meta property="fb:app_id" content="118554188236439"><meta property="og:url" content="https://groupoid.space"><meta property="og:description" content="MLTT Language with Extensions"><link rel="stylesheet" href="https://groupoid.space/main.css?v=7"><title>Types</title></head><body class="content"><header class="header"><a href="//groupoid.space/"><img class="header__logo" src="../../groupoid.svg"/></a><div class="header__titles"><h1 class="header__title">Infinity Types</h1><h4 class="header__subtitle">Inductive Base Library</h4></div></header><article class="main"><div class="om"><section><h1>Article</h1></section><aside>Maxim Sokhatsky<br><time>DATE: 20 APR 2018</time></aside><p>This library is dedicated to <b>cubical</b>-compatible
 typecheckers based on homotopy interval
 <b>[0,1]</b> and MLTT as a core. The base library is founded
-on top of 5 core modules: <b>proto</b> (composition, id, const),
+on top of 7 core modules: <b>proto</b> (composition, id, const),
 <b>path</b> (subst, trans, cong, refl, singl, sym),
-<b>propset</b> (isContr, isProp, isSet),
-<b>equiv</b> (fiber, eqiuv) and <b>iso</b> (lemIso, isoPath).
-This machinery is enough to prove univalence axiom.</p><p>(i) The library has rich recursion scheme primitives
-in lambek module, while very basic nat, list, stream
-functionality. (ii) The very basic theorems are given
-in pi, iso_pi, sigma, iso_sigma, retract modules.
+<b>prop</b>, <b>set</b>, <b>equiv</b> (fiber, eqiuv)
+and <b>iso</b> (lemIso, isoPath), <b>univ</b>.
+This machinery is enough to prove univalence axiom.</p><p>Also this library includes:
+(i) Foundation primitives: <b>proto</b>, <b>bool</b>, <b>maybe</b>,
+<b>nat</b>, <b>list</b>, <b>vector</b>, <b>stream</b>.
+(ii) The very basic theorems are given
+in <b>pi</b>, <b>iso_pi</b>, <b>sigma</b>, iso_sigma</b>, <b>retract</b> modules.
 (iii) The library has category theory theorems from
-HoTT book in cat, fun and category modules.
-(iv) The library also includes some impredicative
-categorical encoding sketches in coproduct_set.
-lambek also includes inductive semantics modeled
-with cata/ana recursion and fixpoint adjoints in/out.</p><p>This library is best to read with HoTT book.</p></div><div class="types"><h2>Base Library Modules</h2><div class="type"><ol class="type__col"><h3>NR ND +</h3><li><a href="#unit">UNIT</a></li><li><a href="#bool">BOOL</a></li><li><a href="#maybe">MAYBE</a></li><li><a href="#either">EITHER</a></li></ol><ol class="type__col"><h3>R ND +</h3><li><a href="#nat">NAT</a></li><li><a href="#list">LIST</a></li></ol><ol class="type__col"><h3>NR D +</h3><li><a href="#path">PATH</a></li><li><a href="#proto">PROTO</a></li><li><a href="#iso">ISO</a></li><li><a href="#equiv">EQUIV</a></li></ol><ol class="type__col"><h3>RD +</h3><li><a href="#vector">VECTOR</a></li></ol><ol class="type__col"><h3>NR ND *</h3><li><a href="#pure">PURE</a></li><li><a href="#functor">FUNCTOR</a></li><li><a href="#applicative">APPLICATIVE</a></li><li><a href="#monad">MONAD</a></li></ol><ol class="type__col"><h3>R ND *</h3><li><a href="#stream">STREAM</a></li></ol><ol class="type__col"><h3>NR D *</h3><li><a href="#sigma">SIGMA</a></li><li><a href="#setoid">SETOID</a></li></ol><ol class="type__col"><h3>RD *</h3><li><a href="#cat">CAT</a></li><li><a href="#propset">PROPSET</a></li><li><a href="#groupoid">GROUPOID</a></li></ol></div><div class="legend"><ul class="legend__col"><li>N: Not a</li></ul><ul class="legend__col"><li>R: Recursive</li></ul><ul class="legend__col"><li>D: Dependent</li></ul><ul class="legend__col"><li>+: Coproducts</li></ul><ul class="legend__col"><li>*: Products</li></ul></div></div><div class="om"><section><h1>Coproducts</h1></section></div><section><p>Inductive types are the dependent version of generalized
-algebraic data types used in ML. With inductive and
-coinductive types you can model polynomial higher order
-functors that define generic trees and their constructors.
-</p><h2 id="unit">Unit</h2><code>data unit = star
+HoTT book in <b>cat</b>, <b>fun</b>, <b>adj</b>, <b>cones</b>, <b>sip</b> modules.
+(iv) Control Structures in <b>control</b> module.
+(v) Recursive Schemes in <b>recursion</b> module.
+(vi) Abstract Algebra in <b>algebra</b> module.</p><p>This library is best to read with HoTT book.</p></div><div class="types"><h2>Base Library Modules</h2><div class="type"><ol class="type__col"><h3>NR ND +</h3><li><a href="#unit">UNIT</a></li><li><a href="#bool">BOOL</a></li><li><a href="#maybe">MAYBE</a></li><li><a href="#either">EITHER</a></li></ol><ol class="type__col"><h3>R ND +</h3><li><a href="#nat">NAT</a></li><li><a href="#list">LIST</a></li></ol><ol class="type__col"><h3>NR D +</h3><li><a href="#path">PATH</a></li><li><a href="#proto">PROTO</a></li><li><a href="#iso">ISO</a></li><li><a href="#equiv">EQUIV</a></li></ol><ol class="type__col"><h3>RD +</h3><li><a href="#vector">VECTOR</a></li></ol><ol class="type__col"><h3>NR ND *</h3><li><a href="#pure">PURE</a></li><li><a href="#functor">FUNCTOR</a></li><li><a href="#applicative">APPLICATIVE</a></li><li><a href="#monad">MONAD</a></li></ol><ol class="type__col"><h3>R ND *</h3><li><a href="#stream">STREAM</a></li></ol><ol class="type__col"><h3>NR D *</h3><li><a href="#sigma">SIGMA</a></li><li><a href="#setoid">SETOID</a></li></ol><ol class="type__col"><h3>RD *</h3><li><a href="#cat">CAT</a></li><li><a href="#propset">PROPSET</a></li><li><a href="#groupoid">GROUPOID</a></li></ol></div><div class="legend"><ul class="legend__col"><li>N: Not a</li></ul><ul class="legend__col"><li>R: Recursive</li></ul><ul class="legend__col"><li>D: Dependent</li></ul><ul class="legend__col"><li>+: Coproducts</li></ul><ul class="legend__col"><li>*: Products</li></ul></div></div><div class="om"><section><h1>Martin-Löf Type Theory</h1></section></div><section><p>Martin-Löf Type Theory consist of Pi, Sigma and Equ types.
+</p><h2 id="pi"><a name='pi'><a href='pi/'>Pi</a></a></h2><p>Pi is a dependent version of a function <b>f: A -> B</b>.</p><code>Pi (A: U) (P: A -> U): U</code><br><code>id          (A: U): U = A -> A
+idfun       (A: U) (a: A): A = a
+const     (A B: U): U = A
+lam         (A: U) (B: A -> U) (x: A) (b: B(x)): A -> B(x) = \(x: A) -> b
+app         (A: U) (B: A -> U) (x: A) (f: A -> B(x)): B(x) = f(x)
+lambda    (A B: U) (b: B): A -> B = \(_:A) -> b
+apply     (A B: U) (f: A -> B) (x: A): B = f(x)
+funcomp (F G: U -> U) (t: U): U = F (G t)
+ot      (A B C: U): U = (B -> C) -> (A -> B) -> (A -> C)
+o       (A B C: U) (f: B->C) (g: A->B): A -> C = \(x:A) -> f(g(x))</code><br><code>piExt  (A: U) (B: A -> U)
+       (f g: (x:A) -> B x)
+       (p: (x:A) -> Path (B x) (f x) (g x))
+     : Path ((y:A) -> B y) f g
+     = &lt;i&gt; \(a: A) -> (p a) @ i
+
+funExt (A B: U) (f g: A -> B)
+       (p: (x:A) -> Path B (f x) (g x))
+     : Path (A -> B) f g
+     = &lt;i&gt; \(a: A) -> p a @ i
+</code><h2 id="sigma"><a name='sigma'><a href='sigma/'>Sigma</a></a></h2><p>Sigma is a generalization or dependent version of Prod.</p><code>Sigma (A: U) (B: A -> U): U</code><br><code>make (A: U) (B: A -> U) (a: A) (b: B a): Sigma A B
+pr1 (A: U) (B: A -> U) (x: Sigma A B): A
+pr2 (A: U) (B: A -> U) (x: Sigma A B): B (pr1 A B x)</code><br><code>sigRec (A: U) (B: A -> U) (C: U)
+       (g: (x:A) -> B(x) -> C)
+       (p: Sigma A B): C = g p.1 p.2
+
+sigInd (A: U) (B: A -> U) (C: Sigma A B -> U)
+       (g: (a:A)(b:B(a)) -> C (a,b))
+       (p: Sigma A B): C p = g p.1 p.2
+
+ac   (A B: U) (R: A -> B -> U):
+     (p: (x:A)->(y:B)*(R x y)) -> (f:A->B)*((x:A)->R(x)(f x))
+  = \(g: (x:A)->(y:B)*(R x y)) -> (\(i:A)->(g i).1,\(j:A)->(g j).2)
+
+</code><h2 id="path"><a name="path"><a href='path/'>Path</a></a></h2><code>Path (A: U) (a b: A): U</code><br><code>sym  (A: U) (a b: A) (p: Path A a b): Path A b a
+refl (A: U) (a: A) : Path A a a
+singl (A: U) (a: A) : U
+trans (A B: U) (p: Path U A B) (a: A) : B
+subst (A: U) (P: A -> U) (a b: A) (p: Path A a b) (e: P a): P b
+cong (A B: U) (f: A -> B) (a b: A) (p: Path A a b): Path B (f a) (f b)
+composition (A: U) (a b c: A) (p: Path A a b) (q: Path A b c): Path A a c
+kan (A: U) (a b c d: A) (p: Path A a b) (q: Path A a c) (r: Path A b d): Path A c d
+J (A: U) (a: A) (C: (x: A) -> Path A a x -> U)
+  (d: C a (refl A a)) (x: A) (p: Path A a x): C x p</code><br><code>data N = Z  | S (n: N)
+
+n_grpd (A: U) (n: N): U = (a b: A) -> ((rec A a b) n) where
+  rec (A: U) (a b: A): (k: N) -> U = split
+      Z -> Path A a b
+      S n -> n_grpd (Path A a b) n
+
+isContr     (A: U): U = (x: A) * ((y: A) -> Path A x y)
+isProp      (A: U): U = n_grpd A Z
+isSet       (A: U): U = n_grpd A (S Z)
+isGroupoid  (A: U): U = n_grpd A (S (S Z))
+isGrp2      (A: U): U = n_grpd A (S (S (S Z)))
+isGrp3      (A: U): U = n_grpd A (S (S (S (S Z))))</code><br><code>inf_grpd (A: U): U
+  = (carrier: A)
+  * (eq: (a b: A) -> Path A a b)
+  * ((a b: A) -> inf_grpd (Path A a b))
+
+isInfinityGroupoid (A: U): U = inf_grpd A</code><br><code>PROP         : U = (X:U) * isProp X
+SET          : U = (X:U) * isSet X
+GROUPOID     : U = (X:U) * isGroupoid X
+INF_GROUPOID : U = (X:U) * isInfinityGroupoid X
+</code></section><div class="om"><section><h1>Run-Time Data Types</h1></section></div><section><p>Inductive Types represents polynomial functors
+equiped with recursor and indunction principle.
+Inductive types used for specification the
+evaluation protocol for particular computations.
+</p><h2 id="empty">Empty</h2><code>data empty =</code><br><code>emptyRec (C: U): empty -> C = split {}
+emptyInd (C: empty -> U): (z: empty) -> C z = split {}
+</code><h2 id="unit">Unit</h2><code>data unit = star</code><br><code>unitRec (C: U) (x: C): unit -> C = split tt -> x
+unitInd (C: unit -> U) (x: C tt): (z: unit) -> C z = split tt -> x
 </code><h2 id="bool"><a name='bool'><a href='bool/'>Bool</a></a></h2><p><b>bool</b> is run-time version of the boolean logic you
-may use in your general purpose applications.</p><code>data bool = false | true
+may use in your general purpose applications.</p><code>data bool = false | true</code><br><code>b1: U = bool -> bool
+b2: U = bool -> bool -> bool</code><br><code>negation: b1 = split { false -> true ; true -> false }
+or: b2 = split { false -> idfun bool ; true -> lambda bool bool true }
+and: b2 = split { false -> lambda bool bool false ; true -> idfun bool }</code><br><code>boolEq: b2 = lambda bool (bool -> bool) negation
+boolRec (C: U) (f t: C): bool -> C = split { false -> f ; true -> t }
+boolInd (C: bool -> U) (f: A false) (t: A true): (n:bool) -> A n
+      = split { false -> f ; true -> t }
+</code><h2 id="either">Either</h2><p><b>either</b> is a representation for sum types or disjunction.</p><code>data either (A B: U) = left (x: A) | right (y: B)</code><br><code>eitherRec (A B C: U) (b: A -> C) (c: B -> C): either A B -> C
+        = split { inl x -> b(x) ; inr y -> c(y) }
+
+eitherInd (A B: U) (C: either A B -> U)
+          (x: (a: A) -> C (inl a))
+          (y: (b: B) -> C (inr b))
+        : (x: either A B) -> C x
+        = split { inl i -> x i ; inr j -> y j }
+</code><h2 id="tuple">Tuple</h2><p><b>tuple</b> is a representation for non-dependent
+product types or conjunction.</p><code>data tuple (A B: U) = pair (x: A) (y: B)
+prod (A B: U) (x: A) (y: B): (_: A) * B = (x,y)</code><br><code>tupleRec  (A B C: U) (c: (x:A) (y:B) -> C): (x: tuple A B) -> C
+        = split pair a b -> c a b
+tupleInd  (A B: U) (C: tuple A B -> U)
+          (c: (x:A)(y:B) -> C (pair x y))
+        : (x: tuple A B) -> C x
+        = split pair a b -> c a b
+</code><h2 id="maybe"><a name='maybe'><a href='maybe/'>Maybe</a></a></h2><p>Maybe has representing functor M<sub>A</sub>(X) = 1 + A.
+It used for wrapping values with optional nothing constructor.
+In ML-style languages this type is called Option (Miranda, ML).
+There is an <a href="https://raw.githubusercontent.com/groupoid/infinity/master/priv/maybe_nat.ctt">isomorphims</a>
+between <b>(fix maybe)</b> and <b>nat</b>.</p><code>data maybe (A: U) = nothing | just (x: A)</code><br><code>maybeElim (A B: U) (n: B) (j: A->B): maybe A->B
+        = split { nothing -> n; just a -> j a }
+
+maybeInd  (A: U) (P: maybe A -> U) (n: P nothing)
+          (j: (a: A) -> P (just a)): (a: maybe A) -> P a
+        = split { nothing -> n ; just x -> j x }
 </code><h2 id="nat"><a name='nat'><a href='nat/'>Nat</a></a></h2><p>Pointed Unary System is a category nat with the terminal object
 and a carrier <b>nat</b> having morphism <b>[zero:
 1<sub>nat</sub> → nat, succ: nat → nat]</b>. The initial
 object of nat is called Natural Number Object and models
-Peano axiom set.</p><code>data nat = zero | succ (n: nat)
-</code><h2 id="maybe"><a name='maybe'><a href='maybe/'>Maybe</a></a></h2><p>Maybe has representing functor M<sub>A</sub>(X) = 1 + A.
-It used for wrapping values with optional nothing constructor.
-In ML-style languages this type is called Option (Miranda, ML).
-There is an <a href="https://raw.githubusercontent.com/groupoid/infinity/master/priv/maybenat.ctt">isomorphims</a>
-between <b>(fix maybe)</b> and <b>nat</b>.</p><code>data maybe (A: U) = nothing | just (x: A)
-</code><h2 id="either"><a name='either'><a href='either/'>Either</a></a></h2><p><b>either</b> is a representation for sum types or disjunction.</p><code>data either (A B: U) = left (x: A) | right (y: B)
+Peano axiom set.</p><code>data nat = zero | succ (n: nat)</code><br><code>natEq: nat -> nat -> bool
+natCase (C:U) (a b: C): nat -> C
+natRec  (C:U) (z: C) (s: nat->C->C): (n:nat) -> C
+natElim (C:nat->U) (z: C zero) (s: (n:nat)->C(succ n)): (n:nat) -> C(n)
+natInd  (C:nat->U) (z: C zero) (s: (n:nat)->C(n)->C(succ n)): (n:nat) -> C(n)
 </code><h2 id="list"><a name='list'><a href='list/'>List</a></a></h2><p>The data type of <b>list</b> over a given set A can
 be represented as the initial algebra (&mu;&nbsp;L<sub>A</sub>,&nbsp;in)
 of the functor L<sub>A</sub>(X) = 1 + (A &times; X).
@@ -40,12 +137,23 @@ functions nil: 1 &rightarrow; List(A) and cons: A
 &times; List(A) &rightarrow; List(A) are defined
 by nil = in ◦ inl and cons = in ◦ inr, so
 in = <b>[nil,cons]</b>.
-</p><code>data list (A: U) = nil | cons (x:A) (xs: list A)
-
-len (A: U): list A -> integer
-++  (A: U): list A -> list A -> list A
-map  (A B: U): (A -> B) -> list A -> list B
-filter (A: U): (A -> bool) -> list A -> list A
+</p><code>data list (A: U) = nil | cons (x:A) (xs: list A)</code><br><code>null (A:U): list A −> bool
+head (A:U): list A −> maybe A
+tail (A:U): list A −> maybe (list A)
+nth (A:U): nat −> list A −> maybeA
+append (A: U): list A −> list A −> list A
+reverse (A: U): list A −> list A
+map (A B: U): (A −> B) −> list A −> list B
+zip (AB: U): list A −> list B −> list (tuple A B)
+foldr (AB: U): (A −> B −> B) −> B −> list A −> B
+foldl (AB: U): (B −> A −> B) −> B −> list A −> B
+switch (A: U): (Unit −> list A) −> bool −> list A
+filter (A: U): (A −> bool) −> list A −> list A
+length (A: U): list A −> nat
+listEq (A: eq): list A.1 −> list A.1 −> bool
+</code><h2 id="stream"><a name='stream'><a href='stream/'>Stream</a></a></h2><p><b>stream</b> is a record form of the list's
+<b>cons</b> constructor. It models the infinity
+list that has no terminal element.</p><code>data stream (A: U) = cons (x: A) (xs: stream A)
 </code><h2 id="vector"><a name='vector'><a href='vector/'>Vector</a></a></h2><p><b>vector</b> is the inductive defintion of limited length list.
 Through it depends on term <b>nat</b> it can be used on reasoning
 about single discrete dimention of the space, bringing very
@@ -55,79 +163,95 @@ correspondent number of roots inscribed in a circle on
 a complex surface. When vector is not dependent on nat
 its encoding should match with regular <b>list</b>.</p><code>data vector (A: U) (n: nat)
    = nil
-   | cons (x: A) (xs: vector A (pred n))</code></section><div class="om"><section><h1>Products</h1></section></div><section><p>When you need to inspect the addendums of inductive tree
-defintions you can name the agruments of the constructor,
-these arguments called elements of the tuple or fields
-of the record. In this chapter we will use <b>record</b>
-Inf syntax, we only show how <b>record</b>
-and <b>data</b> are equal in example of
-<b>unit</b> and <b>prod</b> which
-are primitive forms of coinductive constructions.
-</p><h2 id="prod"><a name='prod'><a href='prod/'>Prod</a></a></h2><p><b>prod</b> is a representation for non-dependent
-product types or conjunction.</p><code>data prod (A B: U) = mk (x: A) (y: B)
-prod (A B: U) (x: A) (y: B): (_: A) * B = (x,y)
-</code><h2 id="stream"><a name='stream'><a href='stream/'>Stream</a></a></h2><p><b>stream</b> is a record form of the list's
-<b>cons</b> constructor. It models the infinity
-list that has no terminal element.</p><code>data stream (A : U) = cons (x : A) (xs : stream A)
-</code><h2 id="functor"><a name='functor'><a href='functor/'>Functor</a></a></h2><p>Runtime functor.</p><code>functor_ (F: U -> U): U = (A B: U) -> (A -> B) -> F A -> F B</code><p>Functor carried with theorem fields.</p><code>functor (F: U -> U): U
-    = (fmap: (A B: U) -> (A -> B) -> F A -> F B)
-    * (id: (A: U) -> (x: F A) -> Path (F A) (fmap A A (idfun A) x) x)
-    * (compose: (A B C: U) (f: B -> C) (g: A -> B) (x: F A) ->
-      Path (F C) (fmap A C (o A B C f g) x)
-    * Unit
-</code><h2 id="pure"></h2><h2 id="applicative">Control</h2><code>data fix (F: U -> U) = Fix (point: F (fix F))
-data freeF   (F: U -> U) (A B: U)  = ReturnF (a: A) | BindF (f: F B)
-data cofreeF (F: U -> U) (A B: U)  = CoBindF (a: A)         (f: F B)
-data free    (F: U -> U) (A: U)    = Free    (_: fix (freeF     F A))
-data cofree  (F: U -> U) (A: U)    = CoFree  (_: fix (cofreeF   F A))
-
-pure (A: U) (F: U -> U): U
-    = (return: A -> F A)
-    * Unit
-
-applicative (F: U -> U): U
-    = (pure_: (A: U) -> pure A F)
-    * (functor_: functor F)
-    * (ap: (A B: U) -> F (A -> B) -> F A -> F B)
-    * Unit
-</code><h2 id="monad">Monad</h2><code>monad (F: U -> U): U
-    = (pure_: (A: U) -> pure A F)
-    * (functor_: functor F)
-    * (join: (A B: U) -> F (F A) -> F B)
-    * Unit
-
-comonad (F: U -> U): U
-    = (pure_: (A: U) -> pure A F)
-    * (functor_: functor F)
-    * (extract: (A: U) -> F A -> A)
-    * (duplicate: (A: U) -> F A -> F (F A))
-    * (extend: (A B: U) -> (F A -> B) -> F A -> F B)
-    * Unit
-</code></section><div class="om"><section><h1>Logic</h1></section></div><section><p>Basic Theories: Equality, Congruence, Categories, Setoid.</p><h2 id="sigma"><a name='sigma'><a href='sigma/'>Sigma</a></a></h2><p>Sigma is a generalization or dependent version of Prod.</p><code>Sigma (A: U) (B: A -> U): U
-
-make (A: U) (B: A -> U) (a: A) (b: B a): Sigma A B
-pr1 (A: U) (B: A -> U) (x: Sigma A B): A
-pr2 (A: U) (B: A -> U) (x: Sigma A B): B (pr1 A B x)
-</code><h2 id="pi"><a name='pi'><a href='pi/'>Pi</a></a></h2><p>Pi is a dependent version of a function <b>f: A -> B</b>.</p><code>Pi (A: U) (P: A -> U): U
-
-intro (A: U) (B: A -> U) (a: A) (b: B a): A -> B a
-app (A: U) (B: A -> U) (a: A) (f: A -> B a): B a
+   | cons (x: A) (xs: vector A (pred n))
 </code><h2 id="proto"><a name="proto"><a href='proto/'>Proto</a></a></h2><code>idfun (A: U) (a: A): A
-constfun (A B: U) (a: A) (b: B): A
+const (A B: U) (a: A) (b: B): A
 o (A B C: U) (f: B -> C) (g: A -> B): A -> C
-and (A B: U): U = (_: A) * B
-</code><h2 id="path"><a name="path"><a href='path/'>Path</a></a></h2><code>Path (A: U) (a b: A) : U
+prod (A B: U): U = (_: A) * B</code></section><div class="om"><section><h1>Control Structures</h1></section><h2 id="applicative">Fix, Mu, Nu</h2><code>data fix    (F: U -> U) = Fix (point: F (fix F))
+data mu     (F: U -> U) (A B: U)  = ReturnF (a: A) | BindF (f: F B)
+data nu     (F: U -> U) (A B: U)  = CoBindF (a: A)         (f: F B)
+data free   (F: U -> U) (A: U)    = Free    (_: fix (mu        F A))
+data cofree (F: U -> U) (A: U)    = CoFree  (_: fix (nu        F A))
+</code><h2 id="signature">Signatures</h2><code>pure_sig       (F:U->U):U=   (A: U) ->           A  -> F A
+extract_sig    (F:U->U):U=   (A: U) ->         F A  ->   A
+extend_sig     (F:U->U):U= (A B: U) ->   (F A -> B) -> F A -> F B
+appl_sig       (F:U->U):U= (A B: U) ->   F (A -> B) -> F A -> F B
+fmap_sig       (F:U->U):U= (A B: U) ->     (A -> B) -> F A -> F B
+unmap_sig      (F:U->U):U= (A B: U) -> (F A -> F B) ->  (A -> B)
+contra_sig     (F:U->U):U= (A B: U) ->     (B -> A) -> F A -> F B
+uncontra_sig   (F:U->U):U= (A B: U) -> (F A -> F B) ->  (B -> A)
+cofmap_sig     (F:U->U):U= (A B: U) ->     (B -> A) -> F B -> F A
+uncofmap_sig   (F:U->U):U= (A B: U) -> (F B -> F A) ->  (B -> A)
+cocontra_sig   (F:U->U):U= (A B: U) ->     (A -> B) -> F B -> F A
+uncocontra_sig (F:U->U):U= (A B: U) -> (F B -> F A) ->  (A -> B)
+join_sig       (F:U->U):U=   (A: U) ->      F (F A) -> F A
+dup_sig        (F:U->U):U=   (A: U) ->         F A  -> F (F A)
+bind_sig       (F:U->U):U= (A B: U) ->    F A ->(A  -> F B)-> F B
+</code><h2 id="signature">Carriers</h2><code>pure:        U = (F: U -> U) * pure_sig F
+functor:     U = (F: U -> U) * fmap_sig F
 
-sym  (A: U) (a b: A) (p: Path A a b): Path A b a
-refl (A: U) (a: A) : Path A a a
-singl (A: U) (a: A) : U
-trans (A B: U) (p: Path U A B) (a: A) : B
-subst (A: U) (P: A -> U) (a b: A) (p: Path A a b) (e: P a): P b
-mapOnPath (A B: U) (f: A -> B) (a b: A) (p: Path A a b): Path B (f a) (f b)
-composition (A: U) (a b c: A) (p: Path A a b) (q: Path A b c): Path A a c
-</code><h2 id="propset"><a name="propset"><a href='propset/'>Propset</a></a></h2><code>isContr (A: U): U = (x: A) * ((y: A) -> Path A x y)
-isProp  (A: U): U = n_grpd A Z
-isSet   (A: U): U = n_grpd A (S Z)
+applicative: U = (F: U -> U)
+               * (_: pure_sig F)
+               * (_: fmap_sig F)
+               *     appl_sig F
+
+monad:       U = (F: U -> U)
+               * (_: pure_sig F)
+               * (_: fmap_sig F)
+               * (_: appl_sig F)
+               *     bind_sig F
+</code><h2 id="functor">Functor</h2><code>isFunctor (F: functor): U
+  = (id: (A: U) -> (x: F.1 A) ->
+     Path (F.1 A) (fmap F A A (idfun A) x) x)
+  * (compose: (A B C: U) (f: B -> C) (g: A -> B) (x: F.1 A) ->
+              Path (F.1 C) (F.2 A C (o A B C f g) x)
+                   ((o (F.1 A) (F.1 B) (F.1 C)
+                       (F.2 B C f) (F.2 A B g)) x)) * unit
+</code><h2 id="applicative">Applicative</h2><code>isApplicative (F: applicative): U
+    = (id:  (A:U) -> (x: F.1 A) ->
+       Path (F.1 A) x (ap F A A (apure F (id A) (idfun A)) x))
+    * (hom: (A B:U)(f:A->B)(x: A) ->
+       Path (F.1 B) (apure F B (f x)) (ap F A B (apure F (A->B) f) (apure F A x)))
+    * (cmp: (A B C:U)(v: F.1(A->B))(u:F.1(B->C))(w:F.1 A) ->
+       Path (F.1 C) (ap F B C u (ap F A B v w))
+                    (ap F A C (ap F (A->B) (A->C) (ap F(B->C)((A->B)->(A->C))
+                    (apure F (ot A B C) (o A B C)) u) v) w))
+    * (xchg: (A B:U)(x:A)(u:F.1(A->B))(f:A->B) ->
+       Path (F.1 B) (ap F A B u ((apure F) A x))
+                    (ap F (A->B) B (apure F ((A->B)->B) (\(f:A->B)->f(x))) u)) * unit
+</code><h2 id="monad">Monad</h2><code>isMonad (F: monad): U
+    = (left_id:  (A B:U)(f:A->F.1 B)(x:A) ->
+                 Path (F.1 B) (bind F A B (mpure F A x) f) (f x))
+    * (right_id: (A:U) (m: F.1 A) ->
+                 Path (F.1 A) (bind F A A m (mpure F A)) m)
+    * (assoc: (A B C: U) (f: A -> F.1 B) (g: B -> F.1 C) (m: F.1 A) ->
+       Path (F.1 C) (bind F B C (bind F A B m f) g)
+                    (bind F A C m (\(x: A) -> bind F B C (f x) g))) * unit</code><br><code>FUNCTOR:     U = (f: functor)
+               * isFunctor f
+
+APPLICATIVE: U = (f: applicative)
+               * (_: isFunctor (f.1,f.2.2.1))
+               * isApplicative f
+
+MONAD:       U = (f: monad)
+               * (_: isFunctor (f.1,f.2.2.1))
+               * (_: isApplicative (f.1,f.2.1,f.2.2.1,f.2.2.2.1))
+               * isMonad f
+</code></div><div class="om"><section><h1>Logic</h1></section></div><section><h2 id="setoid">Setoid</h2><p>Setoid in essence is a type with an equality.
+Type theory has its own equality type, which could
+be treated as the simplest non-trivial dependent type,
+however the behavior of this kind of equality is
+defined with additional axioms, that may be optional
+in minimal type theory. The neat thing about Setoid
+is that categorical constructions on setoids give
+us equality on all (Co)inductive types, which is
+not dependent on properties of underlying type theory.
+</p><code>Setoid (A: U): U
+  = (Carrier: A)
+  * (Equ: (a b: A) -> Path A a b)
+  * (Refl: (x: A) -> Equ x x)
+  * (Trans: (x₁,x₂,x₃: A) -> Equ x₁ x₂ -> Equ x₂ x₃ -> Equ x₁ x₃)
+  * (Sym: (x₁,x₂: A) -> Equ x₁ x₂ -> Equ x₂ x₁)
 </code><h2 id="equiv"><a name="equiv"><a href='equiv/'>Equiv</a></a></h2><code>fiber   (A B: U) (f: A -> B) (y: B): U = (x: A) * Path B y (f x)
 isEquiv (A B: U) (f: A -> B): U = (y: B) -> isContr (fiber A B f y)
 equiv   (A B: U): U = (f: A -> B) * isEquiv A B f
@@ -150,29 +274,7 @@ isoToEquiv (A B: U) (f: A -> B) (g: B -> A)
 isoPath (A B: U) (f: A -> B) (g: B -> A)
       (s: (y: B) -> Path B (f (g y)) y)
       (t: (x: A) -> Path A (g (f x)) x): Path U A B
-</code><h2 id="cat"><a name="cat"><a href='cat/'>Cat</a></a></h2><code>isPrecategory (C: cat): U
-  = (id: (x: C.1) -> C.2 x x)
-  * (c: (x y z: C.1) -> C.2 x y -> C.2 y z -> C.2 x z)
-  * (homSet: (x y: C.1) -> isSet (C.2 x y))
-  * (left: (x y: C.1) -> (f: C.2 x y) -> Path (C.2 x y) (c x x y (id x) f) f)
-  * (right: (x y: C.1) -> (f: C.2 x y) -> Path (C.2 x y) (c x y y f (id y)) f)
-  * ( (x y z w: C.1) -> (f: C.2 x y) -> (g: C.2 y z) -> (h: C.2 z w) ->
-  Path (C.2 x w) (c x z w (c x y z f g) h) (c x y w f (c y z w g h)))
-</code><h2 id="setoid">Setoid</h2><p>Setoid in essence is a type with an equality.
-Type theory has its own equality type, which could
-be treated as the simplest non-trivial dependent type,
-however the behavior of this kind of equality is
-defined with additional axioms, that may be optional
-in minimal type theory. The neat thing about Setoid
-is that categorical constructions on setoids give
-us equality on all (Co)inductive types, which is
-not dependent on properties of underlying type theory.
-</p><code>Setoid (A: U): U
-  = (Carrier: A)
-  * (Equ: (a b: A) -> Path A a b)
-  * (Refl: (x: A) -> Equ x x)
-  * (Trans: (x₁,x₂,x₃: A) -> Equ x₁ x₂ -> Equ x₂ x₃ -> Equ x₁ x₃)
-  * (Sym: (x₁,x₂: A) -> Equ x₁ x₂ -> Equ x₂ x₁)
+
 </code><h2 id="groupoid">Groupoid</h2><p><b>Groupoid</b> is a multidimensional
 generalization of <b>Setoid</b> type,
 which has equalities on equalities and operations
@@ -190,4 +292,11 @@ gives us a concept of &infin;-Groupoid.
 </p><code>inf_grpd (A: U): U
   = (carrier: A)
   * (eq: (a b: A) -> Path A a b)
-  * ((a b: A) -> inf_grpd (Path A a b))</code></section></article><footer class="footer"><img class="footer__logo" src="https://longchenpa.guru/seal.png" width="50"><span class="footer__copy">2016&mdash;2017 &copy; <a href="//groupoid.space/team.html" style="color:white;">Groupoid Infinity</a></span></footer><script src="https://groupoid.space/bundle.js"></script><script src="https://groupoid.space/highlight.js"></script></body></html>
+  * ((a b: A) -> inf_grpd (Path A a b))</code></section><div class="om"><section><h1>Abstract Algebra</h1></section></div><section><h2 id="cat"><a name="monoid"><a href='monoid/'>Monoid</a></a></h2><code></code></section><div class="om"><section><h1>Category Theory</h1></section></div><section><h2 id="cat"><a name="cat"><a href='cat/'>Cat</a></a></h2><code>isPrecategory (C: cat): U
+  = (id: (x: C.1) -> C.2 x x)
+  * (c: (x y z: C.1) -> C.2 x y -> C.2 y z -> C.2 x z)
+  * (homSet: (x y: C.1) -> isSet (C.2 x y))
+  * (left: (x y: C.1) -> (f: C.2 x y) -> Path (C.2 x y) (c x x y (id x) f) f)
+  * (right: (x y: C.1) -> (f: C.2 x y) -> Path (C.2 x y) (c x y y f (id y)) f)
+  * ( (x y z w: C.1) -> (f: C.2 x y) -> (g: C.2 y z) -> (h: C.2 z w) ->
+  Path (C.2 x w) (c x z w (c x y z f g) h) (c x y w f (c y z w g h)))</code></section></article><footer class="footer"><img class="footer__logo" src="https://longchenpa.guru/seal.png" width="50"><span class="footer__copy">2016&mdash;2017 &copy; <a href="//groupoid.space/team.html" style="color:white;">Groupoid Infinity</a></span></footer><script src="https://groupoid.space/bundle.js"></script><script src="https://groupoid.space/highlight.js"></script></body></html>
