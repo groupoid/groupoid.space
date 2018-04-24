@@ -14,7 +14,8 @@ in <b>pi</b>, <b>iso_pi</b>, <b>sigma</b>, iso_sigma</b>, <b>retract</b> modules
 HoTT book in <b>cat</b>, <b>fun</b>, <b>adj</b>, <b>cones</b>, <b>sip</b> modules.
 (iv) Control Structures in <b>control</b> module.
 (v) Recursive Schemes in <b>recursion</b> module.
-(vi) Abstract Algebra in <b>algebra</b> module.</p><p>This library is best to read with <a href="http://5ht.co/hott.pdf">HoTT</a> book.</p></div><div class="types"><h2>Base Library Modules</h2><div class="type"><ol class="type__col"><h3>NR ND +</h3><li><a href="#unit">UNIT</a></li><li><a href="#bool">BOOL</a></li><li><a href="#maybe">MAYBE</a></li><li><a href="#either">EITHER</a></li></ol><ol class="type__col"><h3>R ND +</h3><li><a href="#nat">NAT</a></li><li><a href="#list">LIST</a></li></ol><ol class="type__col"><h3>NR D +</h3><li><a href="#path">PATH</a></li><li><a href="#proto">PROTO</a></li><li><a href="#iso">ISO</a></li><li><a href="#equiv">EQUIV</a></li></ol><ol class="type__col"><h3>RD +</h3><li><a href="#vector">VECTOR</a></li></ol><ol class="type__col"><h3>NR ND *</h3><li><a href="#pure">PURE</a></li><li><a href="#functor">FUNCTOR</a></li><li><a href="#applicative">APPLICATIVE</a></li><li><a href="#monad">MONAD</a></li></ol><ol class="type__col"><h3>R ND *</h3><li><a href="#stream">STREAM</a></li></ol><ol class="type__col"><h3>NR D *</h3><li><a href="#sigma">SIGMA</a></li><li><a href="#setoid">SETOID</a></li></ol><ol class="type__col"><h3>RD *</h3><li><a href="#cat">CAT</a></li><li><a href="#propset">PROPSET</a></li><li><a href="#groupoid">GROUPOID</a></li></ol></div><p>Types taxonomy shows us the core types categorized by a several axis:
+(vi) Abstract Algebra in <b>algebra</b> module.</p><p>This library is best to read with <a href="http://5ht.co/hott.pdf">HoTT</a> book.
+</p></div><div class="types"><h2>Homotopy Core</h2><div class="type"><ol class="type__col"><h3>PRIMITIVES</h3><li><a href="#Pi">PI</a></li><li><a href="#Sigma">SIGMA</a></li><li><a href="#Path">PATH</a></li><li><a href="#Compose">COMPOSE</a></li><li><a href="#Glue">GLUE</a></li></ol></div><br><p></p></div><div class="types"><h2>Types Taxonomy</h2><div class="type"><ol class="type__col"><h3>NR ND +</h3><li><a href="#unit">UNIT</a></li><li><a href="#bool">BOOL</a></li><li><a href="#maybe">MAYBE</a></li><li><a href="#either">EITHER</a></li></ol><ol class="type__col"><h3>R ND +</h3><li><a href="#nat">NAT</a></li><li><a href="#list">LIST</a></li></ol><ol class="type__col"><h3>NR D +</h3><li><a href="#path">PATH</a></li><li><a href="#proto">PROTO</a></li><li><a href="#iso">ISO</a></li><li><a href="#equiv">EQUIV</a></li></ol><ol class="type__col"><h3>RD +</h3><li><a href="#vector">VECTOR</a></li></ol><ol class="type__col"><h3>NR ND *</h3><li><a href="#pure">PURE</a></li><li><a href="#functor">FUNCTOR</a></li><li><a href="#applicative">APPLICATIVE</a></li><li><a href="#monad">MONAD</a></li></ol><ol class="type__col"><h3>R ND *</h3><li><a href="#stream">STREAM</a></li></ol><ol class="type__col"><h3>NR D *</h3><li><a href="#sigma">SIGMA</a></li><li><a href="#setoid">SETOID</a></li></ol><ol class="type__col"><h3>RD *</h3><li><a href="#cat">CAT</a></li><li><a href="#propset">PROPSET</a></li><li><a href="#groupoid">GROUPOID</a></li></ol></div><p>Types taxonomy shows us the core types categorized by a several axis:
 1) dependent (D) and non-dependent (ND) terms;
 2) recursive trees (R) or non-recursive (NR) data types;
 3) inductive (+) or coinductive (*) types.
@@ -117,15 +118,6 @@ emptyInd (C: empty -> U): (z: empty) -> C z = split {}
 </code><h2 id="unit">Unit</h2><code>data unit = star</code><br><code>unitRec (C: U) (x: C): unit -> C = split tt -> x
 unitInd (C: unit -> U) (x: C tt): (z: unit) -> C z = split tt -> x</code><p>see <a href="http://5ht.co/hott.pdf">HoTT</a>:
     2.8 The unit type
-</p><h2 id="bool"><a name='bool'><a href='bool/'>Bool</a></a></h2><p><b>bool</b> is run-time version of the boolean logic you
-may use in your general purpose applications.</p><code>data bool = false | true</code><br><code>b1: U = bool -> bool
-b2: U = bool -> bool -> bool</code><br><code>negation: b1 = split { false -> true ; true -> false }
-or:  b2 = split { false -> idfun bool ; true -> lambda bool bool true  }
-and: b2 = split { false -> lambda bool bool false ; true -> idfun bool }</code><br><code>boolEq: b2 = lambda bool (bool -> bool) negation
-boolRec (C: U) (f t: C): bool -> C = split { false -> f ; true -> t }
-boolInd (C: bool -> U) (f: A false) (t: A true): (n:bool) -> A n
-      = split { false -> f ; true -> t }</code><p>see <a href="http://5ht.co/hott.pdf">HoTT</a>:
-    1.8 The type of booleans
 </p><h2 id="either">Either</h2><p><b>either</b> is a representation for sum types or disjunction.</p><code>data either (A B: U) = left (x: A) | right (y: B)</code><br><code>eitherRec (A B C: U) (b: A -> C) (c: B -> C): either A B -> C
         = split { inl x -> b(x) ; inr y -> c(y) }
 
@@ -147,6 +139,16 @@ tupleInd  (A B: U) (C: tuple A B -> U)
         = split pair a b -> c a b
 </code><p>see <a href="http://5ht.co/hott.pdf">HoTT</a>:
     2.6 Cartesian product types.
+</p><h2 id="bool"><a name='bool'><a href='bool/'>Bool</a></a></h2><p><b>bool</b> is run-time version of the boolean logic you
+may use in your general purpose applications. <b>bool</b>
+is isomorphic to <b>1+1</b>: either unit unit.</p><code>data bool = false | true</code><br><code>b1: U = bool -> bool
+b2: U = bool -> bool -> bool</code><br><code>negation: b1 = split { false -> true ; true -> false }
+or:  b2 = split { false -> idfun bool ; true -> lambda bool bool true  }
+and: b2 = split { false -> lambda bool bool false ; true -> idfun bool }</code><br><code>boolEq: b2 = lambda bool (bool -> bool) negation
+boolRec (C: U) (f t: C): bool -> C = split { false -> f ; true -> t }
+boolInd (C: bool -> U) (f: A false) (t: A true): (n:bool) -> A n
+      = split { false -> f ; true -> t }</code><p>see <a href="http://5ht.co/hott.pdf">HoTT</a>:
+    1.8 The type of booleans
 </p><h2 id="maybe"><a name='maybe'><a href='maybe/'>Maybe</a></a></h2><p>Maybe has representing functor M<sub>A</sub>(X) = 1 + A.
 It used for wrapping values with optional nothing constructor.
 In ML-style languages this type is called Option (Miranda, ML).
@@ -194,17 +196,44 @@ listEq (A: eq): list A.1 −> list A.1 −> bool
 </code><h2 id="stream"><a name='stream'><a href='stream/'>Stream</a></a></h2><p><b>stream</b> is a record form of the list's
 <b>cons</b> constructor. It models the infinity
 list that has no terminal element.</p><code>data stream (A: U) = cons (x: A) (xs: stream A)
+</code><h2 id="fin"><a name='fin'><a href='fin/'>Fin</a></a></h2><p><b>fin</b> is the inductive defintion of set with finite elements.</p><code>data fin (n: nat)
+   = fzero | fsucc (_: fin (pred n))
+
+fz (n: nat): fin (succ n)          = fzero
+fs (n: nat): fin n -> fin (succ n) = \(x: fin n) -> fsucc x
 </code><h2 id="vector"><a name='vector'><a href='vector/'>Vector</a></a></h2><p><b>vector</b> is the inductive defintion of limited length list.</p><code>data vector (A: U) (n: nat)
    = nil | cons (_: A) (_: vector A (pred n))
-</code><h2 id="proto"><a name="proto"><a href='proto/'>Proto</a></a></h2><code>idfun (A: U) (a: A): A
-const (A B: U) (a: A) (b: B): A
-o (A B C: U) (f: B -> C) (g: A -> B): A -> C
-prod (A B: U): U = (_: A) * B</code></section><div class="om"><section><h1>Control Structures</h1></section><h2 id="applicative">Fix, Mu, Nu</h2><code>data fix    (F: U -> U) = Fix (point: F (fix F))
-data mu     (F: U -> U) (A B: U)  = Return (a: A) | Bind (f: F B)
-data nu     (F: U -> U) (A B: U)  = CoBind (a: A)        (f: F B)
-data free   (F: U -> U) (A: U)    = Free        (_: fix (mu F A))
-data cofree (F: U -> U) (A: U)    = CoFree      (_: fix (nu F A))
-</code><h2 id="signature">Signatures</h2><code>pure_sig       (F:U->U):U=   (A: U) ->           A  -> F A
+</code></section><div class="om"><section><h1>Abstract Algebra</h1></section></div><section><h2 id="cat"><a name="monoid"><a href='monoid/'>Monoid</a></a></h2><code>isAssociative (M: U) (op: M -> M -> M) : U
+
+hasIdentity (M : U) (op : M -> M -> M) (id : M) : U
+  = (_ : hasLeftIdentity M op id)
+  * (hasRightIdentity M op id)
+
+isMonoid (M: SET): U
+  = (op: M.1 -> M.1 -> M.1)
+  * (_: isAssociative M.1 op)
+  * (id: M.1)
+  * (hasIdentity M.1 op id)
+</code><h2 id="cat">Commutative Monoid</h2><code>isCommutative (M: U) (op: M -> M -> M): U
+  = (x y: M) -> Path M (op x y) (op y x)
+
+isCMonoid (M: SET): U
+  = (m: isMonoid M)
+  * (isCommutative M.1 m.1)
+</code><h2 id="cat">Group</h2><code>isGroup (G: SET): U
+  = (m: isMonoid G)
+  * (inv: G.1 -> G.1)
+  * (hasInverse G.1 m.1 m.2.2.1 inv)
+</code><h2 id="cat">Abelian Group</h2><code>isAbGroup (G: SET): U
+  = (g: isGroup G)
+  * (isCommutative G.1 g.1.1)
+</code><h2 id="cat">Instances</h2><code>monoid:  U = (X: SET) * isMonoid X
+cmonoid: U = (X: SET) * isCMonoid X
+group:   U = (X: SET) * isGroup X
+abgroup: U = (X: SET) * isAbGroup X
+ring:    U = (X: SET) * isRing X
+abring:  U = (X: SET) * isAbRing X
+</code></section><div class="om"><section><h1>Control Structures</h1></section><h2 id="signature">Signatures</h2><code>pure_sig       (F:U->U):U=   (A: U) ->           A  -> F A
 extract_sig    (F:U->U):U=   (A: U) ->         F A  ->   A
 extend_sig     (F:U->U):U= (A B: U) ->   (F A -> B) -> F A -> F B
 appl_sig       (F:U->U):U= (A B: U) ->   F (A -> B) -> F A -> F B
@@ -252,10 +281,8 @@ monad:       U = (F: U -> U)
        Path (F.1 B) (ap F A B u ((apure F) A x))
                     (ap F (A->B) B (apure F ((A->B)->B) (\(f:A->B)->f(x))) u)) * unit
 </code><h2 id="monad">Monad</h2><code>isMonad (F: monad): U
-    = (left_id:  (A B:U)(f:A->F.1 B)(x:A) ->
-                 Path (F.1 B) (bind F A B (mpure F A x) f) (f x))
-    * (right_id: (A:U) (m: F.1 A) ->
-                 Path (F.1 A) (bind F A A m (mpure F A)) m)
+    = (one: (A B:U) (f:A->F.1 B)(x:A) -> Path (F.1 B) (bind F A B (mpure F A x) f) (f x))
+    * (coone: (A:U) (m: F.1 A) -> Path (F.1 A) (bind F A A m (mpure F A)) m)
     * (assoc: (A B C: U) (f: A -> F.1 B) (g: B -> F.1 C) (m: F.1 A) ->
        Path (F.1 C) (bind F B C (bind F A B m f) g)
                     (bind F A C m (\(x: A) -> bind F B C (f x) g))) * unit</code><br><code>FUNCTOR:     U = (f: functor)
@@ -269,37 +296,12 @@ MONAD:       U = (f: monad)
                * (_: isFunctor (f.1,f.2.2.1))
                * (_: isApplicative (f.1,f.2.1,f.2.2.1,f.2.2.2.1))
                * isMonad f
-</code></div><div class="om"><section><h1>Abstract Algebra</h1></section></div><section><h2 id="cat"><a name="monoid"><a href='monoid/'>Monoid</a></a></h2><code>isAssociative (M: U) (op: M -> M -> M) : U
-
-hasIdentity (M : U) (op : M -> M -> M) (id : M) : U
-  = (_ : hasLeftIdentity M op id)
-  * (hasRightIdentity M op id)
-
-isMonoid (M: SET): U
-  = (op: M.1 -> M.1 -> M.1)
-  * (_: isAssociative M.1 op)
-  * (id: M.1)
-  * (hasIdentity M.1 op id)
-</code><h2 id="cat">Commutative Monoid</h2><code>isCommutative (M: U) (op: M -> M -> M): U
-  = (x y: M) -> Path M (op x y) (op y x)
-
-isCMonoid (M: SET): U
-  = (m: isMonoid M)
-  * (isCommutative M.1 m.1)
-</code><h2 id="cat">Group</h2><code>isGroup (G: SET): U
-  = (m: isMonoid G)
-  * (inv: G.1 -> G.1)
-  * (hasInverse G.1 m.1 m.2.2.1 inv)
-</code><h2 id="cat">Abelian Group</h2><code>isAbGroup (G: SET): U
-  = (g: isGroup G)
-  * (isCommutative G.1 g.1.1)
-</code><h2 id="cat">Instances</h2><code>monoid:  U = (X: SET) * isMonoid X
-cmonoid: U = (X: SET) * isCMonoid X
-group:   U = (X: SET) * isGroup X
-abgroup: U = (X: SET) * isAbGroup X
-ring:    U = (X: SET) * isRing X
-abring:  U = (X: SET) * isAbRing X
-</code></section><div class="om"><section><h1>Recursion Schemes</h1></section></div><section><h2 id="cat">Cata and Ana</h2><code>cata (A: U) (F: functor) (alg: F.1 A -> A) (f: fix F.1): A
+</code></div><div class="om"><section><h1>Recursion Schemes</h1></section></div><section><h2 id="applicative">Fix, Mu, Nu</h2><code>data fix    (F: U -> U) = Fix (point: F (fix F))
+data mu     (F: U -> U) (A B: U)  = Return (a: A) | Bind (f: F B)
+data nu     (F: U -> U) (A B: U)  = CoBind (a: A)        (f: F B)
+data free   (F: U -> U) (A: U)    = Free        (_: fix (mu F A))
+data cofree (F: U -> U) (A: U)    = CoFree      (_: fix (nu F A))
+</code><h2 id="cat">Cata and Ana</h2><code>cata (A: U) (F: functor) (alg: F.1 A -> A) (f: fix F.1): A
    = alg (F.2 (fix F.1) A (cata A F alg) (out_ F.1 f))</code><br><code>ana  (A: U) (F: functor) (coalg: A -> F.1 A) (a: A): fix F.1
    = Fix (F.2 A (fix F.1) (ana A F coalg) (coalg a))
                 cat: U = (A: U) * (A -> A -> U)

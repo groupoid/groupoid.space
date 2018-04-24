@@ -33,8 +33,24 @@ block content
                 (vi) Abstract Algebra in <b>algebra</b> module.
             p.
                 This library is best to read with <a href="http://5ht.co/hott.pdf">HoTT</a> book.
+
         .types
-            h2 Base Library Modules
+            h2 Homotopy Core
+            -
+                var core = {
+                    'Primitives': [ 'Pi', 'Sigma', 'Path', 'Compose', 'Glue' ],
+                }
+
+            .type
+                for v, k in core
+                    ol.type__col
+                        h3= k.toUpperCase()
+                        for i in v
+                            li: a(href='#'+i)= i.toUpperCase()
+            br.
+            p.
+        .types
+            h2 Types Taxonomy
             -
                     var types = {
                         'nr nd +': [ 'unit', 'bool', 'maybe', 'either' ],
@@ -253,31 +269,6 @@ block content
                 see <a href="http://5ht.co/hott.pdf">HoTT</a>:
                     2.8 The unit type
 
-            h2#bool <a name='bool'><a href='bool/'>Bool</a></a>
-            p.
-                <b>bool</b> is run-time version of the boolean logic you
-                may use in your general purpose applications.
-            code.
-                data bool = false | true
-            br.
-            code.
-                b1: U = bool -> bool
-                b2: U = bool -> bool -> bool
-            br.
-            code.
-                negation: b1 = split { false -> true ; true -> false }
-                or:  b2 = split { false -> idfun bool ; true -> lambda bool bool true  }
-                and: b2 = split { false -> lambda bool bool false ; true -> idfun bool }
-            br.
-            code.
-                boolEq: b2 = lambda bool (bool -> bool) negation
-                boolRec (C: U) (f t: C): bool -> C = split { false -> f ; true -> t }
-                boolInd (C: bool -> U) (f: A false) (t: A true): (n:bool) -> A n
-                      = split { false -> f ; true -> t }
-            p.
-                see <a href="http://5ht.co/hott.pdf">HoTT</a>:
-                    1.8 The type of booleans
-
             h2#either Either
             p.
                 <b>either</b> is a representation for sum types or disjunction.
@@ -318,6 +309,32 @@ block content
             p.
                 see <a href="http://5ht.co/hott.pdf">HoTT</a>:
                     2.6 Cartesian product types.
+
+            h2#bool <a name='bool'><a href='bool/'>Bool</a></a>
+            p.
+                <b>bool</b> is run-time version of the boolean logic you
+                may use in your general purpose applications. <b>bool</b>
+                is isomorphic to <b>1+1</b>: either unit unit.
+            code.
+                data bool = false | true
+            br.
+            code.
+                b1: U = bool -> bool
+                b2: U = bool -> bool -> bool
+            br.
+            code.
+                negation: b1 = split { false -> true ; true -> false }
+                or:  b2 = split { false -> idfun bool ; true -> lambda bool bool true  }
+                and: b2 = split { false -> lambda bool bool false ; true -> idfun bool }
+            br.
+            code.
+                boolEq: b2 = lambda bool (bool -> bool) negation
+                boolRec (C: U) (f t: C): bool -> C = split { false -> f ; true -> t }
+                boolInd (C: bool -> U) (f: A false) (t: A true): (n:bool) -> A n
+                      = split { false -> f ; true -> t }
+            p.
+                see <a href="http://5ht.co/hott.pdf">HoTT</a>:
+                    1.8 The type of booleans
 
             h2#maybe <a name='maybe'><a href='maybe/'>Maybe</a></a>
             p.
@@ -397,6 +414,16 @@ block content
             code.
                 data stream (A: U) = cons (x: A) (xs: stream A)
 
+            h2#fin <a name='fin'><a href='fin/'>Fin</a></a>
+            p.
+                <b>fin</b> is the inductive defintion of set with finite elements.
+            code.
+                data fin (n: nat)
+                   = fzero | fsucc (_: fin (pred n))
+
+                fz (n: nat): fin (succ n)          = fzero
+                fs (n: nat): fin n -> fin (succ n) = \(x: fin n) -> fsucc x
+
             h2#vector <a name='vector'><a href='vector/'>Vector</a></a>
             p.
                 <b>vector</b> is the inductive defintion of limited length list.
@@ -404,23 +431,60 @@ block content
                 data vector (A: U) (n: nat)
                    = nil | cons (_: A) (_: vector A (pred n))
 
-            h2#proto <a name="proto"><a href='proto/'>Proto</a></a>
+        .om
+            section
+                h1 Abstract Algebra
+        section
+
+            h2#cat <a name="monoid"><a href='monoid/'>Monoid</a></a>
             code.
-                idfun (A: U) (a: A): A
-                const (A B: U) (a: A) (b: B): A
-                o (A B C: U) (f: B -> C) (g: A -> B): A -> C
-                prod (A B: U): U = (_: A) * B
+                isAssociative (M: U) (op: M -> M -> M) : U
+
+                hasIdentity (M : U) (op : M -> M -> M) (id : M) : U
+                  = (_ : hasLeftIdentity M op id)
+                  * (hasRightIdentity M op id)
+
+                isMonoid (M: SET): U
+                  = (op: M.1 -> M.1 -> M.1)
+                  * (_: isAssociative M.1 op)
+                  * (id: M.1)
+                  * (hasIdentity M.1 op id)
+
+            h2#cat Commutative Monoid
+            code.
+                isCommutative (M: U) (op: M -> M -> M): U
+                  = (x y: M) -> Path M (op x y) (op y x)
+
+                isCMonoid (M: SET): U
+                  = (m: isMonoid M)
+                  * (isCommutative M.1 m.1)
+
+            h2#cat Group
+            code.
+                isGroup (G: SET): U
+                  = (m: isMonoid G)
+                  * (inv: G.1 -> G.1)
+                  * (hasInverse G.1 m.1 m.2.2.1 inv)
+
+            h2#cat Abelian Group
+            code.
+                isAbGroup (G: SET): U
+                  = (g: isGroup G)
+                  * (isCommutative G.1 g.1.1)
+
+            h2#cat Instances
+            code.
+                monoid:  U = (X: SET) * isMonoid X
+                cmonoid: U = (X: SET) * isCMonoid X
+                group:   U = (X: SET) * isGroup X
+                abgroup: U = (X: SET) * isAbGroup X
+                ring:    U = (X: SET) * isRing X
+                abring:  U = (X: SET) * isAbRing X
+
         .om
             section
                 h1 Control Structures
 
-            h2#applicative Fix, Mu, Nu
-            code.
-                data fix    (F: U -> U) = Fix (point: F (fix F))
-                data mu     (F: U -> U) (A B: U)  = Return (a: A) | Bind (f: F B)
-                data nu     (F: U -> U) (A B: U)  = CoBind (a: A)        (f: F B)
-                data free   (F: U -> U) (A: U)    = Free        (_: fix (mu F A))
-                data cofree (F: U -> U) (A: U)    = CoFree      (_: fix (nu F A))
 
             h2#signature Signatures
             code.
@@ -485,10 +549,8 @@ block content
             h2#monad Monad
             code.
                 isMonad (F: monad): U
-                    = (left_id:  (A B:U)(f:A->F.1 B)(x:A) ->
-                                 Path (F.1 B) (bind F A B (mpure F A x) f) (f x))
-                    * (right_id: (A:U) (m: F.1 A) ->
-                                 Path (F.1 A) (bind F A A m (mpure F A)) m)
+                    = (one: (A B:U) (f:A->F.1 B)(x:A) -> Path (F.1 B) (bind F A B (mpure F A x) f) (f x))
+                    * (coone: (A:U) (m: F.1 A) -> Path (F.1 A) (bind F A A m (mpure F A)) m)
                     * (assoc: (A B C: U) (f: A -> F.1 B) (g: B -> F.1 C) (m: F.1 A) ->
                        Path (F.1 C) (bind F B C (bind F A B m f) g)
                                     (bind F A C m (\(x: A) -> bind F B C (f x) g))) * unit
@@ -508,58 +570,16 @@ block content
 
         .om
             section
-                h1 Abstract Algebra
-        section
-
-            h2#cat <a name="monoid"><a href='monoid/'>Monoid</a></a>
-            code.
-                isAssociative (M: U) (op: M -> M -> M) : U
-
-                hasIdentity (M : U) (op : M -> M -> M) (id : M) : U
-                  = (_ : hasLeftIdentity M op id)
-                  * (hasRightIdentity M op id)
-
-                isMonoid (M: SET): U
-                  = (op: M.1 -> M.1 -> M.1)
-                  * (_: isAssociative M.1 op)
-                  * (id: M.1)
-                  * (hasIdentity M.1 op id)
-
-            h2#cat Commutative Monoid
-            code.
-                isCommutative (M: U) (op: M -> M -> M): U
-                  = (x y: M) -> Path M (op x y) (op y x)
-
-                isCMonoid (M: SET): U
-                  = (m: isMonoid M)
-                  * (isCommutative M.1 m.1)
-
-            h2#cat Group
-            code.
-                isGroup (G: SET): U
-                  = (m: isMonoid G)
-                  * (inv: G.1 -> G.1)
-                  * (hasInverse G.1 m.1 m.2.2.1 inv)
-
-            h2#cat Abelian Group
-            code.
-                isAbGroup (G: SET): U
-                  = (g: isGroup G)
-                  * (isCommutative G.1 g.1.1)
-
-            h2#cat Instances
-            code.
-                monoid:  U = (X: SET) * isMonoid X
-                cmonoid: U = (X: SET) * isCMonoid X
-                group:   U = (X: SET) * isGroup X
-                abgroup: U = (X: SET) * isAbGroup X
-                ring:    U = (X: SET) * isRing X
-                abring:  U = (X: SET) * isAbRing X
-
-        .om
-            section
                 h1 Recursion Schemes
         section
+
+            h2#applicative Fix, Mu, Nu
+            code.
+                data fix    (F: U -> U) = Fix (point: F (fix F))
+                data mu     (F: U -> U) (A B: U)  = Return (a: A) | Bind (f: F B)
+                data nu     (F: U -> U) (A B: U)  = CoBind (a: A)        (f: F B)
+                data free   (F: U -> U) (A: U)    = Free        (_: fix (mu F A))
+                data cofree (F: U -> U) (A: U)    = CoFree      (_: fix (nu F A))
 
             h2#cat Cata and Ana
             code.
