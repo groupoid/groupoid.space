@@ -608,6 +608,7 @@ block content
                                         (\(x: fix (mu F.1 A)) -> w (Free x)) g)
                   unpack_fix: fix (mu F.1 A) -> fix F.1 = split
                     Fix x -> unpack_free x
+            br.
             code.
                 histo (A:U) (F: functor)
                       (f: F.1 (cofree F.1 A) -> A) (z: fix F.1): A
@@ -620,6 +621,7 @@ block content
                     Fix f -> unpack_cofree f where
                   unpack_cofree: nu F.1 A (fix (nu F.1 A)) -> A = split
                     CoBind a -> a
+            br.
             code.
                 chrono (A B: U) (F: functor)
                        (f: F.1 (cofree F.1 B) -> B)
@@ -792,7 +794,7 @@ block content
                   * ((x y z : carrier X) (a: P x) (b: P y) (c: P z)
                      (f: hom X x y) (g: hom X y z) -> H x y a b f ->
                      H y z b c g -> H x z a c (compose X x y z f g))
-
+            br.
             code.
                 isStandardStructure (X: precategory) (S: structure X): U
                   = (x: carrier X) -> (a b: sP X S x) -> sH X S x x a b (path X x) ->

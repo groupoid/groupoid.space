@@ -314,7 +314,7 @@ data cofree (F: U -> U) (A: U)    = CoFree      (_: fix (nu F A))
     Bind g -> Fix (F.2 (fix (mu F.1 A)) (fix F.1)
                         (\(x: fix (mu F.1 A)) -> w (Free x)) g)
   unpack_fix: fix (mu F.1 A) -> fix F.1 = split
-    Fix x -> unpack_free x</code><code>histo (A:U) (F: functor)
+    Fix x -> unpack_free x</code><br><code>histo (A:U) (F: functor)
       (f: F.1 (cofree F.1 A) -> A) (z: fix F.1): A
   = extract A ((cata (cofree F.1 A) F (\(x: F.1 (cofree F.1 A)) ->
     CoFree (Fix (CoBind (f x) ((F.2 (cofree F.1 A)
@@ -324,7 +324,7 @@ data cofree (F: U -> U) (A: U)    = CoFree      (_: fix (nu F A))
   unpack_fix: fix (nu F.1 A) -> A = split
     Fix f -> unpack_cofree f where
   unpack_cofree: nu F.1 A (fix (nu F.1 A)) -> A = split
-    CoBind a -> a</code><code>chrono (A B: U) (F: functor)
+    CoBind a -> a</code><br><code>chrono (A B: U) (F: functor)
        (f: F.1 (cofree F.1 B) -> B)
        (g: A -> F.1 (free F.1 A))
        (a: A): B = histo B F f (futu A F g a)
@@ -442,8 +442,7 @@ adjoint (C D: precategory) (F: catfunctor D C) (G: catfunctor C D) : U
   * (Hid: (x: carrier X) (a: P x) -> H x x a a (path X x))
   * ((x y z : carrier X) (a: P x) (b: P y) (c: P z)
      (f: hom X x y) (g: hom X y z) -> H x y a b f ->
-     H y z b c g -> H x z a c (compose X x y z f g))
-</code><code>isStandardStructure (X: precategory) (S: structure X): U
+     H y z b c g -> H x z a c (compose X x y z f g))</code><br><code>isStandardStructure (X: precategory) (S: structure X): U
   = (x: carrier X) -> (a b: sP X S x) -> sH X S x x a b (path X x) ->
     sH X S x x b a (path X x) -> Path (sP X S x) a b</code><br><code>sip (X: precategory)
     (isC: isCategory X)
