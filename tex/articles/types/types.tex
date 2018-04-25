@@ -9,6 +9,7 @@
 \usepackage{amsmath}
 \usepackage{amssymb}
 \usepackage{txfonts}
+\usepackage{url}
 \usepackage{tikz-cd}
 \usepackage[utf8]{inputenc}
 
@@ -98,24 +99,30 @@ considered as an brief introduction to several topics: {\bf MLTT}, {\bf Runtime 
 {\bf Abstract Algebra}, {\bf Category Theory}.
 But the library has even more modules, that
 exceed the scope of this article so you may refer to source code
-repository\footnote{http://github.com/groupoid/infinity}.
+repository \footnote{\url{http://github.com/groupoid/infinity}}.
+Also we created a web page that can easily be read with phone \footnote{\url{https://groupoid.space/mltt/types}}.
 
 \newpage
 
-This library is dedicated to cubical-compatible type checkers \cite{Mortberg17} based
-on homotopy interval [0,1] and MLTT as a core. The base library is
-founded on top of 5 core modules: proto (composition, id, const),
-path (subst, trans, cong, refl, singl, sym), prop, set (isContr, isProp, isSet, isInfinityGroupoid),
-equiv (fiber, eqiuv) and iso (lemIso, isoPath). This machinery is enough to prove univalence axiom.
+This library is dedicated to type checkers with cubical syntax,
+based on interval [0,1] and MLTT as a core.
+Please refer to original paper of cubicaltt \cite{Mortberg17}
+which also given in the footnote \footnote{\url{http://www.cse.chalmers.se/~coquand/cubicaltt.pdf}}.
+The base library is founded on top of cubical modules each
+fall into one of the following categories:
 
-(i) The library has rich recursion scheme primitives
-in recursion module, while very basic nat, list, stream
-functionality. (ii) The very basic theorems are given
-in pi, iso\_pi, sigma, iso\_sigma, retract modules.
-(iii) The library has category theory theorems from
-HoTT book in cat, fun and category modules.
-(iv) The library also includes categorical encoding
-of dependent types presented in Cwf module.
+(i) MLTT Types: {\bf pi}, {\bf sigma}, {\bf path};
+(ii) Set Theory: {\bf prop}, {\bf set}, {\bf ordinal}, {\bf hedberg};
+(iii) Run-Time Inductive Types: {\bf proto}, {\bf maybe}, {\bf bool}, {\bf nat}, {\bf list}, {\bf stream}, {\bf vector};
+(iv) Abstract Algebra in {\bf algebra} module;
+(v) Control Structures in {\bf control} module;
+(vi) Recursion Schemes in {\bf recursion} module;
+(vii) Category Theory: {\bf cat}, {\bf fun}, {\bf sip}, {\bf cones}, {\bf adj};
+(viii) Univalent Foundations: {\bf equiv}, {\bf retract}, {\bf iso}, {\bf iso\_pi}, {\bf iso\_sigma}, {\bf univ};
+(ix) Higher Inductive Types: {\bf interval}, {\bf circle}, {\bf pushout}, {\bf suspension}, {\bf quotient}, {\bf trunc}.
+(x) Process Calculus in {\bf process} module;
+(xi) Categories with Families: {\bf cwf}, {\bf csystem};
+(xii) Type Checker will be in {\bf infinity} module.
 
 This library is best to read guided by HoTT book \cite{HoTT}.
 We tried to make it definitionally compatible with
@@ -413,21 +420,18 @@ At the rest list has pretty standard implementation.
 
 \begin{lstlisting}[mathescape=true]
 data list (A: U) = nil | cons (a: A) (as: list A)
-
-null    (A: U): list A -> bool
-head    (A: U): list A -> maybe A
-tail    (A: U): list A -> maybe (list A)
-nth     (A: U): nat -> list A -> maybe A
-append  (A: U): list A -> list A -> list A
-reverse (A: U): list A -> list A
-map   (A B: U): (A -> B) -> list A -> list B
-zip   (A B: U): list A -> list B -> list (tuple A B)
-foldr (A B: U): (A -> B -> B) -> B -> list A -> B
-foldl (A B: U): (B -> A -> B) -> B -> list A -> B
-switch  (A: U): (Unit -> list A) -> bool -> list A
-filter  (A: U): (A -> bool) -> list A -> list A
-length  (A: U): list A -> nat
-list_eq (A: eq): list A.1 -> list A.1 -> bool
+null      (A: U): list A -> bool
+head      (A: U): list A -> maybe A
+tail      (A: U): list A -> maybe (list A)
+nth       (A: U): nat -> list A -> maybe A
+append    (A: U): list A -> list A -> list A
+reverse   (A: U): list A -> list A
+map     (A B: U): (A -> B) -> list A -> list B
+zip     (A B: U): list A -> list B -> list (tuple A B)
+foldr   (A B: U): (A -> B -> B) -> B -> list A -> B
+switch    (A: U): (Unit -> list A) -> bool -> list A
+filter    (A: U): (A -> bool) -> list A -> list A
+length    (A: U): list A -> nat
 \end{lstlisting}
 
 The {\bf stream} module provide model for infinity streams, IO, and other corecursive models,
@@ -471,7 +475,7 @@ fs (n: nat): Fin n -> Fin (succ n) = \(x: Fin n) -> fsucc x
 
 We extracted the pure function for the following IO free structure
 that encode the two functions for reading and printing string values in Church encoding.
-The demonstarted program could be seen in Om project \footnote{https://github.com/groupoid/om/blob/master/priv/normal/Morte/recursive}.
+The demonstarted program could be seen in Om project \footnote{\url{https://github.com/groupoid/om/blob/master/priv/normal/Morte/recursive}}.
 
 \begin{lstlisting}[mathescape=true]
 data IO (A: U)
@@ -482,7 +486,7 @@ data IO (A: U)
 main: U = replicateM 100 (>>= String () getLine putLine)
 \end{lstlisting}
 
-The infinity IO sample is also provided by Om project \footnote{https://github.com/groupoid/om/blob/master/priv/normal/Morte/corecursive}
+The infinity IO sample is also provided by Om project \footnote{\url{https://github.com/groupoid/om/blob/master/priv/normal/Morte/corecursive}}
 ans demonstrate the cofree comonadic encoding of process running.
 
 \begin{lstlisting}[mathescape=true]
@@ -571,7 +575,7 @@ The signatures are made external for code compactification.
 Then we select $F: U \rightarrow U$ functor as common head for sigma types.
 All quantifiers for members and laws are carried within projections.
 Projections contains full signature except F. These types could be considered for run-time.
-Also you may read Oleg Kiselev Type-Classes in ML. \footnote{http://okmij.org/ftp/Computation/typeclass.html}
+Also you may read Oleg Kiselev Type-Classes in ML. \footnote{\url{http://okmij.org/ftp/Computation/typeclass.html}}
 Here is we encode type-classes with Sigma and instances with nested tuples.
 
 \newpage
@@ -987,6 +991,7 @@ category: U = (C: precategory) * isCategory C
 \end{lstlisting}
 
 Such category saturation or competion is called Rezk competion \cite{Shulman15}.
+Source code in Coq of Rezk competion for comparison could be taken here \footnote{\url{https://github.com/benediktahrens/rezk_completion/blob/master/precategories.v}}.
 
 \subsection{Terminals and Cones}
 
@@ -1113,13 +1118,11 @@ providing different sections of modules:
 5) Abstract Algebra;
 6) Category Theory.
 
-In other articles there will be coverage of the folliwing
-sections of modules: 1) Equivalence;
-2) Isomorphism;
-3) Univalence;
-4) Categories with Families;
-5) Quotients and Retract;
-6) Circle and Interval.
+In other articles there will be coverage of the folliwing sections of modules:
+1) Process Calculus;
+2) Univalent Foundations;
+3) Categories with Families;
+4) Higher Inductive Types.
 
 \begin{table}[h]
 \centering
