@@ -16,16 +16,20 @@ block content
                 based on interval [0,1] and MLTT as a core.
                 Please refer to <a href="http://www.cse.chalmers.se/~coquand/cubicaltt.pdf">chalmers.se/~coquand/cubicaltt.pdf</a>.
                 The base library is founded on top of cubical modules each
-                fall into one of 8 categories.
+                fall into one of the following categories:
             p.
                 (i) MLTT Types: <b>pi</b>, <b>sigma</b>, <b>path_proto</b>, <b>path</b>;
-                (ii) Inductive Types: <b>proto</b>, <b>maybe</b>, <b>bool</b>, <b>nat</b>, <b>list</b>, <b>stream</b>, <b>vector</b>;
-                (iii) Abstract Algebra in <b>algebra</b> module;
-                (iv) Control Structures in <b>control</b> module;
-                (v) Recursion Schemes in <b>recursion</b> module;
-                (vi) Category Theory: <b>cat</b>, <b>fun</b>, <b>sip</b>, <b>cones</b>, <b>adj</b>;
-                (vii) Univalent Foundations: <b>equiv</b>, <b>retract</b>, <b>iso</b>, <b>iso_pi</b>, <b>iso_sigma</b>, <b>univ</b>;
-                (viii) Higher Inductive Types: <b>interval</b>, <b>circle</b>, <b>pushout</b>, <b>brunerie</b>, <b>helix</b>, <b>trunc</b>.
+                (ii) Set Theory: <b>prop</b>, <b>set</b>, <b>ordinal</b>, <b>hedberg</b>;
+                (iii) Run-Time Inductive Types: <b>proto</b>, <b>maybe</b>, <b>bool</b>, <b>nat</b>, <b>list</b>, <b>stream</b>, <b>vector</b>;
+                (iv) Abstract Algebra in <b>algebra</b> module;
+                (v) Control Structures in <b>control</b> module;
+                (vi) Recursion Schemes in <b>recursion</b> module;
+                (vii) Category Theory: <b>cat</b>, <b>fun</b>, <b>sip</b>, <b>cones</b>, <b>adj</b>;
+                (viii) Univalent Foundations: <b>equiv</b>, <b>retract</b>, <b>iso</b>, <b>iso_pi</b>, <b>iso_sigma</b>, <b>univ</b>;
+                (ix) Higher Inductive Types: <b>interval</b>, <b>circle</b>, <b>pushout</b>, <b>suspension</b>, <b>quotient</b>, <b>trunc</b>.
+            //  (x) Process Calculus in <b>process</b> module;
+            //  (xi) Categories with Families in <b>cwf</b> module;
+            //  (xii) Type Checker will be in <b>infinity</b> module.
             p.
                 This library is best to read with <a href="http://5ht.co/hott.pdf">HoTT</a> book.
 
@@ -148,15 +152,15 @@ block content
                     1.6 Dependent pair types (Sigma-types); and
                     2.7 Sigma-types.
             code.
-                sigRec (A: U) (B: A -> U) (C: U)
-                       (g: (x:A) -> B(x) -> C)
-                       (p: Sigma A B): C = g p.1 p.2
+                sigmaRec (A: U) (B: A -> U) (C: U)
+                         (g: (x:A) -> B(x) -> C)
+                         (p: Sigma A B): C = g p.1 p.2
 
-                sigInd (A: U) (B: A -> U) (C: Sigma A B -> U)
-                       (g: (a:A)(b:B(a)) -> C (a,b))
-                       (p: Sigma A B): C p = g p.1 p.2
+                sigmaInd (A: U) (B: A -> U) (C: Sigma A B -> U)
+                         (g: (a:A)(b:B(a)) -> C (a,b))
+                         (p: Sigma A B): C p = g p.1 p.2
 
-                ac   (A B: U) (R: A -> B -> U):
+                axiomChoice (A B: U) (R: A->B -> U):
                      (p: (x:A)->(y:B)*(R x y)) -> (f:A->B)*((x:A)->R(x)(f x))
                   = \(g: (x:A)->(y:B)*(R x y)) -> (\(i:A)->(g i).1,\(j:A)->(g j).2)
 
@@ -819,7 +823,7 @@ block content
                 equivElim (B: U) (P: (A: U) -> (A -> B) -> U)
                           (d: P B (idfun B)) (A: U) (f: equiv A B): P A f.1
 
-            h2#retract Retract and Section
+            h2#retract Retract
             code.
                 section (A B:U) (f:A->B) (g:B->A): U = (b:B) -> Path B (f(g(b))) b
                 retract (A B:U) (f:A->B) (g:B->A): U = (a:A) -> Path A (g(f(a))) a
@@ -850,7 +854,7 @@ block content
                         (h1: Q B (idfun B) (idfun B)) (A: U) (f: A -> B)
                       : (g: B -> A) -> section A B f g -> retract A B f g -> Q A f g
 
-            h2#univ Univalence
+            h2#univ Univ
             code.
                univ (A B: U): Path U (Path U A B) (equiv A B)
 
@@ -957,3 +961,23 @@ block content
             p.
                 see <a href="http://5ht.co/hott.pdf">HoTT</a>:
                     6.9 Truncations.
+
+            h2#quotient Quotients
+            code.
+                data quot (A: U) (R: A -> A -> U)
+                   = inj (a: A)
+                   | quoteq  (a b: A) (r: R a b)
+                        &lt;i&gt; [(i=0) -> inj a,
+                             (i=1) -> inj b ]
+
+                data setquot (A: U) (R: A -> A -> U)
+                   = quotient (a: A)
+                   | identification (a b: A) (r: R a b)
+                               &lt;i&gt; [(i=0) -> quotient a,
+                                    (i=1) -> quotient b ]
+                   | setTruncation  (a b: setquot A R)
+                                    (p q: Path (setquot A R) a b)
+                             &lt;i j> [(i=0) -> p @ j,
+                                    (i=1) -> q @ j,
+                                    (j=0) -> a,
+                                    (j=1) -> b ]
