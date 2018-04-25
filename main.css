@@ -290,11 +290,10 @@ aside {
   margin-top: 20px; }
 
 .om h3 {
+  max-width: 100%;
   margin: auto;
+  width: 650px;
   padding: 16px 8px 0; }
-  @media (min-width: 768px) {
-    .om h3 {
-      font-size: 40px; } }
 
 .exe h1 {
   color: #7D8A96;
