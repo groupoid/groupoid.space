@@ -12,25 +12,20 @@ block content
             aside Maxim Sokhatsky<br>
                 time DATE: 20 APR 2018
             p.
-                This library is dedicated to <b>cubical</b>-compatible
-                typecheckers based on homotopy interval
-                <b>[0,1]</b> and MLTT as a core. The base library is founded
-                on top of 7 core modules: <b>proto</b> (composition, id, const),
-                <b>path</b> (subst, trans, cong, refl, singl, sym),
-                <b>prop</b>, <b>set</b>, <b>equiv</b> (fiber, eqiuv)
-                and <b>iso</b> (lemIso, isoPath), <b>univ</b>.
-                This machinery is enough to prove univalence axiom.
+                TL;DR This library is dedicated to type checkers with cubical syntax,
+                based on interval [0,1] and MLTT as a core.
+                Please refer to <a href="http://www.cse.chalmers.se/~coquand/cubicaltt.pdf">chalmers.se/~coquand/cubicaltt.pdf</a>.
+                The base library is founded on top of cubical modules each
+                fall into one of 8 categories.
             p.
-                Also this library includes:
-                (i) Foundation primitives: <b>proto</b>, <b>bool</b>, <b>maybe</b>,
-                <b>nat</b>, <b>list</b>, <b>vector</b>, <b>stream</b>.
-                (ii) The very basic theorems are given
-                in <b>pi</b>, <b>iso_pi</b>, <b>sigma</b>, iso_sigma</b>, <b>retract</b> modules.
-                (iii) The library has category theory theorems from
-                HoTT book in <b>cat</b>, <b>fun</b>, <b>adj</b>, <b>cones</b>, <b>sip</b> modules.
-                (iv) Control Structures in <b>control</b> module.
-                (v) Recursive Schemes in <b>recursion</b> module.
-                (vi) Abstract Algebra in <b>algebra</b> module.
+                (i) MLTT Types: <b>pi</b>, <b>sigma</b>, <b>path_proto</b>, <b>path</b>;
+                (ii) Inductive Types: <b>proto</b>, <b>maybe</b>, <b>bool</b>, <b>nat</b>, <b>list</b>, <b>stream</b>, <b>vector</b>;
+                (iii) Abstract Algebra in <b>algebra</b> module;
+                (iv) Control Structures in <b>control</b> module;
+                (v) Recursion Schemes in <b>recursion</b> module;
+                (vi) Category Theory: <b>cat</b>, <b>fun</b>, <b>sip</b>, <b>cones</b>, <b>adj</b>;
+                (vii) Univalent Foundations: <b>equiv</b>, <b>retract</b>, <b>iso</b>, <b>iso_pi</b>, <b>iso_sigma</b>, <b>univ</b>;
+                (viii) Higher Inductive Types: <b>interval</b>, <b>circle</b>, <b>pushout</b>, <b>brunerie</b>, <b>helix</b>, <b>trunc</b>.
             p.
                 This library is best to read with <a href="http://5ht.co/hott.pdf">HoTT</a> book.
 
@@ -815,7 +810,6 @@ block content
             section
                 h1 Univalent Foundations
         section
-
 
             h2#equiv <a name="equiv"><a href='equiv/'>Equiv</a></a>
             code.
