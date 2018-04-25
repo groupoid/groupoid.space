@@ -55,7 +55,8 @@ block content
                     groupoid (A : U) : U = (a b : A) -> set      (Path A a b)
                     gr_2     (A : U) : U = (a b : A) -> groupoid (Path A a b)
                     gr_3     (A : U) : U = (a b : A) -> gr_2     (Path A a b)
-                h3 n-groupoid
+
+                h2 n-Groupoid
                 code.
                     mutual
                       rec (A: U) (a b: A): (k: nat) -> U = split
@@ -67,7 +68,7 @@ block content
                    set       (A: U): U = n_grpd A (succ zero)
                    groupoid  (A: U): U = n_grpd A (succ (succ zero))
 
-                h3 ∞-groupoid
+                h2 ∞-Groupoid
                 code.
                    inf_grpd (A: U): U =
                             (carrier: A)

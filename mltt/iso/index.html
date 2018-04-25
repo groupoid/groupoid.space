@@ -25,7 +25,8 @@ prop     (A : U) : U = (a b : A) -> Path A a b
 set      (A : U) : U = (a b : A) -> prop     (Path A a b)
 groupoid (A : U) : U = (a b : A) -> set      (Path A a b)
 gr_2     (A : U) : U = (a b : A) -> groupoid (Path A a b)
-gr_3     (A : U) : U = (a b : A) -> gr_2     (Path A a b)</code><h3>n-groupoid</h3><code> mutual
+gr_3     (A : U) : U = (a b : A) -> gr_2     (Path A a b)
+</code><h2>n-Groupoid</h2><code> mutual
    rec (A: U) (a b: A): (k: nat) -> U = split
      zero -> Path A a b
      succ n -> n_grpd (Path A a b) n
@@ -34,7 +35,7 @@ gr_3     (A : U) : U = (a b : A) -> gr_2     (Path A a b)</code><h3>n-groupoid</
 prop      (A: U): U = n_grpd A zero
 set       (A: U): U = n_grpd A (succ zero)
 groupoid  (A: U): U = n_grpd A (succ (succ zero))
-</code><h3>∞-groupoid</h3><code>inf_grpd (A: U): U =
+</code><h2>∞-Groupoid</h2><code>inf_grpd (A: U): U =
          (carrier: A)
        * (eq: (a b: A) -> Path A a b)
        * (next: (a b: A) -> inf_grpd (Path A a b))
