@@ -822,6 +822,8 @@ block content
                 fiber   (A B: U) (f: A -> B) (y: B): U = (x: A) * Path B y (f x)
                 isEquiv (A B: U) (f: A -> B): U = (y: B) -> isContr (fiber A B f y)
                 equiv   (A B: U): U = (f: A -> B) * isEquiv A B f
+                equivElim (B: U) (P: (A: U) -> (A -> B) -> U)
+                          (d: P B (idfun B)) (A: U) (f: equiv A B): P A f.1
 
             h2#retract Retract and Section
             code.
@@ -850,9 +852,86 @@ block content
                            (s: section A B f g)
                            (t: retract A B f g): Path U A B
 
+                isoElim (B: U) (Q: (A: U) -> (A -> B) -> (B -> A) -> U)
+                        (h1: Q B (idfun B) (idfun B)) (A: U) (f: A -> B)
+                      : (g: B -> A) -> section A B f g -> retract A B f g -> Q A f g
+
+            h2#univ Univalence
+            code.
+               univ (A B: U): Path U (Path U A B) (equiv A B)
+
+        .om
+            section
+                h1 Higher inductive types
+        section
+
+            h2#trunc Interval
+            code.
+                data I
+                   = i0
+                   | i1
+                   | seg &lt;i&gt; [ (i=0) -> i0,
+                               (i=1) -> i1 ]
+            br.
+            code.
+                data P (A B: U)
+                   = p0 (_:A)
+                   | p1 (_:B)
+                   | pseg (x:A) (y:B) &lt;i&gt; [ (i=0) -> p0 x,
+                                            (i=1) -> p1 y ]
+            br.
+            code.
+                homotopy  (X Y: U)
+                          (f g: X -> Y)
+                          (p: (x: X) -> Path Y (f x) (g x))
+                          (x: X)
+                        : I -> Y
+                        = split { i0 -> f(x) ;
+                                  i1 -> g(x) ;
+                                  seg @ i -> p(x) @ i }
+            br.
+            code.
+                fext (A B: U) (f g: A -> B)
+                     (p: (x: A) -> Path B (f x) (g x))
+                   : Path (A -> B) f g
+                   = <j> (\(x : A) -> homotopy A B f g p x (seg{I} @ j))
+
             p.
                 see <a href="http://5ht.co/hott.pdf">HoTT</a>:
-                    6.9 Truncations.
+                    6.3 The interval
+
+            h2#trunc Circle
+            code.
+                data S1
+                   = base
+                   | loop &lt;i&gt; [ (i=0) -> base ,
+                                (i=1) -> base ]
+            p.
+                see <a href="http://5ht.co/hott.pdf">HoTT</a>:
+                    6.4 Circles and spheres
+
+            h2#trunc Suspension
+            code.
+                data susp (A: U)
+                   = north
+                   | south
+                   | merid (a: A) &lt;i&gt; [ (i=0) -> north ,
+                                        (i=1) -> south ]
+
+            p.
+                see <a href="http://5ht.co/hott.pdf">HoTT</a>:
+                    6.5 Suspensions.
+
+            h2#trunc Pushout
+            code.
+                data pushout (A B C: U) (f: C -> A) (g: C -> B)
+                    = inl (_: A)
+                    | inr (_: B)
+                    | glue_ (c: C) &lt;i&gt; [ (i=0) -> inl (f c),
+                                         (i=1) -> inr (g c) ]
+            p.
+                see <a href="http://5ht.co/hott.pdf">HoTT</a>:
+                    6.8 Pushouts.
 
             h2#trunc Trancations
             code.

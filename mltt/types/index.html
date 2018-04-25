@@ -454,6 +454,8 @@ adjoint (C D: precategory) (F: catfunctor D C) (G: catfunctor C D) : U
 </p></section><div class="om"><section><h1>Univalent Foundations</h1></section></div><section><h2 id="equiv"><a name="equiv"><a href='equiv/'>Equiv</a></a></h2><code>fiber   (A B: U) (f: A -> B) (y: B): U = (x: A) * Path B y (f x)
 isEquiv (A B: U) (f: A -> B): U = (y: B) -> isContr (fiber A B f y)
 equiv   (A B: U): U = (f: A -> B) * isEquiv A B f
+equivElim (B: U) (P: (A: U) -> (A -> B) -> U)
+          (d: P B (idfun B)) (A: U) (f: equiv A B): P A f.1
 </code><h2 id="retract">Retract and Section</h2><code>section (A B:U) (f:A->B) (g:B->A): U = (b:B) -> Path B (f(g(b))) b
 retract (A B:U) (f:A->B) (g:B->A): U = (a:A) -> Path A (g(f(a))) a
 </code><h2 id="iso"><a name="iso"><a href='iso/'>Iso</a></a></h2><code>Square (A: U) (a0 a1 b0 b1: A)
@@ -475,8 +477,50 @@ isoToEquiv (A B: U) (f: A -> B) (g: B -> A)
 isoPath    (A B: U) (f: A -> B) (g: B -> A)
            (s: section A B f g)
            (t: retract A B f g): Path U A B
+
+isoElim (B: U) (Q: (A: U) -> (A -> B) -> (B -> A) -> U)
+        (h1: Q B (idfun B) (idfun B)) (A: U) (f: A -> B)
+      : (g: B -> A) -> section A B f g -> retract A B f g -> Q A f g
+</code><h2 id="univ">Univalence</h2><code>univ (A B: U): Path U (Path U A B) (equiv A B)
+</code></section><div class="om"><section><h1>Higher inductive types</h1></section></div><section><h2 id="trunc">Interval</h2><code>data I
+   = i0
+   | i1
+   | seg &lt;i&gt; [ (i=0) -> i0,
+               (i=1) -> i1 ]</code><br><code>data P (A B: U)
+   = p0 (_:A)
+   | p1 (_:B)
+   | pseg (x:A) (y:B) &lt;i&gt; [ (i=0) -> p0 x,
+                            (i=1) -> p1 y ]</code><br><code>homotopy  (X Y: U)
+          (f g: X -> Y)
+          (p: (x: X) -> Path Y (f x) (g x))
+          (x: X)
+        : I -> Y
+        = split { i0 -> f(x) ;
+                  i1 -> g(x) ;
+                  seg @ i -> p(x) @ i }</code><br><code>fext (A B: U) (f g: A -> B)
+     (p: (x: A) -> Path B (f x) (g x))
+   : Path (A -> B) f g
+   = <j> (\(x : A) -> homotopy A B f g p x (seg{I} @ j))
 </code><p>see <a href="http://5ht.co/hott.pdf">HoTT</a>:
-    6.9 Truncations.
+    6.3 The interval
+</p><h2 id="trunc">Circle</h2><code>data S1
+   = base
+   | loop &lt;i&gt; [ (i=0) -> base ,
+                (i=1) -> base ]</code><p>see <a href="http://5ht.co/hott.pdf">HoTT</a>:
+    6.4 Circles and spheres
+</p><h2 id="trunc">Suspension</h2><code>data susp (A: U)
+   = north
+   | south
+   | merid (a: A) &lt;i&gt; [ (i=0) -> north ,
+                        (i=1) -> south ]
+</code><p>see <a href="http://5ht.co/hott.pdf">HoTT</a>:
+    6.5 Suspensions.
+</p><h2 id="trunc">Pushout</h2><code>data pushout (A B C: U) (f: C -> A) (g: C -> B)
+    = inl (_: A)
+    | inr (_: B)
+    | glue_ (c: C) &lt;i&gt; [ (i=0) -> inl (f c),
+                         (i=1) -> inr (g c) ]</code><p>see <a href="http://5ht.co/hott.pdf">HoTT</a>:
+    6.8 Pushouts.
 </p><h2 id="trunc">Trancations</h2><code>data pTrunc (A: U) -- (-1)-trunc, mere proposition truncation
    = inc (a: A)
    | inh (x y: pTrunc A) &lt;i&gt;
