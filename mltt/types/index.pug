@@ -38,7 +38,10 @@ block content
             h2 Homotopy Core
             -
                 var core = {
-                    'Primitives': [ 'Pi', 'Sigma', 'Path', 'Compose', 'Glue' ],
+                    'Pure': [ 'Pi' ],
+                    'MLTT': [ 'Pi', 'Sigma', 'Id' ],
+                    'Inductive': [ 'Pi', 'Sigma', 'Id', 'Inductive Types' ],
+                    'Cubical': [ 'Pi', 'Sigma', 'Path [0,1]', 'Compose', 'Glue', 'Higher Inductive Types' ],
                 }
 
             .type
@@ -47,20 +50,21 @@ block content
                         h3= k.toUpperCase()
                         for i in v
                             li: a(href='#'+i)= i.toUpperCase()
-            br.
+        section
             p.
+                Cubical has very lightweigh core and syntax.
         .types
             h2 Types Taxonomy
             -
                     var types = {
                         'nr nd +': [ 'unit', 'bool', 'maybe', 'either' ],
-                        'r nd +': [ 'nat', 'list' ],
-                        'nr d +': [ 'path', 'proto', 'iso', 'equiv' ],
-                        'rd +': [ 'vector' ],
+                        'r nd +': [ 'fix', 'nat', 'list' ],
+                        'nr d +': [ 'mu', 'nu', 'free', 'cofree' ],
+                        'rd +': [ 'fin', 'vector' ],
                         'nr nd *': [ 'pure', 'functor', 'applicative', 'monad' ],
                         'r nd *': [ 'stream' ],
-                        'nr d *': [ 'sigma', 'setoid' ],
-                        'rd *': [ 'cat', 'propset', 'groupoid' ]
+                        'nr d *': [ 'iso', 'equiv', 'fiber' ],
+                        'rd *': [ 'cat', 'prop', 'set', 'groupoid' ]
                     }
 
                     var legend = {
@@ -78,6 +82,7 @@ block content
                         for i in v
                             li: a(href='#'+i)= i.toUpperCase()
 
+        section
             p.
                 Types taxonomy shows us the core types categorized by a several axis:
                 1) dependent (D) and non-dependent (ND) terms;
@@ -160,7 +165,6 @@ block content
                 ac   (A B: U) (R: A -> B -> U):
                      (p: (x:A)->(y:B)*(R x y)) -> (f:A->B)*((x:A)->R(x)(f x))
                   = \(g: (x:A)->(y:B)*(R x y)) -> (\(i:A)->(g i).1,\(j:A)->(g j).2)
-
 
             h2#path <a name="path"><a href='path/'>Path</a></a>
             p.
