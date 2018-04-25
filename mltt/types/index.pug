@@ -4,7 +4,7 @@ block title
     title Types
 
 block content
-    +header('../../groupoid.svg', 'Infinity Types', 'Inductive Base Library')
+    +header('../../groupoid.svg', 'Mathematical Components', 'Cubical Base Library')
     article.main
         .om
             section
@@ -101,8 +101,7 @@ block content
             p.
                 Martin-Löf Type Theory contains Pi, Sigma, Id, Nat, List types.
                 Id types were added in 1984 while original MLTT was introduced in 1972.
-                Now Id types treated as heterougeneous Path interval
-                types interpreted as infinity groupoids.
+                Now Id types treated as heterogeneous Path interval types.
 
             h2#pi <a name='pi'><a href='pi/'>Pi</a></a>
             p.
@@ -168,8 +167,9 @@ block content
 
             h2#path <a name="path"><a href='path/'>Path</a></a>
             p.
-                Path type is a [0,1] interval <b>path (A:U) (a b:A): Path A a b</b>
-                with lambda on it, gluening composition and kan filling operation.
+                Path type is a [0,1] interval <b>proof: Path A a b</b>
+                with lambda on it as its element, gluening,
+                composition, and kan filling operation.
             code.
                 Path (A: U) (a b: A): U
             br.
