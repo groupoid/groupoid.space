@@ -99,8 +99,27 @@ considered as an brief introduction to several topics: {\bf MLTT}, {\bf Runtime 
 {\bf Abstract Algebra}, {\bf Category Theory}.
 But the library has even more modules, that
 exceed the scope of this article so you may refer to source code
-repository \footnote{\url{http://github.com/groupoid/infinity}}.
+repository \footnote{\url{https://github.com/groupoid/infinity}}.
 Also we created a web page that can easily be read with phone \footnote{\url{https://groupoid.space/mltt/types}}.
+We redefined the Cubical Syntax in LALR grammar and implented
+syntax extension for Erlang language \footnote{\url{https://github.com/groupoid/infinity/blob/master/src/cub_parser.yrl}}.
+If possible terms could be exracted
+to Om syntax \footnote{\url{https://github.com/groupoid/om/blob/master/src/om_parse.erl}}.
+All terms in this article will be given in this syntax.
+
+\begin{lstlisting}[mathescape=true]
+    [] := #list          mod    := ${\bf module}$ id ${\bf where}$ imp dec
+     + := #sum           imp    := [ ${\bf import}$ id ]
+     0 := #empty         tele   := 0 + cotele
+   app := exp exp        cotele := ( exp : exp ) tele
+    id := [ #nat ]       sum    := 0 + id tele + id tele | sum
+   ids := [ id ]         br     := ids $\rightarrow$ exp
+ codec := def dec        brs    := 0 + cobrs
+   dec := 0 + codec      cobrs  := ${\bf |}$ br brs
+   def := ${\bf data}$ id tele ${\bf =}$ sum + id tele : exp = exp + id tele : exp ${\bf where}$ def
+   exp := ${\bf split}$ cobrs + ( exp ) + id + exp ${\bf .1}$ + exp ${\bf .2}$ + cotele * exp
+         ${\bf \lambda}$ cotele $\rightarrow$ exp + cotele $\rightarrow$ exp + exp $\rightarrow$ exp + app
+\end{lstlisting}
 
 \newpage
 
@@ -1155,34 +1174,6 @@ Abstract Algebra onbjects with Category Theory and created new Categories.
 The models are given almost in pure MLTT with explicit notion of all types used
 for term definition. In that way this kind of specification avoid a class of mistakes
 connected with implicit specifications hidden inside type checker.
-
-\newpage
-\section{Appendix}
-
-\subsection{Cubical Syntax}
-
-\begin{lstlisting}[mathescape=true]
-    [] = #list
-     + = #sum
-     0 = #empty
-     N = #nat
-    id = [ N ]
-   mod = ${\bf module}$ id ${\bf where}$ imp dec
-   imp = [ ${\bf import}$ id ]
-   ids = [ id ]
-  tele = 0 + cotele
-cotele = ( exp : exp ) tele
-    br = ids $\rightarrow$ exp
-   brs = 0 + cobrs
- cobrs = ${\bf |}$ br brs
-   app = exp exp
-   dec = 0 + codec
- codec = def dec
-   sum = 0 + id tele + id tele | sum
-   def = ${\bf data}$ id tele ${\bf =}$ sum + id tele : exp = exp + id tele : exp ${\bf where}$ def
-   exp = ${\bf split}$ cobrs + ( exp ) + id + exp ${\bf .1}$ + exp ${\bf .2}$ + cotele * exp
-         ${\bf \lambda}$ cotele $\rightarrow$ exp + cotele $\rightarrow$ exp + exp $\rightarrow$ exp + app
-\end{lstlisting}
 
 \newpage
 \bibliographystyle{plain}
