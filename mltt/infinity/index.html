@@ -16,17 +16,22 @@ The type checker of single axiom system with Pi types only was given in CoC pape
 <b>[4]</b>. T.Streicher. The Groupoid Interpretation of Type Theory, 1996.
 <b>[5]</b>. H.Barendregt. Lambda Calculus With Types, 2010.
 <b>[6]</b>. S. Awodey et all. Homotopy Type Theory, 2014.
-</p><h2>Cubical Syntax</h2><p>The 10 lines BNF simple syntax covers MLTT, mutual inductive types,
-and simple module system.</p><code>    0 := #empty         imp    := [ import id ]
-  brs := 0 + cobrs      tele   := 0 + cotele
-  app := exp exp        cotele := ( exp : exp ) tele
-   id := [ #nat ]       sum    := 0 + id tele + id tele | sum
-  ids := [ id ]         br     := ids ⟶ exp
-codec := def dec        mod    := module id where imp def
-  dec := 0 + codec      cobrs  := | br brs
-  def := data id tele = sum + id tele : exp = exp + id tele : exp where def
-  exp := cotele * exp + cotele ⟶ exp + exp ⟶ exp + app + ( exp ) + id +
-         split cobrs + exp.1 + exp.2 + \ cotele ⟶ exp
+</p><h2>Cubical Syntax</h2><p>The 10 lines BNF simple syntax covers MLTT, inductive types case analisys,
+and simple module system.</p><code>    0 := #empty
+  brs := 0 + cobrs
+  app := exp exp
+   id := [ #nat ]
+  ids := [ id ]
+codec := def dec
+  dec := 0 + codec</code><code>   imp := [ import id ]
+  tele := 0 + cotele
+cotele := ( exp : exp ) tele
+   sum := 0 + id tele + id tele | sum
+    br := ids -> exp
+   mod := module id where imp def
+ cobrs := | br brs</code><code>def := data id tele = sum + id tele : exp = exp + id tele : exp where def
+exp := cotele * exp + cotele -> exp + exp -> exp + app + ( exp ) + id +
+       split cobrs + exp.1 + exp.2 + \ cotele -> exp
 </code><h2>2. Categorical Semantics</h2><p>A categorical semantics of pure type systems is the
 locally cartesian closed categories.</p><code>data pts
    = star             (n: nat)
@@ -112,4 +117,4 @@ given by Barendregt. Find more info in
 of underlying Om intermediate language.</p><code>PTS : U
     = (S: (n: nat)   -> star n)
       (A: (i: nat)   -> type i (succ i))
-      (R: (i j: nat) -> pi i j (max i j)) * unit</code></section></div></article><footer class="footer"><img class="footer__logo" src="https://longchenpa.guru/seal.png" width="50"><span class="footer__copy">2016&mdash;2017 &copy; <a href="//groupoid.space/team.html" style="color:white;">Groupoid Infinity</a></span></footer><script src="https://groupoid.space/bundle.js"></script><script src="https://groupoid.space/highlight.js?v=4"></script></body></html>
+      (R: (i j: nat) -> pi i j (max i j)) * unit</code></section></div></article><footer class="footer"><img class="footer__logo" src="https://longchenpa.guru/seal.png" width="50"><span class="footer__copy">2016&mdash;2017 &copy; <a href="//groupoid.space/team.html" style="color:white;">Groupoid Infinity</a></span></footer><script src="https://groupoid.space/bundle.js"></script><script src="https://groupoid.space/highlight.js?v=5"></script></body></html>

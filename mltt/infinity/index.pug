@@ -65,19 +65,28 @@ block content
 
                 h2 Cubical Syntax
                 p.
-                    The 10 lines BNF simple syntax covers MLTT, mutual inductive types,
+                    The 10 lines BNF simple syntax covers MLTT, inductive types case analisys,
                     and simple module system.
                 code.
-                         0 := #empty         imp    := [ import id ]
-                       brs := 0 + cobrs      tele   := 0 + cotele
-                       app := exp exp        cotele := ( exp : exp ) tele
-                        id := [ #nat ]       sum    := 0 + id tele + id tele | sum
-                       ids := [ id ]         br     := ids ⟶ exp
-                     codec := def dec        mod    := module id where imp def
-                       dec := 0 + codec      cobrs  := | br brs
+                         0 := #empty
+                       brs := 0 + cobrs
+                       app := exp exp
+                        id := [ #nat ]
+                       ids := [ id ]
+                     codec := def dec
+                       dec := 0 + codec
+                code.
+                       imp := [ import id ]
+                      tele := 0 + cotele
+                    cotele := ( exp : exp ) tele
+                       sum := 0 + id tele + id tele | sum
+                        br := ids -> exp
+                       mod := module id where imp def
+                     cobrs := | br brs
+                code.
                        def := data id tele = sum + id tele : exp = exp + id tele : exp where def
-                       exp := cotele * exp + cotele ⟶ exp + exp ⟶ exp + app + ( exp ) + id +
-                              split cobrs + exp.1 + exp.2 + \ cotele ⟶ exp
+                       exp := cotele * exp + cotele -> exp + exp -> exp + app + ( exp ) + id +
+                              split cobrs + exp.1 + exp.2 + \ cotele -> exp
 
                 h2 2. Categorical Semantics
                 p.
