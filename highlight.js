@@ -4,7 +4,7 @@ function highlight() {
         code[i].innerHTML = code[i].innerHTML
             .replace(/([(){}→∀λ,=]+|::=|:=)/g,
                 '<span class="h__symbol">$1</span>')
-            .replace(/\b(data|where|module|split|.1|.2|record|extend|let|in|match|Record|Definition|Inductive|Require|Import|Fixpoint|CoFixpoint|define|case|receive|spawn|raise|send)\b(?!:)/g,
+            .replace(/\b(data|where|module|import|split|let|in)\b(?!:)/g,
                 '<span class="h__keyword">$1</span>');
     }
 }
