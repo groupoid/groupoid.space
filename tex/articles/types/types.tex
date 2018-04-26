@@ -108,17 +108,16 @@ to Om syntax \footnote{\url{https://github.com/groupoid/om/blob/master/src/om_pa
 All terms in this article will be given in this syntax. Here is informal BNF:
 
 \begin{lstlisting}[mathescape=true]
-     0 := #empty         imp    := [ ${\bf import}$ id ]
-   brs := 0 + cobrs      tele   := 0 + cotele
-   app := exp exp        cotele := ( exp : exp ) tele
-    id := [ #nat ]       sum    := 0 + id tele + id tele | sum
-   ids := [ id ]         br     := ids $\rightarrow$ exp
- codec := def dec        mod    := ${\bf module}$ id ${\bf where}$ imp def
-   dec := 0 + codec      cobrs  := | br brs
-   def := ${\bf data}$ id tele = sum + id tele : exp = exp + id tele : exp ${\bf where}$ def
-   exp := cotele * exp + cotele $\rightarrow$ exp + exp $\rightarrow$ exp + app + ( exp ) + id +
-          ${\bf split}$ cobrs + exp ${\bf .1}$ + exp ${\bf .2}$ + \cotele $\rightarrow$ exp
-
+0     0 := #empty         imp    := [ ${\bf import}$ id ]
+1   brs := 0 + cobrs      tele   := 0 + cotele
+2   app := exp exp        cotele := ( exp : exp ) tele
+3    id := [ #nat ]       sum    := 0 + id tele + id tele | sum
+4   ids := [ id ]         br     := ids $\rightarrow$ exp
+5 codec := def dec        mod    := ${\bf module}$ id ${\bf where}$ imp def
+6   dec := 0 + codec      cobrs  := | br brs
+7   def := ${\bf data}$ id tele = sum + id tele : exp = exp + id tele : exp ${\bf where}$ def
+8   exp := cotele * exp + cotele $\rightarrow$ exp + exp $\rightarrow$ exp + app + ( exp ) + id +
+9          ${\bf split}$ cobrs + exp ${\bf .1}$ + exp ${\bf .2}$ + \cotele $\rightarrow$ exp
 \end{lstlisting}
 
 \newpage

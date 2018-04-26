@@ -7,6 +7,7 @@ systems up to homotopy calculus.</p><code>data lang
    | ID (_: identity)
    | INDUCTION (_: ind)
    | HTS (_: hts)
+
 </code><h2>1. Type Systems Evolution</h2><div class="macro"><div class="macro__col"><h3 id="om">PTS</h3><ol><li><a href="#pi">PI</a></li></ol></div><div class="macro__col"><h3 id="macro">MLTT</h3><ol><li><a href="#pi">PI</a></li><li><a href="#sigma">SIGMA</a></li><li><a href="#id">ID</a></li><li><a href="#induction">INDUCTION</a></li></ol></div><div class="macro__col"><h3 id="eff">CUBICAL</h3><ol><li><a href="#pi">PI</a></li><li><a href="#sigma">SIGMA</a></li><li><a href="#path">PATH</a></li><li><a href="#induction">INDUCTION</a></li><li><a href="#comp">COMP</a></li><li><a href="#glue">GLUE</a></li></ol></div></div><p>The history of Type Theory take its root MLTT paper <sup>1</sup>.
 The the Type Theory was fixed with Id types, W, Nat, List types were added <sup>2</sup>.
 The type checker of single axiom system with Pi types only was given in CoC paper <sup>3</sup>.</p><p><b>[1]</b>. P.Martin-Löf. An Intuitionistic Theory of Types, 1972.
@@ -15,7 +16,18 @@ The type checker of single axiom system with Pi types only was given in CoC pape
 <b>[4]</b>. T.Streicher. The Groupoid Interpretation of Type Theory, 1996.
 <b>[5]</b>. H.Barendregt. Lambda Calculus With Types, 2010.
 <b>[6]</b>. S. Awodey et all. Homotopy Type Theory, 2014.
-</p><h2>2. Categorical Semantics</h2><p>A categorical semantics of pure type systems is the
+</p><h2>Cubical Syntax</h2><p>The 10 lines BNF simple syntax covers MLTT, mutual inductive types,
+and simple module system.</p><code>    0 := #empty         imp    := [ import id ]
+  brs := 0 + cobrs      tele   := 0 + cotele
+  app := exp exp        cotele := ( exp : exp ) tele
+   id := [ #nat ]       sum    := 0 + id tele + id tele | sum
+  ids := [ id ]         br     := ids ⟶ exp
+codec := def dec        mod    := module id where imp def
+  dec := 0 + codec      cobrs  := | br brs
+  def := data id tele = sum + id tele : exp = exp + id tele : exp where def
+  exp := cotele * exp + cotele ⟶ exp + exp ⟶ exp + app + ( exp ) + id +
+         split cobrs + exp.1 + exp.2 + \ cotele ⟶ exp
+</code><h2>2. Categorical Semantics</h2><p>A categorical semantics of pure type systems is the
 locally cartesian closed categories.</p><code>data pts
    = star             (n: nat)
    | var    (x: name) (l: nat)
