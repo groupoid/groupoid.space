@@ -15,21 +15,8 @@ block content
                    TL;DR Build hypothetic Infinity language by layering
                    the semantics and giving by the way the literature overview.
             section
-                h2 Introduction
-                p.
-                    The idea of Infinity Langauge is a unified layered type checker.
-                    We select 5 levels of type checker awareness from pure type
-                    systems up to homotopy calculus.
-                code.
-                    data lang
-                       = PTS (_: pts)
-                       | SIGMA (_: exists)
-                       | ID (_: identity)
-                       | INDUCTION (_: ind)
-                       | HTS (_: hts)
 
-
-                h2 1. Type Systems Evolution
+                h2 1. History of Type Systems
                 .macro
                     .macro__col
                         h3#om PTS
@@ -61,7 +48,11 @@ block content
                     <b>[3]</b>. T.Coquand. The Calculus of Constructions, 1988.
                     <b>[4]</b>. T.Streicher. The Groupoid Interpretation of Type Theory, 1996.
                     <b>[5]</b>. H.Barendregt. Lambda Calculus With Types, 2010.
-                    <b>[6]</b>. S. Awodey et all. Homotopy Type Theory, 2014.
+                    <b>[6]</b>. S.Awodey et all. Homotopy Type Theory, 2014.
+                    <b>[7]</b>. A.Mortberg. Cubical Type Theory, 2017.
+                p.
+                    Then Voevodsky presented HTS without a computational semantics of univalence
+                    axiom. This later was fixed by Mortberg et all in cubicaltt.
 
                 h2 Cubical Syntax
                 p.
@@ -88,10 +79,20 @@ block content
                        exp := cotele * exp + cotele -> exp + exp -> exp + app + ( exp ) + id +
                               split cobrs + exp.1 + exp.2 + \ cotele -> exp
 
-                h2 2. Categorical Semantics
+                h2 Infinity Language
                 p.
-                    A categorical semantics of pure type systems is the
-                    locally cartesian closed categories.
+                    The idea of Infinity Langauge is a unified layered type checker.
+                    We select 5 levels of type checker awareness from pure type
+                    systems up to homotopy calculus.
+                code.
+                    data lang
+                       = PTS (_: pts)
+                       | SIGMA (_: exists)
+                       | ID (_: identity)
+                       | INDUCTION (_: ind)
+                       | HTS (_: hts)
+
+                h2 Dependent Type Theory
                 code.
                     data pts
                        = star             (n: nat)
@@ -115,7 +116,7 @@ block content
                     <b>[13]</b>. B.Jacobs. Fibrations with indeterminates, 1994.
                     <b>[14]</b>. P.Curien. Category theory: a programming language-oriented introduction, 2008.
 
-                h2 3. Contextual Categories
+                h2 Contextual Categories
                 p.
                     Categories with Families is a categorical semantics
                     of dependent type theory that nowadays formulated
@@ -130,7 +131,7 @@ block content
                     <b>[26]</b>. P.Dybjer. Internal Type Theory.
                     <b>[27]</b>. V.Voevodsky. A C-system defined by a universe category.
 
-                h2 4. Identity Types
+                h2 Identity Types
                 p.
                 code.
                     data identity
@@ -146,7 +147,7 @@ block content
                     <b>[35]</b>. V.Voevodsky. Identity types in the C-systems defined by a universe category, 2015.
                     <b>[36]</b>. L.de Moura. Congruence Closure in Intensional Type Theory, 2016.
 
-                h2 5. Inductive Types
+                h2 Inductive Types
                 p.
                     The further development of induction<sup>5</sup> inside MLTT provers led
                     to the theory of polynomial functors and well-founded trees<sup>4</sup>,
@@ -177,7 +178,7 @@ block content
                     <b>[46]</b>. V.Vene. Categorical programming with (co)inductive types.
                     <b>[47]</b>. H.Geuvers. Dependent (Co)Inductive Types are Fibrational Dialgebras, 2015.
 
-                h2 6. Higher Inductive Types
+                h2 Higher Inductive Types
                 p.
                     The fundamental development of equality inside MLTT
                     provers led us to the notion of ∞-groupoid<sup>2</sup> as spaces.
