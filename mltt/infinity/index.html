@@ -1,94 +1,103 @@
-<!DOCTYPE html><html><head><meta charset="utf-8"><meta http-equiv="x-ua-compatible" content="ie=edge"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="author" content="Maxim Sokhatsky"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:site" content="@5HT"><meta name="twitter:creator" content="@5HT"><meta name="twitter:image" content="https://groupoid.space/card2.png"><meta property="og:title" content="Groupoid Infinity"><meta property="og:image" content="https://groupoid.space/card2.png"><meta property="og:type" content="website"><meta property="fb:app_id" content="118554188236439"><meta property="og:url" content="https://groupoid.space"><meta property="og:description" content="MLTT Language with Extensions"><link rel="stylesheet" href="https://groupoid.space/main.css?v=8"><title>INFINITY</title></head><body class="content"><header class="header"><a href="//groupoid.space/"><img class="header__logo" src="../../groupoid.svg"/></a><div class="header__titles"><h1 class="header__title">Infinity Language</h1><h4 class="header__subtitle">MLTT Extensions</h4></div></header><article class="main"><div class="exe"><section><h1>Article</h1></section><aside>Maxim Sokhatsky<time>15 FEB 16</time></aside><section><h2>Introduction</h2><p>The idea of Infinity Langauge came from the needs of unification and
-arranging different calculuses as extensions to the core of the language
-with dependent types (or MLTT core). While been working on distributed
-systems, data storages and stream processing, the core two languages:
-pi-calculus and stream calculus discovered to be connected and being
-driven by a language with quantifiers as primitives. So we started
-to look forward to a unified type checker.
-</p><h2>Layered Core</h2><div class="macro"><div class="macro__col"><h3 id="om">PTS</h3><ol><li><a href="#pi">PI</a></li></ol></div><div class="macro__col"><h3 id="macro">MLTT</h3><ol><li><a href="#pi">PI</a></li><li><a href="#sigma">SIGMA</a></li><li><a href="#id">ID</a></li></ol></div><div class="macro__col"><h3 id="macro">HTS</h3><ol><li><a href="#pi">PI</a></li><li><a href="#hts">PATH</a></li><li><a href="#hts">COMP</a></li></ol></div><div class="macro__col"><h3 id="eff">CUBICAL</h3><ol><li><a href="#pi">PI</a></li><li><a href="#sigma">SIGMA</a></li><li><a href="#hts">PATH</a></li><li><a href="#hts">COMP</a></li><li><a href="#hts">GLUE</a></li></ol></div></div><h2>Pure Type System</h2><p>From the time Coquand at all discovered Calculus of Constructions<sup>6</sup>,
-and Barendregt<sup>7</sup> systemized its variations, a Pure Type System
-theory was developed. It is known also as Single Axiom System
-with only Pi-Type of MLTT<sup>2</sup>, representing Functional Completeness<sup>3</sup>.</p><code>data O<sub>1</sub> = U : nat → O<sub>1</sub>
-        | Var: Ident → O<sub>1</sub>
-        | App: O<sub>1</sub> → O<sub>1</sub> → O<sub>1</sub>
-        | Lambda: Binder → O<sub>1</sub> → O<sub>1</sub> → O<sub>1</sub>
-        | Arrow: O<sub>1</sub> → O<sub>1</sub> → O<sub>1</sub>
-        | Pi: name → O<sub>1</sub> → O<sub>1</sub> → O<sub>1</sub>
-</code><p>1. S.MacLane. Categories for the Working Mathematician<br>
-2. P.Martin-Löf. An Intuitionistic Theory of Types. 1972  <br>
-3. B.Jacobs. Fibrations with indeterminates. 1994 <br>
-4. W.Lawvere. Conceptual Mathematics. 1997  <br>
-5. P.Curien. Category theory: a programming language-oriented introduction. 2008  <br>
-6. T.Coquand. The Calculus of Constructions. 1988 <br>
-7. H.Barendregt. Lambda Calculus With Types. 2010 <br>
-</p><h2>Contextual Completness</h2><p>The basic Core primitive which is needed for proving things
-is MLTT Sigma-Type, representing Contextual Completeness.
-This is needed for building Sigma pairs which are curried
-records. Usually, type checkers called Pi-Sigma provers
-as it contains PTS enriched with Sigma primitive.</p><code>data O<sub>2</sub> = O<sub>1</sub>
-        | Sigma: name → O<sub>2</sub> → O<sub>2</sub> → O<sub>2</sub>
-        | Pair: O<sub>2</sub> → O<sub>2</sub> → O<sub>2</sub>
-        | Fst: O<sub>2</sub> → O<sub>2</sub>
-        | Snd: O<sub>2</sub> → O<sub>2</sub>
-</code><h2>Identity Types</h2><p></p><code>data O<sub>3</sub> = O<sub>2</sub>
-        | Id: O<sub>3</sub> → O<sub>3</sub> → O<sub>3</sub>
-        | IdPair: O<sub>3</sub> → O<sub>3</sub> → O<sub>3</sub>
-        | IdJ: O<sub>3</sub> → O<sub>3</sub> → O<sub>3</sub> → O<sub>3</sub> → O<sub>3</sub> → O<sub>3</sub></code><p>1. E.Bishop. Foundations of Constructive Analysis. 1967 <br>
-2. B. Nordström. Programming in Martin-Löf’s Type Theory. 1990 <br>
-3. T.Streicher, M.Hofmann. The groupoid interpretation of type theory. 1996 <br>
-4. C.Hermida,B.Jacobs. Structural induction and coinduction in a fibrational setting. 1997<br>
-5. G.Barthe, V.Capretta. Setoids in type theory. 2003 <br>
-6. M.Sozeau. Internalizing Intensional Type Theory 2013 <br>
-7. V.Voevodsky. Identity types in the C-systems defined by a universe category. 2015 <br>
-8. D.Selsam,L.de Moura. Congruence Closure in Intensional Type Theory. 2016 <br>
-</p><h2>(Co)-Inductive Types</h2><p>The further development of induction<sup>5</sup> inside MLTT provers led
+<!DOCTYPE html><html><head><meta charset="utf-8"><meta http-equiv="x-ua-compatible" content="ie=edge"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="author" content="Maxim Sokhatsky"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:site" content="@5HT"><meta name="twitter:creator" content="@5HT"><meta name="twitter:image" content="https://groupoid.space/card2.png"><meta property="og:title" content="Groupoid Infinity"><meta property="og:image" content="https://groupoid.space/card2.png"><meta property="og:type" content="website"><meta property="fb:app_id" content="118554188236439"><meta property="og:url" content="https://groupoid.space"><meta property="og:description" content="MLTT Language with Extensions"><link rel="stylesheet" href="https://groupoid.space/main.css?v=8"><title>INFINITY</title></head><body class="content"><header class="header"><a href="//groupoid.space/"><img class="header__logo" src="../../groupoid.svg"/></a><div class="header__titles"><h1 class="header__title">Infinity Programming</h1><h4 class="header__subtitle">Literature Overview</h4></div></header><article class="main"><div class="exe"><section><h1>Abstract</h1></section><aside>Максим Сохацький<time>26 APR 2018</time><p>TL;DR Build hypothetic Infinity language by layering
+the semantics and giving by the way the literature overview.</p></aside><section><h2>Introduction</h2><p>The idea of Infinity Langauge is a unified layered type checker.
+We select 5 levels of type checker awareness from pure type
+systems up to homotopy calculus.</p><code>data lang
+   = PTS (_: pts)
+   | SIGMA (_: exists)
+   | ID (_: identity)
+   | INDUCTION (_: ind)
+   | HTS (_: hts)
+</code><h2>1. Type Systems Evolution</h2><div class="macro"><div class="macro__col"><h3 id="om">PTS</h3><ol><li><a href="#pi">PI</a></li></ol></div><div class="macro__col"><h3 id="macro">MLTT</h3><ol><li><a href="#pi">PI</a></li><li><a href="#sigma">SIGMA</a></li><li><a href="#id">ID</a></li><li><a href="#induction">INDUCTION</a></li></ol></div><div class="macro__col"><h3 id="eff">CUBICAL</h3><ol><li><a href="#pi">PI</a></li><li><a href="#sigma">SIGMA</a></li><li><a href="#path">PATH</a></li><li><a href="#induction">INDUCTION</a></li><li><a href="#comp">COMP</a></li><li><a href="#glue">GLUE</a></li></ol></div></div><p>The history of Type Theory take its root MLTT paper <sup>1</sup>.
+The the Type Theory was fixed with Id types, W, Nat, List types were added <sup>2</sup>.
+The type checker of single axiom system with Pi types only was given in CoC paper <sup>3</sup>.</p><p><b>[1]</b>. P.Martin-Löf. An Intuitionistic Theory of Types, 1972.
+<b>[2]</b>. P.Martin-Löf. Intuitionistic Type Theory, 1984.
+<b>[3]</b>. T.Coquand. The Calculus of Constructions, 1988.
+<b>[4]</b>. T.Streicher. The Groupoid Interpretation of Type Theory, 1996.
+<b>[5]</b>. H.Barendregt. Lambda Calculus With Types, 2010.
+<b>[6]</b>. S. Awodey et all. Homotopy Type Theory, 2014.
+</p><h2>2. Categorical Semantics</h2><p>A categorical semantics of pure type systems is the
+locally cartesian closed categories.</p><code>data pts
+   = star             (n: nat)
+   | var    (x: name) (l: nat)
+   | pi     (x: name) (l: nat) (d c: lang)
+   | lambda (x: name) (l: nat) (d c: lang)
+   | app                       (f a: lang)</code><br><code>data exists
+   = sigma (n: name) (a b: lang)
+   | pair (a b: lang)
+   | fst (p: lang)
+   | snd (p: lang)</code><p>The categorical methods for lambda calculus and category theory in general
+could be found in the following works:</p><p><b>[11]</b>. S.MacLane. Categories for the Working Mathematician.
+<b>[12]</b>. W.Lawvere. Conceptual Mathematics, 1997.
+<b>[13]</b>. B.Jacobs. Fibrations with indeterminates, 1994.
+<b>[14]</b>. P.Curien. Category theory: a programming language-oriented introduction, 2008.
+</p><h2>3. Contextual Categories</h2><p>Categories with Families is a categorical semantics
+of dependent type theory that nowadays formulated
+as cubical sets or as presheaf model of type theory.</p><p><b>[20]</b>. P.Dybjer. The Interpretation of Intuitionistic Type Theory in Locally Cartesian Closed Categories -- an Intuitionistic Perspective.
+<b>[21]</b>. P.Clairambault. From Categories with Families to Locally Cartesian Closed Categories.
+<b>[22]</b>. P.Dybjer. On the Algebraic Foundation of Proof Assistants for Intuitionistic Type Theory.
+<b>[23]</b>. R.A.G.Seely. Locally cartesian closed categories and type theory.
+<b>[24]</b>. M.Hofmann. Revisiting the categorical interpretation of dependent type theory.
+<b>[25]</b>. S.Castellan. Dependent type theory as the initial category with families.
+<b>[26]</b>. P.Dybjer. Internal Type Theory.
+<b>[27]</b>. V.Voevodsky. A C-system defined by a universe category.
+</p><h2>4. Identity Types</h2><p></p><code>data identity
+   = id (a b: lang)
+   | idpair (a b: lang)
+   | idelim (a b c d e: lang)</code><p><b>[30]</b>. E.Bishop. Foundations of Constructive Analysis, 1967.
+<b>[31]</b>. B.Nordström. Programming in Martin-Löf’s Type Theory.
+<b>[32]</b>. B.Jacobs. Structural induction and coinduction in a fibrational setting, 1997.
+<b>[33]</b>. G.Barthe, V.Capretta. Setoids in type theory, 2003.
+<b>[34]</b>. M.Sozeau. Internalizing Intensional Type Theory, 2013.
+<b>[35]</b>. V.Voevodsky. Identity types in the C-systems defined by a universe category, 2015.
+<b>[36]</b>. L.de Moura. Congruence Closure in Intensional Type Theory, 2016.
+</p><h2>5. Inductive Types</h2><p>The further development of induction<sup>5</sup> inside MLTT provers led
 to the theory of polynomial functors and well-founded trees<sup>4</sup>,
 known in programming languages as inductive types with data
 and record core primitives of type checker. In fact recursive inductive
 types<sup>3</sup> could be encoded in PTS using non-recursive representation
-Berarducci<sup>1</sup> or Categorical<sup>6</sup> encoding.</p><code>data tele   (A: U) = empty | tel: name → A → tele A
-data branch (A: U) =         br: name → list name → A
-data label  (A: U) =         lab: name → tele A
+Berarducci<sup>1</sup> or Categorical<sup>6</sup> encoding.</p><code>data tele (A: U)   = emp | tel (n: name) (b: A) (t: tele A)
+data branch (A: U) =        br (n: name) (args: list name) (term: A)
+data label (A: U)  =       lab (n: name) (t: tele A)
 
-data O<sub>4</sub> = O<sub>3</sub>
-        | Sum: name → tele → list (label O<sub>4</sub>)
-        | Split: name → list (branch O<sub>4</sub>)
-        | Ctor: name → list O<sub>4</sub></code><p>The non-well-founded trees or infinite coinductive trees<sup>6,8</sup>
+data ind
+   = data_  (n: name) (t: tele lang) (labels:   list (label lang))
+   | case   (n: name) (t: lang)      (branches: list (branch lang))
+   | ctor   (n: name)                (args:     list lang)</code><p>The non-well-founded trees or infinite coinductive trees<sup>6,8</sup>
 are useful for modeling infinite process running which is part
-of Milner's Pi-calculus. Coinductive streams are part of any MLTT base library.</p><p>1. A.Berarducci. Automatic Synthesis of Typed Lambda-Programs. 1985 <br>
-2. F.Pfenning. Inductively defined types in the CoC. 1989 <br>
-3. P.Wadler. Recursive types for free. 1990 <br>
-4. N.Gambino. Wellfounded Trees and Dependent Polynomial Functors. 1995 <br>
-5. P.Dybjer. Inductive Famalies. 1997 <br>
-6. B.Jacobs. (Co)Algebras and (Co)Induction. 1997 <br>
-7. V.Vene. Categorical programming with (co)inductive types<br>
-8. H.Geuvers. Dependent (Co)Inductive Types are Fibrational Dialgebras. 2015 <br>
-</p><h2>Higher Inductive Types</h2><p>The fundamental development of equality inside MLTT
+of Milner's Pi-calculus. Coinductive streams are part of any MLTT base library.</p><p><b>[40]</b>. A.Berarducci. Automatic Synthesis of Typed Lambda-Programs, 1985.
+<b>[41]</b>. F.Pfenning. Inductively defined types in the CoC, 1989.
+<b>[42]</b>. P.Wadler. Recursive types for free, 1990.
+<b>[43]</b>. N.Gambino. Wellfounded Trees and Dependent Polynomial Functors, 1995.
+<b>[44]</b>. P.Dybjer. Inductive Famalies, 1997.
+<b>[45]</b>. B.Jacobs. (Co)Algebras and (Co)Induction, 1997.
+<b>[46]</b>. V.Vene. Categorical programming with (co)inductive types.
+<b>[47]</b>. H.Geuvers. Dependent (Co)Inductive Types are Fibrational Dialgebras, 2015.
+</p><h2>6. Higher Inductive Types</h2><p>The fundamental development of equality inside MLTT
 provers led us to the notion of ∞-groupoid<sup>2</sup> as spaces.
 In this was Path identity type appeared in the core
 of type checker along with de Morgan algebra on
 built-in interval type. Glue, unglue composition
 and fill operations are also needed in the core
-for the univalence computability<sup>7</sup>.</p><code>data O<sub>5</sub> = O<sub>4</sub>
-        | Path: O<sub>5</sub> → O<sub>5</sub> → O<sub>4</sub>
-        | PathLam: Binder → O<sub>5</sub> → O<sub>5</sub> → O<sub>5</sub>
-        | PathApp: O<sub>5</sub> → Formula → O<sub>5</sub> → O<sub>5</sub>
-        | Comp: O<sub>5</sub> → O<sub>5</sub> → O<sub>5</sub>
-        | Fill: O<sub>5</sub> → O<sub>5</sub> → O<sub>5</sub>
-        | Glue: O<sub>5</sub> → O<sub>5</sub> → O<sub>5</sub>
-        | GlueElem: O<sub>5</sub> → O<sub>5</sub> → O<sub>5</sub>
-        | UnGlueElem: O<sub>5</sub> → O<sub>5</sub> → O<sub>5</sub></code><p>1. T.Streicher. A groupoid model refutes UIP. 1994 <br>
-2. T.Streicher. The Groupoid Interpretation. 1996 <br>
-3. B.Jacobs. Categorical Logic and Type Theory. 1999 <br>
-4. S.Awodey. Homotopy Type Theory and Univalent Foundations. 2013 <br>
-5. S.Huber. A Cubical Type Theory. 2015 <br>
-6. A.Joyal. What is an elementary higher topos. 2014 <br>
-7. A.Mortberg. Cubical Type Theory: a constructive univalence axiom. 2017 <br>
+for the univalence computability<sup>8</sup>.</p><code>data hts
+   = path (a b: lang)
+   | path_lam (n: name) (a b: lang)
+   | path_app (f: name) (a b: lang)
+   | comp_ (a b: lang)
+   | fill_ (a b c: lang)
+   | glue_ (a b c: lang)
+   | glue_elem (a b: lang)
+   | unglue_elem (a b: lang)
+</code><p><b>[50]</b>. T.Streicher. A groupoid model refutes UIP, 1994.
+<b>[51]</b>. B.Jacobs. Categorical Logic and Type Theory, 1999.
+<b>[52]</b>. S.Awodey. Homotopy Type Theory and Univalent Foundations, 2013.
+<b>[53]</b>. S.Huber. A Cubical Type Theory, 2015.
+<b>[54]</b>. A.Joyal. What is an elementary higher topos, 2014.
+<b>[55]</b>. M.Shulman. Univalent Categories and the Rezk Completion, 2014.
+<b>[56]</b>. A.Mortberg. Cubical Type Theory: a constructive univalence axiom, 2017.
 </p></section><section><h2>Universes</h2><p>The universe system is completely described by the PTS SAR notation,
 given by Barendregt. Find more info in
 <a href='../pure/#axioms'>Axioms and Inference Rules</a>
-of underlying Om intermediate language.</p><code>record PTS: * :=
-       (S: ∀ (n: nat) → star n)
-       (A: ∀ (i: nat) → type i (succ i))
-       (R: ∀ (i: nat) → ∀ (j: nat)
-                      → pi i j (max i j))</code></section></div></article><footer class="footer"><img class="footer__logo" src="https://longchenpa.guru/seal.png" width="50"><span class="footer__copy">2016&mdash;2017 &copy; <a href="//groupoid.space/team.html" style="color:white;">Groupoid Infinity</a></span></footer><script src="https://groupoid.space/bundle.js"></script><script src="https://groupoid.space/highlight.js"></script></body></html>
+of underlying Om intermediate language.</p><code>PTS : U
+    = (S: (n: nat)   -> star n)
+      (A: (i: nat)   -> type i (succ i))
+      (R: (i j: nat) -> pi i j (max i j)) * unit</code></section></div></article><footer class="footer"><img class="footer__logo" src="https://longchenpa.guru/seal.png" width="50"><span class="footer__copy">2016&mdash;2017 &copy; <a href="//groupoid.space/team.html" style="color:white;">Groupoid Infinity</a></span></footer><script src="https://groupoid.space/bundle.js"></script><script src="https://groupoid.space/highlight.js"></script></body></html>
