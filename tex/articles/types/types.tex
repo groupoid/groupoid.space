@@ -1157,6 +1157,34 @@ for term definition. In that way this kind of specification avoid a class of mis
 connected with implicit specifications hidden inside type checker.
 
 \newpage
+\section{Appendix}
+
+\subsection{Cubical Syntax}
+
+\begin{lstlisting}[mathescape=true]
+    [] = #list
+     + = #sum
+     0 = #empty
+     N = #nat
+    id = [ N ]
+   mod = ${\bf module}$ id ${\bf where}$ imp dec
+   imp = [ ${\bf import}$ id ]
+   ids = [ id ]
+  tele = 0 + cotele
+cotele = ( exp : exp ) tele
+    br = ids $\rightarrow$ exp
+   brs = 0 + cobrs
+ cobrs = ${\bf |}$ br brs
+   app = exp exp
+   dec = 0 + codec
+ codec = def dec
+   sum = 0 + id tele + id tele | sum
+   def = ${\bf data}$ id tele ${\bf =}$ sum + id tele : exp = exp + id tele : exp ${\bf where}$ def
+   exp = ${\bf split}$ cobrs + ( exp ) + id + exp ${\bf .1}$ + exp ${\bf .2}$ + cotele * exp
+         ${\bf \lambda}$ cotele $\rightarrow$ exp + cotele $\rightarrow$ exp + exp $\rightarrow$ exp + app
+\end{lstlisting}
+
+\newpage
 \bibliographystyle{plain}
 \bibliography{types}
 
