@@ -193,6 +193,32 @@ block content
                     3.11 Contractibility;
                     6.2 Induction principles and dependent paths.
 
+            h2 Well-Founded Trees
+            p.
+                W types are a generalisation of trees to encode Nat and List
+                which should be derivable in any MLTT theory.
+            code.
+                data W (A:U) (B:A->U) = sup (x:A) (f:B(x) -> W A B)
+            br.
+            code.
+                whead (A:U)(B:A->U): W A B -> A = split sup x f -> x
+                wtail (A:U)(B:A->U): (x:W A B) -> B (whead A B x) -> W A B
+                    = split sup x f -> f
+            br.
+            code.
+                Wind (A: U) (B: A -> U)
+                            (P: W A B -> U)
+                            (alg: (a: A) (f: B(a) -> W A B)
+                                  (hf: (b: B(a)) -> P (f b)) -> P (sup a f))
+                          : (w: W A B) -> P w
+                          = split sup x g ->
+                                  alg x g (\ (b: B(x))
+                                          -> Wind A B P alg (g b))
+            br.
+            p.
+                see <a href="http://5ht.co/hott.pdf">HoTT</a>:
+                    5.3 W-types.
+
             h2#setoid Setoid
             p.
                 Setoid was a first modeling of equality by its properties:
@@ -875,8 +901,8 @@ block content
                 data P (A B: U)
                    = p0 (_:A)
                    | p1 (_:B)
-                   | pseg (x:A) (y:B) &lt;i&gt; [ (i=0) -> p0 x,
-                                            (i=1) -> p1 y ]
+                   | pseg (x:A) (y:B) &lt;i&gt; [ (i = 0) -> p0 x,
+                                            (i = 1) -> p1 y ]
             br.
             code.
                 homotopy  (X Y: U)

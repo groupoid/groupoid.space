@@ -72,6 +72,18 @@ J (A: U) (a: A) (C: (x: A) -> Path A a x -> U)
     2.11 Identity type;
     3.11 Contractibility;
     6.2 Induction principles and dependent paths.
+</p><h2>Well-Founded Trees</h2><p>W types are a generalisation of trees to encode Nat and List
+which should be derivable in any MLTT theory.</p><code>data W (A:U) (B:A->U) = sup (x:A) (f:B(x) -> W A B)</code><br><code>whead (A:U)(B:A->U): W A B -> A = split sup x f -> x
+wtail (A:U)(B:A->U): (x:W A B) -> B (whead A B x) -> W A B
+    = split sup x f -> f</code><br><code>Wind (A: U) (B: A -> U)
+            (P: W A B -> U)
+            (alg: (a: A) (f: B(a) -> W A B)
+                  (hf: (b: B(a)) -> P (f b)) -> P (sup a f))
+          : (w: W A B) -> P w
+          = split sup x g ->
+                  alg x g (\ (b: B(x))
+                          -> Wind A B P alg (g b))</code><br><p>see <a href="http://5ht.co/hott.pdf">HoTT</a>:
+    5.3 W-types.
 </p><h2 id="setoid">Setoid</h2><p>Setoid was a first modeling of equality by its properties:
 reflexivity, symmetry and transitivity by Errett Bishop in 1967.
 </p><code>Setoid (A: U): U
@@ -485,8 +497,8 @@ isoElim (B: U) (Q: (A: U) -> (A -> B) -> (B -> A) -> U)
                (i=1) -> i1 ]</code><br><code>data P (A B: U)
    = p0 (_:A)
    | p1 (_:B)
-   | pseg (x:A) (y:B) &lt;i&gt; [ (i=0) -> p0 x,
-                            (i=1) -> p1 y ]</code><br><code>homotopy  (X Y: U)
+   | pseg (x:A) (y:B) &lt;i&gt; [ (i = 0) -> p0 x,
+                            (i = 1) -> p1 y ]</code><br><code>homotopy  (X Y: U)
           (f g: X -> Y)
           (p: (x: X) -> Path Y (f x) (g x))
           (x: X)

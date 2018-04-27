@@ -9,8 +9,12 @@ The type checker of single axiom system with Pi types only was given in CoC pape
 <b>[6]</b>. S.Awodey et all. Homotopy Type Theory, 2014.
 <b>[7]</b>. A.Mortberg. Cubical Type Theory, 2017.</p><p>Then Voevodsky presented HTS without a computational semantics of univalence
 axiom. This later was fixed by Mortberg et all in cubicaltt.
-</p><h2>Cubical Syntax</h2><p>The 10 lines BNF simple syntax covers MLTT, inductive types case analisys,
-and simple module system.</p><code>    0 := #empty
+</p><h2>Cubical Syntax</h2><p>The 10 lines BNF declares syntax that covers:
+1) MLTT as pi, sigma and path types;
+2) inductive types case analisys; and
+3) simple module system.
+This system is enough to encode
+core <a href="https://groupois.space/mltt/types">cubical base library</a>.</p><code>    0 := #empty
   brs := 0 + cobrs
   app := exp exp
    id := [ #nat ]
