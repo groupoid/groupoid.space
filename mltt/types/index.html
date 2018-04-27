@@ -39,9 +39,9 @@ funExt (A B: U) (f g: A -> B)
        (p: (x:A) -> Path B (f x) (g x))
      : Path (A -> B) f g
      = &lt;i&gt; \(a: A) -> p a @ i
-</code><h2 id="sigma"><a name='sigma'><a href='sigma/'>Sigma</a></a></h2><p>Sigma is a dependent version of product: <b>pair: (x:A) * B(x)</b>.</p><code>Sigma (A: U) (B: A -> U): U</code><br><code>make (A: U) (B: A -> U) (a: A) (b: B a): Sigma A B
-pr1 (A: U) (B: A -> U) (x: Sigma A B): A
-pr2 (A: U) (B: A -> U) (x: Sigma A B): B (pr1 A B x)</code><br><p>see <a href="http://5ht.co/hott.pdf">HoTT</a>:
+</code><h2 id="sigma"><a name='sigma'><a href='sigma/'>Sigma</a></a></h2><p>Sigma is a dependent version of product: <b>pair: (x:A) * B(x)</b>.</p><code>Sigma (A: U) (B: A -> U): U</code><br><code>sigmaIntro (A: U) (B: A -> U) (a: A) (b: B a): Sigma A B
+pi1 (A: U) (B: A -> U) (x: Sigma A B): A
+pi2 (A: U) (B: A -> U) (x: Sigma A B): B (pi1 A B x)</code><br><p>see <a href="http://5ht.co/hott.pdf">HoTT</a>:
     1.6 Dependent pair types (Sigma-types); and
     2.7 Sigma-types.</p><code>sigmaRec (A: U) (B: A -> U) (C: U)
          (g: (x:A) -> B(x) -> C)

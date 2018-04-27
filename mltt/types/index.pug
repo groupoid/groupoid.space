@@ -143,9 +143,9 @@ block content
                 Sigma (A: U) (B: A -> U): U
             br.
             code.
-                make (A: U) (B: A -> U) (a: A) (b: B a): Sigma A B
-                pr1 (A: U) (B: A -> U) (x: Sigma A B): A
-                pr2 (A: U) (B: A -> U) (x: Sigma A B): B (pr1 A B x)
+                sigmaIntro (A: U) (B: A -> U) (a: A) (b: B a): Sigma A B
+                pi1 (A: U) (B: A -> U) (x: Sigma A B): A
+                pi2 (A: U) (B: A -> U) (x: Sigma A B): B (pi1 A B x)
             br.
             p.
                 see <a href="http://5ht.co/hott.pdf">HoTT</a>:
