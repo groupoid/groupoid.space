@@ -76,14 +76,14 @@ kan (A: U) (a b c d: A) (p: Path A a b) (q: Path A a c) (r: Path A b d): Path A 
 </p><h2>Well-Founded Trees</h2><p>W types are a generalisation of trees to encode Nat and List
 which should be derivable in any MLTT theory.
 W types here encoded with Sigma.</p><code>W (A:U) (B:A->U): U = (x:A) * (B(x) -> W A B)</code><br><code>Wrec (A:U) (B:A->U) (P:U)
-       (alg: (a:A) (f:B(a)->W A B) (h:(b:B(a))->P) -> P)
-     : (w: W A B) -> P
-     = \(w:W A B) -> alg w.1 w.2 (\(b:B(w.1)) -> Wrec A B P alg (w.2 b))
+     (alg: (a:A) (f:B(a)->W A B) (h:(b:B(a))->P) -> P)
+   : (w: W A B) -> P
+   = \(w:W A B) -> alg w.1 w.2 (\(b:B(w.1)) -> Wrec A B P alg (w.2 b))
 
 Wind (A:U) (B:A->U) (P:W A B -> U)
-       (alg: (a:A) (f:B(a)->W A B) (h:(b:B(a))->P (f b)) -> P (a,f))
-     : (w: W A B) -> P w
-     = \(w:W A B) -> alg w.1 w.2 (\(b:B(w.1)) -> Wind A B P alg (w.2 b))</code><br><p>see <a href="http://5ht.co/hott.pdf">HoTT</a>:
+     (alg: (a:A) (f:B(a)->W A B) (h:(b:B(a))->P (f b)) -> P (a,f))
+   : (w: W A B) -> P w
+   = \(w:W A B) -> alg w.1 w.2 (\(b:B(w.1)) -> Wind A B P alg (w.2 b))</code><br><p>see <a href="http://5ht.co/hott.pdf">HoTT</a>:
     5.3 W-types.
 </p><h2 id="setoid">Setoid</h2><p>Setoid was a first modeling of equality by its properties:
 reflexivity, symmetry and transitivity by Errett Bishop in 1967.
