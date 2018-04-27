@@ -201,24 +201,20 @@ block content
             p.
                 W types are a generalisation of trees to encode Nat and List
                 which should be derivable in any MLTT theory.
+                W types here encoded with Sigma.
             code.
-                data W (A:U) (B:A->U) = sup (x:A) (f:B(x) -> W A B)
+                W (A:U) (B:A->U): U = (x:A) * (B(x) -> W A B)
             br.
             code.
-                whead (A:U)(B:A->U): W A B -> A = split sup x f -> x
-                wtail (A:U)(B:A->U): (x:W A B) -> B (whead A B x) -> W A B
-                    = split sup x f -> f
-            br.
-            code.
-                Wrec (A: U) (B: A->U) (P: U)
-                     (alg: (a:A) (f: B(a) -> W A B) (h: (b: B(a)) -> P) -> P)
-                   : W A B -> P
-                   = split sup x g -> alg x g (\(b:B(x)) -> Wrec A B P alg (g b))
+                Wrec (A:U) (B:A->U) (P:U)
+                       (alg: (a:A) (f:B(a)->W A B) (h:(b:B(a))->P) -> P)
+                     : (w: W A B) -> P
+                     = \(w:W A B) -> alg w.1 w.2 (\(b:B(w.1)) -> Wrec A B P alg (w.2 b))
 
-                Wind (A: U) (B: A -> U) (P: W A B -> U)
-                     (alg: (a: A) (f: B(a) -> W A B) (h: (b: B(a)) -> P (f b)) -> P (sup a f))
-                   : (w: W A B) -> P w
-                   = split sup x g -> alg x g (\(b: B(x)) -> Wind A B P alg (g b))
+                Wind (A:U) (B:A->U) (P:W A B -> U)
+                       (alg: (a:A) (f:B(a)->W A B) (h:(b:B(a))->P (f b)) -> P (a,f))
+                     : (w: W A B) -> P w
+                     = \(w:W A B) -> alg w.1 w.2 (\(b:B(w.1)) -> Wind A B P alg (w.2 b))
             br.
             p.
                 see <a href="http://5ht.co/hott.pdf">HoTT</a>:
