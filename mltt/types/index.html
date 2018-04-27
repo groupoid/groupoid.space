@@ -63,9 +63,10 @@ trans (A B: U) (p: Path U A B) (a: A) : B
 subst (A: U) (P: A -> U) (a b: A) (p: Path A a b) (e: P a): P b
 cong (A B: U) (f: A -> B) (a b: A) (p: Path A a b): Path B (f a) (f b)
 composition (A: U) (a b c: A) (p: Path A a b) (q: Path A b c): Path A a c
-kan (A: U) (a b c d: A) (p: Path A a b) (q: Path A a c) (r: Path A b d): Path A c d
-J (A: U) (a: A) (C: (x: A) -> Path A a x -> U)
-  (d: C a (refl A a)) (x: A) (p: Path A a x): C x p</code><br><p>see <a href="http://5ht.co/hott.pdf">HoTT</a>:
+kan (A: U) (a b c d: A) (p: Path A a b) (q: Path A a c) (r: Path A b d): Path A c d</code><br><code>J (A: U) (a x: A)
+  (C: (x: A) -> Path A a x -> U)
+  (d: C a (refl A a))
+  (p: Path A a x): C x p</code><br><p>see <a href="http://5ht.co/hott.pdf">HoTT</a>:
     1.12 Identity types;
     1.12.1 Path induction;
     2.1 Types are higher groupoids;
@@ -82,7 +83,11 @@ wtail (A:U)(B:A->U): (x:W A B) -> B (whead A B x) -> W A B
           : (w: W A B) -> P w
           = split sup x g ->
                   alg x g (\ (b: B(x))
-                          -> Wind A B P alg (g b))</code><br><p>see <a href="http://5ht.co/hott.pdf">HoTT</a>:
+                          -> Wind A B P alg (g b))
+
+Wrec (A P:U) (B:A->U) (alg: (a:A) (f:B(a)->W A B) (h:(b:B(a)) -> P) -> P)
+   : W A B -> P = Wind A B P alg (\(x:A)) split sup x g -> alg x g (\(h:B(x)) -> Wrec A B P alg (g h))
+</code><br><p>see <a href="http://5ht.co/hott.pdf">HoTT</a>:
     5.3 W-types.
 </p><h2 id="setoid">Setoid</h2><p>Setoid was a first modeling of equality by its properties:
 reflexivity, symmetry and transitivity by Errett Bishop in 1967.
