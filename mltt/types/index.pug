@@ -210,18 +210,15 @@ block content
                     = split sup x f -> f
             br.
             code.
-                Wind (A: U) (B: A -> U)
-                            (P: W A B -> U)
-                            (alg: (a: A) (f: B(a) -> W A B)
-                                  (hf: (b: B(a)) -> P (f b)) -> P (sup a f))
-                          : (w: W A B) -> P w
-                          = split sup x g ->
-                                  alg x g (\ (b: B(x))
-                                          -> Wind A B P alg (g b))
+                Wrec (A: U) (B: A->U) (P: U)
+                     (alg: (a:A) (f: B(a) -> W A B) (h: (b: B(a)) -> P) -> P)
+                   : W A B -> P
+                   = split sup x g -> alg x g (\(b:B(x)) -> Wrec A B P alg (g b))
 
-                Wrec (A P:U) (B:A->U) (alg: (a:A) (f:B(a)->W A B) (h:(b:B(a)) -> P) -> P)
-                   : W A B -> P = Wind A B P alg (\(x:A)) split sup x g -> alg x g (\(h:B(x)) -> Wrec A B P alg (g h))
-
+                Wind (A: U) (B: A -> U) (P: W A B -> U)
+                     (alg: (a: A) (f: B(a) -> W A B) (h: (b: B(a)) -> P (f b)) -> P (sup a f))
+                   : (w: W A B) -> P w
+                   = split sup x g -> alg x g (\(b: B(x)) -> Wind A B P alg (g b))
             br.
             p.
                 see <a href="http://5ht.co/hott.pdf">HoTT</a>:
@@ -384,12 +381,12 @@ block content
                 data maybe (A: U) = nothing | just (x: A)
             br.
             code.
-                maybeElim (A B: U) (n: B) (j: A->B): maybe A->B
-                        = split { nothing -> n; just a -> j a }
+                maybeRec (A P: U) (n: P) (j: A -> P): maybe A -> P
+                       = split { nothing -> n; just a -> j a }
 
-                maybeInd  (A: U) (P: maybe A -> U) (n: P nothing)
-                          (j: (a: A) -> P (just a)): (a: maybe A) -> P a
-                        = split { nothing -> n ; just x -> j x }
+                maybeInd (A: U) (P: maybe A -> U) (n: P nothing)
+                         (j: (a: A) -> P (just a)): (a: maybe A) -> P a
+                       = split { nothing -> n ; just x -> j x }
 
             h2#nat <a name='nat'><a href='nat/'>Nat</a></a>
             p.

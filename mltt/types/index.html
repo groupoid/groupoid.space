@@ -76,18 +76,15 @@ kan (A: U) (a b c d: A) (p: Path A a b) (q: Path A a c) (r: Path A b d): Path A 
 </p><h2>Well-Founded Trees</h2><p>W types are a generalisation of trees to encode Nat and List
 which should be derivable in any MLTT theory.</p><code>data W (A:U) (B:A->U) = sup (x:A) (f:B(x) -> W A B)</code><br><code>whead (A:U)(B:A->U): W A B -> A = split sup x f -> x
 wtail (A:U)(B:A->U): (x:W A B) -> B (whead A B x) -> W A B
-    = split sup x f -> f</code><br><code>Wind (A: U) (B: A -> U)
-            (P: W A B -> U)
-            (alg: (a: A) (f: B(a) -> W A B)
-                  (hf: (b: B(a)) -> P (f b)) -> P (sup a f))
-          : (w: W A B) -> P w
-          = split sup x g ->
-                  alg x g (\ (b: B(x))
-                          -> Wind A B P alg (g b))
+    = split sup x f -> f</code><br><code>Wrec (A: U) (B: A->U) (P: U)
+     (alg: (a:A) (f: B(a) -> W A B) (h: (b: B(a)) -> P) -> P)
+   : W A B -> P
+   = split sup x g -> alg x g (\(b:B(x)) -> Wrec A B P alg (g b))
 
-Wrec (A P:U) (B:A->U) (alg: (a:A) (f:B(a)->W A B) (h:(b:B(a)) -> P) -> P)
-   : W A B -> P = Wind A B P alg (\(x:A)) split sup x g -> alg x g (\(h:B(x)) -> Wrec A B P alg (g h))
-</code><br><p>see <a href="http://5ht.co/hott.pdf">HoTT</a>:
+Wind (A: U) (B: A -> U) (P: W A B -> U)
+     (alg: (a: A) (f: B(a) -> W A B) (h: (b: B(a)) -> P (f b)) -> P (sup a f))
+   : (w: W A B) -> P w
+   = split sup x g -> alg x g (\(b: B(x)) -> Wind A B P alg (g b))</code><br><p>see <a href="http://5ht.co/hott.pdf">HoTT</a>:
     5.3 W-types.
 </p><h2 id="setoid">Setoid</h2><p>Setoid was a first modeling of equality by its properties:
 reflexivity, symmetry and transitivity by Errett Bishop in 1967.
@@ -165,12 +162,12 @@ boolInd (C: bool -> U) (f: A false) (t: A true): (n:bool) -> A n
 It used for wrapping values with optional nothing constructor.
 In ML-style languages this type is called Option (Miranda, ML).
 There is an <a href="https://raw.githubusercontent.com/groupoid/infinity/master/priv/maybe_nat.ctt">isomorphims</a>
-between <b>(fix maybe)</b> and <b>nat</b>.</p><code>data maybe (A: U) = nothing | just (x: A)</code><br><code>maybeElim (A B: U) (n: B) (j: A->B): maybe A->B
-        = split { nothing -> n; just a -> j a }
+between <b>(fix maybe)</b> and <b>nat</b>.</p><code>data maybe (A: U) = nothing | just (x: A)</code><br><code>maybeRec (A P: U) (n: P) (j: A -> P): maybe A -> P
+       = split { nothing -> n; just a -> j a }
 
-maybeInd  (A: U) (P: maybe A -> U) (n: P nothing)
-          (j: (a: A) -> P (just a)): (a: maybe A) -> P a
-        = split { nothing -> n ; just x -> j x }
+maybeInd (A: U) (P: maybe A -> U) (n: P nothing)
+         (j: (a: A) -> P (just a)): (a: maybe A) -> P a
+       = split { nothing -> n ; just x -> j x }
 </code><h2 id="nat"><a name='nat'><a href='nat/'>Nat</a></a></h2><p>Pointed Unary System is a category nat with the terminal object
 and a carrier <b>nat</b> having morphism <b>[zero:
 1<sub>nat</sub> → nat, succ: nat → nat]</b>. The initial
