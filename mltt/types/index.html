@@ -54,26 +54,7 @@ sigmaInd (A: U) (B: A -> U) (C: Sigma A B -> U)
 axiomChoice (A B: U) (R: A->B -> U):
      (p: (x:A)->(y:B)*(R x y)) -> (f:A->B)*((x:A)->R(x)(f x))
   = \(g: (x:A)->(y:B)*(R x y)) -> (\(i:A)->(g i).1,\(j:A)->(g j).2)
-</code><h2 id="path"><a name="path"><a href='path/'>Path</a></a></h2><p>Path type is a [0,1] interval <b>proof: Path A a b</b>
-with lambda on it as its element, gluening,
-composition, and kan filling operation.</p><code>Path (A: U) (a b: A): U</code><br><code>sym  (A: U) (a b: A) (p: Path A a b): Path A b a
-refl (A: U) (a: A) : Path A a a
-singl (A: U) (a: A) : U
-trans (A B: U) (p: Path U A B) (a: A) : B
-subst (A: U) (P: A -> U) (a b: A) (p: Path A a b) (e: P a): P b
-cong (A B: U) (f: A -> B) (a b: A) (p: Path A a b): Path B (f a) (f b)
-composition (A: U) (a b c: A) (p: Path A a b) (q: Path A b c): Path A a c
-kan (A: U) (a b c d: A) (p: Path A a b) (q: Path A a c) (r: Path A b d): Path A c d</code><br><code>J (A: U) (a x: A)
-  (C: (x: A) -> Path A a x -> U)
-  (d: C a (refl A a))
-  (p: Path A a x): C x p</code><br><p>see <a href="http://5ht.co/hott.pdf">HoTT</a>:
-    1.12 Identity types;
-    1.12.1 Path induction;
-    2.1 Types are higher groupoids;
-    2.11 Identity type;
-    3.11 Contractibility;
-    6.2 Induction principles and dependent paths.
-</p><h2>Well-Founded Trees</h2><p>W types are a generalisation of trees to encode Nat and List
+</code><h2>Well-Founded Trees</h2><p>W types are a generalisation of trees to encode Nat and List
 which should be derivable in any MLTT theory.
 W types here encoded with Sigma.</p><code>W (A:U) (B:A->U): U = (x:A) * (B(x) -> W A B)</code><br><code>Wrec (A:U) (B:A->U) (P:U)
      (alg: (a:A) (f:B(a)->W A B) (h:(b:B(a))->P) -> P)
@@ -93,7 +74,26 @@ reflexivity, symmetry and transitivity by Errett Bishop in 1967.
   * (Refl: (x: A) -> Equ x x)
   * (Trans: (x₁,x₂,x₃: A) -> Equ x₁ x₂ -> Equ x₂ x₃ -> Equ x₁ x₃)
   * (Sym: (x₁,x₂: A) -> Equ x₁ x₂ -> Equ x₂ x₁)
-</code><h2 id="setoid">Groupoid</h2><p>Groupoid is a generalisation of multidementional equality.
+</code><h2 id="path"><a name="path"><a href='path/'>Path</a></a></h2><p>Path type is a [0,1] interval <b>proof: Path A a b</b>
+with lambda on it as its element, gluening,
+composition, and kan filling operation.</p><code>Path (A: U) (a b: A): U</code><br><code>sym  (A: U) (a b: A) (p: Path A a b): Path A b a
+refl (A: U) (a: A) : Path A a a
+singl (A: U) (a: A) : U
+trans (A B: U) (p: Path U A B) (a: A) : B
+subst (A: U) (P: A -> U) (a b: A) (p: Path A a b) (e: P a): P b
+cong (A B: U) (f: A -> B) (a b: A) (p: Path A a b): Path B (f a) (f b)
+composition (A: U) (a b c: A) (p: Path A a b) (q: Path A b c): Path A a c
+kan (A: U) (a b c d: A) (p: Path A a b) (q: Path A a c) (r: Path A b d): Path A c d</code><br><code>J (A: U) (a x: A)
+  (C: (x: A) -> Path A a x -> U)
+  (d: C a (refl A a))
+  (p: Path A a x): C x p</code><br><p>see <a href="http://5ht.co/hott.pdf">HoTT</a>:
+    1.12 Identity types;
+    1.12.1 Path induction;
+    2.1 Types are higher groupoids;
+    2.11 Identity type;
+    3.11 Contractibility;
+    6.2 Induction principles and dependent paths.
+</p><h2 id="setoid">Groupoid</h2><p>Groupoid is a generalisation of multidementional equality.
 It was stated by Grothendieck that infinity groupoid
 equals to topological space.</p><code>data N = Z  | S (n: N)
 
