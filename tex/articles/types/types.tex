@@ -114,10 +114,14 @@ If possible terms could be exracted
 to Om syntax \footnote{\url{https://github.com/groupoid/om/blob/master/src/om_parse.erl}}.
 
 All terms in this article will be given in this syntax.
-The BNF notation consist of: 1) telescopes (contexts or sigma chains);
-2) inductive data definitions (sum chains); 3) split eliminator;
-4) branches of split eliminators; 5) pure dependet type theory syntax.
-It also has where, import, module constructions.
+
+\begin{lstlisting}[mathescape=true]
+def := ${\bf data}$ id tele = sum + id tele : exp = exp +
+       id tele : exp ${\bf where}$ def
+
+exp := cotele*exp + cotele$\rightarrow$exp + exp$\rightarrow$exp + (exp) + app + id +
+       (exp,exp) + \ cotele$\rightarrow$exp + ${\bf split}$ cobrs + exp${\bf.1}$ + exp${\bf.2}$
+\end{lstlisting}
 
 \newpage
 \begin{lstlisting}[mathescape=true]
@@ -128,39 +132,43 @@ It also has where, import, module constructions.
    ids := [ id ]         br     := ids $\rightarrow$ exp
  codec := def dec        mod    := ${\bf module}$ id ${\bf where}$ imp def
    dec := 0 + codec      cobrs  := | br brs
-   def := ${\bf data}$ id tele = sum + id tele : exp = exp + id tele : exp ${\bf where}$ def
-   exp := cotele * exp + cotele $\rightarrow$ exp + exp $\rightarrow$ exp + app + ( exp ) + id +
-          ${\bf split}$ cobrs + exp ${\bf .1}$ + exp ${\bf .2}$ + \cotele $\rightarrow$ exp
 \end{lstlisting}
+
+The BNF notation consist of: 1) telescopes (contexts or sigma chains);
+2) inductive data definitions (sum chains); 3) split eliminator;
+4) branches of split eliminators; 5) pure dependet type theory syntax.
+It also has where, import, module constructions.
+
 
 \subsection*{Types Taxonomy}
 
 Types taxonomy shows us the core types categorized by a several axis:
 1) dependent (D) and non-dependent (ND) terms;
 2) recursive trees (R) or non-recursive (NR) data types;
-3) inductive (+) or coinductive (*) types.
+3) inductive (+) or coinductive (*) types;
+4) higher inductive (H) type.
 
 \begin{table}[h]
 \centering
 \caption{Types Taxonomy}
 \label{tab:a}
 \tabcolsep7pt
-\begin{tabular}{lcccc}
+\begin{tabular}{lccccc}
 \hline
-\thead{NR+ND} & \thead{R+ND} & \thead{NR+D} & \thead{R+D}\\
+\thead{NR+ND} & \thead{R+ND} & \thead{NR+D} & \thead{R+D} & \thead{H NR}\\
 \hline
-unit        & nat    & pi      & vector \\
-bool        & list   & circle  & fin \\
-either      & path   & I       &  \\
-maybe       &        &         &  \\
-empty       &        &         &  \\
+unit        & nat    & exists  & vector & I \\
+bool        & list   &         & fin    & circle \\
+either      &        &         & W      & suspension \\
+maybe       &        &         &        & pushout \\
+empty       &        &         &        & \\
 \hline
-\thead{NR*ND} & \thead{R*ND} & \thead{NR*D} & \thead{R*D}\\
+\thead{NR*ND} & \thead{R*ND} & \thead{NR*D} & \thead{R*D} &\thead{H R}\\
 \hline
-setoid      & stream & sigma   & cat  \\
-functor     &        & equiv   & prop \\
-applicative &        & iso     & set  \\
-monad       &        & fiber   & groupoid \\
+setoid      & stream & sigma   & cat               & trunc \\
+functor     &        & equiv   & n-groupoid        & quotient \\
+applicative &        & iso     & $\infty$-groupoid & \\
+monad       &        & fiber   &                   & \\
 \end{tabular}
 \end{table}
 
@@ -234,13 +242,13 @@ sigInd (A:U) (B:A -> U) (C: Sigma A B -> U)
      : C p = g p.1 p.2
 \end{lstlisting}
 
-Constructive version of Choice Axiom.
+%Constructive version of Choice Axiom.
 
-\begin{lstlisting}[mathescape=true]
-ac   (A B: U) (R: A -> B -> U):
-     (p: (x:A)->(y:B)*(R x y)) -> (f:A->B)*((x:A)->R(x)(f x))
-  = \(g: (x:A)->(y:B)*(R x y)) -> (\(i:A)->(g i).1,\(j:A)->(g j).2)
-\end{lstlisting}
+%\begin{lstlisting}[mathescape=true]
+%ac   (A B: U) (R: A -> B -> U):
+%     (p: (x:A)->(y:B)*(R x y)) -> (f:A->B)*((x:A)->R(x)(f x))
+% = \(g: (x:A)->(y:B)*(R x y)) -> (\(i:A)->(g i).1,\(j:A)->(g j).2)
+%\end{lstlisting}
 
 \subsection{Identity Type}
 
@@ -321,7 +329,7 @@ INF_GROUPOID : U = (X:U) * isInfinityGroupoid(X)
 
 The groupoids are defined in {\bf path} module.
 
-\subsection{Operational Semantics}
+\subsection{Example: Operational Semantics}
 
 By using such definition of MLTT we can commit the basic properties
 of dependent theory, computational rules. The proofs are trivial
@@ -532,11 +540,6 @@ provide basic theorems about streams bisimulation (equality).
 \begin{lstlisting}[mathescape=true]
 ${\bf data}$ stream (A: U) = cons (x: A) (xs: stream A)
 
-tail      (A: U): stream A -> stream A
-head      (A: U): stream A -> A
-fib   (a b: nat): stream nat
-seq (start: nat): stream nat
-
 ${\bf data}$ Bisimilar (A: U) (xs ys: stream A) =
      bisimilar (h: Path A (head A xs) (head A ys))
           (t: Bisimilar A (tail A xs) (tail A ys))
@@ -563,7 +566,7 @@ fz (n: nat): Fin (succ n)          = fzero
 fs (n: nat): Fin n -> Fin (succ n) = \(x: Fin n) -> fsucc x
 \end{lstlisting}
 
-\subsection{IO and Infinity IO}
+\subsection{Example: IO and Infinity IO}
 
 We extracted the pure function for the following IO free structure
 that encode the two functions for reading and printing string values in Church encoding.
@@ -571,9 +574,9 @@ The demonstarted program could be seen in Om project \footnote{\url{https://gith
 
 \begin{lstlisting}[mathescape=true]
 ${\bf data}$ IO (A: U)
-   = getLine (fun: String -> IO A)
-   | putLine (io: IO A) (str: String)
-   | pure (finish: A)
+  = getLine (fun: String -> IO A)
+  | putLine (io: IO A) (str: String)
+  | pure (finish: A)
 
 main: U = replicateM 100 (>>= String () getLine putLine)
 \end{lstlisting}
@@ -583,14 +586,14 @@ ans demonstrate the cofree comonadic encoding of process running.
 
 \begin{lstlisting}[mathescape=true]
 ${\bf data}$ IOI.F (A State: U)
-   = getLine: (fun: String -> State)
-   | putLine: (str: String) (state: State)
-   | pure: (finish: A)
+  = getLine: (fun: String -> State)
+  | putLine: (str: String) (state: State)
+  | pure: (finish: A)
 \end{lstlisting}
 \begin{lstlisting}[mathescape=true]
 ${\bf data}$ IOI (A State: U) =
-     intro: (init: State)
-            (action: State -> IOI.F A State)
+    intro: (init: State)
+           (action: State -> IOI.F A State)
 \end{lstlisting}
 
 We put Erlang Coinductive Bindings as pure function to comonad instance:
@@ -607,13 +610,13 @@ corec()     -> ap('Morte':corecursive(),
                [copure(),cogetLine(),coputLine(),copure(),list([])]).
 \end{lstlisting}
 
-Extract the Erlang program from Abstract Syntax and run the program:
+%Extract the Erlang program from Abstract Syntax and run the program:
 
-\begin{lstlisting}[mathescape=true]
-> om_extract:extract("priv/normal/IOI"),  om:corec().
-> 1
-: 1
-\end{lstlisting}
+%\begin{lstlisting}[mathescape=true]
+%> om_extract:extract("priv/normal/IOI"),  om:corec().
+%> 1
+%: 1
+%\end{lstlisting}
 
 \section{Control Structures}
 
@@ -686,7 +689,7 @@ monad: U = (_: applicative)
          * (   bind_sig F.1)
 \end{lstlisting}
 
-\subsection{Accessors}
+\subsection*{Accessors}
 
 Accessors are common technique in Type Refinement approach for beautifying the code.
 As cubical syntax provide only .1 and .2 notion for projections it is good to have
@@ -699,7 +702,7 @@ amap (a: applicative): fmap_sig a.1 = a.2.2.1
 ap   (a: applicative): appl_sig a.1 = a.2.2.2
 \end{lstlisting}
 
-\subsection{Theorems as Proof-carrying Code}
+\subsection*{Theorems as Proof-carrying Code}
 
 The formal definition of control structures comes in Type Refinement approach when
 we separate the algebraic structure and its properties.
@@ -762,6 +765,8 @@ MONAD: U = (f: monad)
        * (_: isApplicative (f.1,f.2.1,f.2.2.1,f.2.2.2.1))
        * isMonad f
 \end{lstlisting}
+
+\subsection{Example: List is a Functor}
 
 We do not show here the full Control library (only the Functor and Applicative instances)
 due to sizes of the terms. Here is sample list functor instance defined in {\bf list\_theory} module.
@@ -879,7 +884,7 @@ futu (A: U) (F: functor)
     Fix x -> unpack_free x
 \end{lstlisting}
 
-\subsection{Inductive and Coninductive Types}
+\subsection{Example: Inductive and Coninductive Types}
 
 Inductive types are given as direct encoding of commutative square as in \cite{Wu13}.
 For inductive and coinductive data types the first two fields of sigma are flipped.
@@ -1044,7 +1049,7 @@ isPrecategory (C: cat): U
 precategory: U = (C: cat) * isPrecategory C
 \end{lstlisting}
 
-\subsection{Accessors}
+\subsection*{Accessors}
 
 Due to the nature of minimalistic syntax for each algebraic structure
 should be defined the accessors for its projections to avoid long projection
@@ -1162,7 +1167,7 @@ adjoint (C D: precategory) (F: catfunctor D C) (G: catfunctor C D) : U
 Here we give two complex examples that cover the usage of all categorical library (five modules)
 and abstract {\bf algebra} module.
 
-\subsubsection*{Grothendieck Adjoint}
+\subsubsection*{Example 1: Grothendieck Adjoint}
 
 The top level example of using universal {\bf algebra} module and categorical modules
 is given as Grothendieck Adjoint in categories of Abelian groups {\bf Ab} and
@@ -1181,11 +1186,34 @@ grothendieck_adjoint: adjoint Ab CMon grothendieck forgetful
               (univarr_adjoint CMon Ab forgetful gro_univarr)
 \end{lstlisting}
 
-\subsubsection*{C-Systems}
+\subsubsection*{Example 2: C-Systems}
 
 In the {\bf csystem} module you can find a proof that
 Universe Category is enough to define the C-System.
 
+\begin{lstlisting}[mathescape=true]
+CSystem: U
+   = (ob: nat -> U)
+   * (hom: Sigma nat ob -> Sigma nat ob -> U)
+   * (isC: isPrecategory (Sigma nat ob, hom))
+   * (c0: isC0System ob hom isC)
+   * isCSystem (ob, hom, isC, c0)
+\end{lstlisting}
+
+\begin{lstlisting}[mathescape=true]
+uc : U
+   = (C: precategory)
+   * (_: isCategory C)
+   * (pt: terminal C)
+   * (V: carrier C)
+   * (VT : carrier C)
+   * (p: hom C VT V)
+   * ((f: homTo C V) -> hasPullback C (V, f, VT, p))
+\end{lstlisting}
+
+\begin{lstlisting}[mathescape=true]
+ucToCSystem: uc -> CSystem = ...
+\end{lstlisting}
 \newpage
 \section{Conclusion}
 
