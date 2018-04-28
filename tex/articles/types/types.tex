@@ -33,11 +33,11 @@
 \begin{abstract}
 
 The introduction of path spaces and its eliminators in cubical type theory (CTT)
-as core type checker primitives calls for re-examination the proofs for mathematical components
+as core type checker primitives call for re-examination the proofs of mathematical components
 in base libraries of the major provers Coq, Agda, F*, Lean.
 They provide successful interpretation of calculus of inductive constructions
-with predicative hierarchies, however the homotopical foundation of CTT demonstrates
-computational semantics of univalence axiom and different kind of proofs by using path
+with predicative hierarchies, however, the homotopical foundation of CTT demonstrates
+the computational semantics of univalence axiom and different kind of proofs by using path
 composition and kan filling operations.
 
 We present a base library compatible with Cubical language \cite{Mortberg17}
@@ -54,7 +54,7 @@ and simple and more straightforward extraction to it for a subset of CTT program
 
 This article demonstrates an approach of type refinement to create
 the library where run-time types and its mathematical models can be
-easily separated while remain fit each other.
+easily separated while remain fits each other.
 So we cover here only models needed for modeling run-time theories
 while touching homotopical and geometrical models left for further
 articles, as for quotient sets, circle, sphere, h-pushout, truncations,
@@ -72,11 +72,10 @@ iso, univalence, and other HoTT types.
 \newpage
 \section{Intro}
 
-Usually from the mathematical point of view there is no differences between
-different syntactic proofs of the same theorem. However from programming point of view
-we can think of code reuse and precisely defined math libraries that reduce
-the overal code size and provide simplicity for operating complex
-structures (most heavy one is categorical library). So in this work we will focus
+Usually, from the mathematical point of view, there are no differences between
+different syntactic proofs of the same theorem. However, from the programming point of view, we can think of code reuse and precisely defined math libraries that reduce
+the overall code size and provide simplicity for operating complex
+structures (most heavy one is the categorical library). So in this work, we will focus
 on proper decoupling and more programming friendly base library still usable
 for mathematicians.
 
@@ -104,11 +103,11 @@ considered as an brief introduction to several topics: {\bf MLTT}, {\bf Runtime 
 {\bf Control Structures},  {\bf Recursive Schemes},
 {\bf Abstract Algebra}, {\bf Category Theory}.
 But the library has even more modules, that
-exceed the scope of this article so you may refer to source code
+exceed the scope of this article so you may refer to the source code
 repository \footnote{\url{https://github.com/groupoid/infinity}}.
-Also we created a web page that can easily be read with phone \footnote{\url{https://groupoid.space/mltt/types}}.
+Also, we created a web page that can easily be read with phone \footnote{\url{https://groupoid.space/mltt/types}}.
 
-We redefined the Cubical Syntax in LALR grammar and implented
+We redefined the Cubical Syntax in LALR grammar and implemented
 syntax extension for Erlang language \footnote{\url{https://github.com/groupoid/infinity/blob/master/src/cub_parser.yrl}}.
 If possible terms could be exracted
 to Om syntax \footnote{\url{https://github.com/groupoid/om/blob/master/src/om_parse.erl}}.
@@ -134,15 +133,14 @@ exp := cotele*exp + cotele$\rightarrow$exp + exp$\rightarrow$exp + (exp) + app +
    dec := 0 + codec      cobrs  := | br brs
 \end{lstlisting}
 
-The BNF notation consist of: 1) telescopes (contexts or sigma chains);
+The BNF notation consists of 1) telescopes (contexts or sigma chains);
 2) inductive data definitions (sum chains); 3) split eliminator;
-4) branches of split eliminators; 5) pure dependet type theory syntax.
+4) branches of split eliminators; 5) pure dependent type theory syntax.
 It also has where, import, module constructions.
-
 
 \subsection*{Types Taxonomy}
 
-Types taxonomy shows us the core types categorized by a several axis:
+Types taxonomy shows us the core types categorized by several axes:
 1) dependent (D) and non-dependent (ND) terms;
 2) recursive trees (R) or non-recursive (NR) data types;
 3) inductive (+) or coinductive (*) types;
@@ -199,7 +197,7 @@ the contemporary math foundations.
 
 \section{Martin-Löf Type Theory}
 
-As Martin-Löf Type Theory is used as modeling language,
+As Martin-Löf Type Theory is used as the modeling language,
 the base library should include its definition and theorems.
 The {\bf mltt} module contains the theorems of operational semantics of
 dependent type theory and MLTT model, while {\bf cwf} and {\bf csystem}
@@ -208,8 +206,8 @@ modules contain its categorical semantics.
 \subsection{Pi and Sigma}
 
 Pi and Sigma modules provide basic theorems about dependent products and sum.
-Here is tautology alias definitions for better syntax understanding.
-In run-time Sigma is being transformed into pair and lambda into functions.
+Here are tautology alias definitions for better syntax understanding.
+In run-time, Sigma is being transformed into pair and lambda into functions.
 All type annotations and term dependence information are being erased.
 Basic Pi and Sigma definitions are given in {\bf pi} and {\bf sigma} modules.
 
@@ -253,9 +251,9 @@ sigInd (A:U) (B:A -> U) (C: Sigma A B -> U)
 \subsection{Identity Type}
 
 Identity types or Prop types (when using PTS and built-in definitional equality for type checking
-normalized term forms with means of identity) are both considered to be erased in run-time.
+normalized term forms with means of identity) are both considered to be erased at run-time.
 For modeling propositional equality later in 1984 was introduced Equ type. \cite{Lof84}
-However unlike Pi and Sigma the eliminator J of Equ type is
+However, unlike Pi and Sigma, the eliminator J of Equ type is
 not derivable in MLTT \cite{Hofmann96, Mortberg17, HoTT}.
 Here we give the constructive J definition in CTT. Basic laws of Identity Type
 are given in {\bf proto\_path} module.
@@ -275,21 +273,21 @@ J        (A: U) (a: A) (C: (x: A) -> Path A a x -> U)
            ${\bf where}$ T (z: singl A a): U = C (z.1) (z.2)
 \end{lstlisting}
 
-We can build setoid \cite{Bishop67} definition using sym, refl and cong which
-represent symmetry, reflexivity and congruence.
+We can build setoid \cite{Bishop67} definition using sym, refl, and cong which
+represent symmetry, reflexivity, and congruence.
 Singleton is defined as Sigma with Path theorem. Contractability of singletons,
-substitution and transport is used for proving the J eliminator \cite{HoTT}.
+substitution and transport are used for proving the J eliminator \cite{HoTT}.
 
 \subsection{$\infty$-Groupoid and h-Types}
 
-The reasoning about higher equalties is made through explicit recursion.
-We encode the level of path dimention through embedded natural numbers in the definition.
+The reasoning about higher equalities is made through explicit recursion.
+We encode the level of path dimension through embedded natural numbers in the definition.
 
 \begin{lstlisting}[mathescape=true]
 ${\bf data}$ N = Z | S (n: N)
 \end{lstlisting}
 
-As foundation we provide recursive and corecursive versions of groupoid definitions.
+As the foundation, we provide recursive and corecursive versions of groupoid definitions.
 h-Types \cite{HoTT} (Prop, Set, Groupoid, etc) are defined through these primitives.
 
 \begin{lstlisting}[mathescape=true]
@@ -341,7 +339,7 @@ with {\bf refl} function and could be found in {\bf mltt} module.
 \begin{equation} pr_2 (a,b) = b \end{equation}
 \begin{equation} (pr_1 p,pr_2 p) = p \end{equation}
 
-Here is full list of inference rules properties.
+Here is the full list of inference rules properties.
 We grouped them as in MLTT paper \cite{Lof84}. The system lack Nat and List
 types as they can be church encoded.
 
@@ -385,17 +383,17 @@ instance (A: U): MLTT A
 
 \section{Runtime Types}
 
-The purpose of run-time types is to build solid ground for
+The purpose of run-time types is to build the solid ground for
 writing type checkers, evaluating results and printing models to console,
-writing formally verified infinitely runned free comonadic processes.
+writing formally verified infinitely run free comonadic processes.
 In one framework we can combine the powerful semantics of CTT and
 homotopical primitives to prove properties of run-time types in
-a more simplier and elegant way.
+a more simple and elegant way.
 
 \subsection{Proto}
 
 The {\bf proto} module contains very basic common functions of id, composition and
-synonims for intro and eliminators of Pi type, in dependent and non-dependent fasion.
+synonyms for intro and eliminators of Pi type, in the dependent and non-dependent fashion.
 Th {\bf proto} contains almost all short cuts to internal language constructions,
 while {\bf pi} and {\bf sigma} modules contains only dependent versions.
 
@@ -407,9 +405,9 @@ o    (A B C:U) (f: B->C) (g: A->B): A->C = \(x:A)->f(g(x))
 
 \subsection{Empty and Unit}
 
-The very basic types are empty type without elements and unit type with single element.
-Interpreting types as propositions leads us to efq and neg eliminators of Empty type useful
-for proving decidability, stablity and analogue of Hedberg theorem \cite{Hedberg98}.
+The very basic types are empty type without elements and unit type with the single element.
+Interpreting types as propositions lead us to efq and neg eliminators of the empty type useful
+for proving decidability, stability and analog of Hedberg theorem \cite{Hedberg98}.
 
 \begin{lstlisting}[mathescape=true]
 ${\bf data}$ Empty =
@@ -430,8 +428,8 @@ hedberg    (A: U) (h: (a x:A) -> stable (Path A a x)): isSet(A)
 \subsection{Either and Tuple}
 
 Either and Tuple are dual inductive data types.
-They are  basic control structures and widely through all base library.
-The tuple semantically same as both but is ready to pattern machthing.
+They are basic control structures and widely through all base library.
+The tuple semantically same as both but is ready to pattern matching.
 
 \begin{lstlisting}[mathescape=true]
 ${\bf data}$ either (A B: U) = inl  (a: A) | inr (b: B)
@@ -460,7 +458,7 @@ eitherInd (A B: U) (C: either A B -> U)
 
 The basic {\bf hedberg} theorem module could be used to prove that bool is set.
 The {\bf bool} module is rarely used inside run-time library
-however it is used is real world applications. Here we provide a proof
+however it is used is real-world applications. Here we provide a proof
 that bool is set by providing the proof that for any booleans path
 between them is decidable.
 
@@ -485,9 +483,9 @@ boolSet : isSet bool = hedberg bool boolDec
 \subsection{Maybe and Nat}
 
 The {\bf maybe} and {\bf nat} modules are very useful for monadic protocol handling
-and basic number processing. Nat data types is isomorphic
+and basic number processing. Nat data types are isomorphic
 to infinite GMP positive integers of Erlang virtual machine.
-Base library also include formal proof that fix maybe equals nat.
+The base library also includes formal proof that fix maybe equals nat.
 Maybe and Nat types are used in list library for handling special cases
 of empty string and its length.
 
@@ -512,11 +510,11 @@ Also we provide constructive proof that $Fix(Maybe) = Nat$.
 
 \subsection{List and Stream}
 
-The {\bf list} module implemented as very simple data type but no simplier
+The {\bf list} module implemented as very simple data type but no simpler
 than needed to implement the type checker. List data type is
 used to model categorical semantics of dependent type theory
-as Categories with Famalies by Dybjer in {\bf cwf} module.
-At the rest list has pretty standard implementation.
+as Categories with Families by Dybjer in {\bf cwf} module.
+At the rest, the list has a pretty standard implementation.
 
 \begin{lstlisting}[mathescape=true]
 ${\bf data}$ list (A: U) = nil | cons (a: A) (as: list A)
@@ -534,7 +532,8 @@ filter    (A: U): (A -> bool) -> list A -> list A
 length    (A: U): list A -> nat
 \end{lstlisting}
 
-The {\bf stream} module provide model for infinity streams, IO, and other corecursive models,
+The {\bf stream} module provide the model for infinity streams,
+IO, and other corecursive models,
 provide basic theorems about streams bisimulation (equality).
 
 \begin{lstlisting}[mathescape=true]
@@ -550,15 +549,15 @@ bisimilarityIsEquality (A: U) (xs ys: stream A):
 
 \subsection{Vector and Fin}
 
-Vector and Fin are basic dependent inductive types. Fin types is used
-in several models, e.g. for naming type constructors in the de Brujin fashion.
+Vector and Fin are basic dependent inductive types. Fin types are used
+in several models, e.g. for naming type constructors in the de Bruijn fashion.
 
 \begin{lstlisting}[mathescape=true]
 ${\bf data}$ vector (A:U)(n:nat) = vnil  | vcons (x:A)(xs:vector A (pred n))
 ${\bf data}$ fin         (n:nat) = fzero | fsucc (pre: fin (pred n))
 \end{lstlisting}
 
-Cubical Syntax lacks of full GADT support, so we need to ban using
+Cubical Syntax lacks full GADT support, so we need to ban using
 type constructors and provide its typeable versions:
 
 \begin{lstlisting}[mathescape=true]
@@ -570,7 +569,7 @@ fs (n: nat): Fin n -> Fin (succ n) = \(x: Fin n) -> fsucc x
 
 We extracted the pure function for the following IO free structure
 that encode the two functions for reading and printing string values in Church encoding.
-The demonstarted program could be seen in Om project \footnote{\url{https://github.com/groupoid/om/blob/master/priv/normal/Morte/recursive}}.
+The demonstrated program could be seen in Om project \footnote{\url{https://github.com/groupoid/om/blob/master/priv/normal/Morte/recursive}}.
 
 \begin{lstlisting}[mathescape=true]
 ${\bf data}$ IO (A: U)
@@ -582,7 +581,7 @@ main: U = replicateM 100 (>>= String () getLine putLine)
 \end{lstlisting}
 
 The infinity IO sample is also provided by Om project \footnote{\url{https://github.com/groupoid/om/blob/master/priv/normal/Morte/corecursive}}
-ans demonstrate the cofree comonadic encoding of process running.
+and demonstrate the cofree comonadic encoding of the running process.
 
 \begin{lstlisting}[mathescape=true]
 ${\bf data}$ IOI.F (A State: U)
@@ -596,7 +595,7 @@ ${\bf data}$ IOI (A State: U) =
            (action: State -> IOI.F A State)
 \end{lstlisting}
 
-We put Erlang Coinductive Bindings as pure function to comonad instance:
+We put Erlang Coinductive Bindings as the pure function to comonad instance:
 
 \begin{lstlisting}[mathescape=true]
 copure()    -> fun (_) -> fun (IO) -> IO end end.
@@ -610,20 +609,12 @@ corec()     -> ap('Morte':corecursive(),
                [copure(),cogetLine(),coputLine(),copure(),list([])]).
 \end{lstlisting}
 
-%Extract the Erlang program from Abstract Syntax and run the program:
-
-%\begin{lstlisting}[mathescape=true]
-%> om_extract:extract("priv/normal/IOI"),  om:corec().
-%> 1
-%: 1
-%\end{lstlisting}
-
 \section{Control Structures}
 
-SKI combinatoric lambda caclulus was developed by Ukranian Logician
-Moisei Isaievich Sheinfinkel. It could be used as basis for computational
-foundation just like lambda caclulus. Later Connor McBride \cite{McBride08} evolved the SKI
-into Applicative type-class. It is known that SKI is just an Church encoded Applicative.
+SKI combinatoric lambda calculus was developed by Ukranian Logician
+Moisei Isaievich Sheinfinkel. It could be used as the basis for the computational
+foundation just like lambda calculus. Later Connor McBride \cite{McBride08} evolved the SKI
+into Applicative type-class. It is known that SKI is just a Church encoded Applicative.
 Now Applicative type-class is a mandatory tool in any base library.
 All control structures are given in {\bf control} module.
 
@@ -637,7 +628,7 @@ All control structures are given in {\bf control} module.
  I = S K K
 \end{equation}
 
-We show here the developer's logic behind the scenes of implementation. First we need
+We show here the developer's logic behind the scenes of implementation. First, we need
 to cut all basic type classes like Pure, Applicative, Functor, CoFunctor,
 ContraFunctor, CoContraFunctor and their flip eliminators. Another powerful control
 structure from came from Category Theory are Monad and CoMonad that is used
@@ -665,17 +656,17 @@ dup_sig                  F A  -> F (F A)
 bind_sig            F A ->(A  -> F B)-> F B
 \end{lstlisting}
 
-The we build up a signatures of type clases build as sigma encoded contexts or telescopes.
-The signatures are made external for code compactification.
+We build up signatures of type classes build as sigma encoded contexts or telescopes.
+The signatures are made external to code compactification.
 Then we select $F: U \rightarrow U$ functor as common head for sigma types.
 All quantifiers for members and laws are carried within projections.
-Projections contains full signature except F. These types could be considered for run-time.
-Also you may read Oleg Kiselev Type-Classes in ML. \footnote{\url{http://okmij.org/ftp/Computation/typeclass.html}}
+Projections contain full signature except F. These types could be considered for run-time.
+Also, you may read Oleg Kiselev Type-Classes in ML. \footnote{\url{http://okmij.org/ftp/Computation/typeclass.html}}
 Here is we encode type-classes with Sigma and instances with nested tuples.
 
 \subsection{Run-time types}
 
-Coupling signatures with type-class parameters gives us a notion of run-time types.
+Coupling signatures with type-class parameters give us a notion of run-time types.
 All type-value projections along with parameters are being erased during code extraction.
 
 \begin{lstlisting}[mathescape=true]
@@ -691,7 +682,7 @@ monad: U = (_: applicative)
 
 \subsection*{Accessors}
 
-Accessors are common technique in Type Refinement approach for beautifying the code.
+Accessors are the common technique in Type Refinement approach for beautifying the code.
 As cubical syntax provide only .1 and .2 notion for projections it is good to have
 named field accessors for all projections.
 
@@ -751,7 +742,7 @@ isApplicative (F: applicative): U
                                    (\(f:A->B)->f(x))) u)) * Unit
 \end{lstlisting}
 
-Then we can define the FUNCTOR as Sigma of fuctor signature and functor properties:
+Then we can define the FUNCTOR as Sigma of functor signature and functor properties:
 
 \begin{lstlisting}[mathescape=true]
 FUNCTOR:     U = (f: functor) * isFunctor f
@@ -772,13 +763,13 @@ We do not show here the full Control library (only the Functor and Applicative i
 due to sizes of the terms. Here is sample list functor instance defined in {\bf list\_theory} module.
 
 \begin{lstlisting}[mathescape=true]
-functorlist: functor = (list,map)
-functorlaws: FUNCTOR  = ((list,map),(list_id,list_compose,tt))
+LIST: functor = (list,map)
+laws: FUNCTOR = (LIST,list_id,list_compose,tt)
 \end{lstlisting}
 
 \section{Recursion Schemes}
 
-A F-algebras provide us a generalized notion of folds over a parametrized inductive structures \cite{Pfenning89}.
+An F-algebras provide us a generalized notion of folds over a parametrized inductive structures \cite{Pfenning89}.
 The formalism of recursion schemes was developed by Varmo Vene and Nicola
 Gambino \cite{Gambino04, Vene00} and categorically by Bart Jacobs, Henning Basold
 and Herman Geuvers \cite{Jacobs97, Basold16}.
@@ -814,7 +805,7 @@ inductive and coinductive type respectively.
 
 Free and Cofree represent terminated or non-terminated sequence of functorial
 bindings defined as $\mu x . a + f x$ and $\nu x . a * f x$ where $\mu < fix < \nu$.
-Also we defined unpacking routines for fix and for (co-)free structures.
+Also, we defined unpacking routines for the fix and for (co-)free structures.
 
 \begin{lstlisting}[mathescape=true]
 ${\bf data}$ fix (F:U->U)= Fix (point: F (fix F))
@@ -832,7 +823,7 @@ uncofree (F:U->U) (A:U): cofree F A -> fix (nu F A)
 
 \subsection{Catamorphism and Futumorphism}
 
-Catamorphism denotes the homomorphism from initial algebra to some other algebras.
+Catamorphism denotes the homomorphism from the initial algebra to some other algebras.
 A generalization of folds.
 
 \begin{lstlisting}[mathescape=true]
@@ -841,7 +832,7 @@ cata (A: U) (F: functor) (alg: F.1 A -> A) (f: fix F.1): A
 \end{lstlisting}
 
 Histomorphism is a recursion based on a recursive cofree structure with unpacking control.
-A generalization of cata
+A generalization of cata.
 
 \begin{lstlisting}[mathescape=true]
 histo (A:U) (F: functor)
@@ -886,7 +877,7 @@ futu (A: U) (F: functor)
 
 \subsection{Example: Inductive and Coninductive Types}
 
-Inductive types are given as direct encoding of commutative square as in \cite{Wu13}.
+Inductive types are given as direct encoding of the commutative square as in \cite{Wu13}.
 For inductive and coinductive data types the first two fields of sigma are flipped.
 
 \begin{lstlisting}[mathescape=true]
@@ -894,18 +885,18 @@ ind (A: U) (F: U -> U) : U
     = (in_: F (fix F) -> fix F)
     * (in_rev: fix F -> F (fix F))
     * (fold_: (F A -> A) -> fix F -> A)
-    * (free_: (A -> F (free F A)) -> A -> fix F)
+    * (cofree_: (F (cofree F A) -> A) -> fix F -> A)
     * Unit
 
 coind (A: U) (F: U -> U) : U
     = (out_: fix F -> F (fix F))
     * (out_rev: F (fix F) -> fix F)
     * (unfold_: (A -> F A) -> A -> fix F)
-    * (cofree_: (F (cofree F A) -> A) -> fix F -> A)
+    * (free_: (A -> F (free F A)) -> A -> fix F)
     * Unit
 \end{lstlisting}
 
-The two instances with corresponding recursors is then given by recursion schemes.
+The two instances with corresponding recursors are then given by recursion schemes.
 
 \begin{lstlisting}[mathescape=true]
 inductive (A: U) (F: functor): ind A F.1
@@ -914,7 +905,7 @@ coinductive (A: U) (F: functor): coind A F.1
     = (out_ F.1,in_ F.1,ana A F,histo A F,tt)
 \end{lstlisting}
 
-Here is simple example how two instances (inductive and coinductive) of list could be defined.
+Here is the simple example how two instances (inductive and coinductive) of the list could be defined.
 
 \begin{lstlisting}[mathescape=true]
 ind_list   (T:U): ind   list T = inductive   (list,map) T
@@ -926,13 +917,13 @@ coind_list (T:U): coind list T = coinductive (list,map) T
 Algebraic structures in {\bf algebra} are the natural math companion to
 more developer oriented {\bf control} module, which is also sort of algebraic structures.
 Here you can find everything except Fields and Modules yet. Only up to Abelian Groups and Rings.
-However this structures is enough to define cagegories of Abelian groups and Grothendieck adjunctions.
+However, this structures is enough to define categories of Abelian groups and Grothendieck adjunctions.
 
 \subsection{Monoid and Commutative Monoid}
 
 The monoid is a simple algebra with one binary operation: M -> M -> M.
-By definition monoid is associative and has left and right identities.
-Commutative monoid is one predicate stronger, expects the operation
+By definition, the monoid is associative and has left and right identities.
+The commutative monoid is one predicate stronger, expects the operation
 to be commutative.
 
 \begin{lstlisting}[mathescape=true]
@@ -959,7 +950,7 @@ isCMonoid (M: SET): U
 
 \subsection{Group and Abelian Group}
 
-Group is a Monoid with inverse morphisms.
+A group is a Monoid with inverse morphisms.
 
 \begin{lstlisting}[mathescape=true]
 isGroup (G: SET): U
@@ -968,7 +959,7 @@ isGroup (G: SET): U
   * (hasInverse G.1 m.1 m.2.2.1 inv)
 \end{lstlisting}
 
-Abelian group is a commutative group with inverse morphisms.
+An abelian group is a commutative group with inverse morphisms.
 
 \begin{lstlisting}[mathescape=true]
 isAbGroup (G: SET): U
@@ -978,8 +969,8 @@ isAbGroup (G: SET): U
 
 \subsection{Ring and Abelian Ring}
 
-Ring has two operations, one (*) is a Monoid and other (+) is an Abelian Group.
-Ring is supposed to be distrubitive across (*) and (+) operations.
+A ring has two operations, one (*) is a Monoid and other (+) is an Abelian Group.
+A ring is supposed to be distributive across (*) and (+) operations.
 
 \begin{lstlisting}[mathescape=true]
 isRing (R: SET): U
@@ -988,7 +979,7 @@ isRing (R: SET): U
   * (isDistributive R.1 add.1.1.1 mul.1)
 \end{lstlisting}
 
-Abelian Ring is a Ring where (*) operation is commutative monoid.
+Abelian Ring is a Ring where (*) operation is a commutative monoid.
 
 \begin{lstlisting}[mathescape=true]
 isAbRing (R: SET): U
@@ -1001,8 +992,8 @@ isAbRing (R: SET): U
 \section{Category Theory}
 
 The general notion of category is given as in \cite{Shulman15} and \cite{HoTT}.
-Usual notion of category is called precategory while category is saturated precategories.
-The Category Theory consists of five modules: 1) {\bf cat} for precategory, category and (co-)terminal objects;
+The usual notion of category is called precategory while category is saturated precategories.
+The Category Theory consists of five modules: 1) {\bf cat} for precategory, category, and (co-)terminal objects;
 2) {\bf fun} for categorical functor, its instances (id, compose), coslice category construction,
 universal arrows, and equivalence theorems; 3) {\bf sip} for structure definition and
 structure identity principle theorem; 4) {\bf cones} for cones, pullback definitions, and theorems;
@@ -1011,15 +1002,15 @@ we took the C-Systems model of Vladimir Voevodsky implemented in {\bf csystem} m
 top of our categorical library. C-Systems are a categorical model of dependent type theory,
 similar to Dybjer's Categories with Families ({\bf cwf} module).
 
-We divide the carrier and morphisms as algebraic structure of category
-definition (in essense CT is an abstract algebra of functions) and laws (theorems
-or categorical properies, defined as equalities on morphisms):
+We divide the carrier and morphisms as an algebraic structure of a category
+definition (in essence CT is an abstract algebra of functions) and laws (theorems
+or categorical properties, defined as equalities on morphisms):
 
 \begin{lstlisting}[mathescape=true]
 cat: U = (A: U) * (A -> A -> U)
 \end{lstlisting}
 
-\subsection{Theorems}
+\subsection{Precategories}
 
 We define theorems section as predicate in a form of Sigma
 which is usual a carrier for theorems. More formal, precategory $A$ consists of the following:
@@ -1069,9 +1060,9 @@ compose (C: precategory) (x y z: carrier C) (f: hom C x y)
 is an equivalence of categories" in classical set-based category
 theory is equivalent to the axiom of choice.
 
-(i) For strict categories, it is equivalent to to the axiom of choice.
+(i) For strict categories, it is equivalent to the axiom of choice.
 (ii) For precategories, it is underivable.
-(iii) For saturated categories, it is derivable without axiom of choice.
+(iii) For saturated categories, it is derivable without the axiom of choice.
 
 Anything we say about objects of a category is invariant under isomorphism.
 
@@ -1088,12 +1079,12 @@ isCategory (C: precategory): U
 category: U = (C: precategory) * isCategory C
 \end{lstlisting}
 
-Such category saturation or competion is called Rezk competion \cite{Shulman15}.
-Source code in Coq of Rezk competion for comparison could be taken here \footnote{\url{https://github.com/benediktahrens/rezk_completion/blob/master/precategories.v}}.
+Such category saturation or completion is called Rezk competition \cite{Shulman15}.
+Source code in Coq of Rezk completion for comparison could be taken here \footnote{\url{https://github.com/benediktahrens/rezk_completion/blob/master/precategories.v}}.
 
 \subsection{Terminals and Cones}
 
-Initiality and Terminality encoded directly from its definition.
+Initiality and Terminality encoded directly from its definitions.
 
 \begin{lstlisting}[mathescape=true]
 isInitial  (C: precategory) (x: carrier C): U
@@ -1161,13 +1152,19 @@ adjoint (C D: precategory) (F: catfunctor D C) (G: catfunctor C D) : U
   * areAdjoint C D F G unit counit
 \end{lstlisting}
 
-\newpage
-\subsection{Examples}
+%\newpage
+\subsection{Examples: Grothendieck Group and C-Systems}
 
 Here we give two complex examples that cover the usage of all categorical library (five modules)
 and abstract {\bf algebra} module.
 
 \subsubsection*{Example 1: Grothendieck Adjoint}
+
+The forgetful functor U from abelian groups to commutative
+monoids has a left adjoint G. This is called group completion.
+A standard presentation of the group completion is the Grothendieck group
+of a commutative monoid. As such group completion plays a central
+role in K-theory \cite{Weibel13}.
 
 The top level example of using universal {\bf algebra} module and categorical modules
 is given as Grothendieck Adjoint in categories of Abelian groups {\bf Ab} and
@@ -1189,7 +1186,9 @@ grothendieck_adjoint: adjoint Ab CMon grothendieck forgetful
 \subsubsection*{Example 2: C-Systems}
 
 In the {\bf csystem} module you can find a proof that
-Universe Category is enough to define the C-System.
+Universe Category is enough to define the C-System. The code is based
+on Voevodsky's paper about C-systems defined by a universe
+in a category \cite{Voevodsky14}.
 
 \begin{lstlisting}[mathescape=true]
 CSystem: U
@@ -1214,7 +1213,7 @@ uc : U
 \begin{lstlisting}[mathescape=true]
 ucToCSystem: uc -> CSystem = ...
 \end{lstlisting}
-\newpage
+%\newpage
 \section{Conclusion}
 
 We finished the story about Groupoid Infinity base library.
@@ -1230,7 +1229,7 @@ providing different sections of modules:
   \caption{Base library and its dependencies}
 \end{figure}
 
-In other articles there will be coverage of the folliwing sections of modules:
+In other articles there will be coverage of the following sections of modules:
 1) Process Calculus; 2) Univalent Foundations; 3) Categories with Families;
 4) Higher Inductive Types.
 The main advantage of our mathematical components design
@@ -1259,16 +1258,16 @@ library which is a major part of the work.
 \end{tabular}
 \end{table}
 
-The library consists of highly decoupled modules. E.g. we shown that we can combine
-Abstract Algebra onbjects with Category Theory and created new Categories.
-The models are given almost in pure MLTT with explicit notion of all types used
-for term definition. In that way this kind of specification avoid a class of mistakes
+The library consists of highly decoupled modules. E.g. we showed that we can combine
+Abstract Algebra objects with Category Theory and created new Categories.
+The models are given almost in pure MLTT with the explicit notion of all types used
+for term definition. In that way, this kind of specification avoids a class of mistakes
 connected with implicit specifications hidden inside type checker.
 The library doesn't stop evolving with this report and will evolve with more
 complex powerful theories remaining comfortable for run-time code extraction
 to Erlang\footnote{https://erlang.org}.
 
-\newpage
+%\newpage
 \bibliographystyle{plain}
 \bibliography{types}
 
