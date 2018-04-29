@@ -56,14 +56,14 @@ block content
             h2 Types Taxonomy
             -
                     var types = {
-                        'nr nd +': [ 'unit', 'bool', 'maybe', 'either' ],
+                        'nr nd +': [ 'empty', 'unit', 'bool', 'maybe', 'either', 'tuple' ],
                         'r nd +': [ 'fix', 'nat', 'list' ],
-                        'nr d +': [ 'mu', 'nu', 'free', 'cofree' ],
-                        'rd +': [ 'fin', 'vector' ],
+                        'nr d +': [ 'exists' ],
+                        'rd +': [ 'fin', 'vector', 'W' ],
                         'nr nd *': [ 'pure', 'functor', 'applicative', 'monad' ],
                         'r nd *': [ 'stream' ],
-                        'nr d *': [ 'iso', 'equiv', 'fiber' ],
-                        'rd *': [ 'cat', 'prop', 'set', 'groupoid' ]
+                        'nr d *': [ 'sigma', 'iso', 'equiv', 'fiber' ],
+                        'rd *': [ 'cat', 'groupoid', 'infinity' ],
                     }
 
                     var legend = {
@@ -71,7 +71,7 @@ block content
                         'r': 'Recursive',
                         'd': 'Dependent',
                         '+': 'Coproducts',
-                        '*': 'Products'
+                        '*': 'Products',
                     }
 
             .type
