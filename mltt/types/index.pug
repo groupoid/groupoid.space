@@ -37,10 +37,10 @@ block content
             h2 Homotopy Core
             -
                 var core = {
-                    'Pure': [ 'Pi' ],
-                    'MLTT': [ 'Pi', 'Sigma', 'Id' ],
-                    'Inductive': [ 'Pi', 'Sigma', 'Id', 'Inductive Types' ],
-                    'Cubical': [ 'Pi', 'Sigma', 'Path [0,1]', 'Compose', 'Glue', 'Higher Inductive Types' ],
+                    'Pure': [ 'pi' ],
+                    'MLTT': [ 'pi', 'sigma', 'id', 'W' ],
+                    'Inductive': [ 'pi', 'sigma', 'id', 'fix', 'inductive' ],
+                    'Cubical': [ 'pi', 'sigma', 'path', 'Compose', 'Glue', 'higher inductive types' ],
                 }
 
             .type
@@ -56,13 +56,13 @@ block content
             h2 Types Taxonomy
             -
                     var types = {
-                        'nr nd +': [ 'empty', 'unit', 'bool', 'maybe', 'either', 'tuple' ],
+                        'nr nd +': [ 'unit', 'bool', 'maybe', 'either', 'tuple' ],
                         'r nd +': [ 'fix', 'nat', 'list' ],
                         'nr d +': [ 'exists' ],
                         'rd +': [ 'fin', 'vector', 'W' ],
-                        'nr nd *': [ 'pure', 'functor', 'applicative', 'monad' ],
+                        'nr nd *': [ 'prod', 'pure', 'functor', 'applicative', 'monad' ],
                         'r nd *': [ 'stream' ],
-                        'nr d *': [ 'sigma', 'iso', 'equiv', 'fiber' ],
+                        'nr d *': [ 'sigma', 'setoid', 'iso', 'equiv', 'fiber' ],
                         'rd *': [ 'cat', 'groupoid', 'infinity' ],
                     }
 
@@ -136,14 +136,14 @@ block content
                      : Path (A -> B) f g
                      = &lt;i&gt; \(a: A) -> p a @ i
 
-            h2#sigma <a name='sigma'><a href='sigma/'>Sigma</a></a>
+            h2#sigma <a name='exists'><a href='sigma/'>Sigma</a></a>
             p.
-                Sigma is a dependent version of product: <b>pair: (x:A) * B(x)</b>.
+                Sigma is a dependent version of product: <b>dpair: (x:A) * B(x)</b>.
             code.
                 Sigma (A: U) (B: A -> U): U
             br.
             code.
-                sigmaIntro (A: U) (B: A -> U) (a: A) (b: B a): Sigma A B
+                dpair (A: U) (B: A -> U) (a: A) (b: B a): Sigma A B
                 pi1 (A: U) (B: A -> U) (x: Sigma A B): A
                 pi2 (A: U) (B: A -> U) (x: Sigma A B): B (pi1 A B x)
             br.
@@ -164,7 +164,7 @@ block content
                      (p: (x:A)->(y:B)*(R x y)) -> (f:A->B)*((x:A)->R(x)(f x))
                   = \(g: (x:A)->(y:B)*(R x y)) -> (\(i:A)->(g i).1,\(j:A)->(g j).2)
 
-            h2 Well-Founded Trees
+            h2#W Well-Founded Trees
             p.
                 W types are a generalisation of trees to encode Nat and List
                 which should be derivable in any MLTT theory.
@@ -200,7 +200,7 @@ block content
                   * (Trans: (x₁,x₂,x₃: A) -> Equ x₁ x₂ -> Equ x₂ x₃ -> Equ x₁ x₃)
                   * (Sym: (x₁,x₂: A) -> Equ x₁ x₂ -> Equ x₂ x₁)
 
-            h2#path <a name="path"><a href='path/'>Path</a></a>
+            h2#path <a name=id><a href='path/'>Path</a></a>
             p.
                 Path type is a [0,1] interval <b>proof: Path A a b</b>
                 with lambda on it as its element, gluening,
@@ -233,7 +233,7 @@ block content
                     3.11 Contractibility;
                     6.2 Induction principles and dependent paths.
 
-            h2#setoid Groupoid
+            h2#groupoid Groupoid
             p.
                 Groupoid is a generalisation of multidementional equality.
                 It was stated by Grothendieck that infinity groupoid
@@ -320,7 +320,7 @@ block content
                     1.7 Coproduct types; and
                     2.12 Coproducts.
 
-            h2#tuple Tuple
+            h2#tuple <a name=prod>Tuple</a>
             p.
                 <b>tuple</b> is a representation for non-dependent
                 product types or conjunction.
@@ -366,7 +366,7 @@ block content
                 see <a href="http://5ht.co/hott.pdf">HoTT</a>:
                     1.8 The type of booleans
 
-            h2#maybe <a name='maybe'><a href='maybe/'>Maybe</a></a>
+            h2#maybe <a href='maybe/'>Maybe</a></a>
             p.
                 Maybe has representing functor M<sub>A</sub>(X) = 1 + A.
                 It used for wrapping values with optional nothing constructor.
@@ -466,7 +466,7 @@ block content
                 h1 Abstract Algebra
         section
 
-            h2#cat <a name="monoid"><a href='monoid/'>Monoid</a></a>
+            h2#monoid <a name="monoid"><a href='monoid/'>Monoid</a></a>
             code.
                 isAssociative (M: U) (op: M -> M -> M) : U
 
@@ -480,7 +480,7 @@ block content
                   * (id: M.1)
                   * (hasIdentity M.1 op id)
 
-            h2#cat Commutative Monoid
+            h2#cmonoid Commutative Monoid
             code.
                 isCommutative (M: U) (op: M -> M -> M): U
                   = (x y: M) -> Path M (op x y) (op y x)
@@ -489,20 +489,20 @@ block content
                   = (m: isMonoid M)
                   * (isCommutative M.1 m.1)
 
-            h2#cat Group
+            h2#group Group
             code.
                 isGroup (G: SET): U
                   = (m: isMonoid G)
                   * (inv: G.1 -> G.1)
                   * (hasInverse G.1 m.1 m.2.2.1 inv)
 
-            h2#cat Abelian Group
+            h2#abgroup Abelian Group
             code.
                 isAbGroup (G: SET): U
                   = (g: isGroup G)
                   * (isCommutative G.1 g.1.1)
 
-            h2#cat Instances
+            h2 Instances
             code.
                 monoid:  U = (X: SET) * isMonoid X
                 cmonoid: U = (X: SET) * isCMonoid X
@@ -515,8 +515,7 @@ block content
             section
                 h1 Control Structures
 
-
-            h2#signature Signatures
+            h2 Signatures
             code.
                 pure_sig       (F:U->U):U=   (A: U) ->           A  -> F A
                 extract_sig    (F:U->U):U=   (A: U) ->         F A  ->   A
@@ -534,7 +533,7 @@ block content
                 dup_sig        (F:U->U):U=   (A: U) ->         F A  -> F (F A)
                 bind_sig       (F:U->U):U= (A B: U) ->    F A ->(A  -> F B)-> F B
 
-            h2#signature Carriers
+            h2 Carriers
             code.
 
                 pure:        U = (F: U -> U) * pure_sig F
@@ -603,7 +602,7 @@ block content
                 h1 Recursion Schemes
         section
 
-            h2#applicative Fix, Mu, Nu
+            h2#fix Fix, Mu, Nu, Free, CoFree
             code.
                 data fix    (F: U -> U) = Fix (point: F (fix F))
                 data mu     (F: U -> U) (A B: U)  = Return (a: A) | Bind (f: F B)
@@ -611,7 +610,7 @@ block content
                 data free   (F: U -> U) (A: U)    = Free        (_: fix (mu F A))
                 data cofree (F: U -> U) (A: U)    = CoFree      (_: fix (nu F A))
 
-            h2#cat Cata and Ana
+            h2 Cata and Ana
             code.
                 cata (A: U) (F: functor) (alg: F.1 A -> A) (f: fix F.1): A
                    = alg (F.2 (fix F.1) A (cata A F alg) (out_ F.1 f))
@@ -621,7 +620,7 @@ block content
                    = Fix (F.2 A (fix F.1) (ana A F coalg) (coalg a))
                                 cat: U = (A: U) * (A -> A -> U)
 
-            h2#cat Futu and Histo
+            h2 Futu and Histo
             code.
                 futu (A: U) (F: functor)
                      (f: A -> F.1 (free F.1 A)) (a: A): fix F.1
@@ -656,20 +655,20 @@ block content
                                 cata (A: U) (F: functor) (alg: F.1 A -> A) (f: fix F.1): A
                                    = alg (F.2 (fix F.1) A (cata A F alg) (out_ F.1 f))
 
-            h2#cat Inductive and CoInductive
+            h2#inductive Inductive and CoInductive
             code.
                 ind   (F: U -> U) (A: U): U
                     = (in_: F (fix F) -> fix F)
                     * (in_rev: fix F -> F (fix F))
                     * (fold_: (F A -> A) -> fix F -> A)
-                    * (free_: (A -> F (free F A)) -> A -> fix F)
+                    * (roll_: (F (cofree F A) -> A) -> fix F -> A)
                     * unit
 
                 coind (F: U -> U) (A: U): U
                     = (out_: fix F -> F (fix F))
                     * (out_rev: F (fix F) -> fix F)
                     * (unfold_: (A -> F A) -> A -> fix F)
-                    * (cofree_: (F (cofree F A) -> A) -> fix F -> A)
+                    * (unroll_: (A -> F (free F A)) -> A -> fix F)
                     * unit
             br.
             code.
@@ -717,7 +716,7 @@ block content
                 see <a href="http://5ht.co/hott.pdf">HoTT</a>:
                     9.1 Categories and precategories.
 
-            h2#cat Functors
+            h2 Functors
             code.
                 catfunctor (A B: precategory): U
                   = (ob: carrier A -> carrier B)
@@ -738,7 +737,7 @@ block content
                            (a: carrier C)
                            (F: catfunctor D C): precategory
 
-            h2#cat Rezk Completion
+            h2 Rezk Completion
             code.
                 iso (C: precategory) (A B: carrier C): U
                   = (f: hom C A B)
@@ -753,7 +752,7 @@ block content
                 see <a href="http://5ht.co/hott.pdf">HoTT</a>:
                     9.9 The Rezk completion.
 
-            h2#cat Initials and Terminals
+            h2 Initials and Terminals
             code.
                 isInitial     (C: precategory) (x: carrier C): U = (y: carrier C) -> isContr (hom C x y)
                 isTerminal    (C: precategory) (y: carrier C): U = (x: carrier C) -> isContr (hom C x y)
@@ -776,7 +775,7 @@ block content
                       : U
                       = initial (cosliceCat C D a F)
 
-            h2#cat Natural Transformations
+            h2#ntrans Natural Transformations
             code.
                 isNaturalTrans (C D: precategory)
                                (F G: catfunctor C D)
@@ -792,7 +791,7 @@ block content
                   * (isNaturalTrans C D F G eta)
 
 
-            h2#cat Adjunctions
+            h2#adj Adjunctions
             code.
                 areAdjoint (C D: precategory)
                            (F: catfunctor D C)
@@ -809,7 +808,7 @@ block content
                 see <a href="http://5ht.co/hott.pdf">HoTT</a>:
                     9.3 Adjunctions.
 
-            h2#cat Structure Identity Principle
+            h2#sip Structure Identity Principle
             code.
                 structure (X: precategory): U
                   = (P: carrier X -> U)
@@ -890,7 +889,7 @@ block content
                 h1 Higher inductive types
         section
 
-            h2#trunc Interval
+            h2#i Interval
             code.
                 data I
                    = i0
@@ -925,7 +924,7 @@ block content
                 see <a href="http://5ht.co/hott.pdf">HoTT</a>:
                     6.3 The interval
 
-            h2#trunc Circle
+            h2#circle Circle
             code.
                 data S1
                    = base
@@ -935,7 +934,7 @@ block content
                 see <a href="http://5ht.co/hott.pdf">HoTT</a>:
                     6.4 Circles and spheres
 
-            h2#trunc Suspension
+            h2#suspension Suspension
             code.
                 data susp (A: U)
                    = north
@@ -947,7 +946,7 @@ block content
                 see <a href="http://5ht.co/hott.pdf">HoTT</a>:
                     6.5 Suspensions.
 
-            h2#trunc Pushout
+            h2#pushout Pushout
             code.
                 data pushout (A B C: U) (f: C -> A) (g: C -> B)
                     = inl (_: A)
