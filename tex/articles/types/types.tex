@@ -80,8 +80,8 @@ on proper decoupling and more programming friendly base library still usable
 for mathematicians.
 
 {\bf Research object}. The homotopy type theory base libraries in
-Agda \footnote{\url{https://github.com/HoTT/HoTT- Agda}},
-Cubical\footnote{\url{https://github.com/mortberg/cubicaltt}},
+Agda \footnote{\url{https://github.com/HoTT/HoTT-Agda}},
+cubicaltt \footnote{\url{https://github.com/mortberg/cubicaltt}},
 Lean\footnote{\url{ https://github.com/gebner/hott3}}, and
 Coq\footnote{\url{https://github.com/HoTT/HoTT}}.
 While modern Lean and Agda has the cubical mode, Coq lacks the computational semantics of path primitives
@@ -94,10 +94,10 @@ structures (Empty, Unit, Maybe, Nat, List, Either, Tuple), control structures an
 (Functor, CoFunctor, ContraFunctor, CoContraFunctor, Applicative, CoApplicative, Monad,
 CoMonad, Inductive, CoInductive), algebra tower (Monoid, CMonoid, Group, AbGroup, Ring, AbRing),
 and category theory (Category, Functor, Initial, Terminal, Adjoint).
-We use Martin-Löf Type Theory as a subject and its extension with [0,1] interval --- CTT.
+We use Martin-Löf Type Theory as a subject and its extension with $[0,1]$ interval --- CTT.
 
 {\bf Research results}. Research result is presented as source code repository that can be used by
-cubicaltt language and contains the minimal base library used in this article.
+{\bf cubicaltt} language and contains the minimal base library used in this article.
 These primitives form a valuable part of base library, so this article could be
 considered as an brief introduction to several topics: {\bf MLTT}, {\bf Runtime Types},
 {\bf Control Structures},  {\bf Recursive Schemes},
@@ -172,7 +172,7 @@ monad       &        & fiber   &                   & \\
 
 
 This library is dedicated to type checkers with cubical syntax,
-based on interval [0,1] and MLTT as a core.
+based on interval $[0,1]$ and MLTT as a core.
 Please refer to original paper of cubicaltt \cite{Mortberg17}
 which also given in the footnote \footnote{\url{http://www.cse.chalmers.se/~coquand/cubicaltt.pdf}}.
 The base library is founded on top of cubical modules each

@@ -11,6 +11,11 @@
 \usepackage{txfonts}
 \usepackage[utf8]{inputenc}
 
+\usepackage[numbers]{natbib}
+\renewcommand\bibsection{\section*{\refname}\small\renewcommand\bibnumfmt[1]{##1.}}
+
+\lstset{basicstyle=\small,inputencoding=utf8}
+
 \begin{document}
 
 \title{Constructive Proofs \\
@@ -23,15 +28,15 @@
 
 \begin{abstract}
 This paper represents the very small part of the developed base library for homotopical
-prover based on Cubical Type Theory (CTT) announced in 2017. We demonstrate the usage of this library by
-showing how to build a constructive proof of heterogeneous equality, the simple
-and elegant formulation of the equality problem, that was impossible to achieve in pure Martin-Löf Type Theory (MLTT).
-The machinery used in this article unveils the internal aspect of path equalities and isomorphism,
-used e.g. for proving univalence axiom, that became possible only in CTT.
-As an example of complex proof that was impossible to construct in earlier theories
-we took isomorphism between Nat and Fix Maybe datatypes and built a constructive
-proof of equality between elements of these datatypes. This approach could be extended
-to any complex isomorphic data types.
+prover based on Cubical Type Theory (CTT) announced in 2017. We demonstrate the usage
+of this library by showing how to build a constructive proof of heterogeneous equality,
+the simple and elegant formulation of the equality problem, that was impossible to achieve
+in pure Martin-Löf Type Theory (MLTT). The machinery used in this article unveils
+the internal aspect of path equalities and isomorphism, used e.g. for proving univalence
+axiom, that became possible only in CTT. As an example of complex proof that was
+impossible to construct in earlier theories we took isomorphism between Nat and Fix Maybe
+datatypes and built a constructive proof of equality between elements of these datatypes.
+This approach could be extended to any complex isomorphic data types.
 \end{abstract}
 
 \keywords{Formal Methods, Type Theory, Computer Languages,
@@ -41,12 +46,12 @@ to any complex isomorphic data types.
 
 \section{Intro}
 
-After formulating Type Theory to model quantifiers using Pi and Sigma types in 1972 \cite{Lof72}
-Per Martin-Löf added Equ equality types in 1984 \cite{Lof84}. Later Equ types were extended
+After formulating Type Theory to model quantifiers using $Pi$ and $Sigma$ types in 1972 \cite{Lof72}
+Per Martin-Löf added $Equ$ equality types in 1984 \cite{Lof84}. Later $Equ$ types were extended
 to non-trivial structural higher equalities ($\infty$-groupoid model) as was shown by Martin Hofmann
 and Thomas Streicher in 1996 \cite{Hofmann96}. However formal constructing of Equ type
 eliminators was made possible only after introducing Cubical Type Theory in 2017 \cite{Mortberg17}.
-CTT extends MLTT with interval I=[0,1] and its de Morgan algebra: 0, 1, r, -r, min(r,s), max(r,s)
+CTT extends MLTT with interval $I=[0,1]$ and its de Morgan algebra: $0, 1, r, -r, min(r,s), max(r,s)$
 allowing constructive proofs of earlier models based on groupoid interpretation.
 
 In this paper, we want to present the constructive formulation of proof
@@ -55,7 +60,7 @@ In the end, we will use path isomorphism for that purposes \cite{HoTT}.
 During the story of comparing two zeros, we will show the minimal set of primitives needed
 for performing this task in the cubical type checker. Most of
 them were impossible to derive in pure MLTT. We show these primitives in dependency order
-while constructing our proof. It covers different topics in type theory, namely:
+while constructing our proof. It covers different topics in type theory, which is the main motivation:
 
 \begin{itemize}
 \item Complete Formal Specification of MLTT
@@ -74,7 +79,7 @@ type theory ingenral and MLTT and CTT inparticular as research subject,
 direct proof construction as logical method and encoded cubical
 base library and examples as research results.
 
-{\bf Research object}. The homotopy type theory base libraries in Agda, Cubical, and Coq.
+{\bf Research object}. The homotopy type theory base libraries in Agda, Cubical, Lean and Coq.
 While modern Agda has the cubical mode, Coq lacks of the computational semantics of path primitives
 while has HoTT library. The real programming language is not enough to
 develop the software and theorems, the language shoud be shipped with base library. In this article
@@ -83,10 +88,13 @@ we unvail the practical implementation of base library for cubical typecheckers.
 {\bf Research subject}. We will analyze the base library through the needs of particular features,
 like basic theorems, heterogeneous path equalities, univalence, basic HITs like truncations, run-time
 versions of the list, nat, and stream datatypes. We use Martin-Löf Type Theory as a subject and
-its extention CTT.
+its extention CTT. The main motivation is to have small and concise base library for cubicaltt
+type checker than can be used in more complex proofs. As an example of library usage we will show
+the general sketch of the constructive proofs of heterogeneous equality in CTT, concentrating only
+on homotopical features of CTT.
 
 {\bf Research results}. Research result is presented as source code repository that can be used by
-cubicaltt language and contains the minimal base library used in this article.
+cubicaltt \footnote{http://github.com/mortberg/cubicaltt} language and contains the minimal base library used in this article.
 These primitives form a valuable part of base library, so this arcticle could be
 considered as an brief introduction to several modules: {\bf proto\_path}, {\bf proto\_equiv}, {\bf pi},
 {\bf sigma}, {\bf mltt}, {\bf path}, {\bf iso}. But the library has even more modules, that
@@ -104,7 +112,7 @@ implementation of its instance that supplied with minimal but comprehensive base
 can be used for verifying homotopical and run-time models. The type theory itself is a modeling
 language, logical framework and research method. The MLTT is a particular type theory with
 $Universes$, $\Pi$, $\Sigma$ and $Equ$ types. This is common denominator for a series of provers
-based on MLTT such as Coq, Agda, Cubical, Idris. In the article we will use Cubical language.
+based on MLTT such as Coq, Agda, Cubicaltt, Idris. In the article we will use Cubical language.
 
 \section{MLTT Type Theory}
 
@@ -137,7 +145,7 @@ a : A
 x = [ y : A ]
 \end{equation}
 
-MLTT type theory with Pi and Sigma types was formulated using
+MLTT type theory with $Pi$ and $Sigma$ types was formulated using
 natural deduction inference rules as a language.
 The inference rules in that language will
 be translated to cubicaltt in our article.
@@ -150,14 +158,16 @@ be translated to cubicaltt in our article.
 \end{equation}
 \\
 Equvalent definition in cubicaltt (which is inconstend $U : U$ but
-this won't affect correctness of our proof):
+this won't affect correctness of our proof). Here we consider $\Pi$
+and $Pi$ synonimically identical. 
 
 \begin{equation}
 \tag{cubicaltt}
 Pi\ (A: U)\ (B: A \rightarrow U): U = (x: A) \rightarrow B(x)
 \end{equation}
 
-The function name is an inference rule name,
+In article we will use the latter notation, the cubical syntax.
+The function name in cubical syntax is an inference rule name,
 everything from name to semicolon is context conditions,
 and after semicolon is a new consruction derived from context conditions.
 From semicolon to equality sign we have type and after
@@ -174,11 +184,11 @@ or operational semantics.
 
 \subsection{Pi types}
 
-Pi types represent spaces of dependent functions.
-With Pi type we have one lambda constructor
+$Pi$ types represent spaces of dependent functions.
+With $Pi$ type we have one lambda constructor
 and one application eliminator. When $B$ is not dependent on $x:A$
-the Pi is just a non-dependent total function $A \rightarrow B$.
-Pi has one lambda function constructor, and its eliminator, the
+the $Pi$ is just a non-dependent total function $A \rightarrow B$.
+$Pi$ has one lambda function constructor, and its eliminator, the
 application \cite{HoTT, Lof72, Lof84, Hofmann96, Mortberg17, Ulf09}.
 
 $$Pi(A,B) = \prod_{x:A} B(x) : U,\ \ \ 
@@ -186,19 +196,23 @@ $$Pi(A,B) = \prod_{x:A} B(x) : U,\ \ \
 
 $$\prod_{f:\prod_{x:A}B(x)}\prod_{a:A} f a : B (a)$$
 
+Here we formulate the math formula of $Pi$ and its eliminators in cubical syntax as Pi.
+Note that backslash \ in cubical syntax means $\lambda$ function from math notation
+and has compatible lambda signature.
+
 \begin{lstlisting}[mathescape=true]
 Pi (A:U) (B:A->U) : U = (x:A)->B(x)
-lambda (A:U) (B:A->U) (a:A) (b:B(a)): A->B(a) = \(x:A)->b
+lambda (A:U) (B:A->U) (a:A) (b:B(a)): A->B(a) = \ (x:A)->b
 app (A:U) (B:A->U) (a:A) (f:A->B(a)): B(a) = f(a)
 \end{lstlisting}
 
 \subsection{Sigma types}
 
-Sigma types represents a dependent cartesian products.
+$Sigma$ types represents a dependent cartesian products.
 With sigma type we have pair constructor and two eliminators,
 its first and second projections. When $B$ is not dependent on $x:A$
-the Sigma is just a non-dependent product $A \times B$.
-Sigma has one pair constructor and two eliminators, its projections
+the $Sigma$ is just a non-dependent product $A \times B$.
+$Sigma$ has one pair constructor and two eliminators, its projections
 \cite{HoTT, Lof72, Lof84, Hofmann96, Mortberg17, Ulf09}.
 
 $$Sigma(A,B) = \sum_{x:A} B(x) : U,\ \ \ 
@@ -206,9 +220,10 @@ $$Sigma(A,B) = \sum_{x:A} B(x) : U,\ \ \
 
 $$\pi_1 : \prod_{f:\sum_{x:A}B(x)}A\ ,\ \ \ \pi_2 : \prod_{f:\sum_{x:A}B(x)}B(\pi_1(f))$$
 
-As Pi and Sigma are dual the Sigma type could be formulated
-in terms of Pi type using Church encoding, thus Sigma is optional.
-The type systems which contains only Pi types called Pure or PTS.
+As $Pi$ and $Sigma$ are dual the $Sigma$ type could be formulated
+in terms of $Pi$ type using Church encoding, thus $Sigma$ is optional.
+The type systems which contains only $Pi$ types called Pure or PTS.
+Here we rewrite the math formula of $Sigma$ and its eliminators in cubical syntax as Sigma:
 
 \begin{lstlisting}[mathescape=true]
 Sigma (A:U) (B:A->U): U = (x:A) * B(x)
@@ -219,8 +234,8 @@ pr2 (A:U) (B:A->U) (x: Sigma A B): B (pr1 A B x) = x.2
 
 \subsection{Equ types}
 
-For modeling propositional equality later in 1984 was introduced Equ type. \cite{Lof84}
-However unlike Pi and Sigma the eliminator J of Equ type is
+For modeling propositional equality later in 1984 was introduced $Equ$ type. \cite{Lof84}
+However unlike $Pi$ and $Sigma$ the eliminator J of $Equ$ type is
 not derivable in MLTT \cite{Hofmann96, Mortberg17, HoTT}.
 
 $$Equ(x,y) = \prod_{x,y:A} x =_A y : U,\ \ \ 
@@ -229,6 +244,7 @@ $$D : \prod_{x,y:A}^{A:U_i} x =_A y \rightarrow U_{i+1},\ \ \
   J : \prod_{C: D} \prod_{x:A} C(x,x,reflect(x)) \rightarrow \prod_{y:A} \prod_{p:x=_A y} C(x,y,p)$$
 
 Eliminator of Equality has complex form and underivable in MLTT.
+Here we can see the formulation of $Equ$ in cubical syntax as Equ:
 
 \begin{lstlisting}[mathescape=true]
 Equ     (A: U) (x y: A): U = undefined
@@ -243,11 +259,11 @@ for J rules and in Agda and Coq it was formulated using inductive data types
 wrapper around built-in primitives (J) in the core:
 
 \begin{lstlisting}[mathescape=true]
-data Equality (A:U) (x y:A) = refl_ (_: Equ A x y)
+data Equality (A:U) (x y:A) = refl_ (_: Equ A x z)
 reflection (A:U) (a:A): Equality A a a = refl_ (reflect A a)
 \end{lstlisting}
 
-Heterogeneous equality is needed for computational rule of Equ type.
+Heterogeneous equality is needed for computational rule of $Equ$ type.
 And also this is crucial to our main task, constructive
 comparison of two values of different types. We leave the definition blank
 until introdure cubical primitives, here is just MLTT signature of HeteroEqu
@@ -269,7 +285,6 @@ transitivity (A:U)(a b c:A)(p: Equ A a b)(q: Equ A b c):
              Equ A a c = undefined
 \end{lstlisting}
 
-\newpage
 \subsection{Complete Formal Specification of MLTT}
 
 MLTT needn't and hasn't the underlying logic, the Logical Framework could be constructed directly in MLTT.
@@ -325,7 +340,7 @@ instance (A: U): MLTT A
        Equ A, reflect A, J A, comp5 A, tt)
 \end{lstlisting}
 
-\section{Informal Definition of Cubical Type Theory}
+\section{Cubical Type Theory Primitives and Syntax}
 
 The path equality is modeled as an interval [0,1] with
 its de Morgan algebra 0, 1, r, min(r,s), max(r,s). According to underlying theory
@@ -349,9 +364,33 @@ in the body of the function could be reduced using lambda parameter applied to p
 is preserved along paths: if a path is extensible at 0, then it is extensible at 1.
 
 {\bf Path gluening}. The path gluening is an operation that allows to build
-path from equivalences.
+path from equivalences. CTT distinguishes types gluening, value gluening and ungluening.
 
-\section{Constructive proofs of heterogeneous equalities}
+Here we give LALR specification of BNF notation of Cubicat Syntax as implemented
+in our github repository \footnote{http://github.com/groupoid/infinity/}. It has
+only 5 keywords: {\bf data}, {\bf split}, {\bf where}, {\bf module}, and {\bf import}.
+
+\begin{lstlisting}[mathescape=true]
+def := ${\bf data}$ id tele = sum + id tele : exp = exp +
+       id tele : exp ${\bf where}$ def
+exp := cotele*exp + cotele$\rightarrow$exp + exp$\rightarrow$exp + (exp) + app + id +
+       (exp,exp) + \ cotele$\rightarrow$exp + ${\bf split}$ cobrs + exp${\bf.1}$ + exp${\bf.2}$
+  0 := #empty         imp    := [ ${\bf import}$ id ]
+brs := 0 + cobrs      tele   := 0 + cotele
+app := exp exp        cotele := ( exp : exp ) tele
+ id := [ #nat ]       sum    := 0 + id tele + id tele | sum
+ids := [ id ]         br     := ids $\rightarrow$ exp
+cod := def dec        mod    := ${\bf module}$ id ${\bf where}$ imp def
+dec := 0 + codec      cobrs  := | br brs
+\end{lstlisting}
+
+\section{Constructive proofs of heterogeneous equalities --- the Formal Specification of the Problem}
+
+Speaking of core features of CTT that were unavailable in MLTT is a notion
+of heterogeneous equality that was several attempts to construct heterogeneous equalities:
+such as John-Major Equality by Connor McBride. As an example of library usage
+we will show the general sketch of the constructive proofs of heterogeneous equality in CTT,
+concentrating only on homotopical features of CTT.
 
 Let us have two types $A$ and $B$. And we have some theorems proved for $A$ and functions
 $f: A \rightarrow B$ and $g: B \rightarrow A$ such that $f \circ g = id_A$ and $g \circ f = id_B$. Then we
@@ -359,9 +398,6 @@ can prove $Iso(A,B) \rightarrow Equ(A,B)$. The result values would be proof that
 elements of $A$ and $B$ are equal --- $HeteroEqu$. We will go from the primitives to the final proof.
 As an example we took Nat and Fix Maybe datatype and will prove $Iso(Nat,Fix(Maybe))$.
 And then we prove the $HeteroEqu(Nat,Fix(Maybe))$.
-
-\begin{lstlisting}[mathescape=true]
-\end{lstlisting}
 
 \section{Contractability and Higher Equalities}
 
@@ -379,12 +415,14 @@ $$isGroupoid = \prod_{x,y:A} isSet\ (x =_A y),\ \
   SET = \sum_{X:U}isSet(X),...$$
 
 The following types are inhabited: isSet PROP, isGroupoid SET.
-All these functions are defined in {\bf propset} module.
+All these functions are defined in {\bf path} module. As you can see
+from definition there is a recurrent pattern which we encode in cubical syntax
+as follows:
 
 \begin{lstlisting}[mathescape=true]
-data N = Z | S (n: N)
+${\bf data}$ N = Z | S (n: N)
 n_grpd (A: U) (n: N): U = (a b: A) -> ((rec A a b) n) where
-  rec (A: U) (a b: A): (k: N) -> U = split
+  rec (A: U) (a b: A): (k: N) -> U = ${\bf split}$
     Z -> Path A a b
     S n -> n_grpd (Path A a b) n
 
@@ -616,35 +654,39 @@ and values across paths.
 
 We propose a general-purpose base library for modeling math systems using univalent foundations
 and cubical type checker.
-{\bf MLTT Foundation}: the set of modules with axioms and theorems for Pi, Sigma and Path types, the basis of MLTT theory.
-                       Among them: pi, sigma, proto, proto\_equiv,
-                       proto\_path, path, function, mltt.
+
+{\bf MLTT Foundation}:       the set of modules with axioms and theorems for Pi, Sigma and Path types,
+                             the basis of MLTT theory. Among them: pi, sigma, proto, proto\_equiv,
+                             proto\_path, path, function, mltt.
 {\bf Univalence Foundation}: the basic theorems about isomorphisms of MLTT types. Useful for
                              proving transport between types, include following modules:
                              iso, iso\_pi, iso\_sigma, trunc, equiv, univ.
-{\bf Category Theory}: the model of Category Theory following \cite{HoTT} definitions. It includes:
-                     cat, pushout, fun, grothendieck.
-{\bf Runtime Types}: the models for run-time systems, properties of which could be proved using
-                     univalend foundations: binnat, bool, control, either, list,
-                     maybe, stream, nat, lambek.
-{\bf Set Theory}: The basic theorems about set theory and higher groupoids:
-                  hedberg, girard, propset.
-{\bf Geometry}: Higher Inductive Types: circle, helix, quotient, retract, etc.
-{\bf Algebra}: Abstract algebra, such as Monoid, Gropop, Semogroupo, Monad, etc: algstruct, functor, monad.
+{\bf Category Theory}:       the model of Category Theory following \cite{HoTT} definitions. It includes:
+                             cat, pushout, fun, grothendieck.
+{\bf Runtime Types}:         the models for run-time systems, properties of which could be proved using
+                             univalend foundations: binnat, bool, control, either, list,
+                             maybe, stream, nat, recursion, cwf, lambek.
+{\bf Set Theory}:            The basic theorems about set theory and higher groupoids: hedberg, girard, prop, set.
+{\bf Geometry}:              Higher Inductive Types: circle, helix, quotient, retract, etc.
+{\bf Algebra}:               Abstract algebra, such as Monoid, Gropop, Semogroupo, Monad,
+                             etc: algebra, control.
 
 \begin{figure}[h]
   \centerline{\includegraphics[scale=0.36]{baselib}}
   \caption{Full base library dependencies}
 \end{figure}
 
+
 The amount of code needed for $Nat =_U Fix(Maybe)$ proof is around 400 LOC in modules.
 
-The further development of base library implies: 1) extending run-time facilities;
-2) making it useful for building long-running systems and processes; 3) implement the inductive-recursive model for inductive types (development of lambek module). The main aim
-is to bring homotopical univalent foundations for run-time systems and models. Our base library
-could be used as a first-class mathematical modeling tool or as a sandbox for developing
-run-time systems and proving its properties, followed with code extraction to pure type systems
-and/or run-time interpreters.
+The further development of base library implies:
+1) extending run-time facilities;
+2) making it useful for building long-running systems and processes;
+3) implement the inductive-recursive model for inductive types (development of lambek module).
+The main aim is to bring homotopical univalent foundations for run-time systems and models.
+Our base library could be used as a first-class mathematical modeling tool or as a sandbox
+for developing run-time systems and proving its properties, followed with code extraction
+to pure type systems and/or run-time interpreters.
 
 \bibliographystyle{aipnum-cp}
 \bibliography{identity}
