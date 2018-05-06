@@ -60,17 +60,15 @@ In the end, we will use path isomorphism for that purposes \cite{HoTT}.
 During the story of comparing two zeros, we will show the minimal set of primitives needed
 for performing this task in the cubical type checker. Most of
 them were impossible to derive in pure MLTT. We show these primitives in dependency order
-while constructing our proof. It covers different topics in type theory, which is the main motivation:
-
-\begin{itemize}
-\item Complete Formal Specification of MLTT
-\item Contractability and n-Groupoids
-\item Constructive J
-\item Functional Extensionality
-\item Fibers and Equivalence
-\item Isomorphism
-\item Heterogeneous equality
-\end{itemize}
+while constructing our proof. This article covers different topics in type theory,
+which is the main motivation to show how powerful the notion of equality is:
+1) Complete Formal Specification of MLTT;
+2) Contractability and n-Groupoids;
+3) Constructive J;
+4) Functional Extensionality;
+5) Fibers and Equivalence;
+6) Isomorphism;
+7) Heterogeneous equality.
 
 \section{Research Formal Description}
 
@@ -197,7 +195,7 @@ $$Pi(A,B) = \prod_{x:A} B(x) : U,\ \ \
 $$\prod_{f:\prod_{x:A}B(x)}\prod_{a:A} f a : B (a)$$
 
 Here we formulate the math formula of $Pi$ and its eliminators in cubical syntax as Pi.
-Note that backslash \ in cubical syntax means $\lambda$ function from math notation
+Note that backslash "\textbackslash"\  in cubical syntax means $\lambda$ function from math notation
 and has compatible lambda signature.
 
 \begin{lstlisting}[mathescape=true]
@@ -388,7 +386,8 @@ dec := 0 + codec      cobrs  := | br brs
 
 Speaking of core features of CTT that were unavailable in MLTT is a notion
 of heterogeneous equality that was several attempts to construct heterogeneous equalities:
-such as John-Major Equality by Connor McBride. As an example of library usage
+such as John-Major Equality \footnote{https://homotopytypetheory.org/2012/11/21/on-heterogeneous-equality/}
+by Connor McBride (which is included in Coq base library). As an example of library usage
 we will show the general sketch of the constructive proofs of heterogeneous equality in CTT,
 concentrating only on homotopical features of CTT.
 

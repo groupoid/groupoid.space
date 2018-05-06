@@ -1,113 +1,57 @@
 % copyright (c) 2015 Synrc Research Center
 
-\documentclass[11pt,oneside]{article}
+\documentclass{article}
+\usepackage{amscd}
+\usepackage{listings}
+\usepackage[numbers]{natbib}
+\usepackage[only,llbracket,rrbracket,llparenthesis,rrparenthesis]{stmaryrd}
+\usepackage{amssymb,amsmath,amsthm,stmaryrd,mathrsfs,wasysym}
+\usepackage{enumitem,mathtools,xspace}
+\usepackage{graphicx}
+\usepackage{amsmath}
+\usepackage{mathtools}
+\usepackage{amssymb}
+\usepackage{txfonts}
+\usepackage{amsthm}
+\usepackage{url}
+\usepackage{tikz-cd}
+\usepackage[utf8]{inputenc}
 
-\input{synrc.tex}
+\newcommand*{\thead}[1]{\multicolumn{1}{c}{\bfseries #1}}
+
+\usepackage{inconsolata}
+\lstset{basicstyle=\small,inputencoding=utf8}
+
 \begin{document}
 
-\thispagestyle{empty}
-\begin{center}
+\title{Impredicative Encoding \\ of Inductive Types in \\ Cubical Type Theory}
+\author{Maksym Sokhatskyi $^1$ and Pavlo Maslianko $^1$}
+\date{
+    $^1$ National Technical University of Ukraine \\
+    \small Igor Sikorsky Kyiv Polytechnical Institute\\
+    \today
+}
 
-\begingroup
-\parbox[t][][l]{0.30\textwidth}{ \includegraphics[scale=0.3]{img/grp} }
-\parbox[t][][r]{0.60\textwidth}{ \flushright \textsc{{\Large {\bf {Groupoid Infinity}}}}\\
-                                             \textsc{Kostiantynivska 20/14, Kyiv, Ukraine 04071}\\  }\endgroup
+\maketitle
 
-\vspace{6cm}   {\Large \bf Categorical Encoding of Inductive Types\\}\par
-\vspace{0.3cm} {\Large Maxim Sokhatsky\par}
-\vspace{6cm}   {\Large Groupoid Infinity\par}
-\vspace{0.3cm} {\Large Kamianets-Podilsky 2016}
+\begin{abstract}
 
-\end{center}
+Impredicative Encoding of Inductive Types in HoTT.
+\\
+\\
+{\bf Keywords}: Formal Methods, Type Theory, Programming Languages,
+          Theoretical Computer Science, Applied Mathematics,
+          Cubical Type Theory, Martin-Löf Type Theory
+\end{abstract}
 
 \newpage
-\vspace{2cm}
 \tableofcontents
-\newpage
-
-\section{Abstract}
-
-\paragraph{}
-{\bf From PTS to HTS}. We want to have flexible detachable
-layers on top of PTS core. Then Sigma for proving.
-Then well-founded trees or polynomial functors as known as data and record.
-Then higher path types, interval arithmetic, glue and comp for HIT.
-Each layers is driven by differenth math, the common in only the method -- category theory.
-
-\paragraph{}
-{\bf Extensible Language Design}. Encoding of inductive types is based on categorical
-semantic of compilation to PTS. All other syntax constructions are inductive
-definitions, plugged into the stream parser. AST of the PTS language is also
-defined in terms of inductive constructions and thus allowed in the macros.
-The language of polynomial functors (data and record) and core language of
-the process calculus (spawn, receive and send) are just macrosystem over Om language,
-its syntax extensions.
-
-\paragraph{}
-{\bf Changable Encodings}. In pure CoC we have only arrows, so all inductive type encodings would
-be Church-encoding variations. Most extended nowadays is Church-Boehm-Berrarducci encoding,
-which dedicated to inductive types. Another well known are Scott (lazyness),
-Parigot (lazyness and constant-time iterators) and CPS (continuations) encodings.
-However most of them require variations of Fixpoint types.
-
-\paragraph{}
-{\bf Proved Categorical Semantic}. There was modeled a math model (using
-higher-order categorical logic) of encoding, which calculates (co)limits in a
-cathegory of (co)algebras built with given set of (de)constructors.
-We call such encoding in honour of Lambek lemma that leeds us to the
-equality of (co)initial object and (co)limit in the categories of (co)algebras.
-Such encoding works with dependent types and its consistency is proved in Lean model.
-
 
 \newpage
-\section{Type Theory}
+\section{Intro}
 
-\subsection{Intuitionistic Type Theory}
+\section{Martin-Lof Type Theory}
 
-\paragraph{}
-Type theories are formal calculi that can be seen as both mathematical
-formal logics, set theories, programming languages and formalized
-programming logics used to prove program properties and derive a correct program from a specification \cite{nordstrom}.
-
-\paragraph{}
-We will follow the tradition in the literature on type systems \cite{henk1} and formulate our calculus with judgment rules in a well-known
-notation of Natural Deduction. There are two types of judgement rules: {\bf a} is a object of type {\bf A};
-{\bf a} and {\bf b} are definitionaly equal objects of type {\bf A}.
-Rules for each type can be in turn classified into {\bf formations}, {\bf introductions}, {\bf eliminators} and {\bf computational rules}.
-
-\paragraph{}
-Formation rules are typing rules,
-introductions (type constructors) and eliminators are adjunctions that correspond to axioms,
-and computational rules correspond to operational semantics.
-From categorical point of view {\bf typing rules} correspond to {\bf functors},
-{\bf axioms} to {\bf morphisms} and {\bf operational semantics} to {\bf equalities on morphisms}.
-
-\paragraph{}
-Our variant of intuitionistic type system has an {\bf infinite} hierarchy of universes,
-the hierarchy is {\bf non-cumulative}, the universe of propositions is {\bf impredicative} while universes of values, types and higher types are {\bf predicative}. The next paragraphs briefly
-describe the reasons for such design choices.
-
-\paragraph{}
-While there are variants of MLTT with finite number of universes (see
-for example the lambda cube and PTS formulations of Calculus of
-Constructions in \cite{henk1}), most modern provers have an infinite
-hierarchy of universes as it's {\bf more expressive}.
-
-\paragraph{}
-The first universe, the universe of propositions, has impredicative quantification
-while all other universes are predicative. This setup
-is known to simplify the type system while keeping it free of
-paradoxes and thus {\bf sound as a formal logic}.
-
-\paragraph{}
-The first few universes have analogs in logic and axiomatic set theories. The bottom is contractible space.
-Universe 0 can be thought of as the universe of propostions. Universe 1 contains elements.
-Universe 1 contains sets. Universe 2 contains classes.  The hierarchy can be cumulative or non-cumulative.
-In cumulative setting lower universes are included in higher ones --- e.g. all elements
-are sets. In non-cumulative setting the universes don't intersect,
-so the case is analogous to axiomatic set theories {\bf with urelements}.
-
-\newpage
 \subsection{Universes}
 
 \begin{equation}
@@ -131,7 +75,7 @@ so the case is analogous to axiomatic set theories {\bf with urelements}.
   {Type_i \rightarrow Type_{j} : Type_{max(i,j)}}
 \end{equation}
 
-  \subsection{Dependent Types}
+\subsection{Dependent Types}
 
 \begin{equation}
 \tag{subst}
@@ -168,18 +112,7 @@ so the case is analogous to axiomatic set theories {\bf with urelements}.
   {(\lambda\ (x:A) \rightarrow b)\ a = b\ [a/x] : B\ [a/x]}
 \end{equation}
 
-\newpage
-
-\begin{lstlisting}[mathescape=true]
-record $\Pi$ (A: Type): Type :=
-       ($\Pi$: (A $\rightarrow$ Type) $\rightarrow$ Type)
-       (fun: (B: A $\rightarrow$ Type) $\rightarrow$ $\forall$ (a: A) $\rightarrow$ B a $\rightarrow$ $\Pi$ B)
-       (app: (B: A $\rightarrow$ Type) $\rightarrow$ $\Pi$ B $\rightarrow$ $\forall$ (a: A) $\rightarrow$ B a)
-       (app-fun (B: A $\rightarrow$ Type) (f: $\forall$ (a: A) $\rightarrow$ B a): $\forall$ (a: A) $\rightarrow$ app (fun f) a ==> f a)
-       (fun-app (B: A $\rightarrow$ Type) (p: $\Pi$ B): fun ($\lambda$(a: A) $\rightarrow$ app p a) ==> p)
-\end{lstlisting}
-
-  \subsection{Identity Types}
+\subsection{Identity Types}
 
 \begin{equation}
 \tag{$Id$-formation}
@@ -202,7 +135,6 @@ record $\Pi$ (A: Type): Type :=
   {J(a,b,p,(x,y,u)\ d) : E\ [a/x,\ b/y,\ p/u]}
 \end{equation}
 
-
 \begin{equation}
 \tag{$Id$-computation}
 \dfrac
@@ -210,726 +142,177 @@ record $\Pi$ (A: Type): Type :=
   {J(a,a,refl(a),(x,y,u)\ d) = d\ [a/x] : E\ [a/y,\ refl(a)/u]}
 \end{equation}
 
-\begin{lstlisting}[mathescape=true]
-record Id (A: Type): Type :=
-       (Id: A $\rightarrow$ A $\rightarrow$ Type)
-       (refl (a: A): Id a a)
-       (Predicate := $\forall$ (x,y: A) $\rightarrow$ Id x y $\rightarrow$ Type)
-       (Forall (C: Predicate) := $\forall$ (x,y: A) $\rightarrow$ $\forall$ (p: Id x y) $\rightarrow$ C x y p)
-       ($\Delta$ (C: Predicate) := $\forall$ (x: A) $\rightarrow$ C x x (refl x))
-       (axiom-J (C: Predicate): $\Delta$ C $\rightarrow$ Forall C)
-       (computation-rule (C: Predicate) (t: $\Delta$ C):
-                         $\forall$ (x: A) $\rightarrow$ (J C t x x (refl x)) ==> (t x))
-\end{lstlisting}
+\subsection{n-Types}
 
-\subsection{Inductive Types}
+A type $A$ is contractible, or a singleton, if there is $a : A$,
+called the center of contraction, such that $a = x$ for all $x : A$:
+A type $A$ is proposition if any x,y: A are equals.
+A type is a Set if all equalities in A form a prop.
+It is defined as recursive definition.
 
-\begin{equation}
-\tag{$W$-formation}
-\dfrac
-  {A:Type\ \ \ \ x:A\ \ \ \ B(x):Type}
-  {W (x:A) \rightarrow B(x) : Type}
-\end{equation}
+$$isContr = \sum_{a:A}\prod_{x:A} a =_A x,\ \ 
+  isProp(A) = \prod_{x,y:A} x =_A y,\ \ 
+  isSet = \prod_{x,y:A} isProp\ (x =_A y),\ \ $$
+$$isGroupoid = \prod_{x,y:A} isSet\ (x =_A y),\ \ 
+  PROP = \sum_{X:U}isProp(X),\ \ 
+  SET = \sum_{X:U}isSet(X),...$$
 
-\begin{equation}
-\tag{$W$-intro}
-\dfrac
-  {a:A\ \ \ \ t: B(a) \rightarrow W}
-  {sup(a,t) : W}
-\end{equation}
-
-\begin{equation}
-\tag{$W$-elimination}
-\dfrac
-  {w: W \vdash C(w) : Type\ \ \ \ x:A,\ u:B(x) \rightarrow W,\ \ \ \ v:\Pi (y:B(x)) \rightarrow C(u(y)) \vdash c(x,u,v):C(sup(x,u))}
-  {w:W \vdash wrec(w,c):C(w)}
-\end{equation}
-
-\begin{equation}
-\tag{$W$-computation}
-\dfrac
-  {w: W \vdash C(w) : Type\ \ \ \ x:A,\ u:B(x) \rightarrow W,\ \ \ \ v:\Pi (y:B(x)) \rightarrow C(u(y)) \vdash c(x,u,v):C(sup(x,u))}
-  {x:A,\ \ \ \ u:B(x) \rightarrow W \vdash wrec(sup(x,u),c)\ =\ c(x,u,\lambda (y:B(x)) \rightarrow wrec(u(y),c)):C(sup(x,u))}
-\end{equation}
-
-\newpage
-\section{Category Theory}
-\vspace{0.3cm}
-
-   \subsection{Programs and Functions}
-   Category theory is widely used as an instrument for mathematicians for software analisys.
-   Category theory could be treated as an abstract algebra of functions. Let's define an Category
-   formally: {\bf Category} consists of: morphisms (arrows) and objects (domains and codomains of arrows)
-   along with associative operation of composition and unit morphism that exists for all objects in category.
-
-%   \paragraph{}
-%   The formation axoims of objects and arrows are not given here and autopostulating yet. Formation axoims
-%   will be introduced during exponential definition. Objects $A$ and $B$ of an arrow $f: A \rightarrow B$
-%   are called {\bf domain} and {\bf codomain} respectively.
-
-%   \paragraph{}
-%   Intro axioms -- associativity of composition and left/right unit arrow compisitions show that
-%   categories are actually typed monoids, which consist of morphisms and operation of composition.
-%   There are many languages to show the semantic of categories such as commutative diagrams and string diagrams
-%   however here we define here in proof-theoretic manner:
-
-\begingroup
-\parbox[t][][l]{0.70\textwidth}{
-\flushleft
-\begin{prooftree}
-\RightLabel{($Comp$)}
-\AxiomC{$f: A \rightarrow B$ }
-\AxiomC{$g: B \rightarrow C$ }
-\BinaryInfC{$g \circ f : A \rightarrow C $}
-\end{prooftree}
-
-\begin{prooftree}
-\RightLabel{($Assoc$)}
-\AxiomC{$f : B \rightarrow A$ }
-\AxiomC{$g : C \rightarrow B$ }
-\AxiomC{$h : D \rightarrow C$ }
-\TrinaryInfC{$(f \circ g) \circ h = f \circ (g \circ h) : D \rightarrow A $}
-\end{prooftree}
-
-}
-\hspace{0.1cm}
-\parbox[t][][r]{0.40\textwidth}{
-
-\begin{prooftree}
-\RightLabel{($Id$)}
-\AxiomC{$$ }
-\UnaryInfC{$id_A : A \rightarrow A $}
-\end{prooftree}
-
-\begin{prooftree}
-\RightLabel{($Id_L$)}
-\AxiomC{$f: A \rightarrow B$ }
-\UnaryInfC{$f \circ id_A = f : A \rightarrow B$}
-\end{prooftree}
-
-\begin{prooftree}
-\RightLabel{($Id_R$)}
-\AxiomC{$f: A \rightarrow B$ }
-\UnaryInfC{$id_B \circ f = f : A \rightarrow B $}
-\end{prooftree}
-}
-\endgroup
-
-\paragraph{}
+The following types are inhabited: isSet PROP, isGroupoid SET.
+All these functions are defined in {\bf path} module. As you can see
+from definition there is a recurrent pattern which we encode in cubical syntax
+as follows:
 
 \begin{lstlisting}[mathescape=true]
-record Setoid: Type :=
-       (Carrier: Type)
-       (Equ: Carrier $\rightarrow$ Carrier $\rightarrow$ Prop)
-       (Refl:  $\forall$ (e$_0$: Carrier) $\rightarrow$ Equ e$_0$ e$_0$)
-       (Trans: $\forall$ (e$_1$,e$_2$,e$_3$: Carrier) $\rightarrow$ Equ e$_1$ e$_2$ $\rightarrow$ Equ e$_2$ e$_3$ $\rightarrow$ Equ e$_1$ e$_3$)
-       (Sym:   $\forall$ (e$_1$ e$_2$: Carrier) $\rightarrow$ Equ e$_1$ e$_2$ $\rightarrow$ Equ e$_2$ e$_1$)
+${\bf data}$ N = Z | S (n: N)
+n_grpd (A: U) (n: N): U = (a b: A) -> ((rec A a b) n) where
+  rec (A: U) (a b: A): (k: N) -> U = ${\bf split}$
+    Z -> Path A a b
+    S n -> n_grpd (Path A a b) n
+
+isContr (A: U): U = (x:A) * ((y: A) -> Equ A x y)
+isProp      (A: U): U = n_grpd A Z
+isSet       (A: U): U = n_grpd A (S Z)
+isGroupoid  (A: U): U = n_grpd A (S (S Z))
+PROP      : U = (X:U) * isProp X
+SET       : U = (X:U) * isSet  X
+GRPOUPOID : U = (X:U) * isGroupoid X
 \end{lstlisting}
+
+\section{Constructive J}
+
+The very basic ground of type checker is heterogeneous equality $PathP$ and contructive
+implementation of reflection rule as lambda over interval $[0,1]$ that
+return constant value $a$ on all domain.
 
 \begin{lstlisting}[mathescape=true]
-record Cat: Type :=
-       (Ob: Type)
-       (Hom:    $\forall$ (dom,cod: Ob) $\rightarrow$ Setoid)
-       (Id:     $\forall$ (x: Ob) $\rightarrow$ Hom x x)
-       (Comp:   $\forall$ (x,y,z: Ob) $\rightarrow$ Hom x y $\rightarrow$ Hom y z $\rightarrow$ Hom x z)
-       (Dom$_{1\circ}$:    $\forall$ (x,y: Ob) (f: Hom x y) $\rightarrow$ (Hom.Equ x y (Comp x x y id f) f))
-       (Cod$_{1\circ}$:    $\forall$ (x,y: Ob) (f: Hom x y) $\rightarrow$ (Hom.Equ x y (Comp x y y f id) f))
-       (Subst$_{\circ}$: $\forall$ (x,y,z: Ob)
-            (f$_1$, f$_2$: Hom x y) (Hom.Equ x y f$_1$ f$_2$)
-            (g$_1$, g$_2$: Hom y z) (Hom.Equ y z g$_1$ g$_2$) $\rightarrow$
-                (Hom.Equ x z (Comp x y z f$_1$ g$_1$) (Comp x y z f$_2$ g$_2$)) )
-       (Assoc$_{\circ}$: $\forall$ (x,y,z,w: Ob) (f: Hom x y) (g: Hom y z) (h: Hom z w)
-            $\rightarrow$ (Hom.Equ x w (Comp x y w f (Comp y z w g h))
-                    (Comp x z w (Comp x y z f g) h)))
+Path (A:U)(a b:A):U = PathP (<i>A) a b
+HeteroEqu (A B:U)(a:A)(b:B)(P:Equ U A B):U = Path P a b
+refl (A:U)(a:A):Path A a a = <i> a
+sym (A:U)(a b:A) (p: Path A a b): Path A b a = <i> p @ -i
+transitivity (A: U)(a b c:A)(p: Path A a b) (q: Path A b c):
+    Path A a c = comp (<i> Path A a (q @ i)) p []
 \end{lstlisting}
 
-\newpage
-\subsection{Algebraic Types and Cartesian Categories}
+$$trans : \prod_{p:A=_U B}^{A,B:U} \prod_{a:A} B,\ \ \ singleton : \prod_{x:A}^{A:U} \sum_{y:A} x =_A y $$
 
-After composition operation of construction of new objects with morphisms we introduce
-operation of construction cartesian product of two objects $A$ and $B$ of a given
-category along with morphism product $<f,g>$ with a common domain, that is needed
-for full definition of cartesian product of $A \times B$.
+$$subst : \prod_{a,b:A}^{A:U,B:A\rightarrow U} \prod_{p: a =_A b} \prod_{e:B(a)} B(b), \ \ \ 
+  congruence : \prod_{f:A\rightarrow B}^{A,B:U} \prod_{a,b:A} \prod_{p:a =_A b} f(a) =_B f(b) $$
 
-\paragraph{}
-This is an internal language of cartesian category, in which for all two selected objects there is an object
-of cartesian product (sum) of two objects along with its $\bot$ terminal (or $\top$ coterminal) type.
-Exe languages is always equiped with product and sum types.
-
-\paragraph{}
-Product has two eliminators $\pi$ with an common domain, which are also called projections of an product.
-The sum has eliminators $i$ with an common codomain.
-Note that eliminators $\pi$ and $i$ are isomorphic, that is $\pi \circ \sigma = \sigma \circ \pi = id$.
-
-\begingroup
-\parbox[t][][l]{0.40\textwidth}{
-
-\begin{prooftree}
-\AxiomC{$x: A \times B$ }
-\UnaryInfC{$\pi_1\ : A \times B \rightarrow A$;
-           $\pi_2\ : A \times B \rightarrow B$}
-\end{prooftree}
-
-\begin{prooftree}
-\AxiomC{$a:A$ }
-\AxiomC{$b:B$ }
-\BinaryInfC{$(a,b) : A \times B$ }
-\end{prooftree}
-
-\begin{prooftree}
-\AxiomC{}
-\UnaryInfC{$\top$ }
-\end{prooftree}
-
-}
-\hspace{0.1cm}
-\parbox[t][][r]{0.60\textwidth}{
-
-\begin{prooftree}
-\AxiomC{}
-\UnaryInfC{$\bot$ }
-\end{prooftree}
-
-\begin{prooftree}
-\AxiomC{$a:A$ }
-\AxiomC{$b:B$ }
-\BinaryInfC{$a\ |\ b : A \otimes B$}
-\end{prooftree}
-
-\begin{prooftree}
-\AxiomC{$x: A \otimes B$ }
-\UnaryInfC{$\i_1: A \rightarrow A \otimes B$;
-           $\i_2: B \rightarrow A \otimes B$}
-\end{prooftree}
-
-}
-\endgroup
-
-   \paragraph{}
-
-   The $\bot$ type in Haskell is used as {\bf undefined} type (empty sum component presented in all types), that
-   is why Hask category is not based on cartesian closed but CPO\cite{cpo}. The $\bot$ type has no values.
-   The $\top$ type is known as unit type or zero tuple $()$ often
-   used as an default argument for function with zero arguments.
-   Also we include here an axiom of morphism product which is given during full definition
-   of product using commutative diagram. This axiom is needed for applicative
-   programming in categorical abstract machine. Also consider co-version of this
-   axiom for $[f,g]: B+C \rightarrow A$ morphism sums.
-
-\begin{prooftree}
-\AxiomC{$f:A \rightarrow B$ }
-\AxiomC{$g:A \rightarrow C$ }
-\AxiomC{$B \times C$ }
-\TrinaryInfC{$\langle f,g \rangle : A \rightarrow B \times C$ }
-\end{prooftree}
-
-\begin{center}
-%$(f \circ g) \circ h = f \circ (g \circ h)$\\
-%$f \circ id = f$\\
-%$id \circ f = f$\\
-$\pi_1 \circ \langle f, g \rangle = f$\\
-$\pi_2 \circ \langle f, g \rangle = g$\\
-$\langle f \circ \pi_1, f \circ \pi_2 \rangle = f$\\
-$\langle f, g \rangle \circ h = \langle f \circ h, g \circ h \rangle$\\
-$\langle \pi_1, \pi_2 \rangle = id$\\
-\end{center}
-
-\newpage
-   \subsection{Exponential, $\lambda$-calculus and Cartesian Closed Categories}
-   Being an internal language of cartesian closed category, lambda calculus except variables and constants
-   provides two operations of abstraction and applications which defines complete evaluation language
-   with higher order functions, recursion and corecursion, etc.
-
-   \paragraph{}
-   To explain functions from the categorical point of vew we need to define categorica exponential
-   $f: A^B$, which are analogue to functions $f: A \rightarrow B$.
-   As we already defined the products and terminals we could define an exponentials with three
-   axioms of function construction, one eliminator of application with apply a function to its argument
-   and axiom of currying the function of two arguments to function of one argument.
-
-\begingroup
-\parbox[t][][l]{0.40\textwidth}{
-
-\begin{prooftree}
-\AxiomC{$x:A \vdash M : B$}
-\UnaryInfC{$\lambda\ x\ .\ M : A \rightarrow B$}
-\end{prooftree}
-
-\begin{prooftree}
-\AxiomC{$f:A \rightarrow B$ }
-\AxiomC{$a:A$ }
-\BinaryInfC{$apply\ f\ a\ : (A \rightarrow B) \times A \rightarrow B$}
-\end{prooftree}
-
-\begin{prooftree}
-\AxiomC{$f: A \times B \rightarrow C$ }
-\UnaryInfC{$curry\ f : A \rightarrow (B \rightarrow C)$}
-\end{prooftree}
-
-}
-\hspace{0.1cm}
-\parbox[t][][r]{0.60\textwidth}{
-
-\begin{center}
-$apply \circ \langle (curry\ f) \circ \pi_1 , \pi_2 \rangle = f$\\
-$curry\ apply \circ \langle g \circ \pi_1, \pi_2 \rangle) = g$\\
-$apply \circ \langle curry\ f, g \rangle = f \circ \langle id , g\rangle$\\
-$(curry\ f) \circ g = curry\ (f \circ \langle g \circ \pi_1,\pi_2\rangle)$\\
-$curry\ apply = id$\\
-\end{center}
-
-
-}
-\endgroup
-
-\subsection*{$\lambda$-language as CAM machine}
-
-\begin{center}
-Objects : $\top\ |\ \rightarrow\ |\ \times$\\
-Morphisms : $id\ |\ f \circ g\ |\ \langle f, g \rangle\ |\ apply\ |\ \lambda\ |\ curry$
-\end{center}
-
-\newpage
-  \subsection{Functors, $\Lambda$-calculus}
-
-  Functor comes as a notion of morphisms in categories whose objects are categories.
-  Functors preserve compositions of arrows and identities, otherwise it would
-  be impossible to deal with categories. One level up is notion of morphism between categories whose
-  objects are Functors, such morphisms are called natural transformations. Here we need
-  only functor definition which is needed as general type declarations.
-
-\begin{prooftree}
-\AxiomC{$f\ :\ A \rightarrow B$}
-\UnaryInfC{$F\ f\ :\ (A \rightarrow B) \rightarrow (F\ a \rightarrow F\ b)$}
-\end{prooftree}
-
-\begin{prooftree}
-\AxiomC{$id_A\ :A \rightarrow A$}
-\UnaryInfC{$F\ id_A\ =\ id_{F A}\ :\ F\ A \rightarrow F\ A$}
-\end{prooftree}
-
-\begin{prooftree}
-\AxiomC{$f\ :B \rightarrow C,\ g : A \rightarrow B$}
-\UnaryInfC{$F\ f \circ F\ g\ =\ F (f \circ g)\ :\ F\ A \rightarrow F\ C$}
-\end{prooftree}
-
-   We start thinking of functors on dealing with typed theories, because functors usually
-   could be seen as higher order type con
-
-\vspace{1cm}
-\begin{lstlisting}[mathescape=true]
-   record Functor ($\varphi$: Type $\rightarrow$ Type): Type :=
-          (fmap: $\forall$ ($\alpha$,$\beta$: Type) $\rightarrow$ ($\alpha$ $\rightarrow$ $\beta$) $\rightarrow$ $\varphi$ $\beta$ $\rightarrow$ $\varphi$ $\beta$;
-          (id$_\rightarrow$: $\forall$ ($\alpha$: Type) (x: $\varphi$ $\alpha$) $\rightarrow$ fmap id x = x)
-          (comp$_\rightarrow$: $\forall$ ($\alpha$,$\beta$,$\gamma$: Type) (f: $\beta$ $\rightarrow$ $\gamma$) (g: $\alpha$ $\rightarrow$ $\beta$) (x: $\varphi$ $\alpha$)
-                   $\rightarrow$ fmap (f $\circ$ g) x = (fmap f $\circ$ fmap g) x)
-\end{lstlisting}
-
-
-
-
-
-\newpage
-   \subsection{Algebras}
-
-   F-Algebras gives us a categorical understanding recursive types.
-   Let $F : C \rightarrow C$ be an endofunctor on category $C$.
-   An F-algebra is a pair $(C, \phi)$, where C is an object and $\phi\ : F\ C \rightarrow C$
-   an arrow in the category C. The object C is the carrier and the functor
-   F is the signature of the algebra. Reversing arrows gives us F-Coalgebra.
-
-\vspace{1cm}
-
-\begin{center}
-\begin{tabular}{lcl}
-\begin{tikzcd}
-  F\ C \arrow{d}[left]{F\ f} \arrow{r}{\varphi} & C \arrow{d}{f} \\
-  F\ D \arrow{r}{\psi} & D \end{tikzcd} & & \begin{tikzcd}
-  C \arrow{d}[left]{f} \arrow{r}{\varphi} & F\ C \arrow{d}{F\ f} \\
-  D \arrow{r}{\psi} & F\ D \end{tikzcd} \\
-  \ & \  &\  \\
-  $f \circ \varphi = \psi \circ F\ f$ & & $\psi \circ f =  F\ f \circ \varphi$ \\
-\end{tabular}
-\end{center}
-
-  \subsection{Initial Algebras}
-
-  A F-algebra $(\mu F, in)$ is the initial F-algebra if for any F-algebra $(C, \varphi)$
-  there exists a unique arrow $\llparenthesis \varphi \rrparenthesis : \mu F \rightarrow C$ where $f = \llparenthesis \varphi \rrparenthesis$
-  and is called catamorphism. Similar a F-coalgebra $(\nu F, out)$ is the terminal
-  F-coalgebra if for any F-coalgebra $(C, \varphi)$ there exists unique arrow
-  $\llbracket \varphi \rrbracket : C \rightarrow \nu F$ where $f =
-  \llbracket \varphi \rrbracket$
-
-\begin{center}
-\begin{tabular}{lcl}
-\begin{tikzcd}
-  F\ \mu F \arrow{d}[left]{F\ \llparenthesis \varphi \rrparenthesis} \arrow{r}{in} & \mu F \arrow{d}{\llparenthesis \varphi \rrparenthesis} \\
-  F C \arrow{r}{\varphi} & C \end{tikzcd} & & \begin{tikzcd}
-  C \arrow{d}[left]{ \llbracket \varphi \rrbracket} \arrow{r}{\phi} & F\ C\arrow{d}{F\ \llbracket \varphi \rrbracket} \\
-  \nu F \arrow{r}{out} & F \nu F\end{tikzcd} \\
-  \ & \  &\  \\
-  $f \circ in = \varphi \circ F\ f \equiv f = \llparenthesis \varphi \rrparenthesis$& &
-  $out \circ f = F\ f \circ \varphi \equiv f = \llbracket \varphi \rrbracket$ \\
-\end{tabular}
-\end{center}
-
-   \subsection{Recursive Types}
-
-  As was shown by Wadler\cite{recursive} we could deal with recusrive equations having
-  three axioms: one $fix: (A \rightarrow A) \rightarrow A$ fixedpoint axiom,
-  and axioms $in: F\ T \rightarrow T$ and $out: T \rightarrow F\ T$ of recursion direction. We need to
-  define fixed point as axiom because we can't define recursive axioms. This axioms
-  also needs functor axiom defined earlier.
-
-
-\begingroup
-\parbox[t][][l]{0.40\textwidth}{
-
-\begin{prooftree}
-\AxiomC{$M : F\ (\mu\ F)$}
-\UnaryInfC{$in_{\mu F}\ M : \mu\ F$}
-\end{prooftree}
-
-\begin{prooftree}
-\AxiomC{$M : \mu F$}
-\UnaryInfC{$out_{\mu F}\ M : F\ (\mu\ F)$}
-\end{prooftree}
-
-}
-\hspace{0.1cm}
-\parbox[t][][r]{0.60\textwidth}{
-
-
-\begin{prooftree}
-\AxiomC{$M : A \rightarrow A$}
-\UnaryInfC{$fix\ M : A$}
-\end{prooftree}
-
-}
-\endgroup
-
-%  \subsection{Peano Numbers}
-%  Pointer Unary System is a category C with terminal object
-%  and a carrier X having morphism $[zero: 1_C \rightarrow X,succ: X \rightarrow X]$.
-%  The initial object of C is called Natural Number Object and models Peano axiom set.
-
-
-\newpage
-\section{Categorical Encoding}
-
-\subsection{List Sample}
-  Lambek encoding is a categorical proof-representation of higher inductive types encoding.
-  Let's start with simple Curch/Boem/Berrarducci encoding for List as one of the basic inductive types:
-
-\begin{center}
-  Natural Numbers: $\mu\ X \rightarrow 1 + X$ \\
-  List A: $\mu\ X \rightarrow 1 + A \times X$ \\
-  Lambda calculus: $\mu\ X \rightarrow 1 + X \times X + X$ \\
-  Stream: $\nu\ X \rightarrow A \times X$ \\
-  Potentialy Infinite List A: $\nu\ X \rightarrow 1 + A \times X$ \\
-  Finite Tree: $\mu\ X \rightarrow \mu\ Y \rightarrow 1 + X \times Y = \mu\ X = List\ X$ \\
-\end{center}
-
-\subsubsection*{Initial Object}
+Transport tranfers the element of type to another by given path equality of the types.
+Substitution is like transport but for dependent functions values: by given dependent function
+and path equality of points in the function domain we can replace the value of dependent function
+in one point with value in the second point. Congruence states that for a given function
+and for any two points in the function domain, that are connected, we can state that function
+values in that points are equal.
 
 \begin{lstlisting}[mathescape=true]
-    data List: (A: Type) $\rightarrow$ Type :=
-         (nil: List A)
-         (cons: A $\rightarrow$ List A $\rightarrow$ List A)
+singl (A:U) (a:A): U = (x: A) * Path A a x
+trans (A B:U) (p: Path U A B) (a: A): B = comp p a []
+congruence (A B: U) (f:A->B) (a b: A)
+           (p: Path A a b): Path B (f a) (f b)
+           = <i> f (p @ i)
 
-    $F_A$ = 1 + A $\times$ X
+subst (A:U) (P:A->U) (a b: A)
+      (p: Path A a b) (e: P a): P b
+      = trans (P a) (P b) (congruence A U P a b p) e
+
+contrSingl (A : U) (a b : A) (p : Path A a b):
+           Path (singl A a) (a,refl A a) (b,p)
+           = <i> (p @ i, <j> p @ i /\ j )
 \end{lstlisting}
 
-\subsubsection*{Construct corresponding F-Algebra}
+Then we can derive J using $contrSingl$ and $subst$ as defined in HoTT\cite{HoTT}:
 
 \begin{lstlisting}[mathescape=true]
-  record listAlg (A: Type) : Type :=
-         (X: Type)
-         (nil: Unit $\rightarrow$ X)
-         (cons: A $\rightarrow$ X $\rightarrow$ X)
-
+J (A:U)(x y:A)(C: D A)(d:C x x (refl A x))
+         (p:Path A x y): C x y p =
+   subst (singl A x) T (x,refl A x)
+         (y,p) (contrSingl A x y p) d where
+       T (z:singl A x):U = C (z.1) (z.2)
 \end{lstlisting}
 
-\subsubsection*{Introduce List Morphisms}
+These function are defined in {\bf proto\_path} module, and all of them
+except singleton definition are underivable in MLTT.
+
+\section{Encoding}
+
+\subsection{Church Encoding}
+
+You know Church encoding which also has its dependent alanolgue in CoC, however
+in Coq it is imposible to detive Inductive Principle as type system lacks fixpoint
+and functional extensionality. The example of working compiler of PTS languages are Om and Morte.
+Assume we have Church encoded NAT:
 
 \begin{lstlisting}[mathescape=true]
-  record listMor   (A: Type) (x1,x2: ListAlg A) : Type :=
-         (map:     x1.X $\rightarrow$ x2.X)
-         (mapNil:  Path x2.X (map (x1.nil unit)) (x2.nil unit))
-         (mapCons: $\forall$ (a: A) $\rightarrow$ $\forall$ (x: x1) $\rightarrow$
-                   Path x2.X (map (x1.cons a x)) (x2.cons a (map x)))
+nat = (X:U) -> (X -> X) -> X -> X
 \end{lstlisting}
 
-\subsubsection*{Introduce connected points of List type}
+where first parameter $(X -> X)$ is a $succ$, the second parameter $X$ is $zero$,
+and the result of encoding is landed in X. Even if we encode the parameter
 
 \begin{lstlisting}[mathescape=true]
-  record listPoint (A: Type) : Type :=
-         (point: $\forall$ (x: ListAlg A) $\rightarrow$ x.X)
-         (map: $\forall$ (x1,x2: listAlg A) $\rightarrow$ $\forall$ (m: ListMor A x1 x2) $\rightarrow$
-               Path x2.X (m.map (point x1)) (point x2))
-
+list (A: U) = (X:U) -> X -> (A -> X) -> X
 \end{lstlisting}
 
-\subsubsection*{Theorems Section}
+and paremeter A let's say live in 42 universe and X live in 2 universe, then by
+the signature of encoding the term will be landed in X, thus 2 universe. In other words
+such dependency is called impredicative displaying that landed term is not a predicate over parameters.
+This means that Church encoding is incompatible with predicative type checkers with predicative
+of predicative-cumulative hierarchies.
 
-\begin{center}
-%\begin{tabular}{l}
-$$
-\begin{tikzcd}
-  lim\ U \arrow{d}[left]{\pi_i} \\
-  X_i
-\end{tikzcd}
-\Longrightarrow
-\begin{tikzcd}
-  F\ lim\ U \arrow{d}[left]{F\ \pi_i} \\
-  F\ X_i
-\end{tikzcd}
-\Longrightarrow
-lim\left\{
-\begin{tikzcd}
-  F\ lim\ U \arrow{d}[left]{F\ \pi_i} \\
-  F\ X_i
-\end{tikzcd}
-\right\}
-$$
-%\end{tabular}
-\end{center}
+\subsection{Impredicative Encoding}
 
-\subsection{Basic Ornaments}
-
-Our encoding allows you to precise control the type of encoded parameter.
-There is only three cases and three equations: 1) for unit; 2) particular
-functorial type over a parameter type and 3) recursive embedding such as
-in Cons constructor.
-
-q — is a limit in Dialg P category. The constructor body is calculated
-with q applied to forgetful functor U.
-
-$$
-\begin{cases}
-q_{P,D,G} : End\ P\ (G'(-),G'(-)) \rightarrow P\ (Lim\ G',Lim\ G') \\
-P : Set^{op} \times Set \rightarrow Set \\
-U : Dialg\ P \rightarrow Set \\
-G : D \rightarrow Dialg\ P \\
-G' = UG : D \rightarrow Set \\
-U (Lim\ G) = Lim\ G'
-\end{cases}
-$$
-
-\subsubsection{Unit}
-
-Like for Bool or Nil constructors encoding.
-
-$$
-\begin{cases}
-P_0(A,B) =  B \\
-q_0\ e : Lim\ G' \\
-q_0\ e = e
-\end{cases}
-$$
-
-\subsubsection{Fixed Type}
-
-Like for Cons first parameter.
-
-$$
-\begin{cases}
-P_1(A,B) = X \rightarrow P(A,B) \\
-q_1\ e : X \rightarrow P ( Lim\ G',  Lim\ G' ) \\
-q_1\ e\ x\ A = e\ A\ x
-\end{cases}
-$$
-
-\subsubsection{Recursive Parameters}
-
-Like for Cons second parameter. This case is a key in encoding recursive
-   data types such as {\bf Lists} and recursive record types such as {\bf Streams}.
-
-$$
-\begin{cases}
-P_2(A,B) = A \rightarrow P(A,B) \\
-q_2\ e : Lim\ G' \rightarrow P ( Lim\ G',  Lim\ G' ) \\
-q_2\ e\ I\ A = e\ A\ (I\ A)
-\end{cases}
-$$
-
-\newpage
-  \paragraph{Data Type, Polymorphic Functions and Theorems}
-  The data type of lists over a given set A can be represented as the initial algebra
-  $(\mu L_A, in)$ of the functor $L_A(X) = 1 + (A \times X)$. Denote $\mu L_A = List(A)$.
-  The constructor functions $nil: 1 \rightarrow List(A)$ and
-  $cons: A \times List(A) \rightarrow List(A)$ are defined by
-  $nil = in \circ inl$ and $cons = in \circ inr$, so $in = [nil,cons]$.
-  Given any two functions $c: 1 \rightarrow C$ and $h: A \times C \rightarrow C$,
-  the catamorphism $f = \llparenthesis [c,h] \rrparenthesis : List(A) \rightarrow C$
-  is the unique solution of the equation system:
-
-$$
-\begin{cases}
-  f \circ nil  = c \\
-  f \circ cons = h \circ (id \times f)
-\end{cases}
-$$
-
-  where $f = foldr(c,h)$. Having this the initial algebra is presented with functor
-  $\mu (1 + A \times X)$ and morphisms sum $[1 \rightarrow List(A), A \times List(A) \rightarrow List(A)]$
-  as catamorphism. Using this encoding the base library of List will have following form:
-
-$$
-\begin{cases}
- foldr = \llparenthesis [ f \circ nil , h] \rrparenthesis, f \circ cons = h \circ (id \times f)\\
- len = \llparenthesis [ zero, \lambda\ a\ n \rightarrow succ\ n ] \rrparenthesis \\
- (++) = \lambda\ xs\ ys \rightarrow \llparenthesis [ \lambda (x) \rightarrow ys, cons ] \rrparenthesis (xs) \\
- map = \lambda\ f \rightarrow \llparenthesis [ nil, cons \circ (f \times id)] \rrparenthesis
-\end{cases}
-$$
-
-  \paragraph{Lists in Exe language}
-
-  We encode List as usually we do in $\Pi,\Sigma$-provers.
+In HoTT n-types is encoded as n-groupoids, thus we need to add a predicate in which n-type
+we would like to land the encoding:
 
 \begin{lstlisting}[mathescape=true]
-             data list: (A: *) $\rightarrow$ * :=
-                  (nil: list A)
-                  (cons: A $\rightarrow$ list A $\rightarrow$ list A)
+NAT (A: U) = (X:U) -> isSet X -> X -> (A -> X) -> X
 \end{lstlisting}
 
-$$
-\begin{cases}
-list = \lambda\ ctor \rightarrow \lambda\ cons \rightarrow \lambda\ nil \rightarrow ctor\\
-cons = \lambda\ x\ \rightarrow \lambda\ xs \rightarrow \lambda\ list \rightarrow \lambda\ cons \rightarrow\ \lambda\ nil \rightarrow cons\ x\ (xs\ list\ cons\ nil)\\
-nil = \lambda\ list \rightarrow \lambda\ cons \rightarrow \lambda\ nil \rightarrow nil\\
-\end{cases}
-$$
+Here we added isSet predicate. With this motto we can implement propositional
+truncation by landing term in isProp or even HIT by langing in isGroupoid:
 
 \begin{lstlisting}[mathescape=true]
-           record lists: (A B: *) :=
-                  (len: list A $\rightarrow$ integer)
-                  ((++): list A $\rightarrow$ list A $\rightarrow$ list A)
-                  (map: (A $\rightarrow$ B) $\rightarrow$ (list A $\rightarrow$ list B))
-                  (filter: (A $\rightarrow$ bool) $\rightarrow$ (list A $\rightarrow$ list A))
+TRUN (A:U) type = (X: U) -> isProp X -> (A -> X) -> X
+S1 = (X:U) -> isGroupoid X -> ((x:X) -> Path X x x) -> X
+MONOPLE (A:U) = (X:U) -> isSet X -> (A -> X) -> X
+NAT = (X:U) -> isSet X -> X -> (A -> X) -> X
 \end{lstlisting}
-$$
-\begin{cases}
-len = foldr\ (\lambda\ x\ n \rightarrow succ\ n)\ 0\\
-(++) = \lambda\ ys \rightarrow foldr\ cons\ ys\\
-map = \lambda\ f \rightarrow foldr\ (\lambda x\ xs \rightarrow cons\ (f\ x)\ xs)\ nil\\
-filter = \lambda\ p \rightarrow foldr\ (\lambda x\ xs \rightarrow if\ p\ x\ then\ cons\ x\ xs\ else\ xs)\ nil\\
-foldl = \lambda\ f\ v\ xs = foldr\ (\lambda\ xg\rightarrow\ (\lambda \rightarrow g\ (f\ a\ x)))\ id\ xs\ v\\
-\end{cases}
-$$
 
-%\subsection{Identity Functor Encoding}
+\section{The Unit Example}
 
-%As known as predicative encoding.\\
-%\\
+Here we have the implementation of Unit impredicative encoding in HoTT.
 
-%\begin{array}{ccccccc}
-%      A &           & \mapright{f} &           & B & \mapright{f} & Set \\[3pt]
-%        & \mapdiagl{a}  & \varphi      & \mapdiagr{b}  &   & \searrow     & \mapdown{\mathbf{1}} \\
-%        &           & Set          &           &   &              & Set
-%\end{array}
+\begin{lstlisting}[mathescape=true]
+upPath     (X Y:U)(f:X->Y)(a:X->X): X -> Y = o X X Y f a
+downPath   (X Y:U)(f:X->Y)(b:Y->Y): X -> Y = o X Y Y b f
+naturality (X Y:U)(f:X->Y)(a:X->X)(b:Y->Y): U
+  = Path (X->Y)(upPath X Y f a)(downPath X Y f b)
 
+unitEnc': U = (X: U) -> isSet X -> X -> X
+isUnitEnc (one: unitEnc'): U
+  = (X Y:U)(x:isSet X)(y:isSet Y)(f:X->Y) ->
+    naturality X Y f (one X x)(one Y y)
 
-%$\varphi : a \rightarrow b$
+unitEnc: U = (x: unitEnc') * isUnitEnc x
+unitEncStar: unitEnc = (\(X:U)(_:isSet X) ->
+  idfun X,\(X Y: U)(_:isSet X)(_:isSet Y)->refl(X->Y))
+unitEncRec  (C: U) (s: isSet C) (c: C): unitEnc -> C
+  = \(z: unitEnc) -> z.1 C s c
+unitEncBeta (C: U) (s: isSet C) (c: C)
+  : Path C (unitEncRec C s c unitEncStar) c = refl C c
+unitEncEta (z: unitEnc): Path unitEnc unitEncStar z = undefined
+unitEncInd (P: unitEnc -> U) (a: unitEnc): P unitEncStar -> P a
+  = subst unitEnc P unitEncStar a (unitEncEta a)
+unitEncCondition (n: unitEnc'): isProp (isUnitEnc n)
+  =  \ (f g: isUnitEnc n) ->
+     <h> \ (x y: U) -> \ (X: isSet x) -> \ (Y: isSet y)
+  -> \ (F: x -> y) -> <i> \ (R: x) -> Y (F (n x X R)) (n y Y (F R))
+       (<j> f x y X Y F @ j R) (<j> g x y X Y F @ j R) @ h @ i
+\end{lstlisting}
 
-%\subsection{Identity Functor Limit Encoding}
-
-%As known as impredicative encoding.
-
-%\begin{array}{ccccccc}
-%      $A &           & \mapright{f} &           & B & \mapright{f} & Set \\[3pt]
-%        & \mapdiagl{a}  & \varphi      & \mapdiagr{b}  &   & \searrow     & \mapdown{\mathbf{1}} \\
-%        &           & Set          &           &   &              & Set
-%\end{array}
-
-%$lim\ \varphi : lim\ a \rightarrow lim\ b$
-
-\newpage
-\subsection{Recursor and Induction}
-\subsubsection{Recursor}
-
-There is a belief that recursor (non-dependent eliminator) in Type Theory
-is a weaker property than induction principle (dependent eliminator). At the same time
-from category theory we know that Universal Property defines the object uniquely.
-In the case of initial object in the category of algebras, the initiality could be defined by recursor.
-That means that all properties of algebra follow from its initiality,
-as a case it is possible to get the recursor from induction. There is a sensitive moment here,
-all categorical constructions are being formulated with defined equality on morphisms,
-in type theory the equality is built-in type that could have extended properties. Simplify we could say
-that we can get recursor from induction without equality, and with proper equality we could get induction from recursor.
-
-\subsubsection{Fibrations}
-
-Mechanism of getting induction principle from equality is based on the presentation
-of dependent types through fibrations. Hereby dependent type $(D: B \rightarrow Type)$ is defined as $(p: Sigma\ B\ P \rightarrow B)$
-which projects dependent pair to the first field. In topology such approach is called fibration.
-To the other direction for a given morphism $(p: E \rightarrow B)$ which we understands as fibration with projection p,
-we could get its dependent type as $(D: B \rightarrow Type)$ by calculation in every point $(b: B)$ its image of
-projection p by using equality on elements of $B$. In type theory besides depndent pair $Sigma$ also
-used the dependent product $Pi$. In encoding of dependent types with fibrations there is a correspondance
-between elements of dependent and morphism-fibrations for projection $p$: such $(s: B \rightarrow E)$ that $s * p = I$.
-The example of this implementaion could be seen in\\
-\\
-EXE\footnote{https://github.com/groupoid/exe/blob/master/prelude/macro.new/Mini.macro}
-OM\footnote{https://github.com/groupoid/om/blob/master/priv/posets/sec2all}
-
-\subsubsection{Induction}
-The input for induction is a predicate — dependent type encoded with $(p: E \rightarrow B)$.
-Induction needed additional information for predicate. The type of induction is defined
-by set of inductive constructors. Induction is just a statement that on E we have the
-structure of F-algebra of inductive type. Now we could apply recursor to E
-getting the map $(I \rightarrow E)$ from initial object which in fact the section (fibre bundle) of fibration
-and thus defines the dependent function which is a proved value of induction principle.
-The example for $Bool$ could be found in\\
-\\
-EXE \footnote{https://github.com/groupoid/exe/blob/master/prelude/macro.new/Data.Bool.macro}
-OM \footnote{https://github.com/groupoid/om/blob/master/priv/posets/Data/Bool/induc}\\
-
-\subsection{Conclusion}
-Summarizing we encode types of source lambda calculus with objects of selected category,
-dependent types with fibrations, dependent function as fibrations, inductive types as
-limits of identity functors on category of F-algebras.
-
-\newpage
-\begin{thebibliography}{9}
-
-
-\subsection*{Category Theory}
-\bibitem{maclane}    S.MacLane \textit{Categories for the Working Mathematician} 1972
-\bibitem{lawvere}    W.Lawvere \textit{Conceptual Mathematics} 1997
-\bibitem{curien}     P.Curien \textit{Category theory: a programming language-oriented introduction} 2008
-
-\subsection*{Pure Type Systems}
-\bibitem{martinlof}  P.Martin-Löf \textit{Intuitionistic Type Theory} 1984
-\bibitem{coquand}    T.Coquand \textit{The Calculus of Constructions.} 1988
-\bibitem{henk}       E.Meijer \textit{Henk: a typed intermediate language} 1997
-\bibitem{barendregt} H.Barendregt \textit{Lambda Calculus With Types} 2010
-
-\subsection*{Inductive Type Systems}
-\bibitem{pfenning}   F.Pfenning \textit{Inductively defined types in the Calculus of Constructions} 1989
-\bibitem{wadler}     P.Wadler \textit{Recursive types for free} 1990
-\bibitem{gambino}    N.Gambino \textit{Wellfounded Trees and Dependent Polynomial Functors} 1995
-\bibitem{dybjer}     P.Dybjer \textit{Inductive Famalies} 1997
-\bibitem{jacobs}     B.Jacobs \textit{(Co)Algebras) and (Co)Induction} 1997
-\bibitem{vene}       V.Vene \textit{Categorical programming with (co)inductive types} 2000
-\bibitem{guevers}    H.Geuvers \textit{Dependent (Co)Inductive Types are Fibrational Dialgebras} 2015
-
-% \subsection*{Pi Calculus}
-% \bibitem{comm}       Robin Milner. \textit{A Calculus of Communicating Systems.} 1986.
-% \bibitem{commpi}     Robin Milner. \textit{Communicating and Mobile Systems: The $\pi$-calculus.} 1999.
-% \bibitem{polypi}     Robin Milner. \textit{The Polyadic $\pi$-Calculus: A Tutorial.} 1993.
-
-\subsection*{Homotopy Type Systems}
-\bibitem{streicher0} T.Streicher \textit{A groupoid model refutes uniqueness of identity proofs} 1994
-\bibitem{streicher}  T.Streicher \textit{The Groupoid Interpretation of Type Theory} 1996
-\bibitem{jacobs2}    B.Jacobs \textit{Categorical Logic and Type Theory} 1999
-\bibitem{awodey}     S.Awodey \textit{Homotopy Type Theory and Univalent Foundations} 2013
-\bibitem{huber}      S.Huber \textit{A Cubical Type Theory} 2015
-\bibitem{joyal}      A.Joyal \textit{What is an elementary higher topos} 2014
-\bibitem{mortberg}   A.Mortberg \textit{Cubical Type Theory: a constructive univalence axiom} 2017
-
-\end{thebibliography}
+1. \url{https://github.com/sspeight93/Papers/} \\
+2. \url{https://homotopytypetheory.org/2017/10/11/impredicative-encodings-of-inductive-types-in-hott/} \\
+3. \url{https://www.newton.ac.uk/files/seminar/20170711090010001-1009680.pdf} \\
 
 \end{document}
