@@ -16,6 +16,8 @@
 \usepackage{url}
 \usepackage{tikz-cd}
 \usepackage[utf8]{inputenc}
+\usepackage[numbers]{natbib}
+\renewcommand\bibsection{\section*{\refname}\small\renewcommand\bibnumfmt[1]{##1.}}
 
 \newcommand*{\thead}[1]{\multicolumn{1}{c}{\bfseries #1}}
 
@@ -44,10 +46,9 @@ Impredicative Encoding of Inductive Types in HoTT.
           Cubical Type Theory, Martin-Löf Type Theory
 \end{abstract}
 
-\newpage
 \tableofcontents
-
 \newpage
+
 \section{Intro}
 
 \section{Martin-Lof Type Theory}
@@ -178,7 +179,7 @@ SET       : U = (X:U) * isSet  X
 GRPOUPOID : U = (X:U) * isGroupoid X
 \end{lstlisting}
 
-\subsection{Constructive J}
+\subsection{Path Eliminators}
 
 The very basic ground of type checker is heterogeneous equality $PathP$ and contructive
 implementation of reflection rule as lambda over interval $[0,1]$ that
@@ -215,20 +216,6 @@ congruence (A B: U) (f:A->B) (a b: A)
 subst (A:U) (P:A->U) (a b: A)
       (p: Path A a b) (e: P a): P b
       = trans (P a) (P b) (congruence A U P a b p) e
-
-contrSingl (A : U) (a b : A) (p : Path A a b):
-           Path (singl A a) (a,refl A a) (b,p)
-           = <i> (p @ i, <j> p @ i /\ j )
-\end{lstlisting}
-
-Then we can derive J using $contrSingl$ and $subst$ as defined in HoTT\cite{HoTT}:
-
-\begin{lstlisting}[mathescape=true]
-J (A:U)(x y:A)(C: D A)(d:C x x (refl A x))
-         (p:Path A x y): C x y p =
-   subst (singl A x) T (x,refl A x)
-         (y,p) (contrSingl A x y p) d where
-       T (z:singl A x):U = C (z.1) (z.2)
 \end{lstlisting}
 
 These function are defined in {\bf proto\_path} module, and all of them
@@ -279,6 +266,8 @@ MONOPLE (A:U) = (X:U) -> isSet X -> (A -> X) -> X
 NAT = (X:U) -> isSet X -> X -> (A -> X) -> X
 \end{lstlisting}
 
+The main publication on this topic could be found at \cite{Awodey17} and \cite{Speight17}.
+
 \section{The Unit Example}
 
 Here we have the implementation of Unit impredicative encoding in HoTT.
@@ -311,8 +300,7 @@ unitEncCondition (n: unitEnc'): isProp (isUnitEnc n)
        (<j> f x y X Y F @ j R) (<j> g x y X Y F @ j R) @ h @ i
 \end{lstlisting}
 
-1. \url{https://github.com/sspeight93/Papers/} \\
-2. \url{https://homotopytypetheory.org/2017/10/11/impredicative-encodings-of-inductive-types-in-hott/} \\
-3. \url{https://www.newton.ac.uk/files/seminar/20170711090010001-1009680.pdf} \\
+\bibliographystyle{plain}
+\bibliography{encoding}
 
 \end{document}
