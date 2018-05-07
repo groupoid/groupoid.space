@@ -88,7 +88,7 @@ We see two levels of extensions to PTS core: 1) Inductive Types support; 2) Homo
 We will touch a bit this topic in the last section of this document.
 
 \begin{figure}[h]
-  \centerline{\includegraphics[scale=0.28]{static}}
+  \centerline{\includegraphics[scale=0.28]{structure}}
   \caption{The Systems Engineering of Model Verifications}
 \end{figure}
 
@@ -747,6 +747,11 @@ As was shown by Herman Geuvers\cite{Geuvers01} the induction principle is not de
 However there a lot of ways doing this. For example, we can build in induction principal into the core for every defined inductive type.
 We even can allow recursive type check for only terms of induction principle, which have recursion base --- that approach was successfully established by Peng Fu and Aaron Stump\cite{Stump17}.
 In any case for derivable induction principle in PTS$^\infty$ we need to have fixpoint somehow in the core.
+
+\begin{figure}[h]
+  \centerline{\includegraphics[scale=0.28]{stages}}
+  \caption{The Stages of Model Verifications}
+\end{figure}
 
 So-called Calculus of Inductive Constructions\cite{Mohring15} is used as a top language on top of PTS to reason about inductive types.
 Here we will show you a sketch of such inductive language model which intended to be a language extension to PTS system.
