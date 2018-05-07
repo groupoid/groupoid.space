@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="1017px" height="235px" viewBox="0 0 1017 235" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 39.1 (31720) - http://www.bohemiancoding.com/sketch -->
+    <title>Group 10</title>
+    <desc>Created with Sketch.</desc>
+    <defs>
+        <rect id="path-1" x="0" y="0" width="359" height="61"></rect>
+        <mask id="mask-2" maskContentUnits="userSpaceOnUse" maskUnits="objectBoundingBox" x="0" y="0" width="359" height="61" fill="white">
+            <use xlink:href="#path-1"></use>
+        </mask>
+        <rect id="path-3" x="0" y="0" width="151" height="61"></rect>
+        <mask id="mask-4" maskContentUnits="userSpaceOnUse" maskUnits="objectBoundingBox" x="0" y="0" width="151" height="61" fill="white">
+            <use xlink:href="#path-3"></use>
+        </mask>
+        <rect id="path-5" x="0" y="0" width="76" height="61"></rect>
+        <mask id="mask-6" maskContentUnits="userSpaceOnUse" maskUnits="objectBoundingBox" x="0" y="0" width="76" height="61" fill="white">
+            <use xlink:href="#path-5"></use>
+        </mask>
+        <rect id="path-7" x="0" y="0" width="111" height="61"></rect>
+        <mask id="mask-8" maskContentUnits="userSpaceOnUse" maskUnits="objectBoundingBox" x="0" y="0" width="111" height="61" fill="white">
+            <use xlink:href="#path-7"></use>
+        </mask>
+        <rect id="path-9" x="0" y="0" width="167" height="61"></rect>
+        <mask id="mask-10" maskContentUnits="userSpaceOnUse" maskUnits="objectBoundingBox" x="0" y="0" width="167" height="61" fill="white">
+            <use xlink:href="#path-9"></use>
+        </mask>
+        <rect id="path-11" x="0" y="0" width="252" height="61"></rect>
+        <mask id="mask-12" maskContentUnits="userSpaceOnUse" maskUnits="objectBoundingBox" x="0" y="0" width="252" height="61" fill="white">
+            <use xlink:href="#path-11"></use>
+        </mask>
+        <rect id="path-13" x="0" y="0" width="252" height="61"></rect>
+        <mask id="mask-14" maskContentUnits="userSpaceOnUse" maskUnits="objectBoundingBox" x="0" y="0" width="252" height="61" fill="white">
+            <use xlink:href="#path-13"></use>
+        </mask>
+    </defs>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="11.-PROCESS" transform="translate(-241.000000, -283.000000)">
+            <g id="Group-10" transform="translate(241.000000, 283.000000)">
+                <g id="Models" transform="translate(13.000000, 0.000000)">
+                    <text id="Models-and-Apps" font-family="Geometria-Light, Geometria" font-size="36" font-weight="300" fill="#000000">
+                        <tspan x="25" y="41">Models and Apps</tspan>
+                    </text>
+                    <use id="Rectangle-4" stroke="#979797" mask="url(#mask-2)" stroke-width="2" xlink:href="#path-1"></use>
+                </g>
+                <g id="Erlang" transform="translate(866.000000, 86.000000)">
+                    <text font-family="Geometria-Light, Geometria" font-size="36" font-weight="300" fill="#000000">
+                        <tspan x="16" y="42">Erlang</tspan>
+                    </text>
+                    <use id="Rectangle-4" stroke="#979797" mask="url(#mask-4)" stroke-width="2" xlink:href="#path-3"></use>
+                </g>
+                <g id="O" transform="translate(865.000000, 174.000000)">
+                    <text font-family="Geometria-Light, Geometria" font-size="36" font-weight="300" fill="#000000">
+                        <tspan x="22" y="45">O</tspan>
+                    </text>
+                    <use id="Rectangle-4" stroke="#979797" mask="url(#mask-6)" stroke-width="2" xlink:href="#path-5"></use>
+                </g>
+                <g id="Om" transform="translate(503.000000, 87.000000)">
+                    <text font-family="Geometria-Light, Geometria" font-size="36" font-weight="300" fill="#000000">
+                        <tspan x="19" y="42">Om</tspan>
+                    </text>
+                    <use id="Rectangle-4" stroke="#979797" mask="url(#mask-8)" stroke-width="2" xlink:href="#path-7"></use>
+                </g>
+                <g id="Cubical" transform="translate(109.000000, 87.000000)">
+                    <text font-family="Geometria-Light, Geometria" font-size="36" font-weight="300" fill="#000000">
+                        <tspan x="17" y="41">Cubical</tspan>
+                    </text>
+                    <use id="Rectangle-4" stroke="#979797" mask="url(#mask-10)" stroke-width="2" xlink:href="#path-9"></use>
+                </g>
+                <g id="Runtime-Base-Lib" transform="translate(433.000000, 174.000000)">
+                    <text id="Runtime-Lib" font-family="Geometria-Light, Geometria" font-size="36" font-weight="300" fill="#000000">
+                        <tspan x="26.1203219" y="41">Runtime Lib</tspan>
+                    </text>
+                    <use id="Rectangle-4" stroke="#979797" mask="url(#mask-12)" stroke-width="2" xlink:href="#path-11"></use>
+                </g>
+                <g id="Proving-Base-Lib" transform="translate(67.000000, 174.000000)">
+                    <text id="Proving-Lib" font-family="Geometria-Light, Geometria" font-size="36" font-weight="300" fill="#000000">
+                        <tspan x="26.1203219" y="41">Proving Lib</tspan>
+                    </text>
+                    <use id="Rectangle-4" stroke="#979797" mask="url(#mask-14)" stroke-width="2" xlink:href="#path-13"></use>
+                </g>
+                <path d="M13.5068363,60.6474609 C-42.8681637,141.522461 109.570312,123.492187 109.570312,123.492187" id="Path-2" stroke="#979797"></path>
+                <path d="M95.5,119.5 L108.5,123.5" id="Line" stroke="#979797" stroke-linecap="square"></path>
+                <path d="M97.5,130.5 L108.5,123.5" id="Line" stroke="#979797" stroke-linecap="square"></path>
+                <path d="M276.203125,116.672852 C402.78125,88.1132817 351.824219,174.481444 318.632813,174.481446" id="Path-4" stroke="#979797"></path>
+                <path d="M276.144531,116.643555 L289.149414,120.591797" id="Line" stroke="#979797" stroke-linecap="square"></path>
+                <path d="M276.5,116.5 L287.5,108.5" id="Line" stroke="#979797" stroke-linecap="square"></path>
+                <path d="M275.510254,87.4931641 C364.229004,87.4931656 433.39917,87.4931642 503.449951,87.4931641" id="Path-5" stroke="#979797"></path>
+                <path d="M492.5,81.5 L503.5,87.5" id="Line" stroke="#979797" stroke-linecap="square"></path>
+                <path d="M492.5,93.5 L503.5,87.5" id="Line" stroke="#979797" stroke-linecap="square"></path>
+                <path d="M433.960937,174.267578 C397.271485,127.324218 453.981444,93.2675785 503.559573,117.46875" id="Path-6" stroke="#979797"></path>
+                <path d="M494.5,108.5 L503.5,117.5" id="Line" stroke="#979797" stroke-linecap="square"></path>
+                <path d="M490.850889,117.5 L503.5,117.5" id="Line" stroke="#979797" stroke-linecap="square"></path>
+                <path d="M613.768555,86.7685547 C767.577028,12.5113416 866.508789,86.5825195 866.508789,86.5825195" id="Path-7" stroke="#979797"></path>
+                <path d="M613.557617,86.7685547 C739.307617,86.7685547 804.980469,99.1030273 865.746094,174.571777" id="Path-8" stroke="#979797"></path>
+                <path d="M861.5,72.5 L866.5,86.5" id="Line" stroke="#979797" stroke-linecap="square"></path>
+                <path d="M852.357864,86.5 L866.5,86.5" id="Line" stroke="#979797" stroke-linecap="square"></path>
+                <path d="M865.5,174.5 L865.5,158.5" id="Line" stroke="#979797" stroke-linecap="square"></path>
+                <path d="M865.5,174.5 L849.5,170.5" id="Line" stroke="#979797" stroke-linecap="square"></path>
+                <circle id="Oval" stroke="#979797" fill="#FFFFFF" cx="32" cy="117" r="23"></circle>
+                <circle id="Oval" stroke="#979797" fill="#FFFFFF" cx="422.234813" cy="134" r="23"></circle>
+                <circle id="Oval" stroke="#979797" fill="#FFFFFF" cx="808" cy="63" r="23"></circle>
+                <circle id="Oval" stroke="#979797" fill="#FFFFFF" cx="826" cy="134" r="23"></circle>
+                <text id="1" font-family="Geometria-Light, Geometria" font-size="24" font-weight="300" fill="#000000">
+                    <tspan x="27" y="125">1</tspan>
+                </text>
+                <g id="Group-11" transform="translate(326.000000, 111.000000)">
+                    <path d="M23,46 C35.7025492,46 46,35.7025492 46,23 C46,10.2974508 35.7025492,0 23,0 C10.2974508,0 0,10.2974508 0,23 C0,35.7025492 10.2974508,46 23,46 Z" id="Oval" stroke="#979797" fill="#FFFFFF"></path>
+                    <text id="2" font-family="Geometria-Light, Geometria" font-size="24" font-weight="300" fill="#000000">
+                        <tspan x="18" y="31">2</tspan>
+                    </text>
+                </g>
+                <g id="Group-11" transform="translate(364.000000, 68.000000)">
+                    <path d="M23,46 C35.7025492,46 46,35.7025492 46,23 C46,10.2974508 35.7025492,0 23,0 C10.2974508,0 0,10.2974508 0,23 C0,35.7025492 10.2974508,46 23,46 Z" id="Oval" stroke="#979797" fill="#FFFFFF"></path>
+                    <text id="6" font-family="Geometria-Light, Geometria" font-size="24" font-weight="300" fill="#000000">
+                        <tspan x="15" y="32">6</tspan>
+                    </text>
+                </g>
+                <text id="3" font-family="Geometria-Light, Geometria" font-size="24" font-weight="300" fill="#000000">
+                    <tspan x="415" y="142">3</tspan>
+                </text>
+                <text id="4" font-family="Geometria-Light, Geometria" font-size="24" font-weight="300" fill="#000000">
+                    <tspan x="799" y="70">4</tspan>
+                </text>
+                <text id="5" font-family="Geometria-Light, Geometria" font-size="24" font-weight="300" fill="#000000">
+                    <tspan x="818" y="142">5</tspan>
+                </text>
+            </g>
+        </g>
+    </g>
+</svg>
