@@ -4,6 +4,14 @@
     <title>Group 10</title>
     <desc>Created with Sketch.</desc>
     <defs>
+  <style type="text/css">
+    @font-face {
+      font-family: 'Geometria';
+      src: url("/Geometria-Light.otf");
+      font-weight: normal;
+      font-style: normal; }
+    }
+  </style>
         <rect id="path-1" x="0" y="0" width="359" height="61"></rect>
         <mask id="mask-2" maskContentUnits="userSpaceOnUse" maskUnits="objectBoundingBox" x="0" y="0" width="359" height="61" fill="white">
             <use xlink:href="#path-1"></use>
@@ -37,43 +45,43 @@
         <g id="11.-PROCESS" transform="translate(-241.000000, -283.000000)">
             <g id="Group-10" transform="translate(241.000000, 283.000000)">
                 <g id="Models" transform="translate(13.000000, 0.000000)">
-                    <text id="Models-and-Apps" font-family="Geometria-Light, Geometria" font-size="36" font-weight="300" fill="#000000">
+                    <text id="Models-and-Apps" font-family="Geometria" font-size="36" font-weight="300" fill="#000000">
                         <tspan x="25" y="41">Models and Apps</tspan>
                     </text>
                     <use id="Rectangle-4" stroke="#979797" mask="url(#mask-2)" stroke-width="2" xlink:href="#path-1"></use>
                 </g>
                 <g id="Erlang" transform="translate(866.000000, 86.000000)">
-                    <text font-family="Geometria-Light, Geometria" font-size="36" font-weight="300" fill="#000000">
+                    <text font-family="Geometria" font-size="36" font-weight="300" fill="#000000">
                         <tspan x="16" y="42">Erlang</tspan>
                     </text>
                     <use id="Rectangle-4" stroke="#979797" mask="url(#mask-4)" stroke-width="2" xlink:href="#path-3"></use>
                 </g>
                 <g id="O" transform="translate(865.000000, 174.000000)">
-                    <text font-family="Geometria-Light, Geometria" font-size="36" font-weight="300" fill="#000000">
+                    <text font-family="Geometria" font-size="36" font-weight="300" fill="#000000">
                         <tspan x="22" y="45">O</tspan>
                     </text>
                     <use id="Rectangle-4" stroke="#979797" mask="url(#mask-6)" stroke-width="2" xlink:href="#path-5"></use>
                 </g>
                 <g id="Om" transform="translate(503.000000, 87.000000)">
-                    <text font-family="Geometria-Light, Geometria" font-size="36" font-weight="300" fill="#000000">
+                    <text font-family="Geometria" font-size="36" font-weight="300" fill="#000000">
                         <tspan x="19" y="42">Om</tspan>
                     </text>
                     <use id="Rectangle-4" stroke="#979797" mask="url(#mask-8)" stroke-width="2" xlink:href="#path-7"></use>
                 </g>
                 <g id="Cubical" transform="translate(109.000000, 87.000000)">
-                    <text font-family="Geometria-Light, Geometria" font-size="36" font-weight="300" fill="#000000">
+                    <text font-family="Geometria" font-size="36" font-weight="300" fill="#000000">
                         <tspan x="17" y="41">Cubical</tspan>
                     </text>
                     <use id="Rectangle-4" stroke="#979797" mask="url(#mask-10)" stroke-width="2" xlink:href="#path-9"></use>
                 </g>
                 <g id="Runtime-Base-Lib" transform="translate(433.000000, 174.000000)">
-                    <text id="Runtime-Lib" font-family="Geometria-Light, Geometria" font-size="36" font-weight="300" fill="#000000">
+                    <text id="Runtime-Lib" font-family="Geometria" font-size="36" font-weight="300" fill="#000000">
                         <tspan x="26.1203219" y="41">Runtime Lib</tspan>
                     </text>
                     <use id="Rectangle-4" stroke="#979797" mask="url(#mask-12)" stroke-width="2" xlink:href="#path-11"></use>
                 </g>
                 <g id="Proving-Base-Lib" transform="translate(67.000000, 174.000000)">
-                    <text id="Proving-Lib" font-family="Geometria-Light, Geometria" font-size="36" font-weight="300" fill="#000000">
+                    <text id="Proving-Lib" font-family="Geometria" font-size="36" font-weight="300" fill="#000000">
                         <tspan x="26.1203219" y="41">Proving Lib</tspan>
                     </text>
                     <use id="Rectangle-4" stroke="#979797" mask="url(#mask-14)" stroke-width="2" xlink:href="#path-13"></use>
@@ -100,28 +108,28 @@
                 <circle id="Oval" stroke="#979797" fill="#FFFFFF" cx="422.234813" cy="134" r="23"></circle>
                 <circle id="Oval" stroke="#979797" fill="#FFFFFF" cx="808" cy="63" r="23"></circle>
                 <circle id="Oval" stroke="#979797" fill="#FFFFFF" cx="826" cy="134" r="23"></circle>
-                <text id="1" font-family="Geometria-Light, Geometria" font-size="24" font-weight="300" fill="#000000">
+                <text id="1" font-family="Geometria" font-size="24" font-weight="300" fill="#000000">
                     <tspan x="27" y="125">1</tspan>
                 </text>
                 <g id="Group-11" transform="translate(326.000000, 111.000000)">
                     <path d="M23,46 C35.7025492,46 46,35.7025492 46,23 C46,10.2974508 35.7025492,0 23,0 C10.2974508,0 0,10.2974508 0,23 C0,35.7025492 10.2974508,46 23,46 Z" id="Oval" stroke="#979797" fill="#FFFFFF"></path>
-                    <text id="2" font-family="Geometria-Light, Geometria" font-size="24" font-weight="300" fill="#000000">
+                    <text id="2" font-family="Geometria" font-size="24" font-weight="300" fill="#000000">
                         <tspan x="18" y="31">2</tspan>
                     </text>
                 </g>
                 <g id="Group-11" transform="translate(364.000000, 68.000000)">
                     <path d="M23,46 C35.7025492,46 46,35.7025492 46,23 C46,10.2974508 35.7025492,0 23,0 C10.2974508,0 0,10.2974508 0,23 C0,35.7025492 10.2974508,46 23,46 Z" id="Oval" stroke="#979797" fill="#FFFFFF"></path>
-                    <text id="6" font-family="Geometria-Light, Geometria" font-size="24" font-weight="300" fill="#000000">
+                    <text id="6" font-family="Geometria" font-size="24" font-weight="300" fill="#000000">
                         <tspan x="15" y="32">6</tspan>
                     </text>
                 </g>
-                <text id="3" font-family="Geometria-Light, Geometria" font-size="24" font-weight="300" fill="#000000">
+                <text id="3" font-family="Geometria" font-size="24" font-weight="300" fill="#000000">
                     <tspan x="415" y="142">3</tspan>
                 </text>
-                <text id="4" font-family="Geometria-Light, Geometria" font-size="24" font-weight="300" fill="#000000">
+                <text id="4" font-family="Geometria" font-size="24" font-weight="300" fill="#000000">
                     <tspan x="799" y="70">4</tspan>
                 </text>
-                <text id="5" font-family="Geometria-Light, Geometria" font-size="24" font-weight="300" fill="#000000">
+                <text id="5" font-family="Geometria" font-size="24" font-weight="300" fill="#000000">
                     <tspan x="818" y="142">5</tspan>
                 </text>
             </g>
