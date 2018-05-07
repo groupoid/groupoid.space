@@ -24,9 +24,9 @@ block content
                 formal models, type checkers and base libraries.
         .index
             .index__col
-                h2 Lambda Calculus
+                h2 Lambda CPS
                 ul
-                    li: a(href='lc/intro') Verified Interpreter
+                    li: a(href='lc/intro') Verified Interpreter O
                     li: a(href='lc/extract') Extraction
             .index__col
                 h2 PTS
@@ -66,6 +66,13 @@ block content
         .om
             section
                 h1 TRANSFORMATIONS
+            p.
+                The process of formal verification is started from model encoding (1),
+                then linking with the base library of math components (2),
+                then desugaring to pure functions (6),
+                then linking with pure base library (3),
+                then extracting either to Erlang (4) or Verified Interpreter O (5).
+            br.
             p.
                 <object><img src="structure.svg?v=3" width=90%></object>
             section
