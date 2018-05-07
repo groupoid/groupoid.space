@@ -1,6 +1,6 @@
 % copyright (c) 2018 Groupoid Infinity
 
-\documentclass{svproc}
+\documentclass{article}
 \usepackage{amscd}
 \usepackage{listings}
 \usepackage[numbers]{natbib}
@@ -10,12 +10,9 @@
 \usepackage{amssymb}
 \usepackage{txfonts}
 \usepackage[utf8]{inputenc}
-
-\usepackage[tocflat]{tocstyle}
-
 \usepackage[numbers]{natbib}
-\renewcommand\bibsection{\section*{\refname}\small\renewcommand\bibnumfmt[1]{##1.}}
 
+\renewcommand\bibsection{\section*{\refname}\small\renewcommand\bibnumfmt[1]{##1.}}
 \lstset{basicstyle=\small,inputencoding=utf8}
 
 \begin{document}
@@ -23,8 +20,12 @@
 \title{Constructive Proofs \\
        of Heterogeneous Equalities \\
        in Cubical Type Theory}
-\author{Maksym Sokhatskyi and Pavlo Maslianko}
-\institute{National Technical University of Ukraine ``Igor Sikorsky Kyiv Polytechnical Institute''}
+\author{Maksym Sokhatskyi $^1$ and Pavlo Maslianko $^1$}
+\date{
+    $^1$ National Technical University of Ukraine \\
+    \small Igor Sikorsky Kyiv Polytechnical Institute\\
+    \today
+}
 
 \maketitle
 
@@ -41,20 +42,14 @@ datatypes and built a constructive proof of equality between elements of these d
 This approach could be extended to any complex isomorphic data types.
 \end{abstract}
 
-\keywords{Formal Methods, Type Theory, Computer Languages,
+{\bf Keywords}: Formal Methods, Type Theory, Computer Languages,
           Theoretical Computer Science, Applied Mathematics,
           Isomorphism, Heterogeneous Equality, Cubical Type Theory,
-          Martin-Löf Type Theory}
+          Martin-Löf Type Theory
 
-\usetocstyle{standard}
-
-\makeatletter
-\renewcommand\tableofcontents{%
-  \null\hfill\textbf{\Large\contentsname}\hfill\null\par
-  \@mkboth{\MakeUppercase\contentsname}{\MakeUppercase\contentsname}%
-  \@starttoc{toc}%
-}
-\makeatother
+\newpage
+\tableofcontents
+\newpage
 
 \section{Intro}
 
@@ -706,7 +701,7 @@ Our base library could be used as a first-class mathematical modeling tool or as
 for developing run-time systems and proving its properties, followed with code extraction
 to pure type systems and/or run-time interpreters.
 
-\bibliographystyle{aipnum-cp}
+\bibliographystyle{standard}
 \bibliography{identity}
 
 \end{document}

@@ -1,4 +1,4 @@
-\documentclass{aip-cp}
+\documentclass{article}
 \usepackage{listings}
 \usepackage[numbers]{natbib}
 \usepackage[only,llbracket,rrbracket,llparenthesis,rrparenthesis]{stmaryrd}
@@ -9,17 +9,20 @@
 \usepackage[utf8]{inputenc}
 \usepackage{url}
 
-\begin{document}
-\title{Pure Type Systems to Homotopy Calculus:\\ The Infinity Language Stack}
-\author[aff1]{Maksym Sokhatskyi\corref{cor1}}
-\eaddress[url]{https://groupoid.space}
-\author[aff1]{Pavlo Maslianko\corref{cor3}}
+\newcommand*{\thead}[1]{\multicolumn{1}{c}{\bfseries #1}}
 
-\affil[aff1]{National Technical University of Ukraine ``Igor Sikorsky Kyiv Polytechnical Institute''}
-\corresp[cor1]{maxim@synrc.com}
-\corresp[cor3]{mppdom@i.ua}
+\begin{document}
+
+\title{Literature Overview:\\ The Infinity Language Stack}
+\author{Maksym Sokhatskyi $^1$ and Pavlo Maslianko $^1$}
+\date{
+    $^1$ National Technical University of Ukraine \\
+    \small Igor Sikorsky Kyiv Polytechnical Institute\\
+    \today
+}
 
 \maketitle
+
 \begin{abstract}
 We expose the layered models of type systems with the arising complexity.
 While designing the language or type checker it is useful to do a separation or reusing of AST trees.
@@ -55,11 +58,12 @@ remaining compatible with properties on previous layer. Here is shown:
 4) Homotopy calculus based on interval $[0,1]$, its introduction, eliminators, composition and gluening.
 
 \begin{table}[h]
+\centering
 \caption{Type Systems}
 \label{tab:a}
 \tabcolsep7pt\begin{tabular}{lcccc}
 \hline
-\tch{1}{c}{b}{PTS} & \tch{1}{c}{b}{MLTT} & \tch{1}{c}{b}{CiC} & \tch{1}{c}{b}{CCHM}\\
+\thead{PTS} & \thead{MLTT} & \thead{CiC} & \thead{CCHM}\\
 \hline
 PI        & PI    & PI    & PI \\
           & SIGMA & SIGMA & SIGMA \\
@@ -428,9 +432,7 @@ term of PTS or SIGMA language, this equation holds for all terms $a$.
 We treating language core as AST sum of sublanguages, that is
 extendable to the needed set of language features.
 
-\bibliographystyle{aipnum-cp}
+\bibliographystyle{standard}
 \bibliography{infinity}
-\newpage
-\tableofcontents
 
 \end{document}
