@@ -129,7 +129,7 @@ exp := cotele*exp + cotele$\rightarrow$exp + exp$\rightarrow$exp + (exp) + app +
    app := exp exp        cotele := ( exp : exp ) tele
     id := [ #nat ]       sum    := 0 + id tele + id tele | sum
    ids := [ id ]         br     := ids $\rightarrow$ exp
- codec := def dec        mod    := ${\bf module}$ id ${\bf where}$ imp def
+ codec := def dec        mod    := ${\bf module}$ id ${\bf where}$ imp dec
    dec := 0 + codec      cobrs  := | br brs
 \end{lstlisting}
 
