@@ -50,7 +50,7 @@ Thre proof sketch is following:</p><code>F y = (_: isContr B) * (F y)
     = (x y: B) * (_: Path B x y) * (F y)
     = (z: B) * (k: F z) * Path B z y
     = (z: E) * Path B z.1 y
-    = fiber (total B F) B (trivial B F) y</code><br><code>encode (B: U) (F: B -> U) (y: B)
+    = fiber (total B F) B (trivial B F) y</code><br><p>The equality is proven by $isoPath$ lemma and $encode/decode$ functions.</p><code>encode (B: U) (F: B -> U) (y: B)
      : fiber (total B F) B (trivial B F) y -> F y
      = \ (x: fiber (total B F) B (trivial B F) y)
       -> subst B F x.1.1 y (&lt;i&gt;x.2@-i) x.1.2
@@ -60,4 +60,11 @@ decode (B: U) (F: B -> U) (y: B)
      = \ (x: F y) -> ((y,x),refl B y)
 
 FamFibIsDependent (B: U) (F: Family B) (y: B)
-    : Path U (fiber (total B F) B (trivial B F) y) (F y)</code></section></article><footer class="footer"><img class="footer__logo" src="https://longchenpa.guru/seal.png" width="50"><span class="footer__copy">2016&mdash;2018 &copy; <a href="//groupoid.space/team.html" style="color:white;">Groupoid Infinity</a></span></footer><script src="https://groupoid.space/bundle.js"></script><script src="https://groupoid.space/highlight.js?v=7"></script></body></html>
+    : Path U (fiber (total B F) B (trivial B F) y) (F y)
+    = isoPath T A f g s t where
+    T: U = fiber (total B F) B (trivial B F) y
+    A: U = F y
+    f: T -> A = encode B F y
+    g: A -> T = decode B F y
+    s (x: A): Path A (f (g x)) x = refl A x
+    t (x: T): Path T (g (f x)) x = refl T x</code></section></article><footer class="footer"><img class="footer__logo" src="https://longchenpa.guru/seal.png" width="50"><span class="footer__copy">2016&mdash;2018 &copy; <a href="//groupoid.space/team.html" style="color:white;">Groupoid Infinity</a></span></footer><script src="https://groupoid.space/bundle.js"></script><script src="https://groupoid.space/highlight.js?v=7"></script></body></html>

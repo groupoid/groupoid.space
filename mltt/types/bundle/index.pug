@@ -94,6 +94,8 @@ block content
                       = (z: E) * Path B z.1 y
                       = fiber (total B F) B (trivial B F) y
             br.
+            p.
+                The equality is proven by $isoPath$ lemma and $encode/decode$ functions.
             code.
                 encode (B: U) (F: B -> U) (y: B)
                      : fiber (total B F) B (trivial B F) y -> F y
@@ -106,3 +108,10 @@ block content
 
                 FamFibIsDependent (B: U) (F: Family B) (y: B)
                     : Path U (fiber (total B F) B (trivial B F) y) (F y)
+                    = isoPath T A f g s t where
+                    T: U = fiber (total B F) B (trivial B F) y
+                    A: U = F y
+                    f: T -> A = encode B F y
+                    g: A -> T = decode B F y
+                    s (x: A): Path A (f (g x)) x = refl A x
+                    t (x: T): Path T (g (f x)) x = refl T x
