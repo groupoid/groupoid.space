@@ -24,10 +24,9 @@ from algebraic topology.
 </p><h2>Fiber</h2><p>The fiber of the map $p: E \rightarrow B$ in a point $y: B$
 is all points $x: E$ such that $p(x)=y$.</p><p></p><code>fiber (E B: U) (p: E -> B) (y: B): U
     = (x: E) * Path B y (p x)
-</code><h2>Fiber Bundle</h2><p>The fiber bundle $ F \rightarrow E \mapright{p} B$ on a topological
-space $E$ with fiber $F$ and base $B$ is a
-structure $(F,E,B,p)$ where $F$ is a layer, $E$ is a total space,
-$B$ is a base of fibration, and $p: E \rightarrow B$ is a surjective
+</code><h2>Fiber Bundle</h2><p>The fiber bundle $ F \rightarrow E \mapright{p} B$ on a
+total space $E$ with fiber layer $F$ and base $B$ is a
+structure $(F,E,B,p)$ where $p: E \rightarrow B$ is a surjective
 map with following property:
 for any point $y: B$ exists a neighborhood $U_b$ for which a
 homeomorphism $f: p^{-1}(U_b) \rightarrow U_b \times F$
