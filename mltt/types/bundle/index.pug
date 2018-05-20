@@ -77,8 +77,8 @@ block content
                 Family (B: U): U = B -> U
 
                 total (B: U) (F: Family B): U = Sigma B F
-                p (B: U) (F: Family B): total B F -> B = \ (x: total B F) -> x.1
-                f (B E: U) (F: Family B) (p: E -> B) (y: B) :
+                trivial (B: U) (F: Family B): total B F -> B = \ (x: total B F) -> x.1
+                homeo (B E: U) (F: Family B) (p: E -> B) (y: B) :
                            fiber E B p y -> total B F
 
             h2 Trivial Fiber Bundle is a Dependent Type
