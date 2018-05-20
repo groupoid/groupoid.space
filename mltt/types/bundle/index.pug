@@ -1,0 +1,61 @@
+extends ../../../layout.pug
+
+block title
+    title cat
+    script(src='//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML')
+    script.
+     window.MathJax = { jax: ["input/TeX", "input/MathML", "input/AsciiMath", "output/CommonHTML", "output/NativeMML"],
+                             TeX: { extensions: ["AMSmath.js", "AMSsymbols.js", "autoload-all.js"] },
+                             extensions: ["tex2jax.js", "asciimath2jax.js", "mml2jax.js", "MathMenu.js", "MathZoom.js"],
+                             "HTML-CSS": { imageFont: null },
+                             AuthorInit: function() {
+                                 MathJax.Hub.Register.StartupHook("TeX AMSmath Ready", function() {
+                                     var TEX = MathJax.InputJax.TeX;
+                                     TEX.Definitions.Add({
+                                         macros: {
+                                           llparenthesis: ['Macro', '\\mathopen{\u2987}'],
+                                           rrparenthesis: ['Macro', '\\mathclose{\u2988}'],
+                                           llbracket:     ['Macro', '\\mathopen{\u27E6}'],
+                                           rrbracket:     ['Macro', '\\mathclose{\u27E7}'],
+                                         }
+                                     });
+                                 });
+                             },
+                             tex2jax: { inlineMath: [['$','$'], ['\\(','\\)']],
+                                        processEscapes: true }
+                         };
+
+block content
+    article.main.list
+        section
+            h1 bundle
+            aside <a href="..">Base Library</a>
+                time Published: 16 OCT 2017
+            p.
+                <a href="https://raw.githubusercontent.com/groupoid/infinity/master/priv/bundle.ctt">Bundle package</a>
+                contains basic information about fibers (needed for weak-equivalence) and fiber bundles, constructions
+                from algebraic topology.
+            h2 fiber
+            p.
+                The fiber of the map $p: E \rightarrow B$ in a point $y: B$
+                is all points $x: E$ such that $p(x)=y$.
+            p.
+            code.
+                fiber (E B: U) (p: E -> B) (y: B): U
+                    = (x: E) * Path B y (p x)
+            h2 fiber bundle
+            p.
+                The fiber bundle on a topological space E with fiber F and base B is a
+                structure $(F,E,B,p)$ where F is a layer, E is a total space,
+                B is a base of fibration, and $\p: E \rightarrow B$ is a surjective map with following property:
+                for any point $y: B$ has a neighborhood $U_b$ for which a homeomorphism $f: \pi^{-1}(U_b) \rightarrow U_b \times F$
+                making the following diagram commute:
+            p.
+                $$
+                \begin{array}{ccc}
+                \pi^{-1}(U_b) & \mapright{f} & U_b \times F \\
+                \mapdown{\mathbf{\pi}} & \mapdiagl{pr_1} & \\
+                U_b & & \\
+                \end{array}
+                $$
+            h2 trivial fiber bundle
