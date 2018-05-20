@@ -70,3 +70,18 @@ block content
                 $$
 
             h2 Trivial Fiber Bundle
+            p.
+               When total space $E$ is cartesian product $\Sigma B F$
+               and $p = pr_1$ then such bundle is called trivial.
+            code.
+                Family (B: U): U = B -> U
+
+                total (B: U) (F: Family B): U = Sigma B F
+                p (B: U) (F: Family B): total B F -> B = \ (x: total B F) -> x.1
+                f (B E: U) (F: Family B) (p: E -> B) (y: B) :
+                           fiber E B p y -> total B F
+
+            h2 Trivial Fiber Bundle is a Dependent Type
+            code.
+                FamFibIsDependent (B: U) (F: Family B) (y: B)
+                    : Path U (fiber (total B F) B (trivial B F) y) (F y)
