@@ -15,6 +15,12 @@ block content
             time 20 MAY 2020
         .enc
         section
+            figure.
+                $$\def\mapright#1{\xrightarrow{{#1}}}
+                  \def\mapdown#1{\Big\downarrow\rlap{\raise2pt{\scriptstyle{#1}}}}
+                  \def\mapdiagl#1{\vcenter{\searrow}\rlap{\raise2pt{\scriptstyle{#1}}}}
+                  \def\mapdiagr#1{\vcenter{\swarrow}\rlap{\raise2pt{\scriptstyle{#1}}}}
+                $$
             p.
                 <a href="https://raw.githubusercontent.com/groupoid/infinity/master/priv/bundle.ctt">
                 Bundle package</a> contains basic information about fibers (needed
