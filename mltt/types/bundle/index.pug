@@ -8,15 +8,18 @@ block title
 
 
 block content
-    article.main.list
+    article.main
+        .enc
         section
             h1 bundle
             aside <a href="..">Base Library</a>
                 time Published: 16 OCT 2017
             p.
-                <a href="https://raw.githubusercontent.com/groupoid/infinity/master/priv/bundle.ctt">Bundle package</a>
-                contains basic information about fibers (needed for weak-equivalence) and fiber bundles, constructions
+                <a href="https://raw.githubusercontent.com/groupoid/infinity/master/priv/bundle.ctt">
+                Bundle package</a> contains basic information about fibers (needed
+                for weak-equivalence) and fiber bundles, constructions
                 from algebraic topology.
+
             h2 fiber
             p.
                 The fiber of the map $p: E \rightarrow B$ in a point $y: B$
@@ -25,13 +28,17 @@ block content
             code.
                 fiber (E B: U) (p: E -> B) (y: B): U
                     = (x: E) * Path B y (p x)
+
             h2 fiber bundle
             p.
-                The fiber bundle $ F \rightarrow E \mapright{p} B$ on a topological space E with fiber F and base B is a
+                The fiber bundle $ F \rightarrow E \mapright{p} B$ on a topological
+                space E with fiber F and base B is a
                 structure $(F,E,B,p)$ where F is a layer, E is a total space,
-                B is a base of fibration, and $p: E \rightarrow B$ is a surjective map with following property:
-                for any point $y: B$ exists a neighborhood $U_b$ for which a homeomorphism $f: p^{-1}(U_b) \rightarrow U_b \times F$
-                making the following diagram commute:
+                B is a base of fibration, and $p: E \rightarrow B$ is a surjective
+                map with following property:
+                for any point $y: B$ exists a neighborhood $U_b$ for which a
+                homeomorphism $f: p^{-1}(U_b) \rightarrow U_b \times F$
+                making the following diagram commute.
             p.
             figure.
                 $$
