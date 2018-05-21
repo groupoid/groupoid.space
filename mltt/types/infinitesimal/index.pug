@@ -1,0 +1,61 @@
+extends ../../../layout.pug
+
+block title
+    title BUNDLE
+    script(src='//cdnjs.cloudflare.com/ajax/libs/mathjax/2.6.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML')
+    script.
+       MathJax.Hub.Config({
+          tex2jax: { inlineMath: [['$','$'], ['\\(','\\)']], processEscapes: true },
+          jax: ["input/TeX", "input/MathML", "input/AsciiMath", "output/CommonHTML", "output/NativeMML"],
+          TeX: { extensions: ["AMSmath.js", "AMSsymbols.js", "autoload-all.js"] },
+          extensions: ["tex2jax.js", "asciimath2jax.js", "mml2jax.js", "MathMenu.js", "MathZoom.js"],
+          "HTML-CSS": { imageFont: null },
+          AuthorInit: function() {
+              MathJax.Hub.Register.StartupHook("TeX AMSmath Ready", function() {
+                  var TEX = MathJax.InputJax.TeX;
+                  TEX.Definitions.Add({
+                      macros: {
+                          llparenthesis: ['Macro', '\\mathopen{\u2987}'],
+                          rrparenthesis: ['Macro', '\\mathclose{\u2988}'],
+                          llbracket:     ['Macro', '\\mathopen{\u27E6}'],
+                          rrbracket:     ['Macro', '\\mathclose{\u27E7}'], } }); }); }, });
+
+block content
+    article.main
+        .om
+            section
+                h1 INFINITESIMAL
+        aside <a href="..">Base Library</a>
+            time 20 MAY 2018
+        .enc
+        section
+            figure.
+                $$\def\mapright#1{\xrightarrow{{#1}}}
+                  \def\mapdown#1{\Big\downarrow\rlap{\raise2pt{\scriptstyle{#1}}}}
+                  \def\mapdiagl#1{\vcenter{\searrow}\rlap{\raise2pt{\scriptstyle{#1}}}}
+                  \def\mapdiagr#1{\vcenter{\swarrow}\rlap{\raise2pt{\scriptstyle{#1}}}}
+                $$
+            p.
+                <a href="https://raw.githubusercontent.com/groupoid/infinity/master/priv/infinitesimal.ctt">
+                Bundle package</a> contains axiom of infinitesimal comonadic shape modality $\Im$.
+            p.
+                <b>Definition</b> (Infinitesimal Shape Modality).
+                $\Im$∶ U -> U and $\Im$-Unit (A: U)∶ A -> Im A called shape modality type if
+                $\I$m-Unit is equivalence.
+            code.
+                Im : U -> U = undefined
+                ImUnit (A: U) : A -> Im A = undefined
+                isCoreduced (A:U): U = isEquiv A (Im A) (ImUnit A)
+                ImCoreduced (A:U): isCoreduced (Im A) = undefined
+                ImRecursion (A B: U) (c: isCoreduced B) (f: A -> B) : Im A -> B = undefined
+
+                ImInduction (A:U)(B:Im A->U)(x: (a: Im A)->isCoreduced(B a))
+                            (y:(a: A)->B(ImUnit A a)):(a:Im A)->B a = undefined
+
+                ImComputeRecursion (A B: U) (c: isCoreduced B) (f: A->B) (a:A)
+                                 : Path B ((ImRecursion A B c f) (ImUnit A a)) (f a) = undefined
+
+                ImComputeInduction (A:U)(B:Im A->U) (c:(a:Im A)->isCoreduced(B a)) (f:(a:A)->B(ImUnit A a))(a:A)
+                                 : Path (B (ImUnit A a)) (f a) ((ImInduction A B c f) (ImUnit A a)) = undefined
+
+

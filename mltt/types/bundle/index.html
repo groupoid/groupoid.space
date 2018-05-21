@@ -37,8 +37,9 @@ making the following diagram commute.</p><p></p><figure>$$
     U_b & & \\
 \end{array}
 $$
-</figure><h2>Trivial Fiber Bundle</h2><p>When total space $E$ is cartesian product $\Sigma(B,F)$
-and $p = pr_1$ then such bundle is called trivial.</p><code>Family (B: U): U = B -> U
+</figure><h2>Trivial Fiber Bundle</h2><p><b>Definition</b> (Trivial Fiberr Bundle).
+When total space $E$ is cartesian product $\Sigma(B,F)$
+and $p = pr_1$ then such bundle is called trivial $(F,\Sigma(B,F),pr_1,B)$.</p><code>Family (B: U): U = B -> U
 
 total (B: U) (F: Family B): U = Sigma B F
 trivial (B: U) (F: Family B): total B F -> B = \ (x: total B F) -> x.1
@@ -67,4 +68,6 @@ FamFibIsDependent (B: U) (F: Family B) (y: B)
     f: T -> A = encode B F y
     g: A -> T = decode B F y
     s (x: A): Path A (f (g x)) x = refl A x
-    t (x: T): Path T (g (f x)) x = refl T x</code></section></article><footer class="footer"><img class="footer__logo" src="https://longchenpa.guru/seal.png" width="50"><span class="footer__copy">2016&mdash;2018 &copy; <a href="//groupoid.space/team.html" style="color:white;">Groupoid Infinity</a></span></footer><script src="https://groupoid.space/bundle.js"></script><script src="https://groupoid.space/highlight.js?v=7"></script></body></html>
+    t (x: T): Path T (g (f x)) x = refl T x
+</code><h2>G-structure</h2><p>The structure group of an $F$-fiber bundle is just Aut(F),
+the loop space of BAut(F).</p></section></article><footer class="footer"><img class="footer__logo" src="https://longchenpa.guru/seal.png" width="50"><span class="footer__copy">2016&mdash;2018 &copy; <a href="//groupoid.space/team.html" style="color:white;">Groupoid Infinity</a></span></footer><script src="https://groupoid.space/bundle.js"></script><script src="https://groupoid.space/highlight.js?v=7"></script></body></html>

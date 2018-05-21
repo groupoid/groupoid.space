@@ -71,8 +71,9 @@ block content
 
             h2 Trivial Fiber Bundle
             p.
-               When total space $E$ is cartesian product $\Sigma(B,F)$
-               and $p = pr_1$ then such bundle is called trivial.
+                <b>Definition</b> (Trivial Fiberr Bundle).
+                When total space $E$ is cartesian product $\Sigma(B,F)$
+                and $p = pr_1$ then such bundle is called trivial $(F,\Sigma(B,F),pr_1,B)$.
             code.
                 Family (B: U): U = B -> U
 
@@ -115,3 +116,9 @@ block content
                     g: A -> T = decode B F y
                     s (x: A): Path A (f (g x)) x = refl A x
                     t (x: T): Path T (g (f x)) x = refl T x
+
+            h2 G-structure
+            p.
+                The structure group of an $F$-fiber bundle is just Aut(F),
+                the loop space of BAut(F).
+
