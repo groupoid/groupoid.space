@@ -4,20 +4,8 @@
    TeX: { extensions: ["AMSmath.js", "AMSsymbols.js", "autoload-all.js"] },
    extensions: ["tex2jax.js", "asciimath2jax.js", "mml2jax.js", "MathMenu.js", "MathZoom.js"],
    "HTML-CSS": { imageFont: null },
-   AuthorInit: function() {
-       MathJax.Hub.Register.StartupHook("TeX AMSmath Ready", function() {
-           var TEX = MathJax.InputJax.TeX;
-           TEX.Definitions.Add({
-               macros: {
-                   llparenthesis: ['Macro', '\\mathopen{\u2987}'],
-                   rrparenthesis: ['Macro', '\\mathclose{\u2988}'],
-                   llbracket:     ['Macro', '\\mathopen{\u27E6}'],
-                   rrbracket:     ['Macro', '\\mathclose{\u27E7}'], } }); }); }, });
-</script></head><body class="content"><article class="main"><div class="om"><section><h1>INFINITESIMAL</h1></section></div><aside><a href="..">Base Library</a><time>20 MAY 2018</time></aside><div class="enc"></div><section><figure>$$\def\mapright#1{\xrightarrow{{#1}}}
-  \def\mapdown#1{\Big\downarrow\rlap{\raise2pt{\scriptstyle{#1}}}}
-  \def\mapdiagl#1{\vcenter{\searrow}\rlap{\raise2pt{\scriptstyle{#1}}}}
-  \def\mapdiagr#1{\vcenter{\swarrow}\rlap{\raise2pt{\scriptstyle{#1}}}}
-$$</figure><p><a href="https://raw.githubusercontent.com/groupoid/infinity/master/priv/infinitesimal.ctt">
+});
+</script></head><body class="content"><article class="main"><div class="om"><section><h1>INFINITESIMAL</h1></section></div><aside><a href="..">Base Library</a><time>20 MAY 2018</time></aside><div class="enc"></div><section><p><a href="https://raw.githubusercontent.com/groupoid/infinity/master/priv/infinitesimal.ctt">
 Bundle package</a> contains axiom of infinitesimal comonadic shape modality Im.</p><p><b>Definition</b> (Infinitesimal Shape Modality). The two maps
 $Im∶ U \rightarrow U$ and $\iota_A ∶ A \rightarrow Im(A)$ are called shape modality if
 i) $\iota_A$ is an equivalence, the type $A$ is then called coreduced.; ii)

@@ -10,15 +10,7 @@ block title
           TeX: { extensions: ["AMSmath.js", "AMSsymbols.js", "autoload-all.js"] },
           extensions: ["tex2jax.js", "asciimath2jax.js", "mml2jax.js", "MathMenu.js", "MathZoom.js"],
           "HTML-CSS": { imageFont: null },
-          AuthorInit: function() {
-              MathJax.Hub.Register.StartupHook("TeX AMSmath Ready", function() {
-                  var TEX = MathJax.InputJax.TeX;
-                  TEX.Definitions.Add({
-                      macros: {
-                          llparenthesis: ['Macro', '\\mathopen{\u2987}'],
-                          rrparenthesis: ['Macro', '\\mathclose{\u2988}'],
-                          llbracket:     ['Macro', '\\mathopen{\u27E6}'],
-                          rrbracket:     ['Macro', '\\mathclose{\u27E7}'], } }); }); }, });
+       });
 
 block content
     article.main
@@ -29,12 +21,6 @@ block content
             time 20 MAY 2018
         .enc
         section
-            figure.
-                $$\def\mapright#1{\xrightarrow{{#1}}}
-                  \def\mapdown#1{\Big\downarrow\rlap{\raise2pt{\scriptstyle{#1}}}}
-                  \def\mapdiagl#1{\vcenter{\searrow}\rlap{\raise2pt{\scriptstyle{#1}}}}
-                  \def\mapdiagr#1{\vcenter{\swarrow}\rlap{\raise2pt{\scriptstyle{#1}}}}
-                $$
             p.
                 <a href="https://raw.githubusercontent.com/groupoid/infinity/master/priv/infinitesimal.ctt">
                 Bundle package</a> contains axiom of infinitesimal comonadic shape modality Im.
