@@ -39,9 +39,12 @@ block content
                 <a href="https://raw.githubusercontent.com/groupoid/infinity/master/priv/infinitesimal.ctt">
                 Bundle package</a> contains axiom of infinitesimal comonadic shape modality $\Im$.
             p.
-                <b>Definition</b> (Infinitesimal Shape Modality).
-                $\Im$∶ U -> U and $\Im$-Unit (A: U)∶ A -> Im A called shape modality type if
-                $\I$m-Unit is equivalence.
+                <b>Definition</b> (Infinitesimal Shape Modality). The two maps
+                $\Im$∶ U -> U and $\Im$Unit (A: U)∶ A -> Im A are called shape modality if
+                i) $\Im$-Unit is an equivalence; ii) the type A is called coreduced.
+                Identity types of coreduced types are coreduced; iii) if B∶ $\Im$ A -> U
+                is a dependent type such that for all a∶ $\Im$ A the type B(a) is coreduced,
+                then we can define a section of B by induction.
             code.
                 Im : U -> U = undefined
                 ImUnit (A: U) : A -> Im A = undefined
