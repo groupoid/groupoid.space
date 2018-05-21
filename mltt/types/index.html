@@ -15,7 +15,7 @@ fall into one of the following categories:</p><p>(i) MLTT Types: <b>pi</b>, <b>s
 1) dependent (D) and non-dependent (ND) terms;
 2) recursive trees (R) or non-recursive (NR) data types;
 3) inductive (+) or coinductive (*) types.
-</p><!--.legend--><!--    for v, k in legend--><!--        ul.legend__col--><!--                li= `${k.toUpperCase()}: ${v}`--></section><div class="om"><section><h1>Martin-Löf Type Theory</h1></section></div><section><p>Martin-Löf Type Theory contains Pi, Sigma, Id, Nat, List types.
+</p><!--.legend--><!--    for v, k in legend--><!--        ul.legend__col--><!--                li= `${k.toUpperCase()}: ${v}`--></section><div class="types"><h2>Cohesive Core</h2><div class="type"><ol class="type__col"><h3>COHESIVE</h3><li><a href="#shape">SHAPE</a></li><li><a href="#flat">FLAT</a></li><li><a href="#sharp">SHARP</a></li></ol><ol class="type__col"><h3>DIFFERENTIAL</h3><li><a href="#reduction">REDUCTION</a></li><li><a href="#infinitesimal">INFINITESIMAL</a></li><li><a href="#smooth">SMOOTH</a></li></ol></div></div><div class="om"><section><h1>Martin-Löf Type Theory</h1></section></div><section><p>Martin-Löf Type Theory contains Pi, Sigma, Id, Nat, List types.
 Id types were added in 1984 while original MLTT was introduced in 1972.
 Now Id types treated as heterogeneous Path interval types.
 </p><h2 id="pi"><a name='pi'><a href='pi/'>Pi</a></a></h2><p>Pi is a dependent version of a function <b>f: (x:A) ⟶  B(x).</b></p><code>Pi (A: U) (P: A -> U): U</code><br><code>id          (A: U): U = A -> A
@@ -471,6 +471,8 @@ retract (A B:U) (f:A->B) (g:B->A): U = (a:A) -> Path A (g(f(a))) a
 trivial (B: U) (F: Family B): total B F -> B = \ (x: total B F) -> x.1
 homeo (B E: U) (F: Family B) (p: E -> B) (y: B)
     : fiber E B p y -> total B F = \(x: fiber E B p y) -> (y,F)
+
+
 </code><h2 id="iso"><a name="iso"><a href='iso/'>Iso</a></a></h2><code>Square (A: U) (a0 a1 b0 b1: A)
        (u: Path A a0 a1) (v: Path A b0 b1)
        (r0: Path A a0 b0) (r1: Path A a1 b1): U
@@ -578,7 +580,15 @@ data setquot (A: U) (R: A -> A -> U)
                   [ (i = 0) -> p @ j,
                     (i = 1) -> q @ j,
                     (j = 0) -> a,
-                    (j = 1) -> b ]</code><p><center><table cellspacing=20><tr><td><img src="https://n2o.space/img/pdf.jpg" width=50></td><td width=400>
+                    (j = 1) -> b ]</code></section><div class="om"><section><h1>Cohesive Core</h1></section></div><section><h2 id="infinitesimal"><a name="infinitesimal"><a href='infinitesimal/'>Infinitesimal</a></a></h2><code>Im : U -> U = undefined
+ImUnit (A: U) : A -> Im A = undefined
+
+isCoreduced (A:U): U = isEquiv A (Im A) (ImUnit A)
+ImCoreduced (A:U): isCoreduced (Im A) = undefined
+ImRecursion (A B: U) (c: isCoreduced B) (f: A -> B) : Im A -> B = undefined
+ImInduction (A:U)(B:Im A->U)(x: (a: Im A)->isCoreduced(B a))
+            (y:(a: A)->B(ImUnit A a)):(a:Im A)->B a = undefined
+</code><p><center><table cellspacing=20><tr><td><img src="https://n2o.space/img/pdf.jpg" width=50></td><td width=400>
 <a href="https://github.com/groupoid/groupoid.space/blob/master/tex/articles/types/types.pdf">
 <h3>Mathematical Components for Cubical Syntax</h3></a>
 </td></tr></table></center></p></section></article><footer class="footer"><img class="footer__logo" src="https://longchenpa.guru/seal.png" width="50"><span class="footer__copy">2016&mdash;2018 &copy; <a href="//groupoid.space/team.html" style="color:white;">Groupoid Infinity</a></span></footer><script src="https://groupoid.space/bundle.js"></script><script src="https://groupoid.space/highlight.js?v=7"></script></body></html>
