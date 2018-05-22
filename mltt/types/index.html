@@ -4,10 +4,11 @@
    TeX: { extensions: ["AMSmath.js", "AMSsymbols.js", "autoload-all.js"] },
    extensions: ["tex2jax.js", "asciimath2jax.js", "mml2jax.js", "MathMenu.js", "MathZoom.js"],
    "HTML-CSS": { imageFont: null },
-});</script><title>Types</title></head><body class="content"><header class="header"><a href="//groupoid.space/"><img class="header__logo" src="../../groupoid.svg"/></a><div class="header__titles"><h1 class="header__title">Mathematical Components</h1><h4 class="header__subtitle">Cubical Base Library</h4></div></header><article class="main"><div class="om"><section><h1>Intro</h1></section><aside>Максим Сохацький, Київ<br><20-04-2018></20-04-2018></aside><p>TL;DR This library is dedicated to type checkers with cubical syntax,
-based on interval [0,1] and MLTT as a core.
-Please refer to <a href="http://www.cse.chalmers.se/~coquand/cubicaltt.pdf">chalmers.se/~coquand/cubicaltt.pdf</a>.
-The base library is founded on top of cubical modules each
+});</script><title>Types</title></head><body class="content"><header class="header"><a href="//groupoid.space/"><img class="header__logo" src="../../groupoid.svg"/></a><div class="header__titles"><h1 class="header__title">Mathematical Components</h1><h4 class="header__subtitle">Cubical Base Library</h4></div></header><article class="main"><div class="om"><section><h1>Intro</h1></section><aside>Максим Сохацький, Київ<br><20-04-2018></20-04-2018></aside><p>This library is dedicated to type checkers with cubical syntax, based on
+interval $[0,1]$ with functional extensionalty, higher equalities, and higher
+inductive types on top of MLTT as a core.
+Please refer to <a href="http://www.cse.chalmers.se/~coquand/cubicaltt.pdf">cubicaltt</a>
+for more information. The base library is founded on top of cubical modules each
 fall into one of the following categories:</p><p>(i) MLTT Types: <b>pi</b>, <b>sigma</b>, <b>path_proto</b>, <b>path</b>;
 (ii) Set Theory: <b>prop</b>, <b>set</b>, <b>ordinal</b>, <b>hedberg</b>;
 (iii) Run-Time Inductive Types: <b>proto</b>, <b>maybe</b>, <b>bool</b>, <b>nat</b>, <b>list</b>, <b>stream</b>, <b>vector</b>;
@@ -31,7 +32,7 @@ such as connectedness, compactness, infinitesimal shapes, etc. Differential
 Cohesive Type Theory is internal language of differential cohesive $(\infty,1)$-toposes, with
 extra structure, just as $(\infty,1)$-categories add a globular path equality structure
 to locally cartesian closed categories and their internal language &mdash; MLTT.
-Please refer to <a href="https://hott-uf.github.io/2017/abstracts/cohesivett.pdf>cohesivett</a>
+Please refer to <a href="https://hott-uf.github.io/2017/abstracts/cohesivett.pdf">cohesivett</a>
 for more information.
 </p></section><div class="om"><section><h1>Martin-Löf Type Theory</h1></section></div><section><p>Martin-Löf Type Theory contains Pi, Sigma, Id, Nat, List types.
 Id types were added in 1984 while original MLTT was introduced in 1972.
