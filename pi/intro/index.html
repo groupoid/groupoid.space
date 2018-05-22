@@ -1,7 +1,13 @@
-<!DOCTYPE html><html><head><meta charset="utf-8"><meta http-equiv="x-ua-compatible" content="ie=edge"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="author" content="Maxim Sokhatsky"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:site" content="@5HT"><meta name="twitter:creator" content="@5HT"><meta name="twitter:image" content="https://groupoid.space/card2.png"><meta property="og:title" content="Groupoid Infinity"><meta property="og:image" content="https://groupoid.space/card2.png"><meta property="og:type" content="website"><meta property="fb:app_id" content="118554188236439"><meta property="og:url" content="https://groupoid.space"><meta property="og:description" content="MLTT Language with Extensions"><link rel="stylesheet" href="https://groupoid.space/main.css?v=8"><title>Process Calculus</title></head><body class="content"><header class="header"><a href="//groupoid.space/"><img class="header__logo" src="../../groupoid.svg"/></a><div class="header__titles"><h1 class="header__title">Process Calculus</h1><h4 class="header__subtitle">Formal Model of Business Process Engine</h4></div></header><article class="main"><div class="om"><section><h1>Intro</h1></section><aside>Максим Сохацький, Київ<br><24-05-2018></24-05-2018></aside><p></p><section><p>Process Calculus defines formal business process engine that coule
+<!DOCTYPE html><html><head><meta charset="utf-8"><meta http-equiv="x-ua-compatible" content="ie=edge"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="author" content="Maxim Sokhatsky"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:site" content="@5HT"><meta name="twitter:creator" content="@5HT"><meta name="twitter:image" content="https://groupoid.space/card2.png"><meta property="og:title" content="Groupoid Infinity"><meta property="og:image" content="https://groupoid.space/card2.png"><meta property="og:type" content="website"><meta property="fb:app_id" content="118554188236439"><meta property="og:url" content="https://groupoid.space"><meta property="og:description" content="MLTT Language with Extensions"><link rel="stylesheet" href="https://groupoid.space/main.css?v=8"><script src="//cdnjs.cloudflare.com/ajax/libs/mathjax/2.6.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><script>MathJax.Hub.Config({
+   tex2jax: { inlineMath: [['$','$'], ['\\(','\\)']], processEscapes: true },
+   jax: ["input/TeX", "input/MathML", "input/AsciiMath", "output/CommonHTML", "output/NativeMML"],
+   TeX: { extensions: ["AMSmath.js", "AMSsymbols.js", "autoload-all.js"] },
+   extensions: ["tex2jax.js", "asciimath2jax.js", "mml2jax.js", "MathMenu.js", "MathZoom.js"],
+   "HTML-CSS": { imageFont: null },
+});</script><title>Process Calculus</title></head><body class="content"><header class="header"><a href="//groupoid.space/"><img class="header__logo" src="../../groupoid.svg"/></a><div class="header__titles"><h1 class="header__title">Process Calculus</h1><h4 class="header__subtitle">Formal Model of Business Process Engine</h4></div></header><article class="main"><div class="om"><section><h1>Intro</h1></section><aside>Максим Сохацький, Київ<br><24-05-2018></24-05-2018></aside><p></p><section><p>Process Calculus defines formal business process engine that coule
 be mapped onto Synrc BPE Erlang/OTP application or OCaml Lwt library
 with Coq.io front-end. Here is given top level model in cubical syntax.
-</p><h1>PROCESS MODALITY</h1><p><b>Definition</b> (Storage). The secure storage based on verified
+</p><h1>Process Modality</h1><p><b>Definition</b> (Storage). The secure storage based on verified
 cryptography. NOTE: For simplicity let it be a compatible list.
 </p><code>storage: U -> U = list
 </code><p><b>Definition</b> (Process). The type formation rule of the process
@@ -31,7 +37,7 @@ current   (p: process):          signature p  = p.2.2.1
 action    (p: process):      id (signature p) = p.2.2.2.1
 trace     (p: process): storage (signature p) = p.2.2.2.2
 </code><p>NOTE: the are two kinds of approaches to process design:
-1) Semigroup: <b>P x S -> S</b>; and 2) Monoidal: <b>P x S -> P x S</b>,
+1) Semigroup: $P \times S \rightarrow S$; and 2) Monoidal: $P \times S \rightarrow P \times S</b>,
 where P is protocol and S is state of the process.
 </p><p><b>Definition</b> (Execute). The Execute function is an
 eliminator of process stream performing adding single entry
