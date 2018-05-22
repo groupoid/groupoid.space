@@ -1,47 +1,82 @@
 extends ../../layout.pug
 
 block title
-    title Pi Calculus
+    title Process Calculus
 
 block content
-    +header('../../groupoid.svg', 'Pi Calculus', 'Distributed Processes MLTT Model')
+    +header('../../groupoid.svg', 'Process Calculus', 'Formal Model of Business Process Engine')
     article.main
-        .exe
+        .om
+            section
+                h1 Intro
+            aside Максим Сохацький, Київ<br>
+                24-05-2018
+            p.
             section
                 p.
-                    Pi calculus can be transformed from lambda
-                    calculus by replacing a variable constructor with stream constructor.
-                    But the language and protocol accessing this stream could vary
-                    from backend to backend with respect to design requirements.
-                .langf__col
-                    code.
-                             ∀ (x: Input) -> Output
-                p.
-                p.
-                    Pi calculus is also known as a process calculus that can be used to model of distributed system
-                    over a channel transport. Each process presented as coinductive program and is able
-                    to be runned both in parallel and sequentially. Processes are communicating by inductive protocols
-                    known as session types over physical channels that can be corecursive streams (linear types),
-                    random access arrays (static lifetime) or other effectful disciplines. Process calculus
-                    is used to model distributed systems such as Erlang or application based protocols.
-                p.
-                    The process calculus itself should be backed with number of infinity streams,
-                    represented as processor cores. The parallel system of reactive shcedulers
-                    that cycle the list of AST trees filled with calculus instructions.
+                    Process Calculus defines formal business process engine that coule
+                    be mapped onto Synrc BPE Erlang/OTP application or OCaml Lwt library
+                    with Coq.io front-end. Here is given top level model in cubical syntax.
 
-            section.langf
-                .langf__col
-                    h2#syntax Language Axioms
-                    code.
-                        Inductive PiCalculus :=
-                         | Send               | Recv
-                         | Spawn              | Kill
-                         | Sequential         | Parallel
-                         | Stop               | Start
-                         | Pub                | Sub.
+                h1 PROCESS MODALITY
 
-            section
-                h1 Calculus
                 p.
+                    <b>Definition</b> (Storage). The secure storage based on verified
+                    cryptography. NOTE: For simplicity let it be a compatible list.
+
                 code.
+                    storage: U -> U = list
+
+                p.
+                    <b>Definition</b> (Process). The type formation rule of the process
+                    is a $\Sigma$ telescope that contains: i) protocol type; ii) state type;
+                    iii) in-memory current state of process in the form of cartesian product
+                    of protocol and state which is called signature of the process; iv) monoidal
+                    action on signature; v) persistent storage for process trace.
+
+                code.
+                    process : U
+                            = (protocol state: U)
+                            * (current: prod protocol state)
+                            * (act: id (prod protocol state))
+                            * (storage (prod protocol state))
+
+                p.
+                    <b>Definition</b> (Spawn). The sole introduction rule, process constructor
+                    is a tuple with filled process type information.
+
+                code.
+                    spawn (protocol state: U) (init: prod protocol state)
+                          (action: id (prod protocol state)) : process
+                        = (protocol,state,init,action,nil)
+
+                p.
+                    <b>Definition</b> (Accessors). Process type defines following
+                    accessors (projections, this eliminators) to its structure:
+                    i) protocol type; ii) state type; iii) signature of the
+                    process; iv) current state of the process; v) action
+                    projection; vi) trace projection.
+
+                code.
+                        protocol  (p: process): U = p.1
+                        state     (p: process): U = p.2.1
+                        signature (p: process): U = prod p.1 p.2.1
+                        current   (p: process):          signature p  = p.2.2.1
+                        action    (p: process):      id (signature p) = p.2.2.2.1
+                        trace     (p: process): storage (signature p) = p.2.2.2.2
+
+                p.
+                    NOTE: the are two kinds of approaches to process design:
+                    1) Semigroup: <b>P x S -> S</b>; and 2) Monoidal: <b>P x S -> P x S</b>,
+                    where P is protocol and S is state of the process.
+
+                p.
+                    <b>Definition</b> (Execute). The Execute function is an
+                    eliminator of process stream performing adding single entry
+                    to the secured storage of the process.
+
+                code.
+                        execute (p: process) (message: protocol p) : process
+                              = let step: signature p = (action p) (message, (current p).2)
+                                 in (protocol p, state p, step, action p, cons step (trace p))
 

@@ -1,18 +1,41 @@
-<!DOCTYPE html><html><head><meta charset="utf-8"><meta http-equiv="x-ua-compatible" content="ie=edge"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="author" content="Maxim Sokhatsky"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:site" content="@5HT"><meta name="twitter:creator" content="@5HT"><meta name="twitter:image" content="https://groupoid.space/card2.png"><meta property="og:title" content="Groupoid Infinity"><meta property="og:image" content="https://groupoid.space/card2.png"><meta property="og:type" content="website"><meta property="fb:app_id" content="118554188236439"><meta property="og:url" content="https://groupoid.space"><meta property="og:description" content="MLTT Language with Extensions"><link rel="stylesheet" href="https://groupoid.space/main.css?v=8"><title>Pi Calculus</title></head><body class="content"><header class="header"><a href="//groupoid.space/"><img class="header__logo" src="../../groupoid.svg"/></a><div class="header__titles"><h1 class="header__title">Pi Calculus</h1><h4 class="header__subtitle">Distributed Processes MLTT Model</h4></div></header><article class="main"><div class="exe"><section><p>Pi calculus can be transformed from lambda
-calculus by replacing a variable constructor with stream constructor.
-But the language and protocol accessing this stream could vary
-from backend to backend with respect to design requirements.</p><div class="langf__col"><code>∀ (x: Input) -> Output</code></div><p></p><p>Pi calculus is also known as a process calculus that can be used to model of distributed system
-over a channel transport. Each process presented as coinductive program and is able
-to be runned both in parallel and sequentially. Processes are communicating by inductive protocols
-known as session types over physical channels that can be corecursive streams (linear types),
-random access arrays (static lifetime) or other effectful disciplines. Process calculus
-is used to model distributed systems such as Erlang or application based protocols.</p><p>The process calculus itself should be backed with number of infinity streams,
-represented as processor cores. The parallel system of reactive shcedulers
-that cycle the list of AST trees filled with calculus instructions.
-</p></section><section class="langf"><div class="langf__col"><h2 id="syntax">Language Axioms</h2><code>Inductive PiCalculus :=
- | Send               | Recv
- | Spawn              | Kill
- | Sequential         | Parallel
- | Stop               | Start
- | Pub                | Sub.
-</code></div></section><section><h1>Calculus</h1><p></p><code></code></section></div></article><footer class="footer"><img class="footer__logo" src="https://longchenpa.guru/seal.png" width="50"><span class="footer__copy">2016&mdash;2018 &copy; <a href="//groupoid.space/team.html" style="color:white;">Groupoid Infinity</a></span></footer><script src="https://groupoid.space/bundle.js"></script><script src="https://groupoid.space/highlight.js?v=7"></script></body></html>
+<!DOCTYPE html><html><head><meta charset="utf-8"><meta http-equiv="x-ua-compatible" content="ie=edge"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="author" content="Maxim Sokhatsky"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:site" content="@5HT"><meta name="twitter:creator" content="@5HT"><meta name="twitter:image" content="https://groupoid.space/card2.png"><meta property="og:title" content="Groupoid Infinity"><meta property="og:image" content="https://groupoid.space/card2.png"><meta property="og:type" content="website"><meta property="fb:app_id" content="118554188236439"><meta property="og:url" content="https://groupoid.space"><meta property="og:description" content="MLTT Language with Extensions"><link rel="stylesheet" href="https://groupoid.space/main.css?v=8"><title>Process Calculus</title></head><body class="content"><header class="header"><a href="//groupoid.space/"><img class="header__logo" src="../../groupoid.svg"/></a><div class="header__titles"><h1 class="header__title">Process Calculus</h1><h4 class="header__subtitle">Formal Model of Business Process Engine</h4></div></header><article class="main"><div class="om"><section><h1>Intro</h1></section><aside>Максим Сохацький, Київ<br><24-05-2018></24-05-2018></aside><p></p><section><p>Process Calculus defines formal business process engine that coule
+be mapped onto Synrc BPE Erlang/OTP application or OCaml Lwt library
+with Coq.io front-end. Here is given top level model in cubical syntax.
+</p><h1>PROCESS MODALITY</h1><p><b>Definition</b> (Storage). The secure storage based on verified
+cryptography. NOTE: For simplicity let it be a compatible list.
+</p><code>storage: U -> U = list
+</code><p><b>Definition</b> (Process). The type formation rule of the process
+is a $\Sigma$ telescope that contains: i) protocol type; ii) state type;
+iii) in-memory current state of process in the form of cartesian product
+of protocol and state which is called signature of the process; iv) monoidal
+action on signature; v) persistent storage for process trace.
+</p><code>process : U
+        = (protocol state: U)
+        * (current: prod protocol state)
+        * (act: id (prod protocol state))
+        * (storage (prod protocol state))
+</code><p><b>Definition</b> (Spawn). The sole introduction rule, process constructor
+is a tuple with filled process type information.
+</p><code>spawn (protocol state: U) (init: prod protocol state)
+      (action: id (prod protocol state)) : process
+    = (protocol,state,init,action,nil)
+</code><p><b>Definition</b> (Accessors). Process type defines following
+accessors (projections, this eliminators) to its structure:
+i) protocol type; ii) state type; iii) signature of the
+process; iv) current state of the process; v) action
+projection; vi) trace projection.
+</p><code>protocol  (p: process): U = p.1
+state     (p: process): U = p.2.1
+signature (p: process): U = prod p.1 p.2.1
+current   (p: process):          signature p  = p.2.2.1
+action    (p: process):      id (signature p) = p.2.2.2.1
+trace     (p: process): storage (signature p) = p.2.2.2.2
+</code><p>NOTE: the are two kinds of approaches to process design:
+1) Semigroup: <b>P x S -> S</b>; and 2) Monoidal: <b>P x S -> P x S</b>,
+where P is protocol and S is state of the process.
+</p><p><b>Definition</b> (Execute). The Execute function is an
+eliminator of process stream performing adding single entry
+to the secured storage of the process.
+</p><code>execute (p: process) (message: protocol p) : process
+      = let step: signature p = (action p) (message, (current p).2)
+         in (protocol p, state p, step, action p, cons step (trace p))</code></section></div></article><footer class="footer"><img class="footer__logo" src="https://longchenpa.guru/seal.png" width="50"><span class="footer__copy">2016&mdash;2018 &copy; <a href="//groupoid.space/team.html" style="color:white;">Groupoid Infinity</a></span></footer><script src="https://groupoid.space/bundle.js"></script><script src="https://groupoid.space/highlight.js?v=7"></script></body></html>
