@@ -67,6 +67,31 @@ block content
                 internal language of $(\infty,1)$-categories, while MLTT
                 is an internal language of locally cartesian closed categories.
 
+
+        .types
+            h2 Cohesive Core
+            -
+                var core = {
+                    'Cohesive': [ 'shape', 'flat', 'sharp' ],
+                    'Differential': [ 'reduction', 'infinitesimal', 'smooth' ],
+                }
+
+            .type
+                for v, k in core
+                    ol.type__col
+                        h3= k.toUpperCase()
+                        for i in v
+                            li: a(href='#'+i)= i.toUpperCase()
+        section
+            p.
+                Cohesive Type Theory is developed for satisfying needs on modeling modalities,
+                such as connectedness, compactness, infinitesimal shapes, etc. Differential
+                Cohesive Type Theory is internal language of differential cohesive $(\infty,1)$-toposes, with
+                extra structure, just as $(\infty,1)$-categories add a globular path equality structure
+                to locally cartesian closed categories and their internal language &mdash; MLTT.
+                Please refer to <a href="https://hott-uf.github.io/2017/abstracts/cohesivett.pdf">cohesivett</a>
+                for more information.
+
         .types
             h2 Types Taxonomy
             -
@@ -108,30 +133,6 @@ block content
             //        ul.legend__col
             //                li= `${k.toUpperCase()}: ${v}`
 
-        .types
-            h2 Cohesive Core
-            -
-                var core = {
-                    'Cohesive': [ 'shape', 'flat', 'sharp' ],
-                    'Differential': [ 'reduction', 'infinitesimal', 'smooth' ],
-                }
-
-            .type
-                for v, k in core
-                    ol.type__col
-                        h3= k.toUpperCase()
-                        for i in v
-                            li: a(href='#'+i)= i.toUpperCase()
-        section
-            p.
-                Cohesive Type Theory is developed for satisfying needs on modeling modalities,
-                such as connectedness, compactness, infinitesimal shapes, etc. Differential
-                Cohesive Type Theory is internal language of differential cohesive $(\infty,1)$-toposes, with
-                extra structure, just as $(\infty,1)$-categories add a globular path equality structure
-                to locally cartesian closed categories and their internal language &mdash; MLTT.
-                Please refer to <a href="https://hott-uf.github.io/2017/abstracts/cohesivett.pdf">cohesivett</a>
-                for more information.
-
         .om
             section
                 h1 Martin-Löf Type Theory
@@ -143,7 +144,7 @@ block content
 
             h2#pi <a name='pi'><a href='pi/'>Pi</a></a>
             p.
-                Pi is a dependent version of a function <b>f: (x:A) ⟶  B(x).</b>
+                Pi is a dependent function <b>f: (x:A) ⟶  B(x).</b>
             code.
                 Pi (A: U) (P: A -> U): U
             br.
@@ -177,7 +178,7 @@ block content
 
             h2#sigma <a name='exists'><a href='sigma/'>Sigma</a></a>
             p.
-                Sigma is a dependent version of product: <b>dpair: (x:A) * B(x)</b>.
+                Sigma is a dependent product: <b>dpair: (x:A) * B(x)</b>.
             code.
                 Sigma (A: U) (B: A -> U): U
             br.
