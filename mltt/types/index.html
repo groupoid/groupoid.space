@@ -20,13 +20,13 @@ fall into one of the following categories:</p><p>(i) MLTT Types: <b>pi</b>, <b>s
 (ix) Higher Inductive Types: <b>interval</b>, <b>circle</b>, <b>pushout</b>, <b>suspension</b>, <b>quotient</b>, <b>trunc</b>.</p><!--  (x) Process Calculus in <b>process</b> module;--><!--  (xi) Categories with Families in <b>cwf</b> module;--><!--  (xii) Type Checker will be in <b>infinity</b> module.--><p>This library is best to read with <a href="http://5ht.co/hott.pdf">HoTT</a> book.
 </p></div><div class="types"><h2>Homotopy Core</h2><div class="type"><ol class="type__col"><h3>PURE</h3><li><a href="#pi">PI</a></li></ol><ol class="type__col"><h3>MLTT</h3><li><a href="#pi">PI</a></li><li><a href="#sigma">SIGMA</a></li><li><a href="#id">ID</a></li><li><a href="#W">W</a></li></ol><ol class="type__col"><h3>INDUCTIVE</h3><li><a href="#pi">PI</a></li><li><a href="#sigma">SIGMA</a></li><li><a href="#id">ID</a></li><li><a href="#fix">FIX</a></li><li><a href="#inductive">INDUCTIVE</a></li></ol><ol class="type__col"><h3>CUBICAL</h3><li><a href="#pi">PI</a></li><li><a href="#sigma">SIGMA</a></li><li><a href="#path">PATH</a></li><li><a href="#Compose">COMPOSE</a></li><li><a href="#Glue">GLUE</a></li><li><a href="#higher inductive types">HIGHER INDUCTIVE TYPES</a></li></ol></div></div><section><p>Cubical with HITs has very lightweight core and syntax and
 is an internal language of $(\infty,1)$-topos.
-Cubical with $[0,1]$ Path types but without HITs in an
+Cubical with $[0,1]$ Path types but without HITs is an
 internal language of $(\infty,1)$-categories, while MLTT
 is an internal language of locally cartesian closed categories.
 
 </p></section><div class="types"><h2>Cohesive Core</h2><div class="type"><ol class="type__col"><h3>COHESIVE</h3><li><a href="#shape">SHAPE</a></li><li><a href="#flat">FLAT</a></li><li><a href="#sharp">SHARP</a></li></ol><ol class="type__col"><h3>DIFFERENTIAL</h3><li><a href="#reduction">REDUCTION</a></li><li><a href="#infinitesimal">INFINITESIMAL</a></li><li><a href="#smooth">SMOOTH</a></li></ol></div></div><section><p>Cohesive Type Theory is developed for satisfying needs on modeling modalities,
 such as connectedness, compactness, infinitesimal shapes, etc. Differential
-Cohesive Type Theory is internal language of differential cohesive $(\infty,1)$-toposes, with
+Cohesive Type Theory is internal language of differential cohesive $(\infty,1)$-topoi, with
 extra structure, just as $(\infty,1)$-categories add a globular path equality structure
 to locally cartesian closed categories and their internal language &mdash; MLTT.
 Please refer to <a href="https://hott-uf.github.io/2017/abstracts/cohesivett.pdf">cohesivett</a>
