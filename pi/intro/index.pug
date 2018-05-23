@@ -27,6 +27,12 @@ block content
                     be mapped onto Synrc BPE Erlang/OTP application or OCaml Lwt library
                     with Coq.io front-end. Here is given top level model in cubical syntax.
 
+                p.
+                    We will describe process calculus as formal model of two types:
+                    1) the general abstract MLTT interface of process modality that can be used
+                    as formal bindings to low-level programming or as a top-level interface;
+                    2) the low-level formal model of Erlang/OTP generic server.
+
                 h1 Process Modality
 
                 p.
@@ -52,7 +58,9 @@ block content
 
                 p.
                     <b>Definition</b> (Spawn). The sole introduction rule, process constructor
-                    is a tuple with filled process type information.
+                    is a tuple with filled process type information. Spawn is a modal arrow
+                    representing the fact that process instance is created at some
+                    scheduler of CPU core.
 
                 code.
                     spawn (protocol state: U) (init: prod protocol state)
@@ -81,12 +89,42 @@ block content
                     where P is protocol and S is state of the process.
 
                 p.
+                    <b>Definition</b> (Receive). The modal arrow that represents
+                    sleep of the process until protocol message arrived.
+                code.
+                    receive (p: process) : protocol p = undefined
+
+                p.
+                    <b>Definition</b> (Send). The response free function that represents
+                    sending a message to a particular process in the run-time. The Send
+                    nature is async and invisible but is a part of process modality as
+                    it's effectfull.
+
+                code.
+                    send (p: process) (message: protocol p) : unit = undefined
+
+                p.
                     <b>Definition</b> (Execute). The Execute function is an
                     eliminator of process stream performing adding single entry
-                    to the secured storage of the process.
+                    to the secured storage of the process. Execute is a transactional
+                    or synchronized version of asynchronous Send.
 
                 code.
                         execute (p: process) (message: protocol p) : process
                               = let step: signature p = (action p) (message, (current p).2)
                                  in (protocol p, state p, step, action p, cons step (trace p))
+                br.
 
+                h1 Run-time Formal Model
+
+                p.
+                    The first application of process modality is a run-time formal model
+                    of Erlang/OTP compatible generic server and with extraction to Erlang.
+                    This is example of process modality usage at low-level.
+                    The run-time formal model could be seen here
+                    <a href="https://n2o.space/articles/streams.htm">n2o.space/articles/streams.htm</a>.
+                p.
+                    The second application of process modality is a formal model
+                    Business Process Engine application that runs on top of Erlang/OTP
+                    extracted model. The BPE model could be seen here
+                    <a href="https://n2o.space/articles/bpe.htm">n2o.space/articles/bpe.htm</a>.
