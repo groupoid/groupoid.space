@@ -291,7 +291,7 @@ aside {
 .om h3 {
   max-width: 100%;
   margin: auto;
-  width: 650px;
+  width: 600px;
   padding: 16px 8px 0; }
 
 .exe h1 {
@@ -378,7 +378,8 @@ aside {
         margin: 0; }
       @media (min-width: 600px) {
         .types .type__col {
-          flex: 1 0 25%;
+          padding-right: 24px;
+          flex: 1 0 20%;
           font-size: 20px; } }
   .types .legend {
     margin: 20px auto 0;

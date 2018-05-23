@@ -44,7 +44,8 @@
                 margin: 0;
             }
             @media(min-width: 600px) {
-                flex: 1 0 25%;
+                padding-right: 24px;
+                flex: 1 0 20%;
                 font-size: 20px;
             }
         }
