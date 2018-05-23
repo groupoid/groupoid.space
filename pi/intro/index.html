@@ -47,12 +47,12 @@ trace     (p: process): storage (signature p) = p.2.2.2.2
 and 2) Monoidal: $P \times S \rightarrow P \times S$,
 where P is protocol and S is state of the process.
 </p><p><b>Definition</b> (Receive). The modal arrow that represents
-sleep of the process until protocol message arrived.</p><code>receive (p: process) : protocol p = undefined
+sleep of the process until protocol message arrived.</p><code>receive (p: process) : protocol p = axiom
 </code><p><b>Definition</b> (Send). The response free function that represents
 sending a message to a particular process in the run-time. The Send
 nature is async and invisible but is a part of process modality as
 it's effectfull.
-</p><code>send (p: process) (message: protocol p) : unit = undefined
+</p><code>send (p: process) (message: protocol p) : unit = axiom
 </code><p><b>Definition</b> (Execute). The Execute function is an
 eliminator of process stream performing adding single entry
 to the secured storage of the process. Execute is a transactional
@@ -67,4 +67,4 @@ The run-time formal model could be seen here
 </p><p>The second application of process modality is a formal model
 Business Process Engine application that runs on top of Erlang/OTP
 extracted model. The BPE model could be seen here
-<a href="https://n2o.space/articles/bpe.htm">n2o.space/articles/bpe.htm</a>.</p></div></article><footer class="footer"><img class="footer__logo" src="https://longchenpa.guru/seal.png" width="50"><span class="footer__copy">2016&mdash;2018 &copy; <a href="//groupoid.space/team.html" style="color:white;">Groupoid Infinity</a></span></footer><script src="https://groupoid.space/bundle.js"></script><script src="https://groupoid.space/highlight.js?v=7"></script></body></html>
+<a href="https://n2o.space/articles/bpe.htm">n2o.space/articles/bpe.htm</a>.</p></div></article><footer class="footer"><img class="footer__logo" src="https://longchenpa.guru/seal.png" width="50"><span class="footer__copy">2016&mdash;2018 &copy; <a href="//groupoid.space/team.html" style="color:white;">Groupoid Infinity</a></span></footer><script src="https://groupoid.space/bundle.js"></script><script src="https://groupoid.space/highlight.js?v=8"></script></body></html>

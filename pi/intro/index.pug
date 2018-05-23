@@ -110,7 +110,7 @@ block content
                 <b>Definition</b> (Receive). The modal arrow that represents
                 sleep of the process until protocol message arrived.
             code.
-                receive (p: process) : protocol p = undefined
+                receive (p: process) : protocol p = axiom
 
             p.
                 <b>Definition</b> (Send). The response free function that represents
@@ -119,7 +119,7 @@ block content
                 it's effectfull.
 
             code.
-                send (p: process) (message: protocol p) : unit = undefined
+                send (p: process) (message: protocol p) : unit = axiom
 
             p.
                 <b>Definition</b> (Execute). The Execute function is an
