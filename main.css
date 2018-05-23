@@ -370,16 +370,16 @@ aside {
     display: flex;
     flex-flow: row wrap; }
     .types .type__col {
-      padding-left: 24px;
-      flex: 1 0 50%; }
+      padding-left: 22px;
+      flex: 1 0 15%; }
       .types .type__col h3 {
         width: initial;
         padding: 0;
         margin: 0; }
       @media (min-width: 600px) {
         .types .type__col {
-          padding-right: 24px;
-          flex: 1 0 20%;
+          padding-right: 22px;
+          flex: 1 0 15%;
           font-size: 20px; } }
   .types .legend {
     margin: 20px auto 0;

@@ -36,16 +36,16 @@
         display: flex;
         flex-flow: row wrap;
         &__col {
-            padding-left: 24px;
-            flex: 1 0 50%;
+            padding-left: 22px;
+            flex: 1 0 15%;
             h3 {
                 width: initial;
                 padding: 0;
                 margin: 0;
             }
             @media(min-width: 600px) {
-                padding-right: 24px;
-                flex: 1 0 20%;
+                padding-right: 22px;
+                flex: 1 0 15%;
                 font-size: 20px;
             }
         }
