@@ -64,12 +64,13 @@ to the secured storage of the process. Execute is a transactional
 or synchronized version of asynchronous Send.
 </p><code>execute (p: process) (message: protocol p) : process
      = let step: signature p = (action p) (message, (current p).2)
-        in (protocol p, state p, step, action p, cons step (trace p))</code><br></section><div class="om"><section><h1>Run-time Models</h1></section><p>The first application of process modality is a run-time formal model
+        in (protocol p, state p, step, action p, cons step (trace p))</code><br></section><div class="om"><section><h1>Applications</h1></section><p>1) Run-time formal model
 of Erlang/OTP compatible generic server and with extraction to Erlang.
 This is example of process modality usage at low-level.
 The run-time formal model could be seen here
-<a href="https://n2o.space/articles/streams.htm">n2o.space/articles/streams.htm</a>.
-</p><p>The second application of process modality is a formal model
-Business Process Engine application that runs on top of Erlang/OTP
+<a href="https://n2o.space/articles/streams.htm">streams</a>.
+</p><p>2) Formal model Business Process Engine application that runs on top of Erlang/OTP
 extracted model. The Synrc/BPE model could be seen here
-<a href="https://n2o.space/articles/bpe.htm">n2o.space/articles/bpe.htm</a>.</p></div></article><footer class="footer"><img class="footer__logo" src="https://longchenpa.guru/seal.png" width="50"><span class="footer__copy">2016&mdash;2018 &copy; <a href="//groupoid.space/team.html" style="color:white;">Groupoid Infinity</a></span></footer><script src="https://groupoid.space/bundle.js"></script><script src="https://groupoid.space/highlight.js?v=8"></script></body></html>
+<a href="https://n2o.space/articles/bpe.htm">bpe</a>.
+</p><p>3) Formal model of Synrc/N2O application and
+<a href="https://mqtt.n2o.space/man/n2o_async.htm">n2o_async</a> in particular.</p></div></article><footer class="footer"><img class="footer__logo" src="https://longchenpa.guru/seal.png" width="50"><span class="footer__copy">2016&mdash;2018 &copy; <a href="//groupoid.space/team.html" style="color:white;">Groupoid Infinity</a></span></footer><script src="https://groupoid.space/bundle.js"></script><script src="https://groupoid.space/highlight.js?v=8"></script></body></html>
