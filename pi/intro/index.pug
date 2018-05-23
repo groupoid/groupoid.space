@@ -22,8 +22,8 @@ block content
                 24-05-2018
             p.
                 Process Calculus defines formal business process engine that coule
-                be mapped onto Synrc BPE Erlang/OTP application or OCaml Lwt library
-                with Coq.io front-end. Here is given top level model in cubical syntax.
+                be mapped onto Synrc/BPE Erlang/OTP application or OCaml Lwt library
+                with Coq.io front-end. Here is given Erlang approach for modeling processes.
 
             p.
                 We will describe process calculus as formal model of two types:
@@ -32,7 +32,7 @@ block content
                 2) the low-level formal model of Erlang/OTP generic server.
 
         .types
-            h2 Encoding
+            h2 Process Encoding
             -
                 var core = {
                     'former' : [ 'process' ],
@@ -47,6 +47,13 @@ block content
                         h3= k.toUpperCase()
                         for i in v
                             li: a(href='#'+i)= i.toUpperCase()
+            br.
+            p.
+                According to MLTT for declaring a type means formally define its formation rule or type former,
+                sole introduction rule, a lot of elims (projections and modality morphisms, recursor and induction)
+                and beta and eta computational equalities. In this article we formally define
+                process modality and will end up with two examples: Erlang/OTP generic server
+                process and Synrc/BPE application.
 
             section
                 h1 Process Modality
@@ -147,5 +154,5 @@ block content
             p.
                 The second application of process modality is a formal model
                 Business Process Engine application that runs on top of Erlang/OTP
-                extracted model. The BPE model could be seen here
+                extracted model. The Synrc/BPE model could be seen here
                 <a href="https://n2o.space/articles/bpe.htm">n2o.space/articles/bpe.htm</a>.
