@@ -42,7 +42,7 @@ block content
 
             h2 Definitions
             p.
-                <b>Definition</b> (Homotopy Pullback). The pullback of the diagram
+                <b>Definition</b> (Homotopy Pullback). The pullback of the left diagram
             .semantics
                 figure.
                     $$
@@ -63,12 +63,11 @@ block content
             figure.
                 $$
                     X \times^{h}_{C} Y = \Sigma_X\Sigma_Y Z^I \\
-                    = \Big{ (x,y,h) : \Sigma_X\Sigma_Y Z^I \\
-                    | h(0)=f(x), h(1)=g(y) \Big}
+                    = \left\{ (x,y,h) : \Sigma_X\Sigma_Y Z^I | h(0)=f(x), h(1)=g(y) \right\}
                 $$
             p.
                 is a $X \times^{h}_{C} Y$
-                together with the projection maps $pb1, pb2$ making the second
+                together with the projection maps $pb1, pb2$ making the right
                 diagram commute up to homotopy $H(x,y,h,t) = h(t)$.
             code.
                 pullback (A B C:U) (f: A -> C) (g: B -> C): U = (a: A) * (b: B) * Path C (f a) (g b)
