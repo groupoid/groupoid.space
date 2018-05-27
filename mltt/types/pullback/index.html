@@ -19,24 +19,24 @@
   \def\mapdiagr#1{\vcenter{\swarrow}\rlap{\raise2pt{\scriptstyle{#1}}}}
 $$</figure><p><a href="https://raw.githubusercontent.com/groupoid/infinity/master/priv/pullback.ctt">
 Pullback package</a> contains basic information about Homotopy Limits known as Pullbacks.
-</p><h2>Definitions</h2><p><b>Definition</b> (Homotopy Pullback). The pullback of the diagram</p><figure>$$
+</p><h2>Definitions</h2><p><b>Definition</b> (Homotopy Pullback). The pullback of the diagram</p><div class="semantics"><figure>$$
 \begin{array}{ccc}
     & & B \\
     & & \mapdown{\mathbf{g}} \\
     A & \mapright{\mathbf{f}} & C \\
 \end{array}
-$$
-</figure><p>is a</p><figure>$$
+$$</figure><figure>$$
     X \times^{h}_{C} Y = \Sigma_X\Sigma_Y Z^I \\
-    = \left\{ (x,y,h) : \Sigma_X\Sigma_Y Z^I | h(0)=f(x), h(1)=g(y) \right}
-$$</figure><p>together with the projection maps $pb1, pb2$ making the
-diagram commute up to homotopy $H(x,y,h,t) = h(t)$.</p><figure>$$
+    = \llbracket (x,y,h) : \Sigma_X\Sigma_Y Z^I | h(0)=f(x), h(1)=g(y) \rrbracket
+$$</figure><figure>$$
 \begin{array}{ccc}
     X \times^{h}_{C} Y & \mapright{\mathbf{pb2}} & B \\
     \mapdown{\mathbf{pb1}} & & \mapdown{\mathbf{g}} \\
     A & \mapright{\mathbf{f}} & C \\
 \end{array}
-$$</figure><code>pullback (A B C:U) (f: A -> C) (g: B -> C): U = (a: A) * (b: B) * Path C (f a) (g b)
+$$</figure></div><p>is a $X \times^{h}_{C} Y$
+together with the projection maps $pb1, pb2$ making the
+diagram commute up to homotopy $H(x,y,h,t) = h(t)$.</p><code>pullback (A B C:U) (f: A -> C) (g: B -> C): U = (a: A) * (b: B) * Path C (f a) (g b)
 
 pb1 (A B C: U) (f: A -> C) (g: B -> C): pullback A B C f g -> A = \(x: pullback A B C f g) -> x.1
 pb2 (A B C: U) (f: A -> C) (g: B -> C): pullback A B C f g -> B = \(x: pullback A B C f g) -> x.2.1
