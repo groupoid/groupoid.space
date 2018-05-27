@@ -19,7 +19,7 @@
   \def\mapdiagr#1{\vcenter{\swarrow}\rlap{\raise2pt{\scriptstyle{#1}}}}
 $$</figure><p><a href="https://raw.githubusercontent.com/groupoid/infinity/master/priv/pullback.ctt">
 Pullback package</a> contains basic information about Homotopy Limits known as Pullbacks.
-</p><h2>Definitions</h2><p><b>Definition</b> (Homotopy Pullback). The pullback of the diagram </p><p></p><figure>$$
+</p><h2>Definitions</h2><p><b>Definition</b> (Homotopy Pullback). The pullback of the diagram</p><figure>$$
 \begin{array}{ccc}
     & & B \\
     & & \mapdown{\mathbf{g}} \\
@@ -28,10 +28,11 @@ Pullback package</a> contains basic information about Homotopy Limits known as P
 $$
 </figure><p>is a</p><figure>$$
 \begin{array}{ccc}
-  X \times^{h}_{C} Y & = & \Sigma_X\Sigma_Y Z^I \\
-                     & = & \left\{ (x,y,h) : \Sigma_X\Sigma_Y Z^I | h(0)=f(x), h(1)=g(x) \right} \\
+    X \times^{h}_{C} Y & = & \Sigma_X\Sigma_Y Z^I \\
+    & = & \left\{ (x,y,h) : \Sigma_X\Sigma_Y Z^I | h(0)=f(x), h(1)=g(y) \right} \\
 \end{array}
-$$</figure><p>together with the projection maps making the diagram commute up to homotopy $ H(x,y,h,t) = h(t) $.</p><figure>$$
+$$</figure><p>together with the projection maps $pb1, pb2$ making the
+diagram commute up to homotopy $H(x,y,h,t) = h(t)$.</p><figure>$$
 \begin{array}{ccc}
     X \times^{h}_{C} Y & \mapright{\mathbf{pb2}} & B \\
     \mapdown{\mathbf{pb1}} & & \mapdown{\mathbf{g}} \\
