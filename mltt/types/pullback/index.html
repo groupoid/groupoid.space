@@ -22,7 +22,7 @@ Pullback package</a> contains basic information about Homotopy Limits known as P
 </p><h2>Definitions</h2><p><b>Definition</b> (Homotopy Pullback). The pullback of the diagram </p><p></p><figure>$$
 \begin{array}{ccc}
     & & B \\
-    & & & \mapdiagr{pr_1} & \mapdown{\mathbf{g}} \\
+    & & \mapdown{\mathbf{g}} \\
     A & \mapright{\mathbf{f}} & C \\
 \end{array}
 $$
@@ -34,7 +34,7 @@ $$
 $$</figure><p>together with the projection maps making the diagram commute up to homotopy $ H(x,y,h,t) = h(t) $.</p><figure>$$
 \begin{array}{ccc}
     X \times^{h}_{C} Y & \mapright{\mathbf{pb2}} & B \\
-    \mapdown{\mathbf{pb1}} & & & \mapdiagr{pr_1} & \mapdown{\mathbf{g}} \\
+    \mapdown{\mathbf{pb1}} & & \mapdown{\mathbf{g}} \\
     A & \mapright{\mathbf{f}} & C \\
 \end{array}
 $$</figure><code>pullback (A B C:U) (f: A -> C) (g: B -> C): U = (a: A) * (b: B) * Path C (f a) (g b)
