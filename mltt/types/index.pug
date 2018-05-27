@@ -1007,8 +1007,11 @@ block content
 
             h2#pullback <a name="pullback"><a href='pullback/'>Pullback</a></a>
             code.
-                pullback (A B C:U) (f: A -> C) (g: B -> C): U
-                    = (a: A) * (b: B) * Path C (f a) (g b)
+                pullback (A B C:U) (f: A -> C) (g: B -> C)
+                       : U
+                       = (a: A)
+                       * (b: B)
+                       * Path C (f a) (g b)
 
             p.
                 see <a href="http://5ht.co/hott.pdf">HoTT</a>:
@@ -1017,10 +1020,10 @@ block content
             h2#pushout Pushout
             code.
                 data pushout (A B C: U) (f: C -> A) (g: C -> B)
-                    = po1 (_: A)
-                    | po2 (_: B)
-                    | po3 (c: C) &lt;i&gt; [ (i = 0) -> po1 (f c),
-                                             (i = 1) -> po2 (g c) ]
+                   = po1 (_: A)
+                   | po2 (_: B)
+                   | po3 (c: C) &lt;i&gt; [ (i = 0) -> po1 (f c),
+                                      (i = 1) -> po2 (g c) ]
             p.
                 see <a href="http://5ht.co/hott.pdf">HoTT</a>:
                     6.8 Pushouts.
