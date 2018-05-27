@@ -1005,6 +1005,15 @@ block content
                 see <a href="http://5ht.co/hott.pdf">HoTT</a>:
                     6.5 Suspensions.
 
+            h2#pullback <a name="pullback"><a href='pullback/'>pullback</a></a>
+            code.
+                pullback (A B C:U) (f: A -> C) (g: B -> C): U
+                    = (a: A) * (b: B) * Path C (f a) (g b)
+
+            p.
+                see <a href="http://5ht.co/hott.pdf">HoTT</a>:
+                    2.11 Exercise
+
             h2#pushout Pushout
             code.
                 data pushout (A B C: U) (f: C -> A) (g: C -> B)
