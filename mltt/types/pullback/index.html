@@ -29,14 +29,14 @@ Pullback package</a> contains basic information about Homotopy Limits known as P
 $$</figure><figure>$$
 \begin{array}{ccc}
     X \times^{h}_{C} Y & \mapright{\mathbf{pb2}} & B \\
-    \mapdown{\mathbf{pb1}} & & \mapdown{\mathbf{g}} \\
+    \mapdown{\mathbf{pb1}} & \mapdiagl{\mathbf{pb3}} & \mapdown{\mathbf{g}} \\
     A & \mapright{\mathbf{f}} & C \\
 \end{array}
 $$</figure></div><figure>$$
     X \times^{h}_{C} Y = \Sigma_X\Sigma_Y Z^I \\
     = \left\{ (x,y,h) : \Sigma_X\Sigma_Y Z^I | h(0)=f(x), h(1)=g(y) \right\}
 $$</figure><p>is a $X \times^{h}_{C} Y$
-together with the projection maps $pb1, pb2$ making the right
+together with the projection maps $pb1, pb2, pb3$ making the right
 diagram commute up to homotopy $H(x,y,h,t) = h(t)$.</p><code>pullback (A B C:U) (f: A -> C) (g: B -> C): U = (a: A) * (b: B) * Path C (f a) (g b)
 
 pb1 (A B C: U) (f: A -> C) (g: B -> C): pullback A B C f g -> A = \(x: pullback A B C f g) -> x.1
