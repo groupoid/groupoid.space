@@ -555,10 +555,10 @@ isoElim (B: U) (Q: (A: U) -> (A -> B) -> (B -> A) -> U)
 </code><p>see <a href="http://5ht.co/hott.pdf">HoTT</a>:
     2.11 Exercise
 </p><h2 id="pushout">Pushout</h2><code>data pushout (A B C: U) (f: C -> A) (g: C -> B)
-    = inl (_: A)
-    | inr (_: B)
-    | glue_ (c: C) &lt;i&gt; [ (i=0) -> inl (f c),
-                         (i=1) -> inr (g c) ]</code><p>see <a href="http://5ht.co/hott.pdf">HoTT</a>:
+    = po1 (_: A)
+    | po2 (_: B)
+    | po3 (c: C) &lt;i&gt; [ (i = 0) -> po1 (f c),
+                             (i = 1) -> po2 (g c) ]</code><p>see <a href="http://5ht.co/hott.pdf">HoTT</a>:
     6.8 Pushouts.
 </p><h2 id="trunc">Trancations</h2><code>data pTrunc (A: U) -- (-1)-trunc, mere proposition truncation
      = pinc (a: A)
