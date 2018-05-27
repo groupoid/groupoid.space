@@ -99,11 +99,13 @@ block content
         .types
             h2 Types Taxonomy
             -
-                    var types = {
+                    var types1 = {
                         'nr nd +': [ 'unit', 'bool', 'maybe', 'either', 'tuple' ],
                         'r nd +': [ 'fix', 'nat', 'list' ],
                         'nr d +': [ 'exists' ],
                         'rd +': [ 'fin', 'vector', 'W' ],
+                    }
+                    var types2 = {
                         'nr nd *': [ 'prod', 'pure', 'functor', 'applicative', 'monad' ],
                         'r nd *': [ 'stream' ],
                         'nr d *': [ 'sigma', 'bundle', 'iso', 'equiv', 'fiber' ],
@@ -119,7 +121,13 @@ block content
                     }
 
             .type
-                for v, k in types
+                for v, k in types1
+                    ol.type__col
+                        h3= k.toUpperCase()
+                        for i in v
+                            li: a(href='#'+i)= i.toUpperCase()
+            .type
+                for v, k in types2
                     ol.type__col
                         h3= k.toUpperCase()
                         for i in v
