@@ -34,8 +34,8 @@ $$</figure><figure>$$
 $$</figure></div><figure>$$
     A \times^{h}_{C} B = \Sigma_A\Sigma_B C^I \\
     = \left\{ (x,y,h) : \Sigma_X\Sigma_Y C^I | h(0)=f(x), h(1)=g(y) \right\}
-$$</figure><p>is a $X \times^{h}_{C} Y$
-together with the projection maps $pb1, pb2, pb3$ making the second
+$$</figure><p>is a $X \times^h_C Y$
+together with the projection maps $pb_{1,2,3}$ making the second
 diagram commute up to homotopy $H(x,y,h,t) = h(t)$.</p><code>pullback (A B C:U) (f: A -> C) (g: B -> C): U = (a: A) * (b: B) * Path C (f a) (g b)
 
 pb1 (A B C: U) (f: A -> C) (g: B -> C): pullback A B C f g -> A = \(x: pullback A B C f g) -> x.1
@@ -45,8 +45,8 @@ pb3 (A B C: U) (f: A -> C) (g: B -> C): (x: pullback A B C f g) -> Path C (f x.1
 </code><p><b>Definition</b> (Homotopy Pullback Square). A homotopy pullback or cospan
 is called a homotopy pullback square if there exists a homotopy
 equivalence $\phi : Z \rightarrow A \times_C^h B$ satisfying
-$z1 : Z \rightarrow A = pb_1 \circ \phi$
-and $z2: Z \rightarrow B = pb_2 \circ \phi$. Map $\phi$ is called induced map.</p><figure>$$
+$z_1 : Z \rightarrow A = pb_1 \circ \phi$
+and $z_2: Z \rightarrow B = pb_2 \circ \phi$. Map $\phi$ is called induced map.</p><figure>$$
     \begin{array}{ccc}
         X \times^{h}_{C} Y & \mapright{\mathbf{pb_2}} & B \\
         \mapdown{\mathbf{pb_1}} & \square_{(Z,z_1,z_2)} & \mapdown{\mathbf{g}} \\
