@@ -104,3 +104,10 @@ block content
                 isPullbackSq (Z A B C: U) (f: A -> C) (g: B -> C) (z1: Z -> A) (z2: Z -> B)
                              (h: (z:Z) -> Path C ((o Z A C f z1) z) (((o Z B C g z2)) z)): U
                            = isEquiv Z (pullback A B C f g) (induced Z A B C f g z1 z2 h)
+            p.
+                <b>Proposition</b> (Existence of Pullback Square).
+                Pullback Square exists and equals Pullback, thus induced map is identity.
+                Given as 2.11 Exercise in HoTT Chapter 2.
+            code.
+                completePullback (A B C: U) (f: A -> C) (g: B -> C) :
+                    pullbackSq (pullback A B C f g) A B C f g (pb1 A B C f g) (pb2 A B C f g)

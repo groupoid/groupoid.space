@@ -64,4 +64,7 @@ pullbackSq (Z A B C: U) (f: A -> C) (g: B -> C) (z1: Z -> A) (z2: Z -> B): U
 
 isPullbackSq (Z A B C: U) (f: A -> C) (g: B -> C) (z1: Z -> A) (z2: Z -> B)
              (h: (z:Z) -> Path C ((o Z A C f z1) z) (((o Z B C g z2)) z)): U
-           = isEquiv Z (pullback A B C f g) (induced Z A B C f g z1 z2 h)</code></section></article><footer class="footer"><img class="footer__logo" src="https://longchenpa.guru/seal.png" width="50"><span class="footer__copy">2016&mdash;2018 &copy; <a href="//groupoid.space/team.html" style="color:white;">Groupoid Infinity</a></span></footer><script src="https://groupoid.space/bundle.js"></script><script src="https://groupoid.space/highlight.js?v=8"></script></body></html>
+           = isEquiv Z (pullback A B C f g) (induced Z A B C f g z1 z2 h)</code><p><b>Proposition</b> (Existence of Pullback Square).
+Pullback Square exists and equals Pullback, thus induced map is identity.
+Given as 2.11 Exercise in HoTT Chapter 2.</p><code>completePullback (A B C: U) (f: A -> C) (g: B -> C) :
+    pullbackSq (pullback A B C f g) A B C f g (pb1 A B C f g) (pb2 A B C f g)</code></section></article><footer class="footer"><img class="footer__logo" src="https://longchenpa.guru/seal.png" width="50"><span class="footer__copy">2016&mdash;2018 &copy; <a href="//groupoid.space/team.html" style="color:white;">Groupoid Infinity</a></span></footer><script src="https://groupoid.space/bundle.js"></script><script src="https://groupoid.space/highlight.js?v=8"></script></body></html>
