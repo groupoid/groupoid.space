@@ -45,7 +45,7 @@ pb3 (A B C: U) (f: A -> C) (g: B -> C): (x: pullback A B C f g) -> Path C (f x.1
 </code><p><b>Definition</b> (Homotopy Pullback Square).</p><figure>$$
     \begin{array}{ccc}
         X \times^{h}_{C} Y & \mapright{\mathbf{pb2}} & B \\
-        \mapdown{\mathbf{pb1}} & _|_{(Z,z1,z2)} & \mapdown{\mathbf{g}} \\
+        \mapdown{\mathbf{pb1}} & \square_{(Z,z1,z2)} & \mapdown{\mathbf{g}} \\
         A & \mapright{\mathbf{f}} & C \\
     \end{array}
 $$</figure><code>induced (Z A B C: U) (f: A -> C) (g: B -> C)
