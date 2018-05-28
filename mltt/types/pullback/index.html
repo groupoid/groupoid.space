@@ -42,12 +42,23 @@ pb1 (A B C: U) (f: A -> C) (g: B -> C): pullback A B C f g -> A = \(x: pullback 
 pb2 (A B C: U) (f: A -> C) (g: B -> C): pullback A B C f g -> B = \(x: pullback A B C f g) -> x.2.1
 pb3 (A B C: U) (f: A -> C) (g: B -> C): (x: pullback A B C f g) -> Path C (f x.1) (g x.2.1)
   = \(x: pullback A B C f g) -> x.2.2
-</code><p><b>Definition</b> (Homotopy Pullback Square).</p><semantics>figure.
-      $\require{AMScd}$
-      \begin{diagram}
-       T & & & &\\
-       & \rdTo~{(x,y)}\rdTo(4,2)^x\rdTo(2,4)_y & & &\\
-       &  & X \times_ZY & \rTo_p & X \\
-       &  & \dTo_q      &        & \dTo_f \\
-       &  & Y           & \rTo^g & Z
-       \end{diagram}</semantics></section></article><footer class="footer"><img class="footer__logo" src="https://longchenpa.guru/seal.png" width="50"><span class="footer__copy">2016&mdash;2018 &copy; <a href="//groupoid.space/team.html" style="color:white;">Groupoid Infinity</a></span></footer><script src="https://groupoid.space/bundle.js"></script><script src="https://groupoid.space/highlight.js?v=8"></script></body></html>
+</code><p><b>Definition</b> (Homotopy Pullback Square).</p><div class="semantics">figure.
+    $$
+    \begin{array}{ccc}
+        X \times^{h}_{C} Y & \mapright{\mathbf{z2}} & B \\
+        \mapdown{\mathbf{pb1}} & \u231F & \mapdown{\mathbf{g}} \\
+        A & \mapright{\mathbf{f}} & C \\
+    \end{array}
+    $$</div><code>induced (Z A B C: U) (f: A -> C) (g: B -> C)
+        (z1: Z -> A) (z2: Z -> B)
+        (h: (z:Z) -> Path C ((o Z A C f z1) z) (((o Z B C g z2)) z))
+      : Z -> pullback A B C f g
+      = \(z: Z) -> ((z1 z),(z2 z),h z)
+
+pullbackSq (Z A B C: U) (f: A -> C) (g: B -> C) (z1: Z -> A) (z2: Z -> B): U
+         = (h: (z:Z) -> Path C ((o Z A C f z1) z) (((o Z B C g z2)) z))
+         * isEquiv Z (pullback A B C f g) (induced Z A B C f g z1 z2 h)
+
+isPullbackSq (Z A B C: U) (f: A -> C) (g: B -> C) (z1: Z -> A) (z2: Z -> B)
+             (h: (z:Z) -> Path C ((o Z A C f z1) z) (((o Z B C g z2)) z)): U
+           = isEquiv Z (pullback A B C f g) (induced Z A B C f g z1 z2 h)</code></section></article><footer class="footer"><img class="footer__logo" src="https://longchenpa.guru/seal.png" width="50"><span class="footer__copy">2016&mdash;2018 &copy; <a href="//groupoid.space/team.html" style="color:white;">Groupoid Infinity</a></span></footer><script src="https://groupoid.space/bundle.js"></script><script src="https://groupoid.space/highlight.js?v=8"></script></body></html>
