@@ -54,15 +54,15 @@ block content
                 figure.
                     $$
                     \begin{array}{ccc}
-                        X \times^{h}_{C} Y & \mapright{\mathbf{pb2}} & B \\
+                        A \times^{h}_{C} B & \mapright{\mathbf{pb2}} & B \\
                         \mapdown{\mathbf{pb1}} & \mapdiagl{\mathbf{pb3}} & \mapdown{\mathbf{g}} \\
                         A & \mapright{\mathbf{f}} & C \\
                     \end{array}
                     $$
             figure.
                 $$
-                    X \times^{h}_{C} Y = \Sigma_X\Sigma_Y C^I \\
-                    = \left\{ (x:X,y:Y,h:C^I) : \Sigma_X\Sigma_Y C^I | h(0)=f(x), h(1)=g(y) \right\}
+                    A \times^{h}_{C} B = \Sigma_A\Sigma_B C^I \\
+                    = \left\{ (x,y,h) : \Sigma_X\Sigma_Y C^I | h(0)=f(x), h(1)=g(y) \right\}
                 $$
             p.
                 is a $X \times^{h}_{C} Y$
@@ -77,7 +77,11 @@ block content
                   = \(x: pullback A B C f g) -> x.2.2
 
             p.
-                <b>Definition</b> (Homotopy Pullback Square).
+                <b>Definition</b> (Homotopy Pullback Square). A homotopy pullback or cospan
+                is called a homotopy pullback square if there exists a homotopy
+                equivalence $\phi = Z \rightarrow A \times_C^h B$ satisfying
+                $z1 : Z \rightarrow A = pb1 \circ \phi$
+                and $z2: Z \rightarrow B = pb2 \circ \phi$. Map $\phi$ is called induced map.
             figure.
                 $$
                     \begin{array}{ccc}
