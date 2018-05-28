@@ -2,7 +2,7 @@
    tex2jax: { inlineMath: [['$','$'], ['\\(','\\)']], processEscapes: true },
    jax: ["input/TeX", "input/MathML", "input/AsciiMath", "output/CommonHTML", "output/NativeMML"],
    TeX: { extensions: ["AMSmath.js", "AMSsymbols.js", "autoload-all.js"] },
-   extensions: ["tex2jax.js", "asciimath2jax.js", "mml2jax.js", "MathMenu.js", "MathZoom.js"],
+   extensions: ["tex2jax.js", "asciimath2jax.js", "mml2jax.js", "MathMenu.js", "MathZoom.js" ],
    "HTML-CSS": { imageFont: null },
    AuthorInit: function() {
        MathJax.Hub.Register.StartupHook("TeX AMSmath Ready", function() {
@@ -17,10 +17,9 @@
   \def\mapdown#1{\Big\downarrow\rlap{\raise2pt{\scriptstyle{#1}}}}
   \def\mapdiagl#1{\vcenter{\searrow}\rlap{\raise2pt{\scriptstyle{#1}}}}
   \def\mapdiagr#1{\vcenter{\swarrow}\rlap{\raise2pt{\scriptstyle{#1}}}}
-  \require{AMScd}
 $$</figure><p><a href="https://raw.githubusercontent.com/groupoid/infinity/master/priv/pullback.ctt">
 Pullback package</a> contains basic information about Homotopy Limits known as Pullbacks.
-</p><h2>Definitions</h2><p><b>Definition</b> (Homotopy Pullback). The pullback of the left diagram</p><div class="semantics"><figure>$$
+</p><h2>Definitions</h2><p><b>Definition</b> (Homotopy Pullback). The pullback of the first diagram (which is called cospan)</p><div class="semantics"><figure>$$
 \begin{array}{ccc}
     & & B \\
     & & \mapdown{\mathbf{g}} \\
@@ -36,11 +35,19 @@ $$</figure></div><figure>$$
     X \times^{h}_{C} Y = \Sigma_X\Sigma_Y C^I \\
     = \left\{ (x:X,y:Y,h:C^I) : \Sigma_X\Sigma_Y C^I | h(0)=f(x), h(1)=g(y) \right\}
 $$</figure><p>is a $X \times^{h}_{C} Y$
-together with the projection maps $pb1, pb2, pb3$ making the right
+together with the projection maps $pb1, pb2, pb3$ making the second
 diagram commute up to homotopy $H(x,y,h,t) = h(t)$.</p><code>pullback (A B C:U) (f: A -> C) (g: B -> C): U = (a: A) * (b: B) * Path C (f a) (g b)
 
 pb1 (A B C: U) (f: A -> C) (g: B -> C): pullback A B C f g -> A = \(x: pullback A B C f g) -> x.1
 pb2 (A B C: U) (f: A -> C) (g: B -> C): pullback A B C f g -> B = \(x: pullback A B C f g) -> x.2.1
 pb3 (A B C: U) (f: A -> C) (g: B -> C): (x: pullback A B C f g) -> Path C (f x.1) (g x.2.1)
   = \(x: pullback A B C f g) -> x.2.2
-</code><p><b>Definition</b> (Homotopy Pullback Square).</p></section></article><footer class="footer"><img class="footer__logo" src="https://longchenpa.guru/seal.png" width="50"><span class="footer__copy">2016&mdash;2018 &copy; <a href="//groupoid.space/team.html" style="color:white;">Groupoid Infinity</a></span></footer><script src="https://groupoid.space/bundle.js"></script><script src="https://groupoid.space/highlight.js?v=8"></script></body></html>
+</code><p><b>Definition</b> (Homotopy Pullback Square).</p><semantics>figure.
+      $\require{AMScd}$
+      \begin{diagram}
+       T & & & &\\
+       & \rdTo~{(x,y)}\rdTo(4,2)^x\rdTo(2,4)_y & & &\\
+       &  & X \times_ZY & \rTo_p & X \\
+       &  & \dTo_q      &        & \dTo_f \\
+       &  & Y           & \rTo^g & Z
+       \end{diagram}</semantics></section></article><footer class="footer"><img class="footer__logo" src="https://longchenpa.guru/seal.png" width="50"><span class="footer__copy">2016&mdash;2018 &copy; <a href="//groupoid.space/team.html" style="color:white;">Groupoid Infinity</a></span></footer><script src="https://groupoid.space/bundle.js"></script><script src="https://groupoid.space/highlight.js?v=8"></script></body></html>

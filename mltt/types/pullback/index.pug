@@ -8,7 +8,7 @@ block title
           tex2jax: { inlineMath: [['$','$'], ['\\(','\\)']], processEscapes: true },
           jax: ["input/TeX", "input/MathML", "input/AsciiMath", "output/CommonHTML", "output/NativeMML"],
           TeX: { extensions: ["AMSmath.js", "AMSsymbols.js", "autoload-all.js"] },
-          extensions: ["tex2jax.js", "asciimath2jax.js", "mml2jax.js", "MathMenu.js", "MathZoom.js"],
+          extensions: ["tex2jax.js", "asciimath2jax.js", "mml2jax.js", "MathMenu.js", "MathZoom.js" ],
           "HTML-CSS": { imageFont: null },
           AuthorInit: function() {
               MathJax.Hub.Register.StartupHook("TeX AMSmath Ready", function() {
@@ -34,7 +34,6 @@ block content
                   \def\mapdown#1{\Big\downarrow\rlap{\raise2pt{\scriptstyle{#1}}}}
                   \def\mapdiagl#1{\vcenter{\searrow}\rlap{\raise2pt{\scriptstyle{#1}}}}
                   \def\mapdiagr#1{\vcenter{\swarrow}\rlap{\raise2pt{\scriptstyle{#1}}}}
-                  \require{AMScd}
                 $$
             p.
                 <a href="https://raw.githubusercontent.com/groupoid/infinity/master/priv/pullback.ctt">
@@ -42,7 +41,7 @@ block content
 
             h2 Definitions
             p.
-                <b>Definition</b> (Homotopy Pullback). The pullback of the left diagram
+                <b>Definition</b> (Homotopy Pullback). The pullback of the first diagram (which is called cospan)
             .semantics
                 figure.
                     $$
@@ -67,7 +66,7 @@ block content
                 $$
             p.
                 is a $X \times^{h}_{C} Y$
-                together with the projection maps $pb1, pb2, pb3$ making the right
+                together with the projection maps $pb1, pb2, pb3$ making the second
                 diagram commute up to homotopy $H(x,y,h,t) = h(t)$.
             code.
                 pullback (A B C:U) (f: A -> C) (g: B -> C): U = (a: A) * (b: B) * Path C (f a) (g b)
@@ -79,3 +78,13 @@ block content
 
             p.
                 <b>Definition</b> (Homotopy Pullback Square).
+            semantics.
+                figure.
+                      $\require{AMScd}$
+                      \begin{diagram}
+                       T & & & &\\
+                       & \rdTo~{(x,y)}\rdTo(4,2)^x\rdTo(2,4)_y & & &\\
+                       &  & X \times_ZY & \rTo_p & X \\
+                       &  & \dTo_q      &        & \dTo_f \\
+                       &  & Y           & \rTo^g & Z
+                       \end{diagram}
