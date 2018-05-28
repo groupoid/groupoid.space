@@ -42,14 +42,13 @@ pb1 (A B C: U) (f: A -> C) (g: B -> C): pullback A B C f g -> A = \(x: pullback 
 pb2 (A B C: U) (f: A -> C) (g: B -> C): pullback A B C f g -> B = \(x: pullback A B C f g) -> x.2.1
 pb3 (A B C: U) (f: A -> C) (g: B -> C): (x: pullback A B C f g) -> Path C (f x.1) (g x.2.1)
   = \(x: pullback A B C f g) -> x.2.2
-</code><p><b>Definition</b> (Homotopy Pullback Square).</p><div class="semantics">figure.
-    $$
+</code><p><b>Definition</b> (Homotopy Pullback Square).</p><figure>$$
     \begin{array}{ccc}
-        X \times^{h}_{C} Y & \mapright{\mathbf{z2}} & B \\
-        \mapdown{\mathbf{pb1}} & \{\u231F} & \mapdown{\mathbf{g}} \\
+        X \times^{h}_{C} Y & \mapright{\mathbf{pb2}} & B \\
+        \mapdown{\mathbf{pb1}} & _|_{(Z,z1,z2)} & \mapdown{\mathbf{g}} \\
         A & \mapright{\mathbf{f}} & C \\
     \end{array}
-    $$</div><code>induced (Z A B C: U) (f: A -> C) (g: B -> C)
+$$</figure><code>induced (Z A B C: U) (f: A -> C) (g: B -> C)
         (z1: Z -> A) (z2: Z -> B)
         (h: (z:Z) -> Path C ((o Z A C f z1) z) (((o Z B C g z2)) z))
       : Z -> pullback A B C f g
