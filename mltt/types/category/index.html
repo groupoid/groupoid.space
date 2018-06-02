@@ -66,7 +66,7 @@ A functor $F : A \rightarrow B$ consists of: (i) A function $F_{Ob}: Ob_A \right
       (compose B (ob x) (ob y) (ob z) (mor x y f) (mor y z g)))
 </code><h2>Natural Transformation</h2><p><b>Definition</b> (Natural Transformation). For functors $F,G: C \rightarrow D$,
 a nagtural transformation $\gamma: F \rightarrow G$ consists of:
-(i) for each $x:C$, a morphism $\gamma_a : HomDB(F(x),G(x))$;
+(i) for each $x:C$, a morphism $\gamma_a : Hom_D(F(x),G(x))$;
 (ii) for each $x,y:C$ and $f: Hom_C(x,y)$, $G(f)\circ \gamma_x = \gamma_y \circ F(g)$.</p><code>isNaturalTrans (C D: precategory)
                (F G: catfunctor C D)
                (eta: (x: carrier C) -> hom D (F.1 x) (G.1 x)): U
