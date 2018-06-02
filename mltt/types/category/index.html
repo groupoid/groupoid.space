@@ -55,8 +55,8 @@ compose (C: precategory) (x y z: carrier C)
         (f: hom C x y) (g: hom C y z): hom C x z = C.2.2.1 x y z f g
 </code><h2>Functor</h2><p><b>Definition</b> (Category Functor). Let $A$ and $B$ be precategories.
 A functor $F : A \rightarrow B$ consists of: (i) A function $F_{Ob}: Ob_A \rightarrow Ob_B$;
-(ii) for each $a,b:Ob_A$, a function $F_Hom:Hom_A(a,b)\rightarrow Hom_B(F_{Ob}(a),F_{Ob}(b))$;
-(iii) for each $a:Ob_A$, $F_{Ob}(1_a) = 1_F_{Ob}(a)$;
+(ii) for each $a,b:Ob_A$, a function $F_{Hom}:Hom_A(a,b)\rightarrow Hom_B(F_{Ob}(a),F_{Ob}(b))$;
+(iii) for each $a:Ob_A$, $F_{Ob}(1_a) = 1_{F_{Ob}}(a)$;
 (iv) for $a,b,c:Ob_A$ and $f: Hom_A(a,b)$ and $g: Hom_A(b,c)$, $F(g\circ f) = F_{Hom}(g)\circ F_{Hom}(f)$.</p><code>catfunctor (A B: precategory): U
   = (ob: carrier A -> carrier B)
   * (mor: (x y: carrier A) -> hom A x y -> hom B (ob x) (ob y))
