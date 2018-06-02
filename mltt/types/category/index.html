@@ -68,10 +68,18 @@ A functor $F : A \rightarrow B$ consists of: (i) A function $F_0: A_0 \rightarro
   * ((x y z: carrier A) -> (f: hom A x y) -> (g: hom A y z) ->
      Path (hom B (ob x) (ob z)) (mor x z (compose A x y z f g))
       (compose B (ob x) (ob y) (ob z) (mor x y f) (mor y z g)))
-</code><h2>Natural Transformation</h2><p><b>Definition</b> (Natural Transformation). For functors $F,G: A \rightarrow B$,
+</code><h2>Natural Transformation</h2><p><b>Definition</b> (Natural Transformation). For functors $F,G: C \rightarrow D$,
 a nagtural transformation $\gamma: F \rightarrow G$ consists of:
-(i) for each $a:A$, a morphism $\gamma_a : hom_B(F(a),G(a))$;
-(ii) for each $a,b:A$ and $f: hom_A(a,b)$, $G f \circ \gamma_a = \gamma_b \circ F g$.</p><code>ntrans (C D: precategory) (F G: catfunctor C D): U
+(i) for each $x:C$, a morphism $\gamma_a : hom_B(F x,G x)$;
+(ii) for each $x,y:C$ and $f: hom_C(x,y)$, $G f \circ \gamma_x = \gamma_y \circ F g$.</p><code>isNaturalTrans (C D: precategory)
+               (F G: catfunctor C D)
+               (eta: (x: carrier C) -> hom D (F.1 x) (G.1 x)): U
+  = (x y: carrier C) (h: hom C x y) ->
+    Path (hom D (F.1 x) (G.1 y))
+         (compose D (F.1 x) (F.1 y) (G.1 y) (F.2.1 x y h) (eta y))
+         (compose D (F.1 x) (G.1 x) (G.1 y) (eta x) (G.2.1 x y h))
+
+ntrans (C D: precategory) (F G: catfunctor C D): U
      = (eta: (x: carrier C) -> hom D (F.1 x) (G.1 x))
      * (isNaturalTrans C D F G eta)
 </code><h2>Category Isomorphism</h2><p><b>Definition</b> (Category Isomorphism). A morphism f : $hom_A(a,b)$ is an iso
