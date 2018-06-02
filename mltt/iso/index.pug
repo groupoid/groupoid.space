@@ -117,6 +117,7 @@ block content
                             (t : (x : A) -> Path A (g (f x)) x) : Path U A B =
                             &lt;i&gt; Glue B [ (i = 0) -> (A,f,isoToEquiv A B f g s t),
                                          (i = 1) -> (B,idfun B,idIsEquiv B) ]
+
                 h2 Contractability and Fibers
                 p.
                     A type $A$ is contractible, or a singleton, if there is $a : A$,
@@ -136,6 +137,7 @@ block content
                     refl (A : U) (a : A) : Path A a a = &lt;i&gt; a
                     contrSingl (A : U) (a b : A) (p : Path A a b) :
                         Path (singl A a) (a,refl A a) (b,p) = &lt;i&gt; (p @ i,&lt;j&gt; p @ i/\j)
+
                 h2 Equivalence
                 p.
                     <mark>isEquiv</mark> is a contractible map $f: A \rightarrow B$, so that
@@ -152,10 +154,12 @@ block content
                                (t : (x : A) -> Path A (g (f x)) x) : isEquiv A B f =
                         \(y:B) -> ((g y,&lt;i&gt;s y@-i),\ (z:fiber A B f y) ->
                                lemIso A B f g s t y (g y) z.1 (&lt;i&gt;s y@-i) z.2)
+                br.
                 code.
                     idIsEquiv (A : U) : isEquiv A A (idfun A) =
                          \(a : A) -> ((a, refl A a),\(z : fiber A A (idfun A) a) ->
                          contrSingl A a z.1 z.2)
+
                 h2 Commutative Square
                 p.
                     For proving <mark>lemIso</mark> we need simple

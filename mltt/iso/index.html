@@ -56,20 +56,23 @@ primitives of type checker inside <mark>isoToEquiv</mark> lemma.</p><div class="
         (s : (y : B) -> Path B (f (g y)) y)
         (t : (x : A) -> Path A (g (f x)) x) : Path U A B =
         &lt;i&gt; Glue B [ (i = 0) -> (A,f,isoToEquiv A B f g s t),
-                     (i = 1) -> (B,idfun B,idIsEquiv B) ]</code><h2>Contractability and Fibers</h2><p>A type $A$ is contractible, or a singleton, if there is $a : A$,
+                     (i = 1) -> (B,idfun B,idIsEquiv B) ]
+</code><h2>Contractability and Fibers</h2><p>A type $A$ is contractible, or a singleton, if there is $a : A$,
 called the center of contraction, such that $a = x$ for all $x : A$:</p><div class="semantics"><figure>$$isContr(A) = \sum_{a:A}\prod_{x:A} a = x$$.</figure></div><p>The fiber of a map $f : A \rightarrow B$ over a point
 $y : B$ is:</p><div class="semantics"><figure>$$fib_f(y) = \sum f x = y$$.</figure></div><code>isContr (A : U) : U = (x : A) * ((y : A) -> Path A x y)
 fiber (A B : U) (f : A -> B) (y : B) : U = (x : A) * Path B y (f x)
 refl (A : U) (a : A) : Path A a a = &lt;i&gt; a
 contrSingl (A : U) (a b : A) (p : Path A a b) :
-    Path (singl A a) (a,refl A a) (b,p) = &lt;i&gt; (p @ i,&lt;j&gt; p @ i/\j)</code><h2>Equivalence</h2><p><mark>isEquiv</mark> is a contractible map $f: A \rightarrow B$, so that
+    Path (singl A a) (a,refl A a) (b,p) = &lt;i&gt; (p @ i,&lt;j&gt; p @ i/\j)
+</code><h2>Equivalence</h2><p><mark>isEquiv</mark> is a contractible map $f: A \rightarrow B$, so that
 for all $y:B$ the fiber $fib_f(y)$ is contractible.</p><code>isEquiv (A B : U) (f : A -> B) : U = (y : B) -> isContr (fiber A B f y)</code><p></p><div class="semantics"><figure>$$Iso(A,B) \rightarrow Equiv(A,B)$$.</figure></div><code>isoToEquiv (A B : U) (f : A -> B) (g : B -> A)
            (s : (y : B) -> Path B (f (g y)) y)
            (t : (x : A) -> Path A (g (f x)) x) : isEquiv A B f =
     \(y:B) -> ((g y,&lt;i&gt;s y@-i),\ (z:fiber A B f y) ->
-           lemIso A B f g s t y (g y) z.1 (&lt;i&gt;s y@-i) z.2)</code><code>idIsEquiv (A : U) : isEquiv A A (idfun A) =
+           lemIso A B f g s t y (g y) z.1 (&lt;i&gt;s y@-i) z.2)</code><br><code>idIsEquiv (A : U) : isEquiv A A (idfun A) =
      \(a : A) -> ((a, refl A a),\(z : fiber A A (idfun A) a) ->
-     contrSingl A a z.1 z.2)</code><h2>Commutative Square</h2><p>For proving <mark>lemIso</mark> we need simple
+     contrSingl A a z.1 z.2)
+</code><h2>Commutative Square</h2><p>For proving <mark>lemIso</mark> we need simple
 commutative square term which is higher 2-path.</p><div class="semantics"><figure>$\require{AMScd}$
 \begin{CD}
      a_0 @>u>> a_1\\
