@@ -48,8 +48,8 @@ block content
 
             h2 Precategory
             p.
-                Precategory defined as set of $Hom_Ob(a,b)$ where $a,b:Ob$
-                are objects defined by its $id$ arrows $Hom_Ob(x,x)$.
+                Precategory defined as set of $Hom_{Ob}(a,b)$ where $a,b:Ob$
+                are objects defined by its $id$ arrows $Hom_{Ob}(x,x)$.
                 Properfies of left and right units included with composition c
                 and its associativity.
             p.
@@ -91,10 +91,10 @@ block content
             h2 Functor
             p.
                 <b>Definition</b> (Category Functor). Let $A$ and $B$ be precategories.
-                A functor $F : A \rightarrow B$ consists of: (i) A function $F_Ob: Ob_A \rightarrow Ob_B$;
-                (ii) for each $a,b:Ob_A$, a function $F_Hom:Hom_A(a,b)\rightarrow Hom_B(F_Ob(a),F_Ob(b))$;
-                (iii) for each $a:Ob_A$, $F_Ob(1_a) = 1_F_Ob(a)$;
-                (iv) for $a,b,c:Ob_A$ and $f: Hom_A(a,b)$ and $g: Hom_A(b,c)$, $F(g\circ f) = F_Hom(g)\circ F_Hom(f)$.
+                A functor $F : A \rightarrow B$ consists of: (i) A function $F_{Ob}: Ob_A \rightarrow Ob_B$;
+                (ii) for each $a,b:Ob_A$, a function $F_Hom:Hom_A(a,b)\rightarrow Hom_B(F_{Ob}(a),F_{Ob}(b))$;
+                (iii) for each $a:Ob_A$, $F_{Ob}(1_a) = 1_F_{Ob}(a)$;
+                (iv) for $a,b,c:Ob_A$ and $f: Hom_A(a,b)$ and $g: Hom_A(b,c)$, $F(g\circ f) = F_{Hom}(g)\circ F_{Hom}(f)$.
             code.
                 catfunctor (A B: precategory): U
                   = (ob: carrier A -> carrier B)
