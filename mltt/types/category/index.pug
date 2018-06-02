@@ -48,12 +48,12 @@ block content
 
             h2 Precategory
             p.
-                Precategory C defined as set of $Hom_C(a,b)$ where $a,b:Ob_C$
+                Precategory $C$ defined as set of $Hom_C(a,b)$ where $a,b:Ob_C$
                 are objects defined by its $id$ arrows $Hom_C(x,x)$.
                 Properfies of left and right units included with composition c
                 and its associativity.
             p.
-                <b>Definition </b> (Precategory). More formal, precategory $C$ consists of the following.
+                <b>Definition</b> (Precategory). More formal, precategory $C$ consists of the following.
                 (i) A type $Ob_C$, whose elements are called objects;
                 (ii) for each $a,b: Ob_C$, a set $Hom_C(a,b)$, whose elements are called arrows or morphisms.
                 (iii) For each $a: Ob$, a morphism $1_a : Hom_A(a,a)$, called the identity morphism.
@@ -108,8 +108,8 @@ block content
             p.
                 <b>Definition</b> (Natural Transformation). For functors $F,G: C \rightarrow D$,
                 a nagtural transformation $\gamma: F \rightarrow G$ consists of:
-                (i) for each $x:C$, a morphism $\gamma_a : Hom_B(F x,G x)$;
-                (ii) for each $x,y:C$ and $f: Hom_C(x,y)$, $G f \circ \gamma_x = \gamma_y \circ F g$.
+                (i) for each $x:C$, a morphism $\gamma_a : HomDB(F(x),G(x))$;
+                (ii) for each $x,y:C$ and $f: Hom_C(x,y)$, $G(f)\circ \gamma_x = \gamma_y \circ F(g)$.
             code.
                 isNaturalTrans (C D: precategory)
                                (F G: catfunctor C D)
@@ -143,7 +143,7 @@ block content
             h2 Rezk-completion
             p.
                 <b>Definition</b> (Category). A category is a precategory
-                such that for all $a,b:A$, the $\Pi_{A:Ob_C} isContr \Sigma_{B:Ob_C} iso_C(A,B)$.
+                such that for all $a:Ob_C$, the $\Pi_{A:Ob_C} isContr \Sigma_{B:Ob_C} iso_C(A,B)$.
             code.
                  isCategory (C: precategory): U
                     = (A: carrier C) -> isContr ((B: carrier C) * iso C A B)

@@ -24,10 +24,10 @@ contains basic notion of $(\infty,1)$-categories, canstructions and examples.
 a $\Sigma_{A:U}A \rightarrow A \rightarrow U$ where U could be any universe.
 The $pr_1$ projection is called $Ob$ and $pr_2$ projection is
 called $Hom(a,b)$, where $a,b:Ob$.</p><code>cat: U = (A: U) * (A -> A -> U)
-</code><h2>Precategory</h2><p>Precategory C defined as set of $Hom_C(a,b)$ where $a,b:Ob_C$
+</code><h2>Precategory</h2><p>Precategory $C$ defined as set of $Hom_C(a,b)$ where $a,b:Ob_C$
 are objects defined by its $id$ arrows $Hom_C(x,x)$.
 Properfies of left and right units included with composition c
-and its associativity.</p><p><b>Definition </b> (Precategory). More formal, precategory $C$ consists of the following.
+and its associativity.</p><p><b>Definition</b> (Precategory). More formal, precategory $C$ consists of the following.
 (i) A type $Ob_C$, whose elements are called objects;
 (ii) for each $a,b: Ob_C$, a set $Hom_C(a,b)$, whose elements are called arrows or morphisms.
 (iii) For each $a: Ob$, a morphism $1_a : Hom_A(a,a)$, called the identity morphism.
@@ -66,8 +66,8 @@ A functor $F : A \rightarrow B$ consists of: (i) A function $F_{Ob}: Ob_A \right
       (compose B (ob x) (ob y) (ob z) (mor x y f) (mor y z g)))
 </code><h2>Natural Transformation</h2><p><b>Definition</b> (Natural Transformation). For functors $F,G: C \rightarrow D$,
 a nagtural transformation $\gamma: F \rightarrow G$ consists of:
-(i) for each $x:C$, a morphism $\gamma_a : Hom_B(F x,G x)$;
-(ii) for each $x,y:C$ and $f: Hom_C(x,y)$, $G f \circ \gamma_x = \gamma_y \circ F g$.</p><code>isNaturalTrans (C D: precategory)
+(i) for each $x:C$, a morphism $\gamma_a : HomDB(F(x),G(x))$;
+(ii) for each $x,y:C$ and $f: Hom_C(x,y)$, $G(f)\circ \gamma_x = \gamma_y \circ F(g)$.</p><code>isNaturalTrans (C D: precategory)
                (F G: catfunctor C D)
                (eta: (x: carrier C) -> hom D (F.1 x) (G.1 x)): U
   = (x y: carrier C) (h: hom C x y) ->
@@ -89,7 +89,7 @@ then $a = b \rightarrow iso_A(a,b)$ (idtoiso).</p><code>iso (C: precategory) (A 
   * (eta: Path (hom C A A) (compose C A B A f g) (path C A))
   * (Path (hom C B B) (compose C B A B g f) (path C B))
 </code><h2>Rezk-completion</h2><p><b>Definition</b> (Category). A category is a precategory
-such that for all $a,b:A$, the $\Pi_{A:Ob_C} isContr \Sigma_{B:Ob_C} iso_C(A,B)$.</p><code>isCategory (C: precategory): U
+such that for all $a:Ob_C$, the $\Pi_{A:Ob_C} isContr \Sigma_{B:Ob_C} iso_C(A,B)$.</p><code>isCategory (C: precategory): U
    = (A: carrier C) -> isContr ((B: carrier C) * iso C A B)
 category: U = (C: precategory) * isCategory C
 </code><br><h1>Constructions</h1><h2>Product of Categories</h2><p><b>Definition</b> (Category Product).</p><code>Product (X Y: precategory) : precategory
