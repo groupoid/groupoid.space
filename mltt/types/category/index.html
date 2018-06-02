@@ -18,16 +18,16 @@
                         tex2jax: { inlineMath: [['$','$'], ['\\(','\\)']],
                                    processEscapes: true }
                     };
-</script></head><body class="content"><article class="main list"><section><h1>cat</h1><aside><a href="..">Base Library</a><time>Published: 16 OCT 2017</time></aside><p><a href="https://raw.githubusercontent.com/groupoid/infinity/master/priv/category.ctt">Category package</a>
+</script></head><body class="content"><article class="main list"><section><h1>category</h1><aside><a href="..">Base Library</a><time>Published: 16 OCT 2017</time></aside><p><a href="https://raw.githubusercontent.com/groupoid/infinity/master/priv/category.ctt">Category package</a>
 contains basic notion of $(\infty,1)-categories$ canstructions and their examples.
-</p><h2>monoidal structure</h2><p><b>Definition</b> (Category Signature). The signature of category is
+</p><h1>Basics</h1><h2>Monoidal Structure</h2><p><b>Definition</b> (Category Signature). The signature of category is
 a $\Sigma_A:U A \rightarrow A \rightarrow U$ where U could be any universe.
 The $pr_1$ projection is called $Ob$ and $pr_2$ projection is
 called $Hom_A(a,b)$, where $a,b:A$.</p><code>cat: U = (A: U) * (A -> A -> U)
-</code><h2>precategory</h2><p>Precategory defined as set of $hom_A(a,b)$ where $a,b:A$
+</code><h2>Precategory</h2><p>Precategory defined as set of $hom_A(a,b)$ where $a,b:A$
 are objects defined by its $id$ arrows.
 Properfies of left and right units included with composition c
-and its associativity.</p><p>More formal, precategory $A$ consists of the following.
+and its associativity.</p><p><b>Definition </b> (Precategory). More formal, precategory $A$ consists of the following.
 (i) A type $A_0$, whose elements are called objects. We write $a: A$ for $a: A_0$.
 (ii) For each $a,b: A$, a set $hom_A(a,b)$, whose elements are called arrows or morphisms.
 (iii) For each $a: A$, a morphism $1_a : hom_A(a,a)$, called the identity morphism.
@@ -53,7 +53,11 @@ compose (C: precategory) (x y z: carrier C)
         (f: hom C x y) (g: hom C y z): hom C x z = C.2.2.1 x y z f g
 </code><h2>k-morphisms</h2><p><b>Definition</b> ($k$-Morphism). The k-morphism is defined as morphism
 between $(k-1)$-morphism. The base of induction, the $0$-morphism is
-defined as object of $1$-category, or $Ob$.</p><code></code><h2>functor</h2><p><b>Definition<b> (Functor). Let $A$ and $B$ be precategories.
+defined as object of $1$-category, or $Ob$.</p><code>equiv: U
+functor (C D: cat): U
+ntrans (C D: cat) (F G: functor C D): U
+modification (C D: cat) (F G: functor C D) (I J: ntrans C D F G): U
+</code><h2>Functor</h2><p><b>Definition</b> (Category Functor). Let $A$ and $B$ be precategories.
 A functor $F : A \rightarrow B$ consists of: (i) A function $F_0: A_0 \rightarrow B_0$;
 (ii) for each $a,b:A$, a function $F_(a,b):Hom_A(a,b)\rightarrow hom_B(F(a),F(b))$;
 (iii) for each $a:A$, F(1_a) = 1_F(A);
@@ -64,13 +68,13 @@ A functor $F : A \rightarrow B$ consists of: (i) A function $F_0: A_0 \rightarro
   * ((x y z: carrier A) -> (f: hom A x y) -> (g: hom A y z) ->
      Path (hom B (ob x) (ob z)) (mor x z (compose A x y z f g))
       (compose B (ob x) (ob y) (ob z) (mor x y f) (mor y z g)))
-</code><h2>natural transformation</h2><p><b>Definition</b> (Natural Transformation). For functors $F,G: A \rightarrow B$,
+</code><h2>Natural Transformation</h2><p><b>Definition</b> (Natural Transformation). For functors $F,G: A \rightarrow B$,
 a nagtural transformation $\gamma: F \rightarrow G$ consists of:
 (i) for each $a:A$, a morphism $\gamma_a : hom_B(F(a),G(a))$;
 (ii) for each $a,b:A$ and $f: hom_A(a,b)$, $G f \circ \gamma_a = \gamma_b \circ F g$.</p><code>ntrans (C D: precategory) (F G: catfunctor C D): U
      = (eta: (x: carrier C) -> hom D (F.1 x) (G.1 x))
      * (isNaturalTrans C D F G eta)
-</code><h2>iso</h2><p>A morphism f : $hom_A(a,b)$ is an iso
+</code><h2>Category Isomorphism</h2><p><b>Definition</b> (Category Isomorphism). A morphism f : $hom_A(a,b)$ is an iso
 if there is a morphism g : hom<sub>A</sub>(b,a) such that
 $1_a =_\eta g \circ f$ and
 $f \circ g =_\epsilon 1_b = g$. "f is iso" is
@@ -80,7 +84,18 @@ then $a = b \rightarrow iso_A(a,b)$ (idtoiso).</p><code>iso (C: precategory) (A 
   * (g: hom C B A)
   * (eta: Path (hom C A A) (compose C A B A f g) (path C A))
   * (Path (hom C B B) (compose C B A B g f) (path C B))
-</code><h2>Rezk-completion</h2><p>A category is a precategory such that for all $a,b:A$,
-the function idtoiso is an equivalence.</p><code>isCategory (C: precategory): U
+</code><h2>Rezk-completion</h2><p><b>Definition</b> (Category). A category is a precategory
+such that for all $a,b:A$, the $\Pi_{A:C.Ob} isContr \Sigma_{B:C.Ob} iso_C(A,B)$.</p><code>isCategory (C: precategory): U
    = (A: carrier C) -> isContr ((B: carrier C) * iso C A B)
-category: U = (C: precategory) * isCategory C</code></section></article><footer class="footer"><img class="footer__logo" src="https://longchenpa.guru/seal.png" width="50"><span class="footer__copy">2016&mdash;2018 &copy; <a href="//groupoid.space/team.html" style="color:white;">Groupoid Infinity</a></span></footer><script src="https://groupoid.space/bundle.js"></script><script src="https://groupoid.space/highlight.js?v=8"></script></body></html>
+category: U = (C: precategory) * isCategory C
+</code><h1>Constructions</h1><h2>Product of Categories</h2><p><b>Definition</b> (Category Product).</p><code>Product (X Y: precategory) : precategory
+</code><h2>Unit Category</h2><p><b>Definition</b> (Unit Category).</p><code>unitCat: precategory
+</code><h1>Higher Categories</h1><h2>2-Category</h2><p><b>Definition</b> (2-Category).</p><code>Cat2 : U
+     = (Ob: U)
+     * (Hom:  (A B: Ob) -> U)
+     * (Hom2: (A B: Ob) -> (C F: Hom A B) -> U)
+     * (id:     (A: Ob) -> Hom A A)
+     * (id2:    (A: Ob) -> (B: Hom A A) -> Hom2 A A B B)
+     * (c:  (A B C: Ob) (f: Hom A B) (g: Hom B C) -> Hom A C)
+     * (c2:   (A B: Ob) (X Y Z: Hom A B)
+       (f: Hom2 A B X Y) (g: Hom2 A B Y Z) -> Hom2 A B X Z)</code></section></article><footer class="footer"><img class="footer__logo" src="https://longchenpa.guru/seal.png" width="50"><span class="footer__copy">2016&mdash;2018 &copy; <a href="//groupoid.space/team.html" style="color:white;">Groupoid Infinity</a></span></footer><script src="https://groupoid.space/bundle.js"></script><script src="https://groupoid.space/highlight.js?v=8"></script></body></html>
