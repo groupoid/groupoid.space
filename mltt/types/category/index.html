@@ -38,8 +38,8 @@ called composition, and denoted $g \circ f$.
 $f = 1_b \circ f$ and $f = f \circ 1_a$.
 (vi) For each $a,b,c,d: A$ and
 $f: Hom_C(a,b)$, $g: Hom_C(b,c)$, $h: Hom_C(c,d)$,
-$h \circ (g \circ f ) = (h \circ g) \circ f$.</p><p><b>Definition</b> (HomSet). If for all $a,b: Ob$ the $Hom_C(a,b)$ forms a Set, then
-such category is called $1$-category.</p><code>isPrecategory (C: cat): U
+$h \circ (g \circ f ) = (h \circ g) \circ f$.</p><p><b>Definition</b> (Small Category). If for all $a,b: Ob$ the $Hom_C(a,b)$ forms a Set, then
+such category is called small category.</p><code>isPrecategory (C: cat): U
   = (id: (x: C.1) -> C.2 x x)
   * (c: (x y z: C.1) -> C.2 x y -> C.2 y z -> C.2 x z)
   * (homSet: (x y: C.1) -> isSet (C.2 x y))
