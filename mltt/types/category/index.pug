@@ -89,8 +89,8 @@ block content
                 <b>Definition</b> (Category Functor). Let $A$ and $B$ be precategories.
                 A functor $F : A \rightarrow B$ consists of: (i) A function $F_0: A_0 \rightarrow B_0$;
                 (ii) for each $a,b:A$, a function $F_(a,b):Hom_A(a,b)\rightarrow hom_B(F(a),F(b))$;
-                (iii) for each $a:A$, F(1_a) = 1_F(A);
-                (iv) for $a,b,c:A$ and $f: hom_A(a,b) and g: hom_A(b,c)$, $F(g\circ f) = F(g)\circ F(f)$.
+                (iii) for each $a:A$, $F(1_a) = 1_F(A)$;
+                (iv) for $a,b,c:A$ and $f: hom_A(a,b)$ and $g: hom_A(b,c)$, $F(g\circ f) = F(g)\circ F(f)$.
             code.
                 catfunctor (A B: precategory): U
                   = (ob: carrier A -> carrier B)
