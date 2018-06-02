@@ -96,9 +96,9 @@ then $a = b \rightarrow iso_A(a,b)$ (idtoiso).</p><code>iso (C: precategory) (A 
 such that for all $a,b:A$, the $\Pi_{A:C.Ob} isContr \Sigma_{B:C.Ob} iso_C(A,B)$.</p><code>isCategory (C: precategory): U
    = (A: carrier C) -> isContr ((B: carrier C) * iso C A B)
 category: U = (C: precategory) * isCategory C
-</code><h1>Constructions</h1><h2>Product of Categories</h2><p><b>Definition</b> (Category Product).</p><code>Product (X Y: precategory) : precategory
+</code><br><h1>Constructions</h1><h2>Product of Categories</h2><p><b>Definition</b> (Category Product).</p><code>Product (X Y: precategory) : precategory
 </code><h2>Unit Category</h2><p><b>Definition</b> (Unit Category).</p><code>unitCat: precategory
-</code><h1>Higher Categories</h1><h2>2-Category</h2><p><b>Definition</b> (2-Category).</p><code>Cat2 : U
+</code><br><h1>Higher Categories</h1><h2>2-Category</h2><p><b>Definition</b> (2-Category).</p><code>Cat2 : U
      = (Ob: U)
      * (Hom:  (A B: Ob) -> U)
      * (Hom2: (A B: Ob) -> (C F: Hom A B) -> U)
