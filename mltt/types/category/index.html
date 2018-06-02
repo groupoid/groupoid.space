@@ -51,12 +51,6 @@ hom     (C: precategory) (a b: carrier C): U = C.1.2 a b
 path    (C: precategory) (x: carrier C): hom C x x = C.2.1 x
 compose (C: precategory) (x y z: carrier C)
         (f: hom C x y) (g: hom C y z): hom C x z = C.2.2.1 x y z f g
-</code><h2>k-morphisms</h2><p><b>Definition</b> ($k$-Morphism). The k-morphism is defined as morphism
-between $(k-1)$-morphism. The base of induction, the $0$-morphism is
-defined as object of $1$-category, or $Ob$.</p><code>equiv: U
-functor (C D: cat): U
-ntrans (C D: cat) (F G: functor C D): U
-modification (C D: cat) (F G: functor C D) (I J: ntrans C D F G): U
 </code><h2>Functor</h2><p><b>Definition</b> (Category Functor). Let $A$ and $B$ be precategories.
 A functor $F : A \rightarrow B$ consists of: (i) A function $F_0: A_0 \rightarrow B_0$;
 (ii) for each $a,b:A$, a function $F_(a,b):Hom_A(a,b)\rightarrow hom_B(F(a),F(b))$;
@@ -98,7 +92,64 @@ such that for all $a,b:A$, the $\Pi_{A:C.Ob} isContr \Sigma_{B:C.Ob} iso_C(A,B)$
 category: U = (C: precategory) * isCategory C
 </code><br><h1>Constructions</h1><h2>Product of Categories</h2><p><b>Definition</b> (Category Product).</p><code>Product (X Y: precategory) : precategory
 </code><h2>Unit Category</h2><p><b>Definition</b> (Unit Category).</p><code>unitCat: precategory
-</code><br><h1>Higher Categories</h1><h2>2-Category</h2><p><b>Definition</b> (2-Category).</p><code>Cat2 : U
+</code><br><h1>Examples</h1><h2>Category of Sets</h2><p><b>Definition</b> (Category of Sets).</p><code>data N = Z  | S (n: N)
+
+n_grpd (A: U) (n: N): U = (a b: A) -> rec A a b n where
+   rec (A: U) (a b: A) : (k: N) -> U
+     = split { Z -> Path A a b ; S n -> n_grpd (Path A a b) n }
+
+isSet (A: U) : U = n_grpd A (S Z)
+SET          : U = (X: U) * isSet X
+
+Set: precategory = ((Ob,Hom),id,c,HomSet,L,R,Q) where
+    Ob: U = SET
+    Hom (A B: Ob): U = A.1 -> B.1
+    id (A: Ob): Hom A A = idfun A.1
+    c (A B C: Ob) (f: Hom A B) (g: Hom B C): Hom A C = o A.1 B.1 C.1 g f
+    HomSet (A B: Ob): isSet (Hom A B) = setFun A.1 B.1 B.2
+    L (A B: Ob) (f: Hom A B): Path (Hom A B) (c A A B (id A) f) f = refl (Hom A B) f
+    R (A B: Ob) (f: Hom A B): Path (Hom A B) (c A B B f (id B)) f = refl (Hom A B) f
+    Q (A B C D: Ob) (f: Hom A B) (g: Hom B C) (h: Hom C D)
+     : Path (Hom A D) (c A C D (c A B C f g) h) (c A B D f (c B C D g h))
+     = refl (Hom A D) (c A B D f (c B C D g h))
+</code><h2>Category of Functions</h2><p><b>Definition</b> (Category of Functions over Sets).</p><code>Functions (X Y: U) (Z: isSet Y): precategory = ((Ob,Hom),id,c,HomSet,L,R,Q) where
+    Ob: U = X -> Y
+    Hom (A B: Ob): U = id (X -> Y)
+    id (A: Ob): Hom A A = idfun (X -> Y)
+    c (A B C: Ob) (f: Hom A B) (g: Hom B C): Hom A C = idfun (X -> Y)
+    HomSet (A B: Ob): isSet (Hom A B) = setFun Ob Ob (setFun X Y Z)
+    L (A B: Ob) (f: Hom A B): Path (Hom A B) (c A A B (id A) f) f = undefined
+    R (A B: Ob) (f: Hom A B): Path (Hom A B) (c A B B f (id B)) f = undefined
+    Q (A B C D: Ob) (f: Hom A B) (g: Hom B C) (h: Hom C D)
+    : Path (Hom A D) (c A C D (c A B C f g) h) (c A B D f (c B C D g h)) = undefined
+</code><h2>Category of Categories</h2><p><b>Definition</b> (Category of Categories).</p><code>Cat: precategory = ((Ob,Hom),id,c,HomSet,L,R,Q) where
+    Ob: U = precategory
+    Hom (A B: Ob): U = catfunctor A B
+    id (A: Ob): catfunctor A A = idFunctor A
+    c (A B C: Ob) (f: Hom A B) (g: Hom B C): Hom A C = compFunctor A B C f g
+    HomSet (A B: Ob): isSet (Hom A B) = undefined
+    L (A B: Ob) (f: Hom A B): Path (Hom A B) (c A A B (id A) f) f = undefined
+    R (A B: Ob) (f: Hom A B): Path (Hom A B) (c A B B f (id B)) f = undefined
+    Q (A B C D: Ob) (f: Hom A B) (g: Hom B C) (h: Hom C D)
+       : Path (Hom A D) (c A C D (c A B C f g) h) (c A B D f (c B C D g h)) = undefined
+</code><h2>Category of Functors</h2><p><b>Definition</b> (Category of Functors).</p><code>Func (X Y: precategory): precategory = ((Ob,Hom),id,c,HomSet,L,R,Q) where
+    Ob: U = catfunctor X Y
+    Hom (A B: Ob): U = ntrans X Y A B
+    id (A: Ob): ntrans X Y A A = undefined
+    c (A B C: Ob) (f: Hom A B) (g: Hom B C): Hom A C = undefined
+    HomSet (A B: Ob): isSet (Hom A B) = undefined
+    L (A B: Ob) (f: Hom A B): Path (Hom A B) (c A A B (id A) f) f = undefined
+    R (A B: Ob) (f: Hom A B): Path (Hom A B) (c A B B f (id B)) f = undefined
+    Q (A B C D: Ob) (f: Hom A B) (g: Hom B C) (h: Hom C D)
+       : Path (Hom A D) (c A C D (c A B C f g) h) (c A B D f (c B C D g h)) = undefined
+</code><br><h1>Higher Categories</h1><h2>k-morphisms</h2><p><b>Definition</b> ($k$-Morphism). The k-morphism is defined as morphism
+between $(k-1)$-morphism. The base of induction, the $0$-morphism is
+defined as object of $1$-category, or $Ob$.</p><code>equiv: U
+functor (C D: cat): U
+ntrans (C D: cat) (F G: functor C D): U
+modification (C D: cat) (F G: functor C D) (I J: ntrans C D F G): U
+...
+</code><h2>2-Category</h2><p><b>Definition</b> (2-Category).</p><code>Cat2 : U
      = (Ob: U)
      * (Hom:  (A B: Ob) -> U)
      * (Hom2: (A B: Ob) -> (C F: Hom A B) -> U)
@@ -106,4 +157,11 @@ category: U = (C: precategory) * isCategory C
      * (id2:    (A: Ob) -> (B: Hom A A) -> Hom2 A A B B)
      * (c:  (A B C: Ob) (f: Hom A B) (g: Hom B C) -> Hom A C)
      * (c2:   (A B: Ob) (X Y Z: Hom A B)
-       (f: Hom2 A B X Y) (g: Hom2 A B Y Z) -> Hom2 A B X Z)</code></section></article><footer class="footer"><img class="footer__logo" src="https://longchenpa.guru/seal.png" width="50"><span class="footer__copy">2016&mdash;2018 &copy; <a href="//groupoid.space/team.html" style="color:white;">Groupoid Infinity</a></span></footer><script src="https://groupoid.space/bundle.js"></script><script src="https://groupoid.space/highlight.js?v=8"></script></body></html>
+       (f: Hom2 A B X Y) (g: Hom2 A B Y Z) -> Hom2 A B X Z)
+     ...
+</code><h2>3-Category</h2><p><b>Definition</b> (2-Category).</p><code>Cat2 : U
+     = (Ob: U)
+     * (Hom:  (A B: Ob) -> U)
+     * (Hom2: (A B: Ob) -> (C F: Hom A B) -> U)
+     * (Hom3: (A B: Ob) -> (C F: Hom A B) -> (F G: Hom2 A B C F) -> U)
+     ..</code></section></article><footer class="footer"><img class="footer__logo" src="https://longchenpa.guru/seal.png" width="50"><span class="footer__copy">2016&mdash;2018 &copy; <a href="//groupoid.space/team.html" style="color:white;">Groupoid Infinity</a></span></footer><script src="https://groupoid.space/bundle.js"></script><script src="https://groupoid.space/highlight.js?v=8"></script></body></html>

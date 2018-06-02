@@ -84,17 +84,6 @@ block content
                 compose (C: precategory) (x y z: carrier C)
                         (f: hom C x y) (g: hom C y z): hom C x z = C.2.2.1 x y z f g
 
-            h2 k-morphisms
-            p.
-                <b>Definition</b> ($k$-Morphism). The k-morphism is defined as morphism
-                between $(k-1)$-morphism. The base of induction, the $0$-morphism is
-                defined as object of $1$-category, or $Ob$.
-            code.
-                equiv: U
-                functor (C D: cat): U
-                ntrans (C D: cat) (F G: functor C D): U
-                modification (C D: cat) (F G: functor C D) (I J: ntrans C D F G): U
-
             h2 Functor
             p.
                 <b>Definition</b> (Category Functor). Let $A$ and $B$ be precategories.
@@ -172,7 +161,92 @@ block content
                 unitCat: precategory
 
             br.
+            h1 Examples
+
+            h2 Category of Sets
+            p.
+                <b>Definition</b> (Category of Sets).
+            code.
+                data N = Z  | S (n: N)
+
+                n_grpd (A: U) (n: N): U = (a b: A) -> rec A a b n where
+                   rec (A: U) (a b: A) : (k: N) -> U
+                     = split { Z -> Path A a b ; S n -> n_grpd (Path A a b) n }
+
+                isSet (A: U) : U = n_grpd A (S Z)
+                SET          : U = (X: U) * isSet X
+
+                Set: precategory = ((Ob,Hom),id,c,HomSet,L,R,Q) where
+                    Ob: U = SET
+                    Hom (A B: Ob): U = A.1 -> B.1
+                    id (A: Ob): Hom A A = idfun A.1
+                    c (A B C: Ob) (f: Hom A B) (g: Hom B C): Hom A C = o A.1 B.1 C.1 g f
+                    HomSet (A B: Ob): isSet (Hom A B) = setFun A.1 B.1 B.2
+                    L (A B: Ob) (f: Hom A B): Path (Hom A B) (c A A B (id A) f) f = refl (Hom A B) f
+                    R (A B: Ob) (f: Hom A B): Path (Hom A B) (c A B B f (id B)) f = refl (Hom A B) f
+                    Q (A B C D: Ob) (f: Hom A B) (g: Hom B C) (h: Hom C D)
+                     : Path (Hom A D) (c A C D (c A B C f g) h) (c A B D f (c B C D g h))
+                     = refl (Hom A D) (c A B D f (c B C D g h))
+
+            h2 Category of Functions
+            p.
+                <b>Definition</b> (Category of Functions over Sets).
+            code.
+                Functions (X Y: U) (Z: isSet Y): precategory = ((Ob,Hom),id,c,HomSet,L,R,Q) where
+                    Ob: U = X -> Y
+                    Hom (A B: Ob): U = id (X -> Y)
+                    id (A: Ob): Hom A A = idfun (X -> Y)
+                    c (A B C: Ob) (f: Hom A B) (g: Hom B C): Hom A C = idfun (X -> Y)
+                    HomSet (A B: Ob): isSet (Hom A B) = setFun Ob Ob (setFun X Y Z)
+                    L (A B: Ob) (f: Hom A B): Path (Hom A B) (c A A B (id A) f) f = undefined
+                    R (A B: Ob) (f: Hom A B): Path (Hom A B) (c A B B f (id B)) f = undefined
+                    Q (A B C D: Ob) (f: Hom A B) (g: Hom B C) (h: Hom C D)
+                    : Path (Hom A D) (c A C D (c A B C f g) h) (c A B D f (c B C D g h)) = undefined
+
+            h2 Category of Categories
+            p.
+                <b>Definition</b> (Category of Categories).
+            code.
+                Cat: precategory = ((Ob,Hom),id,c,HomSet,L,R,Q) where
+                    Ob: U = precategory
+                    Hom (A B: Ob): U = catfunctor A B
+                    id (A: Ob): catfunctor A A = idFunctor A
+                    c (A B C: Ob) (f: Hom A B) (g: Hom B C): Hom A C = compFunctor A B C f g
+                    HomSet (A B: Ob): isSet (Hom A B) = undefined
+                    L (A B: Ob) (f: Hom A B): Path (Hom A B) (c A A B (id A) f) f = undefined
+                    R (A B: Ob) (f: Hom A B): Path (Hom A B) (c A B B f (id B)) f = undefined
+                    Q (A B C D: Ob) (f: Hom A B) (g: Hom B C) (h: Hom C D)
+                       : Path (Hom A D) (c A C D (c A B C f g) h) (c A B D f (c B C D g h)) = undefined
+
+            h2 Category of Functors
+            p.
+                <b>Definition</b> (Category of Functors).
+            code.
+                Func (X Y: precategory): precategory = ((Ob,Hom),id,c,HomSet,L,R,Q) where
+                    Ob: U = catfunctor X Y
+                    Hom (A B: Ob): U = ntrans X Y A B
+                    id (A: Ob): ntrans X Y A A = undefined
+                    c (A B C: Ob) (f: Hom A B) (g: Hom B C): Hom A C = undefined
+                    HomSet (A B: Ob): isSet (Hom A B) = undefined
+                    L (A B: Ob) (f: Hom A B): Path (Hom A B) (c A A B (id A) f) f = undefined
+                    R (A B: Ob) (f: Hom A B): Path (Hom A B) (c A B B f (id B)) f = undefined
+                    Q (A B C D: Ob) (f: Hom A B) (g: Hom B C) (h: Hom C D)
+                       : Path (Hom A D) (c A C D (c A B C f g) h) (c A B D f (c B C D g h)) = undefined
+
+            br.
             h1 Higher Categories
+
+            h2 k-morphisms
+            p.
+                <b>Definition</b> ($k$-Morphism). The k-morphism is defined as morphism
+                between $(k-1)$-morphism. The base of induction, the $0$-morphism is
+                defined as object of $1$-category, or $Ob$.
+            code.
+                equiv: U
+                functor (C D: cat): U
+                ntrans (C D: cat) (F G: functor C D): U
+                modification (C D: cat) (F G: functor C D) (I J: ntrans C D F G): U
+                ...
 
             h2 2-Category
             p.
@@ -187,4 +261,16 @@ block content
                      * (c:  (A B C: Ob) (f: Hom A B) (g: Hom B C) -> Hom A C)
                      * (c2:   (A B: Ob) (X Y Z: Hom A B)
                        (f: Hom2 A B X Y) (g: Hom2 A B Y Z) -> Hom2 A B X Z)
+                     ...
+
+            h2 3-Category
+            p.
+                <b>Definition</b> (2-Category).
+            code.
+                Cat2 : U
+                     = (Ob: U)
+                     * (Hom:  (A B: Ob) -> U)
+                     * (Hom2: (A B: Ob) -> (C F: Hom A B) -> U)
+                     * (Hom3: (A B: Ob) -> (C F: Hom A B) -> (F G: Hom2 A B C F) -> U)
+                     ..
 
