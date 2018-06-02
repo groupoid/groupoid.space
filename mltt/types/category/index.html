@@ -30,14 +30,14 @@ Properfies of left and right units included with composition c
 and its associativity.</p><p><b>Definition</b> (Precategory). More formal, precategory $C$ consists of the following.
 (i) A type $Ob_C$, whose elements are called objects;
 (ii) for each $a,b: Ob_C$, a set $Hom_C(a,b)$, whose elements are called arrows or morphisms.
-(iii) For each $a: Ob$, a morphism $1_a : Hom_A(a,a)$, called the identity morphism.
-(iv) For each $a,b,c: Ob$, a function
+(iii) For each $a: Ob_C$, a morphism $1_a : Hom_A(a,a)$, called the identity morphism.
+(iv) For each $a,b,c: Ob_C$, a function
 $Hom_C(b,c) \rightarrow Hom_C(a,b) \rightarrow Hom_C(a,c)$
 called composition, and denoted $g \circ f$.
-(v) For each $a,b: Ob$ and $f: Hom_C(a,b)$,
+(v) For each $a,b: Ob_C$ and $f: Hom_C(a,b)$,
 $f = 1_b \circ f$ and $f = f \circ 1_a$.
 (vi) For each $a,b,c,d: A$ and
-$f: Hom_C(a,b)$, $g: Hom_C(b,c)$, $h: HomC(c,d)$,
+$f: Hom_C(a,b)$, $g: Hom_C(b,c)$, $h: Hom_C(c,d)$,
 $h \circ (g \circ f ) = (h \circ g) \circ f$.</p><p><b>Definition</b> (HomSet). If for all $a,b: Ob$ the $Hom_C(a,b)$ forms a Set, then
 such category is called $1$-category.</p><code>isPrecategory (C: cat): U
   = (id: (x: C.1) -> C.2 x x)
