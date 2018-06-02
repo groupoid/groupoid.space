@@ -40,7 +40,7 @@ block content
             h2 Monoidal Structure
             p.
                 <b>Definition</b> (Category Signature). The signature of category is
-                a $\Sigma_A:U A \rightarrow A \rightarrow U$ where U could be any universe.
+                a $\Sigma_{A:U}A \rightarrow A \rightarrow U$ where U could be any universe.
                 The $pr_1$ projection is called $Ob$ and $pr_2$ projection is
                 called $Hom_A(a,b)$, where $a,b:A$.
             code.
@@ -48,23 +48,26 @@ block content
 
             h2 Precategory
             p.
-                Precategory defined as set of $hom_A(a,b)$ where $a,b:A$
-                are objects defined by its $id$ arrows.
+                Precategory defined as set of $Hom_Ob(a,b)$ where $a,b:Ob$
+                are objects defined by its $id$ arrows $Hom_Ob(x,x)$.
                 Properfies of left and right units included with composition c
                 and its associativity.
             p.
-                <b>Definition </b> (Precategory). More formal, precategory $A$ consists of the following.
-                (i) A type $A_0$, whose elements are called objects. We write $a: A$ for $a: A_0$.
-                (ii) For each $a,b: A$, a set $hom_A(a,b)$, whose elements are called arrows or morphisms.
-                (iii) For each $a: A$, a morphism $1_a : hom_A(a,a)$, called the identity morphism.
-                (iv) For each $a,b,c: A$, a function
-                $hom_A(b,c) \rightarrow hom_A(a,b) \rightarrow hom_A(a,c)$
+                <b>Definition </b> (Precategory). More formal, precategory $C$ consists of the following.
+                (i) A type $Ob_C$, whose elements are called objects;
+                (ii) for each $a,b: Ob_C$, a set $Hom_C(a,b)$, whose elements are called arrows or morphisms.
+                (iii) For each $a: Ob$, a morphism $1_a : Hom_A(a,a)$, called the identity morphism.
+                (iv) For each $a,b,c: Ob$, a function
+                $Hom_C(b,c) \rightarrow Hom_C(a,b) \rightarrow Hom_C(a,c)$
                 called composition, and denoted $g \circ f$.
-                (v) For each $a,b: A$ and $f: hom_A(a,b)$, we have
+                (v) For each $a,b: Ob$ and $f: Hom_C(a,b)$,
                 $f = 1_b \circ f$ and $f = f \circ 1_a$.
                 (vi) For each $a,b,c,d: A$ and
-                $f: hom_A(a,b)$, $g: hom_A(b,c)$, $h: homA(c,d)$,
-                we have $h \circ (g \circ f ) = (h \circ g) \circ f$.
+                $f: Hom_C(a,b)$, $g: Hom_C(b,c)$, $h: HomC(c,d)$,
+                $h \circ (g \circ f ) = (h \circ g) \circ f$.
+            p.
+                <b>Definition</b> (HomSet). If for all $a,b: Ob$ the $Hom_C(a,b)$ forms a Set, then
+                such category is called $1$-category.
             code.
                 isPrecategory (C: cat): U
                   = (id: (x: C.1) -> C.2 x x)
@@ -77,6 +80,7 @@ block content
                 precategory: U = (C: cat) * isPrecategory C
             p.
                 Accessors of the precategory structure.
+                For $Ob$ is carrier and for $Hom$ is hom.
             code.
                 carrier (C: precategory): U = C.1.1
                 hom     (C: precategory) (a b: carrier C): U = C.1.2 a b
@@ -87,10 +91,10 @@ block content
             h2 Functor
             p.
                 <b>Definition</b> (Category Functor). Let $A$ and $B$ be precategories.
-                A functor $F : A \rightarrow B$ consists of: (i) A function $F_0: A_0 \rightarrow B_0$;
-                (ii) for each $a,b:A$, a function $F_(a,b):Hom_A(a,b)\rightarrow hom_B(F(a),F(b))$;
-                (iii) for each $a:A$, $F(1_a) = 1_F(A)$;
-                (iv) for $a,b,c:A$ and $f: hom_A(a,b)$ and $g: hom_A(b,c)$, $F(g\circ f) = F(g)\circ F(f)$.
+                A functor $F : A \rightarrow B$ consists of: (i) A function $F_Ob: Ob_A \rightarrow Ob_B$;
+                (ii) for each $a,b:Ob_A$, a function $F_Hom:Hom_A(a,b)\rightarrow Hom_B(F_Ob(a),F_Ob(b))$;
+                (iii) for each $a:Ob_A$, $F_Ob(1_a) = 1_F_Ob(a)$;
+                (iv) for $a,b,c:Ob_A$ and $f: Hom_A(a,b)$ and $g: Hom_A(b,c)$, $F(g\circ f) = F_Hom(g)\circ F_Hom(f)$.
             code.
                 catfunctor (A B: precategory): U
                   = (ob: carrier A -> carrier B)
@@ -104,8 +108,8 @@ block content
             p.
                 <b>Definition</b> (Natural Transformation). For functors $F,G: C \rightarrow D$,
                 a nagtural transformation $\gamma: F \rightarrow G$ consists of:
-                (i) for each $x:C$, a morphism $\gamma_a : hom_B(F x,G x)$;
-                (ii) for each $x,y:C$ and $f: hom_C(x,y)$, $G f \circ \gamma_x = \gamma_y \circ F g$.
+                (i) for each $x:C$, a morphism $\gamma_a : Hom_B(F x,G x)$;
+                (ii) for each $x,y:C$ and $f: Hom_C(x,y)$, $G f \circ \gamma_x = \gamma_y \circ F g$.
             code.
                 isNaturalTrans (C D: precategory)
                                (F G: catfunctor C D)
@@ -121,8 +125,8 @@ block content
 
             h2 Category Isomorphism
             p.
-                <b>Definition</b> (Category Isomorphism). A morphism f : $hom_A(a,b)$ is an iso
-                if there is a morphism g : hom<sub>A</sub>(b,a) such that
+                <b>Definition</b> (Category Isomorphism). A morphism $f : Hom_A(a,b)$ is an iso
+                if there is a morphism $g: Hom_A(b,a)$ such that
                 $1_a =_\eta g \circ f$ and
                 $f \circ g =_\epsilon 1_b = g$. "f is iso" is
                 a mere proposition.
@@ -139,7 +143,7 @@ block content
             h2 Rezk-completion
             p.
                 <b>Definition</b> (Category). A category is a precategory
-                such that for all $a,b:A$, the $\Pi_{A:C.Ob} isContr \Sigma_{B:C.Ob} iso_C(A,B)$.
+                such that for all $a,b:A$, the $\Pi_{A:Ob_C} isContr \Sigma_{B:Ob_C} iso_C(A,B)$.
             code.
                  isCategory (C: precategory): U
                     = (A: carrier C) -> isContr ((B: carrier C) * iso C A B)
