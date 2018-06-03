@@ -100,7 +100,14 @@ such that for all $a:Ob_C$, the $\Pi_{A:Ob_C} isContr \Sigma_{B:Ob_C} iso_C(A,B)
 category: U = (C: precategory) * isCategory C
 </code><br><h1>Constructions</h1><h2>(Co)-Product of Categories</h2><p><b>Definition</b> (Category Product).</p><code>Product    (X Y: precategory) : precategory
 Coproduct  (X Y: precategory) : precategory
-</code><h2>(Co)-Slice Category</h2><p><b>Definition</b> (Coslice Category).</p><code>cosliceCat (C D: precategory)
+</code><h2>(Co)-Slice Category</h2><p><b>Definition</b> (Slice Category).
+<b>Definition</b> (Coslice Category).</p><code>sliceCat (C D: precategory)
+         (a: carrier (opCat C))
+         (F: catfunctor D (opCat C))
+       : precategory
+       = cosliceCat (opCat C) D a F
+
+cosliceCat (C D: precategory)
            (a: carrier C)
            (F: catfunctor D C) : precategory
 </code><h2>Universal Arrow</h2><p><b>Definition</b> (Universal Arrow).</p><code>univArr (C D: precategory)
