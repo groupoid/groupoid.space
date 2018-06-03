@@ -209,7 +209,10 @@ functions nil: 1 &rightarrow; List(A) and cons: A
 &times; List(A) &rightarrow; List(A) are defined
 by nil = in ◦ inl and cons = in ◦ inr, so
 in = <b>[nil,cons]</b>.
-</p><code>data list (A: U) = nil | cons (x:A) (xs: list A)</code><br><code>null (A:U): list A −> bool
+</p><code>data list (A: U) = nil | cons (x:A) (xs: list A)</code><br><code>listCase (A C:U) (a b: C): list A -> C
+listRec (A C:U) (z: C) (s: A->list A->C->C): (n:list A) -> C
+listElim (A: U) (C:list A->U) (z: C nil) (s: (x:A)(xs:list A)->C(cons x xs)): (n:list A) -> C(n)
+listInd (A: U) (C:list A->U) (z: C nil) (s: (x:A)(xs:list A)->C(xs)->C(cons x xs)): (n:list A) -> C(n)</code><br><code>null (A:U): list A −> bool
 head (A:U): list A −> maybe A
 tail (A:U): list A −> maybe (list A)
 nth (A:U): nat −> list A −> maybeA

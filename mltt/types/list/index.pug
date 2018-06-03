@@ -14,9 +14,12 @@ block content
                 contains inductive data type definition representing finite parametrized homogenous lists,
                 its generic functions, theorems and examples of usage.
             code.
-                data list (A: U)
-                   = nil
-                   | cons (a: A) (as: list A)
+                data list (A: U) = nil | cons (a: A) (as: list A)
+
+                listCase (A C:U) (a b: C): list A -> C
+                listRec (A C:U) (z: C) (s: A->list A->C->C): (n:list A) -> C
+                listElim (A: U) (C:list A->U) (z: C nil) (s: (x:A)(xs:list A)->C(cons x xs)): (n:list A) -> C(n)
+                listInd (A: U) (C:list A->U) (z: C nil) (s: (x:A)(xs:list A)->C(xs)->C(cons x xs)): (n:list A) -> C(n)
 
             h2 nil
             p <mark>nil</mark> construction is terminal element of list data type.

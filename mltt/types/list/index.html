@@ -1,8 +1,11 @@
 <!DOCTYPE html><html><head><meta charset="utf-8"><meta http-equiv="x-ua-compatible" content="ie=edge"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="author" content="Maxim Sokhatsky"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:site" content="@5HT"><meta name="twitter:creator" content="@5HT"><meta name="twitter:image" content="https://groupoid.space/card2.png"><meta property="og:title" content="Groupoid Infinity"><meta property="og:image" content="https://groupoid.space/card2.png"><meta property="og:type" content="website"><meta property="fb:app_id" content="118554188236439"><meta property="og:url" content="https://groupoid.space"><meta property="og:description" content="MLTT Language with Extensions"><link rel="stylesheet" href="https://groupoid.space/main.css?v=10"><title>LIST</title></head><body class="content"><article class="main list"><section><h1>List</h1><aside><a href="..">Base Library</a><time>Published: 13 OCT 2017</time></aside><p><a href="https://raw.githubusercontent.com/groupoid/infinity/master/priv/list.ctt">List package</a>
 contains inductive data type definition representing finite parametrized homogenous lists,
-its generic functions, theorems and examples of usage.</p><code>data list (A: U)
-   = nil
-   | cons (a: A) (as: list A)
+its generic functions, theorems and examples of usage.</p><code>data list (A: U) = nil | cons (a: A) (as: list A)
+
+listCase (A C:U) (a b: C): list A -> C
+listRec (A C:U) (z: C) (s: A->list A->C->C): (n:list A) -> C
+listElim (A: U) (C:list A->U) (z: C nil) (s: (x:A)(xs:list A)->C(cons x xs)): (n:list A) -> C(n)
+listInd (A: U) (C:list A->U) (z: C nil) (s: (x:A)(xs:list A)->C(xs)->C(cons x xs)): (n:list A) -> C(n)
 </code><h2>nil</h2><p><mark>nil</mark> construction is terminal element of list data type.</p><pre>> let a: list nat = nil in a</pre><pre>EVAL: nil
 </pre><h2>cons</h2><p><mark>cons</mark> is basic list constructor.</p><pre>> let a: list nat = cons zero nil in a</pre><pre>EVAL: cons zero nil
 </pre></section><section><h1>Generics</h1><h2>length (A: U): list A → nat</h2><p>Returns length of a list.</p><pre>> length nat nil</pre><pre>EVAL: zero
