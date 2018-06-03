@@ -172,6 +172,13 @@ block content
                 Product    (X Y: precategory) : precategory
                 Coproduct  (X Y: precategory) : precategory
 
+            h2 Opposite Category
+            p.
+                <b>Definition</b> (Opposite Category). The opposite category to category $C$
+                is a category $C^{op}$ with same structure, except all arrows are inverted.
+            code.
+                opCat (P: precategory): precategory
+
             h2 (Co)-Slice Category
             p.
                 <b>Definition</b> (Slice Category).
@@ -200,16 +207,9 @@ block content
                         (a: carrier (opCat C))
                         (F: catfunctor D (opCat C)): U = terminal (sliceCat C D a F)
 
-            h2 Opposite Category
-            p.
-                <b>Definition</b> (Opposite Category). The opposite category to category $C$
-                is a category $C^op$ with same structure, except all arrows are inverted.
-            code.
-                opCat (P: precategory): precategory
-
             h2 Unit Category
             p.
-                <b>Definition</b> (Unit Category).
+                <b>Definition</b> (Unit Category). In unit category $Ob = \top$ and $Hom = $.
             code.
                 unitCat: precategory
 
