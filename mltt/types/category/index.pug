@@ -192,9 +192,13 @@ block content
             p.
                 <b>Definition</b> (Universal Mapping Property).
             code.
-                UMP (C D: precategory)
-                    (a: carrier C)
-                    (F: catfunctor D C): U = initial (cosliceCat C D a F)
+                initArr (C D: precategory)
+                        (a: carrier C)
+                        (F: catfunctor D C): U = initial (cosliceCat C D a F)
+
+                termArr (C D: precategory)
+                        (a: carrier (opCat C))
+                        (F: catfunctor D (opCat C)): U = terminal (sliceCat C D a F)
 
             h2 Opposite Category
             p.

@@ -109,9 +109,13 @@ Coproduct  (X Y: precategory) : precategory
 cosliceCat (C D: precategory)
            (a: carrier C)
            (F: catfunctor D C) : precategory
-</code><h2>Universal Mapping Property</h2><p><b>Definition</b> (Universal Mapping Property).</p><code>UMP (C D: precategory)
-    (a: carrier C)
-    (F: catfunctor D C): U = initial (cosliceCat C D a F)
+</code><h2>Universal Mapping Property</h2><p><b>Definition</b> (Universal Mapping Property).</p><code>initArr (C D: precategory)
+        (a: carrier C)
+        (F: catfunctor D C): U = initial (cosliceCat C D a F)
+
+termArr (C D: precategory)
+        (a: carrier (opCat C))
+        (F: catfunctor D (opCat C)): U = terminal (sliceCat C D a F)
 </code><h2>Opposite Category</h2><p><b>Definition</b> (Opposite Category). The opposite category to category $C$
 is a category $C^op$ with same structure, except all arrows are inverted.</p><code>opCat (P: precategory): precategory
 </code><h2>Unit Category</h2><p><b>Definition</b> (Unit Category).</p><code>unitCat: precategory
