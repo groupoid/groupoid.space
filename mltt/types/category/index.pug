@@ -91,10 +91,10 @@ block content
             h2 (Co)-Terminal Objects
             p.
                 <b>Definition</b> (Initial Object). Is such object $Ob_C$,
-                that $\Pi_{x y:Ob_C} isContr(Hom_C(x,y))$.
-
+                that $\Pi_{x,y:Ob_C} isContr(Hom_C(x,y))$.
+            p.
                 <b>Definition</b> (Terminal Object). Is such object $Ob_C$,
-                that $\Pi_{x y:Ob_C} isContr(Hom_C(y,x))$.
+                that $\Pi_{x,y:Ob_C} isContr(Hom_C(y,x))$.
             code.
                 isInitial  (C: precategory) (x: carrier C): U = (y: carrier C) -> isContr (hom C x y)
                 isTerminal (C: precategory) (y: carrier C): U = (x: carrier C) -> isContr (hom C x y)

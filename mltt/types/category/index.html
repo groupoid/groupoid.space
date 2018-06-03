@@ -54,10 +54,8 @@ path    (C: precategory) (x: carrier C): hom C x x = C.2.1 x
 compose (C: precategory) (x y z: carrier C)
         (f: hom C x y) (g: hom C y z): hom C x z = C.2.2.1 x y z f g
 </code><h2>(Co)-Terminal Objects</h2><p><b>Definition</b> (Initial Object). Is such object $Ob_C$,
-that $\Pi_{x y:Ob_C} isContr(Hom_C(x,y))$.
-
-<b>Definition</b> (Terminal Object). Is such object $Ob_C$,
-that $\Pi_{x y:Ob_C} isContr(Hom_C(y,x))$.</p><code>isInitial  (C: precategory) (x: carrier C): U = (y: carrier C) -> isContr (hom C x y)
+that $\Pi_{x,y:Ob_C} isContr(Hom_C(x,y))$.</p><p><b>Definition</b> (Terminal Object). Is such object $Ob_C$,
+that $\Pi_{x,y:Ob_C} isContr(Hom_C(y,x))$.</p><code>isInitial  (C: precategory) (x: carrier C): U = (y: carrier C) -> isContr (hom C x y)
 isTerminal (C: precategory) (y: carrier C): U = (x: carrier C) -> isContr (hom C x y)
 initial    (C: precategory): U = (x: carrier C) * isInitial  C x
 terminal   (C: precategory): U = (y: carrier C) * isTerminal C y
