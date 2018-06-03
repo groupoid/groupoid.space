@@ -100,8 +100,7 @@ such that for all $a:Ob_C$, the $\Pi_{A:Ob_C} isContr \Sigma_{B:Ob_C} iso_C(A,B)
 category: U = (C: precategory) * isCategory C
 </code><br><h1>Constructions</h1><h2>(Co)-Product of Categories</h2><p><b>Definition</b> (Category Product).</p><code>Product    (X Y: precategory) : precategory
 Coproduct  (X Y: precategory) : precategory
-</code><h2>(Co)-Slice Category</h2><p><b>Definition</b> (Slice Category).
-<b>Definition</b> (Coslice Category).</p><code>sliceCat (C D: precategory)
+</code><h2>(Co)-Slice Category</h2><p><b>Definition</b> (Slice Category).</p><p><b>Definition</b> (Coslice Category).</p><code>sliceCat (C D: precategory)
          (a: carrier (opCat C))
          (F: catfunctor D (opCat C))
        : precategory
@@ -110,9 +109,9 @@ Coproduct  (X Y: precategory) : precategory
 cosliceCat (C D: precategory)
            (a: carrier C)
            (F: catfunctor D C) : precategory
-</code><h2>Universal Arrow</h2><p><b>Definition</b> (Universal Arrow).</p><code>univArr (C D: precategory)
-        (a: carrier C)
-        (F: catfunctor D C): U = initial (cosliceCat C D a F)
+</code><h2>Universal Mapping Property</h2><p><b>Definition</b> (Universal Mapping Property).</p><code>UMP (C D: precategory)
+    (a: carrier C)
+    (F: catfunctor D C): U = initial (cosliceCat C D a F)
 </code><h2>Opposite Category</h2><p><b>Definition</b> (Opposite Category). The opposite category to category $C$
 is a category $C^op$ with same structure, except all arrows are inverted.</p><code>opCat (P: precategory): precategory
 </code><h2>Unit Category</h2><p><b>Definition</b> (Unit Category).</p><code>unitCat: precategory

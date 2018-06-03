@@ -175,6 +175,7 @@ block content
             h2 (Co)-Slice Category
             p.
                 <b>Definition</b> (Slice Category).
+            p.
                 <b>Definition</b> (Coslice Category).
             code.
                 sliceCat (C D: precategory)
@@ -187,13 +188,13 @@ block content
                            (a: carrier C)
                            (F: catfunctor D C) : precategory
 
-            h2 Universal Arrow
+            h2 Universal Mapping Property
             p.
-                <b>Definition</b> (Universal Arrow).
+                <b>Definition</b> (Universal Mapping Property).
             code.
-                univArr (C D: precategory)
-                        (a: carrier C)
-                        (F: catfunctor D C): U = initial (cosliceCat C D a F)
+                UMP (C D: precategory)
+                    (a: carrier C)
+                    (F: catfunctor D C): U = initial (cosliceCat C D a F)
 
             h2 Opposite Category
             p.
