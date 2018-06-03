@@ -88,10 +88,23 @@ block content
                 compose (C: precategory) (x y z: carrier C)
                         (f: hom C x y) (g: hom C y z): hom C x z = C.2.2.1 x y z f g
 
+            h2 (Co)-Terminal Objects
+            p.
+                <b>Definition</b> (Initial Object). Is such object $Ob_C$,
+                that $\Pi_{x y:Ob_C} isContr(Hom_C(x,y))$.
+
+                <b>Definition</b> (Terminal Object). Is such object $Ob_C$,
+                that $\Pi_{x y:Ob_C} isContr(Hom_C(y,x))$.
+            code.
+                isInitial  (C: precategory) (x: carrier C): U = (y: carrier C) -> isContr (hom C x y)
+                isTerminal (C: precategory) (y: carrier C): U = (x: carrier C) -> isContr (hom C x y)
+                initial    (C: precategory): U = (x: carrier C) * isInitial  C x
+                terminal   (C: precategory): U = (y: carrier C) * isTerminal C y
+
             h2 Functor
             p.
                 <b>Definition</b> (Category Functor). Let $A$ and $B$ be precategories.
-                A functor $F : A \rightarrow B$ consists of: (i) A function $F_{Ob}: Ob_A \rightarrow Ob_B$;
+                A functor $F : A \rightarrow B$ consists of: (i) A function $F_{Ob}: Ob_hA \rightarrow Ob_B$;
                 (ii) for each $a,b:Ob_A$, a function $F_{Hom}:Hom_A(a,b)\rightarrow Hom_B(F_{Ob}(a),F_{Ob}(b))$;
                 (iii) for each $a:Ob_A$, $F_{Ob}(1_a) = 1_{F_{Ob}}(a)$;
                 (iv) for $a,b,c:Ob_A$ and $f: Hom_A(a,b)$ and $g: Hom_A(b,c)$, $F(g\circ f) = F_{Hom}(g)\circ F_{Hom}(f)$.
@@ -152,11 +165,39 @@ block content
             br.
             h1 Constructions
 
-            h2 Product of Categories
+            h2 (Co)-Product of Categories
             p.
                 <b>Definition</b> (Category Product).
             code.
-                Product (X Y: precategory) : precategory
+                Product    (X Y: precategory) : precategory
+                Coproduct  (X Y: precategory) : precategory
+
+            h2 (Co)-Slice Category
+            p.
+                <b>Definition</b> (Coslice Category).
+            code.
+                sliceCat   (C D: precategory)
+                           (a: carrier D)
+                           (F: catfunctor D C) : precategory
+
+                cosliceCat (C D: precategory)
+                           (a: carrier C)
+                           (F: catfunctor D C) : precategory
+
+            h2 Universal Arrow
+            p.
+                <b>Definition</b> (Universal Arrow).
+            code.
+                univArr (C D: precategory)
+                        (a: carrier C)
+                        (F: catfunctor D C): U = initial (cosliceCat C D a F)
+
+            h2 Opposite Category
+            p.
+                <b>Definition</b> (Opposite Category). The opposite category to category $C$
+                is a category $C^op$ with same structure, except all arrows are inverted.
+            code.
+                opCat (P: precategory): precategory
 
             h2 Unit Category
             p.
