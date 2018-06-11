@@ -61,12 +61,12 @@ decode (B: U) (F: B -> U) (y: B)
      = \ (x: F y) -> ((y,x),refl B y)
 
 lem2 (B: U) (F: B -> U) (y: B) (x: F y)
-   : Path (F y) (comp (<_> F y) x []) x
-   = <j> comp (<_> F y) x [ (j=1) -> <_> x]
+   : Path (F y) (comp (&lt;_&gt; F y) x []) x
+   = &lt;j&gt; comp (&lt;_&gt; F y) x [ (j=1) -> &lt;_&gt; x]
 
 lem3 (B: U) (F: B -> U) (y: B) (x: fiber (total B F) B (trivial B F) y)
    : Path (fiber (total B F) B (trivial B F) y) ((y,encode B F y x),refl B y) x
-   = <i> ((x.2 @ -i,comp (<j> F (x.2 @ -i /\ j)) x.1.2 [(i=1) -> <_> x.1.2 ]),<j> x.2 @ -i \/ j)
+   = &lt;i&gt; ((x.2 @ -i,comp (&lt;j&gt; F (x.2 @ -i /\ j)) x.1.2 [(i=1) -> &lt;_&gt; x.1.2 ]),&lt;j&gt; x.2 @ -i \/ j)
 
 TrivialFiberBundleEqualsPi (B: U) (F: Family B) (y: B)
     : Path U (fiber (total B F) B (trivial B F) y) (F y)
