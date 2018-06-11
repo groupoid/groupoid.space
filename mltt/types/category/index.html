@@ -84,6 +84,9 @@ a nagtural transformation $\gamma: F \rightarrow G$ consists of:
 ntrans (C D: precategory) (F G: catfunctor C D): U
      = (eta: (x: carrier C) -> hom D (F.1 x) (G.1 x))
      * (isNaturalTrans C D F G eta)
+</code><h2>Kan Extensions</h2><p><b>Definition</b> (Kan Extension).</p><code>extension (C C' D: precategory) (K: catfunctor C C') (G: catfunctor C D) : U
+   = (F: catfunctor C' D)
+   * (ntrans C D (compFunctor C C' D K F) G)
 </code><h2>Category Isomorphism</h2><p><b>Definition</b> (Category Isomorphism). A morphism $f : Hom_A(a,b)$ is an iso
 if there is a morphism $g: Hom_A(b,a)$ such that
 $1_a =_\eta g \circ f$ and
