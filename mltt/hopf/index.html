@@ -25,7 +25,7 @@ It was turned out that there are only 4 dimentions of fibers
 with properties of Hopf Fibration, namely S<sup>0</sup>, S<sup>1</sup>,
 S<sup>3</sup>, S<sup>7</sup> as was shown by Adams. HF
 applications: 1) HF is a Fiber Bundle structure of Dirac Monopole;
-2) HF is map from the S<sup>3</sup> in <b>C</b><sup>2</sup> to the
+2) HF is map from the S<sup>3</sup> in C<sup>2</sup> to the
 Bloch sphere; 3) If HF is vector field in R<sup>3</sup> then exists
 a solution to compressible non-visous Navier-Stokes equations.</p><p>This article consist of two parts: 1) gemetric visualisation of
 stereographic projection of S<sup>3</sup> to R<sup>3</sup> (frontend);
@@ -56,5 +56,16 @@ and $p = pr_1$ then such bundle is called trivial $(F,\Sigma(B,F),pr_1,B)$.</p><
 
 total (B: U) (F: Family B): U = Sigma B F
 trivial (B: U) (F: Family B): total B F -> B = \ (x: total B F) -> x.1
-</code><h2>G-structure</h2><p>The structure group of an $F$-fiber bundle is just Aut(F),
-the loop space of BAut(F).</p></section></article><footer class="footer"><img class="footer__logo" src="https://longchenpa.guru/seal.png" width="50"><span class="footer__copy">2016&mdash;2018 &copy; <a href="//groupoid.space/team.html" style="color:white;">Groupoid Infinity</a></span></footer><script src="https://groupoid.space/bundle.js"></script><script src="https://groupoid.space/highlight.js?v=8"></script></body></html>
+</code><h2>Hopf Fibration</h2><p><b>Theorem</b> (Hopf Fibrations). There are a fibrations:
+1) $(\mathbb{S}^0,\mathbb{S}^1,p,\mathbb{S}^1)$;
+2) $(\mathbb{S}^1,\mathbb{S}^3,p,\mathbb{S}^2)$;
+3) $(\mathbb{S}^3,\mathbb{S}^7,p,\mathbb{S}^4)$;
+4) $(\mathbb{S}^7,\mathbb{S}^15,p,\mathbb{S}^8)$.</p><p>Let $\phi: \mathbb{S}^{2n-1} \rightarrow \mathbb{S}^{n}$ a continuous map.
+Then homotopy pushout (cofiber) of $\phi$ is $cofib(\phi) = \mathbb{S}^{n} \bigcup_\phi \mathbb{D}^{2n}$ has
+ordinary cohomology $H^{k}(cofib(\phi),\mathbb{Z})= \{ Z for k=n,2n, 0 \}$.
+Hence for $\alpha,\beta$ generators of the cohomology groups in
+degree $n$ and $2n$, respectively, there exists an integer $h(\phi)$
+which expresses the <b>cup product</b> square of $\alpha$
+as a multiple of $\beta$ --- $\alpha\sqcup\alpha\centerdot\beta$.
+This integer $h(\phi)$ is called Hopf invariant of $\phi$.</p><p><b>Theorem</b> (Adams, Atiyah). Hopf Fibrations are only
+maps that have Hopf invariant 1.</p></section></article><footer class="footer"><img class="footer__logo" src="https://longchenpa.guru/seal.png" width="50"><span class="footer__copy">2016&mdash;2018 &copy; <a href="//groupoid.space/team.html" style="color:white;">Groupoid Infinity</a></span></footer><script src="https://groupoid.space/bundle.js"></script><script src="https://groupoid.space/highlight.js?v=8"></script></body></html>
