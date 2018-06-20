@@ -101,7 +101,7 @@ trivial (B: U) (F: Family B): total B F -> B
 Inverse image (fiber) of fiber bundle $(F,B*F,pr_1,B)$ in point $y:B$ equals $F(y)$.</p><code>FiberPi (B: U) (F: B -> U) (y: B)
       : Path U (fiber (total B F) B (trivial B F) y) (F y)</code><p><b>Definition</b> (Structure Group). The structure group of
 an $F$-fiber bundle is just Aut(F), the loop space of BAut(F).
-</p><h2>Higher Spheres</h2><p><b>Definition</b> (2-points, Bool).</p><code>data bool = false | true
+</p><h2>Higher Spheres</h2><p><b>Definition</b> (2-points, Bool, Sphere $S^0$).</p><code>data bool = false | true
 </code><p><b>Definition</b> (Suspension).</p><code>data susp (A: U) = north
    = north
    | south
