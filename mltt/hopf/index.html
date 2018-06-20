@@ -34,11 +34,10 @@ stereographic projection of S<sup>3</sup> to R<sup>3</sup> (frontend);
   \def\mapdiagl#1{\vcenter{\searrow}\rlap{\raise2pt{\scriptstyle{#1}}}}
   \def\mapdiagr#1{\vcenter{\swarrow}\rlap{\raise2pt{\scriptstyle{#1}}}}
 $$
-</figure><h1>GEOMETRY</h1></div><section><h2>Equations</h2></section><p><b>Definition</b> (Sphere S^3$).
+</figure><h1>GEOMETRY</h1></div><section><h2>Equations</h2></section><p><b>Definition</b> (Sphere S^3$). In $\mathbb{R}$^4:
 $$
 S^3 = \{ (x_0,x_1,x_2,x_3) \in \mathbb{R}^4 : \sum x_0^2 = 1 \}
-$$
-or in quaternions:
+$$.</p><p>Or in quaternions $\mathbb{H}$:
 $$
 S^3 = \{ x \in \mathbb{H} : \|x\| = 1 \}
 $$.
@@ -59,8 +58,7 @@ x0:  R = mul(cos(add(phi,the)),sin(div(eta,2)))
 x1:  R = mul(sin(add(phi,the)),sin(div(eta,2)))
 x2:  R = mul(cos(sub(phi,the)),cos(div(eta,2)))
 x3:  R = mul(sin(sub(phi,the)),cos(div(eta,2)))
-
-</code><div class="om"><h1>TOPOLOGY</h1></div><section><h2>Fiber</h2><p><b>Definition</b> (Fiber). The fiber of the map $p: E \rightarrow B$ in a point $y: B$
+</code><section></section><div class="om"><h1>TOPOLOGY</h1></div><section><h2>Fiber</h2><p><b>Definition</b> (Fiber). The fiber of the map $p: E \rightarrow B$ in a point $y: B$
 is all points $x: E$ such that $p(x)=y$.</p><p></p><code>fiber (E B: U) (p: E -> B) (y: B): U
     = (x: E) * Path B y (p x)
 </code><h2>Fiber Bundle</h2><p><b>Definition</b> (Fiber Bundle). The fiber bundle $ F \rightarrow E \mapright{p} B$ on a
