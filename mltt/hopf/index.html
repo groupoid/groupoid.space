@@ -1,0 +1,60 @@
+<!DOCTYPE html><html><head><meta charset="utf-8"><meta http-equiv="x-ua-compatible" content="ie=edge"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="author" content="Maxim Sokhatsky"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:site" content="@5HT"><meta name="twitter:creator" content="@5HT"><meta name="twitter:image" content="https://groupoid.space/card2.png"><meta property="og:title" content="Groupoid Infinity"><meta property="og:image" content="https://groupoid.space/card2.png"><meta property="og:type" content="website"><meta property="fb:app_id" content="118554188236439"><meta property="og:url" content="https://groupoid.space"><meta property="og:description" content="MLTT Language with Extensions"><link rel="stylesheet" href="https://groupoid.space/main.css?v=10"><title>HOPF</title><script src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML"></script><script>window.MathJax = { jax: ["input/TeX", "input/MathML", "input/AsciiMath", "output/CommonHTML", "output/NativeMML"],
+                        TeX: { extensions: ["AMSmath.js", "AMSsymbols.js", "autoload-all.js"] },
+                        extensions: ["tex2jax.js", "asciimath2jax.js", "mml2jax.js", "MathMenu.js", "MathZoom.js"],
+                        "HTML-CSS": { imageFont: null },
+                        AuthorInit: function() {
+                            MathJax.Hub.Register.StartupHook("TeX AMSmath Ready", function() {
+                                var TEX = MathJax.InputJax.TeX;
+                                TEX.Definitions.Add({
+                                    macros: {
+                                      llparenthesis: ['Macro', '\\mathopen{\u2987}'],
+                                      rrparenthesis: ['Macro', '\\mathclose{\u2988}'],
+                                      llbracket:     ['Macro', '\\mathopen{\u27E6}'],
+                                      rrbracket:     ['Macro', '\\mathclose{\u27E7}'],
+                                    }
+                                });
+                            });
+                        },
+                        tex2jax: { inlineMath: [['$','$'], ['\\(','\\)']],
+                                   processEscapes: true }
+                    };
+</script></head><body class="content"><header class="header"><a href="//groupoid.space/"><img class="header__logo" src="../../groupoid.svg"/></a><div class="header__titles"><h1 class="header__title">Hopf Fibrations</h1><h4 class="header__subtitle">The geometric and topological interpretation</h4></div></header><article class="main"><div class="om"><section><h1>Article</h1></section></div><aside>Yuri Artyukh<br>Maxim Sokhatsky<time>DATE: 20 JUN 2018</time></aside><div class="om"><section><h2>Abstract</h2><p>This article defines the Hopf Fibration (HF), the concept
+of splitting the S<sup>3</sup> sphere onto twisted
+cartesian product of spheres S<sup>2</sup> and S<sup>1</sup>.
+It was turned out that there are only 4 dimentions of fibers
+with properties of Hopf Fibration, namely S<sup>0</sup>, S<sup>1</sup>,
+S<sup>3</sup>, S<sup>7</sup> as was shown by Adams. HF
+applications: 1) HF is a Fiber Bundle structure of Dirac Monopole;
+2) HF is map from the S<sup>3</sup> in <b>C</b><sup>2</sup> to the
+Bloch sphere; 3) If HF is vector field in R<sup>3</sup> then exists
+a solution to compressible non-visous Navier-Stokes equations.</p><p>This article consist of two parts: 1) gemetric visualisation of
+stereographic projection of S<sup>3</sup> to R<sup>3</sup> (frontend);
+2) Hopf Construction in Cubical Type Theory (backend).</p></section><figure>$$\def\mapright#1{\xrightarrow{{#1}}}
+  \def\mapdown#1{\Big\downarrow\rlap{\raise2pt{\scriptstyle{#1}}}}
+  \def\mapdiagl#1{\vcenter{\searrow}\rlap{\raise2pt{\scriptstyle{#1}}}}
+  \def\mapdiagr#1{\vcenter{\swarrow}\rlap{\raise2pt{\scriptstyle{#1}}}}
+$$
+</figure><h1>GEOMETRY</h1></div><section><h2>Equations</h2></section><div class="om"><h1>TOPOLOGY</h1></div><section><h2>Fiber</h2><p><b>Definition</b> (Fiber). The fiber of the map $p: E \rightarrow B$ in a point $y: B$
+is all points $x: E$ such that $p(x)=y$.</p><p></p><code>fiber (E B: U) (p: E -> B) (y: B): U
+    = (x: E) * Path B y (p x)
+</code><h2>Fiber Bundle</h2><p><b>Definition</b> (Fiber Bundle). The fiber bundle $ F \rightarrow E \mapright{p} B$ on a
+total space $E$ with fiber layer $F$ and base $B$ is a
+structure $(F,E,p,B)$ where $p: E \rightarrow B$ is a surjective
+map with following property:
+for any point $y: B$ exists a neighborhood $U_b$ for which a
+homeomorphism $f: p^{-1}(U_b) \rightarrow U_b \times F$
+making the following diagram commute.</p><p></p><figure>$$
+\begin{array}{ccc}
+    p^{-1}(U_b) & \mapright{f} & U_b \times F \\
+    \mapdown{\mathbf{p}} & \mapdiagr{pr_1} & \\
+    U_b & & \\
+\end{array}
+$$
+</figure><h2>Trivial Fiber Bundle</h2><p><b>Definition</b> (Trivial Fiber Bundle).
+When total space $E$ is cartesian product $\Sigma(B,F)$
+and $p = pr_1$ then such bundle is called trivial $(F,\Sigma(B,F),pr_1,B)$.</p><code>Family (B: U): U = B -> U
+
+total (B: U) (F: Family B): U = Sigma B F
+trivial (B: U) (F: Family B): total B F -> B = \ (x: total B F) -> x.1
+</code><h2>G-structure</h2><p>The structure group of an $F$-fiber bundle is just Aut(F),
+the loop space of BAut(F).</p></section></article><footer class="footer"><img class="footer__logo" src="https://longchenpa.guru/seal.png" width="50"><span class="footer__copy">2016&mdash;2018 &copy; <a href="//groupoid.space/team.html" style="color:white;">Groupoid Infinity</a></span></footer><script src="https://groupoid.space/bundle.js"></script><script src="https://groupoid.space/highlight.js?v=8"></script></body></html>
