@@ -60,8 +60,8 @@ trivial (B: U) (F: Family B): total B F -> B = \ (x: total B F) -> x.1
 1) $(\mathbb{S}^0,\mathbb{S}^1,p,\mathbb{S}^1)$;
 2) $(\mathbb{S}^1,\mathbb{S}^3,p,\mathbb{S}^2)$;
 3) $(\mathbb{S}^3,\mathbb{S}^7,p,\mathbb{S}^4)$;
-4) $(\mathbb{S}^7,\mathbb{S}^15,p,\mathbb{S}^8)$.</p><p><b>Definition</b> (H-space). H-space is a tuple
-$(A:U,e:A,\mu:A\rightarrow A\rightarrow A,(a:A)\rightarrow\mu(e,a)=a\rightarrow\mu(a,e)=a$.
+4) $(\mathbb{S}^7,\mathbb{S}^15,p,\mathbb{S}^8)$.</p><p><b>Definition</b> (H-space). H-space over a carrier $A$ is a tuple
+$(A,e:A,\mu:A\rightarrow A\rightarrow A,(a:A)\rightarrow\mu(e,a)=a\rightarrow\mu(a,e)=a)$.
 </p><code>rot: (x : S1) -> Path S1 x x = split
   base -> loop1
   loop @ i -> constSquare S1 base loop1 @ i
