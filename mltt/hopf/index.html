@@ -75,7 +75,8 @@ fiber.getPoint = function(t) {
         r = Math.sqrt((1-x4)/(1+x4));
     return new THREE.Vector3(r*x1/m,r*x2/m, r*x3/m);
 };
-</code><div class="om"><section><h1>Topology</h1></section></div><section><h2>Fiber</h2><p><b>Definition</b> (Fiber). The fiber of the map $p: E \rightarrow B$ in a point $y: B$
+</code><div class="om"><section><h1>Topology</h1><p>Could we reason about spheres with removed coordinates? Yes!
+</p></section></div><section><h2>Fiber</h2><p><b>Definition</b> (Fiber). The fiber of the map $p: E \rightarrow B$ in a point $y: B$
 is all points $x: E$ such that $p(x)=y$.</p><p></p><code>fiber (E B: U) (p: E -> B) (y: B): U
     = (x: E) * Path B y (p x)
 </code><h2>Fiber Bundle</h2><p><b>Definition</b> (Fiber Bundle). The fiber bundle $ F \rightarrow E \mapright{p} B$ on a
