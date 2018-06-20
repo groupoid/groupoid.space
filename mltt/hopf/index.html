@@ -34,14 +34,16 @@ stereographic projection of S<sup>3</sup> to R<sup>3</sup> (frontend);
   \def\mapdiagl#1{\vcenter{\searrow}\rlap{\raise2pt{\scriptstyle{#1}}}}
   \def\mapdiagr#1{\vcenter{\swarrow}\rlap{\raise2pt{\scriptstyle{#1}}}}
 $$
-</figure><h1>GEOMETRY</h1></div><section><h2>Equations</h2></section><p><b>Definition</b> (Sphere $S^3$). In $\mathbb{R}^4$:
+</figure></div><div class="om"><section><h1>Geometry</h1></section></div><section><h2>Equations</h2></section><p><b>Definition</b> (Sphere $S^3$). In $\mathbb{R}^4$:
 $$
 S^3 = \{ (x_0,x_1,x_2,x_3) \in \mathbb{R}^4 : \sum x_0^2 = 1 \}
-$$.</p><p>Or in quaternions $\mathbb{H}$:
+$$.
+</p><p>Or in quaternions $\mathbb{H}$:
 $$
 S^3 = \{ x \in \mathbb{H} : \|x\| = 1 \}
 $$.
-</p><p><b>Definition</b> (Locus).
+</p><p><b>Definition</b> (Locus). The $S^3$ is realized as a disjoint
+union of circular fibers.
 $$
 \begin{equation}
 x_0 = cos(\theta_1)sin(\eta) \\
@@ -50,15 +52,23 @@ x_2 = cos(\theta_1)cos(\eta) \\
 x_3 = sin(\theta_1)cos(\eta) \\
 \end{equation}
 $$
-Where $\eta \in [0,\pi/2]$ and $\theta_{1,2} \in [0,2\pi]$.
-</p><code>eta: R = 0.5
-phi: R = mul(i,div(PI,100))
-the: R = mul(2,mul(PI,t))
-x0:  R = mul(cos(add(phi,the)),sin(div(eta,2)))
-x1:  R = mul(sin(add(phi,the)),sin(div(eta,2)))
-x2:  R = mul(cos(sub(phi,the)),cos(div(eta,2)))
-x3:  R = mul(sin(sub(phi,the)),cos(div(eta,2)))
-</code><section></section><div class="om"><h1>TOPOLOGY</h1></div><section><h2>Fiber</h2><p><b>Definition</b> (Fiber). The fiber of the map $p: E \rightarrow B$ in a point $y: B$
+Where $\eta \in [0,\pi/2]$ and $\theta_{1,2} \in [0,2\pi]$.</p><p><b>Definition</b> (Mapping on $S^2$).
+A mapping of the Locus to the $S^2$ has points on the circles
+parametrized by $\theta_2$.</p><p>Code in <b>three.js</b>:</p><code>var fiber = new THREE.Curve();
+var color = sphericalCoords.color;
+fiber.getPoint = function(t) {
+    var eta = sphericalCoords.eta,
+        phi = sphericalCoords.phi,
+        theta = 2 * Math.PI * t;
+    var x1 = Math.cos(phi+theta) * Math.sin(eta/2),
+        x2 = Math.sin(phi+theta) * Math.sin(eta/2),
+        x3 = Math.cos(phi-theta) * Math.cos(eta/2),
+        x4 = Math.sin(phi-theta) * Math.cos(eta/2);
+    var m = mag([x1,x2,x3]),
+        r = Math.sqrt((1-x4)/(1+x4));
+    return new THREE.Vector3(r*x1/m,r*x2/m, r*x3/m);
+};
+</code><div class="om"><section><h1>Topology</h1></section></div><section><h2>Fiber</h2><p><b>Definition</b> (Fiber). The fiber of the map $p: E \rightarrow B$ in a point $y: B$
 is all points $x: E$ such that $p(x)=y$.</p><p></p><code>fiber (E B: U) (p: E -> B) (y: B): U
     = (x: E) * Path B y (p x)
 </code><h2>Fiber Bundle</h2><p><b>Definition</b> (Fiber Bundle). The fiber bundle $ F \rightarrow E \mapright{p} B$ on a
@@ -84,7 +94,14 @@ Inverse image (fiber) of fiber bundle $(F,B*F,pr_1,B)$ in point $y:B$ equals $F(
 
 <b>Definition</b> (Structure Group). The structure group of
 an $F$-fiber bundle is just Aut(F), the loop space of BAut(F).
-</p><h2>Hopf Fibrations</h2><p><b>Theorem</b> (Hopf Fibrations). There are fiber bundles:
+</p><h2>Higher Speres</h2><p><b>Definition</b> (2-points, Bool).</p><code>data bool = false | true</code><p><b>Definition</b> (Suspension).</p><code>data susp (A : U) = north
+   = north
+   | south
+   | merid (a : A) <i> [ (i=0) -> north,
+                         (i=1) -> south ]</code><p><b>Definition</b> (n-Spere).</p><code>S: nat -> U = split
+   zero -> susp bool
+   succ x -> susp x
+</code><h2>Hopf Fibrations</h2><p><b>Theorem</b> (Hopf Fibrations). There are fiber bundles:
 1) $(S^0,S^1,p,S^1)$;
 2) $(S^1,S^3,p,S^2)$;
 3) $(S^3,S^7,p,S^4)$;
