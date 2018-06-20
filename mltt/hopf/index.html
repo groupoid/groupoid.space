@@ -106,11 +106,11 @@ an $F$-fiber bundle is just Aut(F), the loop space of BAut(F).
    = north
    | south
    | merid (a: A) &lt;i&gt; [ (i = 0) -> north,
-                        (i = 1) -> south ]</code><p><b>Definition</b> (Sphere $S^1$). Another definition.</p><code>data S1
+                        (i = 1) -> south ]</code><p><b>Definition</b> (Sphere $S^1$). Direct definition.</p><code>data S1
    = base
    | loop &lt;i&gt; [ (i = 0) -> base,
                 (i = 1) -> base ]
-</code><p><b>Definition</b> (Sphere $S^n$).</p><code>S: nat -> U = split
+</code><p><b>Definition</b> (Sphere $S^n$). Recursive definition.</p><code>S: nat -> U = split
    zero -> susp bool
    succ x -> susp x
 
