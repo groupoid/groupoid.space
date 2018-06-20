@@ -60,7 +60,24 @@ trivial (B: U) (F: Family B): total B F -> B = \ (x: total B F) -> x.1
 1) $(\mathbb{S}^0,\mathbb{S}^1,p,\mathbb{S}^1)$;
 2) $(\mathbb{S}^1,\mathbb{S}^3,p,\mathbb{S}^2)$;
 3) $(\mathbb{S}^3,\mathbb{S}^7,p,\mathbb{S}^4)$;
-4) $(\mathbb{S}^7,\mathbb{S}^15,p,\mathbb{S}^8)$.</p><p><b>Definition</b> (Hopf Invariant). Let $\phi: \mathbb{S}^{2n-1} \rightarrow \mathbb{S}^{n}$ a continuous map.
+4) $(\mathbb{S}^7,\mathbb{S}^15,p,\mathbb{S}^8)$.</p><code>rot: (x : S1) -> Path S1 x x = split
+  base -> loop1
+  loop @ i -> constSquare S1 base loop1 @ i
+
+opaque propIsEquiv
+
+mu : S1 -> equiv S1 S1 = split
+  base -> idEquiv S1
+  loop @ i -> equivPath S1 S1 (idEquiv S1)
+        (idEquiv S1) (<j> \(x : S1) -> rot x @ j) @ i
+
+Hopf : S2 -> U = split
+  north -> S1
+  south -> S1
+  merid x @ i -> ua S1 S1 (mu x) @ i
+
+total : U = (c : S2) * Hopf c
+</code><p><b>Definition</b> (Hopf Invariant). Let $\phi: \mathbb{S}^{2n-1} \rightarrow \mathbb{S}^{n}$ a continuous map.
 Then homotopy pushout (cofiber) of $\phi$ is $cofib(\phi) = \mathbb{S}^{n} \bigcup_\phi \mathbb{D}^{2n}$ has
 ordinary cohomology $H^{k}(cofib(\phi),\mathbb{Z})= \{ Z\ for\ k=n,2n\ ;\ 0\ otherwise \}$.
 Hence for $\alpha,\beta$ generators of the cohomology groups in
