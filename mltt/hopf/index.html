@@ -64,8 +64,9 @@ x = sin(2\eta)cos(\theta_1) \\
 y = sin(2\eta)sin(\theta_1) \\
 z = cos(2\eta) \\
 \end{equation}
-$$</p><p>Code in <b>three.js</b>:</p><code>var fiber = new THREE.Curve();
-var color = sphericalCoords.color;
+$$</p><p>Code in <b>three.js</b>:</p><code>var fiber = new THREE.Curve(),
+    color = sphericalCoords.color;
+
 fiber.getPoint = function(t) {
     var eta = sphericalCoords.eta,
         phi = sphericalCoords.phi,

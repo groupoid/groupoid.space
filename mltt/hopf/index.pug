@@ -107,8 +107,9 @@ block content
         p.
             Code in <b>three.js</b>:
         code.
-            var fiber = new THREE.Curve();
-            var color = sphericalCoords.color;
+            var fiber = new THREE.Curve(),
+                color = sphericalCoords.color;
+
             fiber.getPoint = function(t) {
                 var eta = sphericalCoords.eta,
                     phi = sphericalCoords.phi,
