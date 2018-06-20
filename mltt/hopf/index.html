@@ -34,7 +34,37 @@ stereographic projection of S<sup>3</sup> to R<sup>3</sup> (frontend);
   \def\mapdiagl#1{\vcenter{\searrow}\rlap{\raise2pt{\scriptstyle{#1}}}}
   \def\mapdiagr#1{\vcenter{\swarrow}\rlap{\raise2pt{\scriptstyle{#1}}}}
 $$
-</figure><h1>GEOMETRY</h1></div><section><h2>Equations</h2></section><div class="om"><h1>TOPOLOGY</h1></div><section><h2>Fiber</h2><p><b>Definition</b> (Fiber). The fiber of the map $p: E \rightarrow B$ in a point $y: B$
+</figure><h1>GEOMETRY</h1></div><section><h2>Equations</h2></section><p><b>Definition</b> (Sphere S^3$).
+$$
+\begin{equation}
+S^3 = \{ (x_0,x_1,x_2,x_3) \in \mathbb{R}^4 : \sum x_0^2 = 1 \}
+\end{equation}
+$$
+or in quaternions:
+$$
+\begin{equation}
+S^3 = \{ x \in \mathbb{H} : \|x\| = 1 \}
+\end{equation}
+$$
+</p><p><b>Definition</b> (Locus).
+$$
+\begin{equation}
+x_0 = cos(\theta_1)sin(\eta)
+x_1 = sin(\theta_1)sin(\eta)
+x_2 = cos(\theta_1)cos(\eta)
+x_3 = sin(\theta_1)cos(\eta)
+\end{equation}
+$$
+Where $\eta \in [0,\pi/2]$ and $\theta_1,2 \in [0,2\pi]$.
+</p><code>eta: R = 0.5
+phi: R = mul(i,div(PI,100))
+the: R = mul(2,mul(PI,t))
+x0:  R = mul(cos(add(phi,the)),sin(div(eta,2)))
+x1:  R = mul(sin(add(phi,the)),sin(div(eta,2)))
+x2:  R = mul(cos(sub(phi,the)),cos(div(eta,2)))
+x3:  R = mul(sin(sub(phi,the)),cos(div(eta,2)))
+
+</code><div class="om"><h1>TOPOLOGY</h1></div><section><h2>Fiber</h2><p><b>Definition</b> (Fiber). The fiber of the map $p: E \rightarrow B$ in a point $y: B$
 is all points $x: E$ such that $p(x)=y$.</p><p></p><code>fiber (E B: U) (p: E -> B) (y: B): U
     = (x: E) * Path B y (p x)
 </code><h2>Fiber Bundle</h2><p><b>Definition</b> (Fiber Bundle). The fiber bundle $ F \rightarrow E \mapright{p} B$ on a
@@ -61,10 +91,10 @@ Inverse image (fiber) of fiber bundle $(F,B*F,pr_1,B)$ in point $y:B$ equals $F(
 <b>Definition</b> (Structure Group). The structure group of
 an $F$-fiber bundle is just Aut(F), the loop space of BAut(F).
 </p><h2>Hopf Fibrations</h2><p><b>Theorem</b> (Hopf Fibrations). There are fiber bundles:
-1) $(\mathbb{S}^0,\mathbb{S}^1,p,\mathbb{S}^1)$;
-2) $(\mathbb{S}^1,\mathbb{S}^3,p,\mathbb{S}^2)$;
-3) $(\mathbb{S}^3,\mathbb{S}^7,p,\mathbb{S}^4)$;
-4) $(\mathbb{S}^7,\mathbb{S}^15,p,\mathbb{S}^8)$.</p><p><b>Definition</b> (H-space). H-space over a carrier $A$ is a tuple
+1) $(S^0,S^1,p,S^1)$;
+2) $(S^1,S^3,p,S^2)$;
+3) $(S^3,S^7,p,S^4)$;
+4) $(S^7,S^15,p,S^8)$.</p><p><b>Definition</b> (H-space). H-space over a carrier $A$ is a tuple
 $(A,e:A,\mu:A\rightarrow A\rightarrow A,(a:A)\rightarrow\mu(e,a)=a\rightarrow\mu(a,e)=a)$.
 </p><code>rot: (x : S1) -> Path S1 x x = split
   base -> loop1
@@ -81,8 +111,8 @@ H : S2 -> U = split
   merid x @ i -> ua S1 S1 (mu x) @ i
 
 total : U = (c : S2) * H c
-</code><p><b>Definition</b> (Hopf Invariant). Let $\phi: \mathbb{S}^{2n-1} \rightarrow \mathbb{S}^{n}$ a continuous map.
-Then homotopy pushout (cofiber) of $\phi$ is $cofib(\phi) = \mathbb{S}^{n} \bigcup_\phi \mathbb{D}^{2n}$ has
+</code><p><b>Definition</b> (Hopf Invariant). Let $\phi: S^{2n-1} \rightarrow S^{n}$ a continuous map.
+Then homotopy pushout (cofiber) of $\phi$ is $cofib(\phi) = S^{n} \bigcup_\phi \mathbb{D}^{2n}$ has
 ordinary cohomology $H^{k}(cofib(\phi),\mathbb{Z})= \{ Z\ for\ k=n,2n\ ;\ 0\ otherwise \}$.
 Hence for $\alpha,\beta$ generators of the cohomology groups in
 degree $n$ and $2n$, respectively, there exists an integer $h(\phi)$
