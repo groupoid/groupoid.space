@@ -161,7 +161,8 @@ block content
                 Family (B: U): U = B -> U
 
                 total (B: U) (F: Family B): U = Sigma B F
-                trivial (B: U) (F: Family B): total B F -> B = \ (x: total B F) -> x.1
+                trivial (B: U) (F: Family B): total B F -> B
+                    = \ (x: total B F) -> x.1
             p.
                 <b>Theorem</b> (Fiber Bundle is a Type Family).
                 Inverse image (fiber) of fiber bundle $(F,B*F,pr_1,B)$ in point $y:B$ equals $F(y)$.
