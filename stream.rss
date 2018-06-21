@@ -1,39 +1,53 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <rss version="2.0">
 <channel>
-  <title>groupoid.co</title>
+  <title>groupoid.space</title>
   <description>Groupoid Infinity</description>
-  <link>http://groupoid.co/</link>
-  <lastBuildDate>Mon, 9 May 2016 14:20:00 +0000</lastBuildDate>
-  <pubDate>Mon, 9 May 2016 14:20:00 +0000</pubDate>
+  <link>http://groupoid.space/</link>
+  <lastBuildDate>Mon, 20 JUN 2018 14:20:00 +0000</lastBuildDate>
+  <pubDate>Mon, 20 Jun 2018 9:20:00 +0000</pubDate>
   <ttl>1800</ttl>
   <item>
-    <title>INTRO</title>
-    <description>Canvas of Computable Functions Theories and Provers</description>
-    <link>http://groupoid.co/intro.htm</link>
-    <guid isPermaLink="true">http://groupoid.co/intro.htm</guid>
-    <pubDate>Sun, 15 Feb 2016 14:20:00 +0002</pubDate>
+    <title>PTS</title>
+    <description>Pure Type System</description>
+    <link>http://groupoid.space/pts/pure/</link>
+    <guid isPermaLink="true">http://groupoid.space/pts/pure/</guid>
+    <pubDate>Mon, 20 Jun 2018 9:20:00 +0002</pubDate>
   </item>
   <item>
-    <title>EXE STATUS</title>
-    <description>Implemented and Awaiting features of the OM/EXE</description>
-    <link>http://groupoid.co/into.htm</link>
-    <guid isPermaLink="true">http://groupoid.co/into.htm</guid>
-    <pubDate>Tue, 19 Mar 2016 14:20:00 +0000</pubDate>
+    <title>O</title>
+    <description>Lazy Lambda Interpreter</description>
+    <link>https://groupoid.space/lc/intro/</link>
+    <guid isPermaLink="true">https://groupoid.space/lc/intro/</guid>
+    <pubDate>Mon, 20 Jun 2018 9:20:00 +0002</pubDate>
   </item>
   <item>
-    <title>LAMBEK ENCODING</title>
-    <description>ENC</description>
-    <link>http://groupoid.co/enc.htm</link>
-    <guid isPermaLink="true">http://groupoid.co/enc.htm</guid>
-    <pubDate>Tue, 1 May 2016 14:20:00 +0000</pubDate>
+    <title>INDUCTIVE</title>
+    <description>(Co)-Inductive Data Types</description>
+    <link>https://groupoid.space/mltt/inductive/</link>
+    <guid isPermaLink="true">https://groupoid.space/mltt/inductive/</guid>
+    <pubDate>Mon, 20 Jun 2018 9:20:00 +0002</pubDate>
   </item>
   <item>
-    <title>PODCAST ISSUE #1</title>
-    <description>General Introduction by Groupoid Infinity Team</description>
-    <link>https://soundcloud.com/maxim-sokhatsky/omexe-podcast</link>
-    <guid isPermaLink="true">https://soundcloud.com/maxim-sokhatsky/omexe-podcast</guid>
-    <pubDate>Mon, 3 May 2015 14:20:00 +0000</pubDate>
+    <title>TYPES</title>
+    <description>Mathematical Components</description>
+    <link>https://groupoid.space/mltt/types/</link>
+    <guid isPermaLink="true">https://groupoid.space/mltt/types/</guid>
+    <pubDate>Mon, 20 Jun 2018 9:20:00 +0002</pubDate>
+  </item>
+  <item>
+    <title>ISO</title>
+    <description>Path Isomorphism</description>
+    <link>https://groupoid.space/mltt/iso/</link>
+    <guid isPermaLink="true">https://groupoid.space/mltt/iso/</guid>
+    <pubDate>Mon, 20 Jun 2018 9:20:00 +0002</pubDate>
+  </item>
+  <item>
+    <title>HOPF</title>
+    <description>Hopf Fibrations</description>
+    <link>https://groupoid.space/mltt/hopf/</link>
+    <guid isPermaLink="true">https://groupoid.space/mltt/hopf/</guid>
+    <pubDate>Mon, 20 Jun 2018 9:20:00 +0002</pubDate>
   </item>
 </channel>
 </rss>
