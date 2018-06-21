@@ -80,6 +80,7 @@ fiber.getPoint = function(t) {
     return new THREE.Vector3(r*x1/m,r*x2/m, r*x3/m);
 };
 </code><div class="om"><section><h1>Topology</h1><p>Could we reason about spheres without metric? Yes!
+But could we do this in a constructive way? Also yes.
 </p></section></div><section><h2>Fiber</h2><p><b>Definition</b> (Fiber). The fiber of the map $p: E \rightarrow B$ in a point $y: B$
 is all points $x: E$ such that $p(x)=y$.</p><p></p><code>fiber (E B: U) (p: E -> B) (y: B): U
     = (x: E) * Path B y (p x)
