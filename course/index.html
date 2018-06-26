@@ -1,0 +1,54 @@
+<!DOCTYPE html><html><head><meta charset="utf-8"><meta http-equiv="x-ua-compatible" content="ie=edge"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="author" content="Maxim Sokhatsky"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:site" content="@5HT"><meta name="twitter:creator" content="@5HT"><meta name="twitter:image" content="https://groupoid.space/card2.png"><meta property="og:title" content="Groupoid Infinity"><meta property="og:image" content="https://groupoid.space/card2.png"><meta property="og:type" content="website"><meta property="fb:app_id" content="118554188236439"><meta property="og:url" content="https://groupoid.space"><meta property="og:description" content="MLTT Language with Extensions"><link rel="stylesheet" href="https://groupoid.space/main.css?v=10"><script src="//cdnjs.cloudflare.com/ajax/libs/mathjax/2.6.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><script>MathJax.Hub.Config({
+   tex2jax: { inlineMath: [['$','$'], ['\\(','\\)']], processEscapes: true },
+   jax: ["input/TeX", "input/MathML", "input/AsciiMath", "output/CommonHTML", "output/NativeMML"],
+   TeX: { extensions: ["AMSmath.js", "AMSsymbols.js", "autoload-all.js"] },
+   extensions: ["tex2jax.js", "asciimath2jax.js", "mml2jax.js", "MathMenu.js", "MathZoom.js"],
+   "HTML-CSS": { imageFont: null },
+});</script><title>COURSES</title></head><body class="content"><header class="header"><a href="//groupoid.space/"><img class="header__logo" src="../../groupoid.svg"/></a><div class="header__titles"><h1 class="header__title">Cubical Course</h1><h4 class="header__subtitle">Introduction to Modern Type Theories</h4></div></header><article class="main"><div class="om"><section><h1>Seminar</h1></section><aside>Максим Сохацький, Київ<br><25-06-2018></25-06-2018></aside><h2>Intro</h2><p>This seminar supposed to be a contemporary introduction
+to modern type theory that is suitable for mathematicians needs,
+in the sense that this theory forms a foundation of mathematics
+and the language for theorems formulation and their proofs.
+</p><h2>Purpose</h2><p>The seminar will focus on
+1) direct proof-term construction
+in cubical type theory with computer-based type checker;
+2) solving home assignments in cubical type checker;
+3) make people writing cubical code;
+4) writing lecture notes by students in LaTeX;
+5) making small course project as the
+final task (could be porting some library or theory
+from Agda or even formalizing a new part of mathematics);
+6) gather smart people together;
+7) have fun.
+</p><h2>The Book</h2><p>While this seminar will try to follow HoTT book as a main source,
+I will try to give some parts, not present in HoTT, such as
+algebraic topology or higher category theory. On the other
+hand I will miss some parts from HoTT. Please treat this
+course as author's one, but heavily inspired by HoTT book
+and cubical type checkers.
+</p><h2>Allowed Languages</h2><p>What is cubical type theory and why it is important?
+The cubical type theory is a theory in which univalence
+axiom by Voevodsky has computational interpretation.
+There are several type checkers which use different
+flavors of cubical type theory while sharing the same concept.
+Most notable stable implementations are: 1) agda --cubical;
+2) cubicaltt; 3) cubicaltt/hcomptrans; 4) yacctt; 5) RedPRL.
+We will show differences between them and students are free
+to choose type checker of their favor (for home assignments),
+but at learning classes (join hackathon) I will use cubicaltt
+flavor I most experienced with.
+</p></div><div class="om"><section><h1>Course Structure</h1><h2>Lection 1</h2><h2>Lection 2</h2><h2>Lection 3</h2><h2>Lection 4</h2><h2>Lection 5</h2></section></div><div class="om"><section><h1>History</h1></section></div><div class="types"><h2>History</h2><p>As for the tower of type theories that are necessary for CCHM (Cohen-Coquand-Huber-Mortberg)
+introduction we will use the following setting.
+</p><h2>Type Systems</h2><div class="type"><ol class="type__col"><h3>PTS</h3><li><a href="#pi">PI</a></li></ol><ol class="type__col"><h3>MLTT</h3><li><a href="#pi">PI</a></li><li><a href="#sigma">SIGMA</a></li><li><a href="#id">ID</a></li><li><a href="#W">W</a></li></ol><ol class="type__col"><h3>CIC</h3><li><a href="#pi">PI</a></li><li><a href="#sigma">SIGMA</a></li><li><a href="#id">ID</a></li><li><a href="#fix">FIX</a></li><li><a href="#induction">INDUCTION</a></li></ol><ol class="type__col"><h3>CCHM</h3><li><a href="#pi">PI</a></li><li><a href="#sigma">SIGMA</a></li><li><a href="#path">PATH</a></li><li><a href="#comp">COMP</a></li><li><a href="#glue">GLUE</a></li><li><a href="#HIT">HIT</a></li></ol></div><p>These historical
+prerequisites (PTS, MLTT, CiC) and will be given along the way of the course.
+The history part could be extended by request from the students.
+</p></div><div class="om"><section><h1>Beyond Cubical</h1></section></div><section><p>Cohesive Type Theory is satisfying the needs of modeling modalities, such as
+connectedness, compactness, infinitesimal shapes, etc.
+Differential Cohesive Type Theory is the internal language of differential
+cohesive $(\infty,1)$-topoi, with additional structure, just as $(\infty,1)$-categories
+add a globular path equality structure to locally cartesian closed categories
+and its internal language — MLTT. Please refer to
+<a href="https://hott-uf.github.io/2017/abstracts/cohesivett.pdf">cohesivett</a>
+for more information.
+</p><p>Cohesive types modeled in the base library and undefined axioms.
+Process Calculus is another example of modality types with special
+spawn arrows hiding the underlying run-time implementation.</p></section></article><footer class="footer"><img class="footer__logo" src="https://longchenpa.guru/seal.png" width="50"><span class="footer__copy">2016&mdash;2018 &copy; <a href="//groupoid.space/team.html" style="color:white;">Groupoid Infinity</a></span></footer><script src="https://groupoid.space/bundle.js"></script><script src="https://groupoid.space/highlight.js?v=8"></script></body></html>

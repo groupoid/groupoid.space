@@ -1,0 +1,124 @@
+extends ../layout.pug
+
+block title
+    script(src='//cdnjs.cloudflare.com/ajax/libs/mathjax/2.6.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML')
+    script.
+       MathJax.Hub.Config({
+          tex2jax: { inlineMath: [['$','$'], ['\\(','\\)']], processEscapes: true },
+          jax: ["input/TeX", "input/MathML", "input/AsciiMath", "output/CommonHTML", "output/NativeMML"],
+          TeX: { extensions: ["AMSmath.js", "AMSsymbols.js", "autoload-all.js"] },
+          extensions: ["tex2jax.js", "asciimath2jax.js", "mml2jax.js", "MathMenu.js", "MathZoom.js"],
+          "HTML-CSS": { imageFont: null },
+       });
+    title COURSES
+
+block content
+    +header('../../groupoid.svg', 'Cubical Course', 'Introduction to Modern Type Theories')
+    article.main
+        .om
+            section
+                h1 Seminar
+            aside Максим Сохацький, Київ<br>
+                25-06-2018
+
+            h2 Intro
+            p.
+                This seminar supposed to be a contemporary introduction
+                to modern type theory that is suitable for mathematicians needs,
+                in the sense that this theory forms a foundation of mathematics
+                and the language for theorems formulation and their proofs.
+
+            h2 Purpose
+            p.
+                The seminar will focus on
+                1) direct proof-term construction
+                in cubical type theory with computer-based type checker;
+                2) solving home assignments in cubical type checker;
+                3) make people writing cubical code;
+                4) writing lecture notes by students in LaTeX;
+                5) making small course project as the
+                final task (could be porting some library or theory
+                from Agda or even formalizing a new part of mathematics);
+                6) gather smart people together;
+                7) have fun.
+
+            h2 The Book
+            p.
+                While this seminar will try to follow HoTT book as a main source,
+                I will try to give some parts, not present in HoTT, such as
+                algebraic topology or higher category theory. On the other
+                hand I will miss some parts from HoTT. Please treat this
+                course as author's one, but heavily inspired by HoTT book
+                and cubical type checkers.
+
+            h2 Allowed Languages
+            p.
+                What is cubical type theory and why it is important?
+                The cubical type theory is a theory in which univalence
+                axiom by Voevodsky has computational interpretation.
+                There are several type checkers which use different
+                flavors of cubical type theory while sharing the same concept.
+                Most notable stable implementations are: 1) agda --cubical;
+                2) cubicaltt; 3) cubicaltt/hcomptrans; 4) yacctt; 5) RedPRL.
+                We will show differences between them and students are free
+                to choose type checker of their favor (for home assignments),
+                but at learning classes (join hackathon) I will use cubicaltt
+                flavor I most experienced with.
+
+        .om
+            section
+                h1 Course Structure
+
+                h2 Lection 1
+                h2 Lection 2
+                h2 Lection 3
+                h2 Lection 4
+                h2 Lection 5
+        .om
+            section
+                h1 History
+
+        .types
+            h2 History
+            p.
+                As for the tower of type theories that are necessary for CCHM (Cohen-Coquand-Huber-Mortberg)
+                introduction we will use the following setting.
+
+            h2 Type Systems
+            -
+                    var core = {
+                    'PTS':  [ 'pi' ],
+                    'MLTT': [ 'pi', 'sigma', 'id', 'W' ],
+                    'CiC':  [ 'pi', 'sigma', 'id', 'fix', 'induction' ],
+                    'CCHM': [ 'pi', 'sigma', 'path', 'comp', 'glue', 'HIT' ],
+                }
+
+            .type
+                for v, k in core
+                    ol.type__col
+                        h3= k.toUpperCase()
+                        for i in v
+                            li: a(href='#'+i)= i.toUpperCase()
+            p.
+                These historical
+                prerequisites (PTS, MLTT, CiC) and will be given along the way of the course.
+                The history part could be extended by request from the students.
+
+        .om
+            section
+                h1 Beyond Cubical
+        section
+            p.
+                Cohesive Type Theory is satisfying the needs of modeling modalities, such as
+                connectedness, compactness, infinitesimal shapes, etc.
+                Differential Cohesive Type Theory is the internal language of differential
+                cohesive $(\infty,1)$-topoi, with additional structure, just as $(\infty,1)$-categories
+                add a globular path equality structure to locally cartesian closed categories
+                and its internal language — MLTT. Please refer to
+                <a href="https://hott-uf.github.io/2017/abstracts/cohesivett.pdf">cohesivett</a>
+                for more information.
+
+            p.
+                Cohesive types modeled in the base library and undefined axioms.
+                Process Calculus is another example of modality types with special
+                spawn arrows hiding the underlying run-time implementation.
