@@ -36,7 +36,24 @@ We will show differences between them and students are free
 to choose type checker of their favor (for home assignments),
 but at learning classes (joint hackathon) I will use cubicaltt
 flavor I most experienced with.
-</p></div><div class="om"><section><h1>Course Structure</h1><h2>Lection 1</h2><h2>Lection 2</h2><h2>Lection 3</h2><h2>Lection 4</h2><h2>Lection 5</h2></section></div><div class="om"><section><h1>History</h1></section></div><div class="types"><h2>History</h2><p>As for the tower of type theories that are necessary for CCHM (Cohen-Coquand-Huber-Mortberg)
+</p></div><div class="om"><section><h1>Foundations</h1><h2>1. MLTT</h2></section></div><section><p>The first section is an introduction to type theory,
+its subject matter, and the method of computer science. We will
+show basic principles of lambda calculus, its most powerful
+version &mdash; System $P_\omega$, Calculus of Constructions,
+Pure Type Systems. Then we will encode the theorems of MLTT
+type system in cubical type checkers. This section will cover
+<b>Pi</b>, <b>Sigma</b>, <b>Equ</b>, <b>W</b> types.</p><p>HoTT 1.3, 1.4, 1.5, 1.6, 1.12, 2.7, 2.9, 2.11, 6.2</p></section><div class="om"><section><h2>2. Inductive Types</h2></section></div><section><p>The second section is an introduction to basic inductive
+types and induction principle. Inductive types form a basis
+of so-called Calculus of Inductive Constructions, the theory behind Coq.
+We will show how proving theorems with induction principle will
+differ from cubical constructions.  Also, we introduce an
+general Impredicative Encoding of Inductive Types (Awodey).
+This section will cover: <b>Empty</b>, <b>Unit</b>,
+<b>Either</b>, <b>Prod</b>, <b>Bool</b>, <b>Nat</b>, <b>List</b> types.</p><p>HoTT 1.7, 1.8, 1.9, 5.1, 5.6</p></section><div class="om"><section><h2>3. Fibrations and n-Groupoids</h2></section><p>This section will cover: <b>Fiber</b>, <b>n-Groupoid</b>, <b>$\infty$-Groupoid</b> types.</p></div><section><p>Fibrations. n-Types. Connectedness.</p><p>HoTT 2.1, 2.3, 2.4, 2.6, 2.7</p></section><div class="om"><section><h2>4. Prop and Set</h2></section></div><section><p>Axiom of Choice. Contractability.</p><p>HoTT 3.1, 3.3, 3.11</p></section><div class="om"><section><h2>5. Equiv, Iso and Univ</h2></section></div><section><p>Weak equivalence, Isomorphism, Univalence. Functional Extensionality.
+This section will cover: <b>Equiv</b>, <b>Iso</b>, <b>Homotopy</b>,
+<b>Univalence</b> types.</p><p></p></section><div class="om"><section><h2>6. Higher Inductive Types</h2></section></div><section><p>This section will cover: <b>Line</b>, <b>Suspension</b>,
+<b>n-Sphere</b>, <b>Pushout</b>, <b>Pullback</b>,
+<b>Truncation</b>, <b>Quotient</b> types.</p><p>HoTT 6.3, 6.4, 6.5, 6.9, 6.10</p></section><div class="om"><section><h2>7. Modalities</h2></section></div><section><p>This section will cover: <b>Infinitesimal</b> type.</p></section><div class="om"><section><h1>Mathematics</h1><h2>8. Category Theory</h2><h2>9. Topos Theory</h2><h2>10. Cardinals</h2><h2>11. Algebraic Topology</h2><h2>12. Hopf Fibrations</h2><h1>History</h1></section></div><div class="types"><h2>History</h2><p>As for the tower of type theories that are necessary for CCHM (Cohen-Coquand-Huber-Mortberg)
 introduction we will use the following setting.
 </p><h2>Type Systems</h2><div class="type"><ol class="type__col"><h3>PTS</h3><li><a href="#pi">PI</a></li></ol><ol class="type__col"><h3>MLTT</h3><li><a href="#pi">PI</a></li><li><a href="#sigma">SIGMA</a></li><li><a href="#id">ID</a></li><li><a href="#W">W</a></li></ol><ol class="type__col"><h3>CIC</h3><li><a href="#pi">PI</a></li><li><a href="#sigma">SIGMA</a></li><li><a href="#id">ID</a></li><li><a href="#fix">FIX</a></li><li><a href="#induction">INDUCTION</a></li></ol><ol class="type__col"><h3>CCHM</h3><li><a href="#pi">PI</a></li><li><a href="#sigma">SIGMA</a></li><li><a href="#path">PATH</a></li><li><a href="#comp">COMP</a></li><li><a href="#glue">GLUE</a></li><li><a href="#HIT">HIT</a></li></ol></div><p>These historical
 prerequisites (PTS, MLTT, CiC) and will be given along the way of the course.
