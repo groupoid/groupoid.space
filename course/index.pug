@@ -93,17 +93,20 @@ block content
                 differ from cubical constructions.  Also, we introduce an
                 general Impredicative Encoding of Inductive Types (Awodey).
                 This section will cover: <b>Empty</b>, <b>Unit</b>,
-                <b>Either</b>, <b>Prod</b>, <b>Bool</b>, <b>Nat</b>, <b>List</b> types.
+                <b>Either</b>, <b>Prod</b>, <b>Bool</b>, <b>Maybe</b>,
+                <b>Nat</b>, <b>List</b>, <b>Fix</b>, <b>Mu</b>, <b>Nu</b>,
+                <b>Free</b>, <b>Cofree</b> types.
             p.
                 HoTT 1.7, 1.8, 1.9, 5.1, 5.6
         .om
             section
                 h2 3. Fibrations and n-Groupoids
             p.
-                This section will cover: <b>Fiber</b>, <b>n-Groupoid</b>, <b>$\infty$-Groupoid</b> types.
-        section
-            p.
-                Fibrations. n-Types. Connectedness.
+                This topic gives a fundamental view of Pi types as Fibrations
+                used in constructive Equivalence. Also here we give an infinite
+                hierarchy of types, containing higher globular equalities used
+                as a base for IPL, Set Theory, and Simplicial Geometry.
+                This section will cover <b>Fiber</b>, <b>n-Groupoid</b>, <b>$\infty$-Groupoid</b> types.
             p.
                 HoTT 2.1, 2.3, 2.4, 2.6, 2.7
         .om
@@ -111,7 +114,11 @@ block content
                 h2 4. Prop and Set
         section
             p.
-                Axiom of Choice. Contractability.
+                This section is an introduction to Intuitionistic Propositional Logic (IPL)
+                its difference from Classical Logic, Axiom of Choice, Law of Excluding Middle,
+                Propositional Truncation, Hedberg Theorem, Decidable Types, Constructive Set Theory.
+                This section will cover: <b>Prop</b>, <b>Set</b>, <b>Decidable</b>,
+                <b>Stable</b>, <b>Discrete</b> types.
             p.
                 HoTT 3.1, 3.3, 3.11
         .om
@@ -119,26 +126,37 @@ block content
                 h2 5. Equiv, Iso and Univ
         section
             p.
-                Weak equivalence, Isomorphism, Univalence. Functional Extensionality.
+                In Type Theory exists on three equalities: 1) built-in into type checker,
+                representing Id, Equ or Path type with J eliminator; 2) Fibration based Equivalence;
+                3) Isomorphism containing retract and section.
+                This fact leads to Univalence Axiom that states that all equalities are equal and this
+                could be proved in cubical type checkers.
                 This section will cover: <b>Equiv</b>, <b>Iso</b>, <b>Homotopy</b>,
-                <b>Univalence</b> types.
+                <b>Univalence</b>, <b>Mono</b>, <b>Epi</b> types.
             p.
+                HoTT 2.10, 4.6, 4.7
         .om
             section
                 h2 6. Higher Inductive Types
         section
             p.
+                One of the primary motivation of HoTT is constructive geometry and
+                cell complexes, the spaces constructed by gluing n-discs along
+                their boundaries. In this section, we show how to build topological
+                primitives and reason about them.
                 This section will cover: <b>Line</b>, <b>Suspension</b>,
                 <b>n-Sphere</b>, <b>Pushout</b>, <b>Pullback</b>,
                 <b>Truncation</b>, <b>Quotient</b> types.
             p.
-                HoTT 6.3, 6.4, 6.5, 6.9, 6.10
+                HoTT 6.3, 6.4, 6.5, 6.6, 6.9, 6.10
         .om
             section
                 h2 7. Modalities
         section
             p.
                 This section will cover: <b>Infinitesimal</b> type.
+            p.
+                HoTT 7.7
         .om
             section
                 h1 Mathematics
@@ -192,6 +210,6 @@ block content
                 for more information.
 
             p.
-                Cohesive types modeled in the base library and undefined axioms.
+                Cohesive types modeled in the base library as undefined axioms.
                 Process Calculus is another example of modality types with special
                 spawn arrows hiding the underlying run-time implementation.
