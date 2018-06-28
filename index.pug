@@ -12,16 +12,18 @@ block content
             aside 7 MAY 2018
             p.
                 Here is presented the conceptual model of theorem proving system as a set of
-                1) calculuses with its categorical models;
-                2) programs or base libraries; and
-                3) program transformations: type checking, compilation, code erasure, extraction, optimizing, etc.
-                The overal system is dedicated for math and general purpose programming
-                with code extraction to functional programming language compilers or interpreters.
+                1) calculuses with its categorical models; 2) programs or base libraries; and
+                3) program transformations: type checking, compilation, code erasure,
+                extraction, optimizing, and other. The overall system is for math and
+                general purpose programming with code extraction to functional programming
+                language compilers or interpreters.
+
             section
                 h1 STRUCTURE
             p.
                 The thesis is grouped by research areas with its corresponding type systems,
                 formal models, type checkers and base libraries.
+
         .index
             .index__col
                 h2 Lambda CPS
@@ -63,11 +65,12 @@ block content
                     li: a(href='/array/intro') Introduction
                     li: a(href='#array/lang') The Language
                     li: a(href='#array/vec') Vectorization
+
         .om
             section
                 h1 TRANSFORMATIONS
             p.
-                The process of formal verification is started from model encoding (1),
+                The process of formal verification starts from model encoding (1),
                 then linking with the base library of math components (2),
                 then desugaring to pure functions (6),
                 then linking with pure base library (3),
