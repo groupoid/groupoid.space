@@ -66,13 +66,27 @@ representing Id, Equ or Path type with J eliminator; 2) Fibration based Equivale
 This fact leads to Univalence Axiom that states that all equalities are equal and this
 could be proved in cubical type checkers.
 This section will cover: <b>Equiv</b>, <b>Iso</b>, <b>Homotopy</b>,
-<b>Univalence</b>, <b>Mono</b>, <b>Epi</b> types.</p><p>HoTT 2.10, 4.6, 4.7</p></section><div class="om"><section><h2>6. Higher Inductive Types</h2></section></div><section><p>One of the primary motivation of HoTT is constructive geometry and
+<b>Univalence</b>, <b>Injective</b>, <b>Surjective</b> types.</p><p>HoTT 2.10, 4.6, 4.7</p></section><div class="om"><section><h2>6. Higher Inductive Types</h2></section></div><section><p>One of the primary motivation of HoTT is constructive geometry and
 cell complexes, the spaces constructed by gluing n-discs along
 their boundaries. In this section, we show how to build topological
 primitives and reason about them.
 This section will cover: <b>Line</b>, <b>Suspension</b>,
 <b>n-Sphere</b>, <b>Pushout</b>, <b>Pullback</b>,
-<b>Truncation</b>, <b>Quotient</b> types.</p><p>HoTT 6.3, 6.4, 6.5, 6.6, 6.9, 6.10</p></section><div class="om"><section><h2>7. Modalities</h2></section></div><section><p>This section will cover: <b>Infinitesimal</b> type.</p><p>HoTT 7.7</p></section><div class="om"><section><h1>Mathematics</h1><h2>8. Category Theory</h2><h2>9. Topos Theory</h2><h2>10. Basic Algebra</h2><h2>11. Cardinals</h2><h2>12. Algebraic Topology</h2><h2>13. Hopf Fibrations</h2><h2>14. Grothiendick Group</h2><h1>History</h1></section></div><div class="types"><h2>Historical Notes</h2><p>As for the tower of type theories that are necessary for CCHM (Cohen-Coquand-Huber-Mortberg)
+<b>Truncation</b>, <b>Quotient</b> types.</p><p>HoTT 6.3, 6.4, 6.5, 6.6, 6.9, 6.10</p></section><div class="om"><section><h2>7. Modalities</h2></section></div><section><p>This section will cover: <b>Infinitesimal</b> type.</p><p>HoTT 7.7</p></section><div class="om"><section><h1>Mathematics</h1><h2>8. Category Theory</h2></section></div><section><p>More than 10 Field's awards are taken with Category Theory (CT) as an instrument.
+For doing Math, CT is crucial. As a companion to HoTT chapter on CT,
+we suggest the course of Steve Awodey (the disciple of Saunders Mac Lane),
+who also made HoTT possible.</p><p>This section will give the fundamental notion of following types:
+<b>Precategory</b>, <b>Rezk Completion</b>,
+<b>Functor</b>, <b>Natural Transformation</b>, <b>Adjoint</b>, <b>Cone</b>,
+<b>Structure Identity Principle</b>, <b>Limit</b>, <b>Pullback</b>, <b>Kan Extension</b>,
+<b>Monomorphism</b>, <b>Epimorphism</b>, <b>Universal Mapping Property</b>.</p><p>The primary application of CT in Computer Science is a building of the
+categorical model of Dependently Typed Lambda Calculus as an internal
+language of Locally Cartesian Closed Category. The two models mentioned
+in this course are Categories with Families (Dybjer) and C-Systems (Voevodsky).</p><p>Also as examples of Category instances following types are used: Category of Sets,
+Category of Functions, Category of Categories, Category of Functors. Using those
+we can construct basic examples of 2-categories, and give a very basic intro to
+Higher Categories.</p></section><div class="om"><section><h2>9. Topos Theory</h2></section></div><section><p>Topos Theory will give a more in-depth look into categorical models
+and make a more strong foundation to build a bridge between CT and Logic of Space.</p><p>In this section, I will mention Subobject Classifier and Topos types.</p></section><div class="om"><section><h2>10. Basic Algebra</h2><h2>11. Cardinals</h2><h2>12. Algebraic Topology</h2><h2>13. Hopf Fibrations</h2><h2>14. Grothiendick Group</h2><h1>History</h1></section></div><div class="types"><h2>Historical Notes</h2><p>As for the tower of type theories that are necessary for CCHM (Cohen-Coquand-Huber-Mortberg)
 introduction we will use the following setting.
 </p><h2>Type Systems</h2><div class="type"><ol class="type__col"><h3>PTS</h3><li><a href="#pi">PI</a></li></ol><ol class="type__col"><h3>MLTT</h3><li><a href="#pi">PI</a></li><li><a href="#sigma">SIGMA</a></li><li><a href="#id">ID</a></li><li><a href="#W">W</a></li></ol><ol class="type__col"><h3>CIC</h3><li><a href="#pi">PI</a></li><li><a href="#sigma">SIGMA</a></li><li><a href="#id">ID</a></li><li><a href="#fix">FIX</a></li><li><a href="#induction">INDUCTION</a></li></ol><ol class="type__col"><h3>CCHM</h3><li><a href="#pi">PI</a></li><li><a href="#sigma">SIGMA</a></li><li><a href="#path">PATH</a></li><li><a href="#comp">COMP</a></li><li><a href="#glue">GLUE</a></li><li><a href="#HIT">HIT</a></li></ol></div><p>These historical
 prerequisites (PTS, MLTT, CiC) and will be given along the way of the course.
