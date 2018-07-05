@@ -1,0 +1,7 @@
+@article{Hedberg98,
+  title={A coherence theorem for Martin-Löf's type theory},
+  volume={8}, number={4}, journal={Journal of Functional Programming},
+  publisher={Cambridge University Press}, author={Hedberg, Michael},
+  year={1998}, pages={413–436}
+}
+
