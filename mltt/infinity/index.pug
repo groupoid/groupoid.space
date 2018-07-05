@@ -39,9 +39,11 @@ block content
                             li: a(href='#comp') COMP
                             li: a(href='#glue') GLUE
                 p.
-                    The history of Type Theory take its root MLTT paper <sup>1</sup>.
-                    The the Type Theory was fixed with Id types, W, Nat, List types were added <sup>2</sup>.
-                    The type checker of single axiom system with Pi types only was given in CoC paper <sup>3</sup>.
+                    The history of Type Theory take its root from MLTT paper <sup>1</sup>.
+                    The the Type Theory was fixed for Predicative Universes with Id types,
+                    and W, Nat, List types were added <sup>2</sup>.
+                    The type checker of single axiom system with Pi types only is
+                    given in the CoC paper <sup>3</sup>.
                 p.
                     <a href="https://raw.githubusercontent.com/groupoid/groupoid.space/master/mltt/infinity/references/01.Lof72.txt">[1]</a>. P. Martin-Löf and G. Sambin, The Theory of Types. Studies in proof theory, 1972.
                     <a href="https://raw.githubusercontent.com/groupoid/groupoid.space/master/mltt/infinity/references/02.Lof84.txt">[2]</a>. P. Martin-Löf and G. Sambin, Intuitionistic type theory. Studies in proof theory, Bibliopolis, 1984.
@@ -51,8 +53,8 @@ block content
                     <a href="https://raw.githubusercontent.com/groupoid/groupoid.space/master/mltt/infinity/references/06.Erik97.txt">[6]</a>. S. P. Jones and E. Meijer, “Henk: A typed intermediate language,” in In Proc. First Int’l Workshop on Types in Compilation, 1997.
 
                 p.
-                    Then Voevodsky presented HTS without a computational semantics of univalence
-                    axiom. This later was fixed by Mortberg et all in cubicaltt.
+                    Then Voevodsky presented HTS with Univalence Axiom, but without a computational semantics.
+                    This later was fixed by Mortberg et all in cubicaltt.
 
                 h2 Cubical Syntax
                 p.
@@ -155,12 +157,13 @@ block content
 
                 h2 Inductive Types
                 p.
-                    The further development of induction<sup>5</sup> inside MLTT provers led
-                    to the theory of polynomial functors and well-founded trees<sup>4</sup>,
+                    The further development of induction inside MLTT provers led
+                    to the theory of polynomial functors and well-founded trees,
                     known in programming languages as inductive types with data
                     and record core primitives of type checker. In fact recursive inductive
-                    types<sup>3</sup> could be encoded in PTS using non-recursive representation
-                    Berarducci<sup>1</sup> or Categorical<sup>6</sup> encoding.
+                    types could be encoded in PTS using non-recursive representation of
+                    Bohm-Berarducci schemes or Categorical Impredicative encoding by Steve Awodey.
+
                 code.
                     data tele (A: U)   = emp | tel (n: name) (b: A) (t: tele A)
                     data branch (A: U) =        br (n: name) (args: list name) (term: A)
@@ -171,8 +174,8 @@ block content
                        | case   (n: name) (t: lang)      (branches: list (branch lang))
                        | ctor   (n: name)                (args:     list lang)
                 p.
-                    The non-well-founded trees or infinite coinductive trees<sup>6,8</sup>
-                    are useful for modeling infinite process running which is part
+                    The non-well-founded trees or infinite coinductive trees
+                    are useful for modeling infinite processes and is part
                     of Milner's Pi-calculus. Coinductive streams are part of any MLTT base library.
                 p.
                     <a href="https://raw.githubusercontent.com/groupoid/groupoid.space/master/mltt/infinity/references/40.Bohm85.txt">[40]</a>. C. Böhm and A. Berarducci, “Automatic synthesis of typed lambda- programs on term algebras,” in Theoretical Computer Science, vol. 39, pp. 135–154, 1985.
@@ -187,12 +190,12 @@ block content
                 h2 Higher Inductive Types
                 p.
                     The fundamental development of equality inside MLTT
-                    provers led us to the notion of ∞-groupoid<sup>2</sup> as spaces.
-                    In this was Path identity type appeared in the core
+                    provers led us to the notion of ∞-groupoid as spaces.
+                    In this way Path identity type appeared in the core
                     of type checker along with de Morgan algebra on
                     built-in interval type. Glue, unglue composition
                     and fill operations are also needed in the core
-                    for the univalence computability<sup>8</sup>.
+                    for the univalence computability and coherence.
                 code.
                     data hts
                        = path (a b: lang)
