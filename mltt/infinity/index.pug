@@ -70,6 +70,7 @@ block content
                        ids := [ id ]
                      codec := def dec
                        dec := 0 + codec
+                br.
                 code.
                        imp := [ import id ]
                       tele := 0 + cotele
@@ -78,6 +79,7 @@ block content
                         br := ids -> exp
                        mod := module id where imp def
                      cobrs := | br brs
+                br.
                 code.
                        def := data id tele = sum + id tele : exp = exp + id tele : exp where def
                        exp := cotele * exp + cotele -> exp + exp -> exp + app + ( exp ) + id +
