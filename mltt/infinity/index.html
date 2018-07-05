@@ -20,13 +20,13 @@ core <a href="https://groupois.space/mltt/types">cubical base library</a>.</p><c
    id := [ #nat ]
   ids := [ id ]
 codec := def dec
-  dec := 0 + codec</code><code>   imp := [ import id ]
+  dec := 0 + codec</code><br><code>   imp := [ import id ]
   tele := 0 + cotele
 cotele := ( exp : exp ) tele
    sum := 0 + id tele + id tele | sum
     br := ids -> exp
    mod := module id where imp def
- cobrs := | br brs</code><code>def := data id tele = sum + id tele : exp = exp + id tele : exp where def
+ cobrs := | br brs</code><br><code>def := data id tele = sum + id tele : exp = exp + id tele : exp where def
 exp := cotele * exp + cotele -> exp + exp -> exp + app + ( exp ) + id +
        split cobrs + exp.1 + exp.2 + \ cotele -> exp
 </code><h2>Infinity Language</h2><p>The idea of Infinity Langauge is a unified layered type checker.

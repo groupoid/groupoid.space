@@ -1,0 +1,7 @@
+@inproceedings{Wadler90,
+  booktitle={Recursive types for free},
+  author={Wadler, Philip},
+  year={1990},
+  publisher={manuscript}
+}
+

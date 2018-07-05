@@ -1,0 +1,9 @@
+@inproceedings{Selsam16,
+  title={Congruence closure in intensional type theory},
+  author={Selsam, Daniel and de Moura, Leonardo},
+  booktitle={International Joint Conference on Automated Reasoning},
+  pages={99--115},
+  year={2016},
+  organization={Springer}
+}
+

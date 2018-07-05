@@ -1,0 +1,10 @@
+@article{Curien14,
+  title={Revisiting the categorical interpretation of dependent type theory},
+  author={Curien, Pierre-Louis and Garner, Richard and Hofmann, Martin},
+  journal={Theoretical Computer Science},
+  volume={546},
+  pages={99--119},
+  year={2014},
+  publisher={Elsevier}
+}
+

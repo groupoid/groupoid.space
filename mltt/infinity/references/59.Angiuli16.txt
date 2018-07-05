@@ -1,0 +1,7 @@
+@article{Angiuli16,
+  title={Computational higher type theory I: Abstract cubical realizability},
+  author={Angiuli, Carlo and Harper, Robert and Wilson, Todd},
+  journal={arXiv preprint arXiv:1604.08873},
+  year={2016}
+}
+

@@ -1,0 +1,9 @@
+@book{Lof84,
+  title     = {Intuitionistic type theory},
+  author    = {Martin-L{\"o}f, P. and Sambin, G.},
+  series    = {Studies in proof theory},
+  url       = {https://books.google.com.ua/books?id=\_D0ZAQAAIAAJ},
+  year      = {1984},
+  publisher = {Bibliopolis}
+}
+

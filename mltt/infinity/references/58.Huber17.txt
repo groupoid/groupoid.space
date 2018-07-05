@@ -1,0 +1,9 @@
+@article{Huber17,
+  title={Canonicity for cubical type theory},
+  author={Huber, Simon},
+  journal={Journal of Automated Reasoning},
+  pages={1--38},
+  year={2017},
+  publisher={Springer}
+}
+
