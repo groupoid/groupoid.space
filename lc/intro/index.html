@@ -1,12 +1,12 @@
-<!DOCTYPE html><html><head><meta charset="utf-8"><meta http-equiv="x-ua-compatible" content="ie=edge"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="author" content="Maxim Sokhatsky"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:site" content="@5HT"><meta name="twitter:creator" content="@5HT"><meta name="twitter:image" content="https://groupoid.space/card2.png"><meta property="og:title" content="Groupoid Infinity"><meta property="og:image" content="https://groupoid.space/card2.png"><meta property="og:type" content="website"><meta property="fb:app_id" content="118554188236439"><meta property="og:url" content="https://groupoid.space"><meta property="og:description" content="MLTT Language with Extensions"><link rel="stylesheet" href="https://groupoid.space/main.css?v=10"><title>O</title></head><body class="content"><header class="header"><a href="//groupoid.space/"><img class="header__logo" src="../../groupoid.svg"/></a><div class="header__titles"><h1 class="header__title">Lazy Lambda Interpreter</h1><h4 class="header__subtitle">O &mdash; CPS language with general recursion</h4></div></header><article class="main"><div class="om"><section><h1>Article</h1></section><aside>Maxim Sokhatsky<time>31 DEC 16</time></aside><section><h2 id="nat">Untyped Lazy Interpreter</h2><p>The motivation of building interpreter that can be runned
-on L1 sizes (limited to 64KB by code and data) came from
-sucess of LuaJIT, V8, HotSpot and vector lanaguages such as K, J.
-If we can build really fast VM for that interpreter
-(compact aligned bytecode) and make stick to L1 sizes
-with enabled AVX instruction it can outperform any reasonable alternatives.
-</p><p>Such approach was taken when building O-CPS interpreter in Rust.
-And following observations was made on calculating factorial (5) and
-ackerman function (3,4) even without bytecode VM implementation!
+<!DOCTYPE html><html><head><meta charset="utf-8"><meta http-equiv="x-ua-compatible" content="ie=edge"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="author" content="Maxim Sokhatsky"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:site" content="@5HT"><meta name="twitter:creator" content="@5HT"><meta name="twitter:image" content="https://groupoid.space/card2.png"><meta property="og:title" content="Groupoid Infinity"><meta property="og:image" content="https://groupoid.space/card2.png"><meta property="og:type" content="website"><meta property="fb:app_id" content="118554188236439"><meta property="og:url" content="https://groupoid.space"><meta property="og:description" content="MLTT Language with Extensions"><link rel="stylesheet" href="https://groupoid.space/main.css?v=10"><title>O</title></head><body class="content"><header class="header"><a href="//groupoid.space/"><img class="header__logo" src="../../groupoid.svg"/></a><div class="header__titles"><h1 class="header__title">Lazy Lambda Interpreter</h1><h4 class="header__subtitle">O &mdash; CPS language with general recursion</h4></div></header><article class="main"><div class="om"><section><h1>Article</h1></section><aside>Maxim Sokhatsky<time>31 DEC 16</time></aside><section><h2 id="nat">Untyped Lazy Interpreter</h2><p>The motivation for building an interpreter that can run
+on L1 cache sizes (limited to 64KB of code and data) is based on
+success of LuaJIT, V8, HotSpot, and vector lanaguages such as K and J.
+If we can build a really fast VM for such interpreter
+(compact aligned bytecode) and make it stick to L1 sizes
+with enabled AVX instruction set then it can outperform any reasonable alternative.
+</p><p>This approach was chosen for building O-CPS interpreter in Rust.
+Following results were achieved in factorial (5) and
+ackerman function (3,4) benchmarks, and that's even without bytecode VM implementation!
 Next step to improvement.
 </p><code>Rust    0
 Java    3
@@ -17,12 +17,12 @@ K       756
 Erlang  10699/1806/436/9
 LuaJIT  33856</code><br><code>akkerman_k     635 ns/iter (+/- 73)
 akkerman_rust  8,968 ns/iter (+/- 322)
-</code><p>The key challenge was that O-CPS implementation was made in Rust's
-flavour of linear types, and thus lambda interpreter as internal
-language of cartesian closed category was written in language with
-linear types and lifetimes as internal language of symmetric
-monoidal categories. Such exercise definitely will extend
-your confidence of linear types.
+</code><p>The key challenge here was that O-CPS implementation was made in Rust's
+flavour of linear types. Thus lambda interpreter as an internal
+language of cartesian closed category was written in a language with
+linear types and lifetimes as an internal language of symmetric
+monoidal categories. Such an exercise will definitely increase
+your confidence in linear types.
 </p><h2 id="vec">Built-in Vectorization by Rust</h2><code>(&AST::Atom(Atom::Value(Value::$vec(ref l))),
  &AST::Atom(Atom::Value(Value::$vec(ref r)))) => {
     let a: Vec<$atype> = l.iter()
