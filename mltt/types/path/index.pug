@@ -108,19 +108,38 @@ block content
 
                 h2 J by Paulin-Mohring
                 code.
-                    JPM (A: U) (a b: A) (P: singl A a -> U)
-                      (u: P (a,refl A a)) (p: Path A a b): P (b,p)
+                    J (A: U)
+                      (a b: A)
+                      (P: singl A a -> U)
+                      (u: P (a,refl A a))
+                      (p: Path A a b) : P (b,p)
                 p.
                     JPM is formulated in a form of Paulin-Mohring and implemented using
                     two facts that singleton are contractible and dependent function
                     transport.
 
-                h2 Dependent Eliminator
+                h2 Dependent Eliminator (HoTT)
                 code.
-                    J (A : U) (a : A) (C : (x : A) -> Path A a x -> U)
-                      (d : C a (refl A a)) (x : A) (p : Path A a x) : C x p
+                    J (A: U)
+                      (a: A)
+                      (C: (x: A) -> Path A a x -> U)
+                      (d: C a (refl A a))
+                      (x: A)
+                      (p: Path A a x) : C x p
                 p.
                     J from HoTT book.
+
+                h2 Diagonal Version
+                code.
+                    D (A: U) : U = (x y: A) -> Equ A x y -> U
+
+                    J (A: U)
+                      (x: A)
+                      (C: D A)
+                      (d: C x x (reflect A x))
+                      (y: A)
+                      (p: Equ A x y) : C x y p
+                p.
 
                 h1 Function Extensionality
 

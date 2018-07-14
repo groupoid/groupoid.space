@@ -52,13 +52,27 @@ Defined as path composition with $[]$ of a over a path p
       (a b : A) (p : Path A a b)
       (u : P a) : P b</code><p>Acts like transport of mapOnPath value, representing the
 dependent function transport or substitution.
-</p><h2>J by Paulin-Mohring</h2><code>JPM (A: U) (a b: A) (P: singl A a -> U)
-  (u: P (a,refl A a)) (p: Path A a b): P (b,p)</code><p>JPM is formulated in a form of Paulin-Mohring and implemented using
+</p><h2>J by Paulin-Mohring</h2><code>J (A: U)
+  (a b: A)
+  (P: singl A a -> U)
+  (u: P (a,refl A a))
+  (p: Path A a b) : P (b,p)</code><p>JPM is formulated in a form of Paulin-Mohring and implemented using
 two facts that singleton are contractible and dependent function
 transport.
-</p><h2>Dependent Eliminator</h2><code>J (A : U) (a : A) (C : (x : A) -> Path A a x -> U)
-  (d : C a (refl A a)) (x : A) (p : Path A a x) : C x p</code><p>J from HoTT book.
-</p><h1>Function Extensionality</h1><h2>Non-dependent</h2><code>funExt (A B: U) (f g : A -> B)
+</p><h2>Dependent Eliminator (HoTT)</h2><code>J (A: U)
+  (a: A)
+  (C: (x: A) -> Path A a x -> U)
+  (d: C a (refl A a))
+  (x: A)
+  (p: Path A a x) : C x p</code><p>J from HoTT book.
+</p><h2>Diagonal Version</h2><code>D (A: U) : U = (x y: A) -> Equ A x y -> U
+
+J (A: U)
+  (x: A)
+  (C: D A)
+  (d: C x x (reflect A x))
+  (y: A)
+  (p: Equ A x y) : C x y p</code><p></p><h1>Function Extensionality</h1><h2>Non-dependent</h2><code>funExt (A B: U) (f g : A -> B)
        (p : (x : A) -> Path B (f x) (g x))
        : Path (A -> B) f g</code><p></p><h2>Inverse</h2><code>funExtInv (A B: U) (f g: A -> B)
           (p : Path (A -> B) f g) (x: A)
