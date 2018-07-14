@@ -21,38 +21,40 @@
 </script></head><body class="content"><article class="main"><div class="om"><section><h1>path</h1></section></div><aside><a href="..">Base Library</a><time>Published: 16 OCT 2017</time></aside><div class="om"><section><p><a href="https://raw.githubusercontent.com/groupoid/infinity/master/priv/path.ctt">Path package</a>
 contains basic theorems about general homotopy path types.
 In the core cubical has heterogenous <mark>PathP</mark> type,
-so you can easily define homogenous <mark>Path</mark>:</p><code>Path (A : U) (a b : A) : U
-    = PathP (&lt;i&gt; A) a b</code><p>The Path identity type defines a Path space. Elements
+so you can easily define homogenous <mark>Path</mark>:</p><code>Path (A: U) (a b: A) : U = PathP (&lt;i&gt; A) a b</code><p>The Path identity type defines a Path space. Elements
 of that space are functions from interval $[0,1]$ to
 a values of that path space.
-</p></section><section><h1>Intro</h1><h2>Reflexivity Path Space</h2><code>refl (A : U) (a : A) : Path A a a</code><p>Returns a reflexivity path space for a given value of the type.
+</p></section><section><h1>Introduction Rule</h1><h2>Reflexivity Path Space</h2><code>refl (A: U) (a: A) : Path A a a</code><p>Returns a reflexivity path space for a given value of the type.
 The inhabitant of that path space is the lambda on the homotopy
 interval $[0,1]$ that returns a constant value a. Written in
 syntax as <mark>&lt;i&gt; a</mark>.
-</p><h1>Lemmas</h1><h2>Contractability of Singleton</h2><code>singl (A : U) (a : A) : U
-    = (x : A) * Path A a x
+</p><h1>Lemmas</h1><h2>Contractability of Singleton</h2><code>singl (A: U) (a: A) : U = (x: A) * Path A a x
 
-contrSingl (A : U) (a b : A) (p : Path A a b):
-    Path (singl A a) (a,refl A a) (b,p)</code><p>Proof that singleton is contractible space. Implemented as
+contrSingl (A: U) (a b: A) (p: Path A a b)
+         : Path (singl A a) (a,refl A a) (b,p)</code><p>Proof that singleton is contractible space. Implemented as
 <mark>&lt;i&gt; (p @ i,<j> p @ i/\j)</mark>.
-</p><h2>Map</h2><code>mapOnPath (A B : U) (f : A -> B)
-    (a b : A) (p : Path A a b):
-    Path B (f a) (f b)</code><p>Maps a given path space between values of one type
+</p><h2>Map on Path</h2><code>ap  (A B: U) (f: A -> B)
+    (a b: A) (p: Path A a b)
+  : Path B (f a) (f b)
+
+apd (A: U) (a x:A) (B:A->U) (f: A->B a)
+    (b: B a) (p: Path A a x)
+  : Path (B a) (f a) (f x)
+</code><p>Maps a given path space between values of one type
 to path space of another type by an encode function between types.
 Implemented as lambda defined on $[0,1]$ that returns
 application of encode function to path application of
-the given path to lamda argument
-<mark>&lt;i&gt f (p @ i)</mark>.
-</p><h1>Eliminators</h1><h2>Transport</h2><code>trans (A B : U) (p : Path U A B)
-      (a : A) : B</code><p>Transports a value of the left type to the value of the right type
+the given path to lamda argument <mark>&lt;i&gt f (p @ i)</mark>
+for both cases.
+</p><h2>Transport</h2><code>trans (A B: U) (p: Path U A B) (a: A) : B</code><p>Transports a value of the left type to the value of the right type
 by a given path element of the path space between left and right type.
 Defined as path composition with $[]$ of a over a path p
 <mark>comp p a []</mark>.
-</p><h2>Substitution</h2><code>subst (A : U) (P : A -> U)
-      (a b : A) (p : Path A a b)
-      (u : P a) : P b</code><p>Acts like transport of mapOnPath value, representing the
+</p><h2>Substitution</h2><code>subst (A: U) (P: A -> U)
+      (a b: A) (p: Path A a b)
+      (u: P a) : P b</code><p>Acts like transport of mapOnPath value, representing the
 dependent function transport or substitution.
-</p><h2>J by Paulin-Mohring</h2><code>J (A: U)
+</p><h1>Eliminators</h1><h2>J by Paulin-Mohring</h2><code>J (A: U)
   (a b: A)
   (P: singl A a -> U)
   (u: P (a,refl A a))
@@ -72,12 +74,21 @@ J (A: U)
   (C: D A)
   (d: C x x (reflect A x))
   (y: A)
-  (p: Equ A x y) : C x y p</code><p></p><h1>Function Extensionality</h1><h2>funext Intro</h2><code>funext (A B: U) (f g: A -> B)
+  (p: Equ A x y) : C x y p</code><p></p><h1>Coherence</h1><h2>Computation Rule</h2><code>trans_comp (A: U) (a: A)
+         : Path A a (trans A A (<_> A) a)
+
+subst_comp (A: U) (P: A -> U) (a: A) (e: P a)
+         : Path (P a) e (subst A P a a (refl A a) e)
+
+J_comp     (A: U) (a: A) (C: (x: A) -> Path A a x -> U)
+           (d: C a (refl A a))
+         : Path (C a (refl A a)) d (J A a C d a (refl A a))</code><p></p><h1>Function Extensionality</h1><h2>Introduction Rule</h2><code>funext (A B: U) (f g: A -> B)
        (p: (x:A) -> Path B (f x) (g x))
-     : Path (A -> B) f g</code><p></p><h2>happly Elim</h2><code>happly (A B: U) (f g: A -> B) (p: Path (A -> B) f g) (x: A)
+     : Path (A -> B) f g</code><p></p><h2>Eliminator</h2><code>happly (A B: U) (f g: A -> B) (p: Path (A -> B) f g) (x: A)
      : Path B (f x) (g x)</code><p></p><h2>Computation Rule</h2><code>funext_Beta (A B: U) (f g: A -> B)
             (p: (x:A) -> Path B (f x) (g x))
-          : (x:A) -> Path B (f x) (g x)</code><p></p><h2>Uniqueness Rule</h2><code>funext_Eta (A B: U) (f g: A -> B) (p: Path (A -> B) f g)
+          : (x:A) -> Path B (f x) (g x)</code><p></p><h2>Uniqueness Rule</h2><code>funext_Eta (A B: U) (f g: A -> B)
+           (p: Path (A -> B) f g)
          : Path (Path (A -> B) f g) (funext A B f g (happly A B f g p)) p</code><p></p><h2>Dependent Version</h2><code>piext (A: U) (B: A -> U) (f g: (x: A) -> B x)
       (p: (x: A) -> Path (B x) (f x) (g x))
     : Path ((y: A) -> B y) f g</code><p></p></section></div></article><footer class="footer"><img class="footer__logo" src="https://longchenpa.guru/seal.png" width="50"><span class="footer__copy">2016&mdash;2018 &copy; <a href="//groupoid.space/team.html" style="color:white;">Groupoid Infinity</a></span></footer><script src="https://groupoid.space/bundle.js"></script><script src="https://groupoid.space/highlight.js?v=8"></script></body></html>

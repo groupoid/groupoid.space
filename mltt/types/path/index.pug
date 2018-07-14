@@ -40,19 +40,18 @@ block content
                     In the core cubical has heterogenous <mark>PathP</mark> type,
                     so you can easily define homogenous <mark>Path</mark>:
                 code.
-                    Path (A : U) (a b : A) : U
-                        = PathP (&lt;i&gt; A) a b
+                    Path (A: U) (a b: A) : U = PathP (&lt;i&gt; A) a b
                 p.
                     The Path identity type defines a Path space. Elements
                     of that space are functions from interval $[0,1]$ to
                     a values of that path space.
 
             section
-                h1 Intro
+                h1 Introduction Rule
 
                 h2 Reflexivity Path Space
                 code.
-                    refl (A : U) (a : A) : Path A a a
+                    refl (A: U) (a: A) : Path A a a
                 p.
                     Returns a reflexivity path space for a given value of the type.
                     The inhabitant of that path space is the lambda on the homotopy
@@ -63,34 +62,35 @@ block content
 
                 h2 Contractability of Singleton
                 code.
-                    singl (A : U) (a : A) : U
-                        = (x : A) * Path A a x
+                    singl (A: U) (a: A) : U = (x: A) * Path A a x
 
-                    contrSingl (A : U) (a b : A) (p : Path A a b):
-                        Path (singl A a) (a,refl A a) (b,p)
+                    contrSingl (A: U) (a b: A) (p: Path A a b)
+                             : Path (singl A a) (a,refl A a) (b,p)
                 p.
                     Proof that singleton is contractible space. Implemented as
                     <mark>&lt;i&gt; (p @ i,<j> p @ i/\j)</mark>.
 
-                h2 Map
+                h2 Map on Path
                 code.
-                    mapOnPath (A B : U) (f : A -> B)
-                        (a b : A) (p : Path A a b):
-                        Path B (f a) (f b)
+                    ap  (A B: U) (f: A -> B)
+                        (a b: A) (p: Path A a b)
+                      : Path B (f a) (f b)
+
+                    apd (A: U) (a x:A) (B:A->U) (f: A->B a)
+                        (b: B a) (p: Path A a x)
+                      : Path (B a) (f a) (f x)
+
                 p.
                     Maps a given path space between values of one type
                     to path space of another type by an encode function between types.
                     Implemented as lambda defined on $[0,1]$ that returns
                     application of encode function to path application of
-                    the given path to lamda argument
-                    <mark>&lt;i&gt f (p @ i)</mark>.
-
-                h1 Eliminators
+                    the given path to lamda argument <mark>&lt;i&gt f (p @ i)</mark>
+                    for both cases.
 
                 h2 Transport
                 code.
-                    trans (A B : U) (p : Path U A B)
-                          (a : A) : B
+                    trans (A B: U) (p: Path U A B) (a: A) : B
                 p.
                     Transports a value of the left type to the value of the right type
                     by a given path element of the path space between left and right type.
@@ -99,12 +99,14 @@ block content
 
                 h2 Substitution
                 code.
-                    subst (A : U) (P : A -> U)
-                          (a b : A) (p : Path A a b)
-                          (u : P a) : P b
+                    subst (A: U) (P: A -> U)
+                          (a b: A) (p: Path A a b)
+                          (u: P a) : P b
                 p.
                     Acts like transport of mapOnPath value, representing the
                     dependent function transport or substitution.
+
+                h1 Eliminators
 
                 h2 J by Paulin-Mohring
                 code.
@@ -141,16 +143,31 @@ block content
                       (p: Equ A x y) : C x y p
                 p.
 
+                h1 Coherence
+
+                h2 Computation Rule
+                code.
+                    trans_comp (A: U) (a: A)
+                             : Path A a (trans A A (<_> A) a)
+
+                    subst_comp (A: U) (P: A -> U) (a: A) (e: P a)
+                             : Path (P a) e (subst A P a a (refl A a) e)
+
+                    J_comp     (A: U) (a: A) (C: (x: A) -> Path A a x -> U)
+                               (d: C a (refl A a))
+                             : Path (C a (refl A a)) d (J A a C d a (refl A a))
+                p.
+
                 h1 Function Extensionality
 
-                h2 funext Intro
+                h2 Introduction Rule
                 code.
                     funext (A B: U) (f g: A -> B)
                            (p: (x:A) -> Path B (f x) (g x))
                          : Path (A -> B) f g
                 p.
 
-                h2 happly Elim
+                h2 Eliminator
                 code.
                     happly (A B: U) (f g: A -> B) (p: Path (A -> B) f g) (x: A)
                          : Path B (f x) (g x)
@@ -165,7 +182,8 @@ block content
 
                 h2 Uniqueness Rule
                 code.
-                    funext_Eta (A B: U) (f g: A -> B) (p: Path (A -> B) f g)
+                    funext_Eta (A B: U) (f g: A -> B)
+                               (p: Path (A -> B) f g)
                              : Path (Path (A -> B) f g) (funext A B f g (happly A B f g p)) p
                 p.
 
