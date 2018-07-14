@@ -14,17 +14,17 @@ block content
             section
                 h2#nat Untyped Lazy Interpreter
                 p.
-                    The motivation of building interpreter that can be runned
-                    on L1 sizes (limited to 64KB by code and data) came from
-                    sucess of LuaJIT, V8, HotSpot and vector lanaguages such as K, J.
-                    If we can build really fast VM for that interpreter
-                    (compact aligned bytecode) and make stick to L1 sizes
-                    with enabled AVX instruction it can outperform any reasonable alternatives.
+                    The motivation for building an interpreter that can run
+                    on L1 cache sizes (limited to 64KB of code and data) is based on
+                    success of LuaJIT, V8, HotSpot, and vector lanaguages such as K and J.
+                    If we can build a really fast VM for such interpreter
+                    (compact aligned bytecode) and make it stick to L1 sizes
+                    with enabled AVX instruction set then it can outperform any reasonable alternative.
 
                 p.
-                    Such approach was taken when building O-CPS interpreter in Rust.
-                    And following observations was made on calculating factorial (5) and
-                    ackerman function (3,4) even without bytecode VM implementation!
+                    This approach was chosen for building O-CPS interpreter in Rust.
+                    Following results were achieved in factorial (5) and
+                    ackerman function (3,4) benchmarks, and that's even without bytecode VM implementation!
                     Next step to improvement.
 
                 code.
@@ -43,12 +43,12 @@ block content
                     akkerman_rust  8,968 ns/iter (+/- 322)
 
                 p.
-                    The key challenge was that O-CPS implementation was made in Rust's
-                    flavour of linear types, and thus lambda interpreter as internal
-                    language of cartesian closed category was written in language with
-                    linear types and lifetimes as internal language of symmetric
-                    monoidal categories. Such exercise definitely will extend
-                    your confidence of linear types.
+                    The key challenge here was that O-CPS implementation was made in Rust's
+                    flavour of linear types. Thus lambda interpreter as an internal
+                    language of cartesian closed category was written in a language with
+                    linear types and lifetimes as an internal language of symmetric
+                    monoidal categories. Such an exercise will definitely increase
+                    your confidence in linear types.
 
                 h2#vec Built-in Vectorization by Rust
 
