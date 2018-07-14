@@ -143,23 +143,35 @@ block content
 
                 h1 Function Extensionality
 
-                h2 Non-dependent
+                h2 funext Intro
                 code.
-                    funExt (A B: U) (f g : A -> B)
-                           (p : (x : A) -> Path B (f x) (g x))
-                           : Path (A -> B) f g
+                    funext (A B: U) (f g: A -> B)
+                           (p: (x:A) -> Path B (f x) (g x))
+                         : Path (A -> B) f g
                 p.
 
-                h2 Inverse
+                h2 happly Elim
                 code.
-                    funExtInv (A B: U) (f g: A -> B)
-                              (p : Path (A -> B) f g) (x: A)
-                              : Path B (f x) (g x)
+                    happly (A B: U) (f g: A -> B) (p: Path (A -> B) f g) (x: A)
+                         : Path B (f x) (g x)
                 p.
 
-                h2 Dependent
+                h2 Computation Rule
                 code.
-                    piExt (A : U) (B : A -> U) (f g : (x : A) -> B x)
-                          (p : (x : A) -> Path (B x) (f x) (g x))
-                          : Path ((y : A) -> B y) f g
+                    funext_Beta (A B: U) (f g: A -> B)
+                                (p: (x:A) -> Path B (f x) (g x))
+                              : (x:A) -> Path B (f x) (g x)
+                p.
+
+                h2 Uniqueness Rule
+                code.
+                    funext_Eta (A B: U) (f g: A -> B) (p: Path (A -> B) f g)
+                             : Path (Path (A -> B) f g) (funext A B f g (happly A B f g p)) p
+                p.
+
+                h2 Dependent Version
+                code.
+                    piext (A: U) (B: A -> U) (f g: (x: A) -> B x)
+                          (p: (x: A) -> Path (B x) (f x) (g x))
+                        : Path ((y: A) -> B y) f g
                 p.
