@@ -15,15 +15,15 @@ block content
         section
         h2#Abstract Low Latency Transport
         p.
-            The InterCore bus constructed of number of SPMC queues per core. The bus itself
-            has start topology between cores and MPSC is organized as a computable function
+            The InterCore bus is constructed of a number of SPMC queues per core. The bus itself
+            has a star topology between cores, and MPSC is organized as a computable function
             over a set of publisher queues. Each core has exatcly one publisher queue.
         p.
             The InterCore protocol handler is called <b>poll_bus</b> and is a member of
-            each <b>Scheduler</b>. You may think of InterCore as teleport trasnport between
-            processors as <b>poll_bus</b> is being fired on each yield to scheduler and
-            if any core has any message addressed to you since last yield on your
-            core, then your core before next task will execute the handler on this message.
+            each <b>Scheduler</b>. You may think of InterCore as a teleport transport between
+            processors since <b>poll_bus</b> is being fired on every yield to scheduler, and
+            if any core has a message addressed to you since the last yield on your
+            core, then your core will execute the handler on this message before the next task.
 
         h2#Publisher Publisher [capacity]
         p.
@@ -34,15 +34,15 @@ block content
 
         h2#Subscriber Subscribe [publisher]
         p.
-            <b>sub</b> created new subscriber CAS cursor based on given writer cursor.
-            Return system-wide cursor Id for reading.
+            <b>sub</b> creates new subscriber CAS cursor based on a given writer cursor.
+            Returns system-wide cursor Id for reading.
         code.
             o) s: sub[p]
 
         h2#Spawn Spawn [core program cursors]
         p.
-            <b>spawn</b> created new Task on a given core. The Task could be O program
-            or any LLVM code with compatible FFI. Also you should specify the ownership
+            <b>spawn</b> creates a new Task on a given core. The Task could be O program
+            or any LLVM code with compatible FFI. Also, you should specify the ownership
             list of cursors that are exclusively available to that Task.
         code.
             o) spawn [0 "etc/proc0" (0;1)]
