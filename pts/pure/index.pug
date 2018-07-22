@@ -17,11 +17,11 @@ block content
             section
                 h2#nat Universes
                 p.
-                    The <b>OM</b> language is a higher-order dependently typed lambda calculus,
+                    The <b>OM</b> programming language is a higher-order dependently typed lambda calculus,
                     an extension of Coquand's Calculus of Constructions
                     with the predicative/impredicative hierarchy of indexed universes.
-                    This extension is motivated avoiding paradoxes in dependent theory.
-                    Also there is no fixpoint axiom needed for the definition
+                    The motivation for this extension is to avoid paradoxes in dependent theory.
+                    Also, fixpoint axiom is not required for definition
                     of infinity term dependance.
                 code.
                     U₀ : U₁ : U₂ : U₃ : …
@@ -51,7 +51,7 @@ block content
                     R₁ (m n : nat) = U m ⟶ U n : U (max m n) — predicative
                 p.
                     Note that predicative universes are incompatible with Church lambda term encoding.
-                    You can switch predicative vs impredicative uninverses by typecheker parameter.
+                    You can switch between predicative and impredicative uninverses using typecheker parameter.
                 .semantics
                         figure.
                             $$
@@ -75,8 +75,8 @@ block content
                 h2#axioms Impredicative Universes
                 p.
                     Propositional contractible bottom space is the only
-                    available extension to predicative hierarchy that not leads to inconsistency.
-                    However there is another option to have infinite
+                    available extension to predicative hierarchy that does not lead to inconsistency.
+                    However, there is another option to have infinite
                     impredicative hierarchy.
                 code.
                     A₂   (n : nat) = U n : U (n + 1) — non-cumulative
@@ -104,7 +104,7 @@ block content
 
                 h2#ast Single Axiom Language
                 p.
-                    This langauge is called one axiom language (or pure) as eliminator
+                    This language is called one axiom language (or pure) as eliminator
                     and introduction adjoint functors inferred from type formation rule.
                     The only computation rule of Pi type is called beta-reduction.
                 code.
@@ -167,7 +167,7 @@ block content
                 h2#ast Syntax
                 p.
                     The terms of OM consist of <b>nat</b> indexed stars, variables, applications,
-                    abstractions and universal quantifications. This language is called Calculus
+                    abstractions, and universal quantifications. This language is called Calculus
                     of Construction and exists in various syntaxes. OM supports <b>Morte's</b> syntax.
                 code.
                     <> = #option
