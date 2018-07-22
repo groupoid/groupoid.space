@@ -157,6 +157,10 @@ block content
                                (d: C a (refl A a))
                              : Path (C a (refl A a)) d (J A a C d a (refl A a))
                 p.
+                    Note that in HoTT there is no Eta rule, otherwise
+                    Path between element would requested to be unique applying
+                    UIP at any Path level which is prohibited. UIP in HoTT
+                    is defined only as instance of n-groupoid, the PROP type.
 
                 h1 Function Extensionality
 

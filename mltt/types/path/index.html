@@ -82,7 +82,11 @@ subst_comp (A: U) (P: A -> U) (a: A) (e: P a)
 
 J_comp     (A: U) (a: A) (C: (x: A) -> Path A a x -> U)
            (d: C a (refl A a))
-         : Path (C a (refl A a)) d (J A a C d a (refl A a))</code><p></p><h1>Function Extensionality</h1><h2>Introduction Rule</h2><code>funext (A B: U) (f g: A -> B)
+         : Path (C a (refl A a)) d (J A a C d a (refl A a))</code><p>Note that in HoTT there is no Eta rule, otherwise
+Path between element would requested to be unique applying
+UIP at any Path level which is prohibited. UIP in HoTT
+is defined only as instance of n-groupoid, the PROP type.
+</p><h1>Function Extensionality</h1><h2>Introduction Rule</h2><code>funext (A B: U) (f g: A -> B)
        (p: (x:A) -> Path B (f x) (g x))
      : Path (A -> B) f g</code><p></p><h2>Eliminator</h2><code>happly (A B: U) (f g: A -> B) (p: Path (A -> B) f g) (x: A)
      : Path B (f x) (g x)</code><p></p><h2>Computation Rule</h2><code>funext_Beta (A B: U) (f g: A -> B)

@@ -1,0 +1,40 @@
+<!DOCTYPE html><html><head><meta charset="utf-8"><meta http-equiv="x-ua-compatible" content="ie=edge"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="author" content="Maxim Sokhatsky"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:site" content="@5HT"><meta name="twitter:creator" content="@5HT"><meta name="twitter:image" content="https://groupoid.space/card2.png"><meta property="og:title" content="Groupoid Infinity"><meta property="og:image" content="https://groupoid.space/card2.png"><meta property="og:type" content="website"><meta property="fb:app_id" content="118554188236439"><meta property="og:url" content="https://groupoid.space"><meta property="og:description" content="MLTT Language with Extensions"><link rel="stylesheet" href="https://groupoid.space/main.css?v=10"><title>HOMOLOGY</title><script src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML"></script><script>window.MathJax = { jax: ["input/TeX", "input/MathML", "input/AsciiMath", "output/CommonHTML", "output/NativeMML"],
+                        TeX: { extensions: ["AMSmath.js", "AMSsymbols.js", "autoload-all.js"] },
+                        extensions: ["tex2jax.js", "asciimath2jax.js", "mml2jax.js", "MathMenu.js", "MathZoom.js"],
+                        "HTML-CSS": { imageFont: null },
+                        AuthorInit: function() {
+                            MathJax.Hub.Register.StartupHook("TeX AMSmath Ready", function() {
+                                var TEX = MathJax.InputJax.TeX;
+                                TEX.Definitions.Add({
+                                    macros: {
+                                      llparenthesis: ['Macro', '\\mathopen{\u2987}'],
+                                      rrparenthesis: ['Macro', '\\mathclose{\u2988}'],
+                                      llbracket:     ['Macro', '\\mathopen{\u27E6}'],
+                                      rrbracket:     ['Macro', '\\mathclose{\u27E7}'],
+                                    }
+                                });
+                            });
+                        },
+                        tex2jax: { inlineMath: [['$','$'], ['\\(','\\)']],
+                                   processEscapes: true }
+                    };
+</script></head><body class="content"><article class="main"><div class="om"><section><h1>HOMOLOGY</h1></section></div><aside><a href="..">Base Library</a><time>Published: 16 OCT 2017</time></aside><div class="om"><section><figure>$$\def\mapright#1{\xrightarrow{{#1}}}
+  \def\mapdown#1{\Big\downarrow\rlap{\raise2pt{\scriptstyle{#1}}}}
+  \def\mapdiagl#1{\vcenter{\searrow}\rlap{\raise2pt{\scriptstyle{#1}}}}
+  \def\mapdiagr#1{\vcenter{\swarrow}\rlap{\raise2pt{\scriptstyle{#1}}}}
+$$</figure><p><a href="https://raw.githubusercontent.com/groupoid/infinity/master/priv/homology.ctt">Homology package</a>
+contains basic theorems about general homology theory.
+</p></section><section><h1>Introduction</h1><p><b>Definition</b> (Homology). The map from a pair of topological
+spaces $A \subset X$ to an Abelian Groups, called homological
+groups $H_n(X,A)$ iff: i) Any map $f : (X,A) \rightarrow (Y,B)$
+induces homomorphism $f_* : H_n(X,A) \rightarrow H_n(Y,B)$ such that
+$id_* = id : H_n(X,A) \rightarrow H_n(X,A)$, $(f \circ g)_* = f_* \circ g_*$
+ii) There is unique homomorphism
+$\delta : H_n(X,A) \rightarrow H_{n-1}(A) = H_{n-1}(A,\empty)$
+such that</p><figure>$$
+\begin{array}{ccc}
+    H_n(X,A) & \mapright{\mathbf{\delta}} & H_{n-1}(A) \\
+    \mapdown{\mathbf{f_*}} & & \mapdown{\mathbf{f*}} \\
+    H_n(Y,B) & \mapright{\mathbf{\delta}} & H_{n-1}(B) \\
+\end{array}
+$$</figure></section></div></article><footer class="footer"><img class="footer__logo" src="https://longchenpa.guru/seal.png" width="50"><span class="footer__copy">2016&mdash;2018 &copy; <a href="//groupoid.space/team.html" style="color:white;">Groupoid Infinity</a></span></footer><script src="https://groupoid.space/bundle.js"></script><script src="https://groupoid.space/highlight.js?v=8"></script></body></html>
