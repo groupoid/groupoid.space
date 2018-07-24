@@ -38,6 +38,7 @@ block content
                     $$\def\mapright#1{\xrightarrow{{#1}}}
                       \def\mapleft#1{\xleftarrow{{#1}}}
                       \def\mapup#1{\Big\uparrow\rlap{\raise2pt{\scriptstyle{#1}}}}
+                      \def\mapupl#1{\Big\uparrow\llap{\raise2pt{\scriptstyle{#1}}}}
                       \def\mapdown#1{\Big\downarrow\rlap{\raise2pt{\scriptstyle{#1}}}}
                       \def\mapdownl#1{\Big\downarrow\llap{\raise2pt{\scriptstyle{#1}}}}
                       \def\mapdiagl#1{\vcenter{\searrow}\rlap{\raise2pt{\scriptstyle{#1}}}}
@@ -84,14 +85,14 @@ block content
                     $$
                     \begin{array}{ccc}
                         b & \mapright{\\(i:I) \rightarrow b} & b \\
-                        \mapdownl{p} &  & \mapdown{\\(i:I)\rightarrow b} \\
+                        \mapupl{p} &  & \mapup{\\(i:I)\rightarrow b} \\
                         a & \mapright{p} & b \\
                     \end{array}
                     $$
                     $$
                     \begin{array}{ccc}
                         a & \mapright{p} & b \\
-                        \mapdownl{\\(i:I)\rightarrow a} &  & \mapdown{p} \\
+                        \mapupl{\\(i:I)\rightarrow a} &  & \mapup{p} \\
                         a & \mapright{\\(i:I)\rightarrow a} & a \\
                     \end{array}
                     $$
@@ -148,7 +149,7 @@ block content
                     $$
                     \begin{array}{ccc}
                         a & \mapright{comp} & c \\
-                        \mapdownl{\\(i:I) \rightarrow a} & & \mapdown{q} \\
+                        \mapupl{\\(i:I) \rightarrow a} & & \mapup{q} \\
                         a & \mapright{p @ i} & b \\
                     \end{array}
                     $$
