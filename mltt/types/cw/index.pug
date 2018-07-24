@@ -79,10 +79,10 @@ block content
                                             (j = 0) -> point, (j = 1) -> point ]
                 br.
                 code.
-                    data D3 (x: S2) = border
-                        | space &lt;i j k&gt; [ ( i = 0) -> border, (i = 1) -> border ,
-                                          ( j = 0) -> border, (j = 1) -> border ,
-                                          ( k = 0) -> border, (k = 1) -> border ]
+                    data D3 (x: S2) = border (x: S2)
+                        | space &lt;i j k&gt; [ ( i = 0) -> border x, (i = 1) -> border x ,
+                                          ( j = 0) -> border x, (j = 1) -> border x ,
+                                          ( k = 0) -> border x, (k = 1) -> border x ]
                 p.
                     <b>Structure of $I^2$ same as of $S^2$</b>. ASCII proof
                     that <b>comp</b> parameters same as in <b>surf</b> constructor:
