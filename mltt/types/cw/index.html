@@ -33,7 +33,7 @@ described as CW-complexes. Usually what you build in cubical type checker
 as an inductive type with equalities means you define some CW-complex
 directly using cubical homogeneous composition structure as an
 element of initial algebra inside cubical model.</p><p><b>Examples.</b> One of the notable is pushout as it is used
-to define the cell attachment formally.</p><code>data pushout (A B C: U) (f: C -> A) (g: C -> B)
+to define the cell attachment formally, as others cofibrant objects.</p><code>data pushout (A B C: U) (f: C -> A) (g: C -> B)
        = po1 (_: A)
        | po2 (_: B)
        | po3 (c: C) &lt;i&gt; [ (i = 0) -> po1 (f c) ,
