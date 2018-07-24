@@ -215,8 +215,8 @@ block content
                 <b>Definition</b> (Sphere $S^n$). Recursive definition.
             code.
                 S: nat -> U = split
-                   zero -> susp bool
-                   succ x -> susp x
+                   zero -> bool
+                   succ x -> susp (S x)
 
                 S2: U = susp S1
                 S3: U = susp S2
