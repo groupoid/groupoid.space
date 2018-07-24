@@ -70,13 +70,11 @@ block content
                     <b>Shperes and Disks.</b> Here are some example of using
                     dimensions to construct spherical shapes.
                 code.
-                    data S1 = base
-                            | loop &lt;i&gt; [ (i = 0) -> base, (i = 1) -> base ]
+                    data S1 = base | loop &lt;i&gt; [ (i = 0) -> base, (i = 1) -> base ]
                 br.
                 code.
-                    data S2 = point
-                             | surf &lt;i j&gt; [ (i = 0) -> point, (i = 1) -> point,
-                                            (j = 0) -> point, (j = 1) -> point ]
+                    data S2 = point | surf &lt;i j&gt; [ (i = 0) -> point, (i = 1) -> point,
+                                                   (j = 0) -> point, (j = 1) -> point ]
                 br.
                 code.
                     data D3 (x: S2) = border (x: S2)
