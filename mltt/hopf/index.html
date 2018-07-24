@@ -19,17 +19,17 @@
                                    processEscapes: true }
                     };
 </script></head><body class="content"><header class="header"><a href="//groupoid.space/"><img class="header__logo" src="../../groupoid.svg"/></a><div class="header__titles"><h1 class="header__title">Hopf Fibrations</h1><h4 class="header__subtitle">The geometric and topological interpretation</h4></div></header><article class="main"><div class="om"><section><h1>Article</h1></section></div><aside>Yuri Artyukh<br>Maxim Sokhatsky<time>DATE: 20 JUN 2018</time></aside><div class="om"><section><h2>Abstract</h2><p>This article defines the Hopf Fibration (HF), the concept
-of splitting the S<sup>3</sup> sphere onto the twisted cartesian product
-of spheres S<sup>1</sup> and S<sup>2</sup>.
+of splitting the $S^3$ sphere onto the twisted cartesian product
+of spheres $S^1$ and $S^2$.
 The basic HF applications are:
 1) HF is a Fiber Bundle structure of Dirac Monopole;
-2) HF is a map from the S<sup>3</sup> in H to the Bloch sphere;
-3) If HF is a vector field in R<sup>3</sup> then exists a solution
+2) HF is a map from the $S^3$ in H to the Bloch sphere;
+3) If HF is a vector field in $R^3$ then exists a solution
 to compressible non-viscous Navier-Stokes equations.
 It was turned out that there are only
 4 dimensions of fibers with Hopf invariant 1, namely
-S<sup>0</sup>, S<sup>1</sup>, S<sup>3</sup>, S<sup>7</sup>.</p><p>The article consists of two parts:
-1) geometric visualization of projection of S<sup>3</sup> to S<sup>2</sup> (frontend);
+$S^0$, $S^1$, $S^3$, $S^7$.</p><p>The article consists of two parts:
+1) geometric visualization of projection of $S^3$ to $S^2$ (frontend);
 2) formal topological version of HF in cubical type theory (backend).
 Consider this as basic intro and a summary of results or companion
 guide to the chapter 8.5 from HoTT.</p></section><figure>$$\def\mapright#1{\xrightarrow{{#1}}}
@@ -137,7 +137,7 @@ H_A=
 A : U\\
 e : A\\
 \mu : A \rightarrow A \rightarrow A\\
-\beta : (a:A) \rightarrow (\mu(e,a)=a,\mu(a,e)=a)
+\beta : (a:A) \rightarrow \Sigma (\mu(e,a)=a) (\mu(a,e)=a)
 \end{cases}
 $$.</p><p><b>Example</b> ($S^1$ Hopf Fiber). Guillaume Brunerie.</p><code>rot: (x : S1) -> Path S1 x x = split
   base -> loop1
