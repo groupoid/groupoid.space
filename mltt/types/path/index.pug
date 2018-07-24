@@ -47,9 +47,9 @@ block content
                     a values of that path space.
 
             section
-                h1 Introduction Rule
+                h1 Definitions
 
-                h2 Reflexivity Path Space
+                h2 Introduction
                 code.
                     refl (A: U) (a: A) : Path A a a
                 p.
@@ -57,6 +57,38 @@ block content
                     The inhabitant of that path space is the lambda on the homotopy
                     interval $[0,1]$ that returns a constant value a. Written in
                     syntax as <mark>&lt;i&gt; a</mark>.
+
+                h2 Applications
+                code.
+                    app1 (A: U) (a b: A) (p: Path A a b): A = p @ 0
+                    app2 (A: U) (a b: A) (p: Path A a b): A = p @ 1
+
+                h2 Connections
+                p.
+                    Connections allows you to build square
+                    with given only one element of path.
+                    $$
+                    \begin{array}{ccc}
+                        b & \mapright{<i>b} & b \\
+                        \mapdown{p} & <i j> p @ i \/ j & \mapdown{<i>b} \\
+                        a & \mapright{p} & b \\
+                    \end{array}
+                    $$
+                    $$
+                    \begin{array}{ccc}
+                        a & \mapright{p} & b \\
+                        \mapdown{<i>a} & <i j> p @ i /\ j & \mapdown{p} \\
+                        a & \mapright{<i>a} & a \\
+                    \end{array}
+                    $$
+                code.
+                    connection1 (A: U) (a b: A) (p: Path A a b)
+                      : PathP (<x> Path A (p @ x) b) p (<_> b)
+                      = <y x> p @ (x \/ y)
+
+                    connection2 (A: U) (a b: A) (p: Path A a b)
+                      : PathP (<x> Path A a (p @ x)) (<_> a) p
+                      = <x y> p @ (x /\ y)
 
                 h1 Lemmas
 
@@ -70,7 +102,7 @@ block content
                     Proof that singleton is contractible space. Implemented as
                     <mark>&lt;i&gt; (p @ i,<j> p @ i/\j)</mark>.
 
-                h2 Map on Path
+                h2 Path Apply, Map on Path, Congruence
                 code.
                     ap  (A B: U) (f: A -> B)
                         (a b: A) (p: Path A a b)
@@ -106,6 +138,15 @@ block content
                     Acts like transport of mapOnPath value, representing the
                     dependent function transport or substitution.
 
+                h2 Composition
+                code.
+                    composition (A: U) (a b c: A)
+                                (p: Path A a b) (q: Path A b c): Path A a c
+                p.
+                    Composition operation allows to build a new path by given to paths
+                    in a connected point. The proofterm is
+                    <mark>comp (&lt;i&gt;Path A a (q @ i)) p []</mark>.
+
                 h1 Eliminators
 
                 h2 J by Paulin-Mohring
@@ -133,17 +174,17 @@ block content
 
                 h2 Diagonal Version
                 code.
-                    D (A: U) : U = (x y: A) -> Equ A x y -> U
+                    D (A: U) : U = (x y: A) -> Path A x y -> U
 
                     J (A: U)
                       (x: A)
                       (C: D A)
-                      (d: C x x (reflect A x))
+                      (d: C x x (refl A x))
                       (y: A)
-                      (p: Equ A x y) : C x y p
+                      (p: Path A x y) : C x y p
                 p.
 
-                h1 Coherence
+                h1 Beta Equality
 
                 h2 Computation Rule
                 code.
@@ -164,27 +205,27 @@ block content
 
                 h1 Function Extensionality
 
-                h2 Introduction Rule
+                h2 Introduction
                 code.
                     funext (A B: U) (f g: A -> B)
                            (p: (x:A) -> Path B (f x) (g x))
                          : Path (A -> B) f g
                 p.
 
-                h2 Eliminator
+                h2 Elimination
                 code.
                     happly (A B: U) (f g: A -> B) (p: Path (A -> B) f g) (x: A)
                          : Path B (f x) (g x)
                 p.
 
-                h2 Computation Rule
+                h2 Computation
                 code.
                     funext_Beta (A B: U) (f g: A -> B)
                                 (p: (x:A) -> Path B (f x) (g x))
                               : (x:A) -> Path B (f x) (g x)
                 p.
 
-                h2 Uniqueness Rule
+                h2 Uniqueness
                 code.
                     funext_Eta (A B: U) (f g: A -> B)
                                (p: Path (A -> B) f g)

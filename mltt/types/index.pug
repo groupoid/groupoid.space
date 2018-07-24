@@ -102,13 +102,13 @@ block content
                         'nr nd +': [ 'unit', 'bool', 'maybe', 'either', 'tuple' ],
                         'r nd +': [ 'fix', 'nat', 'list' ],
                         'nr d +': [ 'exists' ],
-                        'rd +': [ 'fin', 'vector', 'W' ],
+                        'rd +': [ 'fin', 'vector', 'W', 'seq' ],
                     }
                     var types2 = {
                         'nr nd *': [ 'prod', 'pure', 'functor', 'applicative', 'monad' ],
                         'r nd *': [ 'stream' ],
-                        'nr d *': [ 'sigma', 'bundle', 'iso', 'equiv', 'fiber' ],
-                        'HIT *': [ 'category', 'groupoid', 'infinity', 'pullback', 'cw' ],
+                        'nr d *': [ 'sigma', 'bundle', 'iso', 'equiv', 'fiber', 'pullback', 'category' ],
+                        'HIT': [ 'groupoid', 'infinity', 'pushout', 'S1', 'S2', 'hopf', 'cw' ],
                     }
 
                     var legend = {
@@ -512,6 +512,14 @@ block content
             code.
                 data vector (A: U) (n: nat)
                    = nil | cons (_: A) (_: vector A (pred n))
+
+            h2#seq <a name='seq'><a href='seq/'>Seq</a></a>
+            p.
+                <b>seq</b> &mdash; abstract compositional sequences.
+            code.
+                data seq (A: U) (B: A -> A -> U) (X Y: A)
+                   = seqNil (_: A)
+                   | seqCons (X Y Z: A) (_: B X Y) (_: Seq A B Y Z)
 
         .om
             section

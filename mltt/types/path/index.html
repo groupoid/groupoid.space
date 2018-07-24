@@ -24,16 +24,40 @@ In the core cubical has heterogenous <mark>PathP</mark> type,
 so you can easily define homogenous <mark>Path</mark>:</p><code>Path (A: U) (a b: A) : U = PathP (&lt;i&gt; A) a b</code><p>The Path identity type defines a Path space. Elements
 of that space are functions from interval $[0,1]$ to
 a values of that path space.
-</p></section><section><h1>Introduction Rule</h1><h2>Reflexivity Path Space</h2><code>refl (A: U) (a: A) : Path A a a</code><p>Returns a reflexivity path space for a given value of the type.
+</p></section><section><h1>Definitions</h1><h2>Introduction</h2><code>refl (A: U) (a: A) : Path A a a</code><p>Returns a reflexivity path space for a given value of the type.
 The inhabitant of that path space is the lambda on the homotopy
 interval $[0,1]$ that returns a constant value a. Written in
 syntax as <mark>&lt;i&gt; a</mark>.
-</p><h1>Lemmas</h1><h2>Contractability of Singleton</h2><code>singl (A: U) (a: A) : U = (x: A) * Path A a x
+</p><h2>Applications</h2><code>app1 (A: U) (a b: A) (p: Path A a b): A = p @ 0
+app2 (A: U) (a b: A) (p: Path A a b): A = p @ 1
+</code><h2>Connections</h2><p>Connections allows you to build square
+with given only one element of path.
+$$
+\begin{array}{ccc}
+    b & \mapright{<i>b} & b \\
+    \mapdown{p} & <i j> p @ i \/ j & \mapdown{<i>b} \\
+    a & \mapright{p} & b \\
+\end{array}
+$$
+$$
+\begin{array}{ccc}
+    a & \mapright{p} & b \\
+    \mapdown{<i>a} & <i j> p @ i /\ j & \mapdown{p} \\
+    a & \mapright{<i>a} & a \\
+\end{array}
+$$</p><code>connection1 (A: U) (a b: A) (p: Path A a b)
+  : PathP (<x> Path A (p @ x) b) p (<_> b)
+  = <y x> p @ (x \/ y)
+
+connection2 (A: U) (a b: A) (p: Path A a b)
+  : PathP (<x> Path A a (p @ x)) (<_> a) p
+  = <x y> p @ (x /\ y)
+</code><h1>Lemmas</h1><h2>Contractability of Singleton</h2><code>singl (A: U) (a: A) : U = (x: A) * Path A a x
 
 contrSingl (A: U) (a b: A) (p: Path A a b)
          : Path (singl A a) (a,refl A a) (b,p)</code><p>Proof that singleton is contractible space. Implemented as
 <mark>&lt;i&gt; (p @ i,<j> p @ i/\j)</mark>.
-</p><h2>Map on Path</h2><code>ap  (A B: U) (f: A -> B)
+</p><h2>Path Apply, Map on Path, Congruence</h2><code>ap  (A B: U) (f: A -> B)
     (a b: A) (p: Path A a b)
   : Path B (f a) (f b)
 
@@ -54,6 +78,10 @@ Defined as path composition with $[]$ of a over a path p
       (a b: A) (p: Path A a b)
       (u: P a) : P b</code><p>Acts like transport of mapOnPath value, representing the
 dependent function transport or substitution.
+</p><h2>Composition</h2><code>composition (A: U) (a b c: A)
+            (p: Path A a b) (q: Path A b c): Path A a c</code><p>Composition operation allows to build a new path by given to paths
+in a connected point. The proofterm is
+<mark>comp (&lt;i&gt;Path A a (q @ i)) p []</mark>.
 </p><h1>Eliminators</h1><h2>J by Paulin-Mohring</h2><code>J (A: U)
   (a b: A)
   (P: singl A a -> U)
@@ -67,14 +95,14 @@ transport.
   (d: C a (refl A a))
   (x: A)
   (p: Path A a x) : C x p</code><p>J from HoTT book.
-</p><h2>Diagonal Version</h2><code>D (A: U) : U = (x y: A) -> Equ A x y -> U
+</p><h2>Diagonal Version</h2><code>D (A: U) : U = (x y: A) -> Path A x y -> U
 
 J (A: U)
   (x: A)
   (C: D A)
-  (d: C x x (reflect A x))
+  (d: C x x (refl A x))
   (y: A)
-  (p: Equ A x y) : C x y p</code><p></p><h1>Coherence</h1><h2>Computation Rule</h2><code>trans_comp (A: U) (a: A)
+  (p: Path A x y) : C x y p</code><p></p><h1>Beta Equality</h1><h2>Computation Rule</h2><code>trans_comp (A: U) (a: A)
          : Path A a (trans A A (<_> A) a)
 
 subst_comp (A: U) (P: A -> U) (a: A) (e: P a)
@@ -86,12 +114,12 @@ J_comp     (A: U) (a: A) (C: (x: A) -> Path A a x -> U)
 Path between element would requested to be unique applying
 UIP at any Path level which is prohibited. UIP in HoTT
 is defined only as instance of n-groupoid, the PROP type.
-</p><h1>Function Extensionality</h1><h2>Introduction Rule</h2><code>funext (A B: U) (f g: A -> B)
+</p><h1>Function Extensionality</h1><h2>Introduction</h2><code>funext (A B: U) (f g: A -> B)
        (p: (x:A) -> Path B (f x) (g x))
-     : Path (A -> B) f g</code><p></p><h2>Eliminator</h2><code>happly (A B: U) (f g: A -> B) (p: Path (A -> B) f g) (x: A)
-     : Path B (f x) (g x)</code><p></p><h2>Computation Rule</h2><code>funext_Beta (A B: U) (f g: A -> B)
+     : Path (A -> B) f g</code><p></p><h2>Elimination</h2><code>happly (A B: U) (f g: A -> B) (p: Path (A -> B) f g) (x: A)
+     : Path B (f x) (g x)</code><p></p><h2>Computation</h2><code>funext_Beta (A B: U) (f g: A -> B)
             (p: (x:A) -> Path B (f x) (g x))
-          : (x:A) -> Path B (f x) (g x)</code><p></p><h2>Uniqueness Rule</h2><code>funext_Eta (A B: U) (f g: A -> B)
+          : (x:A) -> Path B (f x) (g x)</code><p></p><h2>Uniqueness</h2><code>funext_Eta (A B: U) (f g: A -> B)
            (p: Path (A -> B) f g)
          : Path (Path (A -> B) f g) (funext A B f g (happly A B f g p)) p</code><p></p><h2>Dependent Version</h2><code>piext (A: U) (B: A -> U) (f g: (x: A) -> B x)
       (p: (x: A) -> Path (B x) (f x) (g x))
