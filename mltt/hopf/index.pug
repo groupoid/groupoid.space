@@ -233,7 +233,15 @@ block content
                 $$
             p.
                 <b>Definition</b> (H-space). H-space over a carrier $A$ is a tuple
-                $(A,e,\mu:A\rightarrow A\rightarrow A,(a:A)\rightarrow(\mu(e,a)=a,\mu(a,e)=a))$.
+                $$
+                H_A=
+                \begin{cases}
+                A : U\\
+                e : A\\
+                \mu : A \rightarrow A \rightarrow A
+                \beta : (a:A) \rightarrow (\mu(e,a)=a,\mu(a,e)=a)
+                \end{cases}
+                $$.
             p.
                 <b>Example</b> ($S^1$ Hopf Fiber). Guillaume Brunerie.
             code.
