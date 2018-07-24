@@ -38,17 +38,18 @@ syntax as <mark>&lt;i&gt; a</mark>.
 </p><h2>Applications</h2><code>app1 (A: U) (a b: A) (p: Path A a b): A = p @ 0
 app2 (A: U) (a b: A) (p: Path A a b): A = p @ 1
 </code><h2>Connections</h2><p>Connections allows you to build square
-with given only one element of path.</p><figure>$$
+with given only one element of path: i) $\\(i,j:I) \rightarrow p @ min(i,j)$;
+ii) $\\(i,j:I)\rightarrow p @ max(i,j)$.</p><figure>$$
 \begin{array}{ccc}
     b & \mapright{\\(i:I) \rightarrow b} & b \\
-    \mapdownl{p} & \\(i,j:I) \rightarrow p @ min(i,j) & \mapdown{\\(i:I)\rightarrow b} \\
+    \mapdownl{p} &  & \mapdown{\\(i:I)\rightarrow b} \\
     a & \mapright{p} & b \\
 \end{array}
 $$
 $$
 \begin{array}{ccc}
     a & \mapright{p} & b \\
-    \mapdownl{\\(i:I)\rightarrow a} & \\(i,j:I)\rightarrow p @ max(i,j) & \mapdown{p} \\
+    \mapdownl{\\(i:I)\rightarrow a} &  & \mapdown{p} \\
     a & \mapright{\\(i:I)\rightarrow a} & a \\
 \end{array}
 $$</figure><code>connection1 (A: U) (a b: A) (p: Path A a b)
