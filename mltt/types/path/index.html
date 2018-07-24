@@ -28,7 +28,7 @@
   \def\mapdiagr#1{\vcenter{\swarrow}\rlap{\raise2pt{\scriptstyle{#1}}}}
 $$</figure><p><a href="https://raw.githubusercontent.com/groupoid/infinity/master/priv/path.ctt">Path package</a>
 contains basic theorems about general homotopy path types.
-In the core cubical has heterogenous <mark>PathP</mark> type,</p><code>HeteroPath  (A B: U) (a: A) (b: B) (P: Path U A B) : U = PathP P a b</code><p>so you can easily define homogenous <mark>Path</mark>:</p><code>Path (A: U) (a b: A) : U = PathP (&lt;i&gt; A) a b</code><p>The Path identity type defines a Path space with elements and values.
+In the core cubical has heterogeneous <mark>PathP</mark> type,</p><code>HeteroPath  (A B: U) (a: A) (b: B) (P: Path U A B) : U = PathP P a b</code><p>so you can easily define homogeneous <mark>Path</mark>:</p><code>Path (A: U) (a b: A) : U = PathP (&lt;i&gt; A) a b</code><p>The Path identity type defines a Path space with elements and values.
 Elements of that space are functions
 from interval $[0,1]$ to a values of that path space.
 </p></section><section><h1>Definitions</h1><h2>Introduction</h2><code>refl (A: U) (a: A) : Path A a a</code><p>Returns a reflexivity path space for a given value of the type.
