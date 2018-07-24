@@ -47,13 +47,16 @@ block content
                     <a href="https://raw.githubusercontent.com/groupoid/infinity/master/priv/path.ctt">Path package</a>
                     contains basic theorems about general homotopy path types.
                     In the core cubical has heterogenous <mark>PathP</mark> type,
+                code.
+                    HeteroPath  (A B: U) (a: A) (b: B) (P: Path U A B) : U = PathP P a b
+                p.
                     so you can easily define homogenous <mark>Path</mark>:
                 code.
                     Path (A: U) (a b: A) : U = PathP (&lt;i&gt; A) a b
                 p.
-                    The Path identity type defines a Path space. Elements
-                    of that space are functions from interval $[0,1]$ to
-                    a values of that path space.
+                    The Path identity type defines a Path space with elements and values.
+                    Elements of that space are functions
+                    from interval $[0,1]$ to a values of that path space.
 
             section
                 h1 Definitions
