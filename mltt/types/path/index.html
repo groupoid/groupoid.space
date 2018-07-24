@@ -41,14 +41,14 @@ app2 (A: U) (a b: A) (p: Path A a b): A = p @ 1
 with given only one element of path.</p><figure>$$
 \begin{array}{ccc}
     b & \mapright{\\(i:I) \rightarrow b} & b \\
-    \mapdownl{p} & \\(i,j:I) \rightarrow p @ i \\/ j & \mapdown{\\(i:I)\rightarrow b} \\
+    \mapdownl{p} & \\(i,j:I) \rightarrow p @ min(i,j) & \mapdown{\\(i:I)\rightarrow b} \\
     a & \mapright{p} & b \\
 \end{array}
 $$
 $$
 \begin{array}{ccc}
     a & \mapright{p} & b \\
-    \mapdownl{\\(i:I)\rightarrow a} & \\(i,j:I)\rightarrow p @ i /\\ j & \mapdown{p} \\
+    \mapdownl{\\(i:I)\rightarrow a} & \\(i,j:I)\rightarrow p @ max(i,j) & \mapdown{p} \\
     a & \mapright{\\(i:I)\rightarrow a} & a \\
 \end{array}
 $$</figure><code>connection1 (A: U) (a b: A) (p: Path A a b)
