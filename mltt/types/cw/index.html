@@ -37,12 +37,18 @@ element of initial algebra inside cubical model.</p><p><b>Examples:</b></p><code
        | po2 (_: B)
        | po3 (c: C) &lt;i&gt; [ (i = 0) -> po1 (f c) ,
                           (i = 1) -> po2 (g c) ]</code><p><b>Shperes and Disks:</b></p><code>data S1 = base
-        | loop &lt;i&gt; [ (i = 0) -> base, (i = 1) -> base ]</code><br><code>data S2 = pt
-         | surf &lt;i j&gt; [ (i = 0) -> pt, (i = 1) -> pt,
-                        (j = 0) -> pt, (j = 1) -> pt ]</code><br><code>data D3 (x: S2) = bo
-    | space &lt;i j k&gt; [ ( i = 0) -> bo, (i = 1) -> bo ,
-                      ( j = 0) -> bo, (j = 1) -> bo ,
-                      ( k = 0) -> bo, (k = 1) -> bo ]
+        | loop &lt;i&gt; [ (i = 0) -> base, (i = 1) -> base ]</code><br><code>data S2 = point
+         | surf &lt;i j&gt; [ (i = 0) -> point, (i = 1) -> point,
+                        (j = 0) -> point, (j = 1) -> point ]</code><br><code>data D3 (x: S2) = border
+    | space &lt;i j k&gt; [ ( i = 0) -> border, (i = 1) -> border ,
+                      ( j = 0) -> border, (j = 1) -> border ,
+                      ( k = 0) -> border, (k = 1) -> border ]</code><p><b>Structure of $I^2$ same as of $S^2$:</b></p><code>I2 (A: U) (a0 a1 b0 b1: A) (u: Path A a0 a1) (v: Path A b0 b1)
+      (r0: Path A a0 b0) (r1: Path A a1 b1) : U
+      = PathP (&lt;i&gt; (PathP (&lt;j&gt; A) (u@i) (v@i))) r0 r1
+
+plain (A: U) (x: A): I2 A x x x x (&lt;i&gt; x) (&lt;i&gt; x) (&lt;i&gt; x) (&lt;i&gt; x)
+      = &lt;i j&gt; comp (&lt;_&gt;A) x [(i = 0) -> &lt;i&gt; x, (i=1) -> &lt;i&gt; x,
+                             (j = 0) -> &lt;i&gt; x, (j=1) -> &lt;i&gt; x ]
 </code></section><section><h1>MATH</h1><p>The definition of homotopy groups, a special role is played by the inclusions Sn−1 􏰀→ Dn. In this lecture we study spaces obtained iterated attachments of Dn along Sn−1, and show that for them weak homotopy equivalences are the same as homotopy equivalences.</p><p><b>Definition</b> (Attachment). Attaching n-cell to a space $X$
 along a map $f : S^{n-1} \rightarrow X$ means taking a pushout</p><figure>$$
 \begin{array}{ccc}
