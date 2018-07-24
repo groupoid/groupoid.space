@@ -67,18 +67,19 @@ block content
                 p.
                     Connections allows you to build square
                     with given only one element of path.
+                figure.
                     $$
                     \begin{array}{ccc}
-                        b & \mapright{<i>b} & b \\
-                        \mapdown{p} & <i j> p @ i \/ j & \mapdown{<i>b} \\
+                        b & \mapright{\(i:I) \rightarrow b} & b \\
+                        \mapdown{p} & \(i,j:I) \rightarrow p @ i \/ j & \mapdown{\(i:I)\rightarrow b} \\
                         a & \mapright{p} & b \\
                     \end{array}
                     $$
                     $$
                     \begin{array}{ccc}
                         a & \mapright{p} & b \\
-                        \mapdown{<i>a} & <i j> p @ i /\ j & \mapdown{p} \\
-                        a & \mapright{<i>a} & a \\
+                        \mapdown{\(i:I)\rightarrow a} & \(i,j:I)\rightarrow p @ i /\ j & \mapdown{p} \\
+                        a & \mapright{\(i:I)\rightarrow a} & a \\
                     \end{array}
                     $$
                 code.
@@ -89,6 +90,7 @@ block content
                     connection2 (A: U) (a b: A) (p: Path A a b)
                       : PathP (&lt;&gt; Path A a (p@x)) (&lt;i&gt; a) p
                       = &lt;x y&gt; p @ (x /\ y)
+                br.
 
                 h1 Lemmas
 
@@ -139,6 +141,15 @@ block content
                     dependent function transport or substitution.
 
                 h2 Composition
+                figure.
+                    $$
+                    \begin{array}{ccc}
+                        a & \mapright{comp} & c \\
+                        \mapdown{\(i:I) \rightarrow a} & & \mapdown{q} \\
+                        a & \mapright{p @ i} & b \\
+                    \end{array}
+                    $$
+
                 code.
                     composition (A: U) (a b c: A)
                                 (p: Path A a b) (q: Path A b c): Path A a c
@@ -184,9 +195,9 @@ block content
                       (p: Path A x y) : C x y p
                 p.
 
-                h1 Beta Equality
+                h1 Computation
 
-                h2 Computation Rule
+                h2 Beta Equality
                 code.
                     trans_comp (A: U) (a: A)
                              : Path A a (trans A A (<_> A) a)

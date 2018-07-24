@@ -31,28 +31,26 @@ syntax as <mark>&lt;i&gt; a</mark>.
 </p><h2>Applications</h2><code>app1 (A: U) (a b: A) (p: Path A a b): A = p @ 0
 app2 (A: U) (a b: A) (p: Path A a b): A = p @ 1
 </code><h2>Connections</h2><p>Connections allows you to build square
-with given only one element of path.
-$$
+with given only one element of path.</p><figure>$$
 \begin{array}{ccc}
-    b & \mapright{<i>b} & b \\
-    \mapdown{p} & <i j> p @ i \/ j & \mapdown{<i>b} \\
+    b & \mapright{\(i:I) \rightarrow b} & b \\
+    \mapdown{p} & \(i,j:I) \rightarrow p @ i \/ j & \mapdown{\(i:I)\rightarrow b} \\
     a & \mapright{p} & b \\
 \end{array}
 $$
 $$
 \begin{array}{ccc}
     a & \mapright{p} & b \\
-    \mapdown{<i>a} & <i j> p @ i /\ j & \mapdown{p} \\
-    a & \mapright{<i>a} & a \\
+    \mapdown{\(i:I)\rightarrow a} & \(i,j:I)\rightarrow p @ i /\ j & \mapdown{p} \\
+    a & \mapright{\(i:I)\rightarrow a} & a \\
 \end{array}
-$$</p><code>connection1 (A: U) (a b: A) (p: Path A a b)
+$$</figure><code>connection1 (A: U) (a b: A) (p: Path A a b)
   : PathP (&lt;xgt; Path A (p@x) b) p (&lt;i&gt; b)
   = &lt;y x&gt; p @ (x \/ y)
 
 connection2 (A: U) (a b: A) (p: Path A a b)
   : PathP (&lt;&gt; Path A a (p@x)) (&lt;i&gt; a) p
-  = &lt;x y&gt; p @ (x /\ y)
-</code><h1>Lemmas</h1><h2>Contractability of Singleton</h2><code>singl (A: U) (a: A) : U = (x: A) * Path A a x
+  = &lt;x y&gt; p @ (x /\ y)</code><br><h1>Lemmas</h1><h2>Contractability of Singleton</h2><code>singl (A: U) (a: A) : U = (x: A) * Path A a x
 
 contrSingl (A: U) (a b: A) (p: Path A a b)
          : Path (singl A a) (a,refl A a) (b,p)</code><p>Proof that singleton is contractible space. Implemented as
@@ -78,7 +76,14 @@ Defined as path composition with $[]$ of a over a path p
       (a b: A) (p: Path A a b)
       (u: P a) : P b</code><p>Acts like transport of mapOnPath value, representing the
 dependent function transport or substitution.
-</p><h2>Composition</h2><code>composition (A: U) (a b c: A)
+</p><h2>Composition</h2><figure>$$
+\begin{array}{ccc}
+    a & \mapright{comp} & c \\
+    \mapdown{\(i:I) \rightarrow a} & & \mapdown{q} \\
+    a & \mapright{p @ i} & b \\
+\end{array}
+$$
+</figure><code>composition (A: U) (a b c: A)
             (p: Path A a b) (q: Path A b c): Path A a c</code><p>Composition operation allows to build a new path by given to paths
 in a connected point. The proofterm is
 <mark>comp (&lt;i&gt;Path A a (q @ i)) p []</mark>.
@@ -102,7 +107,7 @@ J (A: U)
   (C: D A)
   (d: C x x (refl A x))
   (y: A)
-  (p: Path A x y) : C x y p</code><p></p><h1>Beta Equality</h1><h2>Computation Rule</h2><code>trans_comp (A: U) (a: A)
+  (p: Path A x y) : C x y p</code><p></p><h1>Computation</h1><h2>Beta Equality</h2><code>trans_comp (A: U) (a: A)
          : Path A a (trans A A (<_> A) a)
 
 subst_comp (A: U) (P: A -> U) (a: A) (e: P a)
