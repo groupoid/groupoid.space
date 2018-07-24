@@ -58,12 +58,7 @@ $$</figure><code>connection1 (A: U) (a b: A) (p: Path A a b)
 
 connection2 (A: U) (a b: A) (p: Path A a b)
   : PathP (&lt;x&gt; Path A a (p@x)) (&lt;i&gt; a) p
-  = &lt;x y&gt; p @ (x /\ y)</code><br><h1>Lemmas</h1><h2>Contractability of Singleton</h2><code>singl (A: U) (a: A) : U = (x: A) * Path A a x
-
-contrSingl (A: U) (a b: A) (p: Path A a b)
-         : Path (singl A a) (a,refl A a) (b,p)</code><p>Proof that singleton is contractible space. Implemented as
-<mark>&lt;i&gt; (p @ i,<j> p @ i/\j)</mark>.
-</p><h2>Congruence</h2><code>ap  (A B: U) (f: A -> B)
+  = &lt;x y&gt; p @ (x /\ y)</code><br><h1>Lemmas</h1><h2>Congruence</h2><code>ap  (A B: U) (f: A -> B)
     (a b: A) (p: Path A a b)
   : Path B (f a) (f b)
 
@@ -95,6 +90,11 @@ $$
             (p: Path A a b) (q: Path A b c): Path A a c</code><p>Composition operation allows to build a new path by given to paths
 in a connected point. The proofterm is
 <mark>comp (&lt;i&gt;Path A a (q @ i)) p []</mark>.
+</p><h2>Contractability of Singleton</h2><code>singl (A: U) (a: A) : U = (x: A) * Path A a x
+
+contrSingl (A: U) (a b: A) (p: Path A a b)
+         : Path (singl A a) (a,refl A a) (b,p)</code><p>Proof that singleton is contractible space. Implemented as
+<mark>&lt;i&gt; (p @ i,<j> p @ i/\j)</mark>.
 </p><h1>Eliminators</h1><h2>J by Paulin-Mohring</h2><code>J (A: U)
   (a b: A)
   (P: singl A a -> U)

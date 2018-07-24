@@ -104,16 +104,6 @@ block content
 
                 h1 Lemmas
 
-                h2 Contractability of Singleton
-                code.
-                    singl (A: U) (a: A) : U = (x: A) * Path A a x
-
-                    contrSingl (A: U) (a b: A) (p: Path A a b)
-                             : Path (singl A a) (a,refl A a) (b,p)
-                p.
-                    Proof that singleton is contractible space. Implemented as
-                    <mark>&lt;i&gt; (p @ i,<j> p @ i/\j)</mark>.
-
                 h2 Congruence
                 code.
                     ap  (A B: U) (f: A -> B)
@@ -167,6 +157,16 @@ block content
                     Composition operation allows to build a new path by given to paths
                     in a connected point. The proofterm is
                     <mark>comp (&lt;i&gt;Path A a (q @ i)) p []</mark>.
+
+                h2 Contractability of Singleton
+                code.
+                    singl (A: U) (a: A) : U = (x: A) * Path A a x
+
+                    contrSingl (A: U) (a b: A) (p: Path A a b)
+                             : Path (singl A a) (a,refl A a) (b,p)
+                p.
+                    Proof that singleton is contractible space. Implemented as
+                    <mark>&lt;i&gt; (p @ i,<j> p @ i/\j)</mark>.
 
                 h1 Eliminators
 
