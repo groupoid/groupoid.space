@@ -39,7 +39,7 @@ to define the cell attachment formally, as others cofibrant objects.</p><code>da
        | po2 (_: B)
        | po3 (c: C) &lt;i&gt; [ (i = 0) -> po1 (f c) ,
                           (i = 1) -> po2 (g c) ]</code><p><b>Shperes and Disks.</b> Here are some example of using
-dimentions to construct non-trivial structures.</p><code>data S1 = base
+dimensions to construct spherical shapes.</p><code>data S1 = base
         | loop &lt;i&gt; [ (i = 0) -> base, (i = 1) -> base ]</code><br><code>data S2 = point
          | surf &lt;i j&gt; [ (i = 0) -> point, (i = 1) -> point,
                         (j = 0) -> point, (j = 1) -> point ]</code><br><code>data D3 (x: S2) = border
