@@ -51,8 +51,11 @@ that <b>comp</b> parameters same as in <b>surf</b> constructor:</p><code>I2 (A: 
 
 plain (A: U) (x: A): I2 A x x x x (&lt;i&gt; x) (&lt;i&gt; x) (&lt;i&gt; x) (&lt;i&gt; x)
       = &lt;i j&gt; comp (&lt;_&gt;A) x [(i = 0) -> &lt;i&gt; x, (i = 1) -> &lt;i&gt; x,
-                             (j = 0) -> &lt;i&gt; x, (j = 1) -> &lt;i&gt; x ]
-</code></section><section><h1>MATH</h1><p>The definition of homotopy groups, a special role is played
+                             (j = 0) -> &lt;i&gt; x, (j = 1) -> &lt;i&gt; x ]</code><p>Recursive and parametrised HITs such as Truncation and Quotients
+along with Hopf construction became possible after <b>hcomptrans</b>
+branch in cubicaltt and paper <a href="https://arxiv.org/pdf/1802.01170.pdf">"On Higher Inductive Types
+in Cubical Type Theory"</a> by Thierry Coquand, Simon Huber,
+and Anders Mörtberg.</p></section><section><h1>MATH</h1><p>The definition of homotopy groups, a special role is played
 by the inclusions $S^{n−1} \incmap D^n$. We study spaces
 obtained iterated attachments of $D^n$ along $S^{n−1}$.</p><p><b>Definition</b> (Attachment). Attaching n-cell to a space $X$
 along a map $f : S^{n-1} \rightarrow X$ means taking a pushout</p><figure>$$
