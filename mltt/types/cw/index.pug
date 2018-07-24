@@ -17,6 +17,7 @@ block title
                                            rrparenthesis: ['Macro', '\\mathclose{\u2988}'],
                                            llbracket:     ['Macro', '\\mathopen{\u27E6}'],
                                            rrbracket:     ['Macro', '\\mathclose{\u27E7}'],
+                                           incmap:        ['Macro', '\\mathclose{\u21AA}'],
                                          }
                                      });
                                  });
@@ -70,3 +71,21 @@ block content
                 p.
                     where the notation $X \cup_f D^n$ means result depends
                     on homotopy class of $f$.
+                p.
+                    <b>Definition</b> (CW-Complex). Inductively. The only
+                    CW-complex of dimention $-1$ is $\varnothing$.
+                    A CW-complex of dimension $\leqslant n$ on $X$ is a
+                    space $X$ obtained by attaching a collection of n-cells
+                    to a CW-complex of dimension $n−1$.
+                p.
+                    A CW-complex is a space $X$ which is the colimit(X_i) of a
+                    sequence $X_{-1} = \varnothing \incmap X_0 \incmap X_1 \incmap X_2 \incmap ... X$ of
+                    CW-complexes $X_i$ of dimension $\leqslant n$, with $X_{i+1}$
+                    obtained from $X_i$ by i-cell attachments.
+                    Thus if X is a CW-complex, it comes with a filtration
+                    $$
+                        \varnothing \incmap X_0 \incmap X_1 \incmap X_2 \incmap ... X
+                    $$
+                    where $X_i$ is a CW-complex of dimension $\leqslant i$ called
+                    the i-skeleton, and hence the filtration is called the skeletal
+                    filtration.
