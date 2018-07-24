@@ -37,9 +37,9 @@ block content
                 (vii) Category Theory: <b>cat</b>, <b>fun</b>, <b>sip</b>, <b>cones</b>, <b>adj</b>;
                 (viii) Univalent Foundations: <b>equiv</b>, <b>retract</b>, <b>iso</b>, <b>iso_pi</b>, <b>iso_sigma</b>, <b>univ</b>;
                 (ix) Higher Inductive Types: <b>interval</b>, <b>circle</b>, <b>pushout</b>, <b>suspension</b>, <b>quotient</b>, <b>trunc</b>.
-            //  (x) Process Calculus in <b>process</b> module;
-            //  (xi) Categories with Families in <b>cwf</b> module;
-            //  (xii) Type Checker will be in <b>infinity</b> module.
+                (x) Process Calculus in <b>process</b> module;
+                (xi) Categories with Families in <b>cwf</b> module;
+                (xii) Type Checker will be in <b>infinity</b> module.
             p.
                 This library is best to read with <a href="http://5ht.co/hott.pdf">HoTT</a> book and </a>Felix Wellen dissertation</a>.
 
@@ -66,7 +66,6 @@ block content
                 Cubical with $[0,1]$ Path types but without HITs is an
                 internal language of $(\infty,1)$-categories, while MLTT
                 is an internal language of locally cartesian closed categories.
-
 
         .types
             h2 Cohesive Core
@@ -109,7 +108,7 @@ block content
                         'nr nd *': [ 'prod', 'pure', 'functor', 'applicative', 'monad' ],
                         'r nd *': [ 'stream' ],
                         'nr d *': [ 'sigma', 'bundle', 'iso', 'equiv', 'fiber' ],
-                        'rd *': [ 'category', 'groupoid', 'infinity' ],
+                        'HIT *': [ 'category', 'groupoid', 'infinity', 'pullback', 'cw' ],
                     }
 
                     var legend = {
@@ -1081,6 +1080,10 @@ block content
                                     (i = 1) -> q @ j,
                                     (j = 0) -> a,
                                     (j = 1) -> b ]
+
+            h2 <a name="cw"><a href='cw/'>CW-complex</a></a>
+            p.
+
         .om
             section
                 h1 Cohesive Core

@@ -17,13 +17,15 @@ fall into one of the following categories:</p><p>(i) MLTT Types: <b>pi</b>, <b>s
 (vi) Recursion Schemes in <b>recursion</b> module;
 (vii) Category Theory: <b>cat</b>, <b>fun</b>, <b>sip</b>, <b>cones</b>, <b>adj</b>;
 (viii) Univalent Foundations: <b>equiv</b>, <b>retract</b>, <b>iso</b>, <b>iso_pi</b>, <b>iso_sigma</b>, <b>univ</b>;
-(ix) Higher Inductive Types: <b>interval</b>, <b>circle</b>, <b>pushout</b>, <b>suspension</b>, <b>quotient</b>, <b>trunc</b>.</p><!--  (x) Process Calculus in <b>process</b> module;--><!--  (xi) Categories with Families in <b>cwf</b> module;--><!--  (xii) Type Checker will be in <b>infinity</b> module.--><p>This library is best to read with <a href="http://5ht.co/hott.pdf">HoTT</a> book and </a>Felix Wellen dissertation</a>.
+(ix) Higher Inductive Types: <b>interval</b>, <b>circle</b>, <b>pushout</b>, <b>suspension</b>, <b>quotient</b>, <b>trunc</b>.
+(x) Process Calculus in <b>process</b> module;
+(xi) Categories with Families in <b>cwf</b> module;
+(xii) Type Checker will be in <b>infinity</b> module.</p><p>This library is best to read with <a href="http://5ht.co/hott.pdf">HoTT</a> book and </a>Felix Wellen dissertation</a>.
 </p></div><div class="types"><h2>Homotopy Core</h2><div class="type"><ol class="type__col"><h3>PURE</h3><li><a href="#pi">PI</a></li></ol><ol class="type__col"><h3>MLTT</h3><li><a href="#pi">PI</a></li><li><a href="#sigma">SIGMA</a></li><li><a href="#id">ID</a></li><li><a href="#W">W</a></li></ol><ol class="type__col"><h3>INDUCTIVE</h3><li><a href="#pi">PI</a></li><li><a href="#sigma">SIGMA</a></li><li><a href="#id">ID</a></li><li><a href="#fix">FIX</a></li><li><a href="#inductive">INDUCTIVE</a></li></ol><ol class="type__col"><h3>CUBICAL</h3><li><a href="#pi">PI</a></li><li><a href="#sigma">SIGMA</a></li><li><a href="#path">PATH</a></li><li><a href="#Compose">COMPOSE</a></li><li><a href="#Glue">GLUE</a></li><li><a href="#higher inductive types">HIGHER INDUCTIVE TYPES</a></li></ol></div></div><section><p>Cubical with HITs has very lightweight core and syntax and
 is an internal language of $(\infty,1)$-topos.
 Cubical with $[0,1]$ Path types but without HITs is an
 internal language of $(\infty,1)$-categories, while MLTT
 is an internal language of locally cartesian closed categories.
-
 </p></section><div class="types"><h2>Cohesive Core</h2><div class="type"><ol class="type__col"><h3>COHESIVE</h3><li><a href="#shape">SHAPE</a></li><li><a href="#flat">FLAT</a></li><li><a href="#sharp">SHARP</a></li></ol><ol class="type__col"><h3>DIFFERENTIAL</h3><li><a href="#reduction">REDUCTION</a></li><li><a href="#infinitesimal">INFINITESIMAL</a></li><li><a href="#smooth">SMOOTH</a></li></ol></div></div><section><p>Cohesive Type Theory is developed for satisfying needs on modeling modalities,
 such as connectedness, compactness, infinitesimal shapes, etc. Differential
 Cohesive Type Theory is internal language of differential cohesive $(\infty,1)$-topoi, with
@@ -33,7 +35,7 @@ Please refer to <a href="https://hott-uf.github.io/2017/abstracts/cohesivett.pdf
 for more information.</p><p>Cohesive types modeled in base library and undefined axioms.
 Process Calculus is another example of modality types with special comonadic spawn
 arrows hiding the underlying run-time implementation.
-</p></section><div class="types"><h2>Types Taxonomy</h2><div class="type"><ol class="type__col"><h3>NR ND +</h3><li><a href="#unit">UNIT</a></li><li><a href="#bool">BOOL</a></li><li><a href="#maybe">MAYBE</a></li><li><a href="#either">EITHER</a></li><li><a href="#tuple">TUPLE</a></li></ol><ol class="type__col"><h3>R ND +</h3><li><a href="#fix">FIX</a></li><li><a href="#nat">NAT</a></li><li><a href="#list">LIST</a></li></ol><ol class="type__col"><h3>NR D +</h3><li><a href="#exists">EXISTS</a></li></ol><ol class="type__col"><h3>RD +</h3><li><a href="#fin">FIN</a></li><li><a href="#vector">VECTOR</a></li><li><a href="#W">W</a></li></ol></div><div class="type"><ol class="type__col"><h3>NR ND *</h3><li><a href="#prod">PROD</a></li><li><a href="#pure">PURE</a></li><li><a href="#functor">FUNCTOR</a></li><li><a href="#applicative">APPLICATIVE</a></li><li><a href="#monad">MONAD</a></li></ol><ol class="type__col"><h3>R ND *</h3><li><a href="#stream">STREAM</a></li></ol><ol class="type__col"><h3>NR D *</h3><li><a href="#sigma">SIGMA</a></li><li><a href="#bundle">BUNDLE</a></li><li><a href="#iso">ISO</a></li><li><a href="#equiv">EQUIV</a></li><li><a href="#fiber">FIBER</a></li></ol><ol class="type__col"><h3>RD *</h3><li><a href="#category">CATEGORY</a></li><li><a href="#groupoid">GROUPOID</a></li><li><a href="#infinity">INFINITY</a></li></ol></div></div><section><p>Types taxonomy shows us the core types categorized by a several axis:
+</p></section><div class="types"><h2>Types Taxonomy</h2><div class="type"><ol class="type__col"><h3>NR ND +</h3><li><a href="#unit">UNIT</a></li><li><a href="#bool">BOOL</a></li><li><a href="#maybe">MAYBE</a></li><li><a href="#either">EITHER</a></li><li><a href="#tuple">TUPLE</a></li></ol><ol class="type__col"><h3>R ND +</h3><li><a href="#fix">FIX</a></li><li><a href="#nat">NAT</a></li><li><a href="#list">LIST</a></li></ol><ol class="type__col"><h3>NR D +</h3><li><a href="#exists">EXISTS</a></li></ol><ol class="type__col"><h3>RD +</h3><li><a href="#fin">FIN</a></li><li><a href="#vector">VECTOR</a></li><li><a href="#W">W</a></li></ol></div><div class="type"><ol class="type__col"><h3>NR ND *</h3><li><a href="#prod">PROD</a></li><li><a href="#pure">PURE</a></li><li><a href="#functor">FUNCTOR</a></li><li><a href="#applicative">APPLICATIVE</a></li><li><a href="#monad">MONAD</a></li></ol><ol class="type__col"><h3>R ND *</h3><li><a href="#stream">STREAM</a></li></ol><ol class="type__col"><h3>NR D *</h3><li><a href="#sigma">SIGMA</a></li><li><a href="#bundle">BUNDLE</a></li><li><a href="#iso">ISO</a></li><li><a href="#equiv">EQUIV</a></li><li><a href="#fiber">FIBER</a></li></ol><ol class="type__col"><h3>HIT *</h3><li><a href="#category">CATEGORY</a></li><li><a href="#groupoid">GROUPOID</a></li><li><a href="#infinity">INFINITY</a></li><li><a href="#pullback">PULLBACK</a></li><li><a href="#cw">CW</a></li></ol></div></div><section><p>Types taxonomy shows us the core types categorized by a several axis:
 1) dependent (D) and non-dependent (ND) terms;
 2) recursive trees (R) or non-recursive (NR) data types;
 3) inductive (+, positive) or coinductive (*, negative) types.
@@ -610,7 +612,8 @@ data setquot (A: U) (R: A -> A -> U)
                   [ (i = 0) -> p @ j,
                     (i = 1) -> q @ j,
                     (j = 0) -> a,
-                    (j = 1) -> b ]</code></section><div class="om"><section><h1>Cohesive Core</h1></section></div><section><h2 id="infinitesimal"><a name="infinitesimal"><a href='infinitesimal/'>Infinitesimal</a></a></h2><code>Im : U -> U = undefined
+                    (j = 1) -> b ]
+</code><h2><a name="cw"><a href='cw/'>CW-complex</a></a></h2><p></p></section><div class="om"><section><h1>Cohesive Core</h1></section></div><section><h2 id="infinitesimal"><a name="infinitesimal"><a href='infinitesimal/'>Infinitesimal</a></a></h2><code>Im : U -> U = undefined
 ImUnit (A: U) : A -> Im A = undefined
 
 isCoreduced (A:U): U = isEquiv A (Im A) (ImUnit A)
