@@ -46,7 +46,7 @@ block content
                     contains basic theorems about general theory of CW-complexes.
 
             section
-                h1 Introduction
+                h1 COMPUTER SCIENCE
                 p.
                     CW-complexes are fundamental objects in homotopy type theory
                     and even included inside cubical type checker as higher (co)-inductive types.
@@ -56,7 +56,35 @@ block content
                     as an inductive type with equalities means you define some CW-complex
                     directly using cubical homogeneous composition structure as an
                     element of initial algebra inside cubical model.
+                p.
+                    <b>Examples:</b>
+                code.
+                    data pushout (A B C: U) (f: C -> A) (g: C -> B)
+                           = po1 (_: A)
+                           | po2 (_: B)
+                           | po3 (c: C) &lt;i&gt; [ (i = 0) -> po1 (f c) ,
+                                              (i = 1) -> po2 (g c) ]
+                p.
+                    <b>Shperes and Disks:</b>
+                code.
+                    data S1 = base
+                            | loop &lt;i&gt; [ (i = 0) -> base, (i = 1) -> base ]
+                br.
+                code.
+                    data S2 = pt
+                             | surf &lt;i j&gt; [ (i = 0) -> pt, (i = 1) -> pt,
+                                            (j = 0) -> pt, (j = 1) -> pt ]
+                br.
+                code.
+                    data D3 (x: S2) = bo
+                        | space &lt;i j k&gt; [ ( i = 0) -> bo, (i = 1) -> bo ,
+                                          ( j = 0) -> bo, (j = 1) -> bo ,
+                                          ( k = 0) -> bo, (k = 1) -> bo ]
 
+            section
+                h1 MATH
+                p.
+                    The definition of homotopy groups, a special role is played by the inclusions Sn−1 􏰀→ Dn. In this lecture we study spaces obtained iterated attachments of Dn along Sn−1, and show that for them weak homotopy equivalences are the same as homotopy equivalences.
                 p.
                     <b>Definition</b> (Attachment). Attaching n-cell to a space $X$
                     along a map $f : S^{n-1} \rightarrow X$ means taking a pushout

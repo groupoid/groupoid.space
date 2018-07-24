@@ -25,15 +25,25 @@
   \def\mapdiagr#1{\vcenter{\swarrow}\rlap{\raise2pt{\scriptstyle{#1}}}}
 $$</figure><p><a href="https://raw.githubusercontent.com/groupoid/infinity/master/priv/cw.ctt">CW package</a>
 contains basic theorems about general theory of CW-complexes.
-</p></section><section><h1>Introduction</h1><p>CW-complexes are fundamental objects in homotopy type theory
+</p></section><section><h1>COMPUTER SCIENCE</h1><p>CW-complexes are fundamental objects in homotopy type theory
 and even included inside cubical type checker as higher (co)-inductive types.
 Just like regular (co)-inductive types could be described as recursive
 terminating or non-terminating trees, higher inductive types could be
 described as CW-complexes. Usually what you build in cubical type checker
 as an inductive type with equalities means you define some CW-complex
 directly using cubical homogeneous composition structure as an
-element of initial algebra inside cubical model.
-</p><p><b>Definition</b> (Attachment). Attaching n-cell to a space $X$
+element of initial algebra inside cubical model.</p><p><b>Examples:</b></p><code>data pushout (A B C: U) (f: C -> A) (g: C -> B)
+       = po1 (_: A)
+       | po2 (_: B)
+       | po3 (c: C) &lt;i&gt; [ (i = 0) -> po1 (f c) ,
+                          (i = 1) -> po2 (g c) ]</code><p><b>Shperes and Disks:</b></p><code>data S1 = base
+        | loop &lt;i&gt; [ (i = 0) -> base, (i = 1) -> base ]</code><br><code>data S2 = pt
+         | surf &lt;i j&gt; [ (i = 0) -> pt, (i = 1) -> pt,
+                        (j = 0) -> pt, (j = 1) -> pt ]</code><br><code>data D3 (x: S2) = bo
+    | space &lt;i j k&gt; [ ( i = 0) -> bo, (i = 1) -> bo ,
+                      ( j = 0) -> bo, (j = 1) -> bo ,
+                      ( k = 0) -> bo, (k = 1) -> bo ]
+</code></section><section><h1>MATH</h1><p>The definition of homotopy groups, a special role is played by the inclusions Sn−1 􏰀→ Dn. In this lecture we study spaces obtained iterated attachments of Dn along Sn−1, and show that for them weak homotopy equivalences are the same as homotopy equivalences.</p><p><b>Definition</b> (Attachment). Attaching n-cell to a space $X$
 along a map $f : S^{n-1} \rightarrow X$ means taking a pushout</p><figure>$$
 \begin{array}{ccc}
     S^{n-1} & \mapright{\mathbf{f}} & X \\
