@@ -94,11 +94,11 @@ block content
                     $$
                 code.
                     connection1 (A: U) (a b: A) (p: Path A a b)
-                      : PathP (&lt;xgt; Path A (p@x) b) p (&lt;i&gt; b)
+                      : PathP (&lt;x&gt; Path A (p@x) b) p (&lt;i&gt; b)
                       = &lt;y x&gt; p @ (x \/ y)
 
                     connection2 (A: U) (a b: A) (p: Path A a b)
-                      : PathP (&lt;&gt; Path A a (p@x)) (&lt;i&gt; a) p
+                      : PathP (&lt;x&gt; Path A a (p@x)) (&lt;i&gt; a) p
                       = &lt;x y&gt; p @ (x /\ y)
                 br.
 

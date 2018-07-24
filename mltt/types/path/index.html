@@ -53,11 +53,11 @@ $$
     a & \mapright{\\(i:I)\rightarrow a} & a \\
 \end{array}
 $$</figure><code>connection1 (A: U) (a b: A) (p: Path A a b)
-  : PathP (&lt;xgt; Path A (p@x) b) p (&lt;i&gt; b)
+  : PathP (&lt;x&gt; Path A (p@x) b) p (&lt;i&gt; b)
   = &lt;y x&gt; p @ (x \/ y)
 
 connection2 (A: U) (a b: A) (p: Path A a b)
-  : PathP (&lt;&gt; Path A a (p@x)) (&lt;i&gt; a) p
+  : PathP (&lt;x&gt; Path A a (p@x)) (&lt;i&gt; a) p
   = &lt;x y&gt; p @ (x /\ y)</code><br><h1>Lemmas</h1><h2>Contractability of Singleton</h2><code>singl (A: U) (a: A) : U = (x: A) * Path A a x
 
 contrSingl (A: U) (a b: A) (p: Path A a b)
