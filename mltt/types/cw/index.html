@@ -32,17 +32,20 @@ terminating or non-terminating trees, higher inductive types could be
 described as CW-complexes. Usually what you build in cubical type checker
 as an inductive type with equalities means you define some CW-complex
 directly using cubical homogeneous composition structure as an
-element of initial algebra inside cubical model.</p><p><b>Examples:</b></p><code>data pushout (A B C: U) (f: C -> A) (g: C -> B)
+element of initial algebra inside cubical model.</p><p><b>Examples.</b> One of the notable is pushout as it is used
+to define the cell attachment formally.</p><code>data pushout (A B C: U) (f: C -> A) (g: C -> B)
        = po1 (_: A)
        | po2 (_: B)
        | po3 (c: C) &lt;i&gt; [ (i = 0) -> po1 (f c) ,
-                          (i = 1) -> po2 (g c) ]</code><p><b>Shperes and Disks:</b></p><code>data S1 = base
+                          (i = 1) -> po2 (g c) ]</code><p><b>Shperes and Disks.</b> Here are some example of using
+dimentions to construct non-trivial structures.</p><code>data S1 = base
         | loop &lt;i&gt; [ (i = 0) -> base, (i = 1) -> base ]</code><br><code>data S2 = point
          | surf &lt;i j&gt; [ (i = 0) -> point, (i = 1) -> point,
                         (j = 0) -> point, (j = 1) -> point ]</code><br><code>data D3 (x: S2) = border
     | space &lt;i j k&gt; [ ( i = 0) -> border, (i = 1) -> border ,
                       ( j = 0) -> border, (j = 1) -> border ,
-                      ( k = 0) -> border, (k = 1) -> border ]</code><p><b>Structure of $I^2$ same as of $S^2$:</b></p><code>I2 (A: U) (a0 a1 b0 b1: A) (u: Path A a0 a1) (v: Path A b0 b1)
+                      ( k = 0) -> border, (k = 1) -> border ]</code><p><b>Structure of $I^2$ same as of $S^2$</b>. ASCII proof
+that <b>comp</b> parameters same as in <b>surf</b> constructor:</p><code>I2 (A: U) (a0 a1 b0 b1: A) (u: Path A a0 a1) (v: Path A b0 b1)
       (r0: Path A a0 b0) (r1: Path A a1 b1) : U
       = PathP (&lt;i&gt; (PathP (&lt;j&gt; A) (u@i) (v@i))) r0 r1
 

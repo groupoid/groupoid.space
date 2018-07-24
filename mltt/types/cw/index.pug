@@ -57,7 +57,8 @@ block content
                     directly using cubical homogeneous composition structure as an
                     element of initial algebra inside cubical model.
                 p.
-                    <b>Examples:</b>
+                    <b>Examples.</b> One of the notable is pushout as it is used
+                    to define the cell attachment formally.
                 code.
                     data pushout (A B C: U) (f: C -> A) (g: C -> B)
                            = po1 (_: A)
@@ -65,7 +66,8 @@ block content
                            | po3 (c: C) &lt;i&gt; [ (i = 0) -> po1 (f c) ,
                                               (i = 1) -> po2 (g c) ]
                 p.
-                    <b>Shperes and Disks:</b>
+                    <b>Shperes and Disks.</b> Here are some example of using
+                    dimentions to construct non-trivial structures.
                 code.
                     data S1 = base
                             | loop &lt;i&gt; [ (i = 0) -> base, (i = 1) -> base ]
@@ -81,7 +83,8 @@ block content
                                           ( j = 0) -> border, (j = 1) -> border ,
                                           ( k = 0) -> border, (k = 1) -> border ]
                 p.
-                    <b>Structure of $I^2$ same as of $S^2$:</b>
+                    <b>Structure of $I^2$ same as of $S^2$</b>. ASCII proof
+                    that <b>comp</b> parameters same as in <b>surf</b> constructor:
                 code.
                     I2 (A: U) (a0 a1 b0 b1: A) (u: Path A a0 a1) (v: Path A b0 b1)
                           (r0: Path A a0 b0) (r1: Path A a1 b1) : U
