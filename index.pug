@@ -25,6 +25,14 @@ block content
                 3) program transformations: type checking, compilation, code erasure,
                 extraction, optimization, etc. The overall system is for math and
                 general purpose programming with code extraction to functional programming languages.
+            p.
+                While being generic blueprint, part of this conceptual model
+                was implemented in various languages, other research reports applied.
+                This research is founded by Synrc Research Center, Kyiv, Ukraine.
+                All works are done under supervision of Pavlo Maslianko,
+                National Technical University of Ukraine
+                «Igor Sikorsky Kyiv Polytechnic Institute»
+                Faculty of Applied Mathematics.
 
             section
                 h1 $\lambda$ LANGUAGES
@@ -81,10 +89,20 @@ block content
                 linking with base library of math components (2),
                 desugaring to pure functions (6),
                 linking with pure base library (3),
-                and extracting either to Erlang (4) or Verified Interpreter O (5).
+                and extracting either to Erlang (4).
             br.
             p.
-                <object><img src="structure.svg?v=3" width=90%></object>
+                <b>Simple Model.</b> This model can serve HoTT research, being
+                MLTT/CCHM prover with limited extraction of pure programs.
+            p.
+                <object><img src="SimpleModel.svg?v=3" width=90%></object>
+            br.
+            p.
+                <b>Extended Model</b>. This model intended to server needs of
+                linkage with $\pi$-calculus runtimes and optionally stream
+                calculuses and fusion engines. Extraction to Erlang or CPS interpreter.
+            p.
+                <object><img src="ConceptualModel.svg?v=3" width=90%></object>
             section
                 h1 PUBLICATIONS
             p.
