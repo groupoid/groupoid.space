@@ -11,19 +11,19 @@ block content
                 p.
                     Pi calculus can be transformed from lambda
                     calculus by replacing a variable constructor with stream constructor.
-                    But the language and protocol accessing this stream could vary
-                    from backend to backend with respect to design requirements.
+                    But the language and protocol for accessing this stream can vary
+                    for different backends with respect to design requirements.
                 p.
                     Stream calculus provides different disciplines for accessing
                     underlying streams used in Pi calculus. For example: 1) linear types, or streams with
-                    constant direction without rollbacks where each element of stream is touched once;
+                    constant direction without rollbacks, where each element of the stream is accessed once;
                     2) random access arrays; 3) GPU sources; 4) runtime typed channels;
                     5) effect and coeffect streams (processes as streams). Such stream
-                    calculuses could be landed with such GPU languages as Futhark
-                    or AVX intrinsics languages, such as Julia. We could treat
-                    stream calculus as memory representation with different protocol accesses.
+                    calculuses could be possible in GPU languages (e.g. Futhark)
+                    and AVX intrinsics languages (e.g. Julia). We could treat
+                    stream calculus as memory representation with different access protocols.
                 p.
-                    One type of disciplines is a stream calculus. While pi calculus could be imagined as
+                    One type of disciplines is stream calculus. While Pi calculus could be viewed as
                     lambda calculus where function arguments are channels or streams, stream calculus defines set
                     of constructions over these streams. This calculus is needed to provide different forms
                     of vectorization that can be used on GPU and AVX hardware.
