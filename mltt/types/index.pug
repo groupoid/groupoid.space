@@ -27,7 +27,7 @@ block content
                 Please refer to <a href="http://www.cse.chalmers.se/~coquand/cubicaltt.pdf">CCHM</a>
                 paper for more information. The base library is founded on top of cubical modules each
                 fall into one of 15 categories, presented with HoTT-style chapters:
-            br.
+            br
             h1  Foundations
             p.
                 (i) MLTT Types:
@@ -73,7 +73,7 @@ block content
                     <a href="https://raw.githubusercontent.com/groupoid/infinity/master/priv/trunc.ctt">trunc</a>;
                 (ix) Process Calculus:
                     <a href="https://raw.githubusercontent.com/groupoid/infinity/master/priv/process.ctt">process</a>;
-            br.
+            br
             h1 Mathematics
             p.
                 (x) Category Theory:
@@ -110,9 +110,14 @@ block content
             p.
                 This library is best to read with <a href="http://5ht.co/hott.pdf">HoTT</a>
                 book and <a href="https://ncatlab.org/schreiber/show/thesis+Wellen">Felix Wellen</a> dissertation.
+            br
+            br
+            hr
+            br
 
         .types
             h2 Homotopy Core
+            br
             -
                 var core = {
                     'Pure': [ 'pi' ],
@@ -127,6 +132,7 @@ block content
                         h3= k.toUpperCase()
                         for i in v
                             li: a(href='#'+i)= i.toUpperCase()
+            br
         section
             p.
                 Cubical with HITs has very lightweight core and syntax and
@@ -134,9 +140,13 @@ block content
                 Cubical with $[0,1]$ Path types but without HITs is an
                 internal language of $(\infty,1)$-categories, while MLTT
                 is an internal language of locally cartesian closed categories.
-
+            br
+            br
+            hr
+            br
         .types
             h2 Cohesive Core
+            br
             -
                 var core = {
                     'Cohesive': [ 'shape', 'flat', 'sharp' ],
@@ -149,6 +159,7 @@ block content
                         h3= k.toUpperCase()
                         for i in v
                             li: a(href='#'+i)= i.toUpperCase()
+            br
         section
             p.
                 Cohesive Type Theory is developed for satisfying needs on modeling modalities,
@@ -162,9 +173,13 @@ block content
                 Cohesive types modeled in base library and undefined axioms.
                 Process Calculus is another example of modality types with special comonadic spawn
                 arrows hiding the underlying run-time implementation.
-
+            br
+            br
+            hr
+            br
         .types
             h2 Types Taxonomy
+            br
             -
                     var types1 = {
                         'nr nd +': [ 'unit', 'bool', 'maybe', 'either', 'tuple' ],
@@ -199,14 +214,17 @@ block content
                         h3= k.toUpperCase()
                         for i in v
                             li: a(href='#'+i)= i.toUpperCase()
-
+            br
         section
             p.
                 Types taxonomy shows us the core types categorized by a several axis:
                 1) dependent (D) and non-dependent (ND) terms;
                 2) recursive trees (R) or non-recursive (NR) data types;
                 3) inductive (+, positive) or coinductive (*, negative) types.
-
+            br
+            br
+            hr
+            br
         .om
             section
                 h1 Martin-Löf Type Theory
