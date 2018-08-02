@@ -24,24 +24,92 @@ block content
                 This library is dedicated to type checkers with cubical syntax, based on
                 interval $[0,1]$ with functional extensionality, higher equalities, and higher
                 inductive types on top of MLTT as a core.
-                Please refer to <a href="http://www.cse.chalmers.se/~coquand/cubicaltt.pdf">cubicaltt</a>
-                for more information. The base library is founded on top of cubical modules each
-                fall into one of the following categories:
+                Please refer to <a href="http://www.cse.chalmers.se/~coquand/cubicaltt.pdf">CCHM</a>
+                paper for more information. The base library is founded on top of cubical modules each
+                fall into one of 15 categories, presented with HoTT-style chapters:
+            br.
+            h1  Foundations
             p.
-                (i) MLTT Types: <b>pi</b>, <b>sigma</b>, <b>path_proto</b>, <b>path</b>;
-                (ii) Set Theory: <b>prop</b>, <b>set</b>, <b>ordinal</b>, <b>hedberg</b>;
-                (iii) Run-Time Inductive Types: <b>proto</b>, <b>maybe</b>, <b>bool</b>, <b>nat</b>, <b>list</b>, <b>stream</b>, <b>vector</b>;
-                (iv) Abstract Algebra in <b>algebra</b> module;
-                (v) Control Structures in <b>control</b> module;
-                (vi) Recursion Schemes in <b>recursion</b> module;
-                (vii) Category Theory: <b>cat</b>, <b>fun</b>, <b>sip</b>, <b>cones</b>, <b>adj</b>;
-                (viii) Univalent Foundations: <b>equiv</b>, <b>retract</b>, <b>iso</b>, <b>iso_pi</b>, <b>iso_sigma</b>, <b>univ</b>;
-                (ix) Higher Inductive Types: <b>interval</b>, <b>circle</b>, <b>pushout</b>, <b>suspension</b>, <b>quotient</b>, <b>trunc</b>.
-                (x) Process Calculus in <b>process</b> module;
-                (xi) Categories with Families in <b>cwf</b> module;
-                (xii) Type Checker will be in <b>infinity</b> module.
+                (i) MLTT Types:
+                    <a href="https://raw.githubusercontent.com/groupoid/infinity/master/priv/pi.ctt">pi</a>,
+                    <a href="https://raw.githubusercontent.com/groupoid/infinity/master/priv/sigma.ctt">sigma</a>,
+                    <a href="https://raw.githubusercontent.com/groupoid/infinity/master/priv/path.ctt">path</a>;
+                (ii) Set Theory:
+                    <a href="https://raw.githubusercontent.com/groupoid/infinity/master/priv/prop.ctt">prop</a>,
+                    <a href="https://raw.githubusercontent.com/groupoid/infinity/master/priv/set.ctt">set</a>,
+                    <a href="https://raw.githubusercontent.com/groupoid/infinity/master/priv/ordinal.ctt">ordinal</a>,
+                    <a href="https://raw.githubusercontent.com/groupoid/infinity/master/priv/hedberg.ctt">hedberg</a>;
+                (iii) Run-Time Inductive Types:
+                    <a href="https://raw.githubusercontent.com/groupoid/infinity/master/priv/proto.ctt">proto</a>,
+                    <a href="https://raw.githubusercontent.com/groupoid/infinity/master/priv/maybe.ctt">maybe</a>,
+                    <a href="https://raw.githubusercontent.com/groupoid/infinity/master/priv/bool.ctt">bool</a>,
+                    <a href="https://raw.githubusercontent.com/groupoid/infinity/master/priv/nat.ctt">nat</a>,
+                    <a href="https://raw.githubusercontent.com/groupoid/infinity/master/priv/list.ctt">list</a>,
+                    <a href="https://raw.githubusercontent.com/groupoid/infinity/master/priv/stream.ctt">stream</a>,
+                    <a href="https://raw.githubusercontent.com/groupoid/infinity/master/priv/fin.ctt">fin</a>,
+                    <a href="https://raw.githubusercontent.com/groupoid/infinity/master/priv/vector.ctt">vector</a>;
+                (iv) Abstract Algebra:
+                    <a href="https://raw.githubusercontent.com/groupoid/infinity/master/priv/algebra.ctt">algebra</a>;
+                (v) Control Structures:
+                    <a href="https://raw.githubusercontent.com/groupoid/infinity/master/priv/control.ctt">control</a>;
+                (vi) Recursion Schemes:
+                    <a href="https://raw.githubusercontent.com/groupoid/infinity/master/priv/recursion.ctt">recursion</a>;
+                (vii) Univalent Foundations:
+                    <a href="https://raw.githubusercontent.com/groupoid/infinity/master/priv/equiv.ctt">equiv</a>,
+                    <a href="https://raw.githubusercontent.com/groupoid/infinity/master/priv/retract.ctt">retract</a>,
+                    <a href="https://raw.githubusercontent.com/groupoid/infinity/master/priv/iso.ctt">iso</a>,
+                    <a href="https://raw.githubusercontent.com/groupoid/infinity/master/priv/iso_pi.ctt">iso_pi</a>,
+                    <a href="https://raw.githubusercontent.com/groupoid/infinity/master/priv/iso_sigma.ctt">iso_sigma</a>,
+                    <a href="https://raw.githubusercontent.com/groupoid/infinity/master/priv/univ.ctt">univ</a>;
+                (viii) Higher Inductive Types:
+                    <a href="https://raw.githubusercontent.com/groupoid/infinity/master/priv/interval.ctt">interval</a>,
+                    <a href="https://raw.githubusercontent.com/groupoid/infinity/master/priv/real.ctt">interval</a>,
+                    <a href="https://raw.githubusercontent.com/groupoid/infinity/master/priv/s1.ctt">s1</a>,
+                    <a href="https://raw.githubusercontent.com/groupoid/infinity/master/priv/s2.ctt">s2</a>,
+                    <a href="https://raw.githubusercontent.com/groupoid/infinity/master/priv/pullback.ctt">pullback</a>,
+                    <a href="https://raw.githubusercontent.com/groupoid/infinity/master/priv/pushout.ctt">pushout</a>,
+                    <a href="https://raw.githubusercontent.com/groupoid/infinity/master/priv/suspension.ctt">suspension</a>,
+                    <a href="https://raw.githubusercontent.com/groupoid/infinity/master/priv/quotient.ctt">quotient</a>,
+                    <a href="https://raw.githubusercontent.com/groupoid/infinity/master/priv/trunc.ctt">trunc</a>;
+                (ix) Process Calculus:
+                    <a href="https://raw.githubusercontent.com/groupoid/infinity/master/priv/process.ctt">process</a>;
+            br.
+            h1 Mathematics
             p.
-                This library is best to read with <a href="http://5ht.co/hott.pdf">HoTT</a> book and </a>Felix Wellen dissertation</a>.
+                (x) Category Theory:
+                    <a href="https://raw.githubusercontent.com/groupoid/infinity/master/priv/cat.ctt">cat</a>,
+                    <a href="https://raw.githubusercontent.com/groupoid/infinity/master/priv/fun.ctt">fun</a>,
+                    <a href="https://raw.githubusercontent.com/groupoid/infinity/master/priv/sip.ctt">sip</a>,
+                    <a href="https://raw.githubusercontent.com/groupoid/infinity/master/priv/adj.ctt">adj</a>,
+                    <a href="https://raw.githubusercontent.com/groupoid/infinity/master/priv/ump.ctt">ump</a>,
+                    <a href="https://raw.githubusercontent.com/groupoid/infinity/master/priv/cones.ctt">cones</a>,
+                    <a href="https://raw.githubusercontent.com/groupoid/infinity/master/priv/topos.ctt">topos</a>,
+                    <a href="https://raw.githubusercontent.com/groupoid/infinity/master/priv/category.ctt">category</a>;
+                (xi) Contextual Categories:
+                    <a href="https://raw.githubusercontent.com/groupoid/infinity/master/priv/cwf.ctt">cwf</a>,
+                    <a href="https://raw.githubusercontent.com/groupoid/infinity/master/priv/csystem.ctt">csystem</a>;
+                (xii) Languages:
+                    <a href="https://raw.githubusercontent.com/groupoid/infinity/master/priv/mltt.ctt">mltt</a>,
+                    <a href="https://raw.githubusercontent.com/groupoid/infinity/master/priv/infinity.ctt">infinity</a>;
+                (xiii) Algebraic Geometry:
+                    <a href="https://raw.githubusercontent.com/groupoid/infinity/master/priv/pointed.ctt">pointed</a>,
+                    <a href="https://raw.githubusercontent.com/groupoid/infinity/master/priv/euler.ctt">euler</a>,
+                    <a href="https://raw.githubusercontent.com/groupoid/infinity/master/priv/seq.ctt">seq</a>,
+                    <a href="https://raw.githubusercontent.com/groupoid/infinity/master/hcomp/hopf.ctt">hopf</a>,
+                    <a href="https://raw.githubusercontent.com/groupoid/infinity/master/priv/cw.ctt">cw</a>;
+                (xiv) Cartan Geometry in Cohesive Topos:
+                    <a href="https://raw.githubusercontent.com/groupoid/infinity/master/priv/infinitesimal.ctt">infinitesimal</a>,
+                    <a href="https://raw.githubusercontent.com/groupoid/infinity/master/priv/etale.ctt">etale</a>,
+                    <a href="https://raw.githubusercontent.com/groupoid/infinity/master/priv/manifold.ctt">manifold</a>,
+                    <a href="https://raw.githubusercontent.com/groupoid/infinity/master/priv/bundle.ctt">bundle</a>;
+                (xv) K-Theory:
+                    <a href="https://raw.githubusercontent.com/groupoid/infinity/master/priv/k_theory.ctt">k_theory</a>,
+                    <a href="https://raw.githubusercontent.com/groupoid/infinity/master/priv/swaptrans.ctt">swaptrans</a>,
+                    <a href="https://raw.githubusercontent.com/groupoid/infinity/master/priv/bishop.ctt">bishop</a>,
+                    <a href="https://raw.githubusercontent.com/groupoid/infinity/master/priv/subtype.ctt">subtype</a>;
+            p.
+                This library is best to read with <a href="http://5ht.co/hott.pdf">HoTT</a>
+                book and <a href="https://ncatlab.org/schreiber/show/thesis+Wellen">Felix Wellen</a> dissertation.
 
         .types
             h2 Homotopy Core
