@@ -19,7 +19,7 @@ block content
             section
                 h1 Intro
             aside Максим Сохацький, Київ<br>
-                20-04-2018
+                03-08-2018
             p.
                 This library is dedicated to type checkers with cubical syntax, based on
                 interval $[0,1]$ with functional extensionality, higher equalities, and higher
@@ -176,42 +176,6 @@ block content
                      (p: (x:A)->(y:B)*(R x y)) -> (f:A->B)*((x:A)->R(x)(f x))
                   = \(g: (x:A)->(y:B)*(R x y)) -> (\(i:A)->(g i).1,\(j:A)->(g j).2)
 
-            h2#W Well-Founded Trees
-            p.
-                W types are a generalisation of trees to encode Nat and List
-                which should be derivable in any MLTT theory.
-                W types here encoded with Sigma.
-            code.
-                W (A:U) (B:A->U): U = (x:A) * (B(x) -> W A B)
-            br.
-            code.
-                Wrec (A:U) (B:A->U) (P:U)
-                     (alg: (a:A) (f:B(a)->W A B) (h:(b:B(a))->P) -> P)
-                   : (w: W A B) -> P
-                   = \(w:W A B) -> alg w.1 w.2 (\(b:B(w.1)) -> Wrec A B P alg (w.2 b))
-
-                Wind (A:U) (B:A->U) (P:W A B -> U)
-                     (alg: (a:A) (f:B(a)->W A B) (h:(b:B(a))->P (f b)) -> P (a,f))
-                   : (w: W A B) -> P w
-                   = \(w:W A B) -> alg w.1 w.2 (\(b:B(w.1)) -> Wind A B P alg (w.2 b))
-            br.
-            p.
-                see <a href="http://5ht.co/hott.pdf">HoTT</a>:
-                    5.3 W-types.
-
-            h2#setoid Setoid
-            p.
-                Setoid was a first modeling of equality by its properties:
-                reflexivity, symmetry and transitivity by Errett Bishop in 1967.
-
-            code.
-                Setoid (A: U): U
-                  = (Carrier: A)
-                  * (Equ: (a b: A) -> Path A a b)
-                  * (Refl: (x: A) -> Equ x x)
-                  * (Trans: (x₁,x₂,x₃: A) -> Equ x₁ x₂ -> Equ x₂ x₃ -> Equ x₁ x₃)
-                  * (Sym: (x₁,x₂: A) -> Equ x₁ x₂ -> Equ x₂ x₁)
-
             h2#path <a name=id><a href='path/'>Path</a></a>
             p.
                 Path type is a [0,1] interval <b>proof: Path A a b</b>
@@ -245,18 +209,22 @@ block content
                     3.11 Contractibility;
                     6.2 Induction principles and dependent paths.
 
-            h2#groupoid Groupoid
+            h2#groupoid <font color="#7D8A96">Groupoid</font>
             p.
-                Groupoid is a generalisation of multidementional equality.
-                It was stated by Grothendieck that infinity groupoid
-                equals to topological space.
+                <b>Definition</b> (n-Types). n-truncated objects in $(\infty,1)$-topos called n-types.
+                Two object $X$, $Y$ are of the same homotopy type if there is a zig-zag of morphisms
+                connecting them. That induced equality $\pi_k(X) = \pi_k(Y), 0 \le k \le n$.
+                Homotopy n-types are equivalence classes of an equivalence relation of objects
+                objects in $(\infty,1)$-topos. The internalized homotopical interpretation of
+                such classes is the <mark>n_grpd</mark> function that constructs the hierarchy
+                from ground up.
             code.
                 data N = Z  | S (n: N)
 
                 n_grpd (A: U) (n: N): U = (a b: A) -> ((rec A a b) n) where
-                  rec (A: U) (a b: A): (k: N) -> U = split
-                      Z -> Path A a b
-                      S n -> n_grpd (Path A a b) n
+                  rec (A: U) (a b: A): N -> U = split
+                    Z -> Path A a b
+                    S n -> n_grpd (Path A a b) n
 
                 isContr     (A: U): U = (x: A) * ((y: A) -> Path A x y)
                 isProp      (A: U): U = n_grpd A Z
@@ -279,6 +247,43 @@ block content
                 GROUPOID     : U = (X:U) * isGroupoid X
                 INF_GROUPOID : U = (X:U) * isInfinityGroupoid X
 
+            h2#W <font color="#7D8A96">Well-Founded Trees</font>
+            p.
+                W types are a generalisation of trees to encode Nat and List
+                which should be derivable in any MLTT theory.
+                W types here encoded with Sigma.
+            code.
+                W (A:U) (B:A->U): U = (x:A) * (B(x) -> W A B)
+            br.
+            code.
+                Wrec (A:U) (B:A->U) (P:U)
+                     (alg: (a:A) (f:B(a)->W A B) (h:(b:B(a))->P) -> P)
+                   : (w: W A B) -> P
+                   = \(w:W A B) -> alg w.1 w.2 (\(b:B(w.1)) -> Wrec A B P alg (w.2 b))
+
+                Wind (A:U) (B:A->U) (P:W A B -> U)
+                     (alg: (a:A) (f:B(a)->W A B) (h:(b:B(a))->P (f b)) -> P (a,f))
+                   : (w: W A B) -> P w
+                   = \(w:W A B) -> alg w.1 w.2 (\(b:B(w.1)) -> Wind A B P alg (w.2 b))
+            br.
+            p.
+                see <a href="http://5ht.co/hott.pdf">HoTT</a>:
+                    5.3 W-types.
+
+            h2#setoid <font color="#7D8A96">Setoid</font>
+            p.
+                Setoid was a first modeling of equality by its properties:
+                reflexivity, symmetry and transitivity by Errett Bishop in 1967.
+
+            code.
+                Setoid (A: U): U
+                  = (Carrier: A)
+                  * (Equ: (a b: A) -> Path A a b)
+                  * (Refl: (x: A) -> Equ x x)
+                  * (Trans: (x₁,x₂,x₃: A) -> Equ x₁ x₂ -> Equ x₂ x₃ -> Equ x₁ x₃)
+                  * (Sym: (x₁,x₂: A) -> Equ x₁ x₂ -> Equ x₂ x₁)
+
+
         .om
             section
                 h1 Inductive Data Types
@@ -289,7 +294,7 @@ block content
                 Inductive types used for specification the
                 evaluation protocol for particular computations.
 
-            h2#empty Empty
+            h2#empty <font color="#7D8A96">Empty</font>
             p.
                 <b>empty</b> type lacks both introduction rules and eliminators.
                 However it has recursor and induction.
@@ -300,7 +305,7 @@ block content
                 emptyRec (C: U): empty -> C = split {}
                 emptyInd (C: empty -> U): (z: empty) -> C z = split {}
 
-            h2#unit Unit
+            h2#unit <font color="#7D8A96">Unit</font>
             code.
                 data unit = star
             br.
@@ -311,7 +316,7 @@ block content
                 see <a href="http://5ht.co/hott.pdf">HoTT</a>:
                     2.8 The unit type
 
-            h2#either Either
+            h2#either <font color="#7D8A96">Either</font>
             p.
                 <b>either</b> is a representation for sum types or disjunction.
             code.
@@ -332,7 +337,7 @@ block content
                     1.7 Coproduct types; and
                     2.12 Coproducts.
 
-            h2#tuple <a name=prod>Tuple</a>
+            h2#tuple <a name=prod><font color="#7D8A96">Tuple</font></a>
             p.
                 <b>tuple</b> is a representation for non-dependent
                 product types or conjunction.
@@ -352,7 +357,7 @@ block content
                 see <a href="http://5ht.co/hott.pdf">HoTT</a>:
                     2.6 Cartesian product types.
 
-            h2#bool <a name='bool'><a href='bool/'>Bool</a></a>
+            h2#bool <a name='bool'><font color="#7D8A96">Bool</font></a>
             p.
                 <b>bool</b> is run-time version of the boolean logic you
                 may use in your general purpose applications. <b>bool</b>
@@ -462,7 +467,7 @@ block content
             code.
                 data stream (A: U) = cons (x: A) (xs: stream A)
 
-            h2#fin <a name='fin'><a href='fin/'>Fin</a></a>
+            h2#fin <a name='fin'><font color="#7D8A96">Fin</font></a>
             p.
                 <b>fin</b> is the inductive defintion of set with finite elements.
             code.
@@ -472,7 +477,7 @@ block content
                 fz (n: nat): fin (succ n)          = fzero
                 fs (n: nat): fin n -> fin (succ n) = \(x: fin n) -> fsucc x
 
-            h2#vector <a name='vector'><a href='vector/'>Vector</a></a>
+            h2#vector <a name='vector'><font color="#7D8A96">Vector</font></a>
             p.
                 <b>vector</b> is the inductive defintion of limited length list.
             code.
@@ -492,7 +497,7 @@ block content
                 h1 Abstract Algebra
         section
 
-            h2#monoid <a name="monoid"><a href='monoid/'>Monoid</a></a>
+            h2#monoid <a name="monoid"><font color="#7D8A96">Monoid</font></a>
             code.
                 isAssociative (M: U) (op: M -> M -> M) : U
 
@@ -506,7 +511,7 @@ block content
                   * (id: M.1)
                   * (hasIdentity M.1 op id)
 
-            h2#cmonoid Commutative Monoid
+            h2#cmonoid <font color="#7D8A96">Commutative Monoid</font>
             code.
                 isCommutative (M: U) (op: M -> M -> M): U
                   = (x y: M) -> Path M (op x y) (op y x)
@@ -515,14 +520,14 @@ block content
                   = (m: isMonoid M)
                   * (isCommutative M.1 m.1)
 
-            h2#group Group
+            h2#group <font color="#7D8A96">Group</font>
             code.
                 isGroup (G: SET): U
                   = (m: isMonoid G)
                   * (inv: G.1 -> G.1)
                   * (hasInverse G.1 m.1 m.2.2.1 inv)
 
-            h2#abgroup Abelian Group
+            h2#abgroup <font color="#7D8A96">Abelian Group</font>
             code.
                 isAbGroup (G: SET): U
                   = (g: isGroup G)
@@ -559,7 +564,7 @@ block content
                 dup_sig        (F:U->U):U=   (A: U) ->         F A  -> F (F A)
                 bind_sig       (F:U->U):U= (A B: U) ->    F A ->(A  -> F B)-> F B
 
-            h2 Carriers
+            h2 <font color="#7D8A96">Carriers</font>
             code.
 
                 pure:        U = (F: U -> U) * pure_sig F
@@ -576,7 +581,7 @@ block content
                                * (_: appl_sig F)
                                *     bind_sig F
 
-            h2#functor Functor
+            h2#functor <font color="#7D8A96">Functor</font>
             code.
                 isFunctor (F: functor): U
                   = (id: (A: U) -> (x: F.1 A) ->
@@ -586,7 +591,7 @@ block content
                                    ((o (F.1 A) (F.1 B) (F.1 C)
                                        (F.2 B C f) (F.2 A B g)) x)) * unit
 
-            h2#applicative Applicative
+            h2#applicative <font color="#7D8A96">Applicative</font>
             code.
                 isApplicative (F: applicative): U
                     = (id:  (A:U) -> (x: F.1 A) ->
@@ -601,7 +606,7 @@ block content
                        Path (F.1 B) (ap F A B u ((apure F) A x))
                                     (ap F (A->B) B (apure F ((A->B)->B) (\(f:A->B)->f(x))) u)) * unit
 
-            h2#monad Monad
+            h2#monad <font color="#7D8A96">Monad</font>
             code.
                 isMonad (F: monad): U
                     = (one: (A B:U) (f:A->F.1 B)(x:A) -> Path (F.1 B) (bind F A B (mpure F A x) f) (f x))
@@ -628,7 +633,7 @@ block content
                 h1 Recursion Schemes
         section
 
-            h2#fix Fix, Mu, Nu, Free, CoFree
+            h2#fix <font color="#7D8A96">Fix, Mu, Nu, Free, CoFree</font>
             code.
                 data fix    (F: U -> U) = Fix (point: F (fix F))
                 data mu     (F: U -> U) (A B: U)  = Return (a: A) | Bind (f: F B)
@@ -636,7 +641,7 @@ block content
                 data free   (F: U -> U) (A: U)    = Free        (_: fix (mu F A))
                 data cofree (F: U -> U) (A: U)    = CoFree      (_: fix (nu F A))
 
-            h2 Cata and Ana
+            h2 <font color="#7D8A96">Cata, Ana, Futu, Histo</font>
             code.
                 cata (A: U) (F: functor) (alg: F.1 A -> A) (f: fix F.1): A
                    = alg (F.2 (fix F.1) A (cata A F alg) (out_ F.1 f))
@@ -645,8 +650,7 @@ block content
                 ana  (A: U) (F: functor) (coalg: A -> F.1 A) (a: A): fix F.1
                    = Fix (F.2 A (fix F.1) (ana A F coalg) (coalg a))
                                 cat: U = (A: U) * (A -> A -> U)
-
-            h2 Futu and Histo
+            br.
             code.
                 futu (A: U) (F: functor)
                      (f: A -> F.1 (free F.1 A)) (a: A): fix F.1
@@ -681,7 +685,7 @@ block content
                                 cata (A: U) (F: functor) (alg: F.1 A -> A) (f: fix F.1): A
                                    = alg (F.2 (fix F.1) A (cata A F alg) (out_ F.1 f))
 
-            h2#inductive Inductive and CoInductive
+            h2#inductive <font color="#7D8A96">Inductive and CoInductive</font>
             code.
                 ind   (F: U -> U) (A: U): U
                     = (in_: F (fix F) -> fix F)
@@ -722,27 +726,11 @@ block content
                   * ( (x y z w: C.1) -> (f: C.2 x y) -> (g: C.2 y z) -> (h: C.2 z w) ->
                   Path (C.2 x w) (c x z w (c x y z f g) h) (c x y w f (c y z w g h)))
                 precategory: U = (C: cat) * isPrecategory C
-
-            h2#cat Accessors
-            code.
-                carrier (C: precategory): U = C.1.1
-                hom     (C: precategory) (a b: carrier C): U = C.1.2 a b
-                homSet  (C: precategory) (a b: carrier C): isSet (hom C a b) = C.2.2.2.1 a b
-                compose (C: precategory) (x y z: carrier C) (f: hom C x y) (g: hom C y z): hom C x z = C.2.2.1 x y z f g
-                path    (C: precategory) (x: carrier C): hom C x x = C.2.1 x
-                pathL   (C: precategory) (x y: carrier C) (f: hom C x y):
-                        Path (hom C x y) (compose C x x y (path C x) f) f = C.2.2.2.2.1 x y f
-                pathR   (C: precategory) (x y: carrier C) (f: hom C x y):
-                        Path (hom C x y) (compose C x y y f (path C y)) f = C.2.2.2.2.2.1 x y f
-                pathC   (C: precategory) (x y z w: carrier C) (f: hom C x y) (g: hom C y z) (h: hom C z w):
-                        Path (hom C x w) (compose C x z w (compose C x y z f g) h)
-                                         (compose C x y w f (compose C y z w g h)) = C.2.2.2.2.2.2 x y z w f g h
-
             p.
                 see <a href="http://5ht.co/hott.pdf">HoTT</a>:
                     9.1 Categories and precategories.
 
-            h2 Functors
+            h2 <font color="#7D8A96">Functors</font>
             code.
                 catfunctor (A B: precategory): U
                   = (ob: carrier A -> carrier B)
@@ -751,19 +739,18 @@ block content
                   * ((x y z: carrier A) -> (f: hom A x y) -> (g: hom A y z) ->
                      Path (hom B (ob x) (ob z)) (mor x z (compose A x y z f g))
                       (compose B (ob x) (ob y) (ob z) (mor x y f) (mor y z g)))
-
             p.
                 see <a href="http://5ht.co/hott.pdf">HoTT</a>:
                     9.2 Functors and transformations;
                     9.4 Equivalences.
 
-            h2#coslise CoSlice Category
+            h2#coslise <font color="#7D8A96">Coslice Category</font>
             code.
                 cosliceCat (C D: precategory)
                            (a: carrier C)
                            (F: catfunctor D C): precategory
 
-            h2 Rezk Completion
+            h2 <font color="#7D8A96">Rezk Completion</font>
             code.
                 iso (C: precategory) (A B: carrier C): U
                   = (f: hom C A B)
@@ -771,14 +758,15 @@ block content
                   * (_: Path (hom C A A) (compose C A B A f g) (path C A))
                   * (   Path (hom C B B) (compose C B A B g f) (path C B))
 
-                isCategory    (C: precategory): U = (A: carrier C) -> isContr ((B: carrier C) * iso C A B)
+                isCategory    (C: precategory): U
+                  = (A: carrier C) -> isContr ((B: carrier C) * iso C A B)
                 category: U = (C: precategory) * isCategory C
 
             p.
                 see <a href="http://5ht.co/hott.pdf">HoTT</a>:
                     9.9 The Rezk completion.
 
-            h2 Initials and Terminals
+            h2 </font>Initials and Terminals</font>
             code.
                 isInitial     (C: precategory) (x: carrier C): U = (y: carrier C) -> isContr (hom C x y)
                 isTerminal    (C: precategory) (y: carrier C): U = (x: carrier C) -> isContr (hom C x y)
@@ -793,15 +781,13 @@ block content
                             = Path (hom X A D) (compose X A C D h g)
                                                (compose X A B D f i)
 
-            h2#univArr Universal Arrow
+            h2#univArr <font color="#7D8A96">Universal Arrow</font>
             code.
                 univArr (C D: precategory)
-                        (a: carrier C)
-                        (F: catfunctor D C)
-                      : U
-                      = initial (cosliceCat C D a F)
+                        (a: carrier C) (F: catfunctor D C)
+                      : U = initial (cosliceCat C D a F)
 
-            h2#ntrans Natural Transformations
+            h2#ntrans <font color="#7D8A96">Natural Transformations</font>
             code.
                 isNaturalTrans (C D: precategory)
                                (F G: catfunctor C D)
@@ -817,7 +803,7 @@ block content
                   * (isNaturalTrans C D F G eta)
 
 
-            h2#adj Adjunctions
+            h2#adj <font color="#7D8A96">Adjunctions</font>
             code.
                 areAdjoint (C D: precategory)
                            (F: catfunctor D C)
@@ -834,7 +820,7 @@ block content
                 see <a href="http://5ht.co/hott.pdf">HoTT</a>:
                     9.3 Adjunctions.
 
-            h2#sip Structure Identity Principle
+            h2#sip <font color="#7D8A96">Structure Identity Principle</font>
             code.
                 structure (X: precategory): U
                   = (P: carrier X -> U)
@@ -867,7 +853,7 @@ block content
                 h1 Univalent Foundations
         section
 
-            h2#equiv <a name="equiv"><a href='equiv/'>Equiv</a></a>
+            h2#equiv <a name="equiv"><font color="#7D8A96">Equiv</font></font></a>
             code.
                 fiber   (A B: U) (f: A -> B) (y: B): U = (x: A) * Path B y (f x)
                 isEquiv (A B: U) (f: A -> B): U = (y: B) -> isContr (fiber A B f y)
@@ -875,7 +861,7 @@ block content
                 equivElim (B: U) (P: (A: U) -> (A -> B) -> U)
                           (d: P B (idfun B)) (A: U) (f: equiv A B): P A f.1
 
-            h2#retract Retract
+            h2#retract <font color="#7D8A96">Retract</font>
             code.
                 section (A B:U) (f:A->B) (g:B->A): U = (b:B) -> Path B (f(g(b))) b
                 retract (A B:U) (f:A->B) (g:B->A): U = (a:A) -> Path A (g(f(a))) a
@@ -887,7 +873,7 @@ block content
                 homeo (B E: U) (F: Family B) (p: E -> B) (y: B)
                     : fiber E B p y -> total B F = \(x: fiber E B p y) -> (y,F)
 
-            h2#iso <a name="iso"><a href='iso/'>Iso</a></a>
+            h2#iso <a name="iso"><font color="#7D8A96">Iso</font></a>
             code.
                 Square (A: U) (a0 a1 b0 b1: A)
                        (u: Path A a0 a1) (v: Path A b0 b1)
@@ -913,7 +899,7 @@ block content
                         (h1: Q B (idfun B) (idfun B)) (A: U) (f: A -> B)
                       : (g: B -> A) -> section A B f g -> retract A B f g -> Q A f g
 
-            h2#univ Univ
+            h2#univ <font color="#7D8A96">Univ</font>
             code.
                univ (A B: U): Path U (Path U A B) (equiv A B)
 
@@ -922,7 +908,7 @@ block content
                 h1 Higher inductive types
         section
 
-            h2#i Interval
+            h2#i <font color="#7D8A96">Interval</font>
             code.
                 data I
                    = i0
@@ -957,7 +943,7 @@ block content
                 see <a href="http://5ht.co/hott.pdf">HoTT</a>:
                     6.3 The interval
 
-            h2#circle Circle
+            h2#circle <font color="#7D8A96">Circle</font>
             code.
                 data S1
                    = base
@@ -967,7 +953,7 @@ block content
                 see <a href="http://5ht.co/hott.pdf">HoTT</a>:
                     6.4 Circles and spheres
 
-            h2#suspension Suspension
+            h2#suspension <font color="#7D8A96">Suspension</font>
             code.
                 data susp (A: U)
                    = north
@@ -991,7 +977,7 @@ block content
                 see <a href="http://5ht.co/hott.pdf">HoTT</a>:
                     2.11 Exercise
 
-            h2#pushout Pushout
+            h2#pushout <font color="#7D8A96">Pushout</font>
             code.
                 data pushout (A B C: U) (f: C -> A) (g: C -> B)
                    = po1 (_: A)
@@ -1002,7 +988,7 @@ block content
                 see <a href="http://5ht.co/hott.pdf">HoTT</a>:
                     6.8 Pushouts.
 
-            h2#trunc Truncations
+            h2#trunc <font color="#7D8A96">Truncations</font>
             code.
                 data pTrunc (A: U) -- (-1)-trunc, mere proposition truncation
                      = pinc (a: A)
@@ -1035,7 +1021,7 @@ block content
                 see <a href="http://5ht.co/hott.pdf">HoTT</a>:
                     6.9 Truncations.
 
-            h2#quotient Quotients
+            h2#quotient <font color="#7D8A96">Quotients</font>
             code.
                 data quot (A: U) (R: A -> A -> U)
                    = inj (a: A)

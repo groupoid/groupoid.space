@@ -4,7 +4,7 @@
    TeX: { extensions: ["AMSmath.js", "AMSsymbols.js", "autoload-all.js"] },
    extensions: ["tex2jax.js", "asciimath2jax.js", "mml2jax.js", "MathMenu.js", "MathZoom.js"],
    "HTML-CSS": { imageFont: null },
-});</script><title>Types</title></head><body class="content"><header class="header"><a href="//groupoid.space/"><img class="header__logo" src="../../groupoid.svg"/></a><div class="header__titles"><h1 class="header__title">Mathematical Components</h1><h4 class="header__subtitle">Cubical Base Library</h4></div></header><article class="main"><div class="om"><section><h1>Intro</h1></section><aside>Максим Сохацький, Київ<br><20-04-2018></20-04-2018></aside><p>This library is dedicated to type checkers with cubical syntax, based on
+});</script><title>Types</title></head><body class="content"><header class="header"><a href="//groupoid.space/"><img class="header__logo" src="../../groupoid.svg"/></a><div class="header__titles"><h1 class="header__title">Mathematical Components</h1><h4 class="header__subtitle">Cubical Base Library</h4></div></header><article class="main"><div class="om"><section><h1>Intro</h1></section><aside>Максим Сохацький, Київ<br><03-08-2018></03-08-2018></aside><p>This library is dedicated to type checkers with cubical syntax, based on
 interval $[0,1]$ with functional extensionality, higher equalities, and higher
 inductive types on top of MLTT as a core.
 Please refer to <a href="http://www.cse.chalmers.se/~coquand/cubicaltt.pdf">CCHM</a>
@@ -121,26 +121,6 @@ sigmaInd (A: U) (B: A -> U) (C: Sigma A B -> U)
 axiomChoice (A B: U) (R: A->B -> U):
      (p: (x:A)->(y:B)*(R x y)) -> (f:A->B)*((x:A)->R(x)(f x))
   = \(g: (x:A)->(y:B)*(R x y)) -> (\(i:A)->(g i).1,\(j:A)->(g j).2)
-</code><h2 id="W">Well-Founded Trees</h2><p>W types are a generalisation of trees to encode Nat and List
-which should be derivable in any MLTT theory.
-W types here encoded with Sigma.</p><code>W (A:U) (B:A->U): U = (x:A) * (B(x) -> W A B)</code><br><code>Wrec (A:U) (B:A->U) (P:U)
-     (alg: (a:A) (f:B(a)->W A B) (h:(b:B(a))->P) -> P)
-   : (w: W A B) -> P
-   = \(w:W A B) -> alg w.1 w.2 (\(b:B(w.1)) -> Wrec A B P alg (w.2 b))
-
-Wind (A:U) (B:A->U) (P:W A B -> U)
-     (alg: (a:A) (f:B(a)->W A B) (h:(b:B(a))->P (f b)) -> P (a,f))
-   : (w: W A B) -> P w
-   = \(w:W A B) -> alg w.1 w.2 (\(b:B(w.1)) -> Wind A B P alg (w.2 b))</code><br><p>see <a href="http://5ht.co/hott.pdf">HoTT</a>:
-    5.3 W-types.
-</p><h2 id="setoid">Setoid</h2><p>Setoid was a first modeling of equality by its properties:
-reflexivity, symmetry and transitivity by Errett Bishop in 1967.
-</p><code>Setoid (A: U): U
-  = (Carrier: A)
-  * (Equ: (a b: A) -> Path A a b)
-  * (Refl: (x: A) -> Equ x x)
-  * (Trans: (x₁,x₂,x₃: A) -> Equ x₁ x₂ -> Equ x₂ x₃ -> Equ x₁ x₃)
-  * (Sym: (x₁,x₂: A) -> Equ x₁ x₂ -> Equ x₂ x₁)
 </code><h2 id="path"><a name=id><a href='path/'>Path</a></a></h2><p>Path type is a [0,1] interval <b>proof: Path A a b</b>
 with lambda on it as its element, gluening,
 composition, and kan filling operation.</p><code>Path (A: U) (a b: A): U</code><br><code>sym  (A: U) (a b: A) (p: Path A a b): Path A b a
@@ -160,14 +140,18 @@ kan (A: U) (a b c d: A) (p: Path A a b) (q: Path A a c) (r: Path A b d): Path A 
     2.11 Identity type;
     3.11 Contractibility;
     6.2 Induction principles and dependent paths.
-</p><h2 id="groupoid">Groupoid</h2><p>Groupoid is a generalisation of multidementional equality.
-It was stated by Grothendieck that infinity groupoid
-equals to topological space.</p><code>data N = Z  | S (n: N)
+</p><h2 id="groupoid"><font color="#7D8A96">Groupoid</font></h2><p><b>Definition</b> (n-Types). n-truncated objects in $(\infty,1)$-topos called n-types.
+Two object $X$, $Y$ are of the same homotopy type if there is a zig-zag of morphisms
+connecting them. That induced equality $\pi_k(X) = \pi_k(Y), 0 \le k \le n$.
+Homotopy n-types are equivalence classes of an equivalence relation of objects
+objects in $(\infty,1)$-topos. The internalized homotopical interpretation of
+such classes is the <mark>n_grpd</mark> function that constructs the hierarchy
+from ground up.</p><code>data N = Z  | S (n: N)
 
 n_grpd (A: U) (n: N): U = (a b: A) -> ((rec A a b) n) where
-  rec (A: U) (a b: A): (k: N) -> U = split
-      Z -> Path A a b
-      S n -> n_grpd (Path A a b) n
+  rec (A: U) (a b: A): N -> U = split
+    Z -> Path A a b
+    S n -> n_grpd (Path A a b) n
 
 isContr     (A: U): U = (x: A) * ((y: A) -> Path A x y)
 isProp      (A: U): U = n_grpd A Z
@@ -183,17 +167,38 @@ isInfinityGroupoid (A: U): U = inf_grpd A</code><br><code>PROP         : U = (X:
 SET          : U = (X:U) * isSet X
 GROUPOID     : U = (X:U) * isGroupoid X
 INF_GROUPOID : U = (X:U) * isInfinityGroupoid X
+</code><h2 id="W"><font color="#7D8A96">Well-Founded Trees</font></h2><p>W types are a generalisation of trees to encode Nat and List
+which should be derivable in any MLTT theory.
+W types here encoded with Sigma.</p><code>W (A:U) (B:A->U): U = (x:A) * (B(x) -> W A B)</code><br><code>Wrec (A:U) (B:A->U) (P:U)
+     (alg: (a:A) (f:B(a)->W A B) (h:(b:B(a))->P) -> P)
+   : (w: W A B) -> P
+   = \(w:W A B) -> alg w.1 w.2 (\(b:B(w.1)) -> Wrec A B P alg (w.2 b))
+
+Wind (A:U) (B:A->U) (P:W A B -> U)
+     (alg: (a:A) (f:B(a)->W A B) (h:(b:B(a))->P (f b)) -> P (a,f))
+   : (w: W A B) -> P w
+   = \(w:W A B) -> alg w.1 w.2 (\(b:B(w.1)) -> Wind A B P alg (w.2 b))</code><br><p>see <a href="http://5ht.co/hott.pdf">HoTT</a>:
+    5.3 W-types.
+</p><h2 id="setoid"><font color="#7D8A96">Setoid</font></h2><p>Setoid was a first modeling of equality by its properties:
+reflexivity, symmetry and transitivity by Errett Bishop in 1967.
+</p><code>Setoid (A: U): U
+  = (Carrier: A)
+  * (Equ: (a b: A) -> Path A a b)
+  * (Refl: (x: A) -> Equ x x)
+  * (Trans: (x₁,x₂,x₃: A) -> Equ x₁ x₂ -> Equ x₂ x₃ -> Equ x₁ x₃)
+  * (Sym: (x₁,x₂: A) -> Equ x₁ x₂ -> Equ x₂ x₁)
+
 </code></section><div class="om"><section><h1>Inductive Data Types</h1></section></div><section><p>Inductive Types represents polynomial functors
 equiped with recursor and indunction principle.
 Inductive types used for specification the
 evaluation protocol for particular computations.
-</p><h2 id="empty">Empty</h2><p><b>empty</b> type lacks both introduction rules and eliminators.
+</p><h2 id="empty"><font color="#7D8A96">Empty</font></h2><p><b>empty</b> type lacks both introduction rules and eliminators.
 However it has recursor and induction.</p><code>data empty =</code><br><code>emptyRec (C: U): empty -> C = split {}
 emptyInd (C: empty -> U): (z: empty) -> C z = split {}
-</code><h2 id="unit">Unit</h2><code>data unit = star</code><br><code>unitRec (C: U) (x: C): unit -> C = split tt -> x
+</code><h2 id="unit"><font color="#7D8A96">Unit</font></h2><code>data unit = star</code><br><code>unitRec (C: U) (x: C): unit -> C = split tt -> x
 unitInd (C: unit -> U) (x: C tt): (z: unit) -> C z = split tt -> x</code><p>see <a href="http://5ht.co/hott.pdf">HoTT</a>:
     2.8 The unit type
-</p><h2 id="either">Either</h2><p><b>either</b> is a representation for sum types or disjunction.</p><code>data either (A B: U) = left (x: A) | right (y: B)</code><br><code>eitherRec (A B C: U) (b: A -> C) (c: B -> C): either A B -> C
+</p><h2 id="either"><font color="#7D8A96">Either</font></h2><p><b>either</b> is a representation for sum types or disjunction.</p><code>data either (A B: U) = left (x: A) | right (y: B)</code><br><code>eitherRec (A B C: U) (b: A -> C) (c: B -> C): either A B -> C
         = split { inl x -> b(x) ; inr y -> c(y) }
 
 eitherInd (A B: U) (C: either A B -> U)
@@ -204,7 +209,7 @@ eitherInd (A B: U) (C: either A B -> U)
 </code><p>see <a href="http://5ht.co/hott.pdf">HoTT</a>:
     1.7 Coproduct types; and
     2.12 Coproducts.
-</p><h2 id="tuple"><a name=prod>Tuple</a></h2><p><b>tuple</b> is a representation for non-dependent
+</p><h2 id="tuple"><a name=prod><font color="#7D8A96">Tuple</font></a></h2><p><b>tuple</b> is a representation for non-dependent
 product types or conjunction.</p><code>data tuple (A B: U) = pair (x: A) (y: B)
 prod (A B: U) (x: A) (y: B): (_: A) * B = (x,y)</code><br><code>tupleRec  (A B C: U) (c: (x:A) (y:B) -> C): (x: tuple A B) -> C
         = split pair a b -> c a b
@@ -214,7 +219,7 @@ tupleInd  (A B: U) (C: tuple A B -> U)
         = split pair a b -> c a b
 </code><p>see <a href="http://5ht.co/hott.pdf">HoTT</a>:
     2.6 Cartesian product types.
-</p><h2 id="bool"><a name='bool'><a href='bool/'>Bool</a></a></h2><p><b>bool</b> is run-time version of the boolean logic you
+</p><h2 id="bool"><a name='bool'><font color="#7D8A96">Bool</font></a></h2><p><b>bool</b> is run-time version of the boolean logic you
 may use in your general purpose applications. <b>bool</b>
 is isomorphic to <b>1+1</b>: either unit unit.</p><code>data bool = false | true</code><br><code>b1: U = bool -> bool
 b2: U = bool -> bool -> bool</code><br><code>negation: b1 = split { false -> true ; true -> false }
@@ -274,17 +279,17 @@ listEq (A: eq): list A.1 −> list A.1 −> bool
 </code><h2 id="stream"><a name='stream'><a href='stream/'>Stream</a></a></h2><p><b>stream</b> is a record form of the list's
 <b>cons</b> constructor. It models the infinity
 list that has no terminal element.</p><code>data stream (A: U) = cons (x: A) (xs: stream A)
-</code><h2 id="fin"><a name='fin'><a href='fin/'>Fin</a></a></h2><p><b>fin</b> is the inductive defintion of set with finite elements.</p><code>data fin (n: nat)
+</code><h2 id="fin"><a name='fin'><font color="#7D8A96">Fin</font></a></h2><p><b>fin</b> is the inductive defintion of set with finite elements.</p><code>data fin (n: nat)
    = fzero | fsucc (_: fin (pred n))
 
 fz (n: nat): fin (succ n)          = fzero
 fs (n: nat): fin n -> fin (succ n) = \(x: fin n) -> fsucc x
-</code><h2 id="vector"><a name='vector'><a href='vector/'>Vector</a></a></h2><p><b>vector</b> is the inductive defintion of limited length list.</p><code>data vector (A: U) (n: nat)
+</code><h2 id="vector"><a name='vector'><font color="#7D8A96">Vector</font></a></h2><p><b>vector</b> is the inductive defintion of limited length list.</p><code>data vector (A: U) (n: nat)
    = nil | cons (_: A) (_: vector A (pred n))
 </code><h2 id="seq"><a name='seq'><a href='seq/'>Seq</a></a></h2><p><b>seq</b> &mdash; abstract compositional sequences.</p><code>data seq (A: U) (B: A -> A -> U) (X Y: A)
    = seqNil (_: A)
    | seqCons (X Y Z: A) (_: B X Y) (_: Seq A B Y Z)
-</code></section><div class="om"><section><h1>Abstract Algebra</h1></section></div><section><h2 id="monoid"><a name="monoid"><a href='monoid/'>Monoid</a></a></h2><code>isAssociative (M: U) (op: M -> M -> M) : U
+</code></section><div class="om"><section><h1>Abstract Algebra</h1></section></div><section><h2 id="monoid"><a name="monoid"><font color="#7D8A96">Monoid</font></a></h2><code>isAssociative (M: U) (op: M -> M -> M) : U
 
 hasIdentity (M : U) (op : M -> M -> M) (id : M) : U
   = (_ : hasLeftIdentity M op id)
@@ -295,17 +300,17 @@ isMonoid (M: SET): U
   * (_: isAssociative M.1 op)
   * (id: M.1)
   * (hasIdentity M.1 op id)
-</code><h2 id="cmonoid">Commutative Monoid</h2><code>isCommutative (M: U) (op: M -> M -> M): U
+</code><h2 id="cmonoid"><font color="#7D8A96">Commutative Monoid</font></h2><code>isCommutative (M: U) (op: M -> M -> M): U
   = (x y: M) -> Path M (op x y) (op y x)
 
 isCMonoid (M: SET): U
   = (m: isMonoid M)
   * (isCommutative M.1 m.1)
-</code><h2 id="group">Group</h2><code>isGroup (G: SET): U
+</code><h2 id="group"><font color="#7D8A96">Group</font></h2><code>isGroup (G: SET): U
   = (m: isMonoid G)
   * (inv: G.1 -> G.1)
   * (hasInverse G.1 m.1 m.2.2.1 inv)
-</code><h2 id="abgroup">Abelian Group</h2><code>isAbGroup (G: SET): U
+</code><h2 id="abgroup"><font color="#7D8A96">Abelian Group</font></h2><code>isAbGroup (G: SET): U
   = (g: isGroup G)
   * (isCommutative G.1 g.1.1)
 </code><h2>Instances</h2><code>monoid:  U = (X: SET) * isMonoid X
@@ -329,7 +334,7 @@ uncocontra_sig (F:U->U):U= (A B: U) -> (F B -> F A) ->  (A -> B)
 join_sig       (F:U->U):U=   (A: U) ->      F (F A) -> F A
 dup_sig        (F:U->U):U=   (A: U) ->         F A  -> F (F A)
 bind_sig       (F:U->U):U= (A B: U) ->    F A ->(A  -> F B)-> F B
-</code><h2>Carriers</h2><code>pure:        U = (F: U -> U) * pure_sig F
+</code><h2><font color="#7D8A96">Carriers</font></h2><code>pure:        U = (F: U -> U) * pure_sig F
 functor:     U = (F: U -> U) * fmap_sig F
 
 applicative: U = (F: U -> U)
@@ -342,14 +347,14 @@ monad:       U = (F: U -> U)
                * (_: fmap_sig F)
                * (_: appl_sig F)
                *     bind_sig F
-</code><h2 id="functor">Functor</h2><code>isFunctor (F: functor): U
+</code><h2 id="functor"><font color="#7D8A96">Functor</font></h2><code>isFunctor (F: functor): U
   = (id: (A: U) -> (x: F.1 A) ->
      Path (F.1 A) (fmap F A A (idfun A) x) x)
   * (compose: (A B C: U) (f: B -> C) (g: A -> B) (x: F.1 A) ->
               Path (F.1 C) (F.2 A C (o A B C f g) x)
                    ((o (F.1 A) (F.1 B) (F.1 C)
                        (F.2 B C f) (F.2 A B g)) x)) * unit
-</code><h2 id="applicative">Applicative</h2><code>isApplicative (F: applicative): U
+</code><h2 id="applicative"><font color="#7D8A96">Applicative</font></h2><code>isApplicative (F: applicative): U
     = (id:  (A:U) -> (x: F.1 A) ->
        Path (F.1 A) x (ap F A A (apure F (id A) (idfun A)) x))
     * (hom: (A B:U)(f:A->B)(x: A) ->
@@ -361,7 +366,7 @@ monad:       U = (F: U -> U)
     * (xchg: (A B:U)(x:A)(u:F.1(A->B))(f:A->B) ->
        Path (F.1 B) (ap F A B u ((apure F) A x))
                     (ap F (A->B) B (apure F ((A->B)->B) (\(f:A->B)->f(x))) u)) * unit
-</code><h2 id="monad">Monad</h2><code>isMonad (F: monad): U
+</code><h2 id="monad"><font color="#7D8A96">Monad</font></h2><code>isMonad (F: monad): U
     = (one: (A B:U) (f:A->F.1 B)(x:A) -> Path (F.1 B) (bind F A B (mpure F A x) f) (f x))
     * (coone: (A:U) (m: F.1 A) -> Path (F.1 A) (bind F A A m (mpure F A)) m)
     * (assoc: (A B C: U) (f: A -> F.1 B) (g: B -> F.1 C) (m: F.1 A) ->
@@ -377,16 +382,15 @@ MONAD:       U = (f: monad)
                * (_: isFunctor (f.1,f.2.2.1))
                * (_: isApplicative (f.1,f.2.1,f.2.2.1,f.2.2.2.1))
                * isMonad f
-</code></div><div class="om"><section><h1>Recursion Schemes</h1></section></div><section><h2 id="fix">Fix, Mu, Nu, Free, CoFree</h2><code>data fix    (F: U -> U) = Fix (point: F (fix F))
+</code></div><div class="om"><section><h1>Recursion Schemes</h1></section></div><section><h2 id="fix"><font color="#7D8A96">Fix, Mu, Nu, Free, CoFree</font></h2><code>data fix    (F: U -> U) = Fix (point: F (fix F))
 data mu     (F: U -> U) (A B: U)  = Return (a: A) | Bind (f: F B)
 data nu     (F: U -> U) (A B: U)  = CoBind (a: A)        (f: F B)
 data free   (F: U -> U) (A: U)    = Free        (_: fix (mu F A))
 data cofree (F: U -> U) (A: U)    = CoFree      (_: fix (nu F A))
-</code><h2>Cata and Ana</h2><code>cata (A: U) (F: functor) (alg: F.1 A -> A) (f: fix F.1): A
+</code><h2><font color="#7D8A96">Cata, Ana, Futu, Histo</font></h2><code>cata (A: U) (F: functor) (alg: F.1 A -> A) (f: fix F.1): A
    = alg (F.2 (fix F.1) A (cata A F alg) (out_ F.1 f))</code><br><code>ana  (A: U) (F: functor) (coalg: A -> F.1 A) (a: A): fix F.1
    = Fix (F.2 A (fix F.1) (ana A F coalg) (coalg a))
-                cat: U = (A: U) * (A -> A -> U)
-</code><h2>Futu and Histo</h2><code>futu (A: U) (F: functor)
+                cat: U = (A: U) * (A -> A -> U)</code><br><code>futu (A: U) (F: functor)
      (f: A -> F.1 (free F.1 A)) (a: A): fix F.1
   = Fix (F.2 (free F.1 A) (fix F.1) (\(z: free F.1 A) -> w z) (f a)) where
   w: free F.1 A -> fix F.1 = split
@@ -412,7 +416,7 @@ data cofree (F: U -> U) (A: U)    = CoFree      (_: fix (nu F A))
        (a: A): B = histo B F f (futu A F g a)
                 cata (A: U) (F: functor) (alg: F.1 A -> A) (f: fix F.1): A
                    = alg (F.2 (fix F.1) A (cata A F alg) (out_ F.1 f))
-</code><h2 id="inductive">Inductive and CoInductive</h2><code>ind   (F: U -> U) (A: U): U
+</code><h2 id="inductive"><font color="#7D8A96">Inductive and CoInductive</font></h2><code>ind   (F: U -> U) (A: U): U
     = (in_: F (fix F) -> fix F)
     * (in_rev: fix F -> F (fix F))
     * (fold_: (F A -> A) -> fix F -> A)
@@ -436,45 +440,32 @@ coinductive (F: functor) (A: U): coind F.1 A
   * (right: (x y: C.1) -> (f: C.2 x y) -> Path (C.2 x y) (c x y y f (id y)) f)
   * ( (x y z w: C.1) -> (f: C.2 x y) -> (g: C.2 y z) -> (h: C.2 z w) ->
   Path (C.2 x w) (c x z w (c x y z f g) h) (c x y w f (c y z w g h)))
-precategory: U = (C: cat) * isPrecategory C
-</code><h2 id="cat">Accessors</h2><code>carrier (C: precategory): U = C.1.1
-hom     (C: precategory) (a b: carrier C): U = C.1.2 a b
-homSet  (C: precategory) (a b: carrier C): isSet (hom C a b) = C.2.2.2.1 a b
-compose (C: precategory) (x y z: carrier C) (f: hom C x y) (g: hom C y z): hom C x z = C.2.2.1 x y z f g
-path    (C: precategory) (x: carrier C): hom C x x = C.2.1 x
-pathL   (C: precategory) (x y: carrier C) (f: hom C x y):
-        Path (hom C x y) (compose C x x y (path C x) f) f = C.2.2.2.2.1 x y f
-pathR   (C: precategory) (x y: carrier C) (f: hom C x y):
-        Path (hom C x y) (compose C x y y f (path C y)) f = C.2.2.2.2.2.1 x y f
-pathC   (C: precategory) (x y z w: carrier C) (f: hom C x y) (g: hom C y z) (h: hom C z w):
-        Path (hom C x w) (compose C x z w (compose C x y z f g) h)
-                         (compose C x y w f (compose C y z w g h)) = C.2.2.2.2.2.2 x y z w f g h
-</code><p>see <a href="http://5ht.co/hott.pdf">HoTT</a>:
+precategory: U = (C: cat) * isPrecategory C</code><p>see <a href="http://5ht.co/hott.pdf">HoTT</a>:
     9.1 Categories and precategories.
-</p><h2>Functors</h2><code>catfunctor (A B: precategory): U
+</p><h2><font color="#7D8A96">Functors</font></h2><code>catfunctor (A B: precategory): U
   = (ob: carrier A -> carrier B)
   * (mor: (x y: carrier A) -> hom A x y -> hom B (ob x) (ob y))
   * (id: (x: carrier A) -> Path (hom B (ob x) (ob x)) (mor x x (path A x)) (path B (ob x)))
   * ((x y z: carrier A) -> (f: hom A x y) -> (g: hom A y z) ->
      Path (hom B (ob x) (ob z)) (mor x z (compose A x y z f g))
-      (compose B (ob x) (ob y) (ob z) (mor x y f) (mor y z g)))
-</code><p>see <a href="http://5ht.co/hott.pdf">HoTT</a>:
+      (compose B (ob x) (ob y) (ob z) (mor x y f) (mor y z g)))</code><p>see <a href="http://5ht.co/hott.pdf">HoTT</a>:
     9.2 Functors and transformations;
     9.4 Equivalences.
-</p><h2 id="coslise">CoSlice Category</h2><code>cosliceCat (C D: precategory)
+</p><h2 id="coslise"><font color="#7D8A96">Coslice Category</font></h2><code>cosliceCat (C D: precategory)
            (a: carrier C)
            (F: catfunctor D C): precategory
-</code><h2>Rezk Completion</h2><code>iso (C: precategory) (A B: carrier C): U
+</code><h2><font color="#7D8A96">Rezk Completion</font></h2><code>iso (C: precategory) (A B: carrier C): U
   = (f: hom C A B)
   * (g: hom C B A)
   * (_: Path (hom C A A) (compose C A B A f g) (path C A))
   * (   Path (hom C B B) (compose C B A B g f) (path C B))
 
-isCategory    (C: precategory): U = (A: carrier C) -> isContr ((B: carrier C) * iso C A B)
+isCategory    (C: precategory): U
+  = (A: carrier C) -> isContr ((B: carrier C) * iso C A B)
 category: U = (C: precategory) * isCategory C
 </code><p>see <a href="http://5ht.co/hott.pdf">HoTT</a>:
     9.9 The Rezk completion.
-</p><h2>Initials and Terminals</h2><code>isInitial     (C: precategory) (x: carrier C): U = (y: carrier C) -> isContr (hom C x y)
+</p><h2></font>Initials and Terminals</font></h2><code>isInitial     (C: precategory) (x: carrier C): U = (y: carrier C) -> isContr (hom C x y)
 isTerminal    (C: precategory) (y: carrier C): U = (x: carrier C) -> isContr (hom C x y)
 initial       (C: precategory): U = (x: carrier C) * isInitial  C x
 terminal      (C: precategory): U = (y: carrier C) * isTerminal C y
@@ -486,12 +477,10 @@ isCommutative (X: precategory)
               (h: hom X A C) (i: hom X B D): U
             = Path (hom X A D) (compose X A C D h g)
                                (compose X A B D f i)
-</code><h2 id="univArr">Universal Arrow</h2><code>univArr (C D: precategory)
-        (a: carrier C)
-        (F: catfunctor D C)
-      : U
-      = initial (cosliceCat C D a F)
-</code><h2 id="ntrans">Natural Transformations</h2><code>isNaturalTrans (C D: precategory)
+</code><h2 id="univArr"><font color="#7D8A96">Universal Arrow</font></h2><code>univArr (C D: precategory)
+        (a: carrier C) (F: catfunctor D C)
+      : U = initial (cosliceCat C D a F)
+</code><h2 id="ntrans"><font color="#7D8A96">Natural Transformations</font></h2><code>isNaturalTrans (C D: precategory)
                (F G: catfunctor C D)
                (eta: (x: carrier C) -> hom D (F.1 x) (G.1 x)): U
   = (x y: carrier C) (h: hom C x y) ->
@@ -504,7 +493,7 @@ ntrans (C D: precategory)
   = (eta: (x: carrier C) -> hom D (F.1 x) (G.1 x))
   * (isNaturalTrans C D F G eta)
 
-</code><h2 id="adj">Adjunctions</h2><code>areAdjoint (C D: precategory)
+</code><h2 id="adj"><font color="#7D8A96">Adjunctions</font></h2><code>areAdjoint (C D: precategory)
            (F: catfunctor D C)
            (G: catfunctor C D)
            (unit: ntrans D D (idFunctor D) (compFunctor D C D F G))
@@ -516,7 +505,7 @@ adjoint (C D: precategory) (F: catfunctor D C) (G: catfunctor C D) : U
   * areAdjoint C D F G unit counit
 </code><p>see <a href="http://5ht.co/hott.pdf">HoTT</a>:
     9.3 Adjunctions.
-</p><h2 id="sip">Structure Identity Principle</h2><code>structure (X: precategory): U
+</p><h2 id="sip"><font color="#7D8A96">Structure Identity Principle</font></h2><code>structure (X: precategory): U
   = (P: carrier X -> U)
   * (H: (x y: carrier X) (a: P x) (b: P y) (f: hom X x y) -> U)
   * (propH: (x y: carrier X) (a: P x) (b: P y) (f: hom X x y) ->
@@ -533,18 +522,18 @@ adjoint (C D: precategory) (F: catfunctor D C) (G: catfunctor C D) : U
   : isCategory (sipPrecategory X S)
 </code><p>see <a href="http://5ht.co/hott.pdf">HoTT</a>:
     9.8 The structure identity principle.
-</p></section><div class="om"><section><h1>Univalent Foundations</h1></section></div><section><h2 id="equiv"><a name="equiv"><a href='equiv/'>Equiv</a></a></h2><code>fiber   (A B: U) (f: A -> B) (y: B): U = (x: A) * Path B y (f x)
+</p></section><div class="om"><section><h1>Univalent Foundations</h1></section></div><section><h2 id="equiv"><a name="equiv"><font color="#7D8A96">Equiv</font></font></a></h2><code>fiber   (A B: U) (f: A -> B) (y: B): U = (x: A) * Path B y (f x)
 isEquiv (A B: U) (f: A -> B): U = (y: B) -> isContr (fiber A B f y)
 equiv   (A B: U): U = (f: A -> B) * isEquiv A B f
 equivElim (B: U) (P: (A: U) -> (A -> B) -> U)
           (d: P B (idfun B)) (A: U) (f: equiv A B): P A f.1
-</code><h2 id="retract">Retract</h2><code>section (A B:U) (f:A->B) (g:B->A): U = (b:B) -> Path B (f(g(b))) b
+</code><h2 id="retract"><font color="#7D8A96">Retract</font></h2><code>section (A B:U) (f:A->B) (g:B->A): U = (b:B) -> Path B (f(g(b))) b
 retract (A B:U) (f:A->B) (g:B->A): U = (a:A) -> Path A (g(f(a))) a
 </code><h2 id="bundle"><a name="bundle"><a href='bundle/'>Bundle</a></a></h2><code>total   (B: U) (F: Family B): U = Sigma B F
 trivial (B: U) (F: Family B): total B F -> B = \ (x: total B F) -> x.1
 homeo (B E: U) (F: Family B) (p: E -> B) (y: B)
     : fiber E B p y -> total B F = \(x: fiber E B p y) -> (y,F)
-</code><h2 id="iso"><a name="iso"><a href='iso/'>Iso</a></a></h2><code>Square (A: U) (a0 a1 b0 b1: A)
+</code><h2 id="iso"><a name="iso"><font color="#7D8A96">Iso</font></a></h2><code>Square (A: U) (a0 a1 b0 b1: A)
        (u: Path A a0 a1) (v: Path A b0 b1)
        (r0: Path A a0 b0) (r1: Path A a1 b1): U
 
@@ -567,8 +556,8 @@ isoPath    (A B: U) (f: A -> B) (g: B -> A)
 isoElim (B: U) (Q: (A: U) -> (A -> B) -> (B -> A) -> U)
         (h1: Q B (idfun B) (idfun B)) (A: U) (f: A -> B)
       : (g: B -> A) -> section A B f g -> retract A B f g -> Q A f g
-</code><h2 id="univ">Univ</h2><code>univ (A B: U): Path U (Path U A B) (equiv A B)
-</code></section><div class="om"><section><h1>Higher inductive types</h1></section></div><section><h2 id="i">Interval</h2><code>data I
+</code><h2 id="univ"><font color="#7D8A96">Univ</font></h2><code>univ (A B: U): Path U (Path U A B) (equiv A B)
+</code></section><div class="om"><section><h1>Higher inductive types</h1></section></div><section><h2 id="i"><font color="#7D8A96">Interval</font></h2><code>data I
    = i0
    | i1
    | seg &lt;i&gt; [ (i = 0) -> i0,
@@ -589,12 +578,12 @@ isoElim (B: U) (Q: (A: U) -> (A -> B) -> (B -> A) -> U)
    = <j> (\(x : A) -> homotopy A B f g p x (seg{I} @ j))
 </code><p>see <a href="http://5ht.co/hott.pdf">HoTT</a>:
     6.3 The interval
-</p><h2 id="circle">Circle</h2><code>data S1
+</p><h2 id="circle"><font color="#7D8A96">Circle</font></h2><code>data S1
    = base
    | loop &lt;i&gt; [ (i=0) -> base ,
                 (i=1) -> base ]</code><p>see <a href="http://5ht.co/hott.pdf">HoTT</a>:
     6.4 Circles and spheres
-</p><h2 id="suspension">Suspension</h2><code>data susp (A: U)
+</p><h2 id="suspension"><font color="#7D8A96">Suspension</font></h2><code>data susp (A: U)
    = north
    | south
    | merid (a: A) &lt;i&gt; [ (i = 0) -> north ,
@@ -608,13 +597,13 @@ isoElim (B: U) (Q: (A: U) -> (A -> B) -> (B -> A) -> U)
        * Path C (f a) (g b)
 </code><p>see <a href="http://5ht.co/hott.pdf">HoTT</a>:
     2.11 Exercise
-</p><h2 id="pushout">Pushout</h2><code>data pushout (A B C: U) (f: C -> A) (g: C -> B)
+</p><h2 id="pushout"><font color="#7D8A96">Pushout</font></h2><code>data pushout (A B C: U) (f: C -> A) (g: C -> B)
    = po1 (_: A)
    | po2 (_: B)
    | po3 (c: C) &lt;i&gt; [ (i = 0) -> po1 (f c),
                       (i = 1) -> po2 (g c) ]</code><p>see <a href="http://5ht.co/hott.pdf">HoTT</a>:
     6.8 Pushouts.
-</p><h2 id="trunc">Truncations</h2><code>data pTrunc (A: U) -- (-1)-trunc, mere proposition truncation
+</p><h2 id="trunc"><font color="#7D8A96">Truncations</font></h2><code>data pTrunc (A: U) -- (-1)-trunc, mere proposition truncation
      = pinc (a: A)
     | pline (x y: pTrunc A) &lt;i&gt;
           [ (i = 0) -> x,
@@ -642,7 +631,7 @@ data gTrunc (A: U) -- (1)-trunc, groupoid truncation
             (k = 1) -> b ]
 </code><p>see <a href="http://5ht.co/hott.pdf">HoTT</a>:
     6.9 Truncations.
-</p><h2 id="quotient">Quotients</h2><code>data quot (A: U) (R: A -> A -> U)
+</p><h2 id="quotient"><font color="#7D8A96">Quotients</font></h2><code>data quot (A: U) (R: A -> A -> U)
    = inj (a: A)
    | quoteq (a b: A) (r: R a b) &lt;i&gt;
           [ (i = 0) -> inj a,
