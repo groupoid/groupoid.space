@@ -26,9 +26,7 @@ block content
                 inductive types on top of MLTT as a core.
                 Please refer to <a href="http://www.cse.chalmers.se/~coquand/cubicaltt.pdf">CCHM</a>
                 paper for more information. The base library is founded on top of cubical modules each
-                fall into one of 15 categories, presented with HoTT-style chapters:
-            br
-            h1  Foundations
+                fall into one of 15 categories:
             p.
                 (i) MLTT Types:
                     <a href="https://raw.githubusercontent.com/groupoid/infinity/master/priv/pi.ctt">pi</a>,
@@ -46,7 +44,6 @@ block content
                     <a href="https://raw.githubusercontent.com/groupoid/infinity/master/priv/nat.ctt">nat</a>,
                     <a href="https://raw.githubusercontent.com/groupoid/infinity/master/priv/list.ctt">list</a>,
                     <a href="https://raw.githubusercontent.com/groupoid/infinity/master/priv/stream.ctt">stream</a>,
-                    <a href="https://raw.githubusercontent.com/groupoid/infinity/master/priv/fin.ctt">fin</a>,
                     <a href="https://raw.githubusercontent.com/groupoid/infinity/master/priv/vector.ctt">vector</a>;
                 (iv) Abstract Algebra:
                     <a href="https://raw.githubusercontent.com/groupoid/infinity/master/priv/algebra.ctt">algebra</a>;
@@ -73,9 +70,6 @@ block content
                     <a href="https://raw.githubusercontent.com/groupoid/infinity/master/priv/trunc.ctt">trunc</a>;
                 (ix) Process Calculus:
                     <a href="https://raw.githubusercontent.com/groupoid/infinity/master/priv/process.ctt">process</a>;
-            br
-            h1 Mathematics
-            p.
                 (x) Category Theory:
                     <a href="https://raw.githubusercontent.com/groupoid/infinity/master/priv/cat.ctt">cat</a>,
                     <a href="https://raw.githubusercontent.com/groupoid/infinity/master/priv/fun.ctt">fun</a>,
@@ -110,120 +104,6 @@ block content
             p.
                 This library is best to read with <a href="http://5ht.co/hott.pdf">HoTT</a>
                 book and <a href="https://ncatlab.org/schreiber/show/thesis+Wellen">Felix Wellen</a> dissertation.
-            br
-            br
-            hr
-            br
-
-        .types
-            h2 Homotopy Core
-            br
-            -
-                var core = {
-                    'Pure': [ 'pi' ],
-                    'MLTT': [ 'pi', 'sigma', 'id', 'W' ],
-                    'Inductive': [ 'pi', 'sigma', 'id', 'fix', 'inductive' ],
-                    'Cubical': [ 'pi', 'sigma', 'path', 'Compose', 'Glue', 'higher inductive types' ],
-                }
-
-            .type
-                for v, k in core
-                    ol.type__col
-                        h3= k.toUpperCase()
-                        for i in v
-                            li: a(href='#'+i)= i.toUpperCase()
-            br
-        section
-            p.
-                Cubical with HITs has very lightweight core and syntax and
-                is an internal language of $(\infty,1)$-topos.
-                Cubical with $[0,1]$ Path types but without HITs is an
-                internal language of $(\infty,1)$-categories, while MLTT
-                is an internal language of locally cartesian closed categories.
-            br
-            br
-            hr
-            br
-        .types
-            h2 Cohesive Core
-            br
-            -
-                var core = {
-                    'Cohesive': [ 'shape', 'flat', 'sharp' ],
-                    'Differential': [ 'reduction', 'infinitesimal', 'smooth' ],
-                }
-
-            .type
-                for v, k in core
-                    ol.type__col
-                        h3= k.toUpperCase()
-                        for i in v
-                            li: a(href='#'+i)= i.toUpperCase()
-            br
-        section
-            p.
-                Cohesive Type Theory is developed for satisfying needs on modeling modalities,
-                such as connectedness, compactness, infinitesimal shapes, etc. Differential
-                Cohesive Type Theory is internal language of differential cohesive $(\infty,1)$-topoi, with
-                extra structure, just as $(\infty,1)$-categories add a globular path equality structure
-                to locally cartesian closed categories and their internal language &mdash; MLTT.
-                Please refer to <a href="https://hott-uf.github.io/2017/abstracts/cohesivett.pdf">cohesivett</a>
-                for more information.
-            p.
-                Cohesive types modeled in base library and undefined axioms.
-                Process Calculus is another example of modality types with special comonadic spawn
-                arrows hiding the underlying run-time implementation.
-            br
-            br
-            hr
-            br
-        .types
-            h2 Types Taxonomy
-            br
-            -
-                    var types1 = {
-                        'nr nd +': [ 'unit', 'bool', 'maybe', 'either', 'tuple' ],
-                        'r nd +': [ 'fix', 'nat', 'list' ],
-                        'nr d +': [ 'exists' ],
-                        'rd +': [ 'fin', 'vector', 'W', 'seq' ],
-                    }
-                    var types2 = {
-                        'nr nd *': [ 'prod', 'pure', 'functor', 'applicative', 'monad' ],
-                        'r nd *': [ 'stream' ],
-                        'nr d *': [ 'sigma', 'bundle', 'iso', 'equiv', 'fiber', 'pullback', 'category' ],
-                        'HIT': [ 'groupoid', 'infinity', 'pushout', 'S1', 'S2', 'hopf', 'cw' ],
-                    }
-
-                    var legend = {
-                        'n': 'Not a',
-                        'r': 'Recursive',
-                        'd': 'Dependent',
-                        '+': 'Coproducts (Positive)',
-                        '*': 'Products (Negative)',
-                    }
-
-            .type
-                for v, k in types1
-                    ol.type__col
-                        h3= k.toUpperCase()
-                        for i in v
-                            li: a(href='#'+i)= i.toUpperCase()
-            .type
-                for v, k in types2
-                    ol.type__col
-                        h3= k.toUpperCase()
-                        for i in v
-                            li: a(href='#'+i)= i.toUpperCase()
-            br
-        section
-            p.
-                Types taxonomy shows us the core types categorized by a several axis:
-                1) dependent (D) and non-dependent (ND) terms;
-                2) recursive trees (R) or non-recursive (NR) data types;
-                3) inductive (+, positive) or coinductive (*, negative) types.
-            br
-            br
-            hr
             br
         .om
             section
@@ -1199,3 +1079,117 @@ block content
                 <a href="https://github.com/groupoid/groupoid.space/blob/master/tex/articles/types/types.pdf">
                 <h3>Mathematical Components for Cubical Syntax</h3></a>
                 </td></tr></table></center>
+
+            br
+            br
+            hr
+            br
+
+        .types
+            h2 Homotopy Core
+            br
+            -
+                var core = {
+                    'Pure': [ 'pi' ],
+                    'MLTT': [ 'pi', 'sigma', 'id', 'W' ],
+                    'Inductive': [ 'pi', 'sigma', 'id', 'fix', 'inductive' ],
+                    'Cubical': [ 'pi', 'sigma', 'path', 'Compose', 'Glue', 'higher inductive types' ],
+                }
+
+            .type
+                for v, k in core
+                    ol.type__col
+                        h3= k.toUpperCase()
+                        for i in v
+                            li: a(href='#'+i)= i.toUpperCase()
+            br
+        section
+            p.
+                Cubical with HITs has very lightweight core and syntax and
+                is an internal language of $(\infty,1)$-topos.
+                Cubical with $[0,1]$ Path types but without HITs is an
+                internal language of $(\infty,1)$-categories, while MLTT
+                is an internal language of locally cartesian closed categories.
+            br
+            br
+            hr
+            br
+        .types
+            h2 Cohesive Core
+            br
+            -
+                var core = {
+                    'Cohesive': [ 'shape', 'flat', 'sharp' ],
+                    'Differential': [ 'reduction', 'infinitesimal', 'smooth' ],
+                }
+
+            .type
+                for v, k in core
+                    ol.type__col
+                        h3= k.toUpperCase()
+                        for i in v
+                            li: a(href='#'+i)= i.toUpperCase()
+            br
+        section
+            p.
+                Cohesive Type Theory is developed for satisfying needs on modeling modalities,
+                such as connectedness, compactness, infinitesimal shapes, etc. Differential
+                Cohesive Type Theory is internal language of differential cohesive $(\infty,1)$-topoi, with
+                extra structure, just as $(\infty,1)$-categories add a globular path equality structure
+                to locally cartesian closed categories and their internal language &mdash; MLTT.
+                Please refer to <a href="https://hott-uf.github.io/2017/abstracts/cohesivett.pdf">cohesivett</a>
+                for more information.
+            p.
+                Cohesive types modeled in base library and undefined axioms.
+                Process Calculus is another example of modality types with special comonadic spawn
+                arrows hiding the underlying run-time implementation.
+            br
+            br
+            hr
+            br
+        .types
+            h2 Types Taxonomy
+            br
+            -
+                    var types1 = {
+                        'nr nd +': [ 'unit', 'bool', 'maybe', 'either', 'tuple' ],
+                        'r nd +': [ 'fix', 'nat', 'list' ],
+                        'nr d +': [ 'exists' ],
+                        'rd +': [ 'fin', 'vector', 'W', 'seq' ],
+                    }
+                    var types2 = {
+                        'nr nd *': [ 'prod', 'pure', 'functor', 'applicative', 'monad' ],
+                        'r nd *': [ 'stream' ],
+                        'nr d *': [ 'sigma', 'bundle', 'iso', 'equiv', 'fiber', 'pullback', 'category' ],
+                        'HIT': [ 'groupoid', 'infinity', 'pushout', 'S1', 'S2', 'hopf', 'cw' ],
+                    }
+
+                    var legend = {
+                        'n': 'Not a',
+                        'r': 'Recursive',
+                        'd': 'Dependent',
+                        '+': 'Coproducts (Positive)',
+                        '*': 'Products (Negative)',
+                    }
+
+            .type
+                for v, k in types1
+                    ol.type__col
+                        h3= k.toUpperCase()
+                        for i in v
+                            li: a(href='#'+i)= i.toUpperCase()
+            .type
+                for v, k in types2
+                    ol.type__col
+                        h3= k.toUpperCase()
+                        for i in v
+                            li: a(href='#'+i)= i.toUpperCase()
+            br
+        section
+            p.
+                Types taxonomy shows us the core types categorized by a several axis:
+                1) dependent (D) and non-dependent (ND) terms;
+                2) recursive trees (R) or non-recursive (NR) data types;
+                3) inductive (+, positive) or coinductive (*, negative) types.
+            br
+            br
