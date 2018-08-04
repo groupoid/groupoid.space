@@ -38,22 +38,22 @@ block content
                 h2 Abstract
                 p.
                     This work shows how to encode inductive types using recursion schemes.
-                    Unlike Church-Boem-Berarducci encoding, that can encode inductive types
-                    without fixpoint, recursion shcemes require the fixpoint constructor
+                    Unlike Church-Boem-Berarducci encoding that can encode inductive types
+                    without fixpoint, recursion schemes require the fixpoint constructor
                     in the typechecker core in order to express this encoding.
                     We will use <mark>cubical</mark>
                     <a href="https://homotopytypetheory.org/2017/09/16/a-hands-on-introduction-to-cubicaltt/">type
                     checker from Mortberg et all</a>. You may want
-                    to try this in Agda, Idris, Coq or any MLTT prover.
+                    to try this in Agda, Idris, Coq, or any other MLTT prover.
 
                 h2 Fixpoint
                 p.
-                    The core fixpoint reflection type is parametrized by functor
-                    and has only one contructor with value of this functor applied to fixpoint itself.
+                    The core fixpoint reflection type is parametrized by a functor
+                    and has only one contructor with the value of this functor applied to fixpoint itself.
                 code.
                     data fix (F: U -> U) = Fix (point: F (fix F))
                 p.
-                    We also need functions for projecting and embedding valued to/from
+                    We also need functions for projecting and embedding values to/from
                     fixpoint functiorial stream.
                 code.
                     unfix (F: U -> U): fix F -> F (fix F) = split Fix f -> f
@@ -61,11 +61,11 @@ block content
 
                 h2 F-Algebra
                 p.
-                    F-Algebras gives us a categorical understanding recursive types.
+                    F-Algebras give us a categorical understanding of recursive types.
                     Let $F : C \rightarrow C$ be an endofunctor on category $C$.
                     An F-algebra is a pair $(A, \varphi)$, where A
                     is an object and $\varphi\ : F\ A \rightarrow A$
-                    is an morphism in the category $C$. The object A is the carrier and the functor
+                    is a morphism in the category $C$. The object A is the carrier and the functor
                     F is the signature of the algebra. Reversing arrows gives us F-coalgebra.
                 .semantics
                     figure.
@@ -90,8 +90,8 @@ block content
                 p.
                     A F-algebra $(\mu F, in)$ is the initial F-algebra if for any F-algebra $(C, \varphi)$
                     there exists a unique arrow $\llparenthesis \varphi \rrparenthesis : \mu F \rightarrow C$ where $f = \llparenthesis \varphi \rrparenthesis$
-                    and is called catamorphism. Similar a F-coalgebra $(\nu F, out)$ is the terminal
-                    F-coalgebra if for any F-coalgebra $(C, \phi)$ there exists unique arrow
+                    and is called catamorphism. Similarly, a F-coalgebra $(\nu F, out)$ is the terminal
+                    F-coalgebra if for any F-coalgebra $(C, \phi)$ there exists a unique arrow
                     $\llbracket \phi \rrbracket : C \rightarrow \nu F$ where $f = \llbracket \phi \rrbracket$
                 .semantics
                     figure.
@@ -162,7 +162,7 @@ block content
 
                 h2 Coinductive
                 p.
-                    All arrows are reversed, in is out, fold is ufold.
+                    All arrows are reversed, in is out, fold is unfold.
                 code.
                     coind (F: U -> U) (A: U): U
                         = (out_: F (fix F) -> fix F)
@@ -177,7 +177,7 @@ block content
 
                 h2 Inductive List Nat
                 p.
-                    Here is example of inductive encoding of list nat:
+                    Here is an example of inductive encoding of list nat:
                 code.
                     > inductive list
                 pre.
@@ -205,7 +205,7 @@ block content
                 h2 Hylomorphism
                 p.
                     Hylomorphism is a bi-functor that could be taken as axiom,
-                    as all other recursion schemas are derivable from it.
+                    since all other recursion schemas are derivable from it.
                     More common, (Co)-Inductive types could be represented
                     as di-algebras.
                 code.

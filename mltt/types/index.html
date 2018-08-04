@@ -9,7 +9,7 @@ interval $[0,1]$ with functional extensionality, higher equalities, and higher
 inductive types on top of MLTT as a core.
 Please refer to <a href="http://www.cse.chalmers.se/~coquand/cubicaltt.pdf">CCHM</a>
 paper for more information. The base library is founded on top of cubical modules each
-fall into one of 15 categories:</p><p>(i) MLTT Types:
+falling into one of 15 categories:</p><p>(i) MLTT Types:
     <a href="https://raw.githubusercontent.com/groupoid/infinity/master/priv/pi.ctt">pi</a>,
     <a href="https://raw.githubusercontent.com/groupoid/infinity/master/priv/sigma.ctt">sigma</a>,
     <a href="https://raw.githubusercontent.com/groupoid/infinity/master/priv/path.ctt">path</a>;
@@ -84,7 +84,7 @@ fall into one of 15 categories:</p><p>(i) MLTT Types:
     <a href="https://raw.githubusercontent.com/groupoid/infinity/master/priv/subtype.ctt">subtype</a>;</p><p>This library is best to read with <a href="http://5ht.co/hott.pdf">HoTT</a>
 book and <a href="https://ncatlab.org/schreiber/show/thesis+Wellen">Felix Wellen</a> dissertation.</p><br></div><div class="om"><section><h1>Martin-Löf Type Theory</h1></section></div><section><p>Martin-Löf Type Theory contains Pi, Sigma, Id, Nat, List types.
 Id types were added in 1984 while original MLTT was introduced in 1972.
-Now Id types treated as heterogeneous Path interval types.
+Now Id types are treated as heterogeneous Path interval types.
 </p><h2 id="pi"><a name='pi'><a href='pi/'>Pi</a></a></h2><p>Pi is a dependent function <b>f: (x:A) ⟶  B(x).</b></p><code>Pi (A: U) (P: A -> U): U</code><br><code>id          (A: U): U = A -> A
 idfun       (A: U) (a: A): A = a
 const     (A B: U): U = A
@@ -167,9 +167,9 @@ isInfinityGroupoid (A: U): U = inf_grpd A</code><br><code>PROP         : U = (X:
 SET          : U = (X:U) * isSet X
 GROUPOID     : U = (X:U) * isGroupoid X
 INF_GROUPOID : U = (X:U) * isInfinityGroupoid X
-</code><h2 id="W"><font color="#7D8A96">Well-Founded Trees</font></h2><p>W types are a generalisation of trees to encode Nat and List
+</code><h2 id="W"><font color="#7D8A96">Well-Founded Trees</font></h2><p>W types are generalisation of trees to encode Nat and List
 which should be derivable in any MLTT theory.
-W types here encoded with Sigma.</p><code>W (A:U) (B:A->U): U = (x:A) * (B(x) -> W A B)</code><br><code>Wrec (A:U) (B:A->U) (P:U)
+W types here are encoded with Sigma.</p><code>W (A:U) (B:A->U): U = (x:A) * (B(x) -> W A B)</code><br><code>Wrec (A:U) (B:A->U) (P:U)
      (alg: (a:A) (f:B(a)->W A B) (h:(b:B(a))->P) -> P)
    : (w: W A B) -> P
    = \(w:W A B) -> alg w.1 w.2 (\(b:B(w.1)) -> Wrec A B P alg (w.2 b))
@@ -188,12 +188,12 @@ reflexivity, symmetry and transitivity by Errett Bishop in 1967.
   * (Trans: (x₁,x₂,x₃: A) -> Equ x₁ x₂ -> Equ x₂ x₃ -> Equ x₁ x₃)
   * (Sym: (x₁,x₂: A) -> Equ x₁ x₂ -> Equ x₂ x₁)
 
-</code></section><div class="om"><section><h1>Inductive Data Types</h1></section></div><section><p>Inductive Types represents polynomial functors
+</code></section><div class="om"><section><h1>Inductive Data Types</h1></section></div><section><p>Inductive Types represent polynomial functors
 equiped with recursor and indunction principle.
-Inductive types used for specification the
+Inductive types are used for specification of
 evaluation protocol for particular computations.
 </p><h2 id="empty"><font color="#7D8A96">Empty</font></h2><p><b>empty</b> type lacks both introduction rules and eliminators.
-However it has recursor and induction.</p><code>data empty =</code><br><code>emptyRec (C: U): empty -> C = split {}
+However, it has recursor and induction.</p><code>data empty =</code><br><code>emptyRec (C: U): empty -> C = split {}
 emptyInd (C: empty -> U): (z: empty) -> C z = split {}
 </code><h2 id="unit"><font color="#7D8A96">Unit</font></h2><code>data unit = star</code><br><code>unitRec (C: U) (x: C): unit -> C = split tt -> x
 unitInd (C: unit -> U) (x: C tt): (z: unit) -> C z = split tt -> x</code><p>see <a href="http://5ht.co/hott.pdf">HoTT</a>:
@@ -219,7 +219,7 @@ tupleInd  (A B: U) (C: tuple A B -> U)
         = split pair a b -> c a b
 </code><p>see <a href="http://5ht.co/hott.pdf">HoTT</a>:
     2.6 Cartesian product types.
-</p><h2 id="bool"><a name='bool'><font color="#7D8A96">Bool</font></a></h2><p><b>bool</b> is run-time version of the boolean logic you
+</p><h2 id="bool"><a name='bool'><font color="#7D8A96">Bool</font></a></h2><p><b>bool</b> is a run-time version of the boolean logic you
 may use in your general purpose applications. <b>bool</b>
 is isomorphic to <b>1+1</b>: either unit unit.</p><code>data bool = false | true</code><br><code>b1: U = bool -> bool
 b2: U = bool -> bool -> bool</code><br><code>negation: b1 = split { false -> true ; true -> false }
@@ -230,8 +230,8 @@ boolInd (C: bool -> U) (f: A false) (t: A true): (n:bool) -> A n
       = split { false -> f ; true -> t }</code><p>see <a href="http://5ht.co/hott.pdf">HoTT</a>:
     1.8 The type of booleans
 </p><h2 id="maybe"><a href='maybe/'>Maybe</a></a></h2><p>Maybe has representing functor M<sub>A</sub>(X) = 1 + A.
-It used for wrapping values with optional nothing constructor.
-In ML-style languages this type is called Option (Miranda, ML).
+It is used for wrapping values with optional nothing constructor.
+In ML-family languages this type is called Option (Miranda, ML).
 There is an <a href="https://raw.githubusercontent.com/groupoid/infinity/master/priv/maybe_nat.ctt">isomorphims</a>
 between <b>(fix maybe)</b> and <b>nat</b>.</p><code>data maybe (A: U) = nothing | just (x: A)</code><br><code>maybeRec (A P: U) (n: P) (j: A -> P): maybe A -> P
        = split { nothing -> n; just a -> j a }
@@ -660,13 +660,13 @@ ImInduction (A:U)(B:Im A->U)(x: (a: Im A)->isCoreduced(B a))
 <a href="https://github.com/groupoid/groupoid.space/blob/master/tex/articles/types/types.pdf">
 <h3>Mathematical Components for Cubical Syntax</h3></a>
 </td></tr></table></center>
-</p><br><br><hr><br></section><div class="types"><h2>Homotopy Core</h2><br><div class="type"><ol class="type__col"><h3>PURE</h3><li><a href="#pi">PI</a></li></ol><ol class="type__col"><h3>MLTT</h3><li><a href="#pi">PI</a></li><li><a href="#sigma">SIGMA</a></li><li><a href="#id">ID</a></li><li><a href="#W">W</a></li></ol><ol class="type__col"><h3>INDUCTIVE</h3><li><a href="#pi">PI</a></li><li><a href="#sigma">SIGMA</a></li><li><a href="#id">ID</a></li><li><a href="#fix">FIX</a></li><li><a href="#inductive">INDUCTIVE</a></li></ol><ol class="type__col"><h3>CUBICAL</h3><li><a href="#pi">PI</a></li><li><a href="#sigma">SIGMA</a></li><li><a href="#path">PATH</a></li><li><a href="#Compose">COMPOSE</a></li><li><a href="#Glue">GLUE</a></li><li><a href="#higher inductive types">HIGHER INDUCTIVE TYPES</a></li></ol></div><br></div><section><p>Cubical with HITs has very lightweight core and syntax and
+</p><br><br><hr><br></section><div class="types"><h2>Homotopy Core</h2><br><div class="type"><ol class="type__col"><h3>PURE</h3><li><a href="#pi">PI</a></li></ol><ol class="type__col"><h3>MLTT</h3><li><a href="#pi">PI</a></li><li><a href="#sigma">SIGMA</a></li><li><a href="#id">ID</a></li><li><a href="#W">W</a></li></ol><ol class="type__col"><h3>INDUCTIVE</h3><li><a href="#pi">PI</a></li><li><a href="#sigma">SIGMA</a></li><li><a href="#id">ID</a></li><li><a href="#fix">FIX</a></li><li><a href="#inductive">INDUCTIVE</a></li></ol><ol class="type__col"><h3>CUBICAL</h3><li><a href="#pi">PI</a></li><li><a href="#sigma">SIGMA</a></li><li><a href="#path">PATH</a></li><li><a href="#Compose">COMPOSE</a></li><li><a href="#Glue">GLUE</a></li><li><a href="#higher inductive types">HIGHER INDUCTIVE TYPES</a></li></ol></div><br></div><section><p>Cubical with HITs has very lightweight core and syntax, and
 is an internal language of $(\infty,1)$-topos.
 Cubical with $[0,1]$ Path types but without HITs is an
 internal language of $(\infty,1)$-categories, while MLTT
-is an internal language of locally cartesian closed categories.</p><br><br><hr><br></section><div class="types"><h2>Cohesive Core</h2><br><div class="type"><ol class="type__col"><h3>COHESIVE</h3><li><a href="#shape">SHAPE</a></li><li><a href="#flat">FLAT</a></li><li><a href="#sharp">SHARP</a></li></ol><ol class="type__col"><h3>DIFFERENTIAL</h3><li><a href="#reduction">REDUCTION</a></li><li><a href="#infinitesimal">INFINITESIMAL</a></li><li><a href="#smooth">SMOOTH</a></li></ol></div><br></div><section><p>Cohesive Type Theory is developed for satisfying needs on modeling modalities,
+is an internal language of locally cartesian closed categories.</p><br><br><hr><br></section><div class="types"><h2>Cohesive Core</h2><br><div class="type"><ol class="type__col"><h3>COHESIVE</h3><li><a href="#shape">SHAPE</a></li><li><a href="#flat">FLAT</a></li><li><a href="#sharp">SHARP</a></li></ol><ol class="type__col"><h3>DIFFERENTIAL</h3><li><a href="#reduction">REDUCTION</a></li><li><a href="#infinitesimal">INFINITESIMAL</a></li><li><a href="#smooth">SMOOTH</a></li></ol></div><br></div><section><p>Cohesive Type Theory is developed to satisfy needs of modeling modalities,
 such as connectedness, compactness, infinitesimal shapes, etc. Differential
-Cohesive Type Theory is internal language of differential cohesive $(\infty,1)$-topoi, with
+Cohesive Type Theory is an internal language of differential cohesive $(\infty,1)$-topoi, with
 extra structure, just as $(\infty,1)$-categories add a globular path equality structure
 to locally cartesian closed categories and their internal language &mdash; MLTT.
 Please refer to <a href="https://hott-uf.github.io/2017/abstracts/cohesivett.pdf">cohesivett</a>
