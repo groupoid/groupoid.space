@@ -12,8 +12,8 @@ block content
             aside Максим Сохацький
                 time 6 JUL 2018
                 p.
-                   TL;DR Build hypothetic Infinity language by layering
-                   the semantics and giving by the way the literature overview.
+                   TL;DR Build a hypothetic Infinity language by layering
+                   the semantics and doing literature overview along the way.
             section
 
                 h2 1. History of Type Systems
@@ -39,7 +39,7 @@ block content
                             li: a(href='#comp') COMP
                             li: a(href='#glue') GLUE
                 p.
-                    The history of Type Theory take its root from MLTT paper <sup>1</sup>.
+                    The history of Type Theory takes its root from MLTT paper <sup>1</sup>.
                     The the Type Theory was fixed for Predicative Universes with Id types,
                     and W, Nat, List types were added <sup>2</sup>.
                     The type checker of single axiom system with Pi types only is
@@ -60,7 +60,7 @@ block content
                 p.
                     The 10 lines BNF declares syntax that covers:
                     1) MLTT as pi, sigma and path types;
-                    2) inductive types case analisys; and
+                    2) inductive types case analysis; and
                     3) simple module system.
                     This system is enough to encode
                     core <a href="https://groupoid.space/mltt/types">cubical base library</a>.
@@ -117,7 +117,7 @@ block content
                        | snd (p: lang)
                 p.
                     The categorical methods for lambda calculus and category theory in general
-                    could be found in the following works:
+                    could be found in following works:
                 p.
                     <a href="https://raw.githubusercontent.com/groupoid/groupoid.space/master/mltt/infinity/references/10.Hermida95.txt">[10]</a>. C. Hermida and B. Jacobs, “Fibrations with indeterminates: Contextual and functional completeness for polymorphic lambda calculi,” Mathematical Structures in Computer Science, vol. 5, pp. 501–531, 1995.
                     <a href="https://raw.githubusercontent.com/groupoid/groupoid.space/master/mltt/infinity/references/11.Curien08.txt">[11]</a>. P.-L. Curien, “Category theory: a programming language-oriented introduction,” 2008.
@@ -127,7 +127,7 @@ block content
                 h2 Contextual Categories
                 p.
                     Categories with Families is a categorical semantics
-                    of dependent type theory that nowadays formulated
+                    of dependent type theory that nowadays is formulated
                     as cubical sets or as presheaf model of type theory.
                 p.
                     <a href="https://raw.githubusercontent.com/groupoid/groupoid.space/master/mltt/infinity/references/20.Dybjer08.txt">[20]</a>. A. Buisse and P. Dybjer, “The interpretation of intuitionistic type theory in locally cartesian closed categories – an intuitionistic perspective,” Electron. Notes Theor. Comput. Sci., vol. 218, pp. 21–32, Oct. 2008.
@@ -160,7 +160,7 @@ block content
                     The further development of induction inside MLTT provers led
                     to the theory of polynomial functors and well-founded trees,
                     known in programming languages as inductive types with data
-                    and record core primitives of type checker. In fact recursive inductive
+                    and record core primitives of type checker. In fact, recursive inductive
                     types could be encoded in PTS using non-recursive representation of
                     Bohm-Berarducci schemes or Categorical Impredicative encoding by Steve Awodey.
 
@@ -175,7 +175,7 @@ block content
                        | ctor   (n: name)                (args:     list lang)
                 p.
                     The non-well-founded trees or infinite coinductive trees
-                    are useful for modeling infinite processes and is part
+                    are useful for modeling infinite processes and are part
                     of Milner's Pi-calculus. Coinductive streams could be found in many MLTT base libraries.
                 p.
                     <a href="https://raw.githubusercontent.com/groupoid/groupoid.space/master/mltt/infinity/references/40.Bohm85.txt">[40]</a>. C. Böhm and A. Berarducci, “Automatic synthesis of typed lambda- programs on term algebras,” in Theoretical Computer Science, vol. 39, pp. 135–154, 1985.

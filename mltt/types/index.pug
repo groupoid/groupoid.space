@@ -26,7 +26,7 @@ block content
                 inductive types on top of MLTT as a core.
                 Please refer to <a href="http://www.cse.chalmers.se/~coquand/cubicaltt.pdf">CCHM</a>
                 paper for more information. The base library is founded on top of cubical modules each
-                fall into one of 15 categories:
+                falling into one of 15 categories:
             p.
                 (i) MLTT Types:
                     <a href="https://raw.githubusercontent.com/groupoid/infinity/master/priv/pi.ctt">pi</a>,
@@ -112,7 +112,7 @@ block content
             p.
                 Martin-Löf Type Theory contains Pi, Sigma, Id, Nat, List types.
                 Id types were added in 1984 while original MLTT was introduced in 1972.
-                Now Id types treated as heterogeneous Path interval types.
+                Now Id types are treated as heterogeneous Path interval types.
 
             h2#pi <a name='pi'><a href='pi/'>Pi</a></a>
             p.
@@ -249,9 +249,9 @@ block content
 
             h2#W <font color="#7D8A96">Well-Founded Trees</font>
             p.
-                W types are a generalisation of trees to encode Nat and List
+                W types are generalisation of trees to encode Nat and List
                 which should be derivable in any MLTT theory.
-                W types here encoded with Sigma.
+                W types here are encoded with Sigma.
             code.
                 W (A:U) (B:A->U): U = (x:A) * (B(x) -> W A B)
             br.
@@ -289,15 +289,15 @@ block content
                 h1 Inductive Data Types
         section
             p.
-                Inductive Types represents polynomial functors
+                Inductive Types represent polynomial functors
                 equiped with recursor and indunction principle.
-                Inductive types used for specification the
+                Inductive types are used for specification of
                 evaluation protocol for particular computations.
 
             h2#empty <font color="#7D8A96">Empty</font>
             p.
                 <b>empty</b> type lacks both introduction rules and eliminators.
-                However it has recursor and induction.
+                However, it has recursor and induction.
             code.
                 data empty =
             br.
@@ -359,7 +359,7 @@ block content
 
             h2#bool <a name='bool'><font color="#7D8A96">Bool</font></a>
             p.
-                <b>bool</b> is run-time version of the boolean logic you
+                <b>bool</b> is a run-time version of the boolean logic you
                 may use in your general purpose applications. <b>bool</b>
                 is isomorphic to <b>1+1</b>: either unit unit.
             code.
@@ -386,8 +386,8 @@ block content
             h2#maybe <a href='maybe/'>Maybe</a></a>
             p.
                 Maybe has representing functor M<sub>A</sub>(X) = 1 + A.
-                It used for wrapping values with optional nothing constructor.
-                In ML-style languages this type is called Option (Miranda, ML).
+                It is used for wrapping values with optional nothing constructor.
+                In ML-family languages this type is called Option (Miranda, ML).
                 There is an <a href="https://raw.githubusercontent.com/groupoid/infinity/master/priv/maybe_nat.ctt">isomorphims</a>
                 between <b>(fix maybe)</b> and <b>nat</b>.
             code.
@@ -1091,7 +1091,7 @@ block content
             br
         section
             p.
-                Cubical with HITs has very lightweight core and syntax and
+                Cubical with HITs has very lightweight core and syntax, and
                 is an internal language of $(\infty,1)$-topos.
                 Cubical with $[0,1]$ Path types but without HITs is an
                 internal language of $(\infty,1)$-categories, while MLTT
@@ -1118,9 +1118,9 @@ block content
             br
         section
             p.
-                Cohesive Type Theory is developed for satisfying needs on modeling modalities,
+                Cohesive Type Theory is developed to satisfy needs of modeling modalities,
                 such as connectedness, compactness, infinitesimal shapes, etc. Differential
-                Cohesive Type Theory is internal language of differential cohesive $(\infty,1)$-topoi, with
+                Cohesive Type Theory is an internal language of differential cohesive $(\infty,1)$-topoi, with
                 extra structure, just as $(\infty,1)$-categories add a globular path equality structure
                 to locally cartesian closed categories and their internal language &mdash; MLTT.
                 Please refer to <a href="https://hott-uf.github.io/2017/abstracts/cohesivett.pdf">cohesivett</a>
