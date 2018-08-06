@@ -38,7 +38,17 @@ then predicate holds for total space.</p><code>sigInd (A: U) (B: A -> U)
        (C: Sigma A B -> U)
        (g: (a: A) (b: B a) -> C (a, b))
        (p: Sigma A B): C p
-     = g p.1 p.2</code><br><h1>Theorems</h1><p><b>Theorem</b> (Axiom of Choice). If for all $x : A$ there is $y : B$
+     = g p.1 p.2</code><br><h1>Computation</h1><h2>Beta</h2><code>Beta1 (A: U) (B: A -> U)
+      (a:A) (b: B a)
+    : Equ A a (pr1 A B (a,b))
+    = refl A a
+
+Beta2 (A: U) (B: A -> U)
+      (a: A) (b: B a)
+    : Equ (B a) b (pr2 A B (a,b))
+    = reflect (B a)</code><h2>Eta</h2><code>Eta12 (A: U) (B: A -> U) (p: Sigma A B)
+    : Equ (Sigma A B) p (pr1 A B p,pr2 A B p)
+    = refl (Sigma A B) p</code><br><h1>Theorems</h1><p><b>Theorem</b> (Axiom of Choice). If for all $x : A$ there is $y : B$
 such that $R(x,y)$, then there is a function $f : A \rightarrow B$ such
 that for all $x : A$ there is a witness of $R(x,f(x))$.</p><code>ac   (A B: U) (R: A -> B -> U):
      (p: (x:A)->(y:B)*(R x y)) -> (f:A->B)*((x:A)->R(x)(f x))

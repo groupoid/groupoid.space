@@ -83,6 +83,25 @@ block content
                            (p: Sigma A B): C p
                          = g p.1 p.2
                 br
+                h1 Computation
+
+                h2 Beta
+                code.
+                    Beta1 (A: U) (B: A -> U)
+                          (a:A) (b: B a)
+                        : Equ A a (pr1 A B (a,b))
+                        = refl A a
+
+                    Beta2 (A: U) (B: A -> U)
+                          (a: A) (b: B a)
+                        : Equ (B a) b (pr2 A B (a,b))
+                        = reflect (B a)
+                h2 Eta
+                code.
+                    Eta12 (A: U) (B: A -> U) (p: Sigma A B)
+                        : Equ (Sigma A B) p (pr1 A B p,pr2 A B p)
+                        = refl (Sigma A B) p
+                br
 
                 h1 Theorems
                 p.
