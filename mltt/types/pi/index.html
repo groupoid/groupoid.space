@@ -66,10 +66,10 @@ a $(\infty,1)$-topos, and let $E \rightarrow B : \mathbf{H}_{/B}$ a bundle in
 $\mathbf{H}$, object in the slice topos. Then the space of sections $\Gamma_\Sigma(E)$
 of this bundle is the Dependent Product:</p><figure>$$
     \Gamma_\Sigma(E) = \Pi_\Sigma (E) \in \mathbf{H}.
-$$</figure><br><h2>Introduction</h2><code>lambda (A B: U) (b: B): A -> B = \ (x: A) -> b
+$$</figure><br><h2>Introduction</h2><p>Lambda constructor defines a new lambda closure that could be
+saved or passed by in context.</p><code>lambda (A B: U) (b: B): A -> B = \ (x: A) -> b
 lam (A: U) (B: A -> U)
-    (a: A) (b: B a): A -> B a = \ (x: A) -> b</code><p>Lambda constructor defines a new lambda closure that could be
-saved or passed by in context.</p><h2>Operations</h2><br><code>ot (A B C: U) : U = (B -> C) -> (A -> B) -> (A -> C)
+    (a: A) (b: B a): A -> B a = \ (x: A) -> b</code><h2>Operations</h2><br><code>ot (A B C: U) : U = (B -> C) -> (A -> B) -> (A -> C)
 o  (A B C: U) : ot A B C = \ (x: A) -> f (g x)
 O  (F G: U -> U) (t: U): U = F (G t)</code><br><code>flip (A B C: U) (f: A -> B -> C) (b: B) (a: A)
    : C = f a b
@@ -77,12 +77,15 @@ O  (F G: U -> U) (t: U): U = F (G t)</code><br><code>flip (A B C: U) (f: A -> B 
 uncurry (A: U) (B: U) (C: prod A B -> U)
         (f: (x: A) -> (y: B) -> C (x,y))
       : (p: prod A B) -> C p
-    = \ (p: prod A B) -> f p.1 p.2</code><br><h1>Elimination</h1><br><code>apply (A B: U) (f: A -> B) (x: A): B = f(x)
+    = \ (p: prod A B) -> f p.1 p.2</code><br><h1>Elimination</h1><p>Application reduces the term by using recursive substitution.</p><code>apply (A B: U) (f: A -> B) (x: A): B = f(x)
 app (A: U) (B: A -> U)
-    (a: A) (f: A -> B a): B a = f a</code><p>Application reduces the term by using recursive substitution.
-</p><h1>Computation</h1><h2>Beta</h2><p></p><code>Pi_Beta (A: U) (B: A -> U) (a: A) (f: A -> B a)
+    (a: A) (f: A -> B a): B a = f a
+</code><h1>Computation</h1><h2>Beta</h2><p>Beta rule shows that composition $lam \circ app$ could be fused.</p><code>Pi_Beta (A: U) (B: A -> U) (a: A) (f: A -> B a)
       : Path (B a) (app A B a (lam A B a (f a))) (f a)
-      = refl (B a) (f a)</code><p>Beta rule shows that composition $lam \circ app$ could be fused.</p><h2>Eta</h2><code>Pi_Eta (A: U) (B: A -> U) (a: A) (f: A -> B a)
+      = refl (B a) (f a)</code><h2>Eta</h2><p>Eta rule shows that composition $app \circ lam$ could be fused.</p><code>Pi_Eta (A: U) (B: A -> U) (a: A) (f: A -> B a)
       : Path (A -> B a) f (\(x:A) -> f x)
-      = refl (A -> B a) f</code><p>Eta rule shows that composition $app \circ lam$ could be fused.</p><h1>Theorems</h1><p><b>Theorem</b> (Fiber in a trivial total space is a family over base).
-Inverse image (fiber) of fiber bundle $(F,B*F,pr_1,B)$ in point $y:B$ equals $F(y)$.</p></section></div></article><footer class="footer"><img class="footer__logo" src="https://longchenpa.guru/seal.png" width="50"><span class="footer__copy">2016&mdash;2018 &copy; <a href="//groupoid.space/team.html" style="color:white;">Groupoid Infinity</a></span></footer><script src="https://groupoid.space/bundle.js"></script><script src="https://groupoid.space/highlight.js?v=8"></script></body></html>
+      = refl (A -> B a) f</code><h1>Theorems</h1><p><b>Theorem</b> (Trivial Fiber equals Family of Sets).
+Inverse image (fiber) of fiber bundle $(F,B*F,pr_1,B)$ in point $y:B$ equals $F(y)$.</p><p><b>Theorem</b> (Homotopy Equivalence). If fiber space is set for all base, and
+there are two functions $f,g : (x:A) \rightarrow B(x)$ and two
+homotopies between them, then these homotopies are equal.</p><code>setPi (A: U) (B: A -> U) (h: (x: A) -> isSet (B x)) (f g: Pi A B)
+      (p q: Path (Pi A B) f g) : Path (Path (Pi A B) f g) p q</code><p><b>Theorem</b> (HomSet). If codomain is set then space of sections is a set.</p><code>setFun (A B : U) (_: isSet B) : isSet (A -> B)</code></section></div></article><footer class="footer"><img class="footer__logo" src="https://longchenpa.guru/seal.png" width="50"><span class="footer__copy">2016&mdash;2018 &copy; <a href="//groupoid.space/team.html" style="color:white;">Groupoid Infinity</a></span></footer><script src="https://groupoid.space/bundle.js"></script><script src="https://groupoid.space/highlight.js?v=8"></script></body></html>

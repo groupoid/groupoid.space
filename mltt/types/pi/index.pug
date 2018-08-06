@@ -117,13 +117,13 @@ block content
                     $$
                 br
                 h2 Introduction
+                p.
+                    Lambda constructor defines a new lambda closure that could be
+                    saved or passed by in context.
                 code.
                     lambda (A B: U) (b: B): A -> B = \ (x: A) -> b
                     lam (A: U) (B: A -> U)
                         (a: A) (b: B a): A -> B a = \ (x: A) -> b
-                p.
-                    Lambda constructor defines a new lambda closure that could be
-                    saved or passed by in context.
                 h2 Operations
                 br
                 code.
@@ -142,31 +142,40 @@ block content
                 br
 
                 h1 Elimination
-                br
+                p.
+                    Application reduces the term by using recursive substitution.
                 code.
                     apply (A B: U) (f: A -> B) (x: A): B = f(x)
                     app (A: U) (B: A -> U)
                         (a: A) (f: A -> B a): B a = f a
-                p.
-                    Application reduces the term by using recursive substitution.
 
                 h1 Computation
                 h2 Beta
                 p.
+                    Beta rule shows that composition $lam \circ app$ could be fused.
                 code.
                     Pi_Beta (A: U) (B: A -> U) (a: A) (f: A -> B a)
                           : Path (B a) (app A B a (lam A B a (f a))) (f a)
                           = refl (B a) (f a)
-                p.
-                    Beta rule shows that composition $lam \circ app$ could be fused.
                 h2 Eta
+                p.
+                    Eta rule shows that composition $app \circ lam$ could be fused.
                 code.
                     Pi_Eta (A: U) (B: A -> U) (a: A) (f: A -> B a)
                           : Path (A -> B a) f (\(x:A) -> f x)
                           = refl (A -> B a) f
-                p.
-                    Eta rule shows that composition $app \circ lam$ could be fused.
                 h1 Theorems
                 p.
-                    <b>Theorem</b> (Fiber in a trivial total space is a family over base).
+                    <b>Theorem</b> (Trivial Fiber equals Family of Sets).
                     Inverse image (fiber) of fiber bundle $(F,B*F,pr_1,B)$ in point $y:B$ equals $F(y)$.
+                p.
+                    <b>Theorem</b> (Homotopy Equivalence). If fiber space is set for all base, and
+                    there are two functions $f,g : (x:A) \rightarrow B(x)$ and two
+                    homotopies between them, then these homotopies are equal.
+                code.
+                    setPi (A: U) (B: A -> U) (h: (x: A) -> isSet (B x)) (f g: Pi A B)
+                          (p q: Path (Pi A B) f g) : Path (Path (Pi A B) f g) p q
+                p.
+                    <b>Theorem</b> (HomSet). If codomain is set then space of sections is a set.
+                code.
+                    setFun (A B : U) (_: isSet B) : isSet (A -> B)
