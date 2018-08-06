@@ -313,13 +313,13 @@ isCMonoid (M: SET): U
 </code><h2 id="abgroup"><font color="#7D8A96">Abelian Group</font></h2><code>isAbGroup (G: SET): U
   = (g: isGroup G)
   * (isCommutative G.1 g.1.1)
-</code><h2>Instances</h2><code>monoid:  U = (X: SET) * isMonoid X
+</code><h2><font color="#7D8A96">Instances</font></h2><code>monoid:  U = (X: SET) * isMonoid X
 cmonoid: U = (X: SET) * isCMonoid X
 group:   U = (X: SET) * isGroup X
 abgroup: U = (X: SET) * isAbGroup X
 ring:    U = (X: SET) * isRing X
 abring:  U = (X: SET) * isAbRing X
-</code></section><div class="om"><section><h1>Control Structures</h1></section><h2>Signatures</h2><code>pure_sig       (F:U->U):U=   (A: U) ->           A  -> F A
+</code></section><div class="om"><section><h1>Control Structures</h1></section><h2><font color="#7D8A96">Signatures</font></h2><code>pure_sig       (F:U->U):U=   (A: U) ->           A  -> F A
 extract_sig    (F:U->U):U=   (A: U) ->         F A  ->   A
 extend_sig     (F:U->U):U= (A B: U) ->   (F A -> B) -> F A -> F B
 appl_sig       (F:U->U):U= (A B: U) ->   F (A -> B) -> F A -> F B
@@ -465,7 +465,7 @@ isCategory    (C: precategory): U
 category: U = (C: precategory) * isCategory C
 </code><p>see <a href="http://5ht.co/hott.pdf">HoTT</a>:
     9.9 The Rezk completion.
-</p><h2></font>Initials and Terminals</font></h2><code>isInitial     (C: precategory) (x: carrier C): U = (y: carrier C) -> isContr (hom C x y)
+</p><h2><font color="#7D8A96">Initials and Terminals</font></h2><code>isInitial     (C: precategory) (x: carrier C): U = (y: carrier C) -> isContr (hom C x y)
 isTerminal    (C: precategory) (y: carrier C): U = (x: carrier C) -> isContr (hom C x y)
 initial       (C: precategory): U = (x: carrier C) * isInitial  C x
 terminal      (C: precategory): U = (y: carrier C) * isTerminal C y
