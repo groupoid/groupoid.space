@@ -33,7 +33,7 @@ Lambda functions are sections or points in these spaces,
 while the function result is a fibration. Pi type also represents
 the cartesian family of sets, generalizing
 the cartesian product of sets.
-</p></section><section><h1>Definitions</h1><p><b>Definition</b> (Section). A section of morphism $f: A \rightarrow B$
+</p></section><section><h1>Definition</h1><p><b>Definition</b> (Section). A section of morphism $f: A \rightarrow B$
 in some category is the morphism $g: B \rightarrow A$ such that
 $f \circ g: B \mapright{g} A \mapright{f} B$ equals the identity morphism on B.</p><p><b>Definition</b> (Fiber). The fiber of the map $p: E \rightarrow B$ in a point $y: B$
 is all points $x: E$ such that $p(x)=y$.</p><p><b>Definition</b> (Fiber Bundle). The fiber bundle $ F \rightarrow E \mapright{p} B$ on a
@@ -58,8 +58,7 @@ for all $A$ and morphism $A \times B \rightarrow E$ in $Set_{/B}$ exists
 unique map $A \rightarrow F$ such that everything commute. So a category
 with all dependent products is necessarily a category with all pullbacks.</p><p><b>Definition</b> (Trivial Fiber Bundle).
 When total space $E$ is cartesian product $\Sigma(B,F)$
-and $p = pr_1$ then such bundle is called trivial $(F,\Sigma(B,F),pr_1,B)$.</p><p><b>Theorem</b> (Fiber in a trivial total space is a family over base).
-Inverse image (fiber) of fiber bundle $(F,B*F,pr_1,B)$ in point $y:B$ equals $F(y)$.</p><p><b>Definition</b> (Dependent Product). For a category $C$ and morphism
+and $p = pr_1$ then such bundle is called trivial $(F,\Sigma(B,F),pr_1,B)$.</p><p><b>Definition</b> (Dependent Product). For a category $C$ and morphism
 $g: B \rightarrow A$ such that base change functor exists: $\Delta_f: C_{/A} \rightarrow C_{/B}$,
 and has right adjoin functor $\Pi_f : C_{/B} \rightarrow C_{/A}$ which
 is called Dependent Product.</p><p><b>Definition</b> (Space of Sections). Let $\mathbf{H}$ be
@@ -84,7 +83,7 @@ funcomp (F G: U -> U) (t: U): U = F (G t)</code><br><code>flip    (A B C: U) (f:
 uncurry (A: U) (B: U) (C : prod A B -> U)
         (f: (x: A) -> (y: B) -> C (x,y))
       : (p: prod A B) -> C p
-      = \ (p: prod A B) -> f p.1 p.2</code><br><h1>Eliminator</h1><br><code>app (A: U) (B: A -> U)
+      = \ (p: prod A B) -> f p.1 p.2</code><br><h1>Elimination</h1><br><code>app (A: U) (B: A -> U)
     (a: A) (f: A -> B a): B a = f a
 
 apply (A B: U) (f: A -> B) (x: A): B = f(x)</code><p>Application reduces the term by using recursive substitution.
@@ -92,4 +91,5 @@ apply (A B: U) (f: A -> B) (x: A): B = f(x)</code><p>Application reduces the ter
       : Path (B a) (app A B a (lam A B a (f a))) (f a)
       = refl (B a) (f a)</code><p>Beta rule shows that composition $lam \circ app$ could be fused.</p><h2>Eta</h2><code>Pi_Eta (A: U) (B: A -> U) (a: A) (f: A -> B a)
       : Path (A -> B a) f (\(x:A) -> f x)
-      = refl (A -> B a) f</code><p>Eta rule shows that composition $app \circ lam$ could be fused.</p></section></div></article><footer class="footer"><img class="footer__logo" src="https://longchenpa.guru/seal.png" width="50"><span class="footer__copy">2016&mdash;2018 &copy; <a href="//groupoid.space/team.html" style="color:white;">Groupoid Infinity</a></span></footer><script src="https://groupoid.space/bundle.js"></script><script src="https://groupoid.space/highlight.js?v=8"></script></body></html>
+      = refl (A -> B a) f</code><p>Eta rule shows that composition $app \circ lam$ could be fused.</p><h1>Theorems</h1><p><b>Theorem</b> (Fiber in a trivial total space is a family over base).
+Inverse image (fiber) of fiber bundle $(F,B*F,pr_1,B)$ in point $y:B$ equals $F(y)$.</p></section></div></article><footer class="footer"><img class="footer__logo" src="https://longchenpa.guru/seal.png" width="50"><span class="footer__copy">2016&mdash;2018 &copy; <a href="//groupoid.space/team.html" style="color:white;">Groupoid Infinity</a></span></footer><script src="https://groupoid.space/bundle.js"></script><script src="https://groupoid.space/highlight.js?v=8"></script></body></html>

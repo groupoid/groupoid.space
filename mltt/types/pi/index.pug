@@ -58,7 +58,7 @@ block content
                     the cartesian product of sets.
 
             section
-                h1 Definitions
+                h1 Definition
                 p.
                     <b>Definition</b> (Section). A section of morphism $f: A \rightarrow B$
                     in some category is the morphism $g: B \rightarrow A$ such that
@@ -101,9 +101,6 @@ block content
                     <b>Definition</b> (Trivial Fiber Bundle).
                     When total space $E$ is cartesian product $\Sigma(B,F)$
                     and $p = pr_1$ then such bundle is called trivial $(F,\Sigma(B,F),pr_1,B)$.
-                p.
-                    <b>Theorem</b> (Fiber in a trivial total space is a family over base).
-                    Inverse image (fiber) of fiber bundle $(F,B*F,pr_1,B)$ in point $y:B$ equals $F(y)$.
                 p.
                     <b>Definition</b> (Dependent Product). For a category $C$ and morphism
                     $g: B \rightarrow A$ such that base change functor exists: $\Delta_f: C_{/A} \rightarrow C_{/B}$,
@@ -150,7 +147,7 @@ block content
                           = \ (p: prod A B) -> f p.1 p.2
                 br
 
-                h1 Eliminator
+                h1 Elimination
                 br
                 code.
                     app (A: U) (B: A -> U)
@@ -176,3 +173,7 @@ block content
                           = refl (A -> B a) f
                 p.
                     Eta rule shows that composition $app \circ lam$ could be fused.
+                h1 Theorems
+                p.
+                    <b>Theorem</b> (Fiber in a trivial total space is a family over base).
+                    Inverse image (fiber) of fiber bundle $(F,B*F,pr_1,B)$ in point $y:B$ equals $F(y)$.
