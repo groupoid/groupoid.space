@@ -25,9 +25,9 @@
 $$</figure><p><a href="https://raw.githubusercontent.com/groupoid/infinity/master/priv/pi.ctt">Pi package</a>
 contains basic theorems about Pi types.
 Pi type is built in core of any dependent type checker.
-Type checker with Pi only type are called Pure Type Systems.
-See <a href="https://groupoid.space/pts/pure">OM</a> for
-our Erlang implementation.</p><code>Pi (A: U) (P: B -> U): U = (x: A) -> B x</code><p>From algebraic geometry point of view Pi type is a space of sections,
+Type checkers with Pi only type are called Pure Type Systems.
+See <a href="https://groupoid.space/pts/pure">OM</a> language for
+our Erlang implementation.</p><code>Pi (A: U) (P: B -> U): U = (x: A) -> B x</code><p>Pi type is a space of sections,
 while the dependent codomain is a space of fibrations.
 Lambda functions are sections or points in these spaces,
 while the function result is a fibration. Pi type also represents
@@ -71,19 +71,15 @@ $$
     (a: A) (b: B a): A -> B a = \ (x: A) -> b
 
 lambda (A B: U) (b: B): A -> B = \ (x: A) -> b</code><p>Lambda constructor defines a new lambda closure that could be
-saved or passed by in context.</p><h2>Operations</h2><br><code>ot (A B C: U) : U
- = (B -> C) -> (A -> B) -> (A -> C)
+saved or passed by in context.</p><h2>Operations</h2><br><code>ot (A B C: U) : U = (B -> C) -> (A -> B) -> (A -> C)
+o  (A B C: U) : ot A B C = \ (x: A) -> f (g x)
+O  (F G: U -> U) (t: U): U = F (G t)</code><br><code>flip (A B C: U) (f: A -> B -> C) (b: B) (a: A)
+   : C = f a b
 
-o (A B C: U) (f: B -> C) (g: A -> B) :
-       A -> C = \ (x: A) -> f (g x)
-
-funcomp (F G: U -> U) (t: U): U = F (G t)</code><br><code>flip    (A B C: U) (f: A -> B -> C) (b: B) (a: A)
-      : C = f a b
-
-uncurry (A: U) (B: U) (C : prod A B -> U)
+uncurry (A: U) (B: U) (C: prod A B -> U)
         (f: (x: A) -> (y: B) -> C (x,y))
       : (p: prod A B) -> C p
-      = \ (p: prod A B) -> f p.1 p.2</code><br><h1>Elimination</h1><br><code>app (A: U) (B: A -> U)
+    = \ (p: prod A B) -> f p.1 p.2</code><br><h1>Elimination</h1><br><code>app (A: U) (B: A -> U)
     (a: A) (f: A -> B a): B a = f a
 
 apply (A B: U) (f: A -> B) (x: A): B = f(x)</code><p>Application reduces the term by using recursive substitution.

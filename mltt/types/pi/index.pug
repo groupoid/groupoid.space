@@ -44,13 +44,13 @@ block content
                     <a href="https://raw.githubusercontent.com/groupoid/infinity/master/priv/pi.ctt">Pi package</a>
                     contains basic theorems about Pi types.
                     Pi type is built in core of any dependent type checker.
-                    Type checker with Pi only type are called Pure Type Systems.
-                    See <a href="https://groupoid.space/pts/pure">OM</a> for
+                    Type checkers with Pi only type are called Pure Type Systems.
+                    See <a href="https://groupoid.space/pts/pure">OM</a> language for
                     our Erlang implementation.
                 code.
                     Pi (A: U) (P: B -> U): U = (x: A) -> B x
                 p.
-                    From algebraic geometry point of view Pi type is a space of sections,
+                    Pi type is a space of sections,
                     while the dependent codomain is a space of fibrations.
                     Lambda functions are sections or points in these spaces,
                     while the function result is a fibration. Pi type also represents
@@ -129,22 +129,18 @@ block content
                 h2 Operations
                 br
                 code.
-                    ot (A B C: U) : U
-                     = (B -> C) -> (A -> B) -> (A -> C)
-
-                    o (A B C: U) (f: B -> C) (g: A -> B) :
-                           A -> C = \ (x: A) -> f (g x)
-
-                    funcomp (F G: U -> U) (t: U): U = F (G t)
+                    ot (A B C: U) : U = (B -> C) -> (A -> B) -> (A -> C)
+                    o  (A B C: U) : ot A B C = \ (x: A) -> f (g x)
+                    O  (F G: U -> U) (t: U): U = F (G t)
                 br
                 code.
-                    flip    (A B C: U) (f: A -> B -> C) (b: B) (a: A)
-                          : C = f a b
+                    flip (A B C: U) (f: A -> B -> C) (b: B) (a: A)
+                       : C = f a b
 
-                    uncurry (A: U) (B: U) (C : prod A B -> U)
+                    uncurry (A: U) (B: U) (C: prod A B -> U)
                             (f: (x: A) -> (y: B) -> C (x,y))
                           : (p: prod A B) -> C p
-                          = \ (p: prod A B) -> f p.1 p.2
+                        = \ (p: prod A B) -> f p.1 p.2
                 br
 
                 h1 Elimination
