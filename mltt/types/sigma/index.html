@@ -21,45 +21,54 @@
 </script></head><body class="content"><article class="main"><div class="om"><section><h1>sigma</h1></section></div><aside><a href="..">Base Library</a><time>Published: 16 OCT 2017</time></aside><div class="om"><section><p><a href="https://raw.githubusercontent.com/groupoid/infinity/master/priv/sigma.ctt">Sigma package</a>
 contains basic theorems about sigma types. Sigma type is built in MLTT core.</p><code>Sigma (A : U)
       (B : A -> U) : U
-    = (x : A) * B x</code><p>All the constructions on $\Sigma$-types arise as straightforward
-generalizations of the ones for product types.
-the type of the second component of a pair
-to vary depending on the choice of the first component.
-This is called a dependent pair type, because in set theory
-it corresponds to an indexed sum (in the sense of coproduct or
-disjoint union) over a given type.
-</p></section><section><h1>Intro</h1><h2>Pair</h2><code>make (A : U)
-     (a : A)
-     (B: A -> U)
-     (b: B a): Sigma A B
-    = (a,b)</code><p>Pair constructor is also built in core as $(a,b)$. Here
-is shown how we can define the proper signature of intro
-constructor.
-</p><h1>Eliminators</h1><h2>Pair accessors</h2><code>pr1 (A: U) (B: A -> U)
+    = (x : A) * B x</code><p>Sigma is a dependent product type, the generalization of products.</p><p>Sigma type is a total space of fibration. Element of total
+space is formed as a pair of basepoint and fibration.
+</p></section><section><h1>Definition</h1><h2>Introduction</h2><code>dpair (A: U)
+      (B: A -> U)
+      (a: A)
+      (b: B a): Sigma A B
+    = (a,b)
+</code><h1>Elimination</h1><h2>Pair accessors</h2><code>pr1 (A: U) (B: A -> U)
     (x: Sigma A B): A = x.1
 
 pr2 (A: U) (B: A -> U)
     (x: Sigma A B): B (pr1 A B x) = x.2</code><p>If you want to access deep sigma a series of <mark>.2</mark>
-accessor should be applied followed by <mark>.1</mark>.
-</p><h2>Induction</h2><code>sigInd (A: U) (B: A -> U)
+accessors should be applied followed by <mark>.1</mark>.
+</p><h2>Induction Principle</h2><p>Dependent Elimination Principle states that
+if predicate holds for two projections
+then predicate holds for total space.</p><code>sigInd (A: U) (B: A -> U)
        (C: Sigma A B -> U)
        (g: (a: A) (b: B a) -> C (a, b))
        (p: Sigma A B): C p
-     = g p.1 p.2</code><p>Recursor is the special case of induction when
-the family $C$ is constant.
-</p><h1>Theorems</h1><h2>pathSig</h2><code>pathSig (A:U) (B : A -> U)
+     = g p.1 p.2
+</code><h1>Theorems</h1><p><b>Theorem</b> (Axiom of Choice). If for all $x : A$ there is $y : B$
+such that $R(x,y)$, then there is a function $f : A \rightarrow B$ such
+that for all $x : A$ there is a witness of $R(x,f(x))$.</p><code>ac   (A B: U) (R: A -> B -> U):
+     (p: (x:A)->(y:B)*(R x y)) -> (f:A->B)*((x:A)->R(x)(f x))
+  = \(g: (x:A)->(y:B)*(R x y)) -> (\(i:A)->(g i).1,\(j:A)->(g j).2)</code><p><b>Theorem</b> (Total).</p><code>total (A:U) (B C: A -> U)
+      (f: (x:A) -> B x -> C x) (w: Sigma A B)
+    : Sigma A C = (w.1,f (w.1) (w.2))</code><p><b>Theorem</b> (Path Between Sigmas). Path between
+two sigmas $t,u: \Sigma(A,B)$ could be decomposed to
+sigma of two paths $p:t_1=_{A}u_1)$ and $(t_2=_{B(p@i)}u_2)$.</p><code>pathSig (A:U) (B : A -> U)
         (t u : Sigma A B) :
         Path U
              (Path (Sigma A B) t u)
              ( (p : Path A t.1 u.1)
              * PathP (&lt;i&gt; B (p @ i))
                      t.2
-                     u.2)
-</code><h2>corSigProp</h2><code>corSigProp (A:U) (B:A-> U)
+                     u.2)</code><p><b>Theorem</b> (Propositions). If codomain $B: A \rightarrow U$
+of dependent the function $f: (x:A) \rightarrow B(x)$
+is a mere proposition and for two sigmas $t,u: \Sigma(A,B)$ there is
+a path $Path_A(t_1,u_1)$ then the path between second components $Path_{B(p@i)}(t_2,u_2)$
+is a mere proposition too. Same if codomain is set.</p><code>corSigProp (A:U) (B:A-> U)
     (pB: (x:A) -> isProp (B x))
     (t u: Sigma A B) (p:Path A t.1 u.1):
     isProp (PathP (&lt;i&gt;B (p@i)) t.2 u.2)
-</code><h2>corSigSet</h2><code>corSigSet (A:U) (B:A-> U)
+
+corSigSet (A:U) (B:A-> U)
     (sB: (x:A) -> isSet (B x))
     (t u: Sigma A B) (p: Path A t.1 u.1):
-    isProp (PathP (&lt;i&gt;B (p@i)) t.2 u.2)</code></section></div></article><footer class="footer"><img class="footer__logo" src="https://longchenpa.guru/seal.png" width="50"><span class="footer__copy">2016&mdash;2018 &copy; <a href="//groupoid.space/team.html" style="color:white;">Groupoid Infinity</a></span></footer><script src="https://groupoid.space/bundle.js"></script><script src="https://groupoid.space/highlight.js?v=8"></script></body></html>
+    isProp (PathP (&lt;i&gt;B (p@i)) t.2 u.2)</code><p><b>Theorem</b> (Contractability). If first and second component of sigma
+are contractible then the total space of sigma is contractible.</p><code>sigmaIsContr (A: U) (B: A -> U) (u: isContr A)
+             (q: (x: A) -> isContr (B x))
+           : isContr (Sigma A B)</code></section></div></article><footer class="footer"><img class="footer__logo" src="https://longchenpa.guru/seal.png" width="50"><span class="footer__copy">2016&mdash;2018 &copy; <a href="//groupoid.space/team.html" style="color:white;">Groupoid Infinity</a></span></footer><script src="https://groupoid.space/bundle.js"></script><script src="https://groupoid.space/highlight.js?v=8"></script></body></html>

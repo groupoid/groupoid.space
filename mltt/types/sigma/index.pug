@@ -42,30 +42,23 @@ block content
                           (B : A -> U) : U
                         = (x : A) * B x
                 p.
-                    All the constructions on $\Sigma$-types arise as straightforward
-                    generalizations of the ones for product types.
-                    the type of the second component of a pair
-                    to vary depending on the choice of the first component.
-                    This is called a dependent pair type, because in set theory
-                    it corresponds to an indexed sum (in the sense of coproduct or
-                    disjoint union) over a given type.
+                    Sigma is a dependent product type, the generalization of products.
+                p.
+                    Sigma type is a total space of fibration. Element of total
+                    space is formed as a pair of basepoint and fibration.
 
             section
-                h1 Intro
+                h1 Definition
 
-                h2 Pair
+                h2 Introduction
                 code.
-                    make (A : U)
-                         (a : A)
-                         (B: A -> U)
-                         (b: B a): Sigma A B
+                    dpair (A: U)
+                          (B: A -> U)
+                          (a: A)
+                          (b: B a): Sigma A B
                         = (a,b)
-                p.
-                    Pair constructor is also built in core as $(a,b)$. Here
-                    is shown how we can define the proper signature of intro
-                    constructor.
 
-                h1 Eliminators
+                h1 Elimination
 
                 h2 Pair accessors
                 code.
@@ -76,22 +69,39 @@ block content
                         (x: Sigma A B): B (pr1 A B x) = x.2
                 p.
                     If you want to access deep sigma a series of <mark>.2</mark>
-                    accessor should be applied followed by <mark>.1</mark>.
+                    accessors should be applied followed by <mark>.1</mark>.
 
-                h2 Induction
+                h2 Induction Principle
+                p.
+                    Dependent Elimination Principle states that
+                    if predicate holds for two projections
+                    then predicate holds for total space.
                 code.
                     sigInd (A: U) (B: A -> U)
                            (C: Sigma A B -> U)
                            (g: (a: A) (b: B a) -> C (a, b))
                            (p: Sigma A B): C p
                          = g p.1 p.2
-                p.
-                    Recursor is the special case of induction when
-                    the family $C$ is constant.
 
                 h1 Theorems
-
-                h2 pathSig
+                p.
+                    <b>Theorem</b> (Axiom of Choice). If for all $x : A$ there is $y : B$
+                    such that $R(x,y)$, then there is a function $f : A \rightarrow B$ such
+                    that for all $x : A$ there is a witness of $R(x,f(x))$.
+                code.
+                    ac   (A B: U) (R: A -> B -> U):
+                         (p: (x:A)->(y:B)*(R x y)) -> (f:A->B)*((x:A)->R(x)(f x))
+                      = \(g: (x:A)->(y:B)*(R x y)) -> (\(i:A)->(g i).1,\(j:A)->(g j).2)
+                p.
+                    <b>Theorem</b> (Total).
+                code.
+                    total (A:U) (B C: A -> U)
+                          (f: (x:A) -> B x -> C x) (w: Sigma A B)
+                        : Sigma A C = (w.1,f (w.1) (w.2))
+                p.
+                    <b>Theorem</b> (Path Between Sigmas). Path between
+                    two sigmas $t,u: \Sigma(A,B)$ could be decomposed to
+                    sigma of two paths $p:t_1=_{A}u_1)$ and $(t_2=_{B(p@i)}u_2)$.
                 code.
                     pathSig (A:U) (B : A -> U)
                             (t u : Sigma A B) :
@@ -101,17 +111,26 @@ block content
                                  * PathP (&lt;i&gt; B (p @ i))
                                          t.2
                                          u.2)
-
-                h2 corSigProp
+                p.
+                    <b>Theorem</b> (Propositions). If codomain $B: A \rightarrow U$
+                    of dependent the function $f: (x:A) \rightarrow B(x)$
+                    is a mere proposition and for two sigmas $t,u: \Sigma(A,B)$ there is
+                    a path $Path_A(t_1,u_1)$ then the path between second components $Path_{B(p@i)}(t_2,u_2)$
+                    is a mere proposition too. Same if codomain is set.
                 code.
                     corSigProp (A:U) (B:A-> U)
                         (pB: (x:A) -> isProp (B x))
                         (t u: Sigma A B) (p:Path A t.1 u.1):
                         isProp (PathP (&lt;i&gt;B (p@i)) t.2 u.2)
 
-                h2 corSigSet
-                code.
                     corSigSet (A:U) (B:A-> U)
                         (sB: (x:A) -> isSet (B x))
                         (t u: Sigma A B) (p: Path A t.1 u.1):
                         isProp (PathP (&lt;i&gt;B (p@i)) t.2 u.2)
+                p.
+                    <b>Theorem</b> (Contractability). If first and second component of sigma
+                    are contractible then the total space of sigma is contractible.
+                code.
+                    sigmaIsContr (A: U) (B: A -> U) (u: isContr A)
+                                 (q: (x: A) -> isContr (B x))
+                               : isContr (Sigma A B)
