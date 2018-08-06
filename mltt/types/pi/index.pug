@@ -123,22 +123,14 @@ block content
                 code.
                     lambda (A B: U) (b: B): A -> B = \ (x: A) -> b
                     lam (A: U) (B: A -> U)
-                        (a: A) (b: B a): A -> B a = \ (x: A) -> b
+                        (a: A) (b: B a) : A -> B a = \ (x: A) -> b
+
                 h2 Operations
                 br
                 code.
                     ot (A B C: U) : U = (B -> C) -> (A -> B) -> (A -> C)
                     o  (A B C: U) : ot A B C = \ (x: A) -> f (g x)
                     O  (F G: U -> U) (t: U): U = F (G t)
-                br
-                code.
-                    flip (A B C: U) (f: A -> B -> C) (b: B) (a: A)
-                       : C = f a b
-
-                    uncurry (A: U) (B: U) (C: prod A B -> U)
-                            (f: (x: A) -> (y: B) -> C (x,y))
-                          : (p: prod A B) -> C p
-                        = \ (p: prod A B) -> f p.1 p.2
                 br
 
                 h1 Elimination

@@ -69,15 +69,10 @@ of this bundle is the Dependent Product:</p><figure>$$
 $$</figure><br><h2>Introduction</h2><p>Lambda constructor defines a new lambda closure that could be
 saved or passed by in context.</p><code>lambda (A B: U) (b: B): A -> B = \ (x: A) -> b
 lam (A: U) (B: A -> U)
-    (a: A) (b: B a): A -> B a = \ (x: A) -> b</code><h2>Operations</h2><br><code>ot (A B C: U) : U = (B -> C) -> (A -> B) -> (A -> C)
+    (a: A) (b: B a) : A -> B a = \ (x: A) -> b
+</code><h2>Operations</h2><br><code>ot (A B C: U) : U = (B -> C) -> (A -> B) -> (A -> C)
 o  (A B C: U) : ot A B C = \ (x: A) -> f (g x)
-O  (F G: U -> U) (t: U): U = F (G t)</code><br><code>flip (A B C: U) (f: A -> B -> C) (b: B) (a: A)
-   : C = f a b
-
-uncurry (A: U) (B: U) (C: prod A B -> U)
-        (f: (x: A) -> (y: B) -> C (x,y))
-      : (p: prod A B) -> C p
-    = \ (p: prod A B) -> f p.1 p.2</code><br><h1>Elimination</h1><p>Application reduces the term by using recursive substitution.</p><code>apply (A B: U) (f: A -> B) (x: A): B = f(x)
+O  (F G: U -> U) (t: U): U = F (G t)</code><br><h1>Elimination</h1><p>Application reduces the term by using recursive substitution.</p><code>apply (A B: U) (f: A -> B) (x: A): B = f(x)
 app (A: U) (B: A -> U)
     (a: A) (f: A -> B a): B a = f a</code><br><h1>Computation</h1><h2>Beta</h2><p>Beta rule shows that composition $lam \circ app$ could be fused.</p><code>Pi_Beta (A: U) (B: A -> U) (a: A) (f: A -> B a)
       : Path (B a) (app A B a (lam A B a (f a))) (f a)
