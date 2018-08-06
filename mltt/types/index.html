@@ -85,7 +85,7 @@ falling into one of 15 categories:</p><p>(i) MLTT Types:
 book and <a href="https://ncatlab.org/schreiber/show/thesis+Wellen">Felix Wellen</a> dissertation.</p><br></div><div class="om"><section><h1>Martin-Löf Type Theory</h1></section></div><section><p>Martin-Löf Type Theory contains Pi, Sigma, Id, Nat, List types.
 Id types were added in 1984 while original MLTT was introduced in 1972.
 Now Id types are treated as heterogeneous Path interval types.
-</p><h2 id="pi"><a name='pi'><a href='pi/'>Pi</a></a></h2><p>Pi is a dependent product $f: (x:A) \rightarrow B(x)$.</p><code>Pi (A: U) (P: A -> U): U</code><br><code>id (A: U): U = A -> A
+</p><h2 id="pi"><a name='pi'><a href='pi/'>Pi</a></a></h2><p>Pi is a space of sections $f: (x:A) \rightarrow B(x)$.</p><code>Pi (A: U) (P: A -> U): U</code><br><code>id (A: U): U = A -> A
 idfun (A: U) (a: A): A = a
 const (A B: U): U = A
 lam (A: U) (B: A -> U) (x: A) (b: B(x)): A -> B(x) = \(x: A) -> b
@@ -106,7 +106,7 @@ funExt (A B: U) (f g: A -> B)
        (p: (x:A) -> Path B (f x) (g x))
      : Path (A -> B) f g
      = &lt;i&gt; \(a: A) -> p a @ i
-</code><h2 id="sigma"><a name='exists'><a href='sigma/'>Sigma</a></a></h2><p>Sigma is a dependent pair $p: (x:A) * B(x)$.</p><code>Sigma (A: U) (B: A -> U): U</code><br><code>dpair (A: U) (B: A -> U) (a: A) (b: B a): Sigma A B
+</code><h2 id="sigma"><a name='exists'><a href='sigma/'>Sigma</a></a></h2><p>Sigma is a total space of fibration $p: (x:A) * B(x)$.</p><code>Sigma (A: U) (B: A -> U): U</code><br><code>dpair (A: U) (B: A -> U) (a: A) (b: B a): Sigma A B
 pi1 (A: U) (B: A -> U) (x: Sigma A B): A
 pi2 (A: U) (B: A -> U) (x: Sigma A B): B (pi1 A B x)</code><br><p>see <a href="http://5ht.co/hott.pdf">HoTT</a>:
     1.6 Dependent pair types (Sigma-types); and
