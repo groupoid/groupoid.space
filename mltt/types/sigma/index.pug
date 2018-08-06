@@ -113,7 +113,9 @@ block content
                          (p: (x:A)->(y:B)*(R x y)) -> (f:A->B)*((x:A)->R(x)(f x))
                       = \(g: (x:A)->(y:B)*(R x y)) -> (\(i:A)->(g i).1,\(j:A)->(g j).2)
                 p.
-                    <b>Theorem</b> (Total).
+                    <b>Theorem</b> (Total). If fiber over base implies another fiber
+                    over the same base then we can construct total space of section
+                    over that base with another fiber.
                 code.
                     total (A:U) (B C: A -> U)
                           (f: (x:A) -> B x -> C x) (w: Sigma A B)
