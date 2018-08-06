@@ -70,7 +70,7 @@ $$</figure><br><h2>Introduction</h2><p>Lambda constructor defines a new lambda c
 saved or passed by in context.</p><code>lambda (A B: U) (b: B): A -> B = \ (x: A) -> b
 lam (A: U) (B: A -> U)
     (a: A) (b: B a) : A -> B a = \ (x: A) -> b
-</code><h2>Operations</h2><br><code>ot (A B C: U) : U = (B -> C) -> (A -> B) -> (A -> C)
+</code><h2>Composition</h2><br><code>ot (A B C: U) : U = (B -> C) -> (A -> B) -> (A -> C)
 o  (A B C: U) : ot A B C = \ (x: A) -> f (g x)
 O  (F G: U -> U) (t: U): U = F (G t)</code><br><h1>Elimination</h1><p>Application reduces the term by using recursive substitution.</p><code>apply (A B: U) (f: A -> B) (x: A): B = f(x)
 app (A: U) (B: A -> U)
