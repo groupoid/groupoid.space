@@ -87,4 +87,9 @@ app (A: U) (B: A -> U)
 Inverse image (fiber) of fiber bundle $(F,B*F,pr_1,B)$ in point $y:B$ equals $F(y)$.</p><p><b>Theorem</b> (Homotopy Equivalence). If fiber space is set for all base, and
 there are two functions $f,g : (x:A) \rightarrow B(x)$ and two
 homotopies between them, then these homotopies are equal.</p><code>setPi (A: U) (B: A -> U) (h: (x: A) -> isSet (B x)) (f g: Pi A B)
-      (p q: Path (Pi A B) f g) : Path (Path (Pi A B) f g) p q</code><p><b>Theorem</b> (HomSet). If codomain is set then space of sections is a set.</p><code>setFun (A B : U) (_: isSet B) : isSet (A -> B)</code></section></div></article><footer class="footer"><img class="footer__logo" src="https://longchenpa.guru/seal.png" width="50"><span class="footer__copy">2016&mdash;2018 &copy; <a href="//groupoid.space/team.html" style="color:white;">Groupoid Infinity</a></span></footer><script src="https://groupoid.space/bundle.js"></script><script src="https://groupoid.space/highlight.js?v=8"></script></body></html>
+      (p q: Path (Pi A B) f g) : Path (Path (Pi A B) f g) p q</code><p><b>Theorem</b> (HomSet). If codomain is set then space of sections is a set.</p><code>setFun (A B : U) (_: isSet B) : isSet (A -> B)</code><p><b>Theorem</b> (Contractability). If domain and codomain is contractible then
+the space of sections is contractible.</p><code>piIsContr (A: U) (B: A -> U) (u: isContr A)
+          (q: (x: A) -> isContr (B x))
+        : isContr (Pi A B)</code><br><code>pathPi (A:U) (B:A->U) (f g : Pi A B)
+     : Path U (Path (Pi A B) f g)
+              ((x:A) -> Path (B x) (f x) (g x))</code></section></div></article><footer class="footer"><img class="footer__logo" src="https://longchenpa.guru/seal.png" width="50"><span class="footer__copy">2016&mdash;2018 &copy; <a href="//groupoid.space/team.html" style="color:white;">Groupoid Infinity</a></span></footer><script src="https://groupoid.space/bundle.js"></script><script src="https://groupoid.space/highlight.js?v=8"></script></body></html>

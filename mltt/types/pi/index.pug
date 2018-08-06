@@ -182,3 +182,15 @@ block content
                     <b>Theorem</b> (HomSet). If codomain is set then space of sections is a set.
                 code.
                     setFun (A B : U) (_: isSet B) : isSet (A -> B)
+                p.
+                    <b>Theorem</b> (Contractability). If domain and codomain is contractible then
+                    the space of sections is contractible.
+                code.
+                    piIsContr (A: U) (B: A -> U) (u: isContr A)
+                              (q: (x: A) -> isContr (B x))
+                            : isContr (Pi A B)
+                br
+                code.
+                    pathPi (A:U) (B:A->U) (f g : Pi A B)
+                         : Path U (Path (Pi A B) f g)
+                                  ((x:A) -> Path (B x) (f x) (g x))
