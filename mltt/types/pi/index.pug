@@ -68,8 +68,9 @@ block content
                     such that
                 figure.
                     $$
-                        F \times B \mapright{\mathbf{apply}} E \mapright{\mathbf{pr_1}} B
+                        F \times B \mapright{\mathbf{app}} E \mapright{\mathbf{pr_1}} B
                     $$
+                p.
                     $pr_1$ is a product projection, so $pr_1$, $app$ are moriphisms
                     of slice category $Set_{/B}$. The universal mapping property of $F$:
                     for all $A$ and morphism $A \times B \rightarrow E$ in $Set_{/B}$ exists
@@ -82,10 +83,9 @@ block content
                 p.
                     <b>Definition</b> (Internal Hom Set in Slice over B). Is defined
                     as Space of Sections of the Pullback from A to X.
-                figure.
-                    $$
-                        (b: B) (A X: B -> U): X b -> A b -> U = (b: B) -> Pi (x: X b) A
-                    $$
+                code.
+                      (b: B) (A X: B -> U): X b -> A b -> U = (b: B) -> Pi (x: X b) A
+                br
                 h2 Introduction
                 code.
                     lam (A: U) (B: A -> U)
