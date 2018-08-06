@@ -78,18 +78,21 @@ block content
                     with all dependent products is necessarily a category with all pullbacks.
                 p.
                     <b>Definition</b> (Dependent Product). For a category $C$ and morphism
-                    $g: B \rightarrow A$ such that base change functor exists: $g^*: C_{/A} \rightarrow C_{/B}$,
-                    the right adjoin functor $\Pi_g : C_{/B} \rightarrow C_{/A}$ to
-                    the base change $g^*: C_{/A} \rightarrow C_{/B}$ is called Dependent Product.
+                    $g: B \rightarrow A$ such that base change functor exists: $\Delta_f: C_{/A} \rightarrow C_{/B}$,
+                    and has right adjoin functor $\Pi_f : C_{/B} \rightarrow C_{/A}$ which
+                    is called Dependent Product.
                 p.
                     <b>Definition</b> (Product Type Construction). Let $\mathbf{H}$ be
                     a $(\infty,1)$-topos, and let $E \rightarrow B : \mathbf{H}_{/B}$ a bundle in
-                    $\mathbf{H}$, object in the slice topos.
+                    $\mathbf{H}$, object in the slice topos. Then the space of sections $\Gamma_\Sigma(E)$
+                    of this bundle is the Dependent Product:
+                figure.
+                    $$
+                        \Gamma_\Sigma(E) = \Pi_\Sigma (E) \subset \mathbf{H}
+                    $$
                 p.
-                    <b>Definition</b> (Internal Hom Set in Slice over B). Is defined
-                    as Space of Sections of the Pullback from A to X.
-                code.
-                      (b: B) (A X: B -> U): X b -> A b -> U = (b: B) -> Pi (x: X b) A
+                    The image of the bundle 
+
                 br
                 h2 Introduction
                 code.
