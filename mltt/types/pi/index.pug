@@ -171,6 +171,9 @@ block content
                 p.
                     <b>Theorem</b> (Trivial Fiber equals Family of Sets).
                     Inverse image (fiber) of fiber bundle $(F,B*F,pr_1,B)$ in point $y:B$ equals $F(y)$.
+                code.
+                    FiberPi (B: U) (F: B -> U) (y: B)
+                          : Path U (fiber (Sigma B F) B (pi1 B F) y) (F y)
                 p.
                     <b>Theorem</b> (Homotopy Equivalence). If fiber space is set for all base, and
                     there are two functions $f,g : (x:A) \rightarrow B(x)$ and two

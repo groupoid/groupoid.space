@@ -84,7 +84,8 @@ app (A: U) (B: A -> U)
       = refl (B a) (f a)</code><h2>Eta</h2><p>Eta rule shows that composition $app \circ lam$ could be fused.</p><code>Pi_Eta (A: U) (B: A -> U) (a: A) (f: A -> B a)
       : Path (A -> B a) f (\(x:A) -> f x)
       = refl (A -> B a) f</code><br><h1>Theorems</h1><p><b>Theorem</b> (Trivial Fiber equals Family of Sets).
-Inverse image (fiber) of fiber bundle $(F,B*F,pr_1,B)$ in point $y:B$ equals $F(y)$.</p><p><b>Theorem</b> (Homotopy Equivalence). If fiber space is set for all base, and
+Inverse image (fiber) of fiber bundle $(F,B*F,pr_1,B)$ in point $y:B$ equals $F(y)$.</p><code>FiberPi (B: U) (F: B -> U) (y: B)
+      : Path U (fiber (Sigma B F) B (pi1 B F) y) (F y)</code><p><b>Theorem</b> (Homotopy Equivalence). If fiber space is set for all base, and
 there are two functions $f,g : (x:A) \rightarrow B(x)$ and two
 homotopies between them, then these homotopies are equal.</p><code>setPi (A: U) (B: A -> U) (h: (x: A) -> isSet (B x)) (f g: Pi A B)
       (p q: Path (Pi A B) f g) : Path (Path (Pi A B) f g) p q</code><p><b>Theorem</b> (HomSet). If codomain is set then space of sections is a set.</p><code>setFun (A B : U) (_: isSet B) : isSet (A -> B)</code><p><b>Theorem</b> (Contractability). If domain and codomain is contractible then
