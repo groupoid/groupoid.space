@@ -115,14 +115,12 @@ block content
                     $$
                         \Gamma_\Sigma(E) = \Pi_\Sigma (E) \in \mathbf{H}.
                     $$
-
                 br
                 h2 Introduction
                 code.
+                    lambda (A B: U) (b: B): A -> B = \ (x: A) -> b
                     lam (A: U) (B: A -> U)
                         (a: A) (b: B a): A -> B a = \ (x: A) -> b
-
-                    lambda (A B: U) (b: B): A -> B = \ (x: A) -> b
                 p.
                     Lambda constructor defines a new lambda closure that could be
                     saved or passed by in context.
@@ -146,10 +144,9 @@ block content
                 h1 Elimination
                 br
                 code.
+                    apply (A B: U) (f: A -> B) (x: A): B = f(x)
                     app (A: U) (B: A -> U)
                         (a: A) (f: A -> B a): B a = f a
-
-                    apply (A B: U) (f: A -> B) (x: A): B = f(x)
                 p.
                     Application reduces the term by using recursive substitution.
 
