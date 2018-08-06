@@ -84,7 +84,7 @@ app (A: U) (B: A -> U)
       : Path (B a) (app A B a (lam A B a (f a))) (f a)
       = refl (B a) (f a)</code><h2>Eta</h2><p>Eta rule shows that composition $app \circ lam$ could be fused.</p><code>Pi_Eta (A: U) (B: A -> U) (a: A) (f: A -> B a)
       : Path (A -> B a) f (\(x:A) -> f x)
-      = refl (A -> B a) f</code><h1>Theorems</h1><p><b>Theorem</b> (Trivial Fiber equals Family of Sets).
+      = refl (A -> B a) f</code><br><h1>Theorems</h1><p><b>Theorem</b> (Trivial Fiber equals Family of Sets).
 Inverse image (fiber) of fiber bundle $(F,B*F,pr_1,B)$ in point $y:B$ equals $F(y)$.</p><p><b>Theorem</b> (Homotopy Equivalence). If fiber space is set for all base, and
 there are two functions $f,g : (x:A) \rightarrow B(x)$ and two
 homotopies between them, then these homotopies are equal.</p><code>setPi (A: U) (B: A -> U) (h: (x: A) -> isSet (B x)) (f g: Pi A B)
