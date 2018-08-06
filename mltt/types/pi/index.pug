@@ -60,8 +60,29 @@ block content
             section
                 h1 Definitions
                 p.
-                    Thre prerequisite to fibrational interpretation is
-                    a <a href="../bundle/">Bundle</a> package.
+                    <b>Definition</b> (Section). A section of morphism $f: A \rightarrow B$
+                    in some category is the morphism $g: B \rightarrow A$ such that
+                    $f \circ g: B \mapright{g} A \mapright{f} B$ equals the identity morphism on B.
+                p.
+                    <b>Definition</b> (Fiber). The fiber of the map $p: E \rightarrow B$ in a point $y: B$
+                    is all points $x: E$ such that $p(x)=y$.
+                p.
+                    <b>Definition</b> (Fiber Bundle). The fiber bundle $ F \rightarrow E \mapright{p} B$ on a
+                    total space $E$ with fiber layer $F$ and base $B$ is a
+                    structure $(F,E,p,B)$ where $p: E \rightarrow B$ is a surjective
+                    map with following property:
+                    for any point $y: B$ exists a neighborhood $U_b$ for which a
+                    homeomorphism $f: p^{-1}(U_b) \rightarrow U_b \times F$
+                    making the following diagram commute.
+                p.
+                figure.
+                    $$
+                    \begin{array}{ccc}
+                        p^{-1}(U_b) & \mapright{f} & U_b \times F \\
+                        \mapdown{\mathbf{p}} & \mapdiagr{pr_1} & \\
+                        U_b & & \\
+                    \end{array}
+                    $$
                 p.
                     <b>Definition</b> (Cartesian Product of Family of Sets). Is a set $F$
                     of sections of the bundle with elimination map $app : F \times B \rightarrow E$.
@@ -81,10 +102,6 @@ block content
                     $g: B \rightarrow A$ such that base change functor exists: $\Delta_f: C_{/A} \rightarrow C_{/B}$,
                     and has right adjoin functor $\Pi_f : C_{/B} \rightarrow C_{/A}$ which
                     is called Dependent Product.
-                p.
-                    <b>Definition</b> (Section). A section of morphism $f: A \rightarrow B$
-                    in some category is the morphism $g: B \rightarrow A$ such that
-                    $f \circ g: B \mapright{g} A \mapright{f} B$ equals the identity morphism on B.
                 p.
                     <b>Definition</b> (Space of Sections). Let $\mathbf{H}$ be
                     a $(\infty,1)$-topos, and let $E \rightarrow B : \mathbf{H}_{/B}$ a bundle in

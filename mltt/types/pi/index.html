@@ -33,8 +33,22 @@ Lambda functions are sections or points in these spaces,
 while the function result is a fibration. Pi type also represents
 the cartesian family of sets, generalizing
 the cartesian product of sets.
-</p></section><section><h1>Definitions</h1><p>Thre prerequisite to fibrational interpretation is
-a <a href="../bundle/">Bundle</a> package.</p><p><b>Definition</b> (Cartesian Product of Family of Sets). Is a set $F$
+</p></section><section><h1>Definitions</h1><p><b>Definition</b> (Section). A section of morphism $f: A \rightarrow B$
+in some category is the morphism $g: B \rightarrow A$ such that
+$f \circ g: B \mapright{g} A \mapright{f} B$ equals the identity morphism on B.</p><p><b>Definition</b> (Fiber). The fiber of the map $p: E \rightarrow B$ in a point $y: B$
+is all points $x: E$ such that $p(x)=y$.</p><p><b>Definition</b> (Fiber Bundle). The fiber bundle $ F \rightarrow E \mapright{p} B$ on a
+total space $E$ with fiber layer $F$ and base $B$ is a
+structure $(F,E,p,B)$ where $p: E \rightarrow B$ is a surjective
+map with following property:
+for any point $y: B$ exists a neighborhood $U_b$ for which a
+homeomorphism $f: p^{-1}(U_b) \rightarrow U_b \times F$
+making the following diagram commute.</p><p></p><figure>$$
+\begin{array}{ccc}
+    p^{-1}(U_b) & \mapright{f} & U_b \times F \\
+    \mapdown{\mathbf{p}} & \mapdiagr{pr_1} & \\
+    U_b & & \\
+\end{array}
+$$</figure><p><b>Definition</b> (Cartesian Product of Family of Sets). Is a set $F$
 of sections of the bundle with elimination map $app : F \times B \rightarrow E$.
 such that</p><figure>$$
     F \times B \mapright{\mathbf{app}} E \mapright{\mathbf{pr_1}} B
@@ -45,9 +59,7 @@ unique map $A \rightarrow F$ such that everything commute. So a category
 with all dependent products is necessarily a category with all pullbacks.</p><p><b>Definition</b> (Dependent Product). For a category $C$ and morphism
 $g: B \rightarrow A$ such that base change functor exists: $\Delta_f: C_{/A} \rightarrow C_{/B}$,
 and has right adjoin functor $\Pi_f : C_{/B} \rightarrow C_{/A}$ which
-is called Dependent Product.</p><p><b>Definition</b> (Section). A section of morphism $f: A \rightarrow B$
-in some category is the morphism $g: B \rightarrow A$ such that
-$f \circ g: B \mapright{g} A \mapright{f} B$ equals the identity morphism on B.</p><p><b>Definition</b> (Space of Sections). Let $\mathbf{H}$ be
+is called Dependent Product.</p><p><b>Definition</b> (Space of Sections). Let $\mathbf{H}$ be
 a $(\infty,1)$-topos, and let $E \rightarrow B : \mathbf{H}_{/B}$ a bundle in
 $\mathbf{H}$, object in the slice topos. Then the space of sections $\Gamma_\Sigma(E)$
 of this bundle is the Dependent Product:</p><figure>$$
