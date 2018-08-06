@@ -122,8 +122,8 @@ axiomChoice (A B: U) (R: A->B -> U):
      (p: (x:A)->(y:B)*(R x y)) -> (f:A->B)*((x:A)->R(x)(f x))
   = \(g: (x:A)->(y:B)*(R x y)) -> (\(i:A)->(g i).1,\(j:A)->(g j).2)
 </code><h2 id="path"><a name=id><a href='path/'>Path</a></a></h2><p>Path type is a $[0,1]$ interval $Path_A(a,b)$
-which elements are lambdas $e = \lambda (i: \mathbf{I}) \rightarrow A : Path_A(a,b)$
-with values in A such that $e(0)=a$ and $e(1)=b$.</p><code>Path (A: U) (a b: A): U</code><br><code>sym (A: U) (a b: A) (p: Path A a b): Path A b a
+which elements are lambdas $i = \lambda (dim: \mathbf{I}) \rightarrow A : Path_A(a,b)$
+with values in A such that $i(0)=a$ and $i(1)=b$.</p><code>Path (A: U) (a b: A): U</code><br><code>sym (A: U) (a b: A) (p: Path A a b): Path A b a
 refl (A: U) (a: A) : Path A a a
 singl (A: U) (a: A) : U
 trans (A B: U) (p: Path U A B) (a: A) : B
