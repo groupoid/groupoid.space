@@ -121,16 +121,16 @@ block content
                 Pi (A: U) (P: A -> U): U
             br.
             code.
-                id          (A: U): U = A -> A
-                idfun       (A: U) (a: A): A = a
-                const     (A B: U): U = A
-                lam         (A: U) (B: A -> U) (x: A) (b: B(x)): A -> B(x) = \(x: A) -> b
-                app         (A: U) (B: A -> U) (x: A) (f: A -> B(x)): B(x) = f(x)
-                lambda    (A B: U) (b: B): A -> B = \(_:A) -> b
-                apply     (A B: U) (f: A -> B) (x: A): B = f(x)
-                funcomp (F G: U -> U) (t: U): U = F (G t)
-                ot      (A B C: U): U = (B -> C) -> (A -> B) -> (A -> C)
-                o       (A B C: U) (f: B->C) (g: A->B): A -> C = \(x:A) -> f(g(x))
+                id (A: U): U = A -> A
+                idfun (A: U) (a: A): A = a
+                const (A B: U): U = A
+                lam (A: U) (B: A -> U) (x: A) (b: B(x)): A -> B(x) = \(x: A) -> b
+                app (A: U) (B: A -> U) (x: A) (f: A -> B(x)): B(x) = f(x)
+                lambda (A B: U) (b: B): A -> B = \(_:A) -> b
+                apply (A B: U) (f: A -> B) (x: A): B = f(x)
+                O (F G: U -> U) (t: U): U = F (G t)
+                ot (A B C: U): U = (B -> C) -> (A -> B) -> (A -> C)
+                o (A B C: U): ot A B C = \(f:B->C)(g:A->B)(x:A) -> f(g x)
             br.
             p.
                 see <a href="http://5ht.co/hott.pdf">HoTT</a>:
@@ -150,7 +150,7 @@ block content
 
             h2#sigma <a name='exists'><a href='sigma/'>Sigma</a></a>
             p.
-                Sigma is a dependent product: <b>dpair: (x:A) * B(x)</b>.
+                Sigma is a dependent product: <b>p: (x:A) * B(x)</b>.
             code.
                 Sigma (A: U) (B: A -> U): U
             br.
@@ -178,14 +178,14 @@ block content
 
             h2#path <a name=id><a href='path/'>Path</a></a>
             p.
-                Path type is a [0,1] interval <b>proof: Path A a b</b>
+                Path type is a [0,1] interval <b>e: Path<sub>A</sub>(a,b)</b>
                 with lambda on it as its element, gluening,
                 composition, and kan filling operation.
             code.
                 Path (A: U) (a b: A): U
             br.
             code.
-                sym  (A: U) (a b: A) (p: Path A a b): Path A b a
+                sym (A: U) (a b: A) (p: Path A a b): Path A b a
                 refl (A: U) (a: A) : Path A a a
                 singl (A: U) (a: A) : U
                 trans (A B: U) (p: Path U A B) (a: A) : B
