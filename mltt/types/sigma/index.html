@@ -19,8 +19,7 @@
                                    processEscapes: true }
                     };
 </script></head><body class="content"><article class="main"><div class="om"><section><h1>sigma</h1></section></div><aside><a href="..">Base Library</a><time>Published: 16 OCT 2017</time></aside><div class="om"><section><p><a href="https://raw.githubusercontent.com/groupoid/infinity/master/priv/sigma.ctt">Sigma package</a>
-contains basic theorems about sigma types. Sigma type is built in MLTT core.</p><code>Sigma (A : U)
-      (B : A -> U) : U
+contains basic theorems about sigma types. Sigma type is built in MLTT core.</p><code>Sigma (A : U) (B : A -> U) : U
     = (x : A) * B x</code><p>Sigma is a dependent product type, the generalization of products.</p><p>Sigma type is a total space of fibration. Element of total
 space is formed as a pair of basepoint and fibration.
 </p></section><section><h1>Definition</h1><h2>Introduction</h2><code>dpair (A: U)
@@ -28,7 +27,7 @@ space is formed as a pair of basepoint and fibration.
       (a: A)
       (b: B a): Sigma A B
     = (a,b)
-</code><h1>Elimination</h1><h2>Pair accessors</h2><code>pr1 (A: U) (B: A -> U)
+</code><h1>Elimination</h1><br><h2>Pair accessors</h2><code>pr1 (A: U) (B: A -> U)
     (x: Sigma A B): A = x.1
 
 pr2 (A: U) (B: A -> U)
@@ -40,8 +39,7 @@ then predicate holds for total space.</p><code>sigInd (A: U) (B: A -> U)
        (C: Sigma A B -> U)
        (g: (a: A) (b: B a) -> C (a, b))
        (p: Sigma A B): C p
-     = g p.1 p.2
-</code><h1>Theorems</h1><p><b>Theorem</b> (Axiom of Choice). If for all $x : A$ there is $y : B$
+     = g p.1 p.2</code><br><h1>Theorems</h1><p><b>Theorem</b> (Axiom of Choice). If for all $x : A$ there is $y : B$
 such that $R(x,y)$, then there is a function $f : A \rightarrow B$ such
 that for all $x : A$ there is a witness of $R(x,f(x))$.</p><code>ac   (A B: U) (R: A -> B -> U):
      (p: (x:A)->(y:B)*(R x y)) -> (f:A->B)*((x:A)->R(x)(f x))
