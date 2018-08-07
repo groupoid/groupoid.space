@@ -126,22 +126,23 @@ block content
                     lambda (A B: U) (b: B): A -> B = \ (x: A) -> b
                     lam (A: U) (B: A -> U)
                         (a: A) (b: B a) : A -> B a = \ (x: A) -> b
-
-                h2 Composition
-                br
-                code.
-                    ot (A B C: U) : U = (B -> C) -> (A -> B) -> (A -> C)
-                    o  (A B C: U) : ot A B C = \ (x: A) -> f (g x)
-                    O  (F G: U -> U) (t: U): U = F (G t)
                 br
 
                 h1 Elimination
+                h2 Application
                 p.
                     Application reduces the term by using recursive substitution.
                 code.
                     apply (A B: U) (f: A -> B) (x: A): B = f(x)
                     app (A: U) (B: A -> U)
                         (a: A) (f: A -> B a): B a = f a
+                h2 Composition
+                p.
+                    Composition is using application of appropriate singnatures.
+                code.
+                    ot (A B C: U) : U = (B -> C) -> (A -> B) -> (A -> C)
+                    o  (A B C: U) : ot A B C = \ (x: A) -> f (g x)
+                    O  (F G: U -> U) (t: U): U = F (G t)
                 br
 
                 h1 Computation
