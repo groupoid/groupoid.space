@@ -35,6 +35,10 @@ block content
             time DATE: 9 AUG 2018
         .om
             section
+                p.
+                    This page gives you minimal single-file setup for
+                    Set Topos instance in <a href="https://homotopytypetheory.org/2017/09/16/a-hands-on-introduction-to-cubicaltt/">cubicaltt</a>.
+
                 h1 Category Theory
 
                 h2 Structure
@@ -61,6 +65,11 @@ block content
                       * (right: (x y: C.1) -> (f: C.2 x y) -> Path (C.2 x y) (c x y y f (id y)) f)
                       * ( (x y z w: C.1) -> (f: C.2 x y) -> (g: C.2 y z) -> (h: C.2 z w) ->
                         Path (C.2 x w) (c x z w (c x y z f g) h) (c x y w f (c y z w g h)))
+
+                    carrier (C: precategory) : U
+                    hom     (C: precategory) (a b: carrier C) : U
+                    compose (C: precategory) (x y z: carrier C)
+                            (f: hom C x y) (g: hom C y z) : hom C x z
 
                 h2 Terminal
                 p.
@@ -95,6 +104,51 @@ block content
                       = (h: cospanCone C D) -> isContr (cospanConeHom C D h E)
                     hasPullback (C: precategory) (D: cospan C) : U
                       = (E: cospanCone C D) * isPullback C D E
+
+                br
+                h1 Set Theory
+
+                h2 SET
+                p.
+                    <b>Definition</b> (SET).
+                code.
+                    data N = Z  | S (n: N)
+
+                    n_grpd (A: U) (n: N): U = (a b: A) -> rec A a b n where
+                       rec (A: U) (a b: A) : (k: N) -> U
+                         = split { Z -> Path A a b ; S n -> n_grpd (Path A a b) n }
+
+                    isContr (A: U): U = (x: A) * ((y: A) -> Path A x y)
+                    isProp  (A: U): U = n_grpd A Z
+                    isSet   (A: U): U = n_grpd A (S Z)
+
+                    PROP  : U = (X:U) * isProp X
+                    SET   : U = (X:U) * isSet X
+
+                h2 Pi Contractability
+                p.
+                    <b>Definition</b> ($\Pi$-Contractability). if fiber is set thene
+                    path space between any sections is contractible.
+                code.
+                    setPi  (A: U) (B: A -> U) (h: (x: A) -> isSet (B x)) (f g: Pi A B)
+                           (p q: Path (Pi A B) f g)
+                         : Path (Path (Pi A B) f g) p q
+                h2 Sigma Contractability
+                p.
+                    <b>Theorem</b> ($\Sigma$-Contractability). if fiber is set then $\Sigma$ is set.
+                code.
+                    setSig (A:U) (B: A -> U) (sA: isSet A)
+                           (sB : (x:A) -> isSet (B x)) : isSet (Sigma A B)
+
+                h2 Unit
+                p.
+                    <b>Definition</b> ($1$ is a proposition).
+                code.
+                    propUnit : isProp unit
+                p.
+                    <b>Definition</b> ($1$ is a set).
+                code.
+                    setUnit : isSet unit
 
                 br
                 h1 Topos Theory

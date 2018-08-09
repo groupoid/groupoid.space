@@ -18,7 +18,9 @@
                         tex2jax: { inlineMath: [['$','$'], ['\\(','\\)']],
                                    processEscapes: true }
                     };
-</script></head><body class="content"><header class="header"><a href="//groupoid.space/"><img class="header__logo" src="../../groupoid.svg"/></a><div class="header__titles"><h1 class="header__title">Formal Set Topos</h1><h4 class="header__subtitle">Elementary Topos for Category of Sets</h4></div></header><article class="main"><div class="om"><section><h1>Article</h1></section></div><aside>Maxim Sokhatsky<time>DATE: 9 AUG 2018</time></aside><div class="om"><section><h1>Category Theory</h1><h2>Structure</h2><p><b>Definition</b> (Category Signature). The signature of category is
+</script></head><body class="content"><header class="header"><a href="//groupoid.space/"><img class="header__logo" src="../../groupoid.svg"/></a><div class="header__titles"><h1 class="header__title">Formal Set Topos</h1><h4 class="header__subtitle">Elementary Topos for Category of Sets</h4></div></header><article class="main"><div class="om"><section><h1>Article</h1></section></div><aside>Maxim Sokhatsky<time>DATE: 9 AUG 2018</time></aside><div class="om"><section><p>This page gives you minimal single-file setup for
+Set Topos instance in <a href="https://homotopytypetheory.org/2017/09/16/a-hands-on-introduction-to-cubicaltt/">cubicaltt</a>.
+</p><h1>Category Theory</h1><h2>Structure</h2><p><b>Definition</b> (Category Signature). The signature of category is
 a $\Sigma_{A:U}A \rightarrow A \rightarrow U$ where $U$ could be any universe.
 The $pr_1$ projection is called $Ob$ and $pr_2$ projection is
 called $Hom(a,b)$, where $a,b:Ob$.</p><code>cat: U = (A: U) * (A -> A -> U)
@@ -33,6 +35,11 @@ and its associativity.</p><code>isPrecategory (C: cat): U
   * (right: (x y: C.1) -> (f: C.2 x y) -> Path (C.2 x y) (c x y y f (id y)) f)
   * ( (x y z w: C.1) -> (f: C.2 x y) -> (g: C.2 y z) -> (h: C.2 z w) ->
     Path (C.2 x w) (c x z w (c x y z f g) h) (c x y w f (c y z w g h)))
+
+carrier (C: precategory) : U
+hom     (C: precategory) (a b: carrier C) : U
+compose (C: precategory) (x y z: carrier C)
+        (f: hom C x y) (g: hom C y z) : hom C x z
 </code><h2>Terminal</h2><p><b>Definition</b> (Terminal Object). Is such object $Ob_C$,
 that $\Pi_{x,y:Ob_C} isContr(Hom_C(y,x))$.</p><code>isTerminal (C: precategory) (y: carrier C): U = (x: carrier C) -> isContr (hom C x y)
 terminal   (C: precategory): U = (y: carrier C) * isTerminal C y
@@ -57,6 +64,24 @@ isPullback (C: precategory) (D: cospan C) (E: cospanCone C D) : U
   = (h: cospanCone C D) -> isContr (cospanConeHom C D h E)
 hasPullback (C: precategory) (D: cospan C) : U
   = (E: cospanCone C D) * isPullback C D E
+</code><br><h1>Set Theory</h1><h2>SET</h2><p><b>Definition</b> (SET).</p><code>data N = Z  | S (n: N)
+
+n_grpd (A: U) (n: N): U = (a b: A) -> rec A a b n where
+   rec (A: U) (a b: A) : (k: N) -> U
+     = split { Z -> Path A a b ; S n -> n_grpd (Path A a b) n }
+
+isContr (A: U): U = (x: A) * ((y: A) -> Path A x y)
+isProp  (A: U): U = n_grpd A Z
+isSet   (A: U): U = n_grpd A (S Z)
+
+PROP  : U = (X:U) * isProp X
+SET   : U = (X:U) * isSet X
+</code><h2>Pi Contractability</h2><p><b>Definition</b> ($\Pi$-Contractability). if fiber is set thene
+path space between any sections is contractible.</p><code>setPi  (A: U) (B: A -> U) (h: (x: A) -> isSet (B x)) (f g: Pi A B)
+       (p q: Path (Pi A B) f g)
+     : Path (Path (Pi A B) f g) p q</code><h2>Sigma Contractability</h2><p><b>Theorem</b> ($\Sigma$-Contractability). if fiber is set then $\Sigma$ is set.</p><code>setSig (A:U) (B: A -> U) (sA: isSet A)
+       (sB : (x:A) -> isSet (B x)) : isSet (Sigma A B)
+</code><h2>Unit</h2><p><b>Definition</b> ($1$ is a proposition).</p><code>propUnit : isProp unit</code><p><b>Definition</b> ($1$ is a set).</p><code>setUnit : isSet unit
 </code><br><h1>Topos Theory</h1><h2>Category of Sets</h2><p><b>Definition</b> (Category of Sets).</p><code>Set: precategory = ((Ob,Hom),id,c,HomSet,L,R,Q) where
   Ob: U = SET
   Hom (A B: Ob): U = A.1 -> B.1
