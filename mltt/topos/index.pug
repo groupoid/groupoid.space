@@ -38,9 +38,9 @@ block content
                 p.
                     This page gives you minimal single-file setup for
                     Set Topos instance in <a href="https://homotopytypetheory.org/2017/09/16/a-hands-on-introduction-to-cubicaltt/">cubicaltt</a>.
-                    As for base library this is a chance for unvailing simplicity
-                    for the domain of intersection of several theories: category
-                    theory, set theory and topos theory.
+                    As for base library this is a chance to unvail the simplicity
+                    for the domain of intersection of: category
+                    theory, set theory, and topos theory.
 
                 h1 Category Theory
 
@@ -215,7 +215,7 @@ block content
                 p.
                     <b>Theorem</b> (Category of Sets has Cartesian Closure).
                 code.
-                    cartesianClosed : isCCC Set
+                    cartesianClosure : isCCC Set
                       = (expo,prod,appli,proj1,proj2,term,tt) where
                       exp (A B: SET): SET = (A.1   -> B.1, setFun A.1 B.1 B.2)
                       pro (A B: SET): SET = (prod A.1 B.1,
@@ -238,11 +238,11 @@ block content
                 code.
                     Topos (cat: precategory)
                       : U
-                      = (cartesianClosed: isCCC cat)
+                      = (cartesianClosure: isCCC cat)
                       * subobjectClassifier cat
                 p.
                     <b>Theorem</b> (Category of Sets forms a Topos).
                 code.
                     internal
                       : Topos Set
-                      = (cartesianClosed,hasSubobject)
+                      = (cartesianClosure,hasSubobject)

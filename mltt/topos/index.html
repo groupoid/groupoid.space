@@ -20,9 +20,9 @@
                     };
 </script></head><body class="content"><header class="header"><a href="//groupoid.space/"><img class="header__logo" src="../../groupoid.svg"/></a><div class="header__titles"><h1 class="header__title">Formal Set Topos</h1><h4 class="header__subtitle">Elementary Topos for Category of Sets</h4></div></header><article class="main"><div class="om"><section><h1>Article</h1></section></div><aside>Maxim Sokhatsky<time>DATE: 9 AUG 2018</time></aside><div class="om"><section><p>This page gives you minimal single-file setup for
 Set Topos instance in <a href="https://homotopytypetheory.org/2017/09/16/a-hands-on-introduction-to-cubicaltt/">cubicaltt</a>.
-As for base library this is a chance for unvailing simplicity
-for the domain of intersection of several theories: category
-theory, set theory and topos theory.
+As for base library this is a chance to unvail the simplicity
+for the domain of intersection of: category
+theory, set theory, and topos theory.
 </p><h1>Category Theory</h1><h2>Structure</h2><p><b>Definition</b> (Category Signature). The signature of category is
 a $\Sigma_{A:U}A \rightarrow A \rightarrow U$ where $U$ could be any universe.
 The $pr_1$ projection is called $Ob$ and $pr_2$ projection is
@@ -120,7 +120,7 @@ with cartesian closure and subobject classifier.
   * (P1:    (A B: carrier C) -> hom C (Prod A B) A)
   * (P2:    (A B: carrier C) -> hom C (Prod A B) B)
   * (Term:  terminal C)
-  * unit</code><p><b>Theorem</b> (Category of Sets has Cartesian Closure).</p><code>cartesianClosed : isCCC Set
+  * unit</code><p><b>Theorem</b> (Category of Sets has Cartesian Closure).</p><code>cartesianClosure : isCCC Set
   = (expo,prod,appli,proj1,proj2,term,tt) where
   exp (A B: SET): SET = (A.1   -> B.1, setFun A.1 B.1 B.2)
   pro (A B: SET): SET = (prod A.1 B.1,
@@ -136,7 +136,7 @@ with cartesian closure and subobject classifier.
   term: terminal Set = ((unit,setUnit),\(x: SET) -> unitContr x (\(z: x.1) -> tt))</code><p><b>Theorem</b> (Category of Sets has Subobject Classifier).
 </p><h2>Elementary Topos</h2><p><b>Definition</b> (Elementary Topos). Topos.</p><code>Topos (cat: precategory)
   : U
-  = (cartesianClosed: isCCC cat)
+  = (cartesianClosure: isCCC cat)
   * subobjectClassifier cat</code><p><b>Theorem</b> (Category of Sets forms a Topos).</p><code>internal
   : Topos Set
-  = (cartesianClosed,hasSubobject)</code></section></div></article><footer class="footer"><img class="footer__logo" src="https://longchenpa.guru/seal.png" width="50"><span class="footer__copy">2016&mdash;2018 &copy; <a href="//groupoid.space/team.html" style="color:white;">Groupoid Infinity</a></span></footer><script src="https://groupoid.space/bundle.js"></script><script src="https://groupoid.space/highlight.js?v=8"></script></body></html>
+  = (cartesianClosure,hasSubobject)</code></section></div></article><footer class="footer"><img class="footer__logo" src="https://longchenpa.guru/seal.png" width="50"><span class="footer__copy">2016&mdash;2018 &copy; <a href="//groupoid.space/team.html" style="color:white;">Groupoid Infinity</a></span></footer><script src="https://groupoid.space/bundle.js"></script><script src="https://groupoid.space/highlight.js?v=8"></script></body></html>
