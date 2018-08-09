@@ -150,9 +150,6 @@ block content
                 code.
                     setUnit : isSet unit
 
-                br
-                h1 Topos Theory
-
                 h2 Category of Sets
                 p.
                     <b>Definition</b> (Category of Sets).
@@ -168,6 +165,12 @@ block content
                       Q (A B C D: Ob) (f: Hom A B) (g: Hom B C) (h: Hom C D)
                        : Path (Hom A D) (c A C D (c A B C f g) h) (c A B D f (c B C D g h))
                        = refl (Hom A D) (c A B D f (c B C D g h))
+
+                br
+                h1 Topos Theory
+                p.
+                    Topos theory extends categorical set theory
+                    with cartesian closure and subobject classifier.
 
                 h2 Mono
                 p.
@@ -228,14 +231,15 @@ block content
 
                 h2 Elementary Topos
                 p.
-                    <b>Definition</b> (Elementary Topos).
+                    <b>Definition</b> (Elementary Topos). Topos.
                 code.
                     Topos (cat: precategory)
                       : U
                       = (cartesianClosed: isCCC cat)
                       * subobjectClassifier cat
-
+                p.
+                    <b>Theorem</b> (Category of Set forms a Topos).
+                code.
                     internal
                       : Topos Set
                       = (cartesianClosed,hasSubobject)
-
