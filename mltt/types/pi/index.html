@@ -28,7 +28,15 @@ Pi type is built in core of any dependent type checker.
 Type checkers with Pi only type are called Pure Type Systems.
 See <a href="https://groupoid.space/pts/pure">OM</a> language for
 our Erlang implementation.</p><code>Pi (A: U) (P: B -> U): U
- = (x: A) -> B x</code><p>Pi is a dependent function type, the generalization of functions.</p><p>Pi type is a space of sections,
+ = (x: A) -> B x</code><p>Pi is a dependent function type, the generalization of functions.
+As a function it can serve the wide range of mathematical constructions,
+objects, types, or spaces. The known domain and codomain spaces could be:
+sets, functions, polynomial functors, $\infty$-groupoids,
+topological $\infty$-groupoid, cw-complexes,
+categories, languages, etc. We give here immediate  isomorphism of Pi types,
+the fibrations or <a href="../bundle/">fiber bundles</a>.</p><p>The adjoints Pi and Sigma is not the only adjoints could be presented
+in type system. Axiomatic cohesions could contain a set of adjoint pairs
+as a core type checker operations.</p><p>Geometrically, Pi type is a space of sections,
 while the dependent codomain is a space of fibrations.
 Lambda functions are sections or points in these spaces,
 while the function result is a fibration. Pi type also represents

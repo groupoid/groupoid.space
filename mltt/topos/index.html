@@ -1,0 +1,114 @@
+<!DOCTYPE html><html><head><meta charset="utf-8"><meta http-equiv="x-ua-compatible" content="ie=edge"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="author" content="Maxim Sokhatsky"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:site" content="@5HT"><meta name="twitter:creator" content="@5HT"><meta name="twitter:image" content="https://groupoid.space/card2.png?v=1"><meta property="og:title" content="Groupoid Infinity"><meta property="og:image" content="https://groupoid.space/card2.png?v=1"><meta property="og:type" content="website"><meta property="fb:app_id" content="118554188236439"><meta property="og:url" content="https://groupoid.space"><meta property="og:description" content="The Language of Space"><link rel="stylesheet" href="https://groupoid.space/main.css?v=10"><title>CUBICAL</title><script src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML"></script><script>window.MathJax = { jax: ["input/TeX", "input/MathML", "input/AsciiMath", "output/CommonHTML", "output/NativeMML"],
+                        TeX: { extensions: ["AMSmath.js", "AMSsymbols.js", "autoload-all.js"] },
+                        extensions: ["tex2jax.js", "asciimath2jax.js", "mml2jax.js", "MathMenu.js", "MathZoom.js"],
+                        "HTML-CSS": { imageFont: null },
+                        AuthorInit: function() {
+                            MathJax.Hub.Register.StartupHook("TeX AMSmath Ready", function() {
+                                var TEX = MathJax.InputJax.TeX;
+                                TEX.Definitions.Add({
+                                    macros: {
+                                      llparenthesis: ['Macro', '\\mathopen{\u2987}'],
+                                      rrparenthesis: ['Macro', '\\mathclose{\u2988}'],
+                                      llbracket:     ['Macro', '\\mathopen{\u27E6}'],
+                                      rrbracket:     ['Macro', '\\mathclose{\u27E7}'],
+                                    }
+                                });
+                            });
+                        },
+                        tex2jax: { inlineMath: [['$','$'], ['\\(','\\)']],
+                                   processEscapes: true }
+                    };
+</script></head><body class="content"><header class="header"><a href="//groupoid.space/"><img class="header__logo" src="../../groupoid.svg"/></a><div class="header__titles"><h1 class="header__title">Formal Set Topos</h1><h4 class="header__subtitle">Elementary Topos for Category of Sets</h4></div></header><article class="main"><div class="om"><section><h1>Article</h1></section></div><aside>Maxim Sokhatsky<time>DATE: 23 JUL 2018</time></aside><div class="om"><section><h1>Category Theory</h1><h2>Structure</h2><p><b>Definition</b> (Category Signature). The signature of category is
+a $\Sigma_{A:U}A \rightarrow A \rightarrow U$ where $U$ could be any universe.
+The $pr_1$ projection is called $Ob$ and $pr_2$ projection is
+called $Hom(a,b)$, where $a,b:Ob$.</p><code>cat: U = (A: U) * (A -> A -> U)
+</code><h2>Category</h2><p>Precategory $C$ defined as set of $Hom_C(a,b)$ where $a,b:Ob_C$
+are objects defined by its $id$ arrows $Hom_C(x,x)$.
+Properfies of left and right units included with composition c
+and its associativity.</p><code>isPrecategory (C: cat): U
+  = (id: (x: C.1) -> C.2 x x)
+  * (c: (x y z: C.1) -> C.2 x y -> C.2 y z -> C.2 x z)
+  * (homSet: (x y: C.1) -> isSet (C.2 x y))
+  * (left: (x y: C.1) -> (f: C.2 x y) -> Path (C.2 x y) (c x x y (id x) f) f)
+  * (right: (x y: C.1) -> (f: C.2 x y) -> Path (C.2 x y) (c x y y f (id y)) f)
+  * ( (x y z w: C.1) -> (f: C.2 x y) -> (g: C.2 y z) -> (h: C.2 z w) ->
+    Path (C.2 x w) (c x z w (c x y z f g) h) (c x y w f (c y z w g h)))
+</code><h2>Terminal</h2><p><b>Definition</b> (Terminal Object). Is such object $Ob_C$,
+that $\Pi_{x,y:Ob_C} isContr(Hom_C(y,x))$.</p><code>isTerminal (C: precategory) (y: carrier C): U = (x: carrier C) -> isContr (hom C x y)
+terminal   (C: precategory): U = (y: carrier C) * isTerminal C y
+</code><h2>Pullback</h2><p><b>Definition</b> (Categorical Pullback).</p><code>homTo  (C: precategory) (X: carrier C): U   = (Y: carrier C) * hom C Y X
+cospan (C: precategory): U = (X: carrier C) * (_: homTo C X) * homTo C X
+
+hasCospanCone (C: precategory) (D: cospan C) (W: carrier C) : U
+  = (f: hom C W D.2.1.1)
+  * (g: hom C W D.2.2.1)
+  * Path (hom C W D.1)
+         (compose C W D.2.1.1 D.1 f D.2.1.2)
+         (compose C W D.2.2.1 D.1 g D.2.2.2)
+
+cospanCone (C: precategory) (D: cospan C): U = (W: carrier C) * hasCospanCone C D W
+isCospanConeHom (C: precategory) (D: cospan C) (E1 E2: cospanCone C D) (h: hom C E1.1 E2.1) : U
+  = (_ : Path (hom C E1.1 D.2.1.1) (compose C E1.1 E2.1 D.2.1.1 h E2.2.1)   E1.2.1)
+  * (    Path (hom C E1.1 D.2.2.1) (compose C E1.1 E2.1 D.2.2.1 h E2.2.2.1) E1.2.2.1)
+
+cospanConeHom (C: precategory) (D: cospan C) (E1 E2: cospanCone C D) : U
+  = (h: hom C E1.1 E2.1) * isCospanConeHom C D E1 E2 h
+isPullback (C: precategory) (D: cospan C) (E: cospanCone C D) : U
+  = (h: cospanCone C D) -> isContr (cospanConeHom C D h E)
+hasPullback (C: precategory) (D: cospan C) : U
+  = (E: cospanCone C D) * isPullback C D E
+</code><br><h1>Topos Theory</h1><h2>Category of Sets</h2><p><b>Definition</b> (Category of Sets).</p><code>Set: precategory = ((Ob,Hom),id,c,HomSet,L,R,Q) where
+  Ob: U = SET
+  Hom (A B: Ob): U = A.1 -> B.1
+  id (A: Ob): Hom A A = idfun A.1
+  c (A B C: Ob) (f: Hom A B) (g: Hom B C): Hom A C = o A.1 B.1 C.1 g f
+  HomSet (A B: Ob): isSet (Hom A B) = setFun A.1 B.1 B.2
+  L (A B: Ob) (f: Hom A B): Path (Hom A B) (c A A B (id A) f) f = refl (Hom A B) f
+  R (A B: Ob) (f: Hom A B): Path (Hom A B) (c A B B f (id B)) f = refl (Hom A B) f
+  Q (A B C D: Ob) (f: Hom A B) (g: Hom B C) (h: Hom C D)
+   : Path (Hom A D) (c A C D (c A B C f g) h) (c A B D f (c B C D g h))
+   = refl (Hom A D) (c A B D f (c B C D g h))
+</code><h2>Mono</h2><p><b>Definition</b> (Monomorphism).</p><code>mono (P: precategory) (Y Z: carrier P) (f: hom P Y Z): U
+  = (X: carrier P) (g1 g2: hom P X Y)
+ -> Path (hom P X Z) (compose P X Y Z g1 f) (compose P X Y Z g2 f)
+ -> Path (hom P X Y) g1 g2
+</code><h2>Subobject Classifier</h2><p><b>Definition</b> (Subobject Classifier).</p><code>subobjectClassifier (C: precategory): U
+  = (omega: carrier C)
+  * (end: terminal C)
+  * (trueHom: hom C end.1 omega)
+  * (xi: (V X: carrier C) (j: hom C V X) -> hom C X omega)
+  * (square: (V X: carrier C) (j: hom C V X) -> mono C V X j
+    -> hasPullback C (omega,(end.1,trueHom),(X,xi V X j)))
+  * ((V X: carrier C) (j: hom C V X) (k: hom C X omega)
+    -> mono C V X j
+    -> hasPullback C (omega,(end.1,trueHom),(X,k))
+    -> Path (hom C X omega) (xi V X j) k)
+</code><h2>Cartesian Closure</h2><p><b>Definition</b> (Cartesian Closure).</p><code>isCCC (C: precategory): U
+  = (Exp:   (A B: carrier C) -> carrier C)
+  * (Prod:  (A B: carrier C) -> carrier C)
+  * (Apply: (A B: carrier C) -> hom C (Prod (Exp A B) A) B)
+  * (P1:    (A B: carrier C) -> hom C (Prod A B) A)
+  * (P2:    (A B: carrier C) -> hom C (Prod A B) B)
+  * (Term:  terminal C)
+  * unit</code><p><b>Theorem</b> (Set has Cartesian Closure).</p><code>cartesianClosed : isCCC Set
+  = (expo,prod,appli,proj1,proj2,term,tt) where
+  exp (A B: SET): SET = (A.1   -> B.1, setFun A.1 B.1 B.2)
+  pro (A B: SET): SET = (prod A.1 B.1,
+    setSig A.1 (\(_ : A.1) -> B.1) A.2 (\(_ : A.1) -> B.2))
+  expo:  (A B: SET) -> SET = \(A B: SET) -> exp A B
+  prod:  (A B: SET) -> SET = \(A B: SET) -> pro A B
+  appli: (A B: SET) -> hom Set (pro (exp A B) A) B
+    = \(A B:SET)-> \(x:(pro(exp A B)A).1)-> x.1 x.2
+  proj1: (A B: SET) -> hom Set (pro A B) A = \(A B: SET) (x: (pro A B).1) -> x.1
+  proj2: (A B: SET) -> hom Set (pro A B) B = \(A B: SET) (x: (pro A B).1) -> x.2
+  unitContr (x: SET) (f: x.1 -> unit) : isContr (x.1 -> unit)
+    = (f, \(z: x.1 -> unit) -> propPi x.1 (\(_:x.1)->unit) (\(x:x.1) ->propUnit) f z)
+  term: terminal Set = ((unit,setUnit),\(x: SET) -> unitContr x (\(z: x.1) -> tt))</code><p><b>Theorem</b> (Set has Subobject Classifier).
+</p><h2>Elementary Topos</h2><p><b>Definition</b> (Elementary Topos).</p><code>Topos (cat: precategory)
+  : U
+  = (cartesianClosed: isCCC cat)
+  * subobjectClassifier cat
+
+internal
+  : Topos Set
+  = (cartesianClosed,hasSubobject)</code></section></div></article><footer class="footer"><img class="footer__logo" src="https://longchenpa.guru/seal.png" width="50"><span class="footer__copy">2016&mdash;2018 &copy; <a href="//groupoid.space/team.html" style="color:white;">Groupoid Infinity</a></span></footer><script src="https://groupoid.space/bundle.js"></script><script src="https://groupoid.space/highlight.js?v=8"></script></body></html>
