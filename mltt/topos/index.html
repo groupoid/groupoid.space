@@ -112,8 +112,8 @@ with cartesian closure and subobject classifier.
   * ((V X: carrier C) (j: hom C V X) (k: hom C X omega)
     -> mono C V X j
     -> hasPullback C (omega,(end.1,trueHom),(X,k))
-    -> Path (hom C X omega) (xi V X j) k)
-</code><h2>Cartesian Closure</h2><p><b>Definition</b> (Cartesian Closure).</p><code>isCCC (C: precategory): U
+    -> Path (hom C X omega) (xi V X j) k)</code><p><b>Theorem</b> (Category of Sets has Subobject Classifier).
+</p><h2>Cartesian Closure</h2><p><b>Definition</b> (Cartesian Closure).</p><code>isCCC (C: precategory): U
   = (Exp:   (A B: carrier C) -> carrier C)
   * (Prod:  (A B: carrier C) -> carrier C)
   * (Apply: (A B: carrier C) -> hom C (Prod (Exp A B) A) B)
@@ -133,8 +133,8 @@ with cartesian closure and subobject classifier.
   proj2: (A B: SET) -> hom Set (pro A B) B = \(A B: SET) (x: (pro A B).1) -> x.2
   unitContr (x: SET) (f: x.1 -> unit) : isContr (x.1 -> unit)
     = (f, \(z: x.1 -> unit) -> propPi x.1 (\(_:x.1)->unit) (\(x:x.1) ->propUnit) f z)
-  term: terminal Set = ((unit,setUnit),\(x: SET) -> unitContr x (\(z: x.1) -> tt))</code><p><b>Theorem</b> (Category of Sets has Subobject Classifier).
-</p><h2>Elementary Topos</h2><p><b>Definition</b> (Elementary Topos). Topos.</p><code>Topos (cat: precategory)
+  term: terminal Set = ((unit,setUnit),\(x: SET) -> unitContr x (\(z: x.1) -> tt))
+</code><h2>Elementary Topos</h2><p><b>Definition</b> (Elementary Topos). Topos.</p><code>Topos (cat: precategory)
   : U
   = (cartesianClosure: isCCC cat)
   * subobjectClassifier cat</code><p><b>Theorem</b> (Category of Sets forms a Topos).</p><code>internal

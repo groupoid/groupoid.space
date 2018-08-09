@@ -199,6 +199,8 @@ block content
                         -> mono C V X j
                         -> hasPullback C (omega,(end.1,trueHom),(X,k))
                         -> Path (hom C X omega) (xi V X j) k)
+                p.
+                    <b>Theorem</b> (Category of Sets has Subobject Classifier).
 
                 h2 Cartesian Closure
                 p.
@@ -229,8 +231,6 @@ block content
                       unitContr (x: SET) (f: x.1 -> unit) : isContr (x.1 -> unit)
                         = (f, \(z: x.1 -> unit) -> propPi x.1 (\(_:x.1)->unit) (\(x:x.1) ->propUnit) f z)
                       term: terminal Set = ((unit,setUnit),\(x: SET) -> unitContr x (\(z: x.1) -> tt))
-                p.
-                    <b>Theorem</b> (Category of Sets has Subobject Classifier).
 
                 h2 Elementary Topos
                 p.
