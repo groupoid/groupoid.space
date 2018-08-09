@@ -85,7 +85,7 @@ path space between any sections is contractible.</p><code>setPi  (A: U) (B: A ->
      : Path (Path (Pi A B) f g) p q</code><h2>Sigma Contractability</h2><p><b>Theorem</b> ($\Sigma$-Contractability). if fiber is set then $\Sigma$ is set.</p><code>setSig (A:U) (B: A -> U) (sA: isSet A)
        (sB : (x:A) -> isSet (B x)) : isSet (Sigma A B)
 </code><h2>Unit</h2><p><b>Theorem</b> ($1$ is a proposition).</p><code>propUnit : isProp unit</code><p><b>Theorem</b> ($1$ is a set).</p><code>setUnit : isSet unit
-</code><h2>Category of Sets</h2><p><b>Definition</b> ($\mathbb{Sets}).</p><code>Set: precategory = ((Ob,Hom),id,c,HomSet,L,R,Q) where
+</code><h2>Category of Sets</h2><p><b>Theorem</b> ($\mathbb{Set}$). SET forms a Category.</p><code>Set: precategory = ((Ob,Hom),id,c,HomSet,L,R,Q) where
   Ob: U = SET
   Hom (A B: Ob): U = A.1 -> B.1
   id (A: Ob): Hom A A = idfun A.1
