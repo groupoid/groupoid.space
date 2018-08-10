@@ -22,8 +22,25 @@
 Set Topos instance in <a href="https://homotopytypetheory.org/2017/09/16/a-hands-on-introduction-to-cubicaltt/">cubicaltt</a>.
 As for base library this is a chance to unvail the simplicity
 for the domain of intersection of: category
-theory, set theory, and topos theory.
-</p><h1>Category Theory</h1><h2>Structure</h2><p><b>Definition</b> (Category Signature). The signature of category is
+theory, set theory, and topos theory.</p><p>As for category thoery we need only pullbacks and mono
+for defining the topos and terminals for cartesian closure.</p><p>Disputed foundations for set theory could be taken as:
+ZFC, NBG, ETCS, Topoi. The motivation for topos theory for us
+is the localization modality, and geometric morphisms of sheaf topoi.
+As a free cocompletion, presheaf categories includes categorical model of sets
+as presheaf is a functor from opposite ctegory to category of sets.</p><p>We will disctinct syntetically: i) category theory, mainly for pullbacks,
+ii) set theory in univalent foundations, and iii) topos theory for formulating
+geometric moriphisms between presheaf topoi.</p><p>One can admit two topos theory lineages. One lineage takes its roots from published
+by Jean Leray in 1945 initial work on sheaves and specral sequences. Later this lineage
+was developed by Henri Paul Cartan, André Weil. Its peak this lineage has achived
+with works by Jean-Pierre Serre, Alexander Grothendieck, and Roger Godement.
+Alexander Grothendieck proposed to use topology information on top of
+categorical information.</p><p>Second remarkable lineage take its root from Williame Lawvere (ETCS) and
+Myles Tierney. The main contribution is the reformulation of Grothendieck topology
+by using sobobject classifier, subclassing topology information from categorical
+structure of topos. Our aim is to show this substantiation.
+</p><h1>Category Theory</h1><p>We give here only minimal set of definitions needed for instantiating
+elementary topos of category of sets.
+</p><h2>Structure</h2><p><b>Definition</b> (Category Signature). The signature of category is
 a $\Sigma_{A:U}A \rightarrow A \rightarrow U$ where $U$ could be any universe.
 The $pr_1$ projection is called $Ob$ and $pr_2$ projection is
 called $Hom(a,b)$, where $a,b:Ob$.</p><code>cat: U = (A: U) * (A -> A -> U)
@@ -85,7 +102,9 @@ path space between any sections is contractible.</p><code>setPi  (A: U) (B: A ->
      : Path (Path (Pi A B) f g) p q</code><h2>Sigma Contractability</h2><p><b>Theorem</b> ($\Sigma$-Contractability). if fiber is set then $\Sigma$ is set.</p><code>setSig (A:U) (B: A -> U) (sA: isSet A)
        (sB : (x:A) -> isSet (B x)) : isSet (Sigma A B)
 </code><h2>Unit</h2><p><b>Theorem</b> ($1$ is a proposition).</p><code>propUnit : isProp unit</code><p><b>Theorem</b> ($1$ is a set).</p><code>setUnit : isSet unit
-</code><h2>Category of Sets</h2><p><b>Theorem</b> ($\mathbb{Set}$). Sets forms a Category.</p><code>Set: precategory = ((Ob,Hom),id,c,HomSet,L,R,Q) where
+</code><h2>Category of Sets</h2><p><b>Theorem</b> ($\mathbb{Set}$). Sets forms a Category.
+All compositional theorems proved by using refleation rule of internal language.
+The proof that Hom forms a set is taken through $\Pi$-contractability.</p><code>Set: precategory = ((Ob,Hom),id,c,HomSet,L,R,Q) where
   Ob: U = SET
   Hom (A B: Ob): U = A.1 -> B.1
   id (A: Ob): Hom A A = idfun A.1
