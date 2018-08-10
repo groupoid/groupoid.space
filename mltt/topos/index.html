@@ -133,7 +133,9 @@ Definition disjoint (A : Type) (u v : A -> Prop) := forall x, ~ (u x /\ v x).
 Definition union (A : Type) (B : (A -> Prop) -> Prop) := fun x : A => exists U, B U /\ U x.
 Definition inter (A : Type) (u v : A -> Prop) := fun x : A => u x /\ v x.
 Definition empty (A: Type) := fun x : A => False.
-Definition full (A: Type) := fun x : A => True.</code><br><h1>Topos Theory</h1><p>Topos theory extends category theory with notion of topological
+Definition full (A: Type) := fun x : A => True.</code><p>For fully functional general topology theorems and Zorn lemma you can refer to
+the Coq library <a href="https://github.com/verimath/topology">topology</a> by
+Daniel Schepler.</p><br><h1>Topos Theory</h1><p>Topos theory extends category theory with notion of topological
 structure but reformulated in a categorical way
 as a category of sheaves on a site or as one that has cartesian closure
 and subobject classifier. We give two definitions.
