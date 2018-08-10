@@ -234,7 +234,10 @@ block content
 
                 h2 Cartesian Closure
                 p.
-                    <b>Definition</b> (Cartesian Closure).
+                    <b>Definition</b> (Cartesian Closed Categories).
+                    The category $\mathbf{C}$ is called cartesian closed if exists all
+                    products, terminals and exponentials. Note that this definition
+                    is lack beta and eta rules which could be found in embedding $\mathbf{MLTT}$.
                 code.
                     isCCC (C: precategory): U
                       = (Exp:   (A B: carrier C) -> carrier C)
@@ -246,7 +249,10 @@ block content
                       * unit
                 p.
                     <b>Theorem</b> (Category of Sets has Cartesian Closure). As you can see
-                    from exp and pro we internalize $\Pi$ and $\Sigma$ types as $\mathbf{SET}$ instances.
+                    from exp and pro we internalize $\Pi$ and $\Sigma$ types as $\mathbf{SET}$ instances,
+                    the $\mathbf{isSet}$ predicates are provided with contractability.
+                    Exitense of terminals is proved by $\mathbf{propPi}$. The same technique you
+                    can find in $\mathbf{MLTT}$ embedding.
                 code.
                     cartesianClosure : isCCC Set
                       = (expo,prod,appli,proj1,proj2,term,tt) where
