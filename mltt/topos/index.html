@@ -18,7 +18,7 @@
                         tex2jax: { inlineMath: [['$','$'], ['\\(','\\)']],
                                    processEscapes: true }
                     };
-</script></head><body class="content"><header class="header"><a href="//groupoid.space/"><img class="header__logo" src="../../groupoid.svg"/></a><div class="header__titles"><h1 class="header__title">Formal Set Topos</h1><h4 class="header__subtitle">Elementary Topos on Category of Sets</h4></div></header><article class="main"><div class="om"><section><h1>Article</h1></section></div><aside>Maxim Sokhatsky<time>DATE: 9 AUG 2018</time></aside><div class="om"><section><p>This page gives you minimal single-file setup for
+</script></head><body class="content"><header class="header"><a href="//groupoid.space/"><img class="header__logo" src="../../groupoid.svg"/></a><div class="header__titles"><h1 class="header__title">Formal Set Topos</h1><h4 class="header__subtitle">Elementary Topos on Category of Sets</h4></div></header><article class="main"><div class="om"><section><h1>Abstract</h1></section></div><aside>Maxim Sokhatsky<time>DATE: 9 AUG 2018</time></aside><div class="om"><section><p>This page gives you minimal single-file setup for
 Set Topos instance in <a href="https://homotopytypetheory.org/2017/09/16/a-hands-on-introduction-to-cubicaltt/">cubicaltt</a>.
 As for base library this is a chance to unvail the simplicity
 for the domain of intersection of: category
@@ -36,7 +36,8 @@ Myles Tierney. The main contribution is the reformulation of Grothendieck topolo
 by using sobobject classifier.</p><p>We give here only minimal set of definitions needed for instantiating
 elementary topos of category of sets. Also very brief examination of
 three ways of topological definition: i) classical definition of
-topology in terms of open sets; ii) Grothendieck topos; iii) Elementary topos.</p><br><h1>Category Theory</h1><p><b>Definition</b> (Category Signature). The signature of category is
+topology in terms of open sets; ii) Grothendieck topos; iii) Elementary topos.</p><br><h1>Category Theory</h1><p>Very simple category theory subset up to pullbacks is provided. We give here
+all definitions to keep context valid.</p><p><b>Definition</b> (Category Signature). The signature of category is
 a $\Sigma_{A:U}A \rightarrow A \rightarrow U$ where $U$ could be any universe.
 The $\mathrm{pr}_1$ projection is called $\mathrm{Ob}$ and $\mathrm{pr}_2$ projection is
 called $\mathrm{Hom}(a,b)$, where $a,b:\mathrm{Ob}$.</p><code>cat: U = (A: U) * (A -> A -> U)</code><p>Precategory $\mathrm{C}$ defined as set of $\mathrm{Hom}_C(a,b)$ where $a,b:\mathrm{Ob}_C$
