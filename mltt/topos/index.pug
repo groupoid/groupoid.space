@@ -255,16 +255,39 @@ block content
                         V & \mapright{g} & U \\
                     \end{array}
                     $$
+                code.
+                    Co (C: precategory) (cod: carrier C) : U
+                      = (dom: carrier C)
+                      * (hom C dom cod)
+
+                    Delta (C: precategory) (d: carrier C) : U
+                      = (index: U)
+                      * (index -> Co C d)
+
+                    Coverage (C: precategory): U
+                      = (cod: carrier C)
+                      * (fam: Delta C cod)
+                      * (coverings: carrier C -> Delta C cod -> U)
+                      * (coverings cod fam)
                 p.
                     <b>Definition</b> (Site). Site is a category having a coverage.
                 code.
-                    site (C: precategory): U = (C: precategory) * hasCoverage C
+                    site (C: precategory): U
+                      = (C: precategory)
+                      * Coverage C
                 p.
                     <b>Definition</b> (Presheaf). Presheaf of a category $\mathrm{C}$
                     is a functor from opposite category to category of sets:
                     $\mathrm{C}^{op} \rightarrow \mathrm{Set}$.
                 code.
-                    presheaf (C: precategory): U = catfunctor (opCat C) Set
+                    presheaf (C: precategory): U
+                      = catfunctor (opCat C) Set
+                p.
+                    <b>Definition</b> (Sheaf). Sheaf is a presheaf on a site.
+                code.
+                    sheaf (C: precategory): U
+                      = (P: presheaf C)
+                      * site C
                 p.
                     <b>Definition</b> (Grothendieck Topos). A category $\mathrm{C}$
                     is called Grothendieck Topos if exists a site such that category of
