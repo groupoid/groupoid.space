@@ -47,7 +47,18 @@ called $\mathrm{Hom}(a,b)$, where $a,b:\mathrm{Ob}$.</p><code>cat: U = (A: U) * 
 </code><h2>Category</h2><p>Precategory $\mathrm{C}$ defined as set of $\mathrm{Hom}_C(a,b)$ where $a,b:\mathrm{Ob}_C$
 are objects defined by its $\mathrm{id}$ arrows $\mathrm{Hom}_C(x,x)$.
 Properfies of left and right units included with composition c
-and its associativity.</p><code>isPrecategory (C: cat): U
+and its associativity.</p><p><b>Definition</b> (Precategory). More formal, precategory $\mathrm{C}$ consists of the following.
+(i) A type $\mathrm{Ob}_C$, whose elements are called objects;
+(ii) for each $a,b: \mathrm{Ob}_C$, a set $\mathrm{Hom}_C(a,b)$, whose elements are called arrows or morphisms.
+(iii) For each $a: \mathrm{Ob}_C$, a morphism $1_a : \mathrm{Hom}_C(a,a)$, called the identity morphism.
+(iv) For each $a,b,c: \mathrm{Ob}_C$, a function
+$\mathrm{Hom}_C(b,c) \rightarrow Hom_C(a,b) \rightarrow \mathrm{Hom}_C(a,c)$
+called composition, and denoted $g \circ f$.
+(v) For each $a,b: \mathrm{Ob}_C$ and $f: \mathrm{Hom}_C(a,b)$,
+$f = 1_b \circ f$ and $f = f \circ 1_a$.
+(vi) For each $a,b,c,d: A$ and
+$f: \mathrm{Hom}_C(a,b)$, $g: \mathrm{Hom}_C(b,c)$, $h: \mathrm{Hom}_C(c,d)$,
+$h \circ (g \circ f ) = (h \circ g) \circ f$.</p><code>isPrecategory (C: cat): U
   = (id: (x: C.1) -> C.2 x x)
   * (c: (x y z: C.1) -> C.2 x y -> C.2 y z -> C.2 x z)
   * (homSet: (x y: C.1) -> isSet (C.2 x y))
