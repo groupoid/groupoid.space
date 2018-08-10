@@ -72,7 +72,7 @@ block content
                     We give here only minimal set of definitions needed for instantiating
                     elementary topos of category of sets.
 
-                h2 Structure
+                h2 Categorical Structure
                 p.
                     <b>Definition</b> (Category Signature). The signature of category is
                     a $\Sigma_{A:U}A \rightarrow A \rightarrow U$ where $U$ could be any universe.
@@ -154,6 +154,8 @@ block content
 
                 h2 SET
                 p.
+                    Here is given the $\infty$-groupoid model of sets.
+                p.
                     <b>Definition</b> ($\mathrm{SET}$).
                 code.
                     data N = Z  | S (n: N)
@@ -212,11 +214,39 @@ block content
                        : Path (Hom A D) (c A C D (c A B C f g) h) (c A B D f (c B C D g h))
                        = refl (Hom A D) (c A B D f (c B C D g h))
 
+                h2 Topological Structure
+                p.
+                    <b>Definition</b> (Topology). The topology structure on $\mathrm{A}$
+                    is a subset $S \in \mathrm{A}$ with following properties:
+                    i) any finite union of subsets of $\mathrm{S}$ is belong to $\mathrm{s}$;
+                    ii) any finite intersection of subsets of $\mathrm{S}$ is belong to $\mathrm{s}$.
+                    Subets of $\mathrm{S}$ are called open sets of family $\mathrm{S}$.
+                p.
+                    Here is given a code in Coq, for this classical definition.
+                code.
+                     Structure topology (A : Type) := {
+                               open :> (A -> Prop) -> Prop;
+                               empty_open: open (empty _);
+                               full_open:  open (full _);
+                               inter_open: forall u, open u
+                                        -> forall v, open v
+                                        -> open (inter A u v) ;
+                               union_open: forall s, (subset _ s open)
+                                        -> open (union A s) }.
+                br.
+                code.
+                    Definition subset (A : Type) (u v : A -> Prop) := (forall x : A, u x -> v x).
+                    Definition disjoint (A : Type) (u v : A -> Prop) := forall x, ~ (u x /\ v x).
+                    Definition union (A : Type) (B : (A -> Prop) -> Prop) := fun x : A => exists U, B U /\ U x.
+                    Definition inter (A : Type) (u v : A -> Prop) := fun x : A => u x /\ v x.
+                    Definition empty (A: Type) := fun x : A => False.
+                    Definition full (A: Type) := fun x : A => True.
                 br
                 h1 Topos Theory
                 p.
-                    Topos theory extends categorical set theory
-                    with cartesian closure and subobject classifier.
+                    Topos theory extends categorical set theory with notion of topological
+                    structure but reformulated in categorical (pullback) way
+                    with cartesian closure and subobject classifier. First
 
                 h2 Mono
                 p.
