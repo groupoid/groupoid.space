@@ -42,10 +42,10 @@ structure of topos. Our aim is to show this substantiation.
 elementary topos of category of sets.
 </p><h2>Structure</h2><p><b>Definition</b> (Category Signature). The signature of category is
 a $\Sigma_{A:U}A \rightarrow A \rightarrow U$ where $U$ could be any universe.
-The $pr_1$ projection is called $Ob$ and $pr_2$ projection is
-called $Hom(a,b)$, where $a,b:Ob$.</p><code>cat: U = (A: U) * (A -> A -> U)
-</code><h2>Category</h2><p>Precategory $C$ defined as set of $Hom_C(a,b)$ where $a,b:Ob_C$
-are objects defined by its $id$ arrows $Hom_C(x,x)$.
+The $\mathrm{pr}_1$ projection is called $\mathrm{Ob}$ and $\mathrm{pr}_2$ projection is
+called $\mathrm{Hom}(a,b)$, where $a,b:\mathrm{Ob}$.</p><code>cat: U = (A: U) * (A -> A -> U)
+</code><h2>Category</h2><p>Precategory $\mathrm{C}$ defined as set of $\mathrm{Hom}_C(a,b)$ where $a,b:\mathrm{Ob}_C$
+are objects defined by its $id$ arrows $\mathrm{Hom}_C(x,x)$.
 Properfies of left and right units included with composition c
 and its associativity.</p><code>isPrecategory (C: cat): U
   = (id: (x: C.1) -> C.2 x x)
@@ -60,8 +60,8 @@ carrier (C: precategory) : U
 hom     (C: precategory) (a b: carrier C) : U
 compose (C: precategory) (x y z: carrier C)
         (f: hom C x y) (g: hom C y z) : hom C x z
-</code><h2>Terminal</h2><p><b>Definition</b> (Terminal Object). Is such object $Ob_C$,
-that $\Pi_{x,y:Ob_C} isContr(Hom_C(y,x))$.</p><code>isTerminal (C: precategory) (y: carrier C): U = (x: carrier C) -> isContr (hom C x y)
+</code><h2>Terminal</h2><p><b>Definition</b> (Terminal Object). Is such object $\mathrm{Ob}_C$,
+that $\Pi_{x,y:\mathrm{Ob}_C} isContr(\mathrm{Hom}_C(y,x))$.</p><code>isTerminal (C: precategory) (y: carrier C): U = (x: carrier C) -> isContr (hom C x y)
 terminal   (C: precategory): U = (y: carrier C) * isTerminal C y
 </code><h2>Pullback</h2><p><b>Definition</b> (Categorical Pullback).</p><code>homTo  (C: precategory) (X: carrier C): U   = (Y: carrier C) * hom C Y X
 cospan (C: precategory): U = (X: carrier C) * (_: homTo C X) * homTo C X
@@ -102,7 +102,7 @@ path space between any sections is contractible.</p><code>setPi  (A: U) (B: A ->
      : Path (Path (Pi A B) f g) p q</code><h2>Sigma Contractability</h2><p><b>Theorem</b> ($\Sigma$-Contractability). if fiber is set then $\Sigma$ is set.</p><code>setSig (A:U) (B: A -> U) (sA: isSet A)
        (sB : (x:A) -> isSet (B x)) : isSet (Sigma A B)
 </code><h2>Unit</h2><p><b>Theorem</b> ($1$ is a proposition).</p><code>propUnit : isProp unit</code><p><b>Theorem</b> ($1$ is a set).</p><code>setUnit : isSet unit
-</code><h2>Category of Sets</h2><p><b>Theorem</b> ($\mathbb{Set}$). Sets forms a Category.
+</code><h2>Category of Sets</h2><p><b>Theorem</b> ($\mathrm{Set}$). Sets forms a Category.
 All compositional theorems proved by using refleation rule of internal language.
 The proof that Hom forms a set is taken through $\Pi$-contractability.</p><code>Set: precategory = ((Ob,Hom),id,c,HomSet,L,R,Q) where
   Ob: U = SET
@@ -143,10 +143,10 @@ is lack beta and eta rules which could be found in embedding $\mathbf{MLTT}$.</p
   * (P2:    (A B: carrier C) -> hom C (Prod A B) B)
   * (Term:  terminal C)
   * unit</code><p><b>Theorem</b> (Category of Sets has Cartesian Closure). As you can see
-from exp and pro we internalize $\Pi$ and $\Sigma$ types as $\mathbf{SET}$ instances,
-the $\mathbf{isSet}$ predicates are provided with contractability.
-Exitense of terminals is proved by $\mathbf{propPi}$. The same technique you
-can find in $\mathbf{MLTT}$ embedding.</p><code>cartesianClosure : isCCC Set
+from exp and pro we internalize $\Pi$ and $\Sigma$ types as $\mathrm{SET}$ instances,
+the $\mathrm{isSet}$ predicates are provided with contractability.
+Exitense of terminals is proved by $\mathrm{propPi}$. The same technique you
+can find in $\mathrm{MLTT}$ embedding.</p><code>cartesianClosure : isCCC Set
   = (expo,prod,appli,proj1,proj2,term,tt) where
   exp (A B: SET): SET = (A.1   -> B.1, setFun A.1 B.1 B.2)
   pro (A B: SET): SET = (prod A.1 B.1,
