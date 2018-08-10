@@ -26,9 +26,10 @@ theory, set theory, and topos theory.</p><p>Disputed foundations for set theory 
 ZFC, NBG, ETCS, Topoi. The motivation for topos theory for us
 is the localization modality, and geometric morphisms of sheaf topoi.
 As a free cocompletion, presheaf categories includes categorical model of sets
-as presheaf is a functor from opposite ctegory to category of sets.</p><p>We will disctinct syntetically: i) category theory, mainly for pullbacks,
-ii) set theory in univalent foundations, and iii) topos theory for formulating
-geometric moriphisms between presheaf topoi.</p><p>One can admit two topos theory lineages. One lineage takes its roots from published
+as presheaf is a functor from opposite ctegory to category of sets.</p><p>We will disctinct syntetically: i) category theory;
+ii) set theory in univalent foundations; iii) topos theory for formulating
+geometric moriphisms between grothendieck topoi and elementary topos
+on category of sets.</p><p>One can admit two topos theory lineages. One lineage takes its roots from published
 by Jean Leray in 1945 initial work on sheaves and specral sequences. Later this lineage
 was developed by Henri Paul Cartan, André Weil. The peak of lineage was settled
 with works by Jean-Pierre Serre, Alexander Grothendieck, and Roger Godement.</p><p>Second remarkable lineage take its root from William Lawvere (ETCS) and
@@ -172,10 +173,10 @@ is a functor from opposite category to category of sets:
 $\mathrm{C}^{op} \rightarrow \mathrm{Set}$.</p><code>presheaf (C: precategory): U
   = catfunctor (opCat C) Set</code><p><b>Definition</b> (Sheaf, $\mathrm{Sh}$). Sheaf $\mathrm{Sh}$ is a presheaf on a site.</p><code>sheaf (C: precategory): U
   = (S: site C)
-  * presheaf S.1</code><p><b>Definition</b> (Geometric Morphism). A morphism between sheaves.</p><p><b>Definition</b> (Grothendieck Topos). A category $\mathrm{C}$
+  * presheaf S.1</code><p><b>Definition</b> (Grothendieck Topos). A category $\mathrm{C}$
 is called Grothendieck Topos if exists a site such that category of
 sheaves on $\mathrm{C}$ equals $\mathrm{C}$ or $\mathrm{Sh}(\mathrm{C},J)=\mathrm{C}$.
-In other words a topos is the category of sheaves $\mathrm{Sh}(\mathrm{C},J)$ on a site.
+In other words a topos is the category of sheaves $\mathrm{Sh}(\mathrm{C},J)$ on a site.</p><p><b>Definition</b> (Geometric Morphism). A morphism between Grothendieck topoi.
 </p><h2>Elementary Topos</h2><p><b>Definition</b> (Monomorphism).</p><code>mono (P: precategory) (Y Z: carrier P) (f: hom P Y Z): U
   = (X: carrier P) (g1 g2: hom P X Y)
  -> Path (hom P X Z) (compose P X Y Z g1 f) (compose P X Y Z g2 f)
