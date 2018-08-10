@@ -286,8 +286,10 @@ block content
                     <b>Definition</b> (Sheaf, $\mathrm{Sh}$). Sheaf $\mathrm{Sh}$ is a presheaf on a site.
                 code.
                     sheaf (C: precategory): U
-                      = (P: presheaf C)
-                      * site C
+                      = (S: site C)
+                      * presheaf S.1
+                p.
+                    <b>Definition</b> (Geometric Morphism). A morphism between sheaves.
                 p.
                     <b>Definition</b> (Grothendieck Topos). A category $\mathrm{C}$
                     is called Grothendieck Topos if exists a site such that category of
