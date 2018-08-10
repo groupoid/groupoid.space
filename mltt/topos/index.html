@@ -88,7 +88,7 @@ isPullback (C: precategory) (D: cospan C) (E: cospanCone C D) : U
   = (h: cospanCone C D) -> isContr (cospanConeHom C D h E)
 hasPullback (C: precategory) (D: cospan C) : U
   = (E: cospanCone C D) * isPullback C D E
-</code><br><h1>Set Theory</h1><p>Here is given the $\infty$-groupoid model of sets.</p><p><b>Definition</b> ($\mathrm{SET}$).</p><code>data N = Z  | S (n: N)
+</code><br><h1>Set Theory</h1><p>Here is given the $\infty$-groupoid model of sets.</p><p><b>Definition</b> ($\mathrm{PROP}$). A 0-type is a mere proposition.</p><p><b>Definition</b> ($\mathrm{SET}$). A 1-type is a set.</p><code>data N = Z  | S (n: N)
 
 n_grpd (A: U) (n: N): U = (a b: A) -> rec A a b n where
    rec (A: U) (a b: A) : (k: N) -> U
