@@ -245,8 +245,8 @@ block content
                 h1 Topos Theory
                 p.
                     Topos theory extends categorical set theory with notion of topological
-                    structure but reformulated in categorical (pullback) way
-                    with cartesian closure and subobject classifier. First
+                    structure but reformulated in categorical way with cartesian closure
+                    and subobject classifier.
 
                 h2 Mono
                 p.
@@ -278,9 +278,9 @@ block content
                 h2 Cartesian Closure
                 p.
                     <b>Definition</b> (Cartesian Closed Categories).
-                    The category $\mathrm{C}$ is called cartesian closed if exists all
-                    products, terminals and exponentials. Note that this definition
-                    is lack beta and eta rules which could be found in embedding $\mathrm{MLTT}$.
+                    The category $\mathrm{C}$ is called cartesian closed if exists all:
+                    i) terminals; ii) products; iii) exponentials. Note that this definition
+                    lacks beta and eta rules which could be found in embedding $\mathrm{MLTT}$.
                 code.
                     isCCC (C: precategory): U
                       = (Exp:   (A B: carrier C) -> carrier C)
@@ -311,6 +311,9 @@ block content
                       unitContr (x: SET) (f: x.1 -> unit) : isContr (x.1 -> unit)
                         = (f, \(z: x.1 -> unit) -> propPi x.1 (\(_:x.1)->unit) (\(x:x.1) ->propUnit) f z)
                       term: terminal Set = ((unit,setUnit),\(x: SET) -> unitContr x (\(z: x.1) -> tt))
+                p.
+                    Note that rules of cartesian closure forms a type theretical langage
+                    which is called lambda calculus.
 
                 h2 Grothendieck Topos
                 p.
