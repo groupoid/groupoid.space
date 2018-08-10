@@ -200,8 +200,8 @@ can find in $\mathrm{MLTT}$ embedding.</p><code>cartesianClosure : isCCC Set
   proj2: (A B: SET) -> hom Set (pro A B) B = \(A B: SET) (x: (pro A B).1) -> x.2
   unitContr (x: SET) (f: x.1 -> unit) : isContr (x.1 -> unit)
     = (f, \(z: x.1 -> unit) -> propPi x.1 (\(_:x.1)->unit) (\(x:x.1) ->propUnit) f z)
-  term: terminal Set = ((unit,setUnit),\(x: SET) -> unitContr x (\(z: x.1) -> tt))</code><p>Note that rules of cartesian closure forms a type theretical langage
-which is called lambda calculus.</p><p><b>Definition</b> (Elementary Topos). Topos.</p><code>Topos (cat: precategory)
+  term: terminal Set = ((unit,setUnit),\(x: SET) -> unitContr x (\(z: x.1) -> tt))</code><p>Note that rules of cartesian closure forms a type theoretical langage
+called lambda calculus.</p><p><b>Definition</b> (Elementary Topos). Topos.</p><code>Topos (cat: precategory)
   : U
   = (cartesianClosure: isCCC cat)
   * subobjectClassifier cat</code><p><b>Theorem</b> (Category of Sets forms a Topos).</p><code>internal
