@@ -47,7 +47,14 @@ called $\mathrm{Hom}(a,b)$, where $a,b:\mathrm{Ob}$.</p><code>cat: U = (A: U) * 
 </code><h2>Category</h2><p>Precategory $\mathrm{C}$ defined as set of $\mathrm{Hom}_C(a,b)$ where $a,b:\mathrm{Ob}_C$
 are objects defined by its $\mathrm{id}$ arrows $\mathrm{Hom}_C(x,x)$.
 Properfies of left and right units included with composition c
-and its associativity.</p><p><b>Definition</b> (Precategory). More formal, precategory $\mathrm{C}$ consists of the following.
+and its associativity.</p><code>isPrecategory (C: cat): U
+  = (id: (x: C.1) -> C.2 x x)
+  * (c: (x y z: C.1) -> C.2 x y -> C.2 y z -> C.2 x z)
+  * (homSet: (x y: C.1) -> isSet (C.2 x y))
+  * (left: (x y: C.1) -> (f: C.2 x y) -> Path (C.2 x y) (c x x y (id x) f) f)
+  * (right: (x y: C.1) -> (f: C.2 x y) -> Path (C.2 x y) (c x y y f (id y)) f)
+  * ( (x y z w: C.1) -> (f: C.2 x y) -> (g: C.2 y z) -> (h: C.2 z w) ->
+    Path (C.2 x w) (c x z w (c x y z f g) h) (c x y w f (c y z w g h)))</code><p><b>Definition</b> (Precategory). More formal, precategory $\mathrm{C}$ consists of the following.
 (i) A type $\mathrm{Ob}_C$, whose elements are called objects;
 (ii) for each $a,b: \mathrm{Ob}_C$, a set $\mathrm{Hom}_C(a,b)$, whose elements are called arrows or morphisms.
 (iii) For each $a: \mathrm{Ob}_C$, a morphism $1_a : \mathrm{Hom}_C(a,a)$, called the identity morphism.
@@ -58,16 +65,7 @@ called composition, and denoted $g \circ f$.
 $f = 1_b \circ f$ and $f = f \circ 1_a$.
 (vi) For each $a,b,c,d: A$ and
 $f: \mathrm{Hom}_C(a,b)$, $g: \mathrm{Hom}_C(b,c)$, $h: \mathrm{Hom}_C(c,d)$,
-$h \circ (g \circ f ) = (h \circ g) \circ f$.</p><code>isPrecategory (C: cat): U
-  = (id: (x: C.1) -> C.2 x x)
-  * (c: (x y z: C.1) -> C.2 x y -> C.2 y z -> C.2 x z)
-  * (homSet: (x y: C.1) -> isSet (C.2 x y))
-  * (left: (x y: C.1) -> (f: C.2 x y) -> Path (C.2 x y) (c x x y (id x) f) f)
-  * (right: (x y: C.1) -> (f: C.2 x y) -> Path (C.2 x y) (c x y y f (id y)) f)
-  * ( (x y z w: C.1) -> (f: C.2 x y) -> (g: C.2 y z) -> (h: C.2 z w) ->
-    Path (C.2 x w) (c x z w (c x y z f g) h) (c x y w f (c y z w g h)))
-
-carrier (C: precategory) : U
+$h \circ (g \circ f ) = (h \circ g) \circ f$.</p><code>carrier (C: precategory) : U
 hom     (C: precategory) (a b: carrier C) : U
 compose (C: precategory) (x y z: carrier C)
         (f: hom C x y) (g: hom C y z) : hom C x z

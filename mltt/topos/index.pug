@@ -87,6 +87,15 @@ block content
                     are objects defined by its $\mathrm{id}$ arrows $\mathrm{Hom}_C(x,x)$.
                     Properfies of left and right units included with composition c
                     and its associativity.
+                code.
+                    isPrecategory (C: cat): U
+                      = (id: (x: C.1) -> C.2 x x)
+                      * (c: (x y z: C.1) -> C.2 x y -> C.2 y z -> C.2 x z)
+                      * (homSet: (x y: C.1) -> isSet (C.2 x y))
+                      * (left: (x y: C.1) -> (f: C.2 x y) -> Path (C.2 x y) (c x x y (id x) f) f)
+                      * (right: (x y: C.1) -> (f: C.2 x y) -> Path (C.2 x y) (c x y y f (id y)) f)
+                      * ( (x y z w: C.1) -> (f: C.2 x y) -> (g: C.2 y z) -> (h: C.2 z w) ->
+                        Path (C.2 x w) (c x z w (c x y z f g) h) (c x y w f (c y z w g h)))
                 p.
                     <b>Definition</b> (Precategory). More formal, precategory $\mathrm{C}$ consists of the following.
                     (i) A type $\mathrm{Ob}_C$, whose elements are called objects;
@@ -101,15 +110,6 @@ block content
                     $f: \mathrm{Hom}_C(a,b)$, $g: \mathrm{Hom}_C(b,c)$, $h: \mathrm{Hom}_C(c,d)$,
                     $h \circ (g \circ f ) = (h \circ g) \circ f$.
                 code.
-                    isPrecategory (C: cat): U
-                      = (id: (x: C.1) -> C.2 x x)
-                      * (c: (x y z: C.1) -> C.2 x y -> C.2 y z -> C.2 x z)
-                      * (homSet: (x y: C.1) -> isSet (C.2 x y))
-                      * (left: (x y: C.1) -> (f: C.2 x y) -> Path (C.2 x y) (c x x y (id x) f) f)
-                      * (right: (x y: C.1) -> (f: C.2 x y) -> Path (C.2 x y) (c x y y f (id y)) f)
-                      * ( (x y z w: C.1) -> (f: C.2 x y) -> (g: C.2 y z) -> (h: C.2 z w) ->
-                        Path (C.2 x w) (c x z w (c x y z f g) h) (c x y w f (c y z w g h)))
-
                     carrier (C: precategory) : U
                     hom     (C: precategory) (a b: carrier C) : U
                     compose (C: precategory) (x y z: carrier C)
