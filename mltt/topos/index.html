@@ -37,14 +37,11 @@ Alexander Grothendieck proposed to use topology information on top of
 categorical information.</p><p>Second remarkable lineage take its root from Williame Lawvere (ETCS) and
 Myles Tierney. The main contribution is the reformulation of Grothendieck topology
 by using sobobject classifier, subclassing topology information from categorical
-structure of topos. Our aim is to show this substantiation.
-</p><h1>Category Theory</h1><p>We give here only minimal set of definitions needed for instantiating
-elementary topos of category of sets.
-</p><h2>Categorical Structure</h2><p><b>Definition</b> (Category Signature). The signature of category is
+structure of topos. Our aim is to show this substantiation.</p><p>We give here only minimal set of definitions needed for instantiating
+elementary topos of category of sets.</p><p><b>Definition</b> (Category Signature). The signature of category is
 a $\Sigma_{A:U}A \rightarrow A \rightarrow U$ where $U$ could be any universe.
 The $\mathrm{pr}_1$ projection is called $\mathrm{Ob}$ and $\mathrm{pr}_2$ projection is
-called $\mathrm{Hom}(a,b)$, where $a,b:\mathrm{Ob}$.</p><code>cat: U = (A: U) * (A -> A -> U)
-</code><h2>Category</h2><p>Precategory $\mathrm{C}$ defined as set of $\mathrm{Hom}_C(a,b)$ where $a,b:\mathrm{Ob}_C$
+called $\mathrm{Hom}(a,b)$, where $a,b:\mathrm{Ob}$.</p><code>cat: U = (A: U) * (A -> A -> U)</code><p>Precategory $\mathrm{C}$ defined as set of $\mathrm{Hom}_C(a,b)$ where $a,b:\mathrm{Ob}_C$
 are objects defined by its $\mathrm{id}$ arrows $\mathrm{Hom}_C(x,x)$.
 Properfies of left and right units included with composition c
 and its associativity.</p><code>isPrecategory (C: cat): U
@@ -68,11 +65,9 @@ $f: \mathrm{Hom}_C(a,b)$, $g: \mathrm{Hom}_C(b,c)$, $h: \mathrm{Hom}_C(c,d)$,
 $h \circ (g \circ f ) = (h \circ g) \circ f$.</p><code>carrier (C: precategory) : U
 hom     (C: precategory) (a b: carrier C) : U
 compose (C: precategory) (x y z: carrier C)
-        (f: hom C x y) (g: hom C y z) : hom C x z
-</code><h2>Terminal</h2><p><b>Definition</b> (Terminal Object). Is such object $\mathrm{Ob}_C$,
+        (f: hom C x y) (g: hom C y z) : hom C x z</code><p><b>Definition</b> (Terminal Object). Is such object $\mathrm{Ob}_C$,
 that $\Pi_{x,y:\mathrm{Ob}_C} \mathrm{isContr}(\mathrm{Hom}_C(y,x))$.</p><code>isTerminal (C: precategory) (y: carrier C): U = (x: carrier C) -> isContr (hom C x y)
-terminal   (C: precategory): U = (y: carrier C) * isTerminal C y
-</code><h2>Pullback</h2><p><b>Definition</b> (Categorical Pullback).</p><code>homTo  (C: precategory) (X: carrier C): U   = (Y: carrier C) * hom C Y X
+terminal   (C: precategory): U = (y: carrier C) * isTerminal C y</code><p><b>Definition</b> (Categorical Pullback).</p><code>homTo  (C: precategory) (X: carrier C): U   = (Y: carrier C) * hom C Y X
 cospan (C: precategory): U = (X: carrier C) * (_: homTo C X) * homTo C X
 
 hasCospanCone (C: precategory) (D: cospan C) (W: carrier C) : U
@@ -93,7 +88,7 @@ isPullback (C: precategory) (D: cospan C) (E: cospanCone C D) : U
   = (h: cospanCone C D) -> isContr (cospanConeHom C D h E)
 hasPullback (C: precategory) (D: cospan C) : U
   = (E: cospanCone C D) * isPullback C D E
-</code><br><h1>Set Theory</h1><h2>SET</h2><p>Here is given the $\infty$-groupoid model of sets.</p><p><b>Definition</b> ($\mathrm{SET}$).</p><code>data N = Z  | S (n: N)
+</code><br><h1>Set Theory</h1><p>Here is given the $\infty$-groupoid model of sets.</p><p><b>Definition</b> ($\mathrm{SET}$).</p><code>data N = Z  | S (n: N)
 
 n_grpd (A: U) (n: N): U = (a b: A) -> rec A a b n where
    rec (A: U) (a b: A) : (k: N) -> U
@@ -104,14 +99,11 @@ isProp  (A: U): U = n_grpd A Z
 isSet   (A: U): U = n_grpd A (S Z)
 
 PROP  : U = (X:U) * isProp X
-SET   : U = (X:U) * isSet X
-</code><h2>Pi Contractability</h2><p><b>Theorem</b> ($\Pi$-Contractability). if fiber is set thene
+SET   : U = (X:U) * isSet X</code><p><b>Theorem</b> ($\Pi$-Contractability). if fiber is set thene
 path space between any sections is contractible.</p><code>setPi  (A: U) (B: A -> U) (h: (x: A) -> isSet (B x)) (f g: Pi A B)
        (p q: Path (Pi A B) f g)
-     : Path (Path (Pi A B) f g) p q</code><h2>Sigma Contractability</h2><p><b>Theorem</b> ($\Sigma$-Contractability). if fiber is set then $\Sigma$ is set.</p><code>setSig (A:U) (B: A -> U) (sA: isSet A)
-       (sB : (x:A) -> isSet (B x)) : isSet (Sigma A B)
-</code><h2>Unit</h2><p><b>Theorem</b> ($1$ is a proposition).</p><code>propUnit : isProp unit</code><p><b>Theorem</b> ($1$ is a set).</p><code>setUnit : isSet unit
-</code><h2>Category of Sets</h2><p><b>Theorem</b> ($\mathrm{Set}$). Sets forms a Category.
+     : Path (Path (Pi A B) f g) p q</code><p><b>Theorem</b> ($\Sigma$-Contractability). if fiber is set then $\Sigma$ is set.</p><code>setSig (A:U) (B: A -> U) (sA: isSet A)
+       (sB : (x:A) -> isSet (B x)) : isSet (Sigma A B)</code><p><b>Theorem</b> ($1$ is a proposition).</p><code>propUnit : isProp unit</code><p><b>Theorem</b> ($1$ is a set).</p><code>setUnit : isSet unit</code><p><b>Theorem</b> ($\mathrm{Set}$). Sets forms a Category.
 All compositional theorems proved by using refleation rule of internal language.
 The proof that $\mathrm{Hom}$ forms a set is taken through $\Pi$-contractability.</p><code>Set: precategory = ((Ob,Hom),id,c,HomSet,L,R,Q) where
   Ob: U = SET
@@ -165,12 +157,10 @@ is a functor from opposite category to category of sets:
 $\mathrm{C}^{op} \rightarrow \mathrm{Set}$.</p><code>presheaf (C: precategory): U = catfunctor (opCat C) Set</code><p><b>Definition</b> (Grothendieck Topos). A category $\mathrm{C}$
 is called Grothendieck Topos if exists a site such that category of
 sheaves on $\mathrm{C}$ equals $\mathrm{C}$ or $\mathrm{Sh}(\mathrm{C},J)=\mathrm{C}$.
-In other words a topos is the category of sheaves $\mathrm{Sh}(\mathrm{C},J)$ on a site.
-</p><h2>Mono</h2><p><b>Definition</b> (Monomorphism).</p><code>mono (P: precategory) (Y Z: carrier P) (f: hom P Y Z): U
+In other words a topos is the category of sheaves $\mathrm{Sh}(\mathrm{C},J)$ on a site.</p><p><b>Definition</b> (Monomorphism).</p><code>mono (P: precategory) (Y Z: carrier P) (f: hom P Y Z): U
   = (X: carrier P) (g1 g2: hom P X Y)
  -> Path (hom P X Z) (compose P X Y Z g1 f) (compose P X Y Z g2 f)
- -> Path (hom P X Y) g1 g2
-</code><h2>Subobject Classifier</h2><p><b>Definition</b> (Subobject Classifier).</p><code>subobjectClassifier (C: precategory): U
+ -> Path (hom P X Y) g1 g2</code><p><b>Definition</b> (Subobject Classifier).</p><code>subobjectClassifier (C: precategory): U
   = (omega: carrier C)
   * (end: terminal C)
   * (trueHom: hom C end.1 omega)
@@ -180,8 +170,7 @@ In other words a topos is the category of sheaves $\mathrm{Sh}(\mathrm{C},J)$ on
   * ((V X: carrier C) (j: hom C V X) (k: hom C X omega)
     -> mono C V X j
     -> hasPullback C (omega,(end.1,trueHom),(X,k))
-    -> Path (hom C X omega) (xi V X j) k)</code><p><b>Theorem</b> (Category of Sets has Subobject Classifier).
-</p><h2>Cartesian Closure</h2><p><b>Definition</b> (Cartesian Closed Categories).
+    -> Path (hom C X omega) (xi V X j) k)</code><p><b>Theorem</b> (Category of Sets has Subobject Classifier).</p><p><b>Definition</b> (Cartesian Closed Categories).
 The category $\mathrm{C}$ is called cartesian closed if exists all:
 i) terminals; ii) products; iii) exponentials. Note that this definition
 lacks beta and eta rules which could be found in embedding $\mathrm{MLTT}$.</p><code>isCCC (C: precategory): U

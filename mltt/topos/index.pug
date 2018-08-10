@@ -66,13 +66,9 @@ block content
                     Myles Tierney. The main contribution is the reformulation of Grothendieck topology
                     by using sobobject classifier, subclassing topology information from categorical
                     structure of topos. Our aim is to show this substantiation.
-
-                h1 Category Theory
                 p.
                     We give here only minimal set of definitions needed for instantiating
                     elementary topos of category of sets.
-
-                h2 Categorical Structure
                 p.
                     <b>Definition</b> (Category Signature). The signature of category is
                     a $\Sigma_{A:U}A \rightarrow A \rightarrow U$ where $U$ could be any universe.
@@ -80,8 +76,6 @@ block content
                     called $\mathrm{Hom}(a,b)$, where $a,b:\mathrm{Ob}$.
                 code.
                     cat: U = (A: U) * (A -> A -> U)
-
-                h2 Category
                 p.
                     Precategory $\mathrm{C}$ defined as set of $\mathrm{Hom}_C(a,b)$ where $a,b:\mathrm{Ob}_C$
                     are objects defined by its $\mathrm{id}$ arrows $\mathrm{Hom}_C(x,x)$.
@@ -114,16 +108,12 @@ block content
                     hom     (C: precategory) (a b: carrier C) : U
                     compose (C: precategory) (x y z: carrier C)
                             (f: hom C x y) (g: hom C y z) : hom C x z
-
-                h2 Terminal
                 p.
                     <b>Definition</b> (Terminal Object). Is such object $\mathrm{Ob}_C$,
                     that $\Pi_{x,y:\mathrm{Ob}_C} \mathrm{isContr}(\mathrm{Hom}_C(y,x))$.
                 code.
                     isTerminal (C: precategory) (y: carrier C): U = (x: carrier C) -> isContr (hom C x y)
                     terminal   (C: precategory): U = (y: carrier C) * isTerminal C y
-
-                h2 Pullback
                 p.
                     <b>Definition</b> (Categorical Pullback).
                 code.
@@ -151,8 +141,6 @@ block content
 
                 br
                 h1 Set Theory
-
-                h2 SET
                 p.
                     Here is given the $\infty$-groupoid model of sets.
                 p.
@@ -170,8 +158,6 @@ block content
 
                     PROP  : U = (X:U) * isProp X
                     SET   : U = (X:U) * isSet X
-
-                h2 Pi Contractability
                 p.
                     <b>Theorem</b> ($\Pi$-Contractability). if fiber is set thene
                     path space between any sections is contractible.
@@ -179,14 +165,11 @@ block content
                     setPi  (A: U) (B: A -> U) (h: (x: A) -> isSet (B x)) (f g: Pi A B)
                            (p q: Path (Pi A B) f g)
                          : Path (Path (Pi A B) f g) p q
-                h2 Sigma Contractability
                 p.
                     <b>Theorem</b> ($\Sigma$-Contractability). if fiber is set then $\Sigma$ is set.
                 code.
                     setSig (A:U) (B: A -> U) (sA: isSet A)
                            (sB : (x:A) -> isSet (B x)) : isSet (Sigma A B)
-
-                h2 Unit
                 p.
                     <b>Theorem</b> ($1$ is a proposition).
                 code.
@@ -195,8 +178,6 @@ block content
                     <b>Theorem</b> ($1$ is a set).
                 code.
                     setUnit : isSet unit
-
-                h2 Category of Sets
                 p.
                     <b>Theorem</b> ($\mathrm{Set}$). Sets forms a Category.
                     All compositional theorems proved by using refleation rule of internal language.
@@ -283,8 +264,6 @@ block content
                     is called Grothendieck Topos if exists a site such that category of
                     sheaves on $\mathrm{C}$ equals $\mathrm{C}$ or $\mathrm{Sh}(\mathrm{C},J)=\mathrm{C}$.
                     In other words a topos is the category of sheaves $\mathrm{Sh}(\mathrm{C},J)$ on a site.
-
-                h2 Mono
                 p.
                     <b>Definition</b> (Monomorphism).
                 code.
@@ -292,8 +271,6 @@ block content
                       = (X: carrier P) (g1 g2: hom P X Y)
                      -> Path (hom P X Z) (compose P X Y Z g1 f) (compose P X Y Z g2 f)
                      -> Path (hom P X Y) g1 g2
-
-                h2 Subobject Classifier
                 p.
                     <b>Definition</b> (Subobject Classifier).
                 code.
@@ -310,8 +287,6 @@ block content
                         -> Path (hom C X omega) (xi V X j) k)
                 p.
                     <b>Theorem</b> (Category of Sets has Subobject Classifier).
-
-                h2 Cartesian Closure
                 p.
                     <b>Definition</b> (Cartesian Closed Categories).
                     The category $\mathrm{C}$ is called cartesian closed if exists all:
