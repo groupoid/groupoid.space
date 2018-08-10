@@ -76,15 +76,15 @@ block content
                 p.
                     <b>Definition</b> (Category Signature). The signature of category is
                     a $\Sigma_{A:U}A \rightarrow A \rightarrow U$ where $U$ could be any universe.
-                    The $\mathrm{pr}_1$ projection is called $\mathrm{Ob}$ and $\mathrm{pr}_2$ projection is
-                    called $\mathrm{Hom}(a,b)$, where $a,b:\mathrm{Ob}$.
+                    The $pr_1$ projection is called $Ob$ and $pr_2$ projection is
+                    called $Hom(a,b)$, where $a,b:Ob$.
                 code.
                     cat: U = (A: U) * (A -> A -> U)
 
                 h2 Category
                 p.
-                    Precategory $\mathrm{C}$ defined as set of $\mathrm{Hom}_C(a,b)$ where $a,b:\mathrm{Ob}_C$
-                    are objects defined by its $id$ arrows $\mathrm{Hom}_C(x,x)$.
+                    Precategory $C$ defined as set of $Hom_C(a,b)$ where $a,b:Ob_C$
+                    are objects defined by its $id$ arrows $Hom_C(x,x)$.
                     Properfies of left and right units included with composition c
                     and its associativity.
                 code.
@@ -104,8 +104,8 @@ block content
 
                 h2 Terminal
                 p.
-                    <b>Definition</b> (Terminal Object). Is such object $\mathrm{Ob}_C$,
-                    that $\Pi_{x,y:\mathrm{Ob}_C} isContr(\mathrm{Hom}_C(y,x))$.
+                    <b>Definition</b> (Terminal Object). Is such object $Ob_C$,
+                    that $\Pi_{x,y:Ob_C} isContr(Hom_C(y,x))$.
                 code.
                     isTerminal (C: precategory) (y: carrier C): U = (x: carrier C) -> isContr (hom C x y)
                     terminal   (C: precategory): U = (y: carrier C) * isTerminal C y
@@ -183,7 +183,7 @@ block content
 
                 h2 Category of Sets
                 p.
-                    <b>Theorem</b> ($\mathrm{Set}$). Sets forms a Category.
+                    <b>Theorem</b> ($Set$). Sets forms a Category.
                     All compositional theorems proved by using refleation rule of internal language.
                     The proof that Hom forms a set is taken through $\Pi$-contractability.
                 code.
@@ -235,9 +235,9 @@ block content
                 h2 Cartesian Closure
                 p.
                     <b>Definition</b> (Cartesian Closed Categories).
-                    The category $\mathbf{C}$ is called cartesian closed if exists all
+                    The category $C$ is called cartesian closed if exists all
                     products, terminals and exponentials. Note that this definition
-                    is lack beta and eta rules which could be found in embedding $\mathbf{MLTT}$.
+                    is lack beta and eta rules which could be found in embedding $MLTT$.
                 code.
                     isCCC (C: precategory): U
                       = (Exp:   (A B: carrier C) -> carrier C)
