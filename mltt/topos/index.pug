@@ -302,6 +302,14 @@ block content
                     $$
                 p.
                     <b>Definition</b> (Site). Site is a category having a coverage.
+                code.
+                    site (C: precategory): U = (C: precategory) * hasCoverage C
+                p.
+                    <b>Definition</b> (Presheaf). Presheaf of a category $\mathrm{C}$
+                    is a functor from opposite category to category of sets:
+                    $\mathrm{C}^{op} \rightarrow \mathrm{Set}$.
+                code.
+                    presheaf (C: precategory): U = catfunctor (opCat C) Set
                 p.
                     <b>Definition</b> (Grothendieck Topos). A category $\mathrm{C}$
                     is called Grothendieck Topos if exists a site such that category of
