@@ -274,7 +274,8 @@ block content
                     <b>Definition</b> (Coverage). A coverage is a function assigning
                     to each $\mathrm{Ob}_C$ the family of mprphisms ${f_i : U_i \rightarrow U}_{i\in I}$ called
                     covering families, such that for any $g: V \rightarrow U$ exist
-                    a covering family ${h:V_j \rightarrow V$ such that each composite $h_j \circ g$ factors some $f_i$:
+                    a covering family ${h:V_j \rightarrow V}_{j \in J}$ such that
+                    each composite $h_j \circ g$ factors some $f_i$:
                     $$
                     \def\mapright#1{\xrightarrow{{#1}}}
                     \def\mapdown#1{\Big\downarrow\rlap{\raise2pt{\scriptstyle{#1}}}}
@@ -282,7 +283,7 @@ block content
                     \def\mapdiagr#1{\vcenter{\swarrow}\rlap{\raise2pt{\scriptstyle{#1}}}}
                     \begin{array}{ccc}
                         V_j & \mapright{k} & U_i \\
-                         & \square $ \\
+                        \mapdown{} & \square & \mapdown{} \\
                         V & \mapright{g} & U \\
                     \end{array}
                     $$
