@@ -167,10 +167,10 @@ Coverage (C: precategory): U
   * (coverings: carrier C -> Delta C cod -> U)
   * (coverings cod fam)</code><p><b>Definition</b> (Site). Site is a category having a coverage.</p><code>site (C: precategory): U
   = (C: precategory)
-  * Coverage C</code><p><b>Definition</b> (Presheaf). Presheaf of a category $\mathrm{C}$
+  * Coverage C</code><p><b>Definition</b> (Presheaf, $\mathrm{PSh}$). Presheaf $\mathrm{PSh}$ of a category $\mathrm{C}$
 is a functor from opposite category to category of sets:
 $\mathrm{C}^{op} \rightarrow \mathrm{Set}$.</p><code>presheaf (C: precategory): U
-  = catfunctor (opCat C) Set</code><p><b>Definition</b> (Sheaf). Sheaf is a presheaf on a site.</p><code>sheaf (C: precategory): U
+  = catfunctor (opCat C) Set</code><p><b>Definition</b> (Sheaf, $\mathrm{Sheaf}$). Sheaf $\mathrm{Sh}$ is a presheaf on a site.</p><code>sheaf (C: precategory): U
   = (P: presheaf C)
   * site C</code><p><b>Definition</b> (Grothendieck Topos). A category $\mathrm{C}$
 is called Grothendieck Topos if exists a site such that category of
