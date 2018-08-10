@@ -145,7 +145,7 @@ is lack beta and eta rules which could be found in embedding $\mathrm{MLTT}$.</p
   * unit</code><p><b>Theorem</b> (Category of Sets has Cartesian Closure). As you can see
 from exp and pro we internalize $\Pi$ and $\Sigma$ types as $\mathrm{SET}$ instances,
 the $\mathrm{isSet}$ predicates are provided with contractability.
-Exitense of terminals is proved by $propPi$. The same technique you
+Exitense of terminals is proved by $\mathrm{propPi}$. The same technique you
 can find in $\mathrm{MLTT}$ embedding.</p><code>cartesianClosure : isCCC Set
   = (expo,prod,appli,proj1,proj2,term,tt) where
   exp (A B: SET): SET = (A.1   -> B.1, setFun A.1 B.1 B.2)
@@ -160,7 +160,21 @@ can find in $\mathrm{MLTT}$ embedding.</p><code>cartesianClosure : isCCC Set
   unitContr (x: SET) (f: x.1 -> unit) : isContr (x.1 -> unit)
     = (f, \(z: x.1 -> unit) -> propPi x.1 (\(_:x.1)->unit) (\(x:x.1) ->propUnit) f z)
   term: terminal Set = ((unit,setUnit),\(x: SET) -> unitContr x (\(z: x.1) -> tt))
-</code><h2>Elementary Topos</h2><p><b>Definition</b> (Elementary Topos). Topos.</p><code>Topos (cat: precategory)
+</code><h2>Grothendieck Topos</h2><p><b>Definition</b> (Coverage). A coverage is a function assigning
+to each $\mathrm{Ob}_C$ the family of mprphisms ${f_i : U_i \rightarrow U}_{i\in I}$ called
+covering families, such that for any $g: V \rightarrow U$ exist
+a covering family ${h:V_j \rightarrow V$ such that each composite $h_j \circ g$ factors some $f_i$:
+$$
+\begin{array}{ccc}
+    V_j & \mapright{k} & U_i \\
+     & \square $ \\
+    V & \mapright{g} & U \\
+\end{array}
+$$</p><p><b>Definition</b> (Site). Site is a category having a coverage.</p><p><b>Definition</b> (Grothendieck Topos). A category $\mathrm{C}$
+is called Grothendieck Topos if exists a $\mathrm{Site}(\mathrm{C},J)$ such that
+$\mathrm{Sh}(\mathrm{C},J)=\mathrm{C}$. In other words
+a topos is the category $\mathrm{Sh}(\mathrm{C},J) of sheaves on a site C.
+</p><h2>Elementary Topos</h2><p><b>Definition</b> (Elementary Topos). Topos.</p><code>Topos (cat: precategory)
   : U
   = (cartesianClosure: isCCC cat)
   * subobjectClassifier cat</code><p><b>Theorem</b> (Category of Sets forms a Topos).</p><code>internal
