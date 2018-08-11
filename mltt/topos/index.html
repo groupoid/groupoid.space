@@ -23,16 +23,12 @@ Set Topos instance in <a href="https://homotopytypetheory.org/2017/09/16/a-hands
 As for base library this is a chance to unvail the simplicity
 for the domain of intersection of: category
 theory, set theory, and topos theory.</p><p>Disputed foundations for set theory could be taken as:
-ZFC, NBG, ETCS, Topoi. The motivation for topos theory for us
-is the localization modality, and geometric morphisms of sheaf topoi.
-As a free cocompletion, presheaf categories includes categorical model of sets
-as presheaf is a functor from opposite ctegory to category of sets.</p><p>We will disctinct syntetically: i) category theory;
-ii) set theory in univalent foundations; iii) topos theory for formulating
-geometric moriphisms between grothendieck topoi and elementary topos
-on category of sets.</p><p>One can admit two topos theory lineages. One lineage takes its roots from published
+ZFC, NBG, ETCS, Topos Theory. We will disctinct syntetically: i) category theory;
+ii) set theory in univalent foundations; iii) topos theory, grothendieck topos,
+elementary topos, category of topoi with geometric morphisms.</p><p>One can admit two topos theory lineages. One lineage takes its roots from published
 by Jean Leray in 1945 initial work on sheaves and specral sequences. Later this lineage
 was developed by Henri Paul Cartan, André Weil. The peak of lineage was settled
-with works by Jean-Pierre Serre, Alexander Grothendieck, and Roger Godement.</p><p>Second remarkable lineage take its root from William Lawvere (ETCS) and
+with works by Jean-Pierre Serre, Alexander Grothendieck, and Roger Godement.</p><p>Second remarkable lineage take its root from William Lawvere and
 Myles Tierney. The main contribution is the reformulation of Grothendieck topology
 by using sobobject classifier.</p><p>We give here only minimal set of definitions needed for instantiating
 elementary topos of category of sets. Also very brief examination of
@@ -140,9 +136,9 @@ Definition full     (A: Type) := fun x : A => True.</code><p>For fully functiona
 the Coq library <a href="https://github.com/verimath/topology">topology</a> by
 Daniel Schepler.
 </p><h2>Grothendieck Topos</h2><p><b>Definition</b> (Coverage). A coverage is a function assigning
-to each $\mathrm{Ob}_C$ the family of morphisms ${f_i : U_i \rightarrow U}_{i\in I}$ called
+to each $\mathrm{Ob}_C$ the family of morphisms $\{f_i : U_i \rightarrow U \}_{i\in I}$ called
 covering families, such that for any $g: V \rightarrow U$ exist
-a covering family ${h:V_j \rightarrow V}_{j \in J}$ such that
+a covering family $\{h:V_j \rightarrow V\}_{j \in J}$ such that
 each composite $h_j \circ g$ factors some $f_i$:
 $$
 \def\mapright#1{\xrightarrow{{#1}}}
@@ -166,7 +162,7 @@ Coverage (C: precategory): U
   = (cod: carrier C)
   * (fam: Delta C cod)
   * (coverings: carrier C -> Delta C cod -> U)
-  * (coverings cod fam)</code><p><b>Definition</b> (Site). Site is a category having a coverage.</p><code>site (C: precategory): U
+  * (coverings cod fam)</code><p><b>Definition</b> (Grothendieck Topology).</p><p><b>Definition</b> (Site). Site is a category having a coverage.</p><code>site (C: precategory): U
   = (C: precategory)
   * Coverage C</code><p><b>Definition</b> (Presheaf, $\mathrm{PSh}$). Presheaf $\mathrm{PSh}$ of a category $\mathrm{C}$
 is a functor from opposite category to category of sets:
