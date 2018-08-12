@@ -30,7 +30,7 @@
 
 \begin{document}
 
-\title{Lecture Notes for HoTT Course}
+\title{Mathematical Components}
 \author{Maxim Sokhatsky}
 \date{
     $^1$ National Technical University of Ukraine \\
@@ -105,17 +105,33 @@ exp := cotele*exp + cotele$\rightarrow$exp + exp$\rightarrow$exp + (exp) + app +
 
 Note that the syntax lacks HITs as for this chapter we don't need ones.
 
+\subsection*{Run Type Checker}
 
+\begin{lstlisting}
+$ cubical pi.ctt
+> :n Pi
+NORMEVAL: \(A : U) -> \(B : A -> U) -> (x : A) -> B x
+\end{lstlisting}
 
 \newpage
 \section{Martin-Löf Type Theory}
 
-Martin-Löf Type Theory contains Pi, Sigma, Id, Nat, List types.
+Martin-Löf Type Theory (MLTT) contains $\Pi$, $\Sigma$, Id, W, Nat, List types.
 Id types were added in 1984 while original MLTT was introduced in 1972.
-Now Id types are treated as heterogeneous Path interval types.
+Predicative Universe Hierarchy was added in 1975.
+Despite original MLTT contains Id types that preserve uniquness of identity
+proofs (UIP), we introduce here homotopical univalent heterogeneous Path
+interval types with higher equalities ($\infty$-Groupoid interpretation).
+Thus, allowing to proof all the MLTT rules as a whole by using reflection rule, connections and path applications.
 
 \subsection{Pi}
 
+$\Pi$ is a dependent function type, the generalization of functions.
+As a function it can serve the wide range of mathematical constructions,
+objects, types, or spaces: sets, functions, polynomial functors, $\infty$-groupoids,
+topological $\infty$-groupoid, cw-complexes,
+categories, languages, etc. We give here immediate  isomorphism of $\Pi$ types,
+the fibrations or fiber bundles. The next isomorphism of functions are functors.
 
 \begin{definition} (Formation).
 \begin{lstlisting}
@@ -155,20 +171,12 @@ Eta (A: U) (B: A -> U) (a: A) (f: A -> B a)
 
 \subsubsection*{Examples from Mathematics}
 
-Pi is a dependent function type, the generalization of functions.
-As a function it can serve the wide range of mathematical constructions,
-objects, types, or spaces. The known domain and codomain spaces could be:
-sets, functions, polynomial functors, $\infty$-groupoids,
-topological $\infty$-groupoid, cw-complexes,
-categories, languages, etc. We give here immediate  isomorphism of Pi types,
-the fibrations or fiber bundles.
-
-The adjoints Pi and Sigma is not the only adjoints could be presented in type system.
+The adjoints $\Pi$ and $\Sigma$ is not the only adjoints could be presented in type system.
 Axiomatic cohesions could contain a set of adjoint pairs as a core type checker operations.
 
-Geometrically, Pi type is a space of sections, while the dependent codomain is a space of fibrations.
+Geometrically, $\Pi$ type is a space of sections, while the dependent codomain is a space of fibrations.
 Lambda functions are sections or points in these spaces, while the function result is a fibration.
-Pi type also represents the cartesian family of sets, generalizing the cartesian product of sets.
+$\Pi$ type also represents the cartesian family of sets, generalizing the cartesian product of sets.
 
 \begin{definition} (Section).
 A section of morphism $f: A \rightarrow B$ in some category is the morphism $g: B \rightarrow A$
@@ -227,7 +235,6 @@ of this bundle is the Dependent Product:
 $$ \Gamma_\Sigma(E) = \Pi_\Sigma (E) \in \mathbf{H}. $$
 \end{definition}
 
-
 \begin{theorem} (Functions Preserve Paths).
 For a function $f: (x:A) \rightarrow B(x)$
 there is an $ap_f : Path_A(x,y) \rightarrow Path_{B(x)}(f(x),f(y))$. This is called
@@ -269,16 +276,19 @@ piIsContr (A: U) (B: A -> U) (u: isContr A)
 \end{lstlisting}
 \end{theorem}
 
+\newpage
 \subsection{Sigma}
+
+$\Sigma$ is a dependent product type, the generalization of products.
+$\Sigma$ type is a total space of fibration. Element of total
+space is formed as a pair of basepoint and fibration. Also,
+$\Sigma$ types is used to represent fiber space indexed by point in a base.
 
 \begin{definition} (Formation).
 \begin{lstlisting}
 Sigma (A : U) (B : A -> U) : U = (x : A) * B x
 \end{lstlisting}
 \end{definition}
-Sigma is a dependent product type, the generalization of products.
-Sigma type is a total space of fibration. Element of total
-space is formed as a pair of basepoint and fibration.
 
 \begin{definition} (Introduction).
 \begin{lstlisting}
@@ -322,6 +332,7 @@ Eta12 (A: U) (B: A -> U) (p: Sigma A B)
 \end{lstlisting}
 \end{definition}
 
+\newpage
 \subsubsection*{Examples from Mathematics}
 
 \begin{definition} (Dependent Sum).
@@ -350,6 +361,13 @@ total (A:U) (B C: A -> U)
 \end{lstlisting}
 \end{theorem}
 
+\begin{theorem} ($\Sigma$-Contractability). If the fiber is set then the $\Sigma$ is set.
+\begin{lstlisting}
+setSig (A:U) (B: A -> U) (sA: isSet A)
+       (sB : (x:A) -> isSet (B x)) : isSet (Sigma A B)
+\end{lstlisting}
+\end{theorem}
+
 \begin{theorem} (Path Between Sigmas).
 Path between two sigmas $t,u: \Sigma(A,B)$ could be decomposed to
 sigma of two paths $p:t_1=_{A}u_1)$ and $(t_2=_{B(p@i)}u_2)$.
@@ -365,12 +383,12 @@ pathSig (A:U) (B : A -> U) (t u : Sigma A B)
 
 The Path identity type defines a Path space with elements and values.
 Elements of that space are functions from interval $[0,1]$ to a values of that path space.
-This ctt file reflects \footnote{https://arxiv.org/pdf/1611.02108.pdf, Cohen, Coquand, Huber, M{\"{o}}rtberg (2015)}{CCHM} cubicaltt model with connections.
-For \footnote{https://guillaumebrunerie.github.io/pdf/cart-cube.pdf, Angiuli, Brunerie, Coquand, Favonia, Harper, Licata (2017)}{ABCFHL} yacctt model with
+This ctt file reflects \footnote{Cyril Cohen, Thierry Coquand, Simon Huber, Anders M{\"{o}}rtberg. Cubical Type Theory: a constructive interpretation of the univalence axiom. 2015. \url{https://5ht.co/cubicaltt.pdf}}{CCHM} cubicaltt model with connections.
+For \footnote{Carlo Angiuli, Brunerie, Coquand, Kuen-Bang Hou (Favonia), Robert Harper, Dan Licata. Cartesian Cubical Type Theory. 2017. \url{https://5ht.co/cctt.pdf}}{ABCFHL} yacctt model with
 variables please refer to ytt file. You may also want to
-read \footnote{http://www.cse.chalmers.se/~coquand/mod1.pdf, Bezem, Coquand, Huber (2014)}{BCH},
-\footnote{https://www.cs.cmu.edu/\~cangiuli/papers/ccctt.pdf, Angiuli, Favonia, Harper (2018)}{AFH}.
-There is a \footnote{https://arxiv.org/pdf/1712.04864.pdf, Pitts, Orton (2016)}{PO} paper about CCHM axiomatic in a topos.
+read \footnote{Marc Bezem, Thierry Coquand, Robert Huber. A model of type theory in cubical sets. 2014. \url{http://www.cse.chalmers.se/~coquand/mod1.pdf}}{BCH},
+\footnote{Carlo Angiuli, Kuen-Bang Hou (Favonia), Robert Harper. Cartesian Cubical Computational Type Theory: Constructive Reasoning with Paths and Equalities. 2018. \\ \url{https://www.cs.cmu.edu/~cangiuli/papers/ccctt.pdf}}{AFH}.
+There is a \footnote{Andrew Pitts, Ian Orton. Axioms for Modelling Cubical Type Theory in a Topos. 2016. \url{https://arxiv.org/pdf/1712.04864.pdf}}{PO} paper about CCHM axiomatic in a topos.
 
 \begin{definition} (Formation).
 \begin{lstlisting}
@@ -438,6 +456,29 @@ connection2 (A: U) (a b: A) (p: Path A a b)
 \end{lstlisting}
 \end{definition}
 
+\begin{definition} (Composition).
+Composition operation allows to build a new path by given to paths
+in a connected point. The proofterm is $comp (<i>Path A a (q@i)) p []$.
+\begin{center}
+\begin{tikzpicture}
+  \matrix (m) [matrix of math nodes,row sep=3em,column sep=3em,minimum width=3em]
+  {
+     a & c \\ % (1,1) (1,2)
+     a & b \\ % (2,1) (2,2)
+  };
+  \path[-stealth]
+    (m-1-1) edge node [above] {$comp$} (m-1-2)
+    (m-2-1) edge node [left]  {$\lambda(i:I)\rightarrow a$} (m-1-1)
+    (m-2-2) edge node [right] {$q$} (m-1-2)
+    (m-2-1) edge node [above] {$p @ i$} (m-2-2);
+\end{tikzpicture}
+\end{center}
+\begin{lstlisting}
+composition (A: U) (a b c: A)
+            (p: Path A a b) (q: Path A b c) : Path A a c
+\end{lstlisting}
+\end{definition}
+
 \begin{theorem} (Congruence).
 Is a map between values of one type
 to path space of another type by an encode function between types.
@@ -465,28 +506,6 @@ trans (A B: U) (p: Path U A B) (a: A) : B
 \end{lstlisting}
 \end{theorem}
 
-\begin{definition} (Composition).
-Composition operation allows to build a new path by given to paths
-in a connected point. The proofterm is $comp (<i>Path A a (q@i)) p []$.
-\begin{center}
-\begin{tikzpicture}
-  \matrix (m) [matrix of math nodes,row sep=3em,column sep=3em,minimum width=3em]
-  {
-     a & c \\ % (1,1) (1,2)
-     a & b \\ % (2,1) (2,2)
-  };
-  \path[-stealth]
-    (m-1-1) edge node [above] {$comp$} (m-1-2)
-    (m-2-1) edge node [left]  {$\lambda(i:I)\rightarrow a$} (m-1-1)
-    (m-2-2) edge node [right] {$q$} (m-1-2)
-    (m-2-1) edge node [above] {$p @ i$} (m-2-2);
-\end{tikzpicture}
-\end{center}
-\begin{lstlisting}
-composition (A: U) (a b c: A)
-            (p: Path A a b) (q: Path A b c) : Path A a c
-\end{lstlisting}
-\end{definition}
 
 \begin{theorem} (Eliminator, Paulin-Mohring).
 J is formulated in a form of Paulin-Mohring and implemented using
