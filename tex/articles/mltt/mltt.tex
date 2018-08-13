@@ -46,8 +46,8 @@
 
 Each language implementation needs to be checked. The one of possible test cases
 for cubical type checkers is the direct embedding of type theory model intro the language of type checker.
-As Martin-Löf Type Theory is formulated using 5 types of rules, we construct aliases
-for host language primitives and use type checker to prove theorems about itself.
+As types in Martin-Löf Type Theory are formulated using 5 rules, we construct aliases
+for host language primitives and use type checker to prove theorems about its core types.
 
 This could be seen as ultimate test sample for type checker as
 intro-elimination fusion resides in beta-eta rules, so by proving them
@@ -63,7 +63,7 @@ we prove properties of the host type checker.
 
 Each language implementation needs to be checked. The one of possible test cases
 for cubical type checkers is the direct embedding of type theory model intro the language of type checker.
-As Martin-Löf Type Theory is formulated using 5 types of rules, we construct aliases
+As types in Martin-Löf Type Theory are formulated using 5 rules, we construct aliases
 for host language primitives and use type checker to prove theorems about itself.
 
 This could be seen as ultimate test sample for type checker as
@@ -71,7 +71,7 @@ intro-elimination fusion resides in beta-eta rules, so by proving them
 we prove properties of the host type checker.
 
 This technique of direct embedding of the model into the type checker primitives
-was also used by authors to prove that Category of Sets is Cartesian Closed.
+was also used to prove that Category of Sets is Cartesian Closed.
 
 \subsection*{Cubical Syntax}
 
@@ -104,12 +104,17 @@ Note that the syntax lacks HITs as for this article we don't need ones.
 \section{Martin-Löf Type Theory}
 
 Martin-Löf Type Theory (MLTT) contains $\Pi$, $\Sigma$, Id, W, Nat, List types.
-Id types were added in 1984 while original MLTT was introduced in 1972.
-Predicative Universe Hierarchy was added in 1975.
-Despite original MLTT contains Id types that preserve uniquness of identity
+For simplicity we wouldn't take into account W, Nat, List types as
+W type could be encoded through $\Sigma$ and Nat/List through W.
+Despite $\Sigma$ types could be encoded through $\Pi$ we include $\Sigma$ type into the MLTT model.
+
+The most interesting are Id types. Id types were added in \footnote{P. Martin-Löf, G. Sambin. Intuitionistic type theory. 1984.}{1984} while original MLTT was introduced in \footnote{P. Martin-Löf, G. Sambin. The Theory of Types. 1972.}{1972}.
+Predicative Universe Hierarchy was added in \footnote{P. Martin-Löf. An intuitionistic theory of types: predicative part. 1975.}{1975}.
+While original MLTT contains Id types that preserve uniquness of identity
 proofs (UIP), we introduce here homotopical univalent heterogeneous Path
-interval types with higher equalities ($\infty$-Groupoid interpretation).
-Thus, allowing to proof all the MLTT rules as a whole by using reflection rule, connections and path applications.
+interval types with higher equalities (\footnote{M. Hofmann, T. Streicher. The groupoid interpretation of type theory. 1996.}{$\infty$-Groupoid interpretation}).
+Path types are essential to prove computation and uniquness rules for all types,
+so we will be able to prove all the MLTT rules as a whole.
 
 \subsection{Pi}
 
@@ -571,9 +576,10 @@ Note that  Path type has no Eta rule due to groupoid interpretation.
 
 \newpage
 \subsection{MLTT}
+Here we combine 4 Path rules (no eta), 5 $\Pi$ rules, and 6 $\Sigma$ rules (two elims).
 \begin{definition} (MLTT).
 The MLTT as a Type is defined by taking all rules
-for $\Pi$, $\Sigma$ and Path type into one $\Sigma$-chain.
+for $\Pi$, $\Sigma$ and Path types into one $\Sigma$ telescope or context.
 \begin{lstlisting}[mathescape=true]
 MLTT (A: U): U
   = (Pi_Former: (A -> U) -> U)
@@ -602,7 +608,7 @@ MLTT (A: U): U
 \end{lstlisting}
 \end{definition}
 
-\begin{theorem} (Sound Check).
+\begin{theorem} (Model Check).
 There is an instance of MLTT.
 \begin{lstlisting}
 instance (A: U): MLTT A
@@ -612,7 +618,7 @@ instance (A: U): MLTT A
 \end{lstlisting}
 \end{theorem}
 
-\subsection*{MLTT Model Check}
+\subsection*{Cubical Model Check}
 
 The result of the work is a |mltt.ctt| file which can be runned using |cubicaltt|.
 Note that computation rules take a seconds to type check.
