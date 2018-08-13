@@ -55,16 +55,16 @@ we prove properties of the host type checker.
 
 {\bf Keywords}: Cubical Type Theory, Martin-Löf Type Theory
 \end{abstract}
-
-\newpage
+\vspace{4cm}
 \tableofcontents
+\newpage
 
 \section*{Intro}
 
 Each language implementation needs to be checked. The one of possible test cases
 for cubical type checkers is the direct embedding of type theory model intro the language of type checker.
-As types in Martin-Löf Type Theory are formulated using 5 rules, we construct aliases
-for host language primitives and use type checker to prove theorems about itself.
+As types in Martin-Löf Type Theory (MLTT) are formulated using 5 rules, we construct aliases
+for host language primitives and use type checker to prove that it is MLTT.
 
 This could be seen as ultimate test sample for type checker as
 intro-elimination fusion resides in beta-eta rules, so by proving them
@@ -124,6 +124,7 @@ objects, types, or spaces: sets, functions, polynomial functors, infinitesimals,
 topological $\infty$-groupoid, CW-complexes,
 categories, languages, etc. We give here nearest isomorphism of $\Pi$-types,
 the fibrations or fiber bundles. The next isomorphism of functions are functors.
+The most notable application of $\Pi$ type in mathematics is the $\forall$ quantifier as its synonym in higher order logic.
 
 \begin{definition} ($\Pi$-Formation).
 \begin{lstlisting}
@@ -375,7 +376,7 @@ Elements of that space are functions from interval $[0,1]$ to a values of that p
 This ctt file reflects \footnote{Cyril Cohen, Thierry Coquand, Simon Huber, Anders M{\"{o}}rtberg. Cubical Type Theory: a constructive interpretation of the univalence axiom. 2015. \url{https://5ht.co/cubicaltt.pdf}}{CCHM} cubicaltt model with connections.
 For \footnote{Carlo Angiuli, Brunerie, Coquand, Kuen-Bang Hou (Favonia), Robert Harper, Dan Licata. Cartesian Cubical Type Theory. 2017. \url{https://5ht.co/cctt.pdf}}{ABCFHL} yacctt model with
 variables please refer to ytt file. You may also want to
-read \footnote{Marc Bezem, Thierry Coquand, Robert Huber. A model of type theory in cubical sets. 2014. \url{http://www.cse.chalmers.se/~coquand/mod1.pdf}}{BCH},
+read \footnote{Marc Bezem, Thierry Coquand, Simon Huber. A model of type theory in cubical sets. 2014. \url{http://www.cse.chalmers.se/~coquand/mod1.pdf}}{BCH},
 \footnote{Carlo Angiuli, Kuen-Bang Hou (Favonia), Robert Harper. Cartesian Cubical Computational Type Theory: Constructive Reasoning with Paths and Equalities. 2018. \\ \url{https://www.cs.cmu.edu/~cangiuli/papers/ccctt.pdf}}{AFH}.
 There is a \footnote{Andrew Pitts, Ian Orton. Axioms for Modelling Cubical Type Theory in a Topos. 2016. \url{https://arxiv.org/pdf/1712.04864.pdf}}{PO} paper about CCHM axiomatic in a topos.
 

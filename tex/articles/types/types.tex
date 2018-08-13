@@ -32,7 +32,7 @@
 
 \begin{document}
 
-\title{Direct Embedding of Martin-Löf Type Theory \\into the Cubical Type Checkers}
+\title{Mathematical Components}
 \author{Maxim Sokhatsky}
 \date{
     $^1$ National Technical University of Ukraine \\
@@ -55,8 +55,7 @@ we prove properties of the host type checker.
 
 {\bf Keywords}: Cubical Type Theory, Martin-Löf Type Theory
 \end{abstract}
-
-\newpage
+\vspace{2cm}
 \tableofcontents
 
 \section*{Intro}
@@ -65,13 +64,30 @@ Each language implementation needs to be checked. The one of possible test cases
 for cubical type checkers is the direct embedding of type theory model intro the language of type checker.
 As Martin-Löf Type Theory is formulated using 5 types of rules, we construct aliases
 for host language primitives and use type checker to prove theorems about itself.
-
 This could be seen as ultimate test sample for type checker as
 intro-elimination fusion resides in beta-eta rules, so by proving them
 we prove properties of the host type checker.
-
 This technique of direct embedding of the model into the type checker primitives
 was also used by authors to prove that Category of Sets is Cartesian Closed.
+
+The types used in this course is founded on top of cubical modules
+each falling into one of 15 categories:
+
+(i) MLTT Types: pi, sigma, path;
+(ii) Set Theory: prop, set, ordinal, hedberg;
+(iii) Run-Time Inductive Types: proto, maybe, bool, nat, list, stream, vector;
+(iv) Abstract Algebra: algebra;
+(v) Control Structures: control;
+(vi) Recursion Schemes: recursion;
+(vii) Univalent Foundations: equiv, retract, iso, univ;
+(viii) Higher Inductive Types: interval, interval, s1, s2, pullback, pushout, suspension, quotient, trunc;
+(ix) Process Calculus: process;
+(x) Category Theory and Topos Theory: cat, fun, sip, adj, ump, cones, topos, category;
+(xi) Contextual Categories: cwf, csystem;
+(xii) Languages: mltt, infinity;
+(xiii) Algebraic Geometry: pointed, euler, seq, hopf, cw;
+(xiv) Cartan Geometry in Cohesive Topos: infinitesimal, etale, manifold, bundle, shape, sharp;
+(xv) K-Theory: k\_theory, swaptrans, bishop, subtype;
 
 \subsection*{Cubical Syntax}
 
@@ -97,8 +113,6 @@ exp := cotele*exp + cotele$\rightarrow$exp + exp$\rightarrow$exp + (exp) + app +
  codec := def dec        mod    := ${\bf module}$ id ${\bf where}$ imp dec
    dec := 0 + codec      cobrs  := | br brs
 \end{lstlisting}
-
-Note that the syntax lacks HITs as for this article we don't need ones.
 
 \newpage
 \section{Martin-Löf Type Theory}
@@ -370,7 +384,7 @@ Elements of that space are functions from interval $[0,1]$ to a values of that p
 This ctt file reflects \footnote{Cyril Cohen, Thierry Coquand, Simon Huber, Anders M{\"{o}}rtberg. Cubical Type Theory: a constructive interpretation of the univalence axiom. 2015. \url{https://5ht.co/cubicaltt.pdf}}{CCHM} cubicaltt model with connections.
 For \footnote{Carlo Angiuli, Brunerie, Coquand, Kuen-Bang Hou (Favonia), Robert Harper, Dan Licata. Cartesian Cubical Type Theory. 2017. \url{https://5ht.co/cctt.pdf}}{ABCFHL} yacctt model with
 variables please refer to ytt file. You may also want to
-read \footnote{Marc Bezem, Thierry Coquand, Robert Huber. A model of type theory in cubical sets. 2014. \url{http://www.cse.chalmers.se/~coquand/mod1.pdf}}{BCH},
+read \footnote{Marc Bezem, Thierry Coquand, Simon Huber. A model of type theory in cubical sets. 2014. \url{http://www.cse.chalmers.se/~coquand/mod1.pdf}}{BCH},
 \footnote{Carlo Angiuli, Kuen-Bang Hou (Favonia), Robert Harper. Cartesian Cubical Computational Type Theory: Constructive Reasoning with Paths and Equalities. 2018. \\ \url{https://www.cs.cmu.edu/~cangiuli/papers/ccctt.pdf}}{AFH}.
 There is a \footnote{Andrew Pitts, Ian Orton. Axioms for Modelling Cubical Type Theory in a Topos. 2016. \url{https://arxiv.org/pdf/1712.04864.pdf}}{PO} paper about CCHM axiomatic in a topos.
 
@@ -628,68 +642,100 @@ user    0m6.278s
 sys     0m0.014s
 \end{lstlisting}
 
-%\section{Inductive Types}
-%\subsection{Empty}
-%\subsection{Unit}
-%\subsection{Bool}
-%\subsection{Either}
-%\subsection{Nat}
-%\subsection{List}
-%\subsection{Fin}
-%\subsection{Vector}
+\section{Inductive Types}
+\subsection{Empty}
+\subsection{Unit}
+\subsection{Bool}
+\subsection{Either}
+\subsection{Nat}
+\subsection{List}
+\subsection{Fin}
+\subsection{Vector}
 
-%\section{Homotopy Type Theory}
-%\subsection{n-Types}
-%\subsection{Functional Extensionality}
+\section{Homotopy Type Theory}
+\subsection{Functional Extensionality}
+\begin{definition} (Formation).
+\end{definition}
 
-%\begin{definition} (Formation).
-%\end{definition}
+\begin{theorem} (Introduction).
+\end{theorem}
 
-%\begin{theorem} (Introduction).
-%\end{theorem}
+\begin{theorem} (Elimination).
+\end{theorem}
 
-%\begin{theorem} (Elimination).
-%\end{theorem}
+\begin{theorem} (Computation).
+\end{theorem}
 
-%\begin{theorem} (Computation).
-%\end{theorem}
+\begin{theorem} (Uniqueness).
+\end{theorem}
+\subsection{n-Types}
+\subsection{Loop Space}
+\subsection{Pointed Types}
 
-%\begin{theorem} (Uniqueness).
-%\end{theorem}
+\subsection{Univalence}
 
-%\subsection{Univalence}
+\begin{definition} (Formation).
+\end{definition}
 
-%\begin{definition} (Formation).
-%\end{definition}
+\begin{theorem} (Introduction).
+\end{theorem}
 
-%\begin{theorem} (Introduction).
-%\end{theorem}
+\begin{theorem} (Elimination).
+\end{theorem}
 
-%\begin{theorem} (Elimination).
-%\end{theorem}
+\begin{theorem} (Computation).
+\end{theorem}
 
-%\begin{theorem} (Computation).
-%\end{theorem}
+\begin{theorem} (Uniqueness).
+\end{theorem}
 
-%\begin{theorem} (Uniqueness).
-%\end{theorem}
+\subsection{Homotopy Group}
 
-%\section{Higher Inductive Types}
-%\subsection{Interval}
-%\subsection{$S^1$}
-%\subsection{Pullback}
-%\subsection{Pushout}
-%\subsection{Truncation}
-%\subsection{Quotient}
-%\subsection{Loop Space}
-%\subsection{Homotopy Group}
-%\section{Cohesive Type Theory}
-%\subsection{Fundametal $\infty$-Groupoid}
-%\subsection{Infinitesimal Modality}
-%\subsection{Sharp Modality}
-%\subsection{Formal Disc}
-%\subsection{Etale Maps}
-%\subsection{Manifolds}
+\section{Higher Inductive Types}
+
+CW-complexes are fundamental objects in homotopy type theory
+and even included inside cubical type checker in a form of
+higher (co)-inductive types (HITs).
+Just like regular (co)-inductive types could be described as recursive
+terminating (well-founded) or non-terminating trees,
+higher inductive types could be described as CW-complexes.
+Defining HIT means to define some CW-complex
+directly using cubical homogeneous composition structure as an
+element of initial algebra inside cubical model.
+
+\subsection{Interval}
+\subsection{Pullback}
+\subsection{Pushout}
+\subsection{Suspension}
+\subsection{Truncation}
+\subsection{Quotient}
+\subsection{Hopf Fibration}
+
+\section{Cagegory Theory}
+\subsection{Category}
+\subsection{Functor}
+\subsection{Adjunction}
+\subsection{Natural Transformation}
+\subsection{Pullback}
+\subsection{Slice}
+\subsection{Terminals}
+
+\section{Topos Theory}
+\subsection{Topology}
+\subsection{Coverage}
+\subsection{Grothendieck Topology}
+\subsection{Grothendieck Topos}
+\subsection{Elementary Topos}
+\subsection{Geometric Morphism}
+\subsection{Category of Topoi}
+
+\section{Cohesive Type Theory}
+\subsection{Fundametal $\infty$-Groupoid}
+\subsection{Infinitesimal Modality}
+\subsection{Sharp Modality}
+\subsection{Formal Disc}
+\subsection{Etale Maps}
+\subsection{Manifolds}
 
 %\newpage
 \bibliographystyle{plain}
