@@ -27,7 +27,7 @@ contains basic theorems about Pi types.
 Pi type is built in core of any dependent type checker.
 Type checkers with Pi only type are called Pure Type Systems.
 See <a href="https://groupoid.space/pts/pure">OM</a> language for
-our Erlang implementation.</p><code>Pi (A: U) (P: B -> U): U
+our Erlang implementation.</p><code>Pi (A: U) (B: A -> U): U
  = (x: A) -> B x</code><p>Pi is a dependent function type, the generalization of functions.
 As a function it can serve the wide range of mathematical constructions,
 objects, types, or spaces. The known domain and codomain spaces could be:
