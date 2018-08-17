@@ -312,18 +312,28 @@ block content
                       = (C: precategory)
                       * Coverage C
                 p.
-                    <b>Definition</b> (Presheaf, $\mathrm{PSh}$). Presheaf $\mathrm{PSh}$ of a category $\mathrm{C}$
+                    <b>Definition</b> (Presheaf). Presheaf of a category $\mathrm{C}$
                     is a functor from opposite category to category of sets:
                     $\mathrm{C}^{op} \rightarrow \mathrm{Set}$.
+                p.
+                    <b>Definition</b> (Presheaf Category, $\mathrm{PSh}$).
+                    Presheaf category $\mathrm{PSh}$ for a site $\mathrm{C}$ is category
+                    were objects are presheaves and morphisms are natural transformations
+                    of presheaf functors.
                 code.
                     presheaf (C: precategory): U
                       = catfunctor (opCat C) Set
                 p.
-                    <b>Definition</b> (Sheaf, $\mathrm{Sh}$). Sheaf $\mathrm{Sh}$ is a presheaf on a site.
+                    <b>Definition</b> (Sheaf). Sheaf is a presheaf on a site.
                 code.
                     sheaf (C: precategory): U
                       = (S: site C)
                       * presheaf S.1
+                p.
+                    <b>Definition</b> (Sheaf Category, $\mathrm{Sh}%). Sheaf category $\mathrm{Sh}$
+                    is a category where objects are sheaves and morphisms are
+                    natural transformation of sheves. Sheaf category is a full subcategory
+                    of category of presheaves $\mathrm{PSh}$.
                 p.
                     <b>Definition</b> (Grothendieck Topos). A category $\mathrm{C}$
                     is called Grothendieck Topos if exists a site such that category of
