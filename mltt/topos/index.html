@@ -261,13 +261,13 @@ $$</p><code>subobjectClassifier (C: precategory): U
   = (omega: carrier C)
   * (end: terminal C)
   * (trueHom: hom C end.1 omega)
-  * (xi: (V X: carrier C) (j: hom C V X) -> hom C X omega)
+  * (chi: (V X: carrier C) (j: hom C V X) -> hom C X omega)
   * (square: (V X: carrier C) (j: hom C V X) -> mono C V X j
-    -> hasPullback C (omega,(end.1,trueHom),(X,xi V X j)))
+    -> hasPullback C (omega,(end.1,trueHom),(X,chi V X j)))
   * ((V X: carrier C) (j: hom C V X) (k: hom C X omega)
     -> mono C V X j
     -> hasPullback C (omega,(end.1,trueHom),(X,k))
-    -> Path (hom C X omega) (xi V X j) k)</code><p><b>Theorem</b> (Category of Sets has Subobject Classifier).</p><p><b>Definition</b> (Cartesian Closed Categories).
+    -> Path (hom C X omega) (chi V X j) k)</code><p><b>Theorem</b> (Category of Sets has Subobject Classifier).</p><p><b>Definition</b> (Cartesian Closed Categories).
 The category $\mathrm{C}$ is called cartesian closed if exists all:
 i) terminals; ii) products; iii) exponentials. Note that this definition
 lacks beta and eta rules which could be found in embedding $\mathrm{MLTT}$.</p><code>isCCC (C: precategory): U

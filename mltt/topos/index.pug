@@ -401,13 +401,13 @@ block content
                       = (omega: carrier C)
                       * (end: terminal C)
                       * (trueHom: hom C end.1 omega)
-                      * (xi: (V X: carrier C) (j: hom C V X) -> hom C X omega)
+                      * (chi: (V X: carrier C) (j: hom C V X) -> hom C X omega)
                       * (square: (V X: carrier C) (j: hom C V X) -> mono C V X j
-                        -> hasPullback C (omega,(end.1,trueHom),(X,xi V X j)))
+                        -> hasPullback C (omega,(end.1,trueHom),(X,chi V X j)))
                       * ((V X: carrier C) (j: hom C V X) (k: hom C X omega)
                         -> mono C V X j
                         -> hasPullback C (omega,(end.1,trueHom),(X,k))
-                        -> Path (hom C X omega) (xi V X j) k)
+                        -> Path (hom C X omega) (chi V X j) k)
                 p.
                     <b>Theorem</b> (Category of Sets has Subobject Classifier).
                 p.
