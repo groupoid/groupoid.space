@@ -239,6 +239,23 @@ block content
 
                 h2 Grothendieck Topos
                 p.
+                    We give here 3 definitions of Grothendieck Topology,
+                    though sieves, coverage and covering families.
+                p.
+                    <b>Definition</b> (Sieves, Jardine). Sieves are a family of subfunctors
+                    $$
+                        R \subset Hom_C(\_,U), U \in \mathrm{C},
+                    $$
+                    such that following axioms hold: i) (base change) If $R \subset Hom_C(\_,U)$ is covering
+                    and $\phi : V \rightarrow U$ is a morphism of $\mathrm{C}$, then the subfuntor
+                    $$
+                        \phi^{-1}(R) = \{ \gamma : W \rightarrow V | \phi \dot \gama \in R \}
+                    $$
+                    is covering for V; ii) (local character) Suppose that $R,R' \subset Hom_C(\_,U)$ are
+                    subfunctors and R is covering. If $\phi^{-1}(R')$ is covering for
+                    all $\phi : V \rightarrow U$ in $R$, then $R'$ is covering; iii)
+                    $Hom_C(\_,U) is covering for all $\U \in \mathrm{C}$.
+                p.
                     <b>Definition</b> (Coverage). A coverage is a function assigning
                     to each $\mathrm{Ob}_C$ the family of morphisms $\{f_i : U_i \rightarrow U \}_{i\in I}$ called
                     covering families, such that for any $g: V \rightarrow U$ exist
@@ -280,12 +297,13 @@ block content
                        and
                        $\{\gamma_{\alpha,\beta} : W_{\alpha,\beta} \rightarrow U_\alpha \}$ is covering
                        for all $\alpha$, then the family of composites
-                       $$
-                         W\{\alpha,\beta} \mapright{\gamma_{\alpha,\beta}} U_\alpha \mapright{\phi_\alpha} U.
-                       $$
+                    $$
+                       W_\{\alpha,\beta} \mapright{\gamma_{\alpha,\beta}} U_\alpha \mapright{\phi_\alpha} U.
+                    $$
                     iii) The family $\{1: U \rightarrow U\}$ is covering for all $U \in \mathrm{C}$.
                 p.
-                    <b>Definition</b> (Site). Site is a category having a coverage.
+                    <b>Definition</b> (Site). Site is a category having either a coverage,
+                    grothendieck topology, or sieves.
                 code.
                     site (C: precategory): U
                       = (C: precategory)
