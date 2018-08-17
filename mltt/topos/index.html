@@ -248,7 +248,17 @@ More abstractly, f is mono if for any $X$ the $\mathrm{Hom}(X,\_)$ takes it to a
 function between hom sets $\mathrm{Hom}(X,Y) \rightarrow \mathrm{Hom}(X,Z)$.</p><code>mono (P: precategory) (Y Z: carrier P) (f: hom P Y Z): U
   = (X: carrier P) (g1 g2: hom P X Y)
  -> Path (hom P X Z) (compose P X Y Z g1 f) (compose P X Y Z g2 f)
- -> Path (hom P X Y) g1 g2</code><p><b>Definition</b> (Subobject Classifier).</p><code>subobjectClassifier (C: precategory): U
+ -> Path (hom P X Y) g1 g2</code><p><b>Definition</b> (Subobject Classifier). In category $\mathrm{C}$ with finite limits,
+a subobject classifier is a monomorphism $true: 1 \rightarrow \Omega$ out of terminal
+object $\mathrm{1}$, such that for any mono $U \rightarrow X$ there is a unique
+morphism $\Xi_U : X \rightarrow \Omega$ and pullback diagram:
+$$
+\begin{array}{ccc}
+    U & \mapright{k} & \mathrm{1} \\
+    \mapdown{} & \square & \mapdown{} \\
+    X & \mapright{\Xi_U} & \Omega \\
+\end{array}
+$$</p><code>subobjectClassifier (C: precategory): U
   = (omega: carrier C)
   * (end: terminal C)
   * (trueHom: hom C end.1 omega)
