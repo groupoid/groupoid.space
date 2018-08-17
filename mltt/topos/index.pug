@@ -36,6 +36,11 @@ block content
         .om
             section
                 p.
+                    $$\def\mapright#1{\xrightarrow{{#1}}}
+                      \def\mapdown#1{\Big\downarrow\rlap{\raise2pt{\scriptstyle{#1}}}}
+                      \def\mapdiagl#1{\vcenter{\searrow}\rlap{\raise2pt{\scriptstyle{#1}}}}
+                      \def\mapdiagr#1{\vcenter{\swarrow}\rlap{\raise2pt{\scriptstyle{#1}}}}
+                    $$
                     This page gives you minimal single-file setup for
                     Set Topos instance in <a href="https://homotopytypetheory.org/2017/09/16/a-hands-on-introduction-to-cubicaltt/">cubicaltt</a>.
                     As for base library this is a chance to unvail the simplicity
@@ -240,10 +245,6 @@ block content
                     a covering family $\{h:V_j \rightarrow V\}_{j \in J}$ such that
                     each composite $h_j \circ g$ factors some $f_i$:
                     $$
-                    \def\mapright#1{\xrightarrow{{#1}}}
-                    \def\mapdown#1{\Big\downarrow\rlap{\raise2pt{\scriptstyle{#1}}}}
-                    \def\mapdiagl#1{\vcenter{\searrow}\rlap{\raise2pt{\scriptstyle{#1}}}}
-                    \def\mapdiagr#1{\vcenter{\swarrow}\rlap{\raise2pt{\scriptstyle{#1}}}}
                     \begin{array}{ccc}
                         V_j & \mapright{k} & U_i \\
                         \mapdown{h} & \square & \mapdown{f_i} \\
