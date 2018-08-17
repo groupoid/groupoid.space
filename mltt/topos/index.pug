@@ -324,7 +324,12 @@ block content
                     presheaf (C: precategory): U
                       = catfunctor (opCat C) Set
                 p.
-                    <b>Definition</b> (Sheaf). Sheaf is a presheaf on a site.
+                    <b>Definition</b> (Sheaf). Sheaf is a presheaf on a site. In other words
+                    a presheaf $F : \mathrm{C}^{op} \rightarrow \mathrm{Set}$ such that the
+                    cannonical map
+                    $$
+                        F(U) \rightarrow \colim_{V \to U \in R}{F(V)}
+                    $$
                 code.
                     sheaf (C: precategory): U
                       = (S: site C)
@@ -335,10 +340,8 @@ block content
                     natural transformation of sheves. Sheaf category is a full subcategory
                     of category of presheaves $\mathrm{PSh}$.
                 p.
-                    <b>Definition</b> (Grothendieck Topos). A category $\mathrm{C}$
-                    is called Grothendieck Topos if exists a site such that category of
-                    sheaves on $\mathrm{C}$ equals $\mathrm{C}$ or $\mathrm{Sh}(\mathrm{C},J)=\mathrm{C}$.
-                    In other words a topos is the category of sheaves $\mathrm{Sh}(\mathrm{C},J)$ on a site.
+                    <b>Definition</b> (Grothendieck Topos). Topos is the category
+                    of sheaves $\mathrm{Sh}(\mathrm{C},J)$ on a site $\mathrm{C}$ with topology $J$.
                 p.
                     <b>Definition</b> (Geometric Morphism). A morphism between Grothendieck topoi.
 

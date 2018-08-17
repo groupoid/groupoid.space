@@ -203,15 +203,18 @@ $\mathrm{C}^{op} \rightarrow \mathrm{Set}$.</p><p><b>Definition</b> (Presheaf Ca
 Presheaf category $\mathrm{PSh}$ for a site $\mathrm{C}$ is category
 were objects are presheaves and morphisms are natural transformations
 of presheaf functors.</p><code>presheaf (C: precategory): U
-  = catfunctor (opCat C) Set</code><p><b>Definition</b> (Sheaf). Sheaf is a presheaf on a site.</p><code>sheaf (C: precategory): U
+  = catfunctor (opCat C) Set</code><p><b>Definition</b> (Sheaf). Sheaf is a presheaf on a site. In other words
+a presheaf $F : \mathrm{C}^{op} \rightarrow \mathrm{Set}$ such that the
+cannonical map
+$$
+    F(U) \rightarrow \colim_{V \to U \in R}{F(V)}
+$$</p><code>sheaf (C: precategory): U
   = (S: site C)
   * presheaf S.1</code><p><b>Definition</b> (Sheaf Category, $\mathrm{Sh}$). Sheaf category $\mathrm{Sh}$
 is a category where objects are sheaves and morphisms are
 natural transformation of sheves. Sheaf category is a full subcategory
-of category of presheaves $\mathrm{PSh}$.</p><p><b>Definition</b> (Grothendieck Topos). A category $\mathrm{C}$
-is called Grothendieck Topos if exists a site such that category of
-sheaves on $\mathrm{C}$ equals $\mathrm{C}$ or $\mathrm{Sh}(\mathrm{C},J)=\mathrm{C}$.
-In other words a topos is the category of sheaves $\mathrm{Sh}(\mathrm{C},J)$ on a site.</p><p><b>Definition</b> (Geometric Morphism). A morphism between Grothendieck topoi.
+of category of presheaves $\mathrm{PSh}$.</p><p><b>Definition</b> (Grothendieck Topos). Topos is the category
+of sheaves $\mathrm{Sh}(\mathrm{C},J)$ on a site $\mathrm{C}$ with topology $J$.</p><p><b>Definition</b> (Geometric Morphism). A morphism between Grothendieck topoi.
 </p><h2>Elementary Topos</h2><p><b>Definition</b> (Monomorphism).</p><code>mono (P: precategory) (Y Z: carrier P) (f: hom P Y Z): U
   = (X: carrier P) (g1 g2: hom P X Y)
  -> Path (hom P X Z) (compose P X Y Z g1 f) (compose P X Y Z g2 f)
