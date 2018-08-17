@@ -265,7 +265,21 @@ block content
                       * (coverings: carrier C -> Delta C cod -> U)
                       * (coverings cod fam)
                 p.
-                    <b>Definition</b> (Grothendieck Topology). 
+                    <b>Definition</b> (Grothendieck Topology). Suppose category $\mathrm{C}$ has all pullbacks.
+                    Since $\mathrm{C}$ is small, a pretopology on $\mathrm{C}$ consists of families of sets of
+                    morphisms
+                    $$
+                     \{ \phi_\alpha : U_\alpha \rightarrow U \}, U \in \mathrm{C},
+                    $$
+                    called covering families, such that following axioms hold:
+                    i) suppose that $\phi_\alpha : U_\alpha \rightarrow U$ is a covering family
+                       and that $\psi : V \rightarrow U$ is a morphism of \mathrm{C}.
+                       Then the collection V \times_U U_\alpha \rightarrow V is a cvering family for V.
+                    ii) If $\{\phi_\alpha : U_\alpha \rightarrow U \}$ is covering,
+                       and $\{\gamma_{\alpha,\beta} : W_{\alpha,\beta} \rightarrow U_\alpha \}$ is covering
+                       for all $\alpha$, then the family of composites
+                       $W\{\alpha,\beta} \mapright{\gamma_{\alpha,\beta}} U_\alpha \mapright{\phi_\alpha} U$.
+                    iii) The family $\{1: U \rightarrow U\}$ is covering for all $U in \mathrm{C}$.
                 p.
                     <b>Definition</b> (Site). Site is a category having a coverage.
                 code.
