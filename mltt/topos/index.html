@@ -140,7 +140,7 @@ Definition empty    (A: Type) := fun x : A => False.
 Definition full     (A: Type) := fun x : A => True.</code><p>For fully functional general topology theorems and Zorn lemma you can refer to
 the Coq library <a href="https://github.com/verimath/topology">topology</a> by
 Daniel Schepler.
-</p><h2>Grothendieck Topos</h2><p>We give here 3 definitions of Grothendieck Topology,
+</p><h2>Grothendieck Topos</h2><p>We give here 3 definitions of Grothendieck Topology of Site,
 though sieves, coverage and covering families.</p><p><b>Definition</b> (Sieves, Jardine). Sieves are a family of subfunctors
 $$
     R \subset Hom_C(\_,U), U \in \mathrm{C},
@@ -148,12 +148,12 @@ $$
 such that following axioms hold: i) (base change) If $R \subset Hom_C(\_,U)$ is covering
 and $\phi : V \rightarrow U$ is a morphism of $\mathrm{C}$, then the subfuntor
 $$
-    \phi^{-1}(R) = \{ \gamma : W \rightarrow V | \phi \dot \gama \in R \}
+    \phi^{-1}(R) = \{ \gamma : W \rightarrow V | \phi \cdot \gamma \in R \}
 $$
 is covering for V; ii) (local character) Suppose that $R,R' \subset Hom_C(\_,U)$ are
 subfunctors and R is covering. If $\phi^{-1}(R')$ is covering for
 all $\phi : V \rightarrow U$ in $R$, then $R'$ is covering; iii)
-$Hom_C(\_,U) is covering for all $\U \in \mathrm{C}$.</p><p><b>Definition</b> (Coverage). A coverage is a function assigning
+$Hom_C(\_,U)$ is covering for all $\U \in \mathrm{C}$.</p><p><b>Definition</b> (Coverage). A coverage is a function assigning
 to each $\mathrm{Ob}_C$ the family of morphisms $\{f_i : U_i \rightarrow U \}_{i\in I}$ called
 covering families, such that for any $g: V \rightarrow U$ exist
 a covering family $\{h:V_j \rightarrow V\}_{j \in J}$ such that
@@ -180,18 +180,17 @@ Coverage (C: precategory): U
 Since $\mathrm{C}$ is small, a pretopology on $\mathrm{C}$ consists of families of sets of
 morphisms
 $$
- \{ \phi_\alpha : U_\alpha \rightarrow U \}, U \in \mathrm{C},
+    \{ \phi_\alpha : U_\alpha \rightarrow U \}, U \in \mathrm{C},
 $$
 called covering families, such that following axioms hold:
 i) suppose that $\phi_\alpha : U_\alpha \rightarrow U$ is a covering family
-   and that $\psi : V \rightarrow U$ is a morphism of \mathrm{C}.
-   Then the collection $V \times_U U_\alpha \rightarrow V$ is a cvering family for $V$.
+and that $\psi : V \rightarrow U$ is a morphism of \mathrm{C}.
+Then the collection $V \times_U U_\alpha \rightarrow V$ is a cvering family for $V$.
 ii) If $\{\phi_\alpha : U_\alpha \rightarrow U \}$ is covering,
-   and
-   $\{\gamma_{\alpha,\beta} : W_{\alpha,\beta} \rightarrow U_\alpha \}$ is covering
-   for all $\alpha$, then the family of composites
+and $\{\gamma_{\alpha,\beta} : W_{\alpha,\beta} \rightarrow U_\alpha \}$
+is covering for all $\alpha$, then the family of composites
 $$
-   W_\{\alpha,\beta} \mapright{\gamma_{\alpha,\beta}} U_\alpha \mapright{\phi_\alpha} U.
+    W_{\alpha,\beta} \mapright{\gamma_{\alpha,\beta}} U_\alpha \mapright{\phi_\alpha} U.
 $$
 iii) The family $\{1: U \rightarrow U\}$ is covering for all $U \in \mathrm{C}$.</p><p><b>Definition</b> (Site). Site is a category having either a coverage,
 grothendieck topology, or sieves.</p><code>site (C: precategory): U
