@@ -10,6 +10,7 @@
                                       llparenthesis: ['Macro', '\\mathopen{\u2987}'],
                                       rrparenthesis: ['Macro', '\\mathclose{\u2988}'],
                                       llbracket:     ['Macro', '\\mathopen{\u27E6}'],
+                                      inclusionmap:  ['Macro', '\\mathopen{\u}'],
                                       rrbracket:     ['Macro', '\\mathclose{\u27E7}'],
                                     }
                                 });
@@ -238,7 +239,13 @@ left adjoint to $f_*$ and $f^*$ preserves finite limits. The left adjoint $f^*$ 
 the inverse image functor, while $f_*$ is called the direct image. The inverse image functor
 $f^*$ is left and right exact in the sense that it preserves all finite
 colimits and limits, respectively.
-</p><h2>Elementary Topos</h2><p><b>Definition</b> (Monomorphism).</p><code>mono (P: precategory) (Y Z: carrier P) (f: hom P Y Z): U
+</p><h2>Elementary Topos</h2><p><b>Definition</b> (Monomorphism). An morphism $f : Y \rightarrow Z $ is a monic or mono
+if for any object $X$ and every pair of parralel morphisms $g_1,g_2: X \rightarrow Y$ the
+$$
+    f \circ g_1 = f \circ g_2 \rightarrow g_1 = g_2.
+$$
+More abstractly, f is mono if for any $X$ the $\mathrm{Hom}(X,\_)$ takes it to an injective
+function between hom sets $\mathrm{Hom}(X,Y) \rightarrow \mathrm{Hom}(X,Z)$.</p><code>mono (P: precategory) (Y Z: carrier P) (f: hom P Y Z): U
   = (X: carrier P) (g1 g2: hom P X Y)
  -> Path (hom P X Z) (compose P X Y Z g1 f) (compose P X Y Z g2 f)
  -> Path (hom P X Y) g1 g2</code><p><b>Definition</b> (Subobject Classifier).</p><code>subobjectClassifier (C: precategory): U

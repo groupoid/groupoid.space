@@ -16,6 +16,7 @@ block title
                                            llparenthesis: ['Macro', '\\mathopen{\u2987}'],
                                            rrparenthesis: ['Macro', '\\mathclose{\u2988}'],
                                            llbracket:     ['Macro', '\\mathopen{\u27E6}'],
+                                           inclusionmap:  ['Macro', '\\mathopen{\u}'],
                                            rrbracket:     ['Macro', '\\mathclose{\u27E7}'],
                                          }
                                      });
@@ -372,7 +373,13 @@ block content
 
                 h2 Elementary Topos
                 p.
-                    <b>Definition</b> (Monomorphism).
+                    <b>Definition</b> (Monomorphism). An morphism $f : Y \rightarrow Z $ is a monic or mono
+                    if for any object $X$ and every pair of parralel morphisms $g_1,g_2: X \rightarrow Y$ the
+                    $$
+                        f \circ g_1 = f \circ g_2 \rightarrow g_1 = g_2.
+                    $$
+                    More abstractly, f is mono if for any $X$ the $\mathrm{Hom}(X,\_)$ takes it to an injective
+                    function between hom sets $\mathrm{Hom}(X,Y) \rightarrow \mathrm{Hom}(X,Z)$.
                 code.
                     mono (P: precategory) (Y Z: carrier P) (f: hom P Y Z): U
                       = (X: carrier P) (g1 g2: hom P X Y)
