@@ -1,4 +1,4 @@
-\documentclass{aip-cp}
+\documentclass{article}
 \usepackage{listings}
 \usepackage[numbers]{natbib}
 \usepackage[only,llbracket,rrbracket,llparenthesis,rrparenthesis]{stmaryrd}
@@ -9,20 +9,16 @@
 \usepackage[utf8]{inputenc}
 
 \begin{document}
-\title{The Systems Engineering of Consistent Pure Language \\
-       with Effect Type System \\
-       for Certified Applications and Higher Languages}
-
-\author[aff1]{Maksym Sokhatskyi\corref{cor1}}
-\eaddress[url]{https://groupoid.space}
-\author[aff1]{Pavlo Maslianko\corref{cor3}}
-
-\affil[aff1]{National Technical University of Ukraine ``Igor Sikorsky Kyiv Polytechnical Institute''}
-\corresp[cor1]{maxim@synrc.com}
-\corresp[cor3]{mppdom@i.ua}
+\title{Pure Type System for Erlang}
+\author{Maxim Sokhatsky}
+\date{
+    $^1$ National Technical University of Ukraine \\
+    \small Igor Sikorsky Kyiv Polytechnical Institute\\
+    \today
+}
 
 \maketitle
-\vspace{1cm}
+
 \begin{abstract}
 This paper presents the design of the {\bf Om} language and an implementation of its type checker and bytecode extractor to Erlang.
 Om is an intermediate language based on a pure type system with the infinite number of universes, so it is known to be consistent in dependent type theory.
@@ -107,7 +103,7 @@ All parts of {\bf Om} compiler is written in Erlang language and target/runtime 
 \label{tab:a}
 \tabcolsep7pt\begin{tabular}{lcccc}
 \hline
-\tch{1}{c}{b}{Target Language} & \tch{1}{c}{b}{Class} & \tch{1}{c}{b}{Higher\\ Language} & \tch{1}{c}{b}{Type\\ Theory}\\
+{\bf Target Language} & {\bf Class} & {\bf Higher Language} & {\bf Type Theory}\\
 \hline
 C++        & compiler/native      & HNC & System F\\
 Rust       & compiler/native      & HNC & System F\\
@@ -980,7 +976,7 @@ The overall size of {\bf Om} language with extractor to Erlang is 265 lines of c
 \label{tab:passes}
 \tabcolsep7pt\begin{tabular}{lccc}
 \hline
-\tch{1}{c}{b}{Module} & \tch{1}{c}{b}{LOC} & \tch{1}{c}{b}{Description}\\
+{\bf Module} & {\bf LOC} & {\bf Description}\\
 \hline
 om\_tok     & 54 LOC & Handcoded Tokenizer\\
 om\_parse   & 81 LOC & Inductive AST Parser\\
@@ -994,11 +990,11 @@ om\_extract & 34 LOC & Extract Erlang Code\\
 We benchmarked the unrolling of inductive list type in Church encoding extracted with OM with native erlang {\bf lists:foldl}.
 
 \begin{table}[h]
-\caption{Performance}
+\caption{Run-time performance}
 \label{tab:perf}
 \tabcolsep7pt\begin{tabular}{lccc}
 \hline
-\tch{1}{c}{b}{Operation} & \tch{1}{c}{b}{Type} & \tch{1}{c}{b}{Time}\\
+{\bf Operation} & {\bf Type} & {\bf Time}\\
 \hline
 Pack/Unpack 1 000 000 & Inductive Nat   & 776407 us\\
 Pack/Unpack 1 000 000 & Inductive List  & 1036461 us\\
@@ -1046,9 +1042,7 @@ thanks to fast Erlang lambda evaluations and a cache layer.
 We thank all contributors of Groupoid Infinity who helped us to avoid mistakes in TeX and Erlang files.
 We also thank our spouses for continuous support.
 
-\bibliographystyle{aipnum-cp}
+\bibliographystyle{plain}
 \bibliography{om}
-%\newpage
-%\tableofcontents
 
 \end{document}

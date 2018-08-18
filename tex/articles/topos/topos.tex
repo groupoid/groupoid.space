@@ -33,9 +33,7 @@
 
 \begin{document}
 
-\title{Formal Topos on Category of Sets: \\
-      The Comprehensive Definition \\
-      using Type Theory}
+\title{Formal Topos on Category of Sets}
 \author{Maxim Sokhatsky}
 \date{
     $^1$ National Technical University of Ukraine \\
@@ -47,13 +45,14 @@
 
 \begin{abstract}
 
-The purpose of this work is to clarify all topos definitions, and variants of its components.
+The purpose of this work is to clarify all topos definitions using type theory.
 Not much efforts was done to give all the examples, but one example, a topos
 on category of sets, is constructively presented at the finale.
 
 As this cricial example definition is used in presheaf definition,
-the construction of category of sets is a mandatory excercise for any constructive topos library.
-We propose here cubicaltt\footnote{Cubical Type Theory, http://github.com/mortberg/cubicaltt} version of elementary topos on category of sets for demonstration of categorical
+the construction of category of sets is a mandatory excercise for any topos library.
+We propose here cubicaltt\footnote{Cubical Type Theory, http://github.com/mortberg/cubicaltt}
+version of elementary topos on category of sets for demonstration of categorical
 semantics (from logic perspective) of the fundamental notion of set theory in mathematics.
 
 Other disputed foundations for set theory could be taken as:
@@ -70,7 +69,7 @@ Type Theory is requested. The proofs involve cubical type checker primitives.
 \section*{Intro}
 
 One can admit two topos theory lineages. One lineage takes its roots from published
-by Jean Leray in 1945 initial work on sheaves and specral sequences. Later this lineage
+by Jean Leray in 1945 initial work on sheaves and spectral sequences. Later this lineage
 was developed by Henri Paul Cartan, André Weil. The peak of lineage was settled
 with works by Jean-Pierre Serre, Alexander Grothendieck, and Roger Godement.
 
@@ -78,7 +77,7 @@ Second remarkable lineage take its root from William Lawvere and
 Myles Tierney. The main contribution is the reformulation of Grothendieck topology
 by using subobject classifier.
 
-\section{Category Theory}
+\subsection*{Category Theory}
 
 First of all very simple category theory up to pullbacks is provided. We give here
 all definitions only to keep the context valid.
@@ -124,18 +123,6 @@ compose (C: precategory) (x y z: carrier C)
 \end{lstlisting}
 \end{definition}
 
-\begin{definition} (Terminal Object). Is such object $\mathrm{Ob}_C$,
-that
-$$
-    \prod_{x,y:\mathrm{Ob}_C} \mathrm{isContr} (\mathrm{Hom}_C(y,x)).
-$$
-\begin{lstlisting}
-isTerminal (C: precategory) (y: carrier C): U
-  = (x: carrier C) -> isContr (hom C x y)
-terminal (C: precategory): U
-  = (y: carrier C) * isTerminal C y
-\end{lstlisting}
-\end{definition}
 
 \begin{definition} (Categorical Pullback).
 The pullback of the cospan $A \mapright{f} C \mapleft{g} B$ is a object $A \times_{C} B$ with
@@ -175,13 +162,44 @@ hasPullback (C: precategory) (D: cospan C) : U
 \end{lstlisting}
 \end{definition}
 
+\begin{definition} (Category Functor).
+Let $A$ and $B$ be precategories.
+A functor $F : A \rightarrow B$ consists of: (i) A function $F_{Ob}: Ob_hA \rightarrow Ob_B$;
+(ii) for each $a,b:Ob_A$, a function $F_{Hom}:Hom_A(a,b)\rightarrow Hom_B(F_{Ob}(a),F_{Ob}(b))$;
+(iii) for each $a:Ob_A$, $F_{Ob}(1_a) = 1_{F_{Ob}}(a)$;
+(iv) for $a,b,c:Ob_A$ and $f: Hom_A(a,b)$ and $g: Hom_A(b,c)$, $F(g\circ f) = F_{Hom}(g)\circ F_{Hom}(f)$.
+\begin{lstlisting}
+catfunctor (A B: precategory): U
+  = (ob: carrier A -> carrier B)
+  * (mor: (x y:carrier A)->hom A x y->hom B(ob x)(ob y))
+  * (id: (x: carrier A) -> Path (hom B (ob x) (ob x))
+    (mor x x (path A x)) (path B (ob x)))
+  * ((x y z: carrier A) -> (f: hom A x y) -> (g: hom A y z) ->
+    Path (hom B (ob x) (ob z)) (mor x z (compose A x y z f g))
+         (compose B (ob x) (ob y) (ob z) (mor x y f) (mor y z g)))
+\end{lstlisting}
+\end{definition}
+
+\newpage
+\begin{definition} (Terminal Object). Is such object $\mathrm{Ob}_C$,
+that
+$$
+    \prod_{x,y:\mathrm{Ob}_C} \mathrm{isContr} (\mathrm{Hom}_C(y,x)).
+$$
+\begin{lstlisting}
+isTerminal (C: precategory) (y: carrier C): U
+  = (x: carrier C) -> isContr (hom C x y)
+terminal (C: precategory): U
+  = (y: carrier C) * isTerminal C y
+\end{lstlisting}
+\end{definition}
 
 %\begin{definition}
 %\begin{lstlisting}
 %\end{lstlisting}
 %\end{definition}
 
-\section{Set Theory}
+\subsection*{Set Theory}
 
 Here is given the $\infty$-groupoid model of sets.
 
@@ -250,7 +268,6 @@ unitInd (C: unit -> U) (x: C tt): (z:unit) -> C z
 \end{lstlisting}
 \end{definition}
 
-\newpage
 \begin{theorem} (Category of Sets, $\mathbf{Set}$).
 Sets forms a Category.
 All compositional theorems proved by using reflection rule of internal language.
@@ -301,21 +318,6 @@ Structure topology (A : Type) := {
 \end{lstlisting}
 For fully functional general topology theorems and Zorn lemma you can refer to
 the Coq library \footnote{https://github.com/verimath/topology}{topology} by Daniel Schepler.
-\newpage
-\begin{lstlisting}
-Definition subset (A: Type) (u v : A -> Prop)
-  := (forall x : A, u x -> v x).
-Definition disjoint (A: Type) (u v : A -> Prop)
-  := forall x, ~ (u x /\ v x).
-Definition union (A: Type) (B   :(A -> Prop) -> Prop)
-  := fun x : A => exists U, B U /\ U x.
-Definition inter (A: Type) (u v : A -> Prop)
-  := fun x : A => u x /\ v x.
-Definition empty (A: Type)
-  := fun x : A => False.
-Definition full (A: Type)
-  := fun x : A => True.
-\end{lstlisting}
 \end{definition}
 
 \subsection{Grothendieck Topos}
