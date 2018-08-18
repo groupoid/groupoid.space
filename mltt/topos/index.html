@@ -88,7 +88,17 @@ isPullback (C: precategory) (D: cospan C) (E: cospanCone C D) : U
   = (h: cospanCone C D) -> isContr (cospanConeHom C D h E)
 hasPullback (C: precategory) (D: cospan C) : U
   = (E: cospanCone C D) * isPullback C D E
-</code><br><h1>Set Theory</h1><p>Here is given the $\infty$-groupoid model of sets.</p><p><b>Definition</b> ($\mathrm{PROP}$). A 0-type is a mere proposition.</p><p><b>Definition</b> ($\mathrm{SET}$). A 1-type is a set.</p><code>data N = Z  | S (n: N)
+</code><br><h1>Set Theory</h1><p>Here is given the $\infty$-groupoid model of sets.</p><p><b>Definition</b> (Mere proposition, $\mathrm{PROP}$). A type P is a mere proposition
+if for all $x,y: P$ we have $x=y$:
+$$
+    $\mathrm{isSet}(A) = \Pi_{x,y:A}\Pi_{p,q:x=y}(p=q)$.
+$$</p><p><b>Definition</b> (0-type). A type A is a 0-type is for all
+$x,y: A$ and $p,q: x =_A y$ we have $p = q$.</p><p><b>Definition</b> (1-type). A type A is a 1-type if for all
+$x,y: A$ and $p,q: x =_A y$ and $r,s:p =_{=_A} q$, we have $r = s$.</p><p><b>Definition</b> (A set of elements, $\mathrm{SET}$).
+A type A is a $\mathrm{SET}$ if for all $x,y: A$ and $p,q: x = y$, we have $p = q$:
+$$
+    $\mathrm{isSet}(A) = \Pi_{x,y:A}\Pi_{p,q:x=y}(p=q)$.
+$$</p><p><b>Theorem</b>. If A is a set then A is a 1-type.</p><code>data N = Z  | S (n: N)
 
 n_grpd (A: U) (n: N): U = (a b: A) -> rec A a b n where
    rec (A: U) (a b: A) : (k: N) -> U
