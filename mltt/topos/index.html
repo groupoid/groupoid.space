@@ -113,7 +113,7 @@ SET   : U = (X:U) * isSet X</code><p><b>Theorem</b> ($\Pi$-Contractability). if 
 path space between any sections is contractible.</p><code>setPi  (A: U) (B: A -> U) (h: (x: A) -> isSet (B x)) (f g: Pi A B)
        (p q: Path (Pi A B) f g)
      : Path (Path (Pi A B) f g) p q</code><p><b>Theorem</b> ($\Sigma$-Contractability). if fiber is set then $\Sigma$ is set.</p><code>setSig (A:U) (B: A -> U) (sA: isSet A)
-       (sB : (x:A) -> isSet (B x)) : isSet (Sigma A B)</code><p><b>Theorem</b> ($1$ is a proposition).</p><code>propUnit : isProp unit</code><p><b>Theorem</b> ($1$ is a set).</p><code>setUnit : isSet unit</code><p><b>Theorem</b> ($\mathrm{Set}$). Sets forms a Category.
+       (sB : (x:A) -> isSet (B x)) : isSet (Sigma A B)</code><p><b>Theorem</b> ($1$ is a proposition).</p><code>propUnit : isProp unit</code><p><b>Theorem</b> ($1$ is a set).</p><code>setUnit : isSet unit</code><p><b>Theorem</b> (Category of Sets, $\mathrm{Set}$). Sets forms a Category.
 All compositional theorems proved by using refleation rule of internal language.
 The proof that $\mathrm{Hom}$ forms a set is taken through $\Pi$-contractability.</p><code>Set: precategory = ((Ob,Hom),id,c,HomSet,L,R,Q) where
   Ob: U = SET
