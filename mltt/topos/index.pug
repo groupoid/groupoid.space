@@ -256,8 +256,20 @@ block content
 
                 h2 Grothendieck Topos
                 p.
-                    We give here 3 definitions of Grothendieck Topology of Site,
-                    though sieves, coverage and covering families.
+                    Grothendieck Topology is a calculus of coverings which generalizes the algebra
+                    of open covers of a topological space, and can exist on much more general categories.
+                    A category equipped with Grothendieck topology is a Grothendieck site.
+                p.
+                    <b>Examples</b>: Zariski, flat, étale, Nisnevich topologies.
+                p.
+                    A sheaf is a presheaf (functor from opposite category to <b>Set</b>) which
+                    satisties patching conditions arisin from Grothendieck topology, and applying
+                    the associated sheaf functor to preashef forces compliance with these conditions.
+                p.
+                    The notion of Grothendieck topos is a geometric flavour of topos theory,
+                    where topos is defined as category of sheaves on a Grothendieck site with
+                    geometric moriphisms as adjoint pairs of functors between topoi, that
+                    satisfy exactness properties.
                 p.
                     <b>Definition</b> (Sieves, Jardine). Sieves are a family of subfunctors
                     $$\def\mapright#1{\xrightarrow{{#1}}}
@@ -387,6 +399,22 @@ block content
                     colimits and limits, respectively.
 
                 h2 Elementary Topos
+                p.
+                    Giraud theorem was a synonymical topos definition involved only topos
+                    properties but not a site properties. That was step forward on
+                    predicative definition. The other step was made by Lawvere and Tierney,
+                    by removing explicit dependance on categorical model of set
+                    theory (as category of set is used in definition of presheaf). This information
+                    was hidden into subobject classifier which was well defined through
+                    categorical pullback and property of being cartesian
+                    closed (having lambda calculus as internal language).
+                p.
+                    Elementary topos doesn't involve 2-categorical modeling, so we can construct
+                    set topos without using functors and natural transformations
+                    (what we need in geometrical topos theory flavour).
+                p.
+                    <b>Theorem</b> (Topos Definitions). Any Grothendieck topos is an elementary topos too.
+                    The proof is sligthly based on results of Giraud theorem.
                 p.
                     <b>Definition</b> (Monomorphism). An morphism $f : Y \rightarrow Z $ is a monic or mono
                     if for any object $X$ and every pair of parralel morphisms $g_1,g_2: X \rightarrow Y$ the

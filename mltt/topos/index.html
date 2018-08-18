@@ -149,8 +149,14 @@ Definition empty    (A: Type) := fun x : A => False.
 Definition full     (A: Type) := fun x : A => True.</code><p>For fully functional general topology theorems and Zorn lemma you can refer to
 the Coq library <a href="https://github.com/verimath/topology">topology</a> by
 Daniel Schepler.
-</p><h2>Grothendieck Topos</h2><p>We give here 3 definitions of Grothendieck Topology of Site,
-though sieves, coverage and covering families.</p><p><b>Definition</b> (Sieves, Jardine). Sieves are a family of subfunctors
+</p><h2>Grothendieck Topos</h2><p>Grothendieck Topology is a calculus of coverings which generalizes the algebra
+of open covers of a topological space, and can exist on much more general categories.
+A category equipped with Grothendieck topology is a Grothendieck site.</p><p><b>Examples</b>: Zariski, flat, étale, Nisnevich topologies.</p><p>A sheaf is a presheaf (functor from opposite category to <b>Set</b>) which
+satisties patching conditions arisin from Grothendieck topology, and applying
+the associated sheaf functor to preashef forces compliance with these conditions.</p><p>The notion of Grothendieck topos is a geometric flavour of topos theory,
+where topos is defined as category of sheaves on a Grothendieck site with
+geometric moriphisms as adjoint pairs of functors between topoi, that
+satisfy exactness properties.</p><p><b>Definition</b> (Sieves, Jardine). Sieves are a family of subfunctors
 $$\def\mapright#1{\xrightarrow{{#1}}}
   \def\mapdown#1{\Big\downarrow\rlap{\raise2pt{\scriptstyle{#1}}}}
   \def\mapdiagl#1{\vcenter{\searrow}\rlap{\raise2pt{\scriptstyle{#1}}}}
@@ -248,7 +254,17 @@ left adjoint to $f_*$ and $f^*$ preserves finite limits. The left adjoint $f^*$ 
 the inverse image functor, while $f_*$ is called the direct image. The inverse image functor
 $f^*$ is left and right exact in the sense that it preserves all finite
 colimits and limits, respectively.
-</p><h2>Elementary Topos</h2><p><b>Definition</b> (Monomorphism). An morphism $f : Y \rightarrow Z $ is a monic or mono
+</p><h2>Elementary Topos</h2><p>Giraud theorem was a synonymical topos definition involved only topos
+properties but not a site properties. That was step forward on
+predicative definition. The other step was made by Lawvere and Tierney,
+by removing explicit dependance on categorical model of set
+theory (as category of set is used in definition of presheaf). This information
+was hidden into subobject classifier which was well defined through
+categorical pullback and property of being cartesian
+closed (having lambda calculus as internal language).</p><p>Elementary topos doesn't involve 2-categorical modeling, so we can construct
+set topos without using functors and natural transformations
+(what we need in geometrical topos theory flavour).</p><p><b>Theorem</b> (Topos Definitions). Any Grothendieck topos is an elementary topos too.
+The proof is sligthly based on results of Giraud theorem.</p><p><b>Definition</b> (Monomorphism). An morphism $f : Y \rightarrow Z $ is a monic or mono
 if for any object $X$ and every pair of parralel morphisms $g_1,g_2: X \rightarrow Y$ the
 $$
     f \circ g_1 = f \circ g_2 \rightarrow g_1 = g_2.
