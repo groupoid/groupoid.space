@@ -209,6 +209,12 @@ block content
                     setSig (A:U) (B: A -> U) (sA: isSet A)
                            (sB : (x:A) -> isSet (B x)) : isSet (Sigma A B)
                 p.
+                    <b>Definition</b> (Unit type, $1$). The unit $1$ is a type with one element.
+                code.
+                    data unit = tt
+                    unitRec (C: U) (x: C): unit -> C = split tt -> x
+                    unitInd (C: unit -> U) (x: C tt): (z:unit) -> C z = split tt -> x
+                p.
                     <b>Theorem</b> ($1$ is a proposition).
                 code.
                     propUnit : isProp unit
