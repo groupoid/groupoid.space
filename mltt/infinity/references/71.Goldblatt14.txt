@@ -1,0 +1,10 @@
+@book{Goldblatt14,
+  title={Topoi: The Categorial Analysis of Logic},
+  author={Goldblatt, R.},
+  isbn={9781483299211},
+  series={Studies in Logic and the Foundations of Mathematics},
+  url={https://books.google.com.ua/books?id=AprOBQAAQBAJ},
+  year={2014},
+  publisher={Elsevier Science}
+}
+
