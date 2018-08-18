@@ -43,8 +43,17 @@ block content
         .om
             section
                 p.
-                    This page gives you minimal single-file setup for
-                    Set Topos instance in <a href="https://homotopytypetheory.org/2017/09/16/a-hands-on-introduction-to-cubicaltt/">cubicaltt</a>.
+                    The aim of this work was to clarify all topos definitions, and variants of its components.
+                    Not much efforts was done to give all the examples, the only example was choses as a topos
+                    on category of sets, meaning we describe topos theory with a crucial one stop example.
+                    As this sample definition is used in presheaf definition,
+                    the construction of category of sets is a mandatory excercise for any constructive topos library.
+                    We propose here cubical version of consctructive version of elementary
+                    topos on category of sets for demonstration of categorical logical semantics of
+                    fundamental notion of set theory in mathematics.
+                p.
+                    This article gives you minimal single-file setup for
+                    topos on category of sets instance in <a href="https://homotopytypetheory.org/2017/09/16/a-hands-on-introduction-to-cubicaltt/">cubicaltt</a>.
                     As for base library this is a chance to unvail the simplicity
                     for the domain of intersection of: category
                     theory, set theory, and topos theory.
@@ -430,7 +439,11 @@ block content
                 p.
                     Elementary topos doesn't involve 2-categorical modeling, so we can construct
                     set topos without using functors and natural transformations
-                    (what we need in geometrical topos theory flavour).
+                    (what we need in geometrical topos theory flavour). This flavour of topos
+                    theory more suited for logic needs rather that geometry, as its set properties
+                    are hidden under the predicative predicative pullback definition of subobject classifier
+                    rather that functorial notation of presheaf functor. So we can simplify proofs
+                    at the homotopy levels, not to lift everything to 2-categorical model.
                 p.
                     <b>Theorem</b> (Topos Definitions). Any Grothendieck topos is an elementary topos too.
                     The proof is sligthly based on results of Giraud theorem.
