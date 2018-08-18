@@ -8,6 +8,8 @@
 \usepackage{txfonts}
 \usepackage[utf8]{inputenc}
 
+\lstset{basicstyle=\small,inputencoding=utf8}
+
 \begin{document}
 \title{Pure Type System for Erlang}
 \author{Maxim Sokhatsky}
@@ -341,6 +343,24 @@ data om = star             (n: nat)
 Our typechecker differs from cannonical example of Coquand\cite{Coq96}. 
 We based our typechecker on variable {\bf Substitution}, variable {\bf Shifting}, term {\bf Normalization}, definitional {\bf Equality} anf {\bf Type Checker} itself.
 
+\subsection{Type Checker}
+For sure in a pure system, we should be careful with {\bf :remote} AST node.
+Remote AST nodes like {\bf \#List/Cons or \#List/map} are remote links to files.
+So using trick one should desire circular dependency over {\bf :remote}.
+
+\begin{lstlisting}[mathescape=true]
+type (:star,N)         D $\rightarrow$ (:star,N+1)
+     (:var,N,I)        D $\rightarrow$ :true = proplists:is_defined N B, om:keyget N D I
+     (:remote,N)       D $\rightarrow$ om:cache (type N D)
+     (:pi,N,0,I,O)     D $\rightarrow$ (:star,h(star(type I D)),star(type O [(N,norm I)|D]))
+     (:fn,N,0,I,O)     D $\rightarrow$ let star (type I D), NI = norm I
+                             in (:pi,N,0,NI,type(O,[(N,NI)|D]))
+     (:app,F,A)        D $\rightarrow$ let T = type(F,D),
+                                (:pi,N,0,I,O) = T, :true = eq I (type A D)
+                             in norm (subst O N A)
+\end{lstlisting}
+
+\newpage
 \subsection{Shifting}
 Shift renames var N in B. Renaming means adding 1 to the nat component of variable.
 
@@ -382,23 +402,6 @@ norm (:star,X)     $\rightarrow$ (:star,X)
      (:app,F,A)    $\rightarrow$ case norm F of
                          (:fn,N,0,I,O) $\rightarrow$ norm (subst O N A)
                                     NF $\rightarrow$ (:app,NF,norm A) end
-\end{lstlisting}
-
-\subsection{Type Checker}
-For sure in a pure system, we should be careful with {\bf :remote} AST node.
-Remote AST nodes like {\bf \#List/Cons or \#List/map} are remote links to files.
-So using trick one should desire circular dependency over {\bf :remote}.
-
-\begin{lstlisting}[mathescape=true]
-type (:star,N)         D $\rightarrow$ (:star,N+1)
-     (:var,N,I)        D $\rightarrow$ :true = proplists:is_defined N B, om:keyget N D I
-     (:remote,N)       D $\rightarrow$ om:cache (type N D)
-     (:pi,N,0,I,O)     D $\rightarrow$ (:star,h(star(type I D)),star(type O [(N,norm I)|D]))
-     (:fn,N,0,I,O)     D $\rightarrow$ let star (type I D), NI = norm I
-                             in (:pi,N,0,NI,type(O,[(N,NI)|D]))
-     (:app,F,A)        D $\rightarrow$ let T = type(F,D),
-                                (:pi,N,0,I,O) = T, :true = eq I (type A D)
-                             in norm (subst O N A)
 \end{lstlisting}
 
 \newpage
@@ -1044,6 +1047,6 @@ We thank all contributors of Groupoid Infinity who helped us to avoid mistakes i
 We also thank our spouses for continuous support.
 
 \bibliographystyle{plain}
-\bibliography{om}
+\bibliography{pts}
 
 \end{document}
