@@ -118,6 +118,33 @@ block content
                     terminal   (C: precategory): U = (y: carrier C) * isTerminal C y
                 p.
                     <b>Definition</b> (Categorical Pullback).
+                    The pullback of the first diagram (which is called cospan)
+            .semantics
+                figure.
+                    $$
+                    \begin{array}{ccc}
+                        & & B \\
+                        & & \mapdown{\mathbf{g}} \\
+                        A & \mapright{\mathbf{f}} & C \\
+                    \end{array}
+                    $$
+                figure.
+                    $$
+                    \begin{array}{ccc}
+                        A \times^{h}_{C} B & \mapright{\mathbf{pb_2}} & B \\
+                        \mapdown{\mathbf{pb_1}} & \mapdiagl{\mathbf{pb_3}} & \mapdown{\mathbf{g}} \\
+                        A & \mapright{\mathbf{f}} & C \\
+                    \end{array}
+                    $$
+            figure.
+                $$
+                    A \times^{h}_{C} B = \Sigma_A\Sigma_B C^I \\
+                    = \left\{ (x,y,h) : \Sigma_X\Sigma_Y C^I | h(0)=f(x), h(1)=g(y) \right\}
+                $$
+            p.
+                is a $X \times^h_C Y$
+                together with the projection maps $pb_{1,2,3}$ making the second
+                diagram commute up to homotopy $H(x,y,h,t) = h(t)$.
                 code.
                     homTo  (C: precategory) (X: carrier C): U   = (Y: carrier C) * hom C Y X
                     cospan (C: precategory): U = (X: carrier C) * (_: homTo C X) * homTo C X
