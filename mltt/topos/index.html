@@ -70,7 +70,7 @@ compose (C: precategory) (x y z: carrier C)
 that $\Pi_{x,y:\mathrm{Ob}_C} \mathrm{isContr}(\mathrm{Hom}_C(y,x))$.</p><code>isTerminal (C: precategory) (y: carrier C): U = (x: carrier C) -> isContr (hom C x y)
 terminal   (C: precategory): U = (y: carrier C) * isTerminal C y</code><p><b>Definition</b> (Categorical Pullback).
 The pullback of the cospan $A \mapright{f} C \mapleft{g} B$ is a object $A \times_{C} B$ with
-morphisms $pb_1 : \times_C \rightarrow A $, $pb_2 : \time_C \rightarrow B$, such that
+morphisms $pb_1 : \times_C \rightarrow A $, $pb_2 : \times_C \rightarrow B$, such that
 diagram commutes:
 $$
 \begin{array}{ccc}
