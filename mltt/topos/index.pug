@@ -118,28 +118,19 @@ block content
                     terminal   (C: precategory): U = (y: carrier C) * isTerminal C y
                 p.
                     <b>Definition</b> (Categorical Pullback).
-                    The pullback of the first diagram (which is called cospan)
+                    The pullback of the cospan $A \mapright{f} C \mapleft{g} B$ is a object $A \times_{C} B$ with
+                    morphisms $pb_1 : \times_C \rightarrow A $, $pb_2 : \time_C \rightarrow B$, such that
+                    diagram commutes:
                     $$
                     \begin{array}{ccc}
-                        & & B \\
-                        & & \mapdown{\mathbf{g}} \\
-                        A & \mapright{\mathbf{f}} & C \\
-                    \end{array}
-                    $$
-                    $$
-                    \begin{array}{ccc}
-                        A \times^{h}_{C} B & \mapright{\mathbf{pb_2}} & B \\
+                        A \times_{C} B & \mapright{\mathbf{pb_2}} & B \\
                         \mapdown{\mathbf{pb_1}} & \mapdiagl{\mathbf{pb_3}} & \mapdown{\mathbf{g}} \\
                         A & \mapright{\mathbf{f}} & C \\
-                    \end{array}
+                    \end{array}.
                     $$
-                    $$
-                        A \times^{h}_{C} B = \Sigma_A\Sigma_B C^I \\
-                        = \left\{ (x,y,h) : \Sigma_X\Sigma_Y C^I | h(0)=f(x), h(1)=g(y) \right\}
-                    $$
-                    is a $X \times^h_C Y$
-                    together with the projection maps $pb_{1,2,3}$ making the second
-                    diagram commute up to homotopy $H(x,y,h,t) = h(t)$.
+                    Pullback (\times_C,pb_1,pb_2) must be universal, means for any (D,q_1,q_2)
+                    for which diagram also commutes there must exists a unique $u: D \rightarrow \times_C$,
+                    such that $pb_1 \circ u = q_1$ and $pb_2 \circ q_2$.
                 code.
                     homTo  (C: precategory) (X: carrier C): U   = (Y: carrier C) * hom C Y X
                     cospan (C: precategory): U = (X: carrier C) * (_: homTo C X) * homTo C X
