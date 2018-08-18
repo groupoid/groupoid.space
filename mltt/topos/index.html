@@ -39,7 +39,7 @@ elementary topos of category of sets. Also very brief examination of
 three ways of topological definition: i) classical definition of
 topology in terms of open sets; ii) Grothendieck topos; iii) Elementary topos.</p><br><h1>Category Theory</h1><p>Very simple category theory up to pullbacks is provided. We give here
 all definitions to keep the context valid.</p><p><b>Definition</b> (Category Signature). The signature of category is
-a $\Sigma_{A:U}A \rightarrow A \rightarrow U$ where $U$ could be any universe.
+a $\sum_{A:U}A \rightarrow A \rightarrow U$ where $U$ could be any universe.
 The $\mathrm{pr}_1$ projection is called $\mathrm{Ob}$ and $\mathrm{pr}_2$ projection is
 called $\mathrm{Hom}(a,b)$, where $a,b:\mathrm{Ob}$.</p><code>cat: U = (A: U) * (A -> A -> U)</code><p>Precategory $\mathrm{C}$ defined as set of $\mathrm{Hom}_C(a,b)$ where $a,b:\mathrm{Ob}_C$
 are objects defined by its $\mathrm{id}$ arrows $\mathrm{Hom}_C(x,x)$.
@@ -91,13 +91,13 @@ hasPullback (C: precategory) (D: cospan C) : U
 </code><br><h1>Set Theory</h1><p>Here is given the $\infty$-groupoid model of sets.</p><p><b>Definition</b> (Mere proposition, $\mathrm{PROP}$). A type P is a mere proposition
 if for all $x,y: P$ we have $x=y$:
 $$
-    $\mathrm{isSet}(A) = \Pi_{x,y:A}\Pi_{p,q:x=y}(p=q)$.
+    \mathrm{isSet}(A) = \prod_{x,y:A}\prod_{p,q:x=y}(p=q).
 $$</p><p><b>Definition</b> (0-type). A type A is a 0-type is for all
 $x,y: A$ and $p,q: x =_A y$ we have $p = q$.</p><p><b>Definition</b> (1-type). A type A is a 1-type if for all
 $x,y: A$ and $p,q: x =_A y$ and $r,s:p =_{=_A} q$, we have $r = s$.</p><p><b>Definition</b> (A set of elements, $\mathrm{SET}$).
 A type A is a $\mathrm{SET}$ if for all $x,y: A$ and $p,q: x = y$, we have $p = q$:
 $$
-    $\mathrm{isSet}(A) = \Pi_{x,y:A}\Pi_{p,q:x=y}(p=q)$.
+    \mathrm{isSet}(A) = \prod_{x,y:A}\prod_{p,q:x=y}(p=q).
 $$</p><p><b>Theorem</b>. If A is a set then A is a 1-type.</p><code>data N = Z  | S (n: N)
 
 n_grpd (A: U) (n: N): U = (a b: A) -> rec A a b n where

@@ -73,7 +73,7 @@ block content
                     all definitions to keep the context valid.
                 p.
                     <b>Definition</b> (Category Signature). The signature of category is
-                    a $\Sigma_{A:U}A \rightarrow A \rightarrow U$ where $U$ could be any universe.
+                    a $\sum_{A:U}A \rightarrow A \rightarrow U$ where $U$ could be any universe.
                     The $\mathrm{pr}_1$ projection is called $\mathrm{Ob}$ and $\mathrm{pr}_2$ projection is
                     called $\mathrm{Hom}(a,b)$, where $a,b:\mathrm{Ob}$.
                 code.
@@ -149,7 +149,7 @@ block content
                     <b>Definition</b> (Mere proposition, $\mathrm{PROP}$). A type P is a mere proposition
                     if for all $x,y: P$ we have $x=y$:
                     $$
-                        $\mathrm{isSet}(A) = \Pi_{x,y:A}\Pi_{p,q:x=y}(p=q)$.
+                        \mathrm{isSet}(A) = \prod_{x,y:A}\prod_{p,q:x=y}(p=q).
                     $$
                 p.
                     <b>Definition</b> (0-type). A type A is a 0-type is for all
@@ -161,7 +161,7 @@ block content
                     <b>Definition</b> (A set of elements, $\mathrm{SET}$).
                     A type A is a $\mathrm{SET}$ if for all $x,y: A$ and $p,q: x = y$, we have $p = q$:
                     $$
-                        $\mathrm{isSet}(A) = \Pi_{x,y:A}\Pi_{p,q:x=y}(p=q)$.
+                        \mathrm{isSet}(A) = \prod_{x,y:A}\prod_{p,q:x=y}(p=q).
                     $$
                 p.
                     <b>Theorem</b>. If A is a set then A is a 1-type.
