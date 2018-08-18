@@ -199,11 +199,11 @@ grothendieck topology, or sieves.</p><code>site (C: precategory): U
   = (C: precategory)
   * Coverage C</code><p><b>Definition</b> (Presheaf). Presheaf of a category $\mathrm{C}$
 is a functor from opposite category to category of sets:
-$\mathrm{C}^{op} \rightarrow \mathrm{Set}$.</p><p><b>Definition</b> (Presheaf Category, $\mathrm{PSh}$).
+$\mathrm{C}^{op} \rightarrow \mathrm{Set}$.</p><code>presheaf (C: precategory): U
+  = catfunctor (opCat C) Set</code><p><b>Definition</b> (Presheaf Category, $\mathrm{PSh}$).
 Presheaf category $\mathrm{PSh}$ for a site $\mathrm{C}$ is category
 were objects are presheaves and morphisms are natural transformations
-of presheaf functors.</p><code>presheaf (C: precategory): U
-  = catfunctor (opCat C) Set</code><p><b>Definition</b> (Sheaf). Sheaf is a presheaf on a site. In other words
+of presheaf functors.</p><p><b>Definition</b> (Sheaf). Sheaf is a presheaf on a site. In other words
 a presheaf $F : \mathrm{C}^{op} \rightarrow \mathrm{Set}$ such that the
 cannonical map of inverse limit
 $$
@@ -295,9 +295,11 @@ can find in $\mathrm{MLTT}$ embedding.</p><code>cartesianClosure : isCCC Set
   unitContr (x: SET) (f: x.1 -> unit) : isContr (x.1 -> unit)
     = (f, \(z: x.1 -> unit) -> propPi x.1 (\(_:x.1)->unit) (\(x:x.1) ->propUnit) f z)
   term: terminal Set = ((unit,setUnit),\(x: SET) -> unitContr x (\(z: x.1) -> tt))</code><p>Note that rules of cartesian closure forms a type theoretical langage
-called lambda calculus.</p><p><b>Definition</b> (Elementary Topos). Topos.</p><code>Topos (cat: precategory)
+called lambda calculus.</p><p><b>Definition</b> (Elementary Topos). Topos is a precategory which is
+cartesian closed and has subobject classifier.</p><code>Topos (cat: precategory)
   : U
   = (cartesianClosure: isCCC cat)
-  * subobjectClassifier cat</code><p><b>Theorem</b> (Category of Sets forms a Topos).</p><code>internal
+  * subobjectClassifier cat</code><p><b>Theorem</b> (Category of Sets forms a Topos). There is a
+cartesian closure and subobject classifier for a categoty of sets.</p><code>internal
   : Topos Set
   = (cartesianClosure,hasSubobject)</code></section></div></article><footer class="footer"><img class="footer__logo" src="https://longchenpa.guru/seal.png" width="50"><span class="footer__copy">2016&mdash;2018 &copy; <a href="//groupoid.space/team.html" style="color:white;">Groupoid Infinity</a></span></footer><script src="https://groupoid.space/bundle.js"></script><script src="https://groupoid.space/highlight.js?v=9"></script></body></html>

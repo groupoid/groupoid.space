@@ -315,14 +315,14 @@ block content
                     <b>Definition</b> (Presheaf). Presheaf of a category $\mathrm{C}$
                     is a functor from opposite category to category of sets:
                     $\mathrm{C}^{op} \rightarrow \mathrm{Set}$.
+                code.
+                    presheaf (C: precategory): U
+                      = catfunctor (opCat C) Set
                 p.
                     <b>Definition</b> (Presheaf Category, $\mathrm{PSh}$).
                     Presheaf category $\mathrm{PSh}$ for a site $\mathrm{C}$ is category
                     were objects are presheaves and morphisms are natural transformations
                     of presheaf functors.
-                code.
-                    presheaf (C: precategory): U
-                      = catfunctor (opCat C) Set
                 p.
                     <b>Definition</b> (Sheaf). Sheaf is a presheaf on a site. In other words
                     a presheaf $F : \mathrm{C}^{op} \rightarrow \mathrm{Set}$ such that the
@@ -449,14 +449,16 @@ block content
                     Note that rules of cartesian closure forms a type theoretical langage
                     called lambda calculus.
                 p.
-                    <b>Definition</b> (Elementary Topos). Topos.
+                    <b>Definition</b> (Elementary Topos). Topos is a precategory which is
+                    cartesian closed and has subobject classifier.
                 code.
                     Topos (cat: precategory)
                       : U
                       = (cartesianClosure: isCCC cat)
                       * subobjectClassifier cat
                 p.
-                    <b>Theorem</b> (Category of Sets forms a Topos).
+                    <b>Theorem</b> (Category of Sets forms a Topos). There is a
+                    cartesian closure and subobject classifier for a categoty of sets.
                 code.
                     internal
                       : Topos Set
