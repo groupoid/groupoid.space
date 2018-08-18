@@ -286,8 +286,7 @@ set topos without using functors and natural transformations
 theory more suited for logic needs rather that geometry, as its set properties
 are hidden under the predicative predicative pullback definition of subobject classifier
 rather that functorial notation of presheaf functor. So we can simplify proofs
-at the homotopy levels, not to lift everything to 2-categorical model.</p><p><b>Theorem</b> (Topos Definitions). Any Grothendieck topos is an elementary topos too.
-The proof is sligthly based on results of Giraud theorem.</p><p><b>Definition</b> (Monomorphism). An morphism $f : Y \rightarrow Z $ is a monic or mono
+at the homotopy levels, not to lift everything to 2-categorical model.</p><p><b>Definition</b> (Monomorphism). An morphism $f : Y \rightarrow Z $ is a monic or mono
 if for any object $X$ and every pair of parralel morphisms $g_1,g_2: X \rightarrow Y$ the
 $$
     f \circ g_1 = f \circ g_2 \rightarrow g_1 = g_2.
@@ -348,7 +347,8 @@ called lambda calculus.</p><p><b>Definition</b> (Elementary Topos). Topos is a p
 cartesian closed and has subobject classifier.</p><code>Topos (cat: precategory)
   : U
   = (cartesianClosure: isCCC cat)
-  * subobjectClassifier cat</code><p><b>Theorem</b> (Category of Sets forms a Topos). There is a
+  * subobjectClassifier cat</code><p><b>Theorem</b> (Topos Definitions). Any Grothendieck topos is an elementary topos too.
+The proof is sligthly based on results of Giraud theorem.</p><p><b>Theorem</b> (Category of Sets forms a Topos). There is a
 cartesian closure and subobject classifier for a categoty of sets.</p><code>internal
   : Topos Set
   = (cartesianClosure,hasSubobject)</code><br><h1>Literature</h1><p><a href="https://raw.githubusercontent.com/groupoid/groupoid.space/master/mltt/infinity/references/70.Johnstone14.txt">[70]</a>. P.T. Johnstone. Topos Theory. 2014,
