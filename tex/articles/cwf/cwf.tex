@@ -1,32 +1,28 @@
 % copyright (c) 2018 Groupoid Infinity
 
 \documentclass{article}
-\usepackage{amsfonts}
 \usepackage{amscd}
 \usepackage{listings}
-\usepackage[numbers]{natbib}
-\usepackage[only,llbracket,rrbracket,llparenthesis,rrparenthesis]{stmaryrd}
-\usepackage{amssymb,amsmath,amsthm,stmaryrd,mathrsfs,wasysym}
-\usepackage{enumitem,mathtools,xspace}
 \usepackage{graphicx}
 \usepackage{amsmath}
 \usepackage{mathtools}
 \usepackage{amssymb}
-\usepackage{txfonts}
 \usepackage{amsthm}
 \usepackage{url}
 \usepackage{tikz-cd}
 \usepackage[utf8]{inputenc}
 
-\newcommand*{\thead}[1]{\multicolumn{1}{c}{\bfseries #1}}
+\theoremstyle{definition}
+\newtheorem{definition}{Definition}
+\newtheorem{theorem}{Theorem}
 
-\usepackage{inconsolata}
+\newcommand*{\thead}[1]{\multicolumn{1}{c}{\bfseries #1}}
 \lstset{basicstyle=\small,inputencoding=utf8}
 
 \begin{document}
 
-\title{Categorical Semantics \\ of Dependent Type Theory\\ for Cubical Syntax}
-\author{Maksym Sokhatskyi $^1$ and Pavlo Maslianko $^1$}
+\title{Appendix 8.1: Contextual Categories \\for Martin-Löf Type Theory}
+\author{Maksym Sokhatskyi $^1$}
 \date{
     $^1$ National Technical University of Ukraine \\
     \small Igor Sikorsky Kyiv Polytechnical Institute\\
@@ -44,172 +40,82 @@ Categorical Semantics of Dependent Type Theory.
           Theoretical Computer Science, Applied Mathematics,
           Cubical Type Theory, Martin-Löf Type Theory
 \end{abstract}
-
-\newpage
 \tableofcontents
 
 \newpage
-\section{Intro}
+\section*{Categories with Families}
 
 Here is a short informal description of
 categorical semantics of dependent type theory given by Peter Dybjer.
-The code is by Thierry Coquand ported to cubical by 5HT \footnote{http://www.cse.chalmers.se/~peterd/papers/Ise2008.pdf}.
+The code is by Thierry Coquand ported to cubical by 5HT
+\footnote{http://www.cse.chalmers.se/~peterd/papers/Ise2008.pdf}.
 
-{\bf Definition (Fam)}. Fam is the category of families
+\begin{definition} (Fam). Fam is the category of families
 of sets where objects are dependent function
 spaces $(x:A)\rightarrow B(x)$ and morphisms with domain
 $Pi(A,B)$ and codomain $Pi(A',B')$ are pairs of
 functions $<f:A\rightarrow A',g(x:A):B(x)\rightarrow B'(f(x))>$.
+\end{definition}
 
-{\bf Definition (Derivability)}.  $\Gamma\vdash A = (\gamma:\Gamma)\rightarrow A(\gamma)$.
+\begin{definition} ($\prod$-Derivability).
+$\Gamma\vdash A = (\gamma:\Gamma)\rightarrow A(\gamma)$.
+\end{definition}
 
-{\bf Definition (Comprehension)}. $\Gamma;A = (\gamma:\Gamma)*A(\gamma)$.
-Statement. Comprehension is not assoc.
+\begin{definition} ($\sum$-Comprehension).
+$\Gamma;A = (\gamma:\Gamma)*A(\gamma)$. Comprehension is not assoc.
+$$
+    \Gamma;A;B \neq \Gamma;B;A
+$$
+\end{definition}
 
-                  $\Gamma;A;B \neq \Gamma;B;A$
-
-{\bf Definition (Context)}. The C is context category where
-objects are contexts and morphisms are substitutions.
+\begin{definition} (Context).
+The C is context category where objects are contexts and morphisms are substitutions.
 Terminal object $\Gamma=0$ in C is called empty context.
 Context comprehension operation $\Gamma;A = (x:\Gamma)*A(x)$ and
 its eliminators: $p:\Gamma;A\vdash\Gamma$, $q:\Gamma;A\vdash A(p)$ such that
 universal property holds: for any $\Delta:ob(C)$, morphism $\gamma:\Delta\rightarrow\Gamma$,
 and term $a:\Delta\rightarrow A$ there is a unique morphism $\theta=<\gamma,a>:\Delta\rightarrow\Gamma;A$
 such that $p\circ\theta=\gamma$ and $q(\theta)=a$. Statement. Subst is assoc.
+$$
+    \gamma(\gamma(\Gamma,x,a),y,b) = \gamma(\gamma(\Gamma,y,b),x,a)
+$$
+\end{definition}
 
-        $\gamma(\gamma(\Gamma,x,a),y,b) = \gamma(\gamma(\Gamma,y,b),x,a)$
-
-{\bf Definition (CwF-object)}. A CwF-object is a $Sigma(C,C\rightarrow Fam)$
+\begin{definition} (CwF-object).
+A CwF-object is a $Sigma(C,C\rightarrow Fam)$
 of context category C with contexts as objects and
 substitutions as morphisms and functor $T:C\rightarrow Fam$ where
 object part is a map from a context $\Gamma$ of C to famility
 of sets of terms $\Gamma\vdash A$ and morphism part is a map from
 substitution $\gamma:\Delta\rightarrow\Gamma$ to a pair of functions which perform
 substitutions of $\gamma$ in terms and types respectively.
+\end{definition}
 
-{\bf Definition (CwF-morphism)}. Let $(C,T):ob(C)$ where $T:C\rightarrow Fam$.
+\begin{definition} (CwF-morphism).
+Let $(C,T):ob(C)$ where $T:C\rightarrow Fam$.
 A CwF-morphism $m: (C,T)\rightarrow(C',T')$ is a pair $<F:C\rightarrow C',\sigma:T\rightarrow T'(F)>$
 where F is a functor and $\sigma$ is a natural transformation.
+\end{definition}
 
-{\bf Definition (Category of Types)}. Let we have CwF with (C,T) objects
+\begin{definition} (Category of Types).
+Let we have CwF with (C,T) objects
 and $(C,T)\rightarrow(C',T')$ mophisms. For a given context $\Gamma$ in Ob(C) we can
 construct a $Type(\Gamma)$ -- the category of types in context $\Gamma$ with
 set of types in contexts as objects as and functions
 $f:\Gamma;A\rightarrow B(p)$ as morphisms.
+\end{definition}
 
-{\bf Definition (Local Cartesian Closed Category)}.
-
-          $LCCC(C) = Sigma(C,(A:ob C)\rightarrow CCC(C/A))$.
-
+\begin{definition} (Local Cartesian Closed Category).
+$$
+    LCCC(C) = \prod_{x:C}IsCCC(C_{/x}).
+$$
 Usually, from the mathematical point of view, there are no differences between
 different syntactic proofs of the same theorem. However, from the programming point of view, we can think of code reuse and precisely defined math libraries that reduce
 the overall code size and provide simplicity for operating complex
 structures (most heavy one is the categorical library). So in this work, we will focus
 on proper decoupling and more programming friendly base library still usable
 for mathematicians.
-
-
-\begin{lstlisting}[mathescape=true]
-data Exp = Star (_:   nat)
-         | Var  (_:   nat)
-         | Pi   (_ _: Exp)
-         | Lam  (_:   Exp)
-         | App  (_ _: Exp)
-\end{lstlisting}
-
-\begin{lstlisting}[mathescape=true]
-Ty:    U = Exp
-Ctx:   U = list Ty
-Subst: U = list Exp
-seq (start: nat): list Exp = cons (Var start) (seq (suc start))
-\end{lstlisting}
-
-\begin{lstlisting}[mathescape=true]
-mutual
-
-p:   Subst = seq one
-q:   Exp   = Var zero
-ide: Subst = seq zero
-cmp: Subst -> Subst -> Subst = split
-     nil -> \(ts: Subst) -> nil
-     cons x xs -> \(ts: Subst) -> cons (sub ts x) (cmp xs ts)
-\end{lstlisting}
-
-\begin{lstlisting}[mathescape=true]
-lift (ts: Subst): Subst = cons q (cmp ts p)
-unwrap: maybe Exp -> Exp = split { nothing -> q ; just x -> x }
-shift (t: Exp) (i: nat): Exp = sub (seq i) t
-\end{lstlisting}
-
-\begin{lstlisting}[mathescape=true]
-isCo: Ctx -> bool = split
-  nil -> true
-  cons x xs -> and_ (isCo xs) (isTy xs x)
-\end{lstlisting}
-
-\begin{lstlisting}[mathescape=true]
-isU (c:Ctx)(a b:Exp): Exp -> bool = split
-  Star  i   -> (and_ (isTm c (Star i) a) (isTm (cons a c) (Star i) b))
-  Var   i   -> false
-  Pi    a b -> false
-  Lam     x -> false
-  App   a b -> false
-\end{lstlisting}
-
-\begin{lstlisting}[mathescape=true]
-isPi (c:Ctx)(e:Exp): Exp -> bool = split
-  Star  i   -> false
-  Var   i   -> false
-  Pi    a b -> isTm (cons a c) b e
-  Lam     x -> false
-  App   a b -> false
-\end{lstlisting}
-
-\begin{lstlisting}[mathescape=true]
-isTy (c:Ctx): Ty -> bool = split
-  Star  i   -> true
-  Var   i   -> isTm c (Star zero) (Var i)
-  Pi    a b -> and_ (isTy c a) (isTy (cons a c) b)
-  Lam     x -> isTm c (Star zero) (Lam x)
-  App   a b -> isTm c (Star zero) (App a b)
-\end{lstlisting}
-
-\begin{lstlisting}[mathescape=true]
-isTm (c:Ctx)(e:Exp): Ty -> bool = split
-  Star  i   -> false
-  Var   i   -> false
-  Pi    a b -> isU c a b e
-  Lam     x -> isPi c x e
-  App   a b -> false
-\end{lstlisting}
-
-\begin{lstlisting}[mathescape=true]
-app (s: Exp): Exp -> Exp = split
-  Star  i   -> App (Star i) s
-  Var   i   -> App (Var i) s
-  Pi    a b -> App (Pi a b) s
-  Lam   x   -> sub (cons s ide) x
-  App   a b -> App (App a b) s
-\end{lstlisting}
-
-\begin{lstlisting}[mathescape=true]
-sub (ts: Subst): Exp -> Exp = split
-  Star  i   -> Star i
-  Var   i   -> unwrap (nth Exp i ts)
-  Pi    a b -> Pi  (sub ts a) (sub (lift ts) b)
-  Lam   x   -> Lam (sub (lift ts) x)
-  App   s t -> app (sub ts t) (sub ts s)
-\end{lstlisting}
-
-\begin{lstlisting}[mathescape=true]
-inferTy (c: Ctx): Exp -> maybe Ty = split
-  Star  i   -> just (Star i)
-  Var   i   -> just (shift (unwrap (nth Exp i c)) (suc i))
-  Pi    a b -> just (Star one)   -- implement
-  Lam   x   -> just (Star zero)  -- implement
-  App   s t -> just (Star zero)  -- implement
-\end{lstlisting}
-
+\end{definition}
 
 %\newpage
 \bibliographystyle{plain}
