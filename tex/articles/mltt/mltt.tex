@@ -11,7 +11,6 @@
 \usetikzlibrary{matrix}
 \usetikzlibrary{babel}
 \usepackage{listings}
-\usepackage[numbers]{natbib}
 \usepackage[utf8]{inputenc}
 \theoremstyle{definition}
 \newtheorem{definition}{Definition}
@@ -31,7 +30,7 @@
 
 \begin{document}
 
-\title{Types I: Internalizing Martin-Löf Type Theory}
+\title{Issue I: Internalizing Martin-Löf Type Theory}
 \author{Maxim Sokhatsky}
 \date{ $^1$ National Technical University of Ukraine \\
        \small Igor Sikorsky Kyiv Polytechnical Institute \\
@@ -237,6 +236,10 @@ FiberPi (B: U) (F: B -> U) (y: B)
       : Path U (fiber (Sigma B F) B (pi1 B F) y) (F y)
 \end{lstlisting}
 \end{theorem}
+
+Note that we will not be able to prove this theorem
+until {\bf Issue V: Many Faces of Equality} because
+bi-invertible iso type will be announced there.
 
 \begin{theorem} (Homotopy Equivalence).
 If fiber space is set for all base, and
@@ -520,7 +523,6 @@ contr (A: U) (a b: A) (p: Path A a b)
 \end{lstlisting}
 \end{theorem}
 
-
 \begin{theorem} (Path Elimination, Diagonal).
 \begin{lstlisting}
 D (A: U) : U = (x y: A) -> Path A x y -> U
@@ -635,121 +637,77 @@ sys     0m0.014s
 
 This article opens door to a series that will unvail the topics of
 homotopy type theory with practical emphasis to cubical type checkers.
-The article names may subject to change and are based on course structure.
+The article names are subject to change and are based on course structure.
 A number of articles could be issued under the same chapter number.
 
-{\bf Types I: Intenalizing Martin-Löf Type Theory}.
-The set of modules with axioms and theorems for $\prod$, $\sum$ and $=$ types,
-the basis of MLTT theory. Among them: pi, sigma, proto, proto\_equiv,
-proto\_path, path, function, mltt.
+\subsubsection*{Foundations}
 
-{\bf Types II: Inductive Types and Encodings}.
-The model for run-time types, properties of which could be proved using
-univalend foundations: binnat, bool, control, either, list,
-maybe, stream, nat, recursion.
+The Foundations volume of articles define formal programming language
+with geometric foundations and show how to prove properties of such constructions.
+The foundations contain only programming system overview disregarding specific mathematical
+models or theories which will be given in the second volume entitled Mathematics.
 
-{\bf Types III: Fibrations and $\infty$-groupoids}.
+{\bf Issue I: Intenalizing Martin-Löf Type Theory}.
+The first volume of definitions gathered into one article dedicated to
+various $\prod$ and $\sum$ properties and internalization of MLTT in the host language typechecker.
 
-{\bf Types IV: Set Theory}.
-The basic theorems about set theory and higher groupoids: hedberg, girard, prop, set.
+{\bf Issue II: Inductive Types and Encodings}.
+This episode tales a story of inductive types, their encodings,
+induction principle and its models.
 
-{\bf Types V: Many Faces of Equality}.
-The basic theorems about isomorphisms of MLTT types. Useful for
-proving transport between types, include following modules:
-iso, iso\_pi, iso\_sigma, trunc, equiv, univ.
+{\bf Issue III: Homotopy Type Theory}.
+This issue is try to present the Homotopy Type Theory without higher inductive types
+to neglect the core and principles of homotopical proofs.
 
-{\bf Types VI: Higher Inductive Types}.
+{\bf Issue IV: Higher Inductive Types}.
 The metamodel of HIT is a theory of CW-complexes. The category of HIT is a homotopy category.
-Modules: cw.
+This volume finalizes the building of the computational theory.
 
-{\bf Types VII: Modalities}. Modules: infinitesimal, process.
+{\bf Issue V: Many Faces of Equality}.
+This article pay attension to different forms of equalities
+and kick the tower of higher equalities.
 
-{\bf Types VIII: Category Theory}.
-The model of Category Theory definitions. It includes:
-cat, adj, cones, fun, category, sip, ump, cwf.
+{\bf Issue VI: Modalities}. What if something couldn't be constructively
+presented? We can wrap this into modalities and interface it with 5 types
+of MLTT rules, making system sound but without computational semantics.
 
-{\bf Types IX: Formal Topos on Category of Sets}.
+\subsubsection*{Mathematics}
 
-{\bf Types X: Abstract Algebra}.
+The second volume of article is dedicated to cover the mathematical
+programming and modeling.
+
+\indent {\bf Issue VII: Set Theory}.
+The set theory and mere propositions: set, prop.
+
+{\bf Issue VIII: Category Theory}.
+The model of Category Theory definitions. It includes: cat, adj, cones, fun, category, sip, ump, cwf.
+
+{\bf Issue IX: Formal Topos on Category of Sets}.
+Formal packaging of set theory in a topos.
+
+{\bf Issue X: Abstract Algebra}.
 Abstract algebra, such as Monoid, Group, Semigroup, Monad, etc: algebra, control.
 
-{\bf Types XI: Ordinals}.
+{\bf Issue XI: Ordinals}.
 Modules: ordinal, mahlo.
 
-{\bf Types XII: Differential Geometry}.
+{\bf Issue XII: Differential Geometry}.
 Modules: etale, infinitesimal, manifold, shape.
 
-{\bf Types XIII: Hopf Fibrations}.
+{\bf Issue XIII: Hopf Fibrations}.
 Modules: pointed, euler, hopf.
 
-{\bf Types XIV: K-Theory}.
+{\bf Issue XIV: K-Theory}.
 Modules: k\_theory, spawptrans, subtype, bishop.
 
+\subsubsection*{Addons}
 
-%\section{Inductive Types}
-%\subsection{Empty}
-%\subsection{Unit}
-%\subsection{Bool}
-%\subsection{Either}
-%\subsection{Nat}
-%\subsection{List}
-%\subsection{Fin}
-%\subsection{Vector}
+A number of application will be issued during this series. At the time
+of first volume only one appendix is available, the PTS languge with
+infinite number of universes with switcheable SAR rules.
 
-%\section{Homotopy Type Theory}
-%\subsection{n-Types}
-%\subsection{Functional Extensionality}
+{\bf Addon I: Pure Type System for Erlang}.
 
-%\begin{definition} (Formation).
-%\end{definition}
-
-%\begin{theorem} (Introduction).
-%\end{theorem}
-
-%\begin{theorem} (Elimination).
-%\end{theorem}
-
-%\begin{theorem} (Computation).
-%\end{theorem}
-
-%\begin{theorem} (Uniqueness).
-%\end{theorem}
-
-%\subsection{Univalence}
-
-%\begin{definition} (Formation).
-%\end{definition}
-
-%\begin{theorem} (Introduction).
-%\end{theorem}
-
-%\begin{theorem} (Elimination).
-%\end{theorem}
-
-%\begin{theorem} (Computation).
-%\end{theorem}
-
-%\begin{theorem} (Uniqueness).
-%\end{theorem}
-
-%\section{Higher Inductive Types}
-%\subsection{Interval}
-%\subsection{$S^1$}
-%\subsection{Pullback}
-%\subsection{Pushout}
-%\subsection{Truncation}
-%\subsection{Quotient}
-%\subsection{Loop Space}
-%\subsection{Homotopy Group}
-%\section{Cohesive Type Theory}
-%\subsection{Fundametal $\infty$-Groupoid}
-%\subsection{Infinitesimal Modality}
-%\subsection{Sharp Modality}
-%\subsection{Formal Disc}
-%\subsection{Etale Maps}
-%\subsection{Manifolds}
-
-%\newpage
 \bibliographystyle{plain}
 \bibliography{types}
 

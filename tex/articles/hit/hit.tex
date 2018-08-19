@@ -18,8 +18,8 @@
 
 \begin{document}
 
-\title{Types VI: Higher Inductive Types}
-\author{Maksym Sokhatskyi $^1$}
+\title{Issue IV: Higher Inductive Types}
+\author{Maxim Sokhatsky $^1$}
 \date{ $^1$ National Technical University of Ukraine \\
        \small Igor Sikorsky Kyiv Polytechnical Institute \\
        \today }
@@ -29,16 +29,15 @@
 \begin{abstract}
 CW-complexes are fundamental objects in homotopy type theory
 and even included inside cubical type checker in a form of
-higher (co)-inductive types (HITs).
-Just like regular (co)-inductive types could be described as recursive
-terminating (well-founded) or non-terminating trees,
-higher inductive types could be described as CW-complexes.
+higher inductive types (HIT). Just like regular (co)-inductive
+types could be described as recursive terminating (well-founded)
+or non-terminating trees, higher inductive types could be described as CW-complexes.
 Defining HIT means to define some CW-complex
 directly using cubical homogeneous composition structure as an
 element of initial algebra inside cubical model.
 \\
 \\
-{\bf Keywords}: CW-complex, Cubical Type Theory
+{\bf Keywords}: Collular Piecewise Topology, Cubical Type Theory, Higher Inductive Types
 \end{abstract}
 \tableofcontents
 
@@ -54,9 +53,8 @@ Defining HIT means to define some CW-complex
 directly using cubical homogeneous composition structure as an
 element of initial algebra inside cubical model.
 
-{\bf Pushout}. One of the notable examples is pushout as it's used
+\begin{definition} (Pushout). One of the notable examples is pushout as it's used
 to define the cell attachment formally, as others cofibrant objects.
-
 \begin{lstlisting}
 data pushout (A B C: U) (f: C -> A) (g: C -> B)
    = po1 (_: A)
@@ -64,17 +62,16 @@ data pushout (A B C: U) (f: C -> A) (g: C -> B)
    | po3 (c: C) <i> [ (i = 0) -> po1 (f c) ,
                       (i = 1) -> po2 (g c) ]
 \end{lstlisting}
+\end{definition}
 
-{\bf Shperes and Disks}.
+\begin{definition} (Shperes and Disks).
 Here are some example of using dimensions to construct spherical shapes.
-
 \begin{lstlisting}
 data S1
    = base
    | loop <i> [ (i = 0) -> base,
                 (i = 1) -> base ]
 \end{lstlisting}
-
 \begin{lstlisting}
 data S2
    = point
@@ -82,6 +79,7 @@ data S2
                   (j = 0) -> point, (j = 1) -> point ]
                   (j = 0) -> point, (j = 1) -> point ]
 \end{lstlisting}
+\end{definition}
 
 \section{CW-Complexes}
 
