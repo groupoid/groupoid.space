@@ -508,10 +508,6 @@ Isomorphism definitions are placed in three different modules due to dependency
 optimisation: {\bf iso}, {\bf iso\_pi}, {\bf iso\_sigma}. Latter two contains
 main theorems about paths in Pi and Sigma spaces.
 
-\subsection{Univalence}
-
-\subsection{Function Extensionality}
-
 \section{The Formal Specification of the Problem}
 
 \subsection{Class of Theorems. Constructive proofs of heterogeneous equalities}
@@ -602,34 +598,6 @@ and values across paths.
 
 We propose a general-purpose base library for modeling math systems using univalent foundations
 and cubical type checker.
-
-{\bf Types 1: MLTT Foundation}.
-The set of modules with axioms and theorems for $\prod$, $\sum$ and $=$ types,
-the basis of MLTT theory. Among them: pi, sigma, proto, proto\_equiv,
-proto\_path, path, function, mltt.
-
-{\bf Types 2: Inductive Types}.
-The model for run-time types, properties of which could be proved using
-univalend foundations: binnat, bool, control, either, list,
-maybe, stream, nat, recursion.
-
-{\bf Types 4: Set Theory}.
-The basic theorems about set theory and higher groupoids: hedberg, girard, prop, set.
-
-{\bf Types 5: Univalence Foundation}.
-The basic theorems about isomorphisms of MLTT types. Useful for
-proving transport between types, include following modules:
-iso, iso\_pi, iso\_sigma, trunc, equiv, univ.
-
-{\bf Types 8: Category Theory}.
-The model of Category Theory \cite{HoTT} definitions. It includes:
-cat, adj, cones, fun, category, sip, ump.
-
-{\bf Types 10: Algebra}.
-Abstract algebra, such as Monoid, Gropop, Semogroupo, Monad, etc: algebra, control.
-
-{\bf Types 12: Geometry}.
-Differential Geometry: etale, infinitesimal, manifold, shape.
 
 The amount of code needed for $Nat =_U Fix(Maybe)$ proof is around 400 LOC in modules.
 
