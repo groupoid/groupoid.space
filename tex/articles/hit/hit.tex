@@ -1,0 +1,129 @@
+% copyright (c) 2018 Groupoid Infinity
+
+\documentclass{article}
+\usepackage{listings}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{url}
+\usepackage{tikz-cd}
+\usepackage[utf8]{inputenc}
+
+\theoremstyle{definition}
+\newtheorem{definition}{Definition}
+\newtheorem{theorem}{Theorem}
+\newcommand*{\incmap}{\hookrightarrow}
+\newcommand*{\thead}[1]{\multicolumn{1}{c}{\bfseries #1}}
+\lstset{basicstyle=\small,inputencoding=utf8}
+
+\begin{document}
+
+\title{Types VI: Higher Inductive Types}
+\author{Maksym Sokhatskyi $^1$}
+\date{ $^1$ National Technical University of Ukraine \\
+       \small Igor Sikorsky Kyiv Polytechnical Institute \\
+       \today }
+
+\maketitle
+
+\begin{abstract}
+CW-complexes are fundamental objects in homotopy type theory
+and even included inside cubical type checker in a form of
+higher (co)-inductive types (HITs).
+Just like regular (co)-inductive types could be described as recursive
+terminating (well-founded) or non-terminating trees,
+higher inductive types could be described as CW-complexes.
+Defining HIT means to define some CW-complex
+directly using cubical homogeneous composition structure as an
+element of initial algebra inside cubical model.
+\\
+\\
+{\bf Keywords}: CW-complex, Cubical Type Theory
+\end{abstract}
+\tableofcontents
+
+\newpage
+\section{Higher Inductive Types}
+CW-complexes are fundamental objects in homotopy type theory
+and even included inside cubical type checker in a form of
+higher (co)-inductive types (HITs).
+Just like regular (co)-inductive types could be described as recursive
+terminating (well-founded) or non-terminating trees,
+higher inductive types could be described as CW-complexes.
+Defining HIT means to define some CW-complex
+directly using cubical homogeneous composition structure as an
+element of initial algebra inside cubical model.
+
+{\bf Pushout}. One of the notable examples is pushout as it's used
+to define the cell attachment formally, as others cofibrant objects.
+
+\begin{lstlisting}
+data pushout (A B C: U) (f: C -> A) (g: C -> B)
+   = po1 (_: A)
+   | po2 (_: B)
+   | po3 (c: C) <i> [ (i = 0) -> po1 (f c) ,
+                      (i = 1) -> po2 (g c) ]
+\end{lstlisting}
+
+{\bf Shperes and Disks}.
+Here are some example of using dimensions to construct spherical shapes.
+
+\begin{lstlisting}
+data S1
+   = base
+   | loop <i> [ (i = 0) -> base,
+                (i = 1) -> base ]
+\end{lstlisting}
+
+\begin{lstlisting}
+data S2
+   = point
+   | surf <i j> [ (i = 0) -> point, (i = 1) -> point,
+                  (j = 0) -> point, (j = 1) -> point ]
+                  (j = 0) -> point, (j = 1) -> point ]
+\end{lstlisting}
+
+\section{CW-Complexes}
+
+The definition of homotopy groups, a special role is played
+by the inclusions $S^{n-1} \incmap D^n$. We study spaces
+obtained iterated attachments of $D^n$ along $S^{n-1}$.
+
+\begin{definition} (Attachment).
+Attaching n-cell to a space $X$
+along a map $f : S^{n-1} \rightarrow X$ means taking a pushout figure.
+$$
+\begin{tikzcd}
+ & S^{n-1} \arrow[r, "k"] \arrow[d, ""]
+ & X \arrow[d, ""] \\
+ & D^n \arrow[r, "g"] & \cup_f D^n
+\end{tikzcd}
+$$
+where the notation $X \cup_f D^n$ means result depends
+on homotopy class of $f$.
+\end{definition}
+
+\begin{definition} (CW-Complex).
+Inductively. The only CW-complex of dimention $-1$ is $\varnothing$.
+A CW-complex of dimension $\leqslant n$ on $X$ is a
+space $X$ obtained by attaching a collection of n-cells
+to a CW-complex of dimension $n-1$.
+
+A CW-complex is a space $X$ which is the $colimit(X_i)$ of a
+sequence $X_{-1} = \varnothing \incmap X_0 \incmap X_1 \incmap X_2 \incmap ... X$ of
+CW-complexes $X_i$ of dimension $\leqslant n$, with $X_{i+1}$
+obtained from $X_i$ by i-cell attachments.
+Thus if X is a CW-complex, it comes with a filtration
+$$
+    \varnothing \incmap X_0 \incmap X_1 \incmap X_2 \incmap ... X
+$$
+where $X_i$ is a CW-complex of dimension $\leqslant i$ called
+the i-skeleton, and hence the filtration is called the skeletal
+filtration.
+\end{definition}
+
+\bibliographystyle{plain}
+\bibliography{cwf}
+
+\end{document}
+
