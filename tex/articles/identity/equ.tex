@@ -1,24 +1,19 @@
 % copyright (c) 2018 Groupoid Infinity
 
-\documentclass{svproc}
+\documentclass{article}
 \usepackage{amscd}
 \usepackage{listings}
-\usepackage[numbers]{natbib}
-\usepackage[only,llbracket,rrbracket,llparenthesis,rrparenthesis]{stmaryrd}
 \usepackage{graphicx}
 \usepackage{amsmath}
 \usepackage{amssymb}
-\usepackage{txfonts}
 \usepackage[utf8]{inputenc}
-\usepackage[numbers]{natbib}
 
-\renewcommand\bibsection{\section*{\refname}\small\renewcommand\bibnumfmt[1]{##1.}}
 \lstset{basicstyle=\small,inputencoding=utf8}
 
 \begin{document}
 
 \title{Types V: Many Faces of Equality}
-\author{Maksym Sokhatskyi $^1$ and Pavlo Maslianko $^1$}
+\author{Maksym Sokhatskyi $^1$}
 \date{
     $^1$ National Technical University of Ukraine \\
     \small Igor Sikorsky Kyiv Polytechnical Institute\\
@@ -40,10 +35,9 @@ datatypes and built a constructive proof of equality between elements of these d
 This approach could be extended to any complex isomorphic data types.
 \end{abstract}
 
-{\bf Keywords}: Formal Methods, Type Theory, Computer Languages,
-          Theoretical Computer Science, Applied Mathematics,
-          Isomorphism, Heterogeneous Equality, Cubical Type Theory,
-          Martin-Löf Type Theory
+{\bf Keywords}: Equivalence, Isomorphism, Homotopy,
+                Heterogeneous Equality, Cubical Type Theory,
+                Martin-Löf Type Theory
 
 %\newpage
 %\tableofcontents
@@ -700,6 +694,6 @@ for developing run-time systems and proving its properties, followed with code e
 to pure type systems and/or run-time interpreters.
 
 \bibliographystyle{plain}
-\bibliography{identity}
+\bibliography{equ}
 
 \end{document}
