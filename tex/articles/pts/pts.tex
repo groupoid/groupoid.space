@@ -89,11 +89,6 @@ Then runtime part could be refined to PTS, extracted to target and run in an env
 We see two levels of extensions to PTS core: 1) Inductive Types support; 2) Homotopy Core with [0,1] and its eliminators.
 We will touch a bit this topic in the last section of this document.
 
-\begin{figure}[h]
-  \centerline{\includegraphics[scale=0.28]{structure}}
-  \caption{The Systems Engineering of Model Verifications}
-\end{figure}
-
 \subsection{Place among other languages}
 The product is a regular Erlang/OTP application, that provides dependent language services to the Erlang environment: 1) type checking; 2) normalization; 3) extraction.
 All parts of {\bf Om} compiler is written in Erlang language and target/runtime language is Erlang.
@@ -105,11 +100,12 @@ All parts of {\bf Om} compiler is written in Erlang language and target/runtime 
 \end{itemize}
 
 \begin{table}[h]
+\begin{center}
 \caption{List of languages, tried as verification targets}
 \label{tab:a}
 \tabcolsep7pt\begin{tabular}{lcccc}
 \hline
-{\bf Target Language} & {\bf Class} & {\bf Higher Language} & {\bf Type Theory}\\
+{\bf Target} & {\bf Class} & {\bf Intermediate} & {\bf Theory}\\
 \hline
 C++        & compiler/native      & HNC & System F\\
 Rust       & compiler/native      & HNC & System F\\
@@ -127,9 +123,10 @@ LuaJIT     & interpreter/native   & N/A & ULC \\
 JavaScript & interpreter/native & PureScript & System F\\
 \hline
 \end{tabular}
+\end{center}
 \end{table}
 
-\section{Consistent Pure Type System as Intermediate Language}
+\section{Consistent PTS as Intermediate Language}
 The {\bf Om} language is a dependently typed lambda calculus {\bf PTS$^\infty$}, an extension of Coquand' Calculus of Constructions\cite{Coq88} with the predicative hierarchy of indexed universes.
 There is no fixpoint axiom, so there is no infinite term dependence, the theory is fully consistent and has strong normalization property.
 
@@ -752,11 +749,6 @@ However there a lot of ways doing this. For example, we can build in induction p
 We even can allow recursive type check for only terms of induction principle, which have recursion base --- that approach was successfully established by Peng Fu and Aaron Stump\cite{Stump17}.
 In any case for derivable induction principle in PTS$^\infty$ we need to have fixpoint somehow in the core.
 
-\begin{figure}[h]
-  \centerline{\includegraphics[scale=0.28]{stages}}
-  \caption{The Stages of Model Verifications}
-\end{figure}
-
 So-called Calculus of Inductive Constructions\cite{Mohring15} is used as a top language on top of PTS to reason about inductive types.
 Here we will show you a sketch of such inductive language model which intended to be a language extension to PTS system.
 CiC is allowing fixpoint for any terms, and base checking should be performed during type checking such terms.
@@ -787,6 +779,7 @@ It also has an Id-type (with its recursor) for equality reasoning, Case analysis
              | case O B
 \end{lstlisting}
 
+\newpage
 \subsection{AST}
 The AST of higher language is formally defined using itself.
 Here you can find telescopes (context lists), split and its branches, inductive data definitions.
@@ -827,6 +820,7 @@ There are a number of inductive type encodings:
 Om is shipped with base library in Church encoding and we already gave the example of IO system encoded with runtime linkage.
 We give here simple calculations behind this theory.
 
+\newpage
 \subsection{Polynomial Functors}
 Least fixed point trees are called well-founded trees.
 They encode polynomial functors.\\
@@ -970,8 +964,9 @@ is available at {\bf Om} GitHub repository\footnote{http://github.com/groupoid/o
                   ([>>=]: ...)
 
            record Morte: Type :=
-                  (recursive: IO.replicateM Nat.Five
-                              (IO.[>>=] IO.data Unit IO.getLine IO.putLine))
+                  (recursive: IO.replicateM
+                    Nat.Five (IO.[>>=] IO.data Unit
+                              IO.getLine IO.putLine))
 
 \end{lstlisting}
 
@@ -980,6 +975,7 @@ The underlying {\bf Om} type checker and compiler is a target language for highe
 The overall size of {\bf Om} language with extractor to Erlang is 265 lines of code.
 
 \begin{table}[h]
+\begin{center}
 \caption{Compiler Passes}
 \label{tab:passes}
 \tabcolsep7pt\begin{tabular}{lccc}
@@ -993,25 +989,7 @@ om\_erase   & 36 LOC & Delete information about types\\
 om\_extract & 34 LOC & Extract Erlang Code\\
 \hline
 \end{tabular}
-\end{table}
-
-We benchmarked the unrolling of inductive list type in Church encoding extracted with OM with native erlang {\bf lists:foldl}.
-
-\begin{table}[h]
-\caption{Run-time performance}
-\label{tab:perf}
-\tabcolsep7pt\begin{tabular}{lccc}
-\hline
-{\bf Operation} & {\bf Type} & {\bf Time}\\
-\hline
-Pack/Unpack 1 000 000 & Inductive Nat   & 776407 us\\
-Pack/Unpack 1 000 000 & Inductive List  & 1036461 us\\
-Pack/Unpack 1 000 000 & Erlang/OTP List & 148084 us\\
-\hline
-Typechecking & Om ShadowTrans & 4.972s\\
-Typechecking & Morte ShadowTrans & 57.867s\\
-\hline
-\end{tabular}
+\end{center}
 \end{table}
 
 \section{Conclusion}
