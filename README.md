@@ -4,7 +4,7 @@ Groupoid Infinity is doing research in type theory, term encodings,
 program extraction, and effective compilation.
 Infinity stack consists of following languages:
 
-* O (lc) — untyped lambda CPS interpreter
+* O (lambda) — untyped lambda CPS interpreter
 * Om (pts) — typechecker and code extraction
 * Infinity (mltt) — high level language with dependent types
 
@@ -32,7 +32,7 @@ $ npm start
 │   ├── idris
 │   ├── io
 │   └── ioi
-├── lc
+├── lambda
 │   ├── extract
 │   ├── intro
 │   └── runtime
