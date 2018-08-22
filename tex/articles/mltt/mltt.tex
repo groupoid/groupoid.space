@@ -304,12 +304,10 @@ sigInd (A: U) (B: A -> U) (C: Sigma A B -> U)
 Beta1 (A: U) (B: A -> U)
       (a:A) (b: B a)
     : Equ A a (pr1 A B (a,b))
-    = refl A a
 
 Beta2 (A: U) (B: A -> U)
       (a: A) (b: B a)
     : Equ (B a) b (pr2 A B (a,b))
-    = reflect (B a)
 \end{lstlisting}
 \end{theorem}
 
@@ -317,7 +315,6 @@ Beta2 (A: U) (B: A -> U)
 \begin{lstlisting}
 Eta2 (A: U) (B: A -> U) (p: Sigma A B)
    : Equ (Sigma A B) p (pr1 A B p,pr2 A B p)
-   = refl (Sigma A B) p
 \end{lstlisting}
 \end{theorem}
 
@@ -670,6 +667,9 @@ and kick the tower of higher equalities.
 {\bf Issue VI: Modalities}. What if something couldn't be constructively
 presented? We can wrap this into modalities and interface it with 5 types
 of MLTT rules, making system sound but without computational semantics.
+
+The main intention of Foundation volume is to show the internal language
+of working topos of CW-complexes in fibrational sheaf type theory.
 
 \subsubsection*{Mathematics}
 
