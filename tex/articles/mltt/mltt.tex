@@ -13,8 +13,9 @@
 \usepackage{listings}
 \usepackage[utf8]{inputenc}
 \theoremstyle{definition}
-\newtheorem{definition}{Definition}
 \newtheorem{theorem}{Theorem}
+\newtheorem{definition}{Definition}
+\newtheorem{exercise}{Exercise}
 
 \lstMakeShortInline[mathescape=true,columns=fixed]|
 
@@ -40,8 +41,8 @@
 
 \begin{abstract}
 Each language implementation needs to be checked. The one of possible test cases
-for cubical type checkers is the direct embedding of type theory model intro the language of type checker.
-As types in Martin-Löf Type Theory are formulated using 5 rules, we construct aliases
+for cubical type checkers is the direct embedding of type theory model into the language of type checker.
+As types in Martin-Löf Type Theory are formulated by using 5 types of rules, we construct aliases
 for host language primitives and use type checker to prove theorems about its core types.
 
 This could be seen as ultimate test sample for type checker as
@@ -57,8 +58,9 @@ we prove properties of the host type checker.
 \section*{Intro}
 
 Each language implementation needs to be checked. The one of possible test cases
-for cubical type checkers is the direct embedding of type theory model intro the language of type checker.
-As types in Martin-Löf Type Theory (MLTT) are formulated using 5 rules, we construct aliases
+for cubical type checkers is the direct embedding of type theory model into the language of type checker.
+As types in Martin-Löf Type Theory (MLTT) are formulated using 5 types of rules (formation,
+introduction, elimination, computation, uniqueness), we construct aliases
 for host language primitives and use type checker to prove that it is MLTT.
 
 This could be seen as ultimate test sample for type checker as
@@ -630,6 +632,57 @@ user    0m6.278s
 sys     0m0.014s
 \end{lstlisting}
 
+\subsection{Exercises}
+
+\begin{exercise} (Composition). Define composition of functions $A \rightarrow B$,
+functors $U \rightarrow U$ and composition operation for sigma types
+$A \times B \rightarrow B \times C \rightarrow A \times C$. Also write a generator
+of composition signature $(A \rightarrow B) \rightarrow (B \rightarrow C) \rightarrow (A \rightarrow C)$.
+\end{exercise}
+
+\begin{exercise} (Constants). Define constant type and identity function.
+\end{exercise}
+
+\begin{exercise} (Categorical Laws).
+Show that any function of $\prod$-type equals its left and right composition with identity function.
+Prove associativity of composition.
+\end{exercise}
+
+\begin{exercise} (Swap). Define swap function
+$$
+    \prod_{x:A}\prod_{y:A}C(x,y) \rightarrow \prod_{y:A}\prod_{x:A}C(x,y)
+$$
+\end{exercise}
+
+\begin{exercise} (Curry, Uncurry). Define curry and uncury functions.
+\end{exercise}
+
+\begin{exercise} (Sigma). Define (by definition here and below we mean all 5 rules of MLTT)
+$\sum$-type by using only $\prod$-type.
+\end{exercise}
+
+\begin{exercise} (Fin). Define the {\bf Fin}-type by using only $\sum$-type and recursion.
+Define function that returns max element of {\bf Fin}-set.
+\end{exercise}
+
+\begin{exercise} (W-types). Define 
+{\bf W}-type by using only $\sum$-type.
+\end{exercise}
+
+\begin{exercise} (Nat). Define {\bf Nat}-type as {\bf W}-type. Also definee a {\bf Nat}
+algebra: multiplication, power, factorial by using ${\bf rec_{Nat}}$.
+\end{exercise}
+
+\begin{exercise} (List). Define {\bf List}-type as {\bf W}-type.
+\end{exercise}
+
+\begin{exercise} (Ack). Define Ackermann function by using only ${\bf rec_{Nat}}$.
+\end{exercise}
+
+\begin{exercise} (Eliminators Extensionality). After {\bf Issue V: Many Faces of Equality}. Prove that
+three {\bf J} eliminators are equal each other.
+\end{exercise}
+
 \subsection*{Conclusion}
 
 This article opens door to a series that will unvail the topics of
@@ -682,23 +735,23 @@ The set theory and mere propositions: set, prop.
 {\bf Issue VIII: Category Theory}.
 The model of Category Theory definitions. It includes: cat, adj, cones, fun, category, sip, ump, cwf.
 
-{\bf Issue IX: Formal Topos on Category of Sets}.
+{\bf Issue IX: Topos Theory}.
 Formal packaging of set theory in a topos.
 
-{\bf Issue X: Abstract Algebra}.
-Abstract algebra, such as Monoid, Group, Semigroup, Monad, etc: algebra, control.
-
-{\bf Issue XI: Ordinals}.
-Modules: ordinal, mahlo.
-
-{\bf Issue XII: Differential Geometry}.
+{\bf Issue X: Differential Geometry}.
 Modules: etale, infinitesimal, manifold, shape.
 
-{\bf Issue XIII: Hopf Fibrations}.
+{\bf Issue XI: Hopf Fibrations}.
 Modules: pointed, euler, hopf.
 
-{\bf Issue XIV: K-Theory}.
+{\bf Issue XII: Abstract Algebra}.
+Abstract algebra, such as Monoid, Group, Semigroup, Monad, etc: algebra, control.
+
+{\bf Issue XIII: K-Theory}.
 Modules: k\_theory, spawptrans, subtype, bishop.
+
+{\bf Issue XIV: Ordinals}.
+Modules: ordinal, mahlo.
 
 \subsubsection*{Addons}
 
