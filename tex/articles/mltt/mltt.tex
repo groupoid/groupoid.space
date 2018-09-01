@@ -113,6 +113,32 @@ interval types with higher equalities (\footnote{M. Hofmann, T. Streicher. The g
 Path types are essential to prove computation and uniquness rules for all types,
 so we will be able to prove all the MLTT rules as a whole.
 
+\subsection{Universes}
+
+\begin{definition} (Type). Initial object of language AST inductive definition is called type.
+\end{definition}
+
+\begin{definition} (Term). Let {\bf C} be a type. Then term is an instance of {\bf C} or element of {\bf C}.
+\end{definition}
+
+\begin{definition} (Universe). The set of all types is called universe $\mathrm{U_0}$.
+\end{definition}
+
+\begin{definition} (SAR). The universum space is configured with a triple of:
+i) sorts, a set of universes  $\mathrm{U_N}$ indexed over set N;
+ii) axioms, a set of inclusions {\bf $\mathrm{U_i : U_j}, i,j \in \mathrm{N}$};
+iii) rules of term dependence universe landing, a set of landings
+$\mathrm{U_i} \rightarrow \mathrm{U_j} : \mathrm{U_{\lambda(i,j), i,j \in \mathrm{N}}}$, where $\lambda$ could be function $max$ (predicative) or $snd$ (impredicative).
+\end{definition}
+
+\begin{exercise} (CoC). SAR = $\{ \{\star , \Box \},\{ \star : \Box \},
+        \{ \star \rightarrow \star : \star,
+           \star \rightarrow \Box  : \Box,
+           \Box  \rightarrow \star : \star,
+           \Box  \rightarrow \Box  : \Box
+        \}$. $\star$ represents terms, $\Box$ represents types.
+\end{exercise}
+
 \subsection{Pi}
 
 $\Pi$ is a dependent function type, the generalization of functions.
