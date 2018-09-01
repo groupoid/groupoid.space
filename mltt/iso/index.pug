@@ -20,7 +20,7 @@ block content
                 p.
                     I've just got a <mark>cubical</mark> <a href="https://homotopytypetheory.org/2017/09/16/a-hands-on-introduction-to-cubicaltt/">type
                     checker from Mortberg et all</a>,
-                    and the first thing I wanted to try was to connect
+                    and the first thing I wanted to try was connecting
                     two different values of two different types. As you may know,
                     the core thing of Type Theory is equality or isomorphism
                     or equivalence (which is the same thing but in different
@@ -39,9 +39,9 @@ block content
                     > nat2
                     EVAL: nat2
                 p.
-                    In MLTT, propositional equality reflects in some sense
-                    definitional which is usually built into typechecker.
-                    Everything that involves comparing of normalized terms
+                    In MLTT, propositional equality in some sense
+                    reflects definitional which is usually built into typechecker.
+                    Everything that involves comparison of normalized terms
                     stems from definitional equality.
                 p.
                     The groupoid model gives us ∞-dimentional equality and also
@@ -87,14 +87,14 @@ block content
                 h2#nat Path between Elements
                 p.
                     So let us be clear, we want to compare two points of A and B
-                    types which both live on U. On the high level, we will use
-                    <mark>Path U A B</mark>. which is homogenous on U. At the low level we
+                    types which both live on U. At the higher level, we will use
+                    <mark>Path U A B</mark> which is homogenous on U. At the lower level we
                     will use heterogenous <mark>PathP (Path U A B) a b</mark>:
                 code.
                     PathTypes (A B: U) : U = PathP (&lt;i&gt; U) A B
                     PathElem  (A B: U) (a: A) (b: B) (P: PathTypes A B) : U = PathP P a b
                 p.
-                    Let us try to build proof-term:
+                    Let's try to build a proof-term:
                 code.
                     PathElem nat2 nat zero2 zero nat2nat
                 p.
@@ -106,7 +106,7 @@ block content
                     nat2nat : Path U nat2 nat = isoPath nat2 nat toNat fromNat fromNatK toNatK
                 p.
                     There is already an <mark>isoPath</mark> inside cubical. The proof-term
-                    of isoPath implemented using glueing of types and composition
+                    of isoPath is implemented using glueing of types and composition
                     primitives of type checker inside <mark>isoToEquiv</mark> lemma.
                 .semantics
                     figure.
@@ -162,7 +162,7 @@ block content
 
                 h2 Commutative Square
                 p.
-                    For proving <mark>lemIso</mark> we need simple
+                    For proving <mark>lemIso</mark> we need a simple
                     commutative square term which is higher 2-path.
                 .semantics
                     figure.

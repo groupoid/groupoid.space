@@ -1,7 +1,7 @@
 <!DOCTYPE html><html><head><meta charset="utf-8"><meta http-equiv="x-ua-compatible" content="ie=edge"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="author" content="Maxim Sokhatsky"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:site" content="@5HT"><meta name="twitter:creator" content="@5HT"><meta name="twitter:image" content="https://groupoid.space/card2.png?v=1"><meta property="og:title" content="Groupoid Infinity"><meta property="og:image" content="https://groupoid.space/card2.png?v=1"><meta property="og:type" content="website"><meta property="fb:app_id" content="118554188236439"><meta property="og:url" content="https://groupoid.space"><meta property="og:description" content="The Language of Space"><link rel="stylesheet" href="https://groupoid.space/main.css?v=10"><title>PATH ISO</title><script src="//cdnjs.cloudflare.com/ajax/libs/mathjax/2.6.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><script>MathJax.Hub.Config({ displayAlign: "left", tex2jax: { inlineMath: [['$','$'], ['\\(','\\)']], processEscapes: true } });
 </script></head><body class="content"><header class="header"><a href="//groupoid.space/"><img class="header__logo" src="../../groupoid.svg"/></a><div class="header__titles"><h1 class="header__title">Path Isomorphism</h1><h4 class="header__subtitle">Comparing two Zeros</h4></div></header><article class="main"><div class="om"><section><h1>Article</h1></section></div><aside>Maxim Sokhatsky<time>DATE: 10 OCT 2017</time></aside><div class="om"><section><h2 id="nat">Background</h2><p>I've just got a <mark>cubical</mark> <a href="https://homotopytypetheory.org/2017/09/16/a-hands-on-introduction-to-cubicaltt/">type
 checker from Mortberg et all</a>,
-and the first thing I wanted to try was to connect
+and the first thing I wanted to try was connecting
 two different values of two different types. As you may know,
 the core thing of Type Theory is equality or isomorphism
 or equivalence (which is the same thing but in different
@@ -14,9 +14,9 @@ $ cubical isoPath.ctt
 > nat
 EVAL: nat
 > nat2
-EVAL: nat2</code><p>In MLTT, propositional equality reflects in some sense
-definitional which is usually built into typechecker.
-Everything that involves comparing of normalized terms
+EVAL: nat2</code><p>In MLTT, propositional equality in some sense
+reflects definitional which is usually built into typechecker.
+Everything that involves comparison of normalized terms
 stems from definitional equality.</p><p>The groupoid model gives us ∞-dimentional equality and also
 denies the uniqueness of identity proofs. That means we can build
 paths between objects in many distinguishable ways and the space of
@@ -47,11 +47,11 @@ namely two different points of two different types.
 The cubical built-in <mark>PathP</mark> type is exactly such equality.
 It connects different points of space with the function defined
 on interval $I=[0,1]$ that is smooth between values at interval edges.</p><h2 id="nat">Path between Elements</h2><p>So let us be clear, we want to compare two points of A and B
-types which both live on U. On the high level, we will use
-<mark>Path U A B</mark>. which is homogenous on U. At the low level we
+types which both live on U. At the higher level, we will use
+<mark>Path U A B</mark> which is homogenous on U. At the lower level we
 will use heterogenous <mark>PathP (Path U A B) a b</mark>:</p><code>PathTypes (A B: U) : U = PathP (&lt;i&gt; U) A B
-PathElem  (A B: U) (a: A) (b: B) (P: PathTypes A B) : U = PathP P a b</code><p>Let us try to build proof-term:</p><code>PathElem nat2 nat zero2 zero nat2nat</code><p>You may think of it as building proof of $0_A = 0_B$.</p><h2 id="nat">Path Isomorphism</h2><p>But how to construct elements of <mark>Path U nat2 nat</mark> ?</p><code>nat2nat : Path U nat2 nat = isoPath nat2 nat toNat fromNat fromNatK toNatK</code><p>There is already an <mark>isoPath</mark> inside cubical. The proof-term
-of isoPath implemented using glueing of types and composition
+PathElem  (A B: U) (a: A) (b: B) (P: PathTypes A B) : U = PathP P a b</code><p>Let's try to build a proof-term:</p><code>PathElem nat2 nat zero2 zero nat2nat</code><p>You may think of it as building proof of $0_A = 0_B$.</p><h2 id="nat">Path Isomorphism</h2><p>But how to construct elements of <mark>Path U nat2 nat</mark> ?</p><code>nat2nat : Path U nat2 nat = isoPath nat2 nat toNat fromNat fromNatK toNatK</code><p>There is already an <mark>isoPath</mark> inside cubical. The proof-term
+of isoPath is implemented using glueing of types and composition
 primitives of type checker inside <mark>isoToEquiv</mark> lemma.</p><div class="semantics"><figure>$$Iso(A,B) = \sum_{f:A\rightarrow B}\sum_{g:B\rightarrow A}\Biggl(\prod_{x:A} Id_A(gfx,x)) \times \prod_{y:B} Id_B(fgy,y)\Biggr)$$</figure></div><code>isoPath (A B : U) (f : A -> B) (g : B -> A)
         (s : (y : B) -> Path B (f (g y)) y)
         (t : (x : A) -> Path A (g (f x)) x) : Path U A B =
@@ -72,7 +72,7 @@ for all $y:B$ the fiber $fib_f(y)$ is contractible.</p><code>isEquiv (A B : U) (
            lemIso A B f g s t y (g y) z.1 (&lt;i&gt;s y@-i) z.2)</code><br><code>idIsEquiv (A : U) : isEquiv A A (idfun A) =
      \(a : A) -> ((a, refl A a),\(z : fiber A A (idfun A) a) ->
      contrSingl A a z.1 z.2)
-</code><h2>Commutative Square</h2><p>For proving <mark>lemIso</mark> we need simple
+</code><h2>Commutative Square</h2><p>For proving <mark>lemIso</mark> we need a simple
 commutative square term which is higher 2-path.</p><div class="semantics"><figure>$\require{AMScd}$
 \begin{CD}
      a_0 @>u>> a_1\\
