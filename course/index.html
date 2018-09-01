@@ -5,7 +5,7 @@
    extensions: ["tex2jax.js", "asciimath2jax.js", "mml2jax.js", "MathMenu.js", "MathZoom.js"],
    "HTML-CSS": { imageFont: null },
 });</script><title>HoTT COURSE</title></head><body class="content"><header class="header"><a href="//groupoid.space/"><img class="header__logo" src="../../groupoid.svg"/></a><div class="header__titles"><h1 class="header__title">Cubical Turtorial</h1><h4 class="header__subtitle">Introduction Course</h4></div></header><article class="main"><div class="om"><section><h1>Seminar</h1></section><aside><b>Lead</b>: Maxim Sokhatsky<br><b>Venue</b>: Kyiv, Ukraine<br>
-<b>Date</b>: TBA</aside><h2>Intro</h2><p>This seminar supposed to be a contemporary introduction
+<b>Date</b>: TBA</aside><h2>Intro</h2><p>This seminar is supposed to be a contemporary introduction
 to modern type theory that is suitable for mathematicians needs,
 in the sense that this theory forms a foundation of mathematics
 and the language for theorems formulation and their proofs.
@@ -13,28 +13,28 @@ and the language for theorems formulation and their proofs.
 1) direct proof-term construction
 in cubical type theory with computer-based type checker;
 2) solving home assignments in cubical type checker;
-3) make people writing cubical code;
+3) helping people write cubical code;
 4) writing lecture notes by students in LaTeX;
 5) making small course project as the
 final task (could be porting some library or theory
 from Agda or even formalizing a new part of mathematics);
-6) gather smart people together;
-7) have fun.
+6) gathering smart people together;
+7) having fun.
 </p><h2>The HoTT Book</h2><p>While this seminar will try to follow HoTT book as a main source,
-I will try to give some parts, not present in HoTT, such as
+I will try to give some theory not present in HoTT, such as
 algebraic topology or higher category theory. On the other
-hand I will miss some parts from HoTT. Please treat this
+hand, I will skip some parts from HoTT. Please treat this
 course as author's one, but heavily inspired by HoTT book
 and cubical type checkers.
-</p><h2>Cubical Languages</h2><p>What is cubical type theory and why it is important?
-The cubical type theory is a theory in which univalence
+</p><h2>Cubical Languages</h2><p>What is a cubical type theory and why is it important?
+The cubical type theory is a theory where univalence
 axiom by Voevodsky has computational interpretation.
 There are several type checkers which use different
 flavors of cubical type theory while sharing the same concept.
 Most notable stable implementations are: 1) <b>agda --cubical</b>;
 2) <b>cubicaltt</b>; 3) <b>cubicaltt/hcomptrans</b>; 4) <b>yacctt</b>; 5) <b>RedPRL</b>.
-We will show differences between them and students are free
-to choose type checker of their favor (for home assignments),
+We will show differences between them, and students are free
+to choose the type checker of their flavor (for home assignments),
 but at learning classes (joint hackathon) I will use cubicaltt
 flavor I most experienced with.
 </p></div><div class="om"><section><h1>Foundations</h1><h2>1. Type Theory</h2></section></div><section><p>The first section is an introduction to type theory,
@@ -51,7 +51,7 @@ type system in cubical type checkers. This section will cover
 types and induction principle. Inductive types form a basis
 of so-called Calculus of Inductive Constructions, the theory behind Coq.
 We will show how proving theorems with induction principle will
-differ from cubical constructions.  Also, we introduce an
+differ from cubical constructions.  Also, we introduce a
 general Impredicative Encoding of Inductive Types (Awodey).
 This section will cover: <b>Empty</b>, <b>Unit</b>,
 <b>Either</b>, <b>Prod</b>, <b>Bool</b>, <b>Maybe</b>,
@@ -72,14 +72,14 @@ This section will cover <b>Fiber</b>, <b>n-Groupoid</b>,
 </a></td></tr></table></center></section><div class="om"><section><h2>4. Higher Inductive Types</h2></section></div><section><p>One of the primary motivation of HoTT is constructive geometry and
 cell complexes, the spaces constructed by gluing n-discs along
 their boundaries. In this section, we show how to build topological
-primitives and reason about them.
+primitives and how to reason about them.
 This section will cover: <b>Line</b>, <b>Suspension</b>,
 <b>n-Sphere</b>, <b>Pushout</b>, <b>Pullback</b>,
 <b>Truncation</b>, <b>Quotient</b> types.</p><p>HoTT 6.3, 6.4, 6.5, 6.6, 6.9, 6.10
 </p><center><table cellspacing=5><tr><td width=5><img src="https://n2o.space/img/pdf.jpg" width=35>
 </td><td width=400><a href="https://github.com/groupoid/groupoid.space/blob/master/tex/articles/hit/hit.pdf">
 <h3>Issue VI: Higher Inductive Types</h3>
-</a></td></tr></table></center></section><div class="om"><section><h2>5. Equiv, Iso and Univ</h2></section></div><section><p>In Type Theory exists on three equalities: 1) built-in into type checker,
+</a></td></tr></table></center></section><div class="om"><section><h2>5. Equiv, Iso and Univ</h2></section></div><section><p>There exist three equalities in Type Theory: 1) built-in into type checker,
 representing Id, Equ or Path type with J eliminator; 2) Fibration based Equivalence;
 3) Isomorphism containing retract and section.
 This fact leads to Univalence Axiom that states that all equalities are equal and this
@@ -90,18 +90,18 @@ This section will cover: <b>Equiv</b>, <b>Iso</b>, <b>Homotopy</b>,
 <a href="https://github.com/groupoid/groupoid.space/blob/master/tex/articles/equ/equ.pdf">
 <h3>Issue V: Many faces of Equality</h3>
 </a></td></tr></table></center></section><div class="om"><section><h2>6. Modalities</h2></section></div><section><p>This section will cover: <b>Infinitesimal</b> type.</p><p>HoTT 7.7
-</p></section><div class="om"><section><h1>Mathematics</h1></section></div><div class="om"><section><h2>7. Set Theory</h2></section></div><section><p>This section is an introduction to Intuitionistic Propositional Logic (IPL)
+</p></section><div class="om"><section><h1>Mathematics</h1></section></div><div class="om"><section><h2>7. Set Theory</h2></section></div><section><p>This section is an introduction to Intuitionistic Propositional Logic (IPL),
 its difference from Classical Logic, Axiom of Choice, Law of Excluding Middle,
 Propositional Truncation, Hedberg Theorem, Decidable Types, Constructive Set Theory.
 This section will cover: <b>Prop</b>, <b>Set</b>, <b>Decidable</b>,
-<b>Stable</b>, <b>Discrete</b> types.</p><p>HoTT 3.1, 3.3, 3.11</p></section><div class="om"><section><h2>8. Category Theory</h2></section></div><section><p>More than 10 Field's awards are taken with Category Theory (CT) as an instrument.
+<b>Stable</b>, <b>Discrete</b> types.</p><p>HoTT 3.1, 3.3, 3.11</p></section><div class="om"><section><h2>8. Category Theory</h2></section></div><section><p>More than 10 Fields awards are taken with Category Theory (CT) as an instrument.
 For doing Math, CT is crucial. As a companion to HoTT chapter on CT,
 we suggest the course of Steve Awodey (the disciple of Saunders Mac Lane),
 who also made HoTT possible.</p><p>This section will give the fundamental notion of following types:
 <b>Precategory</b>, <b>Rezk Completion</b>,
 <b>Functor</b>, <b>Natural Transformation</b>, <b>Adjoint</b>, <b>Cone</b>,
 <b>Structure Identity Principle</b>, <b>Limit</b>, <b>Pullback</b>, <b>Kan Extension</b>,
-<b>Monomorphism</b>, <b>Epimorphism</b>, <b>Universal Mapping Property</b>.</p><p>The primary application of CT in Computer Science is a building of the
+<b>Monomorphism</b>, <b>Epimorphism</b>, <b>Universal Mapping Property</b>.</p><p>The primary application of CT in Computer Science is building the
 categorical model of Dependently Typed Lambda Calculus as an internal
 language of Locally Cartesian Closed Category. The two models mentioned
 in this course are Categories with Families (Dybjer) and C-Systems (Voevodsky).</p><p>Also as examples of Category instances following types are used: Category of Sets,
@@ -112,7 +112,7 @@ $\infty$-Categories.
 </td><td width=400><a href="https://github.com/groupoid/groupoid.space/blob/master/tex/articles/cwf/cwf.pdf">
 <h3>Issue VIII: Contextual Categories for Martin-Löf Type Theory</h3>
 </a></td></tr></table></center></section><div class="om"><section><h2>9. Topos Theory</h2></section></div><section><p>Topos Theory will give a more in-depth look into categorical models
-and make a more strong foundation to build a bridge between CT and Logic of Space.</p><p>In this section, I will mention <b>Subobject Classifier</b> and <b>Topos</b> types.
+and make a stronger foundation to build a bridge between CT and Logic of Space.</p><p>In this section, I will mention <b>Subobject Classifier</b> and <b>Topos</b> types.
 </p><center><table cellspacing=5><tr><td width=5><img src="https://n2o.space/img/pdf.jpg" width=35></td><td width=400>
 <a href="https://github.com/groupoid/groupoid.space/blob/master/tex/articles/topos/topos.pdf">
 <h3>Issue IX: Formal Topos on Category of Sets</h3>
@@ -132,6 +132,6 @@ add a globular path equality structure to locally cartesian closed categories
 and its internal language — MLTT. Please refer to
 <a href="https://hott-uf.github.io/2017/abstracts/cohesivett.pdf">cohesivett</a>
 for more information.
-</p><p>Cohesive types modeled in the base library as undefined axioms.
+</p><p>Cohesive types are modeled in the base library as undefined axioms.
 Process Calculus is another example of modality types with special
 spawn arrows hiding the underlying run-time implementation.</p></section></article><footer class="footer"><img class="footer__logo" src="https://longchenpa.guru/seal.png" width="50"><span class="footer__copy">2016&mdash;2018 &copy; <a href="//groupoid.space/team.html" style="color:white;">Groupoid Infinity</a></span></footer><script src="https://groupoid.space/bundle.js"></script><script src="https://groupoid.space/highlight.js?v=9"></script></body></html>
