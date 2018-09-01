@@ -24,7 +24,7 @@ block content
 
             h2 Intro
             p.
-                This seminar supposed to be a contemporary introduction
+                This seminar is supposed to be a contemporary introduction
                 to modern type theory that is suitable for mathematicians needs,
                 in the sense that this theory forms a foundation of mathematics
                 and the language for theorems formulation and their proofs.
@@ -35,34 +35,34 @@ block content
                 1) direct proof-term construction
                 in cubical type theory with computer-based type checker;
                 2) solving home assignments in cubical type checker;
-                3) make people writing cubical code;
+                3) helping people write cubical code;
                 4) writing lecture notes by students in LaTeX;
                 5) making small course project as the
                 final task (could be porting some library or theory
                 from Agda or even formalizing a new part of mathematics);
-                6) gather smart people together;
-                7) have fun.
+                6) gathering smart people together;
+                7) having fun.
 
             h2 The HoTT Book
             p.
                 While this seminar will try to follow HoTT book as a main source,
-                I will try to give some parts, not present in HoTT, such as
+                I will try to give some theory not present in HoTT, such as
                 algebraic topology or higher category theory. On the other
-                hand I will miss some parts from HoTT. Please treat this
+                hand, I will skip some parts from HoTT. Please treat this
                 course as author's one, but heavily inspired by HoTT book
                 and cubical type checkers.
 
             h2 Cubical Languages
             p.
-                What is cubical type theory and why it is important?
-                The cubical type theory is a theory in which univalence
+                What is a cubical type theory and why is it important?
+                The cubical type theory is a theory where univalence
                 axiom by Voevodsky has computational interpretation.
                 There are several type checkers which use different
                 flavors of cubical type theory while sharing the same concept.
                 Most notable stable implementations are: 1) <b>agda --cubical</b>;
                 2) <b>cubicaltt</b>; 3) <b>cubicaltt/hcomptrans</b>; 4) <b>yacctt</b>; 5) <b>RedPRL</b>.
-                We will show differences between them and students are free
-                to choose type checker of their favor (for home assignments),
+                We will show differences between them, and students are free
+                to choose the type checker of their flavor (for home assignments),
                 but at learning classes (joint hackathon) I will use cubicaltt
                 flavor I most experienced with.
 
@@ -95,7 +95,7 @@ block content
                 types and induction principle. Inductive types form a basis
                 of so-called Calculus of Inductive Constructions, the theory behind Coq.
                 We will show how proving theorems with induction principle will
-                differ from cubical constructions.  Also, we introduce an
+                differ from cubical constructions.  Also, we introduce a
                 general Impredicative Encoding of Inductive Types (Awodey).
                 This section will cover: <b>Empty</b>, <b>Unit</b>,
                 <b>Either</b>, <b>Prod</b>, <b>Bool</b>, <b>Maybe</b>,
@@ -136,7 +136,7 @@ block content
                 One of the primary motivation of HoTT is constructive geometry and
                 cell complexes, the spaces constructed by gluing n-discs along
                 their boundaries. In this section, we show how to build topological
-                primitives and reason about them.
+                primitives and how to reason about them.
                 This section will cover: <b>Line</b>, <b>Suspension</b>,
                 <b>n-Sphere</b>, <b>Pushout</b>, <b>Pullback</b>,
                 <b>Truncation</b>, <b>Quotient</b> types.
@@ -153,7 +153,7 @@ block content
                 h2 5. Equiv, Iso and Univ
         section
             p.
-                In Type Theory exists on three equalities: 1) built-in into type checker,
+                There exist three equalities in Type Theory: 1) built-in into type checker,
                 representing Id, Equ or Path type with J eliminator; 2) Fibration based Equivalence;
                 3) Isomorphism containing retract and section.
                 This fact leads to Univalence Axiom that states that all equalities are equal and this
@@ -186,7 +186,7 @@ block content
                 h2 7. Set Theory
         section
             p.
-                This section is an introduction to Intuitionistic Propositional Logic (IPL)
+                This section is an introduction to Intuitionistic Propositional Logic (IPL),
                 its difference from Classical Logic, Axiom of Choice, Law of Excluding Middle,
                 Propositional Truncation, Hedberg Theorem, Decidable Types, Constructive Set Theory.
                 This section will cover: <b>Prop</b>, <b>Set</b>, <b>Decidable</b>,
@@ -198,7 +198,7 @@ block content
                 h2 8. Category Theory
         section
             p.
-                More than 10 Field's awards are taken with Category Theory (CT) as an instrument.
+                More than 10 Fields awards are taken with Category Theory (CT) as an instrument.
                 For doing Math, CT is crucial. As a companion to HoTT chapter on CT,
                 we suggest the course of Steve Awodey (the disciple of Saunders Mac Lane),
                 who also made HoTT possible.
@@ -209,7 +209,7 @@ block content
                 <b>Structure Identity Principle</b>, <b>Limit</b>, <b>Pullback</b>, <b>Kan Extension</b>,
                 <b>Monomorphism</b>, <b>Epimorphism</b>, <b>Universal Mapping Property</b>.
             p.
-                The primary application of CT in Computer Science is a building of the
+                The primary application of CT in Computer Science is building the
                 categorical model of Dependently Typed Lambda Calculus as an internal
                 language of Locally Cartesian Closed Category. The two models mentioned
                 in this course are Categories with Families (Dybjer) and C-Systems (Voevodsky).
@@ -230,7 +230,7 @@ block content
         section
             p.
                 Topos Theory will give a more in-depth look into categorical models
-                and make a more strong foundation to build a bridge between CT and Logic of Space.
+                and make a stronger foundation to build a bridge between CT and Logic of Space.
             p.
                 In this section, I will mention <b>Subobject Classifier</b> and <b>Topos</b> types.
 
@@ -317,6 +317,6 @@ block content
                 for more information.
 
             p.
-                Cohesive types modeled in the base library as undefined axioms.
+                Cohesive types are modeled in the base library as undefined axioms.
                 Process Calculus is another example of modality types with special
                 spawn arrows hiding the underlying run-time implementation.
