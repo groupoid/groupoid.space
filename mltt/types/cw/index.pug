@@ -48,8 +48,8 @@ block content
             section
                 h1 FOUNDATIONS
                 p.
-                    CW-complexes are fundamental objects in homotopy type theory
-                    and even included inside cubical type checker in a form of
+                    CW-complexes are fundamental objects in homotopy type theory.
+                    They're even present in cubical type checker in the form of
                     higher (co)-inductive types (HITs).
                     Just like regular (co)-inductive types could be described as recursive
                     terminating (well-founded) or non-terminating trees,
@@ -67,7 +67,7 @@ block content
                            | po3 (c: C) &lt;i&gt; [ (i = 0) -> po1 (f c) ,
                                               (i = 1) -> po2 (g c) ]
                 p.
-                    <b>Shperes and Disks.</b> Here are some example of using
+                    <b>Shperes and Disks.</b> Here are some examples of using
                     dimensions to construct spherical shapes.
                 code.
                     data S1 = base | loop &lt;i&gt; [ (i = 0) -> base, (i = 1) -> base ]
@@ -83,7 +83,7 @@ block content
                                           ( k = 0) -> border x, (k = 1) -> border x ]
                 p.
                     <b>Structure of $I^2$ same as of $S^2$</b>. ASCII proof
-                    that <b>comp</b> parameters same as in <b>surf</b> constructor:
+                    that <b>comp</b> parameters are the same as in <b>surf</b> constructor:
                 code.
                     I2 (A: U) (a0 a1 b0 b1: A) (u: Path A a0 a1) (v: Path A b0 b1)
                           (r0: Path A a0 b0) (r1: Path A a1 b1) : U
@@ -99,16 +99,16 @@ block content
                     in Cubical Type Theory"</a> by Thierry Coquand, Simon Huber,
                     and Anders Mörtberg. This paper describes decomposing of
                     composition operation into homogeneous composition
-                    and transport operation, such that they preserve
+                    and transport operation, so that they preserve
                     the universe level and are strictly stable under substitution.
-                    This decomposition is indended to solve the problem of
-                    the interpretation of higher inductive types with parameters.
+                    This decomposition is intended to solve the problem of
+                    interpretation of higher inductive types with parameters.
             section
                 h1 MATHEMATICS
                 p.
-                    The definition of homotopy groups, a special role is played
-                    by the inclusions $S^{n−1} \incmap D^n$. We study spaces
-                    obtained iterated attachments of $D^n$ along $S^{n−1}$.
+                    In definition of homotopy groups, a special role belongs
+                    to inclusions $S^{n−1} \incmap D^n$. We study spaces
+                    obtained through iterated attachments of $D^n$ along $S^{n−1}$.
                 p.
                     <b>Definition</b> (Attachment). Attaching n-cell to a space $X$
                     along a map $f : S^{n-1} \rightarrow X$ means taking a pushout
@@ -121,7 +121,7 @@ block content
                     \end{array}
                     $$
                 p.
-                    where the notation $X \cup_f D^n$ means result depends
+                    where the notation $X \cup_f D^n$ means that the result depends
                     on homotopy class of $f$.
                 p.
                     <b>Definition</b> (CW-Complex). Inductively. The only
