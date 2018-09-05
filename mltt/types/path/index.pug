@@ -47,7 +47,7 @@ block content
                 p.
                     <a href="https://raw.githubusercontent.com/groupoid/infinity/master/priv/path.ctt">Path package</a>
                     contains basic theorems about general homotopy path types.
-                    In the core cubical has heterogeneous <mark>PathP</mark> type,
+                    In the core the cubical has heterogeneous <mark>PathP</mark> type,
                 code.
                     HeteroPath  (A B: U) (a: A) (b: B) (P: Path U A B) : U = PathP P a b
                 p.
@@ -57,7 +57,7 @@ block content
                 p.
                     The Path identity type defines a Path space with elements and values.
                     Elements of that space are functions
-                    from interval $[0,1]$ to a values of that path space.
+                    from interval $[0,1]$ to values of that path space.
                     This ctt file reflects <a href="https://arxiv.org/pdf/1611.02108.pdf">CCHM</a><sup>2</sup> cubicaltt model with connections.
                     For <a href="https://guillaumebrunerie.github.io/pdf/cart-cube.pdf">ABCFHL</a><sup>4</sup> yacctt model with variables please refer to ytt file.
                     You may also want to read <a href="http://www.cse.chalmers.se/~coquand/mod1.pdf">BCH</a><sup>1</sup>,
@@ -91,8 +91,8 @@ block content
 
                 h2 Connections
                 p.
-                    Connections allows you to build square
-                    with given only one element of path: i) $\\(i,j:I) \rightarrow p\ @\ min(i,j)$;
+                    Connections allow you to build a square
+                    with only one element of path: i) $\\(i,j:I) \rightarrow p\ @\ min(i,j)$;
                     ii) $\\(i,j:I)\rightarrow p\ @\ max(i,j)$.
                 figure.
                     $$
@@ -133,18 +133,18 @@ block content
 
                 p.
                     Maps a given path space between values of one type
-                    to path space of another type by an encode function between types.
-                    Implemented as lambda defined on $[0,1]$ that returns
+                    to path space of another type using an encode function between types.
+                    Implemented as a lambda defined on $[0,1]$ that returns
                     application of encode function to path application of
                     the given path to lamda argument <mark>&lt;i&gt f (p @ i)</mark>
-                    for both cases.
+                    in both cases.
 
                 h2 Transport
                 code.
                     trans (A B: U) (p: Path U A B) (a: A) : B
                 p.
                     Transports a value of the left type to the value of the right type
-                    by a given path element of the path space between left and right type.
+                    by a given path element of the path space between left and right types.
                     Defined as path composition with $[]$ of a over a path p
                     <mark>comp p a []</mark>.
 
@@ -171,7 +171,7 @@ block content
                     composition (A: U) (a b c: A)
                                 (p: Path A a b) (q: Path A b c): Path A a c
                 p.
-                    Composition operation allows to build a new path by given to paths
+                    Composition operation allows building a new path from two given paths
                     in a connected point. The proofterm is
                     <mark>comp (&lt;i&gt;Path A a (q @ i)) p []</mark>.
 
@@ -196,7 +196,7 @@ block content
                       (p: Path A a b) : P (b,p)
                 p.
                     J is formulated in a form of Paulin-Mohring and implemented using
-                    two facts that singleton are contractible and dependent function
+                    two facts that singletons are contractible and dependent function
                     transport.
 
                 h2 Dependent Eliminator (HoTT)

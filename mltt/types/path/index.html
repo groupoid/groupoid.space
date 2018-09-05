@@ -28,9 +28,9 @@
   \def\mapdiagr#1{\vcenter{\swarrow}\rlap{\raise2pt{\scriptstyle{#1}}}}
 $$</figure><p><a href="https://raw.githubusercontent.com/groupoid/infinity/master/priv/path.ctt">Path package</a>
 contains basic theorems about general homotopy path types.
-In the core cubical has heterogeneous <mark>PathP</mark> type,</p><code>HeteroPath  (A B: U) (a: A) (b: B) (P: Path U A B) : U = PathP P a b</code><p>so you can easily define homogeneous <mark>Path</mark>:</p><code>Path (A: U) (a b: A) : U = PathP (&lt;i&gt; A) a b</code><p>The Path identity type defines a Path space with elements and values.
+In the core the cubical has heterogeneous <mark>PathP</mark> type,</p><code>HeteroPath  (A B: U) (a: A) (b: B) (P: Path U A B) : U = PathP P a b</code><p>so you can easily define homogeneous <mark>Path</mark>:</p><code>Path (A: U) (a b: A) : U = PathP (&lt;i&gt; A) a b</code><p>The Path identity type defines a Path space with elements and values.
 Elements of that space are functions
-from interval $[0,1]$ to a values of that path space.
+from interval $[0,1]$ to values of that path space.
 This ctt file reflects <a href="https://arxiv.org/pdf/1611.02108.pdf">CCHM</a><sup>2</sup> cubicaltt model with connections.
 For <a href="https://guillaumebrunerie.github.io/pdf/cart-cube.pdf">ABCFHL</a><sup>4</sup> yacctt model with variables please refer to ytt file.
 You may also want to read <a href="http://www.cse.chalmers.se/~coquand/mod1.pdf">BCH</a><sup>1</sup>,
@@ -48,8 +48,8 @@ interval $[0,1]$ that returns a constant value a. Written in
 syntax as <mark>&lt;i&gt; a</mark>.
 </p><h2>Applications</h2><code>app1 (A: U) (a b: A) (p: Path A a b): A = p @ 0
 app2 (A: U) (a b: A) (p: Path A a b): A = p @ 1
-</code><h2>Connections</h2><p>Connections allows you to build square
-with given only one element of path: i) $\\(i,j:I) \rightarrow p\ @\ min(i,j)$;
+</code><h2>Connections</h2><p>Connections allow you to build a square
+with only one element of path: i) $\\(i,j:I) \rightarrow p\ @\ min(i,j)$;
 ii) $\\(i,j:I)\rightarrow p\ @\ max(i,j)$.</p><figure>$$
 \begin{array}{ccc}
     b & \mapright{\\(i:I) \rightarrow b} & b \\
@@ -77,13 +77,13 @@ apd (A: U) (a x:A) (B:A->U) (f: A->B a)
     (b: B a) (p: Path A a x)
   : Path (B a) (f a) (f x)
 </code><p>Maps a given path space between values of one type
-to path space of another type by an encode function between types.
-Implemented as lambda defined on $[0,1]$ that returns
+to path space of another type using an encode function between types.
+Implemented as a lambda defined on $[0,1]$ that returns
 application of encode function to path application of
 the given path to lamda argument <mark>&lt;i&gt f (p @ i)</mark>
-for both cases.
+in both cases.
 </p><h2>Transport</h2><code>trans (A B: U) (p: Path U A B) (a: A) : B</code><p>Transports a value of the left type to the value of the right type
-by a given path element of the path space between left and right type.
+by a given path element of the path space between left and right types.
 Defined as path composition with $[]$ of a over a path p
 <mark>comp p a []</mark>.
 </p><h2>Substitution</h2><code>subst (A: U) (P: A -> U)
@@ -98,7 +98,7 @@ dependent function transport or substitution.
 \end{array}
 $$
 </figure><code>composition (A: U) (a b c: A)
-            (p: Path A a b) (q: Path A b c): Path A a c</code><p>Composition operation allows to build a new path by given to paths
+            (p: Path A a b) (q: Path A b c): Path A a c</code><p>Composition operation allows building a new path from two given paths
 in a connected point. The proofterm is
 <mark>comp (&lt;i&gt;Path A a (q @ i)) p []</mark>.
 </p><h2>Contractability of Singleton</h2><code>singl (A: U) (a: A) : U = (x: A) * Path A a x
@@ -111,7 +111,7 @@ contrSingl (A: U) (a b: A) (p: Path A a b)
   (P: singl A a -> U)
   (u: P (a,refl A a))
   (p: Path A a b) : P (b,p)</code><p>J is formulated in a form of Paulin-Mohring and implemented using
-two facts that singleton are contractible and dependent function
+two facts that singletons are contractible and dependent function
 transport.
 </p><h2>Dependent Eliminator (HoTT)</h2><code>J (A: U)
   (a: A)
