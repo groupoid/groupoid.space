@@ -121,13 +121,21 @@ For simplicity we wouldn't take into account W, Nat, List types as
 W type could be encoded through $\Sigma$ and Nat/List through W.
 Despite $\Sigma$ types could be encoded through $\Pi$ we include $\Sigma$ type into the MLTT model.
 
+Any new type in MLTT presented with set of 5 rules: i) formation rules, the signature of type;
+ii) the set of constructors which produce the elements of formation rule signature;
+iii) the dependent eliminator or induction principle for this type;
+iv) the beta-equality or computational rule;
+v) the eta-equality or uniquness principle. $\Pi$, $\Sigma$, and Path
+types will be given shortly. This interpretation or rather way of modeling is MLTT specific.
+
 The most interesting are Id types. Id types were added in \footnote{P. Martin-Löf, G. Sambin. Intuitionistic type theory. 1984.}{1984} while original MLTT was introduced in \footnote{P. Martin-Löf, G. Sambin. The Theory of Types. 1972.}{1972}.
 Predicative Universe Hierarchy was added in \footnote{P. Martin-Löf. An intuitionistic theory of types: predicative part. 1975.}{1975}.
 While original MLTT contains Id types that preserve uniquness of identity
-proofs (UIP), we introduce here homotopical univalent heterogeneous Path
-interval types with higher equalities (\footnote{M. Hofmann, T. Streicher. The groupoid interpretation of type theory. 1996.}{$\infty$-Groupoid interpretation}).
-Path types are essential to prove computation and uniquness rules for all types,
-so we will be able to prove all the MLTT rules as a whole.
+proofs (UIP) or eta-rule of Id type, HoTT refutes UIP (eta rule desn't hold)
+and introduces univalent heterogeneous Path equality (\footnote{M. Hofmann, T. Streicher. The groupoid interpretation of type theory. 1996.}{$\infty$-Groupoid interpretation}).
+Path types are essential to prove computation and uniquness rules for all types
+(needed for building signature and terms), so we will be able to prove all
+the MLTT rules as a whole.
 
 \subsection{Universes}
 
