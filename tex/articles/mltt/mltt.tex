@@ -84,16 +84,17 @@ v) module system. It is slightly based on
 {\bf cubicaltt}\footnote{http://github.com/mortberg/cubicaltt}.
 
 \begin{lstlisting}[mathescape=true]
-   sys := [ #list c ]       side := (id=0)$\rightarrow$exp+(id=1)$\rightarrow$exp
-  form := form\/f1+f1+f2       c := #empty+side+side,side
-    f1 := f1/\f2              f2 := -f2+id+0+1
-   imp := ${\bf import}$ id                brs := #empty+cobrs
-   app := exp exp            tel := #empty+cotel
-  imps := #list imp        cotel := (exp:exp) tel
-    id := #list #nat         dec := #empty+codec
-    u2 := ${\bf glue}$+${\bf unglue}$+${\bf Glue}$                  u1 := ${\bf fill}$+${\bf comp}$
-   ids := #list id            br := ids$\rightarrow$exp+ids@ids$\rightarrow$exp
- codec := def dec            mod := ${\bf module}$ id ${\bf where}$ imps dec
+   sys := [ coside ]         side := (id=0)$\rightarrow$exp+(id=1)$\rightarrow$exp
+  form := form\/f1+f1+f2   coside := #empty+sides
+ sides := side+side+coside    mod := ${\bf module}$ id ${\bf where}$ imps dec
+    f1 := f1/\f2               f2 := -f2+id+0+1
+   imp := ${\bf import}$ id                 brs := #empty+cobrs
+   app := exp exp             tel := #empty+cotel
+  imps := #list imp         cotel := (exp:exp) tel
+    id := #list #nat          dec := #empty+codec
+    u2 := ${\bf glue}$+${\bf unglue}$+${\bf Glue}$                   u1 := ${\bf fill}$+${\bf comp}$
+   ids := #list id             br := ids$\rightarrow$exp+ids@ids$\rightarrow$exp
+ codec := def dec
  cobrs := | br brs
    sum := #empty+id tel+id tel|sum+id tel<ids>sys   
    def := ${\bf data}$ id tel=sum+id tel:exp=exp+id tel:exp ${\bf where}$ def
@@ -221,12 +222,14 @@ iii) categorical interpretation of functions as functors.
 \subsubsection{Type-theoretical}
 
 \begin{definition} ($\Pi$-Formation).
+$$(x: A) \rightarrow B(x) =_{def} \prod_{x:A}B(x) : U.$$
 \begin{lstlisting}
 Pi (A: U) (B: A -> U): U = (x: A) -> B x
 \end{lstlisting}
 \end{definition}
 
 \begin{definition} ($\Pi$-Introduction).
+$$\backslash (x: A) \rightarrow b =_{def} \prod_{A:U}\prod_{B:A \rightarrow U}\prod_{a: A}\prod_{b:B(a)}\lambda x.b : \prod_{y:A}B(a).$$
 \begin{lstlisting}
 lambda (A B: U) (b: B): A -> B = \ (x: A) -> b
 lam (A:U) (B: A -> U) (a:A) (b:B a) : A -> B a = \ (x: A) -> b
@@ -234,6 +237,7 @@ lam (A:U) (B: A -> U) (a:A) (b:B a) : A -> B a = \ (x: A) -> b
 \end{definition}
 
 \begin{definition} ($\Pi$-Elimination).
+$$f\ a =_{def} \prod_{A:U}\prod_{B: A \rightarrow U}\prod_{a:A}\prod_{f: \prod_{x:A}B(a)}f(a) : B(a).$$
 \begin{lstlisting}
 apply (A B: U) (f: A -> B) (a: A) : B = f a
 app (A: U) (B: A -> U) (a: A) (f: A -> B a) : B a = f a
@@ -241,6 +245,7 @@ app (A: U) (B: A -> U) (a: A) (f: A -> B a) : B a = f a
 \end{definition}
 
 \begin{theorem} ($\Pi$-Computation).
+$$f(a) =_{B(a)} (\lambda (x:A) \rightarrow f(a))(a).$$
 \begin{lstlisting}
 Beta (A: U) (B: A -> U) (a: A) (f: A -> B a)
    : Path (B a) (app A B a (lam A B a (f a))) (f a)
@@ -248,6 +253,7 @@ Beta (A: U) (B: A -> U) (a: A) (f: A -> B a)
 \end{theorem}
 
 \begin{theorem} ($\Pi$-Uniqueness).
+$$f =_{(x:A)\rightarrow B(a)} (\lambda (y:A) \rightarrow f(y)).$$
 \begin{lstlisting}
 Eta (A: U) (B: A -> U) (a: A) (f: A -> B a)
   : Path (A -> B a) f (\(x:A) -> f x)
