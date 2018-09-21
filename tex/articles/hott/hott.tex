@@ -41,12 +41,22 @@ which we will give in the next issue.
 \newpage
 \section{Homotypy Type Theory}
 
+Homotypy Type Theory takes its origins in 1996 from groupoid interpretation by
+Hofmann and Streicher's, and later (in 10 years) was formalized by Awodey,
+Warren and Voevodsky. Voevodsky constrtucted Kan simplicial sets interpretation
+of type theory and discovered the property of this model, that was named univalence.
+This property allows to identify isomorphic structures in terms of type theory.
 
 Homotopy type theory to classical homotopy theory is like Euclidian
 syntethic geometry (points, lines, axioms and deduction rules) to
 analytical geometry with cartesian coordinates on $\mathbb{R}^n$ (geometric and algebraic)
 \footnote{We will denote geometric, type theoretical and homotopy constants bold font ${\bf R}$ while
 analitical will be denoted with double lined letters $\mathbb{R}$.}
+
+In the same way as inductive types extends MLTT for inductive programming,
+the higher inductive types (HIT) extend homotopy type theory for geometry programming.
+You can directly encode CW-complexes by using HIT. The definition of HIT syntax will
+be given in {\bf Issue IV: Higher Inductive Types}.
 
 \subsection{Homotopies}
 The first higher equality we meet in homotopy theory is a notion of homotopy,
@@ -91,12 +101,13 @@ homotopy (X Y: U) (f g: X -> Y)
          (x: X): I -> Y = pathToHtpy Y (f x) (g x) (p x)
 \end{lstlisting}
 \end{definition}
-\newpage
+
 \subsection{Groupoid Interpretation}
 The first text about groupoid interpretation of type theory can be found in Francois Lamarche:
-A proposal about Foundations\footnote{http://www.cse.chalmers.se/~coquand/Proposal.pdf}. Then Martin Hofmann and Thomas Streicher wrote the initial
-document on groupoid interpretation of type theory\footnote{Martin Hofmann and Thomas Streicher. The Groupoid Interpretation of Type Theory. 1996.}.
-
+A proposal about Foundations\footnote{\url{http://www.cse.chalmers.se/~coquand/Proposal.pdf}}.
+Then Martin Hofmann and Thomas Streicher wrote the initial
+document on groupoid interpretation of type
+theory\footnote{Martin Hofmann and Thomas Streicher. The Groupoid Interpretation of Type Theory. 1996.}.
 
 \begin{table}[H]
 \begin{center}
@@ -159,15 +170,299 @@ In {\bf Issue VIII: Topos Theory} such categories will be given.
 
 \subsection{Functional Extensionality}
 
-\subsection{Fibration}
+\begin{definition} (funExt-Formation)
+\begin{lstlisting}
+funext_form (A B: U) (f g: A -> B): U
+  = Path (A -> B) f g
+\end{lstlisting}
+\end{definition}
 
-\subsection{Loop Spaces}
+\begin{definition} (funExt-Introduction)
+\begin{lstlisting}
+funext (A B: U) (f g: A -> B) (p: (x:A) -> Path B (f x) (g x))
+  : funext_form A B f g
+  = <i> \(a: A) -> p a @ i
+\end{lstlisting}
+\end{definition}
+
+\begin{definition} (funExt-Elimination)
+\begin{lstlisting}
+happly (A B: U) (f g: A -> B) (p: funext_form A B f g) (x: A)
+  : Path B (f x) (g x)
+  = cong (A -> B) B (\(h: A -> B) -> apply A B h x) f g p
+\end{lstlisting}
+\end{definition}
+
+\begin{definition} (funExt-Computation)
+\begin{lstlisting}
+funext_Beta (A B: U) (f g: A -> B) (p: (x:A) -> Path B (f x) (g x))
+  : (x:A) -> Path B (f x) (g x)
+  = \(x:A) -> happly A B f g (funext A B f g p) x
+\end{lstlisting}
+\end{definition}
+
+\begin{definition} (funExt-Uniqueness)
+\begin{lstlisting}
+funext_Eta (A B: U) (f g: A -> B) (p: Path (A -> B) f g)
+  : Path (Path (A -> B) f g) (funext A B f g (happly A B f g p)) p
+  = refl (Path (A -> B) f g) p
+\end{lstlisting}
+\end{definition}
+
+\subsection{Pullbacks}
+
+\subsection{Fibrations}
+
+\begin{definition} (Fibration-1) Dependent fiber bundle derived from Path contractability.
+\begin{lstlisting}
+isFBundle1 (B: U) (p: B -> U) (F: U): U
+  = (_: (b: B) -> isContr (Path U (p b) F))
+  * ((x: Sigma B p) -> B)
+\end{lstlisting}
+\end{definition}
+
+\begin{definition} (Fibration-2). Dependent fiber bundle derived from surjective function.
+\begin{lstlisting}
+isFBundle2 (B: U) (p: B -> U) (F: U): U
+  = (V: U)
+  * (v: surjective V B)
+  * ((x: V) -> Path U (p (v.1 x)) F)
+\end{lstlisting}
+\end{definition}
+
+\begin{definition} (Fibration-3). Non-dependent fiber bundle derived from fiber truncation.
+\begin{lstlisting}
+im1 (A B: U) (f: A -> B): U = (b: B) * pTrunc ((a:A) * Path B (f a) b)
+BAut (F: U): U = im1 unit U (\(x: unit) -> F)
+unitIm1 (A B: U) (f: A -> B): im1 A B f -> B = \(x: im1 A B f) -> x.1
+unitBAut (F: U): BAut F -> U = unitIm1 unit U (\(x: unit) -> F)
+isFBundle3 (E B: U) (p: E -> B) (F: U): U
+  = (X: B -> BAut F)
+  * (classify B (BAut F) (\(b: B) -> fiber E B p b) (unitBAut F) X) where
+  classify (A' A: U) (E': A' -> U) (E: A -> U) (f: A' -> A): U
+    = (x: A') -> Path U (E'(x)) (E(f(x)))
+\end{lstlisting}
+\end{definition}
+
+\begin{definition} (Fibration-4). Non-dependen fiber bundle derived as pullback square.
+\begin{lstlisting}
+isFBundle4 (E B: U) (p: E -> B) (F: U): U
+  = (V: U)
+  * (v: surjective V B)
+  * (v': prod V F -> E)
+  * pullbackSq (prod V F) E V B p v.1 v' (\(x: prod V F) -> x.1)
+\end{lstlisting}
+\end{definition}
 
 \subsection{Equivalence}
 
-\subsection{Homotopy Type}
+\begin{definition} (Equivalence).
+\begin{lstlisting}
+fiber (A B: U) (f: A -> B) (y: B): U = (x: A) * Path B y (f x)
+isSingleton (X:U): U = (c:X) * ((x:X) -> Path X c x)
+isEquiv (A B: U) (f: A -> B): U = (y: B) -> isContr (fiber A B f y)
+equiv (A B: U): U = (f: A -> B) * isEquiv A B f
+\end{lstlisting}
+\end{definition}
+
+\begin{definition} (Surjective).
+\begin{lstlisting}
+isSurjective (A B: U) (f: A -> B): U
+  = (b: B) * pTrunc (fiber A B f b)
+
+surjective (A B: U): U
+  = (f: A -> B)
+  * isSurjective A B f
+\end{lstlisting}
+\end{definition}
+
+\begin{definition} (Injective).
+\begin{lstlisting}
+isInjective' (A B: U) (f: A -> B): U
+  = (b: B) -> isProp (fiber A B f b)
+
+injective (A B: U): U
+  = (f: A -> B)
+  * isInjective A B f
+\end{lstlisting}
+\end{definition}
+
+\begin{definition} (Embedding).
+\begin{lstlisting}
+isEmbedding (A B: U) (f: A -> B) : U
+  = (x y: A) -> isEquiv (Path A x y) (Path B (f x) (f y)) (cong A B f x y)
+
+embedding (A B: U): U
+  = (f: A -> B)
+  * isEmbedding A B f
+\end{lstlisting}
+\end{definition}
+
+\begin{definition} (Half-adjoint Equivalence).
+\begin{lstlisting}
+isHae (A B: U) (f: A -> B): U
+  = (g: B -> A)
+  * (eta_: Path (id A) (o A B A g f) (idfun A))
+  * (eps_: Path (id B) (o B A B f g) (idfun B))
+  * ((x: A) -> Path B (f ((eta_ @ 0) x)) ((eps_ @ 0) (f x)))
+
+hae (A B: U): U
+  = (f: A -> B)
+  * isHae A B f
+\end{lstlisting}
+\end{definition}
+
+\subsection{Isomorphism}
+
+\begin{definition} (iso-Formation)
+\begin{lstlisting}
+iso_Form (A B: U): U = iso A B -> Path U A B
+\end{lstlisting}
+\end{definition}
+
+\begin{definition} (iso-Introduction)
+\begin{lstlisting}
+iso_Intro (A B: U): iso_Form A B
+\end{lstlisting}
+\end{definition}
+
+\begin{definition} (iso-Elimination)
+\begin{lstlisting}
+iso_Elim (A B: U): Path U A B -> iso A B
+\end{lstlisting}
+\end{definition}
+
+\begin{definition} (iso-Computation)
+\begin{lstlisting}
+iso_Comp (A B : U) (p : Path U A B)
+  : Path (Path U A B) (iso_Intro A B (iso_Elim A B p)) p
+\end{lstlisting}
+\end{definition}
+
+\begin{definition} (iso-Uniqueness)
+\begin{lstlisting}
+iso_Uniq (A B : U) (p: iso A B)
+  : Path (iso_Form A B) (iso_Elim A B (iso_Intro A B p))
+\end{lstlisting}
+\end{definition}
 
 \subsection{Univalence}
+
+\begin{definition} (uni-Formation)
+\begin{lstlisting}
+univ_Formation (A B: U): U = equiv A B -> Path U A B
+\end{lstlisting}
+\end{definition}
+
+\begin{definition} (uni-Introduction)
+\begin{lstlisting}
+equivToPath (A B: U): univ_Formation A B
+  = \(p: equiv A B) -> <i> Glue B [(i=0) -> (A,p),
+    (i=1) -> (B, subst U (equiv B) B B (<_>B) (idEquiv B)) ]
+\end{lstlisting}
+\end{definition}
+
+\begin{definition} (uni-Elimination)
+\begin{lstlisting}
+pathToEquiv (A B: U) (p: Path U A B) : equiv A B
+  = subst U (equiv A) A B p (idEquiv A)
+\end{lstlisting}
+\end{definition}
+
+\begin{definition} (uni-Computation)
+\begin{lstlisting}
+eqToEq (A B : U) (p : Path U A B)
+  : Path (Path U A B) (equivToPath A B (pathToEquiv A B p)) p
+  = <j i> let Ai: U = p@i in Glue B
+    [ (i=0) -> (A,pathToEquiv A B p),
+      (i=1) -> (B,pathToEquiv B B (<k> B)),
+      (j=1) -> (p@i,pathToEquiv Ai B (<k> p @ (i \/ k))) ]
+
+\end{lstlisting}
+\end{definition}
+
+\begin{definition} (uni-Uniqueness)
+\begin{lstlisting}
+funext_Eta (A B: U) (f g: A -> B) (p: Path (A -> B) f g)
+  : Path (Path (A -> B) f g) (funext A B f g (happly A B f g p)) p
+  = refl (Path (A -> B) f g) p
+\end{lstlisting}
+\end{definition}
+
+\subsection{Loop Spaces}
+
+\begin{definition} (Pointed Space). A pointed type $(A,a)$ is a type $A:U$
+together with a point $a:A$, called its basepoint.
+\begin{lstlisting}
+pointed: U = (A: U) * A
+point (A: pointed): A.1 = A.2
+space (A: pointed): U = A.1
+\end{lstlisting}
+\end{definition}
+
+\begin{definition} (Loop Space).
+$$\Omega(A,a) =_{def} ((a =_A a), refl_A(a)).$$
+\begin{lstlisting}
+omega1 (A: pointed) : pointed
+  = (Path (space A) (point A) (point A), refl A.1 (point A))
+\end{lstlisting}
+\end{definition}
+
+\begin{definition} (n-Loop Space).
+$$
+\begin{cases}
+\Omega^0(A, a) =_{def} (A, a)\\
+\Omega^{n+1}(A,a) =_{def} \Omega^{n}(\Omega(A,a))\\
+\end{cases}
+$$
+\begin{lstlisting}
+omega : nat -> pointed -> pointed = split
+  zero -> idfun pointed
+  succ n -> \(A: pointed) -> omega n (omega1 A)
+\end{lstlisting}
+\end{definition}
+
+\subsection{Homotopy Groups}
+
+\begin{definition} (n-th Homotopy Group of m-Sphere).
+$$\pi_{n}S^{m} = ||\Omega^{n}(S^{m})||_0.$$
+\begin{lstlisting}
+piS (n: nat): (m: nat) -> U = split
+   zero   -> sTrunc (space (omega n (bool,false)))
+   succ x -> sTrunc (space (omega n (Sn (succ x),north)))
+\end{lstlisting}
+\end{definition}
+
+\begin{theorem} ($\Omega(S^1)=\mathbb{Z}$).
+\begin{lstlisting}
+data S1 = base
+        | loop <i> [ (i=0) -> base ,
+                     (i=1) -> base ]
+
+loopS1 : U = Path S1 base base
+
+encode (x:S1) (p:Path S1 base x)
+  : helix x
+  = subst S1 helix base x p zeroZ
+
+decode : (x:S1) -> helix x -> Path S1 base x = split
+  base -> loopIt
+  loop @ i -> rem @ i where
+    p : Path U (Z -> loopS1) (Z -> loopS1)
+      = <j> helix (loop1@j) -> Path S1 base (loop1@j)
+    rem : PathP p loopIt loopIt
+      = corFib1 S1 helix (\(x:S1)->Path S1 base x) base
+        loopIt loopIt loop1 (\(n:Z) ->
+        comp (<i> Path loopS1 (oneTurn (loopIt n))
+             (loopIt (testIsoPath Z Z sucZ predZ
+                      sucpredZ predsucZ n @ i)))
+             (<i>(lem1It n)@-i) [])
+
+loopS1eqZ : Path U Z loopS1
+  = isoPath Z loopS1 (decode base) (encode base)
+    sectionZ retractZ
+\end{lstlisting}
+\end{theorem}
 
 \bibliographystyle{plain}
 \bibliography{hott}

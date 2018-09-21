@@ -138,6 +138,41 @@ Path types are essential to prove computation and uniquness rules for all types
 (needed for building signature and terms), so we will be able to prove all
 the MLTT rules as a whole.
 
+\subsection{Interpretations}
+
+\begin{table}[h]
+  \centering
+ \begin{tabular}{lcccc}
+    \hline
+       MLTT & Proof Theory & Set Theory & Homotopy Theory\\
+    \hline
+       $A$ & proposition & set & space\\
+       $a:A$ & proof & element & point \\
+       $B(x)$ & predicate & family of sets & fibration \\
+       $b(x) : B(x)$ & conditional proof & family of elements & section\\
+       $\emptyset, \mathbf{1}$ & $\bot, \top$ & $\emptyset, \{ \emptyset \}$ & $\emptyset, *$\\
+       $A + B$ & $A\vee B$ & disjoint union & coproduct\\
+       $A\times B$ & $A\wedge B$ & set of pairs & product space\\
+       $A\to B$ & $A\Rightarrow B$ & set of functions & function space\\
+       $\sum{x:A},B(x)$ & $\exists_{x:A}B(x)$ & disjoint sum & total space\\
+       $\prod{x:A},B(x)$ & $\forall_{x:A}B(x)$ & product & space of sections\\
+       $\mathbf{Id}_{A}$ & equality $=$ & $\{ <x,x> \| x \in A \}$ & path space $A^I$ \\
+      \hline
+  \end{tabular}
+  \caption{Comparing points of view on type-theoretic operations}\label{tab:pov}
+\end{table}
+
+\subsection{Contexts}
+
+\begin{definition} (Empty Context).
+\end{definition}
+
+\begin{definition} (Context Comprehension).
+\end{definition}
+
+\begin{definition} (Context Derivability).
+\end{definition}
+
 \subsection{Universes}
 
 This introduction is a bit wild stives to be simple yet precise.
