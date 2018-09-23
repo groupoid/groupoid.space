@@ -84,9 +84,9 @@ v) module system. It is slightly based on
 {\bf cubicaltt}\footnote{http://github.com/mortberg/cubicaltt}.
 
 \begin{lstlisting}[mathescape=true]
-   sys := [ coside ]         side := (id=0)$\rightarrow$exp+(id=1)$\rightarrow$exp
-  form := form\/f1+f1+f2   coside := #empty+sides
- sides := side+side+coside    mod := ${\bf module}$ id ${\bf where}$ imps dec
+   sys := [ sides ]          side := (id=0)$\rightarrow$exp+(id=1)$\rightarrow$exp
+  form := form\/f1+f1+f2    sides := #empty+cos+side
+   cos := side,side+side,cos  mod := ${\bf module}$ id ${\bf where}$ imps dec
     f1 := f1/\f2               f2 := -f2+id+0+1
    imp := ${\bf import}$ id                 brs := #empty+cobrs
    app := exp exp             tel := #empty+cotel
@@ -140,108 +140,98 @@ the MLTT rules as a whole.
 
 \subsection{Interpretations}
 
+In contexts you can bind to variables (through de Brujin indexes or string names):
+i) indexed universes; ii) built-in types; iii) user constructed types, and ask
+questions about type derivability, type checking and code extraction. This system
+defines the core type checker within its language.
+
+By using this languages it is possible to encode different interpretations of
+type theory itself and its syntax by construction. Usually the issues will refer to
+following interpretations: i) type-theoretical; ii) categorical;
+iii) set-theoretical; iv) homotopical; v) fibrational or geometrical.
+
+\subsubsection{Logical or Type-theoretical interpretation}
+
+According to type theoretical interpretation for any type should be provided 5 formal
+inference rules: i) formation; ii) introduction; iii) dependent elimination principle;
+iv) beta rule or computational rule; v) eta rule or uniqueness rule. The last one could
+be exceptional for Path types. The formal representation of all rules of MLTT
+are given according to type-theoretical interpretation as a final result in this Issue I.
+It was proven that classical Logic could be embedded into
+intuitionistic propositional logic (IPL) which is directly embedded into MLTT.
+
+\newpage
+Logical and type-theoretical interpretations could be distincted. Also
+set-theoretical interpretation is not presented in Table 1.
+
 \begin{table}[h]
   \centering
  \begin{tabular}{lcccc}
     \hline
-       MLTT & Proof Theory & Set Theory & Homotopy Theory\\
+       Type Theory & Logic & Category Theory & Homotopy Theory\\
     \hline
-       $A$ & proposition & set & space\\
-       $a:A$ & proof & element & point \\
-       $B(x)$ & predicate & family of sets & fibration \\
-       $b(x) : B(x)$ & conditional proof & family of elements & section\\
-       $\emptyset, \mathbf{1}$ & $\bot, \top$ & $\emptyset, \{ \emptyset \}$ & $\emptyset, *$\\
-       $A + B$ & $A\vee B$ & disjoint union & coproduct\\
-       $A\times B$ & $A\wedge B$ & set of pairs & product space\\
-       $A\to B$ & $A\Rightarrow B$ & set of functions & function space\\
-       $\sum{x:A},B(x)$ & $\exists_{x:A}B(x)$ & disjoint sum & total space\\
-       $\prod{x:A},B(x)$ & $\forall_{x:A}B(x)$ & product & space of sections\\
-       $\mathbf{Id}_{A}$ & equality $=$ & $\{ <x,x> \| x \in A \}$ & path space $A^I$ \\
+       A type & class & object & space \\
+       isProp A & proposition & (-1)-truncated object & space \\
+       a:A program & proof & generalized element & point \\
+       $B(x)$ & predicate & indexed object & fibration \\
+       $b(x) : B(x)$ & conditional proof & indexed elements & section\\
+       $\emptyset$ & $\bot$ false & terminal object & empty space \\
+       $\mathbf{1}$ & $\top$ true & initial object & singleton \\
+       $A + B$ & $A\vee B$ disjunction & coproduct & coproduct space \\
+       $A\times B$ & $A\wedge B$ conjunction & product & product space \\
+       $A\to B$ & $A\Rightarrow B$ & internal hom & function space \\
+       $\sum{x:A},B(x)$ & $\exists_{x:A}B(x)$ & dependent sum & total space \\
+       $\prod{x:A},B(x)$ & $\forall_{x:A}B(x)$ & dependent product & space of sections\\
+       $\mathbf{Path}_{A}$ & equivalence $=_A$ & path space object & path space $A^I$ \\
+       quotient & equivalence class & quotient & quotient \\
+       W-type & induction & colimit & complex\\
+       type of types & universe & object classifier & universe \\
+       quantum circuit & proof net & string diagram & \\
       \hline
   \end{tabular}
-  \caption{Comparing points of view on type-theoretic operations}\label{tab:pov}
+  \caption{Interpretations correspond to mathematical theories}\label{tab:pov}
 \end{table}
 
-\subsection{Contexts}
+\subsubsection{Categorical or Topos-theoretical interpretation}
 
-\begin{definition} (Empty Context).
-\end{definition}
+Categorical interpretation is a modeling through categories and functors.
+First category is defined as objects, morphisms and their properties, then
+we define functors, etc. In particular, as an example, according to categorical
+interpretation $\Pi$ and $\Sigma$ types of MLTT are presented as adjoint
+functors, and forms itself a locally closed cartesian category, which will be given a
+intermediate result in {\bf Issue VII: Topos Theory}. In some sense we include here
+topos-theoretical interpretations, with presheaf model of type theory as
+example (in this case fibrations are constructes as functors, categorically).
 
-\begin{definition} (Context Comprehension).
-\end{definition}
+\subsubsection{Homotopical interpretation}
 
-\begin{definition} (Context Derivability).
-\end{definition}
+In classical MLTT uniquness rule of Id type do holds strictly. In Homotopical
+interpretation of MLTT we need to allow a path space as Path type where uniqueness
+rule doesn't hold. Groupoid interpretation of Path equality that doesn't hold UIP generally
+was given in 1996 by Martin Hofmann and Thomas Streicher.
 
-\subsection{Universes}
+When objects are defined as fibrations, or dependent products, or indexed-objects
+this leds to fibrational semantics and geometric sheaf interpretation. Several definition
+of fiber bundles and trivial fiber bindle as direct isomorphisms of $\Pi$ types is
+given here as theorem. As fibrations study in homotopical interpretation, geometric
+interpretation could be treated as homotopical.
 
-This introduction is a bit wild stives to be simple yet precise.
-As we defined a language BNF we could define a language AST by
-using inductive types which is yet to be defined
-in {\bf Issue II: Inductive Types and Models}.
+\subsubsection{Set-theoretical interpretation}
 
-\begin{definition} (Terms). Point in initial object of language AST
-inductive definition is called a term. If type theory or language is defined as
-an inductive type (AST) then the term is defined as its instance.
-\end{definition}
+Set-theoretical interpretations could replace first-order logic, but could not allow
+higher equalities, as long as inductive types to be embedded directly. Set is modelled
+in type theory according to homotopical interpretation as n-type.
 
-\begin{definition} (Sorts). N-indexed set of universes $\mathrm{U}_{n \in \mathrm{N}}$.
-Could have any number of elements which defines different type systems. All built-in
-types as long as user defined types are landed usually by default in $U_0$ universe.
-Sorts represented in type checker as a separate constructor.
-\end{definition}
+\subsection{Types}
 
-\begin{definition} (Axioms). The inclusion rules {\bf $\mathrm{U_i : U_j}, i,j \in \mathrm{N}$},
-that define which universe is element of another given universe. You may attach
-any rules that joins $i,j$ in some way. Axioms with sorts define universe hierarchy.
-\end{definition}
+MLTT could be reduced to $\Pi$, $\Sigma$, Path types, as W-types could be
+modeled through $\Sigma$ and Fin/Nat/List/Maybe types could be modeled on W.
+In this issue $\Pi$, $\Sigma$, Path are given as a core MLTT and W-types
+are given as exercise. List, Nat, Fin types are defined in next {\bf Issue II: Inductive Types}.
 
-\begin{definition} (Rules). The set of landings
-$\mathrm{U_i} \rightarrow \mathrm{U_j} : \mathrm{U_{\lambda(i,j), i,j \in \mathrm{N}}}$,
-where $\mathrm{\lambda : N \times N \rightarrow N}$. These rules define term dependence or
-how we land (in which universe) formation rules in definitions.
-\end{definition}
+\subsubsection{$\Pi$-type}
 
-\begin{definition} (Predicative hierarchy). If $\mathrm{\lambda}$ in Rules
-is an uncurried function $\mathrm{max : N \times N \rightarrow N}$
-then such universe hierarchy is called predicative.
-\end{definition}
-
-\begin{definition} (Impredicative hierarchy). If $\lambda$ in Rules
-is a second projection of a tuple $\mathrm{snd : N \times N \rightarrow N}$
-then such universe hierarchy is called impredicative.
-\end{definition}
-
-\begin{definition} (Definitional Equality). For any $\mathrm{U}_i, i \in \mathrm{N}$ there is
-defined an equality between its members and between its instances.
-For all x,y $\in$ A, there is defined a x=y. Definitional equality
-compares normalized term instances.
-\end{definition}
-
-\begin{definition} (SAR). The universum space is configured with a triple of:
-i) sorts, a set of universes  $\mathrm{U}_{n \in \mathrm{N}}$ indexed over set N;
-ii) axioms, a set of inclusions {\bf $\mathrm{U_i : U_j}, i,j \in \mathrm{N}$};
-iii) rules of term dependence universe landing, a set of landings
-$\mathrm{U_i} \rightarrow \mathrm{U_j} : \mathrm{U_{\lambda(i,j), i,j \in \mathrm{N}}}$, where $\lambda$ could be function $max$ (predicative) or $snd$ (impredicative).
-\end{definition}
-
-\begin{example} (CoC). SAR = $\{ \{\star , \Box \},\{ \star : \Box \},
-        \{ i \rightarrow j : j; i, j \in \{ \star, \Box \}
-        \}$. Terms live in universe $\star$, and types live in universe $\Box$. In CoC $\mathrm{\lambda=snd}$.
-\end{example}
-
-\begin{example} ($\mathrm{PTS}^\infty$). SAR = $\{ \mathrm{U}_{i \in \mathrm{N}},
-    \mathrm{U_i : U_{j; i < j; i,j \in N}},
-    \mathrm{U_i} \rightarrow \mathrm{U_j} : \mathrm{U_{\lambda(i,j); i,j \in \mathrm{N}}}
-    \}$. Where $U_i$ is a universe of $i$-level or $i$-category in categorical interpretation.
-    The working prototype of $\mathrm{PTS}^\infty$ is given in
-    {\bf Addon I: Pure Type System for Erlang}\footnote{M.Sokhatsky,P.Maslianko. The Systems Engineering of Consistent Pure Language with Effect Type System for Certified Applications and Higher Languages. AIP Conference Proceedings. 2018.
-    doi:10.1063/1.5045439}.
-\end{example}
-
-\subsection{$\Pi$ interpretations}
-
-$\Pi$ is a dependent function type, the generalization of functions.
+$\Pi$ is a dependent product type, the generalization of functions.
 As a function it can serve the wide range of mathematical constructions as its domain and codomain,
 which are in general: objects, types, or spaces; and could have as its
 instance: sets, functions, polynomial functors, infinitesimals, $\infty$-groupoids,
@@ -254,7 +244,10 @@ $\forall$ quantifier from higher order logic
 that forms a ground of type theory; ii) geomeric intepretation of $\Pi$ as fiber bundle;
 iii) categorical interpretation of functions as functors.
 
-\subsubsection{Type-theoretical}
+\subsubsection*{Type-theoretical interpretation}
+
+As a logical system dependent type theory could correspond to higher order logic.
+However here only type-theoretical model is given completely.
 
 \begin{definition} ($\Pi$-Formation).
 $$(x: A) \rightarrow B(x) =_{def} \prod_{x:A}B(x) : U.$$
@@ -295,7 +288,10 @@ Eta (A: U) (B: A -> U) (a: A) (f: A -> B a)
 \end{lstlisting}
 \end{theorem}
 
-\subsubsection{Categorical}
+\subsubsection*{Categorical interpretation}
+
+The adjoints $\Pi$ and $\Sigma$ is not the only adjoints could be presented in type system.
+Axiomatic cohesions could contain a set of adjoint pairs as a core type checker operations.
 
 \begin{definition} (Dependent Product).
 The dependent product along morphism $g: B \rightarrow A$ in category $C$ is the right
@@ -308,16 +304,6 @@ $\mathbf{H}$, object in the slice topos. Then the space of sections $\Gamma_\Sig
 of this bundle is the Dependent Product:
 $$ \Gamma_\Sigma(E) = \Pi_\Sigma (E) \in \mathbf{H}. $$
 \end{definition}
-
-\begin{theorem} (Homotopy Equivalence).
-If fiber space is set for all base, and
-there are two functions $f,g : (x:A) \rightarrow B(x)$ and two
-homotopies between them, then these homotopies are equal.
-\begin{lstlisting}
-setPi (A: U) (B: A -> U) (h: (x: A) -> isSet (B x)) (f g: Pi A B)
-      (p q: Path (Pi A B) f g) : Path (Path (Pi A B) f g) p q
-\end{lstlisting}
-\end{theorem}
 
 \begin{theorem} (HomSet).
 If codomain is set then space of sections is a set.
@@ -339,15 +325,11 @@ A section of morphism $f: A \rightarrow B$ in some category is the morphism $g: 
 such that $f \circ g: B \mapright{g} A \mapright{f} B$ equals the identity morphism on B.
 \end{definition}
 
-\subsubsection{Fibrational (geometric)}
-
-The adjoints $\Pi$ and $\Sigma$ is not the only adjoints could be presented in type system.
-Axiomatic cohesions could contain a set of adjoint pairs as a core type checker operations.
+\subsubsection*{Homotopical interpretation}
 
 Geometrically, $\Pi$ type is a space of sections, while the dependent codomain is a space of fibrations.
 Lambda functions are sections or points in these spaces, while the function result is a fibration.
 $\Pi$ type also represents the cartesian family of sets, generalizing the cartesian product of sets.
-
 
 \begin{definition} (Fiber).
 The fiber of the map $p: E \rightarrow B$ in a point $y: B$ is all points $x: E$ such that $p(x)=y$.
@@ -405,17 +387,27 @@ FiberPi (B: U) (F: B -> U) (y: B)
 \end{lstlisting}
 \end{theorem}
 
+\begin{theorem} (Homotopy Equivalence).
+If fiber space is set for all base, and
+there are two functions $f,g : (x:A) \rightarrow B(x)$ and two
+homotopies between them, then these homotopies are equal.
+\begin{lstlisting}
+setPi (A: U) (B: A -> U) (h: (x: A) -> isSet (B x)) (f g: Pi A B)
+      (p q: Path (Pi A B) f g) : Path (Path (Pi A B) f g) p q
+\end{lstlisting}
+\end{theorem}
+
 Note that we will not be able to prove this theorem
-until {\bf Issue V: Many Faces of Equality} because
+until {\bf Issue III: Homotopy Type Theory} because
 bi-invertible iso type will be announced there.
 
-\subsection{$\Sigma$ interpretations}
+\subsubsection{$\Sigma$-type}
 
-$\Sigma$ is a dependent product type, the generalization of products.
+$\Sigma$ is a dependent sum type, the generalization of products.
 $\Sigma$ type is a total space of fibration. Element of total
 space is formed as a pair of basepoint and fibration.
 
-\subsubsection{Type-theoretical}
+\subsubsection*{Type-theoretical interpretation}
 
 \begin{definition} ($\Sigma$-Formation).
 \begin{lstlisting}
@@ -462,14 +454,14 @@ Eta2 (A: U) (B: A -> U) (p: Sigma A B)
 \end{lstlisting}
 \end{theorem}
 
-\subsubsection{Categorical}
+\subsubsection*{Categorical interpretation}
 
 \begin{definition} (Dependent Sum).
 The dependent sum along the morphism $f: A \rightarrow B$ in category $C$ is the left
 adjoint $\Sigma_f : C_{/A} \rightarrow C_{/B}$ of the base change functor.
 \end{definition}
 
-\subsubsection{Set-theoretical}
+\subsubsection*{Set-theoretical interpretation}
 
 \begin{theorem} (Axiom of Choice).
 If for all $x : A$ there is $y : B$ such that $R(x,y)$,
@@ -509,7 +501,7 @@ pathSig (A:U) (B : A -> U) (t u : Sigma A B)
 \end{lstlisting}
 \end{theorem}
 
-\subsection{Path interpretations}
+\subsubsection{Path-type}
 
 The Path identity type defines a Path space with elements and values.
 Elements of that space are functions from interval $[0,1]$ to a values of that path space.
@@ -520,7 +512,7 @@ read \footnote{Marc Bezem, Thierry Coquand, Simon Huber. A model of type theory 
 \footnote{Carlo Angiuli, Kuen-Bang Hou (Favonia), Robert Harper. Cartesian Cubical Computational Type Theory: Constructive Reasoning with Paths and Equalities. 2018. \\ \url{https://www.cs.cmu.edu/~cangiuli/papers/ccctt.pdf}}{AFH}.
 There is a \footnote{Andrew Pitts, Ian Orton. Axioms for Modelling Cubical Type Theory in a Topos. 2016. \url{https://arxiv.org/pdf/1712.04864.pdf}}{PO} paper about CCHM axiomatic in a topos.
 
-\subsubsection{Cubical}
+\subsubsection*{Cubical interpretation}
 
 \begin{definition} (Path Formation).
 \begin{lstlisting}
@@ -644,7 +636,7 @@ trans (A B: U) (p: Path U A B) (a: A) : B
 \end{lstlisting}
 \end{theorem}
 
-\subsubsection{Type-theoretical}
+\subsubsection*{Type-theoretical interpretation}
 \begin{definition} (Singleton).
 \begin{lstlisting}
 singl (A: U) (a: A): U = (x: A) * Path A a x
@@ -715,16 +707,111 @@ J_comp (A: U) (a: A) (C: (x: A) -> Path A a x -> U) (d: C a (refl A a))
 
 Note that  Path type has no Eta rule due to groupoid interpretation.
 
-\subsubsection{Groupoid (categorical)}
+\subsubsection*{Groupoid interpretation}
 
 The groupoid interpretation of type theory is well known article by Martin Hoffman and Thomas Streicher,
 more specific interpretation of identity type as infinity groupoid.
 The groupoid interpretation of Path equality will be given along with category theory library
-in {\bf Issue VIII: Category Theory}.
+in {\bf Issue VII: Category Theory}.
 
-\newpage
+\subsection{Universes}
+
+This introduction is a bit wild strives to be simple yet precise.
+As we defined a language BNF we could define a language AST by
+using inductive types which is yet to be defined
+in {\bf Issue II: Inductive Types and Models}. This SAR notation is due Barendregt.
+
+\begin{definition} (Terms). Point in initial object of language AST
+inductive definition is called a term. If type theory or language is defined as
+an inductive type (AST) then the term is defined as its instance.
+\end{definition}
+
+\begin{definition} (Sorts). N-indexed set of universes $\mathrm{U}_{n \in \mathrm{N}}$.
+Could have any number of elements which defines different type systems. All built-in
+types as long as user defined types are landed usually by default in $U_0$ universe.
+Sorts represented in type checker as a separate constructor.
+\end{definition}
+
+\begin{definition} (Axioms). The inclusion rules {\bf $\mathrm{U_i : U_j}, i,j \in \mathrm{N}$},
+that define which universe is element of another given universe. You may attach
+any rules that joins $i,j$ in some way. Axioms with sorts define universe hierarchy.
+\end{definition}
+
+\begin{definition} (Rules). The set of landings
+$\mathrm{U_i} \rightarrow \mathrm{U_j} : \mathrm{U_{\lambda(i,j), i,j \in \mathrm{N}}}$,
+where $\mathrm{\lambda : N \times N \rightarrow N}$. These rules define term dependence or
+how we land (in which universe) formation rules in definitions.
+\end{definition}
+
+\begin{definition} (Predicative hierarchy). If $\mathrm{\lambda}$ in Rules
+is an uncurried function $\mathrm{max : N \times N \rightarrow N}$
+then such universe hierarchy is called predicative.
+\end{definition}
+
+\begin{definition} (Impredicative hierarchy). If $\lambda$ in Rules
+is a second projection of a tuple $\mathrm{snd : N \times N \rightarrow N}$
+then such universe hierarchy is called impredicative.
+\end{definition}
+
+\begin{definition} (Definitional Equality). For any $\mathrm{U}_i, i \in \mathrm{N}$ there is
+defined an equality between its members and between its instances.
+For all x,y $\in$ A, there is defined a x=y. Definitional equality
+compares normalized term instances.
+\end{definition}
+
+\begin{definition} (SAR). The universum space is configured with a triple of:
+i) sorts, a set of universes  $\mathrm{U}_{n \in \mathrm{N}}$ indexed over set N;
+ii) axioms, a set of inclusions {\bf $\mathrm{U_i : U_j}, i,j \in \mathrm{N}$};
+iii) rules of term dependence universe landing, a set of landings
+$\mathrm{U_i} \rightarrow \mathrm{U_j} : \mathrm{U_{\lambda(i,j), i,j \in \mathrm{N}}}$, where $\lambda$ could be function $max$ (predicative) or $snd$ (impredicative).
+\end{definition}
+
+\begin{example} (CoC). SAR = $\{ \{\star , \Box \},\{ \star : \Box \},
+        \{ i \rightarrow j : j; i, j \in \{ \star, \Box \}
+        \}$. Terms live in universe $\star$, and types live in universe $\Box$. In CoC $\mathrm{\lambda=snd}$.
+\end{example}
+
+\begin{example} ($\mathrm{PTS}^\infty$). SAR = $\{ \mathrm{U}_{i \in \mathrm{N}},
+    \mathrm{U_i : U_{j; i < j; i,j \in N}},
+    \mathrm{U_i} \rightarrow \mathrm{U_j} : \mathrm{U_{\lambda(i,j); i,j \in \mathrm{N}}}
+    \}$. Where $U_i$ is a universe of $i$-level or $i$-category in categorical interpretation.
+    The working prototype of $\mathrm{PTS}^\infty$ is given in
+    {\bf Addendum I: Pure Type System for Erlang}\footnote{M.Sokhatsky,P.Maslianko. The Systems Engineering of Consistent Pure Language with Effect Type System for Certified Applications and Higher Languages. AIP Conference Proceedings. 2018.
+    doi:10.1063/1.5045439}.
+\end{example}
+
+\subsection{Contexts}
+
+Speaking of type checker execution, we introduce context or dictionary with types and terms,
+from which we can derive typed variables. This chain could be implemented as
+nested sigma types (due to R.A.G.Seely) or list types (due to Voevodsky). Categorically
+dependent type theory is built upon categories of contexts.
+
+\begin{definition} (Empty Context).
+$$
+    \gamma_0 : \Gamma =_{def} \star.
+$$
+\end{definition}
+
+\begin{definition} (Context Comprehension).
+$$
+\Gamma\ ; A =_{def} \sum_{\gamma:\Gamma}A(\gamma).
+$$
+\end{definition}
+
+\begin{definition} (Context Derivability).
+$$
+\Gamma \vdash A =_{def} \prod_{\gamma:\Gamma}A(\gamma).
+$$
+\end{definition}
+
 \subsection{MLTT}
-Here we combine 4 Path rules (no eta), 5 $\Pi$ rules, and 6 $\Sigma$ rules (two elims).
+
+Here is given formal model of type-theoretical interpretation of Martin-Löf Type Theory.
+It combines 4 Path rules (no eta), 5 $\Pi$ rules, and 6 $\Sigma$ rules (two elims).
+The proof is provided by direct embedding (internalizing) the model intro the model
+of type checker which is even more powerful.
+
 \begin{definition} (MLTT).
 The MLTT as a Type is defined by taking all rules
 for $\Pi$, $\Sigma$ and Path types into one $\Sigma$ telescope or context.
@@ -835,10 +922,16 @@ three {\bf J} eliminators are equal each other.
 
 \subsection*{Conclusion}
 
-This article opens door to a series that will unvail the topics of
+In this issue the type-theoretical model (interpretation) of MLTT was
+presented in cubical syntax and type checked by cubicaltt. Also landspace of possible
+interpretation was shown corresponding different mathematical theories.
+
+This article opens the door to a series that will unvail the different topics of
 homotopy type theory with practical emphasis to cubical type checkers.
 The article names are subject to change and are based on course structure.
-A number of articles could be issued under the same chapter number.
+A number of articles could be issued under the same chapter number. The custom
+interpretations are to be issued under the volume of addendums. The volumes are:
+Foundations, Mathematics, Addendums.
 
 \subsubsection*{Foundations}
 
@@ -850,63 +943,73 @@ models or theories which will be given in the second volume entitled Mathematics
 {\bf Issue I: Intenalizing Martin-Löf Type Theory}.
 The first volume of definitions gathered into one article dedicated to
 various $\prod$ and $\sum$ properties and internalization of MLTT in the host language typechecker.
+This issue covers core modules: pi, sigma, path, mltt.
 
 {\bf Issue II: Inductive Types and Encodings}.
 This episode tales a story of inductive types, their encodings,
 induction principle and its models.
+This issue covers inductive base library: proto, bool, maybe, nat, list, int, stream, control, recursion.
 
 {\bf Issue III: Homotopy Type Theory}.
 This issue is try to present the Homotopy Type Theory without higher inductive types
 to neglect the core and principles of homotopical proofs.
+This issue covers following modules: pullback, equiv, iso, retract.
 
 {\bf Issue IV: Higher Inductive Types}.
 The metamodel of HIT is a theory of CW-complexes. The category of HIT is a homotopy category.
 This volume finalizes the building of the computational theory.
+This issue covers higher inductive base library: s1, s2, helix, trunc, quotient.
 
-{\bf Issue V: Many Faces of Equality}.
-This article pay attension to different forms of equalities
-and kick the tower of higher equalities.
-
-{\bf Issue VI: Modalities}. What if something couldn't be constructively
+{\bf Issue V: Modalities}. What if something couldn't be constructively
 presented? We can wrap this into modalities and interface it with 5 types
 of MLTT rules, making system sound but without computational semantics.
 
 The main intention of Foundation volume is to show the internal language
-of working topos of CW-complexes in fibrational sheaf type theory.
+of working topos of CW-complexes, the construction of fibrational sheaf type theory.
 
 \subsubsection*{Mathematics}
 
 The second volume of article is dedicated to cover the mathematical
 programming and modeling.
 
-\indent {\bf Issue VII: Set Theory}.
+\indent {\bf Issue VI: Set Theory}.
 The set theory and mere propositions: set, prop.
 
-{\bf Issue VIII: Category Theory}.
-The model of Category Theory definitions. It includes: cat, adj, cones, fun, category, sip, ump, cwf.
+{\bf Issue VII: Category Theory}.
+The model of Category Theory definitions.
+It includes: cat, adj, cones, fun, category, sip, ump, cwf.
 
-{\bf Issue IX: Topos Theory}.
-Formal packaging of set theory in a topos.
+{\bf Issue VIII: Topos Theory}.
+Formal packaging of set theory in a topos. Formal Topos and Formal Sheaf.
+It also includes sheaf embedding of type theory in type theory in sole module: topos.
 
-{\bf Issue X: Differential Geometry}.
-Modules: etale, infinitesimal, manifold, shape.
+{\bf Issue IX: Algebraic Topology}. This branch of study of topological spaces with abstract algebra
+includes followin areas: Homotopy Theory, Homological Algebra, Complexes,
+This issue covers following modules: pointed, algebra, euler, hopf, seq, homology. cw.
 
-{\bf Issue XI: Hopf Fibrations}.
-Modules: pointed, euler, hopf.
+{\bf Issue X: Differential Geometry}. This branch of study includes
+infinitesimal constructions and Cartan geometry, the chapter is
+slightly base on Felix Wellen dissertation.
+This issue covers following modules: etale, infinitesimal, manifold, bundle.
 
-{\bf Issue XII: Abstract Algebra}.
-Abstract algebra, such as Monoid, Group, Semigroup, Monad, etc: algebra, control.
+{\bf Issue XI: K-Theory}. K-Theory.
+This issue covers following modules: k\_theory, spawptrans, subtype, bishop.
 
-{\bf Issue XIII: K-Theory}.
-Modules: k\_theory, spawptrans, subtype, bishop.
-
-\subsubsection*{Addons}
+\subsubsection*{Addendums}
 
 A number of application will be issued during this series. At the time
 of first volume only one appendix is available, the PTS languge with
 infinite number of universes with switcheable SAR rules.
 
-{\bf Addon I: Pure Type System for Erlang}.
+{\bf Addendum I: Pure Type System for Erlang}.
+This article overviews Erlang  implementation of Om type
+checker with PTS$^\infty$ custom type system. The inductive base library
+in Boehm-Berarducci-Church encoding is given in the Github
+repository\footnote{\url{https://github.com/groupoid/om}}.
+
+{\bf Addendum II: Many Faces of Equality}.
+This article pays attension to different forms of equalities
+and builds the tower of higher equalities.
 
 \bibliographystyle{plain}
 \bibliography{types}
