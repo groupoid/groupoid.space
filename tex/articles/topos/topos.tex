@@ -17,6 +17,7 @@
 \newtheorem{definition}{Definition}
 \newtheorem{theorem}{Theorem}
 
+
 \lstset{basicstyle=\tiny,inputencoding=utf8}
 \lstMakeShortInline[mathescape=true,columns=fixed]|
 
@@ -32,6 +33,7 @@
 \lstset{basicstyle=\small,inputencoding=utf8}
 
 \begin{document}
+
 
 \title{Issue VIII: Formal Topos on Category of Sets}
 \author{Maxim Sokhatsky}
@@ -63,6 +65,7 @@ Type Theory is requested. The proofs involve cubical type checker primitives.
 \end{abstract}
 \tableofcontents
 \newpage
+
 
 \section*{Intro}
 
@@ -482,6 +485,11 @@ left adjoint to $f_*$ and $f^*$ preserves finite limits. The left adjoint $f^*$ 
 the inverse image functor, while $f_*$ is called the direct image. The inverse image functor
 $f^*$ is left and right exact in the sense that it preserves all finite
 colimits and limits, respectively.
+\end{definition}
+
+\begin{definition} (Cohesive Topos). A topos $E$ is a cohesive topos over a base topos $S$,
+if there is a geometric morphism $(p^*,p_*): E \rightarrow S$, such that: i) exists adjunction $p^! \dashv p_*$;
+ii) $p^*$ and $p^!$ are full faithful; iii) $p_!$ preserves finite products.
 \end{definition}
 
 \newpage
