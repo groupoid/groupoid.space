@@ -239,6 +239,7 @@ im1 (A B: U) (f: A -> B): U = (b: B) * pTrunc ((a:A) * Path B (f a) b)
 BAut (F: U): U = im1 unit U (\(x: unit) -> F)
 unitIm1 (A B: U) (f: A -> B): im1 A B f -> B = \(x: im1 A B f) -> x.1
 unitBAut (F: U): BAut F -> U = unitIm1 unit U (\(x: unit) -> F)
+
 isFBundle3 (E B: U) (p: E -> B) (F: U): U
   = (X: B -> BAut F)
   * (classify B (BAut F) (\(b: B) -> fiber E B p b) (unitBAut F) X) where

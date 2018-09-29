@@ -1,6 +1,7 @@
 % copyright (c) 2018 Groupoid Infinity
 
 \documentclass{article}
+\usepackage{musicography}
 \usepackage{graphicx}
 \usepackage{amsmath}
 \usepackage{amssymb}
@@ -488,10 +489,14 @@ colimits and limits, respectively.
 \end{definition}
 
 \begin{definition} (Cohesive Topos). A topos $E$ is a cohesive topos over a base topos $S$,
-if there is a geometric morphism $(p^*,p_*): E \rightarrow S$, such that: i) exists adjunction $p^! \dashv p_*$;
+if there is a geometric morphism $(p^*,p_*): E \rightarrow S$, such that:
+i) exists adjunction $p^! \vdash p_*$ and $ p^! \dashv p_*$;
 ii) $p^*$ and $p^!$ are full faithful; iii) $p_!$ preserves finite products.
 \end{definition}
-
+This quadruple defines adjoint triple:
+$$
+\int \dashv \fl \dashv \sh
+$$
 
 
 \newpage
