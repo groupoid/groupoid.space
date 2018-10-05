@@ -23,15 +23,14 @@ $$
 ізоморфне екстракту в Erlang.
 
 $$
-type,erase,norm,opt: O_{PTS} \rightarrow O_{PTS} \\
+type,erase,norm,opt: O_{PTS} \rightarrow O_{PTS}
 $$
 $$
-extract: O_{PTS} \rightarrow O_{CPS} \\
+extract: O_{PTS} \rightarrow O_{CPS}
 $$
 $$
-certify: O_{PTS} \rightarrow O_{CPS} = type \circ norm \circ opt \circ erase \circ extract \\
+certify: O_{PTS} \rightarrow O_{CPS} = type \circ norm \circ opt \circ erase \circ extract
 $$
-
 
 {\bf Об'єкти}. Об'єкти категорій --- мови програмування. Кожна мова програмування
 анонсує систему типів згідно свого індуктивного синтаксичного дерева.
@@ -62,10 +61,7 @@ $$
 з екстрактом в С++. Цікаво було би отримати екстракт в Rust.
 
 \begin{lstlisting}[mathescape=true]
-data O
-   = var (n: nat)
-   | app (f a: O)
-   | lambda (x: nat) (d c: O)
+data O = var (n: nat) | app (f a: O) | lam (x: nat) (d c: O)
 \end{lstlisting}
 
 Вхідними синтаксисами екстраторів є синтаксиси відповідної мови ядра.
@@ -139,7 +135,9 @@ data Value   = Nil
              | Float (a: f64)
              | VecNumber (Vec i64)
              | VecFloat (Vec f64)
+\end{lstlisting}
 
+\begin{lstlisting}
 data Scalar  = Nil
              | Any
              | List (a: AST)
@@ -151,16 +149,21 @@ data Scalar  = Nil
              | Yield (c: Context)
              | Value (v: Value)
              | Name (s: String)
+\end{lstlisting}
 
-
+\begin{lstlisting}
 data Lazy    = Defer (otree: NodeId) (a: AST) (cont: Cont)
              | Continuation (otree: NodeId) (a: AST) (cont: Cont)
              | Return (a: AST)
              | Start
+\end{lstlisting}
 
+\begin{lstlisting}
 data AST     = Atom (a: Scalar)
              | Vector (a: Vec AST)
+\end{lstlisting}
 
+\begin{lstlisting}
 data Cont    = Expressions (ast: AST) Option (vec: Iter AST) (cont: Cont)
              | Assign (ast: AST) (cont: Cont)
              | Cond (c,d: AST) (cont: Cont)
@@ -171,7 +174,6 @@ data Cont    = Expressions (ast: AST) Option (vec: Iter AST) (cont: Cont)
              | Intercore (m: Message) (cont: Cont)
              | Yield (cont: Cont)
 \end{lstlisting}
-
 
 \begin{lstlisting}[mathescape=true]
 E: V | A | C
@@ -220,7 +222,6 @@ cont n (Dict v) e (ContCall c k)          = evf n c v e k
 \newpage
 \section{Чиста система}
 
-\section{Introduction}
 IEEE\footnote{IEEE Std 1012-2016  --- V\&V Software verification and validation} standard
 and ESA\footnote{ESA PSS-05-10 1-1 1995 -- Guide to software verification and validation} regulatory documents define a number of tools and approaches for verification and validation processes. 
 The most advanced techniques involve mathematical languages and notations. 
@@ -234,7 +235,7 @@ The main motivation of Pure Type Systems is an easy reasoning about core, strong
 A custom type checker can be implemented to run certified programs retrieved over untrusted channels.
 The applications of such minimal cores are 1) Blockchain smart-contract languages, 2) certified applications kernels, 3) payment processing, etc.
 
-\subsection{Generating Trusted Programs}
+\subsection{Генерація сертифікованих програм}
 According to Curry-Howard, a correspondence inside Martin-Löf Type Theory\cite{Lof84} proofs or certificates are lambda terms of particular types or specifications.
 As both specifications and implementations are done in a typed language with dependent types we can extract target implementation of a certified program just in any programming language.
 These languages could be so primitive as untyped lambda calculus and are usually implemented as untyped interpreters (JavaScript, Erlang, PyPy, LuaJIT, K).
@@ -242,7 +243,6 @@ The most advanced approach is code generation to higher-level languages such as 
 In this work, we present a simple code extraction to Erlang programming language as a target interpreter.
 However, we have also worked on C++ and Rust targets as well.
 
-\subsection{System Architecture}
 {\bf Om} as a programming language has a core type system, the {\bf PTS$^{\infty}$} --- the pure type system with the infinite number of universes.
 This type system represents the core of the language.
 Higher languages form a set of front-ends to this core.
@@ -660,6 +660,8 @@ We are very interested in compilation to FPGA. As was shown with interaction net
 {\bf Індуктивні синтаксиси}. Індуктивні синтаксиси та кодування можуть підтримуватися за допомогою системи модулів.
 Кожна система модулів може самостійно (у вигляді ефектів), або за допомогою лямбда кодувань
 попередньої мови PTS рівня, зберігати та оперувати індуктивними типами даних.
+
+\subsection{Синтаксис}
 
 Індуктивні синтаксиси будуються на телескопах Диб'єра,
 конструкторах сум, та їх елімінаторах.

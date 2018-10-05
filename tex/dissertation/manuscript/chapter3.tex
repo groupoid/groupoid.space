@@ -1282,81 +1282,6 @@ transPathFun (A B : U) (w: equiv A B)
 \end{lstlisting}
 \end{definition}
 
-\subsection{Простори петель}
-
-\begin{definition} (Pointed Space). A pointed type $(A,a)$ is a type $A:U$
-together with a point $a:A$, called its basepoint.
-\begin{lstlisting}
-pointed: U = (A: U) * A
-point (A: pointed): A.1 = A.2
-space (A: pointed): U = A.1
-\end{lstlisting}
-\end{definition}
-
-\begin{definition} (Loop Space).
-$$\Omega(A,a) =_{def} ((a =_A a), refl_A(a)).$$
-\begin{lstlisting}
-omega1 (A: pointed) : pointed
-  = (Path (space A) (point A) (point A), refl A.1 (point A))
-\end{lstlisting}
-\end{definition}
-
-\begin{definition} (n-Loop Space).
-$$
-\begin{cases}
-\Omega^0(A, a) =_{def} (A, a)\\
-\Omega^{n+1}(A,a) =_{def} \Omega^{n}(\Omega(A,a))\\
-\end{cases}
-$$
-\begin{lstlisting}
-omega : nat -> pointed -> pointed = split
-  zero -> idfun pointed
-  succ n -> \(A: pointed) -> omega n (omega1 A)
-\end{lstlisting}
-\end{definition}
-
-\subsection{Обчислення гомотопічних груп}
-
-\begin{definition} (n-th Homotopy Group of m-Sphere).
-$$\pi_{n}S^{m} = ||\Omega^{n}(S^{m})||_0.$$
-\begin{lstlisting}
-piS (n: nat): (m: nat) -> U = split
-   zero   -> sTrunc (space (omega n (bool,false)))
-   succ x -> sTrunc (space (omega n (Sn (succ x),north)))
-\end{lstlisting}
-\end{definition}
-
-\begin{theorem} ($\Omega(S^1)=\mathbb{Z}$).
-\begin{lstlisting}
-data S1 = base
-        | loop <i> [ (i=0) -> base ,
-                     (i=1) -> base ]
-
-loopS1 : U = Path S1 base base
-
-encode (x:S1) (p:Path S1 base x)
-  : helix x
-  = subst S1 helix base x p zeroZ
-
-decode : (x:S1) -> helix x -> Path S1 base x = split
-  base -> loopIt
-  loop @ i -> rem @ i where
-    p : Path U (Z -> loopS1) (Z -> loopS1)
-      = <j> helix (loop1@j) -> Path S1 base (loop1@j)
-    rem : PathP p loopIt loopIt
-      = corFib1 S1 helix (\(x:S1)->Path S1 base x) base
-        loopIt loopIt loop1 (\(n:Z) ->
-        comp (<i> Path loopS1 (oneTurn (loopIt n))
-             (loopIt (testIsoPath Z Z sucZ predZ
-                      sucpredZ predsucZ n @ i)))
-             (<i>(lem1It n)@-i) [])
-
-loopS1eqZ : Path U Z loopS1
-  = isoPath Z loopS1 (decode base) (encode base)
-    sectionZ retractZ
-\end{lstlisting}
-\end{theorem}
-
 \section{Вищі індуктивні типи}
 
 CW-complexes are fundamental objects in homotopy type theory and even included inside cubical type checker in a form of higher (co)-inductive types (HITs). Just like regular (co)-inductive types could be described as recur- sive terminating (well-founded) or non-terminating trees, higher inductive types could be described as CW-complexes. Defining HIT means to define some CW- complex directly using cubical homogeneous composition structure as an ele- ment of initial algebra inside cubical model.
@@ -1410,7 +1335,9 @@ data susp (A: U)
 
 \subsection{Транкейшин}
 
-\begin{definition} (Suspension).
+\begin{definition} (Truncation).
+\end{definition}
+
 \begin{lstlisting}
 data pTrunc (A: U) -- (-1)-trunc, mere proposition truncation
   = pinc (a: A)
@@ -1443,7 +1370,6 @@ data gTrunc (A: U) -- (1)-trunc, groupoid truncation
            (k = 0) -> a,
            (k = 1) -> b ]
 \end{lstlisting}
-\end{definition}
 
 \subsection{Факторизація}
 
@@ -1481,45 +1407,6 @@ data pushout (A B C: U) (f: C -> A) (g: C -> B)
    | po3 (c: C) <i> [ (i = 0) -> po1 (f c) ,
                       (i = 1) -> po2 (g c) ]
 \end{lstlisting}
-\end{definition}
-
-\subsection{CW-комплекси}
-
-The definition of homotopy groups, a special role is played
-by the inclusions $S^{n-1} \incmap D^n$. We study spaces
-obtained iterated attachments of $D^n$ along $S^{n-1}$.
-
-\begin{definition} (Attachment).
-Attaching n-cell to a space $X$
-along a map $f : S^{n-1} \rightarrow X$ means taking a pushout figure.
-$$
-\begin{tikzcd}
- & S^{n-1} \arrow[r, "k"] \arrow[d, ""]
- & X \arrow[d, ""] \\
- & D^n \arrow[r, "g"] & \cup_f D^n
-\end{tikzcd}
-$$
-where the notation $X \cup_f D^n$ means result depends
-on homotopy class of $f$.
-\end{definition}
-
-\begin{definition} (CW-Complex).
-Inductively. The only CW-complex of dimention $-1$ is $\varnothing$.
-A CW-complex of dimension $\leqslant n$ on $X$ is a
-space $X$ obtained by attaching a collection of n-cells
-to a CW-complex of dimension $n-1$.
-
-A CW-complex is a space $X$ which is the $colimit(X_i)$ of a
-sequence $X_{-1} = \varnothing \incmap X_0 \incmap X_1 \incmap X_2 \incmap ... X$ of
-CW-complexes $X_i$ of dimension $\leqslant n$, with $X_{i+1}$
-obtained from $X_i$ by i-cell attachments.
-Thus if X is a CW-complex, it comes with a filtration
-$$
-    \varnothing \incmap X_0 \incmap X_1 \incmap X_2 \incmap ... X
-$$
-where $X_i$ is a CW-complex of dimension $\leqslant i$ called
-the i-skeleton, and hence the filtration is called the skeletal
-filtration.
 \end{definition}
 
 \section{Модальності}

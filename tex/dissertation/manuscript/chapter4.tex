@@ -4,6 +4,8 @@
 \section{Теорія множин}
 \section{Теорія категорій}
 
+\section{Категорія}
+
 \begin{definition} (Category Signature).
 The signature of category is
 a $\Sigma_{A:U}A \rightarrow A \rightarrow U$ where $U$ could be any universe.
@@ -325,7 +327,13 @@ Cat2 : U
 \end{lstlisting}
 \end{definition}
 
+\subsection{Аддитивна категорія}
+
+%\subsection{Абелева категорія}
+
 \subsection{Група Гротендіка}
+
+\subsection{Категорія Гротендіка}
 
 \section{Теорія топосів}
 
@@ -860,7 +868,287 @@ of topos theory to a particular formal construction.
 \subsection{Простори}
 \subsubsection{Cімпліціальні}
 \subsubsection{CW-комплекси}
+
+The definition of homotopy groups, a special role is played
+by the inclusions $S^{n-1} \incmap D^n$. We study spaces
+obtained iterated attachments of $D^n$ along $S^{n-1}$.
+
+\begin{definition} (Attachment).
+Attaching n-cell to a space $X$
+along a map $f : S^{n-1} \rightarrow X$ means taking a pushout figure.
+$$
+\begin{tikzcd}
+ & S^{n-1} \arrow[r, "k"] \arrow[d, ""]
+ & X \arrow[d, ""] \\
+ & D^n \arrow[r, "g"] & \cup_f D^n
+\end{tikzcd}
+$$
+where the notation $X \cup_f D^n$ means result depends
+on homotopy class of $f$.
+\end{definition}
+
+\begin{definition} (CW-Complex).
+Inductively. The only CW-complex of dimention $-1$ is $\varnothing$.
+A CW-complex of dimension $\leqslant n$ on $X$ is a
+space $X$ obtained by attaching a collection of n-cells
+to a CW-complex of dimension $n-1$.
+
+A CW-complex is a space $X$ which is the $colimit(X_i)$ of a
+sequence $X_{-1} = \varnothing \incmap X_0 \incmap X_1 \incmap X_2 \incmap ... X$ of
+CW-complexes $X_i$ of dimension $\leqslant n$, with $X_{i+1}$
+obtained from $X_i$ by i-cell attachments.
+Thus if X is a CW-complex, it comes with a filtration
+$$
+    \varnothing \incmap X_0 \incmap X_1 \incmap X_2 \incmap ... X
+$$
+where $X_i$ is a CW-complex of dimension $\leqslant i$ called
+the i-skeleton, and hence the filtration is called the skeletal
+filtration.
+\end{definition}
+
 \subsection{Теорія (Ко)Гомотопій}
+
+\subsubsection{Простори петель}
+
+\begin{definition} (Pointed Space). A pointed type $(A,a)$ is a type $A:U$
+together with a point $a:A$, called its basepoint.
+\begin{lstlisting}
+pointed: U = (A: U) * A
+point (A: pointed): A.1 = A.2
+space (A: pointed): U = A.1
+\end{lstlisting}
+\end{definition}
+
+\begin{definition} (Loop Space).
+$$\Omega(A,a) =_{def} ((a =_A a), refl_A(a)).$$
+\begin{lstlisting}
+omega1 (A: pointed) : pointed
+  = (Path (space A) (point A) (point A), refl A.1 (point A))
+\end{lstlisting}
+\end{definition}
+
+\begin{definition} (n-Loop Space).
+$$
+\begin{cases}
+\Omega^0(A, a) =_{def} (A, a)\\
+\Omega^{n+1}(A,a) =_{def} \Omega^{n}(\Omega(A,a))\\
+\end{cases}
+$$
+\begin{lstlisting}
+omega : nat -> pointed -> pointed = split
+  zero -> idfun pointed
+  succ n -> \(A: pointed) -> omega n (omega1 A)
+\end{lstlisting}
+\end{definition}
+
+\subsubsection{Обчислення гомотопічних груп}
+
+\begin{definition} (n-th Homotopy Group of m-Sphere).
+$$\pi_{n}S^{m} = ||\Omega^{n}(S^{m})||_0.$$
+\begin{lstlisting}
+piS (n: nat): (m: nat) -> U = split
+   zero   -> sTrunc (space (omega n (bool,false)))
+   succ x -> sTrunc (space (omega n (Sn (succ x),north)))
+\end{lstlisting}
+\end{definition}
+
+\begin{theorem} ($\Omega(S^1)=\mathbb{Z}$).
+\begin{lstlisting}
+data S1 = base
+        | loop <i> [ (i=0) -> base ,
+                     (i=1) -> base ]
+
+loopS1 : U = Path S1 base base
+
+encode (x:S1) (p:Path S1 base x)
+  : helix x
+  = subst S1 helix base x p zeroZ
+
+decode : (x:S1) -> helix x -> Path S1 base x = split
+  base -> loopIt
+  loop @ i -> rem @ i where
+    p : Path U (Z -> loopS1) (Z -> loopS1)
+      = <j> helix (loop1@j) -> Path S1 base (loop1@j)
+    rem : PathP p loopIt loopIt
+      = corFib1 S1 helix (\(x:S1)->Path S1 base x) base
+        loopIt loopIt loop1 (\(n:Z) ->
+        comp (<i> Path loopS1 (oneTurn (loopIt n))
+             (loopIt (testIsoPath Z Z sucZ predZ
+                      sucpredZ predsucZ n @ i)))
+             (<i>(lem1It n)@-i) [])
+
+loopS1eqZ : Path U Z loopS1
+  = isoPath Z loopS1 (decode base) (encode base)
+    sectionZ retractZ
+\end{lstlisting}
+\end{theorem}
+
+\subsubsection{Розшарування Хопфа}
+
+This article defines the Hopf Fibration (HF), the concept
+of splitting the $S^3$ sphere onto the twisted cartesian product
+of spheres $S^1$ and $S^2$.
+Basic HF applications are:
+1) HF is a Fiber Bundle structure of Dirac Monopole;
+2) HF is a map from the $S^3$ in H to the Bloch sphere;
+3) If HF is a vector field in $R^3$ then there exists a solution
+to compressible non-viscous Navier-Stokes equations.
+It was figured out that there are only
+4 dimensions of fibers with Hopf invariant 1, namely
+$S^0$, $S^1$, $S^3$, $S^7$.
+
+This article consists of two parts:
+1) geometric visualization of projection of $S^3$ to $S^2$ (frontend);
+2) formal topological version of HF in cubical type theory (backend).
+Consider this a basic intro and a summary of results or companion
+guide to the chapter 8.5 from HoTT.
+
+\subsubsection*{Геометрична інтерпретація}
+
+Let's imagine $S^3$ as smooth differentiable manifold and build
+a projection onto the display as if demoscene is still alive.
+
+\begin{definition} (Sphere $S^3$).
+Like a little baby in $\mathbb{R}^4$:
+$$
+S^3 = \{ (x_0,x_1,x_2,x_3) \in \mathbb{R}^4 : \sum_{i=0}^3 x_i^2 = 1 \};
+$$
+\end{definition}
+
+after math classes in quaternions $\mathbb{H}$:
+
+$$
+S^3 = \{ x \in \mathbb{H} : \|x\| = 1 \}.
+$$
+
+\begin{definition} (Locus).
+The $S^3$ is realized as a disjoint
+union of circular fibers in Hopf coordinates $(\eta,\theta_1,\theta_2)$:
+
+\paragraph{}
+\begin{cases}
+x_0 = cos(\theta_1)sin(\eta), \\
+x_1 = sin(\theta_1)sin(\eta), \\
+x_2 = cos(\theta_2)cos(\eta), \\
+x_3 = sin(\theta_2)cos(\eta).
+\end{cases}
+
+\paragraph{}
+Where $\eta \in [0,\frac{\pi}{2}]$ and $\theta_{1,2} \in [0,2\pi]$.
+
+\begin{definition} (Mapping on $S^2$).
+
+A mapping of the Locus to the $S^2$ has points on the circles
+parametrized by $\theta_2$:
+
+\paragraph{}
+\begin{cases}
+x = sin(2\eta)cos(\theta_1), \\
+y = sin(2\eta)sin(\theta_1), \\
+z = cos(2\eta).
+\end{cases}
+
+\paragraph{}
+\begin{figure}[h]
+  \centerline{\includegraphics[scale=0.28]{hopf-2.jpeg}}
+  \caption{Розшарування Хопфа}
+\end{figure}
+
+\begin{lstlisting}
+var fiber = new THREE.Curve(),
+    color = sphericalCoords.color;
+
+fiber.getPoint = function(t) {
+    var eta = sphericalCoords.eta,
+        phi = sphericalCoords.phi,
+        theta = 2 * Math.PI * t;
+    var x1 = Math.cos(phi+theta) * Math.sin(eta/2),
+        x2 = Math.sin(phi+theta) * Math.sin(eta/2),
+        x3 = Math.cos(phi-theta) * Math.cos(eta/2),
+        x4 = Math.sin(phi-theta) * Math.cos(eta/2);
+    var m = mag([x1,x2,x3]),
+        r = Math.sqrt((1-x4)/(1+x4));
+        return new THREE.Vector3(r*x1/m,r*x2/m, r*x3/m);
+    };
+\end{lstlisting}
+
+\newpage
+\subsubsection*{Гомотопічна інтерпретація}
+
+Can we reason about spheres without a metric? Yes!
+But can we do this in a constructive way? Also yes.
+
+
+\subsubsection{Розшарування Хопфа}
+
+\begin{example} ($S^3$ Hopf Fiber).
+Guillaume Brunerie.
+\begin{lstlisting}
+rot: (x : S1) -> Path S1 x x = split
+    base -> loop1
+    loop @ i -> constSquare S1 base loop1 @ i
+
+mu : S1 -> equiv S1 S1 = split
+    base -> idEquiv S1
+    loop @ i -> equivPath S1 S1 (idEquiv S1)
+                (idEquiv S1) (<j> \(x : S1) -> rot x @ j) @ i
+
+H : S2 -> U = split
+    north -> S1
+    south -> S1
+    merid x @ i -> ua S1 S1 (mu x) @ i
+
+total : U = (c : S2) * H c
+\end{lstlisting}
+\end{example}
+
+\begin{definition} (H-space).
+H-space over a carrier $A$ is a tuple
+$$
+H_A=
+\begin{cases}
+A : U\\
+e : A\\
+\mu : A \rightarrow A \rightarrow A\\
+\beta : (a:A) \rightarrow \Sigma (\mu(e,a)=a) (\mu(a,e)=a)
+\end{cases}
+$$.
+\end{definition}
+
+\begin{theorem} (Hopf Fibrations).
+There are fiber bundles:\\
+(S^0,S^1,p,S^1),
+(S^1,S^3,p,S^2),
+(S^3,S^7,p,S^4),
+(S^7,S^{15},p,S^8).
+\end{theorem}
+
+\begin{definition} (Hopf Invariant).
+Let $\phi: S^{2n-1} \rightarrow S^{n}$ a continuous map.
+Then homotopy pushout (cofiber) of $\phi$ is
+$cofib(\phi) = S^{n} \bigcup_\phi \mathbb{D}^{2n}$ has
+ordinary cohomology
+$$
+H^{k}(cofib(\phi),\mathbb{Z})=
+\begin{cases}
+\mathbb{Z}\ for\ k=n,2n \\[2ex]
+0\ otherwise
+\end{cases}
+$$
+\end{definition}
+
+Hence for $\alpha,\beta$ generators of the cohomology groups in
+degree $n$ and $2n$, respectively, there exists an integer $h(\phi)$
+that expresses the <b>cup product</b> square of $\alpha$
+as a multiple of $\beta$ &mdash; $\alpha\sqcup\alpha=h(\phi)\cdot\beta$.
+This integer $h(\phi)$ is called Hopf invariant of $\phi$.
+
+\begin{theorem} (Adams, Atiyah).
+Hopf Fibrations are only maps that have Hopf invariant $1$.
+\end{theorem}
+
+
+
 \subsection{Теорія (Ко)Гомологій}
 \section{Диференціальна геометрія}
 \subsection{V-многовиди}
