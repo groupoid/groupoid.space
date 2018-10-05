@@ -1,0 +1,229 @@
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesClass{musicography}[2018/05/21
+  Symbols for music writing with pdflatex]
+
+% Copyright 2017 Andrew A. Cashner, andrewacashner@gmail.com
+
+% This work may be distributed and/or modified under the 
+% conditions of the LaTeX Project Public License, either
+% version 1.3 of this license or (at your option) any 
+% later version.
+% The latest version of this license is in 
+%    http://www.latex-project.org/lppl.txt
+% and version 1.3 or later is part of all distributions
+% of LaTeX version 2005/12/01 or later.
+%
+% This work has the LPPL maintenance status `maintained'.
+% The Current Maintainer of this work is Andrew A. Cashner.
+% This work consists of the package file musicography.sty
+% and the documentation file musicography.tex.
+
+% CHANGE LOG
+% 2018-05-21 Override semantic-markup's \fl, \sh, \na commands if it is loaded
+% 2017-10-31 Corrected glyph for \musHalf and documented
+%              \musMeter and \musFigures
+% 2017-08-29 First version on CTAN
+% 2017-04-12 Created
+
+\newif\ifLargeFont
+\LargeFontfalse
+\DeclareOption{bigger}{\LargeFonttrue}
+\ProcessOptions\relax
+
+\RequirePackage{xparse}
+
+\ifLargeFont
+    \newfont{\musFont}{musix13}
+    \newfont{\musFontBig}{musix16}
+    \newfont{\musFontLarge}{musix20}
+\else
+    \newfont{\musFont}{musix11}
+    \newfont{\musFontBig}{musix13}
+    \newfont{\musFontLarge}{musix16}
+\fi
+
+% Font for numbers in \musStack
+% Could redefine to use lining figures, math mode, sans-serif, etc.
+% Example for ebgaramond: \renewcommand{\musNumFont}[1]{\liningnums{#1}}
+\NewDocumentCommand{\musNumFont}{}{}
+
+% Print a music symbol from the \musFont, specifying space before, after, and
+% baseline adjustment
+%  #1 optional font command (default: \musFont)
+%  #2 kern before    
+%  #3 raisebox value 
+%  #4 kern after     
+%  #5 symbol code (e.g., \symbol{4}) 
+\NewDocumentCommand{\musSymbol}{ O{\musFont} m m m m }{%
+    {#1\kern#2\raisebox{#3}{#5}\kern#4}%
+}
+
+% Accidentals
+%  #1 symbol command for accidental
+\NewDocumentCommand{\musAccidental}{ m }{%
+    \musSymbol[\musFontLarge]{0.1em}{0.5ex}{-0.1pt}{#1}%
+}
+\NewDocumentCommand{\musFlat}       {}{\musAccidental{\symbol{90}}}
+\NewDocumentCommand{\musDoubleFlat} {}{\musAccidental{\symbol{91}}}
+\NewDocumentCommand{\musSharp}      {}{\musAccidental{\symbol{92}}}
+\NewDocumentCommand{\musDoubleSharp}{}{\musAccidental{\symbol{93}}}
+\NewDocumentCommand{\musNatural}    {}{\musAccidental{\symbol{94}}}
+
+% Shorthand accidental commands
+% These commands are defined differently in the semantic-markup package,
+% so LaTeX will use musicography commands instead
+\@ifpackageloaded{semantic-markup}{%
+    \RenewDocumentCommand{\fl}{}{\musFlat}
+    \RenewDocumentCommand{\sh}{}{\musSharp}
+    \RenewDocumentCommand{\na}{}{\musNatural}
+}{%
+    \NewDocumentCommand{\fl}{}{\musFlat}
+    \NewDocumentCommand{\sh}{}{\musSharp}
+    \NewDocumentCommand{\na}{}{\musNatural}
+}
+% Print a composite music symbol of a notehead plus stem
+%  #1 Symbol musSymbol command for notehead
+\NewDocumentCommand{\musStemmedNote}{ m }{%
+    \musSymbol{0.05em}{0.5ex}{0.2em}{#1\musStem}%
+}
+
+% Stemmed note plus flag
+%  #1 symbol command for base note
+%  #2 symbol command for flag
+\NewDocumentCommand{\musFlaggedNote}{ m m }{%
+    \musSymbol{0.05em}{0.5ex}{0pt}{#1\musStem}%
+    \musSymbol{0pt}{0pt}{0.9em}{#2}%
+}
+
+% Note plus dot
+%  #1 \musSymbol command for note to be dotted
+\NewDocumentCommand{\musDottedNote}{ m }{#1\musDot}
+
+\NewDocumentCommand{\musStem}{}{%
+    \musSymbol{0.955em}{0.55ex}{0pt}{\symbol{16}}%
+}
+\NewDocumentCommand{\musSegno}{}{%
+    \musSymbol{0.55em}{-0.4ex}{1.5em}{\symbol{86}}%
+}
+\NewDocumentCommand{\musDot}{}{%
+    \musSymbol{-0.2em}{-0.5ex}{0.7em}{\symbol{24}}%
+}
+
+\NewDocumentCommand{\musWhole}{}{%
+    \musSymbol{0.05em}{0.5ex}{1.35em}{\symbol{9}}%
+}
+\NewDocumentCommand{\musHalf}{}{%
+    \musStemmedNote{\symbol{8}}%
+}
+\NewDocumentCommand{\musQuarter}{}{%
+    \musStemmedNote{\symbol{7}}%
+}
+\NewDocumentCommand{\musEighth}{}{%
+    \musFlaggedNote{\symbol{8}}{\symbol{40}}%
+}
+\NewDocumentCommand{\musSixteenth}{}{%
+    \musFlaggedNote{\symbol{8}}{\symbol{41}}%
+}
+
+\NewDocumentCommand{\musWholeDotted}{}{%
+    \musDottedNote{\musWhole}%
+}
+\NewDocumentCommand{\musHalfDotted}{}{%
+    \musDottedNote{\musHalf}%
+}
+\NewDocumentCommand{\musQuarterDotted}{}{%
+    \musDottedNote{\musQuarter}%
+}
+\NewDocumentCommand{\musEighthDotted}{}{%
+    \musDottedNote{\musEighth}%
+}
+\NewDocumentCommand{\musSixteenthDotted}{}{%
+    \musDottedNote{\musSixteenth}%
+}
+
+% Command to stack numerals
+% Adapted from harmony.sty's \ueber command 
+\newdimen\tmpdima
+\newdimen\tmpdimb
+\newdimen\tmpdimc
+\newdimen\tmpdimd
+\newdimen\tmpdime
+\newbox\nbxa
+\newbox\nbxb
+\newbox\nbxc
+\newbox\nbxd
+\newbox\nbxe
+\newbox\nbxf
+\newbox\nbxg
+\newbox\nbxh
+\newbox\nbxi
+
+\NewDocumentCommand{\musStack}{ m m }{%
+    \setbox\nbxi=\hbox{%
+        \setbox\nbxa=\hbox{\scriptsize{\musNumFont{#1}}}%
+        \setbox\nbxb=\hbox{\scriptsize{\musNumFont{#2}}}%
+        \ifdim\wd\nbxa>\wd\nbxb%
+        \tmpdima=\wd\nbxa%
+        \else%
+        \tmpdima=\wd\nbxb%
+        \fi%
+        \setbox\nbxa=\hbox to \tmpdima{%
+            \scriptsize\hss{\musNumFont{#1}}\hss}%
+        \setbox\nbxb=\hbox to \tmpdima{\scriptsize\hss{%
+            \musNumFont{#2}}\hss}%
+        \lower0.3ex\copy\nbxb%
+        \kern-\wd\nbxb%
+        \raise0.8\ht\nbxb%
+        \box\nbxa%
+    }%
+    \unhbox\nbxi%
+}
+
+% Meter symbols
+%  #1 symbol code for meter sign
+\NewDocumentCommand{\musSymbolMeter}{ m }{%
+    \raisebox{0.58ex}[8pt][2pt]{%
+        {\kern-1pt\musFontBig\raisebox{0.3ex}{#1}\kern0.3em}%
+    }%
+}
+% Meter that combines \meterC with numerals (e.g., C3 C3/2)
+\NewDocumentCommand{\meterCplus}{ m }{\meterC{}\kern-0.7pt#1}
+
+% Numeric meter signatures (e.g., 3/4)
+%  #1 number on top
+%  #2 number on bottom
+\NewDocumentCommand{\musMeter}{ m m }{%
+    \musStack{#1}{#2}\kern0.05em
+}
+% Same command used for figured bass
+\NewDocumentCommand{\musFigures}{}{\musMeter}
+
+\NewDocumentCommand{\meterC}{}{%
+    \musSymbolMeter{\symbol{83}}%
+}
+\NewDocumentCommand{\meterCutC}{}{%
+    \musSymbolMeter{\symbol{82}}%
+}
+% Ternary meters used in 16th--18th c. music
+\NewDocumentCommand{\meterCThree}{}{%
+    \meterCplus{\musNumFont{3}}%
+}
+\NewDocumentCommand{\meterCThreeTwo}{}{%
+    \meterCplus{\musStack{3}{2}}%
+}
+% Ternary meter used in 17th-century Spanish music
+\NewDocumentCommand{\meterCZ}{}{%
+    \meterCplus{Z}%
+}
+
+% Aliases for older note names
+\NewDocumentCommand{\musSemibreve}         {}{\musWhole}
+\NewDocumentCommand{\musMinim}             {}{\musHalf}
+\NewDocumentCommand{\musSemiminim}         {}{\musQuarter}
+\NewDocumentCommand{\musCorchea}           {}{\musEighth}
+\NewDocumentCommand{\musSemibreveDotted}   {}{\musWholeDotted}
+\NewDocumentCommand{\musMinimDotted}       {}{\musHalfDotted}
+\NewDocumentCommand{\musSeminiminimDotted} {}{\musQuarterDotted}
+\NewDocumentCommand{\musCorcheaDotted}     {}{\musEighthDotted}
+
+\endinput

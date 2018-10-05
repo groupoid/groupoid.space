@@ -1,48 +1,663 @@
-% \addtocontents{toc}{\protect\newpage}
-\chapter{Концептуальна модель та структура роботи}
+\addtocontents{toc}{\protect\newpage}
 
-\section{Мови програмування}
-Мова програмування --- це індуктивний тип конструкторів мови,
+\chapter{ГЕНЕЗА}
+
+Другий розділ описує розвиток концептуальної моделі системи доведення теорем
+у розрізі різних семантичних рівнів системи, показуючи її еволюцію з
+підвищенням складності мов. Так, виділяється наступна послідовність мов, та функторів між ними,
+де кожна мова-кодомен є складнішою та біль потужною за мову-домен. Перша мова
+являє собою нетипизоване лямбда числення, остання мова
+мість обчислювальну семантику гомотопічної теорії типів.
+
+$$
+O_{CPS} \rightarrow O_{PTS} \rightarrow O_{MLTT} \rightarrow O_{CiC} \rightarrow O_{CCHM}
+$$
+
+Кожна мова програмування може бути доменом або кодоменом
+морфізмів в категорії мов програмування. Тут представлена спектральна категорія,
+об'єкти якої можна пронумерувати в залежності від позиції в генетичній послідовності.
+
+{\bf Мови програмування}. Мова програмування --- це індуктивний тип конструкторів мови,
 для якої існує операційна семантка (правила обчислень) та правила виводу.
 Найпростіша мова програмування --- нетипизоване лямбда числення,
 ізоморфне екстракту в Erlang.
 
-\section{Об'єкти}
-Об'єкти категорій --- мови програмування. Кожна мова програмування
+$$
+type,erase,norm,opt: O_{PTS} \rightarrow O_{PTS} \\
+$$
+$$
+extract: O_{PTS} \rightarrow O_{CPS} \\
+$$
+$$
+certify: O_{PTS} \rightarrow O_{CPS} = type \circ norm \circ opt \circ erase \circ extract \\
+$$
+
+
+{\bf Об'єкти}. Об'єкти категорій --- мови програмування. Кожна мова програмування
 анонсує систему типів згідно свого індуктивного синтаксичного дерева.
 Усі можливі екземпляри цього синтаксичного дерева є усіма
 можливими программами в цій мові програмування.
 
-\section{Мовні Категорії}
-Мовна категорія --- це категорія, єдиний об’єкт якої це
+{\bf Мовні Категорії}. Мовна категорія --- це категорія, єдиний об’єкт якої це
 синтаксичне дерево мови, а морфізми --- це стрілки
 цієї maybe-категорії: [norm,type,infer,erase,extract]. Стрілки
 зокрема містять правила виводу, типизації, нормалізації, екстактів, тощо.
 
-\section{Вхідні синтаксиси. Специфікації}
+Функторіальні мовні перетворення: 1) extract: maybe A -> maybe B --- з однієї
+мови програмування А в іншу мову програмування B; 2) type: maybe A -> maybe A
+--- перевірка терма первної мови програмування; 3) infer: maybe A -> maybe A
+--- типізація; 4) norm: maybe A -> maybe A --- нормалізація.
+
+{\bf Вхідні синтаксиси. Специфікації}
 Увесь спектр мов програмування, що сприймаються системою визначається набором
 синтаксисів, парсери яких на виході дають індуктивні синтаксичні дерева
 (закодовані у Бом, IR/II, чи будь-якому довільному індуктивному кодуванню).
 
-\subsection{PTS синтаксиси}
-Мінімальне ядро з однією аксіомою сприймає декілька лямбда ситаксисів.
+{\bf Вихідні синтаксиси. Інтерпретатори}
+
+\section{Інтерпретатор}
+
+Кількість мов прототипа обмежена двома інтерпретаторами: O та Erlang,
+однак система не обмежується цими мовами, а має експериментальне HM ядро
+з екстрактом в С++. Цікаво було би отримати екстракт в Rust.
+
+\begin{lstlisting}[mathescape=true]
+data O
+   = var (n: nat)
+   | app (f a: O)
+   | lambda (x: nat) (d c: O)
+\end{lstlisting}
+
+Вхідними синтаксисами екстраторів є синтаксиси відповідної мови ядра.
+На даний момент в роботі ми підтримуємо PTS та індуктивний синтаксиси.
+
+The motivation for building an interpreter that can run on L1 cache
+sizes (limited to 64KB of code and data) is based on success of LuaJIT,
+V8, HotSpot, and vector lanaguages such as K and J. If we can build a
+really fast VM for such interpreter (compact aligned bytecode) and
+make it stick to L1 sizes with enabled AVX instruction set then it
+can outperform any reasonable alternative.
+
+This approach was chosen for building O-CPS interpreter in Rust.
+Following results were achieved in factorial (5) and ackerman
+function (3,4) benchmarks, and that's even without bytecode VM
+implementation! Next step to improvement.
+
+\begin{lstlisting}
+Rust    0
+Java    3
+PyPy    8
+O-CPS   291
+Python  537
+K       756
+Erlang  10699/1806/436/9
+LuaJIT  33856
+\end{lstlisting}
+
+\begin{lstlisting}
+akkerman_k     635 ns/iter (+/- 73)
+akkerman_rust  8,968 ns/iter (+/- 322)
+\end{lstlisting}
+
+The key challenge here was that O-CPS implementation was made
+in Rust's flavour of linear types. Thus lambda interpreter as
+an internal language of cartesian closed category was written
+in a language with linear types and lifetimes as an internal
+language of symmetric monoidal categories. Such an exercise
+will definitely increase your confidence in linear types.
+
+\subsection{Векторизація засобами мови Rust}
+
+\begin{lstlisting}
+(&AST::Atom(Atom::Value(Value::$vec(ref l))),
+ &AST::Atom(Atom::Value(Value::$vec(ref r)))) => {
+    let a: Vec<$atype> = l.iter()
+        .zip(r)
+        .map(|(l,r)| dyad_map_expr!(l,$op,r,$atom))
+        .collect::>();
+    Ok( AST::Atom(Atom::Value(Value::$r_vec(a))) )
+},
+\end{lstlisting}
+
+\begin{lstlisting}
+objdump ./target/release/o -d | grep mulpd
+   223f1: c5 f5 59 0c d3    vmulpd (%rbx,%rdx,8),%ymm1,%ymm1
+   223f6: c5 dd 59 64 d3 20 vmulpd 0x20(%rbx,%rdx,8),%ymm4,%ymm4
+   22416: c5 f5 59 4c d3 40 vmulpd 0x40(%rbx,%rdx,8),%ymm1,%ymm1
+   2241c: c5 dd 59 64 d3 60 vmulpd 0x60(%rbx,%rdx,8),%ymm4,%ymm4
+   2264d: c5 f5 59 0c d3    vmulpd (%rbx,%rdx,8),%ymm1,%ymm1
+   22652: c5 e5 59 5c d3 20 vmulpd 0x20(%rbx,%rdx,8),%ymm3,%ymm3
+\end{lstlisting}
+
+\subsection{Синтаксис}
+
+\begin{lstlisting}
+data Value   = Nil
+             | SymbolInt (a: u16)
+             | SequenceInt (a: u16)
+             | Number (a: i64)
+             | Float (a: f64)
+             | VecNumber (Vec i64)
+             | VecFloat (Vec f64)
+
+data Scalar  = Nil
+             | Any
+             | List (a: AST)
+             | Dict (a: AST)
+             | Call (a b: AST)
+             | Assign (a b: AST)
+             | Cond (a b c: AST)
+             | Lambda (otree: Option NodeId) (a b: AST)
+             | Yield (c: Context)
+             | Value (v: Value)
+             | Name (s: String)
+
+
+data Lazy    = Defer (otree: NodeId) (a: AST) (cont: Cont)
+             | Continuation (otree: NodeId) (a: AST) (cont: Cont)
+             | Return (a: AST)
+             | Start
+
+data AST     = Atom (a: Scalar)
+             | Vector (a: Vec AST)
+
+data Cont    = Expressions (ast: AST) Option (vec: Iter AST) (cont: Cont)
+             | Assign (ast: AST) (cont: Cont)
+             | Cond (c,d: AST) (cont: Cont)
+             | Func (a,b,c: AST) (cont: Cont)
+             | List (acc: Vec AST) (vec: Iter AST) (i: Nat) (cont: Cont)
+             | Call (a: AST) (i: Nat) (cont: Cont)
+             | Return
+             | Intercore (m: Message) (cont: Cont)
+             | Yield (cont: Cont)
+\end{lstlisting}
+
+
+\begin{lstlisting}[mathescape=true]
+E: V | A | C
+NC: ";" = [] | ";" m:NL = m
+FC: ";" = [] | ";" m:FL = m
+EC: ";" = [] | ";" m:EL = m
+NL: NAME | o:NAME m:NC = Cons o m
+FL: E | o:E | m:FC = Cons o m
+EL: E | EC  | o:E m:EC = Cons o m
+C: N | c:N a:C = Call c a
+N: NAME | S | HEX | L | F
+L: "(" ")" = [] | "([" c:NL "]" m:FL ")" = Table c m | "(" l:EL ")" = List l
+F: "{" "}" = Lambda [] [] [] | "{[" c:NL "]" m:EL "}" = Lambda [] c m
+                             | "{" m:EL "}" = Lambda [] [] m
+
+lazy n (Assign n b)               e k = D n b (ContAssign n k)
+     n (Cond v a l)               e k = D n v (ContCond l r k)
+     n (List l)                   e k = eve n l e k
+     n (Call c a)                 e k = D n a (ContCall c k)
+     n (Name s)                   e k = cont (lookup n s e) k
+     n (Lambda _ x y)             e k = cont ((Lambda n x y) n) k
+
+evf  n (Lambda c x y) a e k = cont (y (if (= c []) n c)) (ContFunc x a k)
+     n       (Name s) a e k = lookup n s e
+eve  n       (Cons a d) e k = D n a (ContExpr d k)
+     n              Nil e k = cont n Nil e k
+     n                a e k = D n a k
+emr            (Dict x) e k = R Dict (rev x)
+             (Cons x y) e k = R Dict (Cons (rev x) (rev x))
+                      a e k = R a
+run  D              n a e k = lazy n a e k
+     R                a     = a
+
+cont n (Dict v) e (ContCall c k)          = evf n c v e k
+     n x        e (ContCall c k)          = evf n c x e k
+     n x        e (ContFunc s a k)        = eve (e.define_args s (rev a)) v k
+     n False    e (ContCond l r k)        = D n r k
+     n True     e (ContCond l r k)        = D n l k
+     n x        e (ContCond l r k)        = D n x (ContCond l r k)
+     n x        e (ContAssign (Name s) k) = eve n (e.define s x) k
+     n x        e (ContExpr (Cons a d) k) = eve n (Cons a d) k
+     n x        e (ContExpr r k)          = cont n x k
+     n x        e  ContRet                = emr x e k
+\end{lstlisting}
+
+\newpage
+\section{Чиста система}
+
+\section{Introduction}
+IEEE\footnote{IEEE Std 1012-2016  --- V\&V Software verification and validation} standard
+and ESA\footnote{ESA PSS-05-10 1-1 1995 -- Guide to software verification and validation} regulatory documents define a number of tools and approaches for verification and validation processes. 
+The most advanced techniques involve mathematical languages and notations. 
+The age of verified math was started by de Bruin's AUTOMATH prover and Martin-Löf\cite{Lof84}'s type theory. 
+Today we have Coq, Agda, Lean, Idris, F* languages which are based on Calculus of Inductive Constructions or CiC\cite{Mohring15}.
+The core of CiC is Calculus of Constructions or CoC\cite{Coq88}.
+Further development has lead to Lambda Cube\cite{Henk93} and Pure Type Systems by Henk\cite{Erik97} and Morte\footnote{Gabriel Gonzalez. Haskell Morte Library}.
+Pure Type Systems are custom languages based on CoC with single Pi-type and possibly other extensions.
+Notable extensions are ECC, ECC with Inductive Types\cite{Ore92}, K-rules\cite{Barthe95}.
+The main motivation of Pure Type Systems is an easy reasoning about core, strong normalization and trusted external verification due to compact type checkers.
+A custom type checker can be implemented to run certified programs retrieved over untrusted channels.
+The applications of such minimal cores are 1) Blockchain smart-contract languages, 2) certified applications kernels, 3) payment processing, etc.
+
+\subsection{Generating Trusted Programs}
+According to Curry-Howard, a correspondence inside Martin-Löf Type Theory\cite{Lof84} proofs or certificates are lambda terms of particular types or specifications.
+As both specifications and implementations are done in a typed language with dependent types we can extract target implementation of a certified program just in any programming language.
+These languages could be so primitive as untyped lambda calculus and are usually implemented as untyped interpreters (JavaScript, Erlang, PyPy, LuaJIT, K).
+The most advanced approach is code generation to higher-level languages such as C++ and Rust (which is already language with trusted features on memory, variable accessing, linear types, etc.).
+In this work, we present a simple code extraction to Erlang programming language as a target interpreter.
+However, we have also worked on C++ and Rust targets as well.
+
+\subsection{System Architecture}
+{\bf Om} as a programming language has a core type system, the {\bf PTS$^{\infty}$} --- the pure type system with the infinite number of universes.
+This type system represents the core of the language.
+Higher languages form a set of front-ends to this core.
+ Here is example of possible languages:
+1) Language for inductive reasoning, based on CiC with extensions;
+2) Homotopy Core with interval [0,1] for proving J and funExt;
+3) Stream Calculus for deep stream fusion (Futhark);
+3) Pi-calculus for linear types, coinductive reasoning and runtime modeling (Erlang, Ling, Rust).
+These languages desugar to {\bf PTS$^{\infty}$} as an intermediate language before extracting to target language\footnote{Note that extracting from [0,1] Homotopy Core is an open problem}.
+
+Not all terms from higher languages could be desugared to PTS.
+As was shown by Geuvers\cite{Geuvers01} we cannot build induction principle inside PTS, we need a fixpoint extension to PTS.
+And also we cannot build the J and funExt terms.
+But still PTS is very powerful, it's compatible with System F libraries.
+The properties of that libraries could be proven in higher languages with Induction and/or [0,1] Homotopy Core.
+Then runtime part could be refined to PTS, extracted to target and run in an environment.
+
+We see two levels of extensions to PTS core: 1) Inductive Types support; 2) Homotopy Core with [0,1] and its eliminators.
+We will touch a bit this topic in the last section of this document.
+
+{\bf PTS синтаксиси}. Мінімальне ядро з однією аксіомою
+сприймає декілька лямбда ситаксисів.
 Перший синтаксис сумісний з системою програмування
 $morte$\footnote{http://github.com/Gabriel439/Haskell-Morte-Library}, та походить від неї.
 Інший синтаксис сумісний з синтаксисом $cubical$\footnote{http://github.com/mortberg/cubicaltt}.
 Планувалося також підтримати синтаксис $caramel$\footnote{https://github.com/MaiaVictor/caramel}.
 
+\begin{table}[h]
+\begin{center}
+\caption{List of languages, tried as verification targets}
+\label{tab:a}
+\tabcolsep7pt\begin{tabular}{lcccc}
+\hline
+{\bf Target} & {\bf Class} & {\bf Intermediate} & {\bf Theory}\\
+\hline
+C++        & compiler/native      & HNC & System F\\
+Rust       & compiler/native      & HNC & System F\\
+JVM        & interpreter/native   & Java    & F-sub\footnote{System F wit bounded quantification}\\
+JVM        & interpreter/native   & Scala   & System F-omega\\
+GHC Core   & compiler/native      & Haskell & System D\\
+GHC Core   & compiler/native      & Morte   & CoC\\
+Haskell    & compiler/native      & Coq     & CiC\\
+OCaml      & compiler/native      & Coq     & CiC\\
+{\bf BEAM} & {\bf interpreter} & {\bf Om}   & {\bf PTS$^\infty$} \\
+O          & interpreter          & Om  & PTS$^\infty$ \\
+K          & interpreter          & Q   & Applicative \\
+PyPy       & interpreter/native   & N/A & ULC \\
+LuaJIT     & interpreter/native   & N/A & ULC \\
+JavaScript & interpreter/native & PureScript & System F\\
+\hline
+\end{tabular}
+\end{center}
+\end{table}
+
+Мова програмування Ом -- це мова з залежними типами, яка є розширенням
+числення конструкцій (Calculus of Constructions, CoC) Тері Кокуанда. Саме з числення
+конструкцій починається сучасна обчислювальна математика. В додаток до CoC,
+наша мова Ом має предикативну ієрархію індексованих всесвітів. В цій мові немає
+аксіоми рекурсії для безпосереднього визначення рекурсивних типів. Однак в цій мові
+вцілому, рекурсивні дерева та корекурсія може бути визначена, або як кажуть, закодована.
+Така система аксіом називається системою з однією аксіомою (або чистою системою), тому що в ній
+існує тільки Пі-тип, а для кожного типу в теорії типів Мартіна Льофа існує п'ять
+конструкцій: формація, інтро, елімінатор, бета та ета правила.
+
+Усі терми підчиняються системі аксіом $Axioms$ всередині послідовності всесвітів $Sorts$
+та складність залежного терму відповідає максимальній складності домена та кодомена (правила $Rules$).
+Таким чином визначається простір всесвітів, та його конфігурація може бути записана
+згідно нотації Барендрехта для систем з чистими типами:
+
+$$
+\begin{cases}
+    Sorts = U.\{i\},\ i : Nat\\
+    Axioms = U.\{i\} : U.\{inc\ i\}\\
+    Rules = U.\{i\} \leadsto U.\{j\} : U.\{max\ i\ j\}\\
+\end{cases}
+$$
+
+\paragraph{}
+An intermediate Om language is based on Henk\cite{henk} languages described first
+by Erik Meijer and Simon Peyton Jones in 1997. Leter on in 2015 Morte impementation
+of Henk design appeared in Haskell, using Boem-Berrarducci encoding of non-recursive lambda terms.
+It is based only on one type constructor $\Pi$, its special case $\lambda$ and theirs eliminators:
+$apply$ and $curry$, infinity number of universes,
+and one computation rule called $\beta$-reduction.
+The design of Om language resemble Henk and Morte both
+design and implementation. This language indended to be small, concise, easy provable
+and able to produce verifiable peace of code that can be distributed over the networks,
+compiled at target with safe trusted linkage.
+
+\newpage
+\subsection{Синтаксис}
+\vspace{0.5cm}
+Om syntax is compatible with $\lambda C$ Coquand's Calculus of Constructions presented
+in Morte and Henk languages. However it has extension in a part of specifying
+universe index as a {\bf Nat} number.
+
+\vspace{0.5cm}
 \begin{lstlisting}[mathescape=true]
-data PTS (A: U)
-   = star (n: nat)
-   | var (n: nat)
-   | app (f a: A)
-   | lambda (x: nat) (d c: A)
-   | arrow (d c: A)
-   | pi (x: nat) (d c: A)
+   <> ::= #option
+    I ::= #identifier
+    U ::= * < #number >
+    O ::= U
+        | I | ( O ) | O O | O $\rightarrow$ O
+        | $\lambda$ ( I : O ) $\rightarrow$ O
+        | $\forall$ ( I : O ) $\rightarrow$ O
 \end{lstlisting}
 
-\subsection{Індуктивні синтаксиси}
-Індуктивні синтаксиси та кодування можуть підтримуватися за допомогою системи модулів.
+Equivalent tree encoding for parsed terms is following:
+\vspace{0.5cm}
+\begin{lstlisting}[mathescape=true]
+data om = star             (n: nat)
+        | var    (n: name) (n: nat)
+        | remote (n: name) (n: nat)
+        | pi     (x: name) (n: nat) (d c: om)
+        | lambda (x: name) (n: nat) (d c: om)
+        | app                       (f a: om)
+\end{lstlisting}
+
+\subsection{Всесвіти}
+
+The OM language is a higher-order dependently typed lambda calculus,
+an extension of Coquand's Calculus of Constructions
+with the predicative/impredicative hierarchy of indexed universes.
+This extension is motivated avoiding paradoxes in dependent theory.
+Also there is no fixpoint axiom needed for the definition
+of infinity term dependance.
+
+\vspace{0.5cm}
+\begin{lstlisting}[mathescape=true]
+    $U_0$ : $U_1$ : $U_2$ : $U_3$ : ...
+
+    $U_0$ --- propositions
+    $U_1$ --- values and sets
+    $U_2$ --- types
+    $U_3$ --- sorts
+\end{lstlisting}
+
+\begin{equation}
+\tag{S}
+\dfrac
+{o : Nat}
+{U_o}
+\end{equation}
+
+\newpage
+\subsection*{Предикативні всесвіти}
+
+All terms obey the A ranking inside the sequence of S universes,
+and the complexity R of the dependent term is equal to a maximum of
+the term's complexity and its dependency.
+The universes system is completely described by the following
+PTS notation (due to Barendregt):
+
+Note that predicative universes are incompatible with Church lambda term encoding.
+You can switch predicative vs impredicative uninverses by typecheker parameter.
+
+\[
+\tag{$A_1$}
+\dfrac{i: Nat, j: Nat, i < j}{U_i : U_j}
+\]
+
+\[
+\tag{$R_1$}
+\dfrac{i : Nat, j : Nat}{U_i \rightarrow U_j : U_{max(i,j)} }
+\]
+
+\subsection*{Імпредикативні всесвіти}
+Propositional contractible bottom space is the only
+available extension to predicative hierarchy that not leads to inconsistency.
+However there is another option to have infinite
+impredicative hierarchy.
+
+\begin{equation}
+\tag{$A_2$}
+\dfrac
+{i: Nat}
+{U_i : U_{i+1}}
+\end{equation}
+
+\begin{equation}
+\tag{$R_2$}
+\dfrac
+{i : Nat,\ \ \ \ j : Nat}
+{U_i \rightarrow U_{j} : U_{j}}
+\end{equation}
+
+\subsection{Контексти}
+
+The contexts model a dictionary with variables for type checker.
+It can be typed as the list of pairs or {\bf List\ Sigma}.
+The elimination rule is not given here as in our implementation the whole dictionary is destroyed after type checking.
+
+\begin{equation}
+\tag{Ctx-formation}
+\dfrac
+{}
+{\Gamma : Ctx}
+\end{equation}
+
+\begin{equation}
+\tag{Ctx-intro$_1$}
+\dfrac
+{\Gamma : Ctx}
+{\emptyset : \Gamma}
+\end{equation}
+
+\begin{equation}
+\tag{Ctx-intro$_2$}
+\dfrac
+{A : U_i,\ \ \ \ x : A,\ \ \ \ \Gamma : Ctx}
+{(x : A)\ \vdash\ \Gamma : Ctx}
+\end{equation}
+
+\newpage
+\subsection{Операційна семантика}
+
+This language is called one axiom language (or pure) as eliminator
+and introduction rules inferred from type formation rule.
+The only computation rule of Pi type is called beta-reduction.
+Computational rules of language are called operational semantics
+and establish equality of substitution and lambda application.
+Operational semantics in that way defines the rewrite rules of computations.
+
+\begin{equation}
+\tag{$\Pi$-formation}
+\dfrac
+{A:U_i\ ,\ x:A \vdash B : U_j}
+{\Pi\ (x:A) \rightarrow B : U_{p(i,j)}}
+\end{equation}
+
+\begin{equation}
+\tag{$\lambda$-intro}
+\dfrac
+{x:A \vdash b : B}
+{\lambda\ (x:A) \rightarrow b : \Pi\ (x: A) \rightarrow B }
+\end{equation}
+
+\begin{equation}
+\tag{$App$-elimination}
+\dfrac
+{f: (\Pi\ (x:A) \rightarrow B)\ \ \ a: A}
+{f\ a : B\ [a/x]}
+\end{equation}
+
+\begin{equation}
+\tag{$\beta$-computation}
+\dfrac
+{x:A \vdash b: B\ \ \ a:A}
+{(\lambda\ (x:A) \rightarrow b)\ a = b\ [a/x] : B\ [a/x]}
+\end{equation}
+
+\begin{equation}
+\tag{subst}
+\dfrac
+{\pi_1 : A\ \ \ \ u:A \vdash \pi_2 : B}
+{[\pi_1/u]\ \pi_2 : B}
+\end{equation}
+
+The theorems (specification) of PTS could be embedded in itself and used as
+Logical Framework for the Pi type. Here is the example in the higher language.
+
+\begin{lstlisting}[mathescape=true]
+PTS (A: U): U
+  = (Pi_Former: (A -> U) -> U)
+  * (Pi_Intro: (B: A -> U) (a: A) -> B a -> (A -> B a))
+  * (Pi_Elim: (B: A -> U) (a: A) -> (A -> B a) -> B a)
+  * (Pi_Comp1: (B: A -> U) (a: A) (f: A -> B a) ->
+    Path (B a) (Pi_Elim B a (Pi_Intro B a (f a))) (f a))
+  * (Pi_Comp2: (B: A -> U) (a: A) (f: A -> B a) ->
+    Path (A -> B a) f (\(x:A) -> f x))
+\end{lstlisting}
+
+The proofs intentionally left blank, as it proofs could be taken from various sources \cite{Henk93}.
+The equalities of computational semantics presented here as {\bf Path} types in the higher language.
+The {\bf Om} language is the extention of the {\bf PTS$^\infty$} with the remote AST node which means remote file loading from trusted storage, anyway this will be checked by the type checker.
+We deny recursion over the remote node.
+We also add an index to var for simplified de Bruijn indexes, we allow overlapped names with tags, incremented on each new occurrence.
+Our typechecker differs from cannonical example of Coquand\cite{Coq96}. 
+We based our typechecker on variable {\bf Substitution}, variable {\bf Shifting}, term {\bf Normalization}, definitional {\bf Equality} anf {\bf Type Checker} itself.
+
+
+\subsection{Перевірка типів}
+
+For sure in a pure system, we should be careful with {\bf :remote} AST node.
+Remote AST nodes like {\bf \#List/Cons or \#List/map} are remote links to files.
+So using trick one should desire circular dependency over {\bf :remote}.
+
+\begin{lstlisting}[mathescape=true]
+type (:star,N)   D $\rightarrow$ (:star,N+1)
+   (:var,N,I)    D $\rightarrow$ :true = proplists:is_defined N B, om:keyget N D I
+   (:remote,N)   D $\rightarrow$ om:cache (type N D)
+   (:pi,N,0,I,O) D $\rightarrow$ (:star,h(star(type I D)),star(type O [(N,norm I)|D]))
+   (:fn,N,0,I,O) D $\rightarrow$ let star (type I D), NI = norm I
+                       in (:pi,N,0,NI,type(O,[(N,NI)|D]))
+   (:app,F,A)    D $\rightarrow$ let T = type(F,D),
+                          (:pi,N,0,I,O) = T, :true = eq I (type A D)
+                       in norm (subst O N A)
+\end{lstlisting}
+
+\subsection{Індекси де Брейна}
+
+Shift renames var N in B. Renaming means adding 1 to the nat component of variable.
+
+\begin{lstlisting}[mathescape=true]
+  sh (:star,X)       N P $\rightarrow$ (:star,X)
+     (:var,N,I)      N P $\rightarrow$ (:var,N,I+1) when I >= P
+                         $\rightarrow$ (:var,N,I)
+     (:remote,X)     N P $\rightarrow$ (:remote,X)
+     (:pi,N,0,I,O)   N P $\rightarrow$ (:pi,N,0,sh I N P,sh O N P+1)
+     (:fn,N,0,I,O)   N P $\rightarrow$ (:fn,N,0,sh I N P,sh O N P+1)
+     (:app,L,R)      N P $\rightarrow$ (:app,L,R)
+\end{lstlisting}
+
+\subsection{Підстановка, нормалізація, рівність}
+Substitution replaces variable occurance in terms.
+
+\begin{lstlisting}[mathescape=true]
+ sub (:star,X)     N V L $\rightarrow$ (:star,X)
+     (:var,N,L)    N V L $\rightarrow$ V
+     (:var,N,I)    N V L $\rightarrow$ (:var,N,I-1) when I > L
+     (:remote,X)   N V L $\rightarrow$ (:remote,X)
+     (:pi,N,0,I,O) N V L $\rightarrow$ (:pi,N,0,sub I N V L,sub O N (sh V N 0) L+1)
+     (:pi,F,X,I,O) N V L $\rightarrow$ (:pi,F,X,sub I N V L,sub O N (sh V F 0) L)
+     (:fn,N,0,I,O) N V L $\rightarrow$ (:fn,N,0,sub I N V L,sub O N (sh V N 0) L+1)
+     (:fn,F,X,I,O) N V L $\rightarrow$ (:fn,F,X,sub I N V L,sub O N (sh V F 0) L)
+     (:app,F,A)    N V L $\rightarrow$ (:app,   sub F N V L,sub A N V L)
+\end{lstlisting}
+
+Normalization performs substitutions on applications to functions (beta-reduction)
+by recursive entrance over the lambda and pi nodes.
+
+\begin{lstlisting}[mathescape=true]
+norm (:star,X)     $\rightarrow$ (:star,X)
+     (:var,X)      $\rightarrow$ (:var,X)
+     (:remote,N)   $\rightarrow$ cache (norm N [])
+     (:pi,N,0,I,O) $\rightarrow$ (:pi,N,0,norm I,norm O)
+     (:fn,N,0,I,O) $\rightarrow$ (:fn,N,0,norm I,norm O)
+     (:app,F,A)    $\rightarrow$ case norm F of
+                         (:fn,N,0,I,O) $\rightarrow$ norm (subst O N A)
+                                    NF $\rightarrow$ (:app,NF,norm A) end
+\end{lstlisting}
+
+Definitional Equality simply checks the equality of Erlang terms.
+
+\begin{lstlisting}[mathescape=true]
+  eq (:star,N)        (:star,N)        $\rightarrow$ true
+     (:var,N,I)       (:var,(N,I))     $\rightarrow$ true
+     (:remote,N)      (:remote,N)      $\rightarrow$ true
+     (:pi,N1,0,I1,O1) (:pi,N2,0,I2,O2) $\rightarrow$
+          let :true = eq I1 I2
+           in eq O1 (subst (shift O2 N1 0) N2 (:var,N1,0) 0)
+     (:fn,N1,0,I1,O1) (:fn,N2,0,I2,O2) $\rightarrow$
+          let :true = eq I1 I2
+           in eq O1 (subst (shift O2 N1 0) N2 (:var,N1,0) 0)
+     (:app,F1,A1)       (:app,F2,A2)   $\rightarrow$ let :true = eq F1 F2 in eq A1 A2
+     (A,B)                             $\rightarrow$ (:error,(:eq,A,B))
+\end{lstlisting}
+
+\subsection{Використання мови}
+Here we will show some examples of {\bf Om} language usage.
+In this section, we will show two examples.
+One is lifting PTS system to MLTT system by defining {\bf Sigma} and {\bf Equ} types using only {\bf Pi} type.
+We will use Bohm inductive dependent encoding\cite{Bohm85}.
+The second is to show how to write real world programs in {\bf Om} that performs input/output operations within Erlang environment.
+We show both recursive (finite, routine) and corecursive (infinite, coroutine, process) effects.
+
+\begin{lstlisting}
+$ ./om help me
+[{a,[expr],"to parse. Returns {_,_} or {error,_}."},
+ {type,[term],"typechecks and returns type."},
+ {erase,[term],"to untyped term. Returns {_,_}."},
+ {norm,[term],"normalize term. Returns term's normal form."},
+ {file,[name],"load file as binary."},
+ {str,[binary],"lexical tokenizer."},
+ {parse,[tokens],"parse given tokens into {_,_} term."},
+ {fst,[{x,y}],"returns first element of a pair."},
+ {snd,[{x,y}],"returns second element of a pair."},
+ {debug,[bool],"enable/disable debug output."},
+ {mode,[name],"select metaverse folder."},
+ {modes,[],"list all metaverses."}]
+
+$ ./om print fst erase norm a "#List/Cons"
+   \ Head
+-> \ Tail
+-> \ Cons
+-> \ Nil
+-> Cons Head (Tail Cons Nil)
+ok
+\end{lstlisting}
+
+\subsection{Екстракти}
+
+This works expect to compile to limited target platforms. For now Erlang, Haskell and LLVM is awaiting.
+Erlang version is expected to be useful both on LING and BEAM Erlang virtual machines.
+
+\subsubsection{Інтерпретатори}
+
+From a practical point of view, we develop Erlang with Dependent Types.
+Thus we carefully integrate with Erlang platform by generating Erlang
+AST and trying to be compatible with Erlang kernel through mapping of
+inductive types to underlying Erlang primitives such as process,
+receive, and spawn. Erlang extraction is sponsored and supported
+by Synrc Research Center. Extraction in other languages could also be easily implemented.
+
+\subsubsection{LLVM}
+
+Another branch of research is dedicated to evaluation of LLVM lambda generation. It could be direct MIR or LLVM generation, or we could generate Rust/C++ code that could be passed to LLVM optimizer. If you are interested in LLVM target, please take a look at github.com/nponeccop/HNC.
+
+\subsubsection{FPGA}
+
+We are very interested in compilation to FPGA. As was shown with interaction nets it is possible to compact packaging of inductive construction in silicon, giving back the inner language of space to the natural encoding. If you are interested in moving this project forward and have a vision how to do it please drop us a line in gitter.im/groupoid/exe chat.
+
+\section{Індуктивна система}
+
+{\bf Індуктивні синтаксиси}. Індуктивні синтаксиси та кодування можуть підтримуватися за допомогою системи модулів.
 Кожна система модулів може самостійно (у вигляді ефектів), або за допомогою лямбда кодувань
 попередньої мови PTS рівня, зберігати та оперувати індуктивними типами даних.
 
@@ -61,7 +676,202 @@ data Inductive (A: U)
    | ctor (n: name)             (args:     list A)
 \end{lstlisting}
 
-\subsection{Інші синтаксиси та мови}
+\newpage
+  \subsection{Поліноміальні функтори}
+
+  \paragraph{}
+  There are two types of recursion: one is least fixed point (as $F_A\ X = 1 + A\times X$
+  or $F_A\ X = A + X\times X$), in other words the recursion with a base (terminated with a bounded value),
+  lists and trees are examples of such recursive structures (so we call induction recursive sums);
+  and the second is greatest fixed point or recursion withour a base (as $F_A\ X = A\times X $) ---
+  such kind of recursion on infinite lists (codata, streams, coinductive types) we can call recursive products.\\
+  Least fixed point trees are called well-founded trees and encode polynomial functors.
+
+  \paragraph{}
+  Natural Numbers: $\mu\ X \rightarrow 1 + X$\\
+  List A: $\mu\ X \rightarrow 1 + A \times X$\\
+  Lambda calculus: $\mu\ X \rightarrow 1 + X \times X + X$\\
+  Stream: $\nu\ X \rightarrow A \times X$\\
+  Potentialy Infinite List A: $\nu\ X \rightarrow 1 + A \times X$\\
+  Finite Tree: $\mu\ X \rightarrow \mu\ Y \rightarrow 1 + X \times Y = \mu\ X = List\ X$\\
+
+  \paragraph{}
+  As we know there are several ways to appear for variable in recursive algebraic type.
+  Least fixpoint are known as an recursive expressions that have a base of recursion
+  Both recursive and corecursive datatypes could be encoded using Boem-Berarducci encoding
+  as an non-recursive definitions of folds that include in indentity signature all the
+  constructor components of (co)inductive type.
+
+  \subsection{Кодування Бома}
+  The data type of lists over a given set A can be represented as the initial algebra
+  $(\mu L_A, in)$ of the functor $L_A(X) = 1 + (A \times X)$. Denote $\mu L_A = List(A)$.
+  The constructor functions $nil: 1 \rightarrow List(A)$ and
+  $cons: A \times List(A) \rightarrow List(A)$ are defined by
+  $nil = in \circ inl$ and $cons = in \circ inr$, so $in = [nil,cons]$.
+  Given any two functions $c: 1 \rightarrow C$ and $h: A \times C \rightarrow C$,
+  the catamorphism $f = \llparenthesis [c,h] \rrparenthesis : List(A) \rightarrow C$
+  is the unique solution of the equation system:
+\vspace{0.3cm}
+$$
+\begin{cases}
+  f \circ nil  = c \\
+  f \circ cons = h \circ (id \times f)
+\end{cases}
+$$
+
+\paragraph{}
+  where $f = foldr(c,h)$. Having this the initial algebra is presented with functor
+  $\mu (1 + A \times X)$ and morphisms sum $[1 \rightarrow List(A), A \times List(A) \rightarrow List(A)]$
+  as catamorphism. Using this encdoding the base library of List will have following form:
+
+\vspace{0.5cm}
+$$
+\begin{cases}
+ foldr = \llparenthesis [ f \circ nil , h] \rrparenthesis, f \circ cons = h \circ (id \times f)\\
+ len = \llparenthesis [ zero, \lambda\ a\ n \rightarrow succ\ n ] \rrparenthesis \\
+ (++) = \lambda\ xs\ ys \rightarrow \llparenthesis [ \lambda (x) \rightarrow ys, cons ] \rrparenthesis (xs) \\
+ map = \lambda\ f \rightarrow \llparenthesis [ nil, cons \circ (f \times id)] \rrparenthesis
+\end{cases}
+$$
+
+\begin{lstlisting}[mathescape=true]
+             data list: (A: *) $\rightarrow$ * :=
+                  (nil: list A)
+                  (cons: A $\rightarrow$ list A $\rightarrow$ list A)
+\end{lstlisting}
+$$
+\begin{cases}
+list = \lambda\ ctor \rightarrow \lambda\ cons \rightarrow \lambda\ nil \rightarrow ctor\\
+cons = \lambda\ x\ \rightarrow \lambda\ xs \rightarrow \lambda\ list \rightarrow \lambda\ cons \rightarrow\ \lambda\ nil \rightarrow cons\ x\ (xs\ list\ cons\ nil)\\
+nil = \lambda\ list \rightarrow \lambda\ cons \rightarrow \lambda\ nil \rightarrow nil\\
+\end{cases}
+$$
+\begin{lstlisting}[mathescape=true]
+           record lists: (A B: *) :=
+                  (len: list A $\rightarrow$ integer)
+                  ((++): list A $\rightarrow$ list A $\rightarrow$ list A)
+                  (map: (A $\rightarrow$ B) $\rightarrow$ (list A $\rightarrow$ list B))
+                  (filter: (A $\rightarrow$ bool) $\rightarrow$ (list A $\rightarrow$ list A))
+\end{lstlisting}
+$$
+\begin{cases}
+len = foldr\ (\lambda\ x\ n \rightarrow succ\ n)\ 0\\
+(++) = \lambda\ ys \rightarrow foldr\ cons\ ys\\
+map = \lambda\ f \rightarrow foldr\ (\lambda x\ xs \rightarrow cons\ (f\ x)\ xs)\ nil\\
+filter = \lambda\ p \rightarrow foldr\ (\lambda x\ xs \rightarrow if\ p\ x\ then\ cons\ x\ xs\ else\ xs)\ nil\\
+foldl = \lambda\ f\ v\ xs = foldr\ (\lambda\ xg\rightarrow\ (\lambda \rightarrow g\ (f\ a\ x)))\ id\ xs\ v\\
+\end{cases}
+$$
+
+You know Church encoding which also has its dependent alanolgue in CoC, however
+in Coq it is imposible to detive Inductive Principle as type system lacks fixpoint
+and functional extensionality. The example of working compiler of PTS languages are Om and Morte.
+Assume we have Church encoded NAT:
+
+\begin{lstlisting}[mathescape=true]
+nat = (X:U) -> (X -> X) -> X -> X
+\end{lstlisting}
+
+where first parameter $(X -> X)$ is a $succ$, the second parameter $X$ is $zero$,
+and the result of encoding is landed in X. Even if we encode the parameter
+
+\begin{lstlisting}[mathescape=true]
+list (A: U) = (X:U) -> X -> (A -> X) -> X
+\end{lstlisting}
+
+and paremeter A let's say live in 42 universe and X live in 2 universe, then by
+the signature of encoding the term will be landed in X, thus 2 universe. In other words
+such dependency is called impredicative displaying that landed term is not a predicate over parameters.
+This means that Church encoding is incompatible with predicative type checkers with predicative
+of predicative-cumulative hierarchies.
+
+\subsection{Імпредикативне кодування}
+
+In HoTT n-types is encoded as n-groupoids, thus we need to add a predicate in which n-type
+we would like to land the encoding:
+
+\begin{lstlisting}[mathescape=true]
+NAT (A: U) = (X:U) -> isSet X -> X -> (A -> X) -> X
+\end{lstlisting}
+
+Here we added isSet predicate. With this motto we can implement propositional
+truncation by landing term in isProp or even HIT by langing in isGroupoid:
+
+\begin{lstlisting}[mathescape=true]
+TRUN (A:U) type = (X: U) -> isProp X -> (A -> X) -> X
+S1 = (X:U) -> isGroupoid X -> ((x:X) -> Path X x x) -> X
+MONOPLE (A:U) = (X:U) -> isSet X -> (A -> X) -> X
+NAT = (X:U) -> isSet X -> X -> (A -> X) -> X
+\end{lstlisting}
+
+The main publication on this topic could be found at \cite{Awodey17} and \cite{Speight17}.
+Here we have the implementation of Unit impredicative encoding in HoTT.
+
+\begin{lstlisting}[mathescape=true]
+upPath     (X Y:U)(f:X->Y)(a:X->X): X -> Y = o X X Y f a
+downPath   (X Y:U)(f:X->Y)(b:Y->Y): X -> Y = o X Y Y b f
+naturality (X Y:U)(f:X->Y)(a:X->X)(b:Y->Y): U
+  = Path (X->Y)(upPath X Y f a)(downPath X Y f b)
+
+unitEnc': U = (X: U) -> isSet X -> X -> X
+isUnitEnc (one: unitEnc'): U
+  = (X Y:U)(x:isSet X)(y:isSet Y)(f:X->Y) ->
+    naturality X Y f (one X x)(one Y y)
+
+unitEnc: U = (x: unitEnc') * isUnitEnc x
+unitEncStar: unitEnc = (\(X:U)(_:isSet X) ->
+  idfun X,\(X Y: U)(_:isSet X)(_:isSet Y)->refl(X->Y))
+unitEncRec  (C: U) (s: isSet C) (c: C): unitEnc -> C
+  = \(z: unitEnc) -> z.1 C s c
+unitEncBeta (C: U) (s: isSet C) (c: C)
+  : Path C (unitEncRec C s c unitEncStar) c = refl C c
+unitEncEta (z: unitEnc): Path unitEnc unitEncStar z = undefined
+unitEncInd (P: unitEnc -> U) (a: unitEnc): P unitEncStar -> P a
+  = subst unitEnc P unitEncStar a (unitEncEta a)
+unitEncCondition (n: unitEnc'): isProp (isUnitEnc n)
+  =  \ (f g: isUnitEnc n) ->
+     <h> \ (x y: U) -> \ (X: isSet x) -> \ (Y: isSet y)
+  -> \ (F: x -> y) -> <i> \ (R: x) -> Y (F (n x X R)) (n y Y (F R))
+       (<j> f x y X Y F @ j R) (<j> g x y X Y F @ j R) @ h @ i
+\end{lstlisting}
+
+\newpage
+\section{Гомотопічна система}
+
+\subsection{Синтаксис}
+
+
+\begin{lstlisting}[mathescape=true]
+   sys := [ sides ]          side := (id=0)$\rightarrow$exp+(id=1)$\rightarrow$exp
+  form := form\/f1+f1+f2    sides := #empty+cos+side
+   cos := side,side+side,cos  mod := ${\bf module}$ id ${\bf where}$ imps dec
+    f1 := f1/\f2               f2 := -f2+id+0+1
+   imp := ${\bf import}$ id                 brs := #empty+cobrs
+   app := exp exp             tel := #empty+cotel
+  imps := #list imp         cotel := (exp:exp) tel
+    id := #list #nat          dec := #empty+codec
+    u2 := ${\bf glue}$+${\bf unglue}$+${\bf Glue}$                   u1 := ${\bf fill}$+${\bf comp}$
+   ids := #list id             br := ids$\rightarrow$exp+ids@ids$\rightarrow$exp
+ codec := def dec
+ cobrs := | br brs
+   sum := #empty+id tel+id tel|sum+id tel<ids>sys   
+   def := ${\bf data}$ id tel=sum+id tel:exp=exp+id tel:exp ${\bf where}$ def
+   exp := cotel*exp+cotel$\rightarrow$exp+exp$\rightarrow$exp+(exp)+id
+          (exp,exp)+\cotele$\rightarrow$exp+${\bf split}$ cobrs+exp${\bf.1}$+exp${\bf.2}$+
+          $\langle$ids$\rangle$exp+exp@form+app+u2 exp exp sys+u1 exp sys
+\end{lstlisting}
+
+Here := (definition), + (disjoint sum), \#empty, \#nat, \#list are parts of BNF language and
+$\rvert$, :, *, $\langle$, $\rangle$, (, ), =, $\backslash$, /, -, $\rightarrow$, 0, 1, @, [, ],
+$\mathbf{module}$, $\mathbf{import}$,
+$\mathbf{data}$, $\mathbf{split}$, $\mathbf{where}$, $\mathbf{comp}$, $\mathbf{fill}$,
+$\mathbf{Glue}$, $\mathbf{glue}$, $\mathbf{unglue}$,
+$\mathbf{.1}$, $\mathbf{.2}$,
+ and $,$ are terminals of type checker language. This language includes
+inductive types, higher inductive types and gluening operations needed for
+both, the constructive homotopy type theory and univalence. All these concepts as a part of the languages
+will be described in the upcoming Issues II---V.
+
 Система не повинна бути обмежена мовами та синтаксисами, ми покажемо як приклад,
 підтримку гомотопічної мови з інтервалом [0,1] сумісної з $cubical$ та з пітримкою індуктивних
 синтаксисів та кодувань попереднього рівня.
@@ -85,107 +895,32 @@ data HTS (A: U)
    | unglueElem (a b: A)
 \end{lstlisting}
 
-\includegraphics[scale=0.18]{static}
+\section{Гомотопічна базова бібліотека системи доведення}
 
-\section{Вихідні синтаксиси. Екстракт}
-Кількість мов прототипа обмежена двома інтерпретаторами: O та Erlang,
-однак система не обмежується цими мовами, а має експериментальне HM ядро
-з екстрактом в С++. Цікаво було би отримати екстракт в Rust.
+Як апогей, система HTS є фінальною категорією,
+куди сходяться всі стрілки категорії мов. Кожна мова та її категорія
+мають певний набір стрілок ендоморфізмів, які обчислюють, верифікують,
+нормалізують, оптимізують програми своїх мов.
+Стрілки виду $e_i: O_{n+1} \rightarrow O_n$ є екстракторами, які понижають систему типів,
+при чому $O_{CPS} = O_0$.
 
-\begin{lstlisting}[mathescape=true]
-data O
-   = var (n: nat)
-   | app (f a: O)
-   | lambda (x: nat) (d c: O)
-\end{lstlisting}
+Базова бібліотека мови Ерланг в яку проводиться основний
+естракт йде з дистрибутивом Erlang/OTP. Базова бібліотека
+$O_{PTS}$ наведена в репозиторії Github\footnote{\url{https://github.com/groupoid/om}}.
+Гомотопічна базова бібліотека відповідає термінальній мові $O_{CCHM}$, та теж відкрита
+на Github\footnote{\url{https://github.com/groupoid/infinity}}.
+Останні два розділи присвячені математичному моделюванню математики на цій мові.
 
-Вхідними синтаксисами екстраторів є синтаксиси відповідної мови ядра.
-На даний момент в роботі ми підтримуємо PTS та індуктивний синтаксиси.
+\subsection{Основа}
 
-\section{Динаміка. Морфізми}
+Перша частина гомотопічної базової бібліотеки --- це основи гомотопічної теорії типів,
+з основними визначеннями та теоремами.
 
-Кожна мова програмування може бути доменом або кодоменом
-морфізмів в категорії мов програмування. На малюнку зображена
-композиція морфізмів (верифікації та екстрагування)
-в maybe-категорії (побудованої maybe функтором) у вигляді BPMN процесу.
+\subsection{Математика}
 
-\begin{lstlisting}[mathescape=true]
-process (p: maybe PTS): maybe Erlang
-  = extract1 (erase (opt (norm (type p))))
-\end{lstlisting}
+Друга частина гомотопічної базової бібліотеки --- це формалізація математики, як
+приклад використання розробленої концепцтуальної моделі системи доведення теорем.
 
-\includegraphics[scale=0.18]{dynamic}
+%\section{Числення процесів BPE}
 
-\begin{lstlisting}[mathescape=true]
-type (A: maybe PTS): maybe PTS
-norm (A: maybe PTS): maybe PTS
-erase (A: maybe PTS): maybe ULC
-opt (A: maybe PTS): maybe PTS
-extract1 (A: maybe ULC): maybe Erlang
-extract2 (A: maybe ULC): maybe O
-extract3 (A: maybe ULC): maybe C++
-extract4 (A: maybe Inductive): maybe Erlang
-\end{lstlisting}
-
-Функторіальні мовні перетворення: 1) extract: maybe A -> maybe B --- з однієї
-мови програмування А в іншу мову програмування B; 2) type: maybe A -> maybe A
---- перевірка терма первної мови програмування; 3) infer: maybe A -> maybe A
---- типізація; 4) norm: maybe A -> maybe A --- нормалізація.
-
-% \newpage
-% \section{Формалізація концепції}
-
-\begin{center}
-\begin{tikzpicture}
-\tikzstyle{every initial by arrow}=[]
-    \node (a) at (0,0) {$O$};
-    \node (b) at (0,4) {$ULC$};
-    \node (c) at (4,0) {$Ind$};
-    \node (d) at (4,4) {$Library$};
-    \node (e) at (2,2) {$PTS$};
-    \draw [->] (b) to node [left] {$extract$} (a);
-    \draw [->] (c) to node [above] {$run$} (a);
-    \draw [->] (e) to node [above,sloped] {$run$} (a);
-    \draw [->] (d) to node [above,sloped] {$desugar$} (e);
-    \draw [->] (d) to node [above] {$extract$} (b);
-    \draw [->] (e) to node [above,sloped] {$erase$} (b);
-    \draw [->] (c) to node [above,sloped] {$desugar$} (e);
-    \draw [->] (c) to node [right] {$implement$} (d);
-\end{tikzpicture}
-\end{center}
-
-\begin{fullwidth}
-\hspace{0cm}
-\begin{tabular}{lll}
-  $PTS: cat(PTS,hom)$ &---& PTS категорія \\
-  $Ind: cat(Inductive,hom)$ &---& Індуктивна категорія \\
-  $Library: Inductive$ &---& Базова бібліотека як програма Індиктивної мови\\
-  $desugar: Ind \rightarrow PTS$ &---& Сам прувер є розширенням ядра \\
-  $implement: Ind \rightarrow Library$ &---& Базова біблотека написана на Індуктивній мові \\
-  $lower: Ind \rightarrow PTS$ &---& Базова бібліотека конвертується в код ядра \\
-  $erase: PTS \rightarrow ULC$ &---& Видаляється інформація про типи, детипізація \\
-  $extract: ULC \rightarrow O$ &---& Запуск на інтерпритаторі \\
-\end{tabular}
-\end{fullwidth}
-
-\section{Операційні семантики}
-\section{Мови та Мовні рівні}
-
-\begin{lstlisting}
-System F-omega
-Kind κ = * | κ → κ | ···
-Con c  =
-       | arr(c₁; c₂) c₁ → c₂        (Con, Con) Con
-       | all {κ} (u.c) ∀ (u ∷ κ). c (Kind, Con.Con) Con
-       | lam {κ} (u.c) λ (u ∷ κ). c (Kind, Con.Con) Con
-       | app(c₁; c₂) c₁ (c₂)        (Con, Con) Con
-\end{lstlisting}
-
-\section{Середовище виконання (ОС)}
-\section{Специфікації мов}
-\section{Властивості}
-\section{Нормалізація та оптимізація}
-\section{Екстракція}
-\section{Обмеження}
-\section{Область застосування}
-
+%\section{Числення протоколів N2O}

@@ -1,4 +1,5 @@
 \usepackage[osf]{mathpazo}
+\usepackage{musicography}
 \usepackage{epigraph}
 \usepackage[mathcal,mathbf]{euler}
 \usepackage{amsmath,amssymb,amsthm}
@@ -9,6 +10,7 @@
 \usepackage{fontspec}
 \usepackage{hyphenat}
 \usepackage{ifthen}
+\usepackage{tikz-cd}
 \usepackage[usenames,dvipsnames]{color}
 \usepackage[english,russian]{babel}
 \usepackage{bussproofs}
@@ -22,6 +24,27 @@
 \usepackage{caption}
 \usepackage{amssymb}
 \usepackage{mathtools}
+\usetikzlibrary{matrix}
+\usetikzlibrary{babel}
+\theoremstyle{definition}
+\newtheorem{theorem}{Теорема}
+\newtheorem{definition}{Визначення}
+\newtheorem{exercise}{Вправа}
+\newtheorem{example}{Приклад}
+
+\newcommand*{\incmap}{\hookrightarrow}
+
+%\lstMakeShortInline[mathescape=true,columns=fixed]|
+
+\def\mapright#1{\xrightarrow{{#1}}}
+\def\mapleft#1{\xleftarrow{{#1}}}
+\def\mapup#1{\Big\uparrow\rlap{\raise2pt{\scriptstyle{#1}}}}
+\def\mapupl#1{\Big\uparrow\llap{\raise2pt{\scriptstyle{#1}}}}
+\def\mapdown#1{\Big\downarrow\rlap{\raise2pt{\scriptstyle{#1}}}}
+\def\mapdownl#1{\Big\downarrow\llap{\raise2pt{\scriptstyle{#1}}}}
+\def\mapdiagl#1{\vcenter{\searrow}\rlap{\raise2pt{\scriptstyle{#1}}}}
+\def\mapdiagr#1{\vcenter{\swarrow}\rlap{\raise2pt{\scriptstyle{#1}}}}
+%\lstset{basicstyle=\small,inputencoding=utf8}
 
 % To get lining figures in tables set by siunitx, which apparently uses the
 % \mathrm font instead of \mathnormal
@@ -152,13 +175,15 @@
 \begin{flushright}
 {\HUGE Дисертація}\\
 \vspace{0.5cm}
-{\LARGE \bf Система верифікації програмного забезпечення}\\
+{\LARGE \bf Концептуальна модель \\
+            системи доведення теорем \\
+            на основі гомотопічної теорії типів\\ }\\
 \vspace{0.5em}
-{\bf Рукопис на здобуття ступеня доктора філософії}
+%{\bf Рукопис}
 \end{flushright}
 
 \vspace{7cm}
-\hfill{\Large\scshape{}Максим Сохацький, Павло Маслянко}
+\hfill{\Large\scshape{}Максим Сохацький}
 
 \cleartorecto\tableofcontents*
 
@@ -177,7 +202,7 @@
 \addto\captionsrussian{\renewcommand{\contentsname}{Зміст}}
 \addto\captionsrussian{\renewcommand{\bibname}{Бібліографія}}
 
-\lstset{morekeywords={record,data,inductive,extend,enum,Type,Path,unit,Unit,Nat,List,let,in,eq,type,sh,sub,star,var,dep,norm,fun,app,lambda,arrow,pi,case,receive,spawn,send,name,list,nat,tele,case,id,sigma,pair,fst,snd,id,idPair,idJ,branch,label,ctor,sum,prod}}
+\lstset{morekeywords={record,data,inductive,extend,enum,Type,Path,unit,Unit,Nat,List,let,in,eq,type,sh,sub,star,var,dep,norm,fun,app,lambda,arrow,pi,case,receive,spawn,send,name,list,nat,tele,case,id,sigma,pair,fst,snd,id,idPair,idJ,branch,label,ctor,sum,prod,ty}}
 
 \lstset{
     backgroundcolor=\color{white},
