@@ -1,7 +1,9 @@
 \addtocontents{toc}{\protect\newpage}
 \chapter{МАТЕМАТИКА}
 
-\section{Теорія множин}
+Четвертий розділ надає приклади математичного моделювання
+та складних теорем теорії категорій, теорій топосів, теорії гомотопій, тощо.
+
 \section{Теорія категорій}
 
 \section{Категорія}
@@ -253,11 +255,11 @@ Functions (X Y: U) (Z: isSet Y): precategory
   id (A: Ob): Hom A A = idfun (X -> Y)
   c (A B C: Ob) (f: Hom A B) (g: Hom B C): Hom A C = idfun (X -> Y)
   HomSet (A B: Ob): isSet (Hom A B) = setFun Ob Ob (setFun X Y Z)
-  L (A B: Ob) (f: Hom A B): Path (Hom A B) (c A A B (id A) f) f = undefined
-  R (A B: Ob) (f: Hom A B): Path (Hom A B) (c A B B f (id B)) f = undefined
+  L (A B: Ob) (f: Hom A B): Path (Hom A B) (c A A B (id A) f) f = axiom
+  R (A B: Ob) (f: Hom A B): Path (Hom A B) (c A B B f (id B)) f = axiom
   Q (A B C D: Ob) (f: Hom A B) (g: Hom B C) (h: Hom C D)
    : Path (Hom A D) (c A C D (c A B C f g) h)
-                    (c A B D f (c B C D g h)) = undefined
+                    (c A B D f (c B C D g h)) = axiom
 \end{lstlisting}
 \end{definition}
 
@@ -270,12 +272,12 @@ Cat: precategory = ((Ob,Hom),id,c,HomSet,L,R,Q) where
   id (A: Ob): catfunctor A A = idFunctor A
   c (A B C: Ob) (f: Hom A B) (g: Hom B C): Hom A C
    = compFunctor A B C f g
-  HomSet (A B: Ob): isSet (Hom A B) = undefined
-  L (A B: Ob) (f: Hom A B): Path (Hom A B) (c A A B (id A) f) f = undefined
-  R (A B: Ob) (f: Hom A B): Path (Hom A B) (c A B B f (id B)) f = undefined
+  HomSet (A B: Ob): isSet (Hom A B) = axiom
+  L (A B: Ob) (f: Hom A B): Path (Hom A B) (c A A B (id A) f) f = axiom
+  R (A B: Ob) (f: Hom A B): Path (Hom A B) (c A B B f (id B)) f = axiom
   Q (A B C D: Ob) (f: Hom A B) (g: Hom B C) (h: Hom C D)
    : Path (Hom A D) (c A C D (c A B C f g) h)
-                    (c A B D f (c B C D g h)) = undefined
+                    (c A B D f (c B C D g h)) = axiom
 \end{lstlisting}
 \end{definition}
 
@@ -286,14 +288,14 @@ Func (X Y: precategory): precategory
    = ((Ob,Hom),id,c,HomSet,L,R,Q) where
   Ob: U = catfunctor X Y
   Hom (A B: Ob): U = ntrans X Y A B
-  id (A: Ob): ntrans X Y A A = undefined
-  c (A B C: Ob) (f: Hom A B) (g: Hom B C): Hom A C = undefined
-  HomSet (A B: Ob): isSet (Hom A B) = undefined
-  L (A B: Ob) (f: Hom A B): Path (Hom A B) (c A A B (id A) f) f = undefined
-  R (A B: Ob) (f: Hom A B): Path (Hom A B) (c A B B f (id B)) f = undefined
+  id (A: Ob): ntrans X Y A A = axiom
+  c (A B C: Ob) (f: Hom A B) (g: Hom B C): Hom A C = axiom
+  HomSet (A B: Ob): isSet (Hom A B) = axiom
+  L (A B: Ob) (f: Hom A B): Path (Hom A B) (c A A B (id A) f) f = axiom
+  R (A B: Ob) (f: Hom A B): Path (Hom A B) (c A B B f (id B)) f = axiom
   Q (A B C D: Ob) (f: Hom A B) (g: Hom B C) (h: Hom C D)
    : Path (Hom A D) (c A C D (c A B C f g) h)
-                    (c A B D f (c B C D g h)) = undefined
+                    (c A B D f (c B C D g h)) = axiom
 \end{lstlisting}
 \end{definition}
 

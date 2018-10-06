@@ -1,6 +1,18 @@
 \addtocontents{toc}{\protect\newpage}
 \chapter{ОСНОВА}
 
+В третьому розділі дається опис гомотопічної мови програмування,
+реалізація якої вперше була представлена CCHM в 2017 році, та для якої написана
+гомотопічна базова бібліотека представлена у цьому та наступному розділах.
+
+Опис гомотопічної мови дається у розрізі індуктивних типів, та показується,
+що вищі індуктивні типи з вищою рівністю є аналогом CW-комплексів, та розширюють
+гомотопічну теорію типів (без UIP) так само, як індуктивні типи є аналогом
+поліноміальних функторів та розширюю теорію типів Мартіна-Льофа. Усі ці чотири
+частини, а також секція Модальності складають основу гомотопічної мови програмування,
+та не містить складної математики (окрім опису інтерпретацій,
+які є матаметичними ізморізмами).
+
 \section{Інтерналізація теорії типів}
 
 Each language implementation needs to be checked. The one of possible test cases
@@ -32,22 +44,6 @@ iv) the beta-equality or computational rule;
 v) the eta-equality or uniquness principle. $\Pi$, $\Sigma$, and Path
 types will be given shortly. This interpretation or rather way of modeling is MLTT specific.
 
-The most interesting are Id types. Id types were added in \footnote{P. Martin-Löf, G. Sambin. Intuitionistic type theory. 1984.}{1984} while original MLTT was introduced in \footnote{P. Martin-Löf, G. Sambin. The Theory of Types. 1972.}{1972}.
-Predicative Universe Hierarchy was added in \footnote{P. Martin-Löf. An intuitionistic theory of types: predicative part. 1975.}{1975}.
-While original MLTT contains Id types that preserve uniquness of identity
-proofs (UIP) or eta-rule of Id type, HoTT refutes UIP (eta rule desn't hold)
-and introduces univalent heterogeneous Path equality (\footnote{M. Hofmann, T. Streicher. The groupoid interpretation of type theory. 1996.}{$\infty$-Groupoid interpretation}).
-Path types are essential to prove computation and uniquness rules for all types
-(needed for building signature and terms), so we will be able to prove all
-the MLTT rules as a whole.
-
-\subsubsection{Інтерпретації}
-
-In contexts you can bind to variables (through de Brujin indexes or string names):
-i) indexed universes; ii) built-in types; iii) user constructed types, and ask
-questions about type derivability, type checking and code extraction. This system
-defines the core type checker within its language.
-
 \begin{table}
 \centering
   \caption{Interpretations correspond to mathematical theories}\label{tab:pov}
@@ -75,6 +71,23 @@ defines the core type checker within its language.
       \hline
   \end{tabular}
 \end{table}
+
+The most interesting are Id types. Id types were added in \footnote{P. Martin-Löf, G. Sambin. Intuitionistic type theory. 1984.}{1984} while original MLTT was introduced in \footnote{P. Martin-Löf, G. Sambin. The Theory of Types. 1972.}{1972}.
+Predicative Universe Hierarchy was added in \footnote{P. Martin-Löf. An intuitionistic theory of types: predicative part. 1975.}{1975}.
+While original MLTT contains Id types that preserve uniquness of identity
+proofs (UIP) or eta-rule of Id type, HoTT refutes UIP (eta rule desn't hold)
+and introduces univalent heterogeneous Path equality (\footnote{M. Hofmann, T. Streicher. The groupoid interpretation of type theory. 1996.}{$\infty$-Groupoid interpretation}).
+Path types are essential to prove computation and uniquness rules for all types
+(needed for building signature and terms), so we will be able to prove all
+the MLTT rules as a whole.
+
+\subsubsection{Інтерпретації}
+
+In contexts you can bind to variables (through de Brujin indexes or string names):
+i) indexed universes; ii) built-in types; iii) user constructed types, and ask
+questions about type derivability, type checking and code extraction. This system
+defines the core type checker within its language.
+
 
 By using this languages it is possible to encode different interpretations of
 type theory itself and its syntax by construction. Usually the issues will refer to
@@ -796,13 +809,13 @@ bool is a run-time version of the boolean logic you may use in your general purp
 data bool = false | true
 b1: U = bool -> bool
 b2: U = bool -> bool -> bool
-negation: b1 = split { false -> true ; true -> false }
-or:  b2 = split { false -> idfun bool ; true -> lambda bool bool true  }
-and: b2 = split { false -> lambda bool bool false ; true -> idfun bool }
-boolEq: b2 = lambda bool (bool -> bool) negation
+negation: b1 = split { false -> true; true -> false }
+or: b2 = split { false -> idfun bool; true -> lambda bool bool true }
+and: b2 = split { false -> lambda bool bool false; true -> idfun boo }
+boolEq: b2 = lamb bool (bool -> bool) negation
 boolRec (C: U) (f t: C): bool -> C = split { false -> f ; true -> t }
 boolInd (C: bool -> U) (f: A false) (t: A true): (n:bool) -> A n
-      = split { false -> f ; true -> t }
+  = split { false -> f ; true -> t }
 \end{lstlisting}
 
 \subsection{Maybe}
@@ -858,9 +871,14 @@ Pointed Unary System is a category nat with the terminal object and a carrier na
 data nat = zero | succ (n: nat)
 natEq: nat -> nat -> bool
 natCase (C:U) (a b: C): nat -> C
-natRec  (C:U) (z: C) (s: nat->C->C): (n:nat) -> C
-natElim (C:nat->U) (z: C zero) (s: (n:nat)->C(succ n)): (n:nat) -> C(n)
-natInd  (C:nat->U) (z: C zero) (s: (n:nat)->C(n)->C(succ n)): (n:nat) -> C(n)
+natRec  (C:U) (z: C) (s: nat->C->C) : (n:nat) -> C
+\end{lstlisting}
+
+\begin{lstlisting}
+natElim (C:nat->U) (z: C zero)
+        (s: (n:nat)->C(succ n)): (n:nat) -> C(n)
+natInd  (C:nat->U) (z: C zero)
+        (s: (n:nat)->C(n)->C(succ n)): (n:nat) -> C(n)
 \end{lstlisting}
 
 \subsection{List}

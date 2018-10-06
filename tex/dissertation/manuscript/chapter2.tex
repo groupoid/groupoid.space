@@ -4,68 +4,117 @@
 
 Другий розділ описує розвиток концептуальної моделі системи доведення теорем
 у розрізі різних семантичних рівнів системи, показуючи її еволюцію з
-підвищенням складності мов. Так, виділяється наступна послідовність мов, та функторів між ними,
-де кожна мова-кодомен є складнішою та біль потужною за мову-домен. Перша мова
-являє собою нетипизоване лямбда числення, остання мова
+підвищенням складності мов.
+
+$$
+O_\lambda \rightarrow O_\Pi \rightarrow O_\Sigma \rightarrow O_{=} \rightarrow O_{*} \rightarrow O_{I}.
+$$
+
+Так, виділяється наступна послідовність мов, та функторів між ними,
+де кожна мова-кодомен є складнішою та біль потужною за мову-домен:
+i) $O_\lambda$ або $O_{CPS}$ або просто $O$ --- нетипизоване лямбда числення або інтерпретатори;
+ii) $O_\Pi$ або $O_{PTS}$ або $O_M$ --- числення конструкцій, $\Pi$-тип або чиста система;
+iii) $O_\Sigma$ --- мова $\Sigma$-типа для вбудовування в ядро;
+iv) $O_{=}$ --- мова для Id-типа для вбудовування в ядро;
+v) $O_{*}$ --- числення індуктивних типів (CiC);
+vi) $O_{I}$ --- гомотопічний калкулус з вищими індуктивними типами.
+
+\begin{lstlisting}
+data cps = var (x: nat)
+         | lam (l: nat) (d: cps)
+         | app (f a: cps)
+\end{lstlisting}
+
+Перша мова являє собою нетипизоване лямбда числення, остання мова
 мість обчислювальну семантику гомотопічної теорії типів.
-
-$$
-O_{CPS} \rightarrow O_{PTS} \rightarrow O_{MLTT} \rightarrow O_{CiC} \rightarrow O_{CCHM}
-$$
-
 Кожна мова програмування може бути доменом або кодоменом
 морфізмів в категорії мов програмування. Тут представлена спектральна категорія,
 об'єкти якої можна пронумерувати в залежності від позиції в генетичній послідовності.
 
-{\bf Мови програмування}. Мова програмування --- це індуктивний тип конструкторів мови,
-для якої існує операційна семантка (правила обчислень) та правила виводу.
-Найпростіша мова програмування --- нетипизоване лямбда числення,
-ізоморфне екстракту в Erlang.
+\begin{lstlisting}
+data lang = PTS (_: pts)
+          | SIGMA (_: exists)
+          | ID (_: identity)
+          | INDUCTION (_: ind)
+          | HTS (_: hts)
+\end{lstlisting}
 
+Мови можна додавати, наприклад $O_{MLTT} = O_{\Pi\Sigma=} = O_\Pi + O_\Sigma + O_=$,
+що породжує категорії з either об'єктами.
+
+\begin{lstlisting}
+data mltt = PTS (_: pts)
+          | SIGMA (_: sigma)
+          | ID (_: identity)
+\end{lstlisting}
+
+Також можна до чистої системи додати $\Sigma$-тип,
+піднявши типову систему до мови $O_{MLTT-72}$ або $O_{\Pi\Sigma}$ :
+
+\begin{lstlisting}[mathescape=true]
+data exists = sigma (n: name) (a b: lang)
+            | pair (a b: lang)
+            | fst (p: lang)
+            | snd (p: lang)
+\end{lstlisting}
+
+Додавши тип рівності можно підняти систему ще на одну сходинку,
+до $O_{MLTT-84}$ або $O_{\Pi\Sigma=}$:
+
+\begin{lstlisting}[mathescape=true]
+data identity = id (t a b: lang)
+              | id_intro (a b: lang)
+              | id_elim (a b c d e: lang)
+\end{lstlisting}
+
+Перелік мов, які входять
+в концептуальну модель системи доведення теорем:
+$O_{CPS}$, $O_{PTS}$, $O_{MLTT}$, $O_{HTS}$,
+де $O_{HTS} = O_{\Pi\Sigma I*}$,
+$O_{MLTT} = O_{\Pi\Sigma=}$, $O_{IND} = O_{\Pi\Sigma=*}$.
+Можна виділити тоді, таку мовну категорію з термінальним $O_{HTS}$ об'єктом:
 $$
-type,erase,norm,opt: O_{PTS} \rightarrow O_{PTS}
-$$
-$$
-extract: O_{PTS} \rightarrow O_{CPS}
-$$
-$$
-certify: O_{PTS} \rightarrow O_{CPS} = type \circ norm \circ opt \circ erase \circ extract
+O_{CPS} \rightarrow O_{PTS} \rightarrow O_{MLTT} \rightarrow O_{IND} \rightarrow O_{HTS}
 $$
 
-{\bf Об'єкти}. Об'єкти категорій --- мови програмування. Кожна мова програмування
-анонсує систему типів згідно свого індуктивного синтаксичного дерева.
-Усі можливі екземпляри цього синтаксичного дерева є усіма
-можливими программами в цій мові програмування.
+Кожна секція цієї глави буде присвячена цим мовним компонентам
+системи доведення теорем.
 
-{\bf Мовні Категорії}. Мовна категорія --- це категорія, єдиний об’єкт якої це
+Мовна категорія --- це категорія, єдиний об’єкт якої це
 синтаксичне дерево мови, а морфізми --- це стрілки
 цієї maybe-категорії: [norm,type,infer,erase,extract]. Стрілки
 зокрема містять правила виводу, типизації, нормалізації, екстактів, тощо.
 
-Функторіальні мовні перетворення: 1) extract: maybe A -> maybe B --- з однієї
+Об'єкти мовних категорій --- мови програмування. Кожна мова програмування
+анонсує систему типів згідно свого індуктивного синтаксичного дерева.
+Усі можливі екземпляри цього синтаксичного дерева є усіма
+можливими программами в цій мові програмування.
+
+Функторіальні мовні перетворення, або морфізми мовних категорій: 1) extract: maybe A -> maybe B --- з однієї
 мови програмування А в іншу мову програмування B; 2) type: maybe A -> maybe A
 --- перевірка терма первної мови програмування; 3) infer: maybe A -> maybe A
 --- типізація; 4) norm: maybe A -> maybe A --- нормалізація.
 
-{\bf Вхідні синтаксиси. Специфікації}
-Увесь спектр мов програмування, що сприймаються системою визначається набором
-синтаксисів, парсери яких на виході дають індуктивні синтаксичні дерева
-(закодовані у Бом, IR/II, чи будь-якому довільному індуктивному кодуванню).
+\paragraph{}
+\begin{cases}
+type,erase,norm: O_\Pi \rightarrow O_\Pi \\
+extract: O_\Pi \rightarrow O_\lambda \\
+certify: O_\Pi \rightarrow O_\lambda = type \circ norm \circ erase \circ extract \\
+\end{cases}
 
-{\bf Вихідні синтаксиси. Інтерпретатори}
+\paragraph{}
+В кінці розділу дається повна система, яка включає в себе усі
+мови та усі мовні перетворення.
 
+\newpage
 \section{Інтерпретатор}
 
-Кількість мов прототипа обмежена двома інтерпретаторами: O та Erlang,
-однак система не обмежується цими мовами, а має експериментальне HM ядро
-з екстрактом в С++. Цікаво було би отримати екстракт в Rust.
+Мінімаль мова системи $O_\lambda$ або $O_{CPS}$ визначається простим
+синтаксичним деревом
 
-\begin{lstlisting}[mathescape=true]
-data O = var (n: nat) | app (f a: O) | lam (x: nat) (d c: O)
+\begin{lstlisting}
+data cps = var (x: nat) | lam (l: nat) (d: cps) | app (f a: cps)
 \end{lstlisting}
-
-Вхідними синтаксисами екстраторів є синтаксиси відповідної мови ядра.
-На даний момент в роботі ми підтримуємо PTS та індуктивний синтаксиси.
 
 The motivation for building an interpreter that can run on L1 cache
 sizes (limited to 64KB of code and data) is based on success of LuaJIT,
@@ -104,16 +153,6 @@ will definitely increase your confidence in linear types.
 
 \subsection{Векторизація засобами мови Rust}
 
-\begin{lstlisting}
-(&AST::Atom(Atom::Value(Value::$vec(ref l))),
- &AST::Atom(Atom::Value(Value::$vec(ref r)))) => {
-    let a: Vec<$atype> = l.iter()
-        .zip(r)
-        .map(|(l,r)| dyad_map_expr!(l,$op,r,$atom))
-        .collect::>();
-    Ok( AST::Atom(Atom::Value(Value::$r_vec(a))) )
-},
-\end{lstlisting}
 
 \begin{lstlisting}
 objdump ./target/release/o -d | grep mulpd
@@ -125,8 +164,31 @@ objdump ./target/release/o -d | grep mulpd
    22652: c5 e5 59 5c d3 20 vmulpd 0x20(%rbx,%rdx,8),%ymm3,%ymm3
 \end{lstlisting}
 
+\newpage
 \subsection{Синтаксис}
 
+\begin{lstlisting}[mathescape=true]
+E: V | A | C
+NC: ";" = [] | ";" m:NL = m
+FC: ";" = [] | ";" m:FL = m
+EC: ";" = [] | ";" m:EL = m
+NL: NAME | o:NAME m:NC = Cons o m
+FL: E | o:E | m:FC = Cons o m
+EL: E | EC  | o:E m:EC = Cons o m
+C: N | c:N a:C = Call c a
+N: NAME | S | HEX | L | F
+L: "(" ")" = [] | "([" c:NL "]" m:FL ")" = Table c m | "(" l:EL ")" = List l
+F: "{" "}" = Lambda [] [] [] | "{[" c:NL "]" m:EL "}" = Lambda [] c m
+                             | "{" m:EL "}" = Lambda [] [] m
+\end{lstlisting}
+
+\paragraph{}
+\begin{lstlisting}
+data AST     = Atom (a: Scalar)
+             | Vector (a: Vec AST)
+\end{lstlisting}
+
+\paragraph{}
 \begin{lstlisting}
 data Value   = Nil
              | SymbolInt (a: u16)
@@ -151,16 +213,13 @@ data Scalar  = Nil
              | Name (s: String)
 \end{lstlisting}
 
+
+
 \begin{lstlisting}
 data Lazy    = Defer (otree: NodeId) (a: AST) (cont: Cont)
              | Continuation (otree: NodeId) (a: AST) (cont: Cont)
              | Return (a: AST)
              | Start
-\end{lstlisting}
-
-\begin{lstlisting}
-data AST     = Atom (a: Scalar)
-             | Vector (a: Vec AST)
 \end{lstlisting}
 
 \begin{lstlisting}
@@ -175,51 +234,6 @@ data Cont    = Expressions (ast: AST) Option (vec: Iter AST) (cont: Cont)
              | Yield (cont: Cont)
 \end{lstlisting}
 
-\begin{lstlisting}[mathescape=true]
-E: V | A | C
-NC: ";" = [] | ";" m:NL = m
-FC: ";" = [] | ";" m:FL = m
-EC: ";" = [] | ";" m:EL = m
-NL: NAME | o:NAME m:NC = Cons o m
-FL: E | o:E | m:FC = Cons o m
-EL: E | EC  | o:E m:EC = Cons o m
-C: N | c:N a:C = Call c a
-N: NAME | S | HEX | L | F
-L: "(" ")" = [] | "([" c:NL "]" m:FL ")" = Table c m | "(" l:EL ")" = List l
-F: "{" "}" = Lambda [] [] [] | "{[" c:NL "]" m:EL "}" = Lambda [] c m
-                             | "{" m:EL "}" = Lambda [] [] m
-
-lazy n (Assign n b)               e k = D n b (ContAssign n k)
-     n (Cond v a l)               e k = D n v (ContCond l r k)
-     n (List l)                   e k = eve n l e k
-     n (Call c a)                 e k = D n a (ContCall c k)
-     n (Name s)                   e k = cont (lookup n s e) k
-     n (Lambda _ x y)             e k = cont ((Lambda n x y) n) k
-
-evf  n (Lambda c x y) a e k = cont (y (if (= c []) n c)) (ContFunc x a k)
-     n       (Name s) a e k = lookup n s e
-eve  n       (Cons a d) e k = D n a (ContExpr d k)
-     n              Nil e k = cont n Nil e k
-     n                a e k = D n a k
-emr            (Dict x) e k = R Dict (rev x)
-             (Cons x y) e k = R Dict (Cons (rev x) (rev x))
-                      a e k = R a
-run  D              n a e k = lazy n a e k
-     R                a     = a
-
-cont n (Dict v) e (ContCall c k)          = evf n c v e k
-     n x        e (ContCall c k)          = evf n c x e k
-     n x        e (ContFunc s a k)        = eve (e.define_args s (rev a)) v k
-     n False    e (ContCond l r k)        = D n r k
-     n True     e (ContCond l r k)        = D n l k
-     n x        e (ContCond l r k)        = D n x (ContCond l r k)
-     n x        e (ContAssign (Name s) k) = eve n (e.define s x) k
-     n x        e (ContExpr (Cons a d) k) = eve n (Cons a d) k
-     n x        e (ContExpr r k)          = cont n x k
-     n x        e  ContRet                = emr x e k
-\end{lstlisting}
-
-\newpage
 \section{Чиста система}
 
 IEEE\footnote{IEEE Std 1012-2016  --- V\&V Software verification and validation} standard
@@ -334,32 +348,33 @@ compiled at target with safe trusted linkage.
 
 \newpage
 \subsection{Синтаксис}
-\vspace{0.5cm}
 Om syntax is compatible with $\lambda C$ Coquand's Calculus of Constructions presented
 in Morte and Henk languages. However it has extension in a part of specifying
 universe index as a {\bf Nat} number.
 
 \vspace{0.5cm}
 \begin{lstlisting}[mathescape=true]
-   <> ::= #option
-    I ::= #identifier
-    U ::= * < #number >
-    O ::= U
+    <> := #option
+     I := #identifier
+     U := * < #number >
+     O := U
         | I | ( O ) | O O | O $\rightarrow$ O
         | $\lambda$ ( I : O ) $\rightarrow$ O
         | $\forall$ ( I : O ) $\rightarrow$ O
 \end{lstlisting}
 
-Equivalent tree encoding for parsed terms is following:
-\vspace{0.5cm}
+Еквівалентне визначення як ініціальний об'єкт категорій $O_{PTS}$ або $O_\Pi$
+який може вмістити цей синтаксис містить всі правила виводу
+внутрішньої мови категорії.
+
 \begin{lstlisting}[mathescape=true]
-data om = star             (n: nat)
-        | var    (n: name) (n: nat)
-        | remote (n: name) (n: nat)
-        | pi     (x: name) (n: nat) (d c: om)
-        | lambda (x: name) (n: nat) (d c: om)
-        | app                       (f a: om)
+data pts = star             (n: nat)
+         | var    (x: name) (l: nat)
+         | pi     (x: name) (l: nat) (d c: lang)
+         | lambda (x: name) (l: nat) (d c: lang)
+         | app                       (f a: lang)
 \end{lstlisting}
+
 
 \subsection{Всесвіти}
 
@@ -370,7 +385,6 @@ This extension is motivated avoiding paradoxes in dependent theory.
 Also there is no fixpoint axiom needed for the definition
 of infinity term dependance.
 
-\vspace{0.5cm}
 \begin{lstlisting}[mathescape=true]
     $U_0$ : $U_1$ : $U_2$ : $U_3$ : ...
 
@@ -667,15 +681,14 @@ We are very interested in compilation to FPGA. As was shown with interaction net
 конструкторах сум, та їх елімінаторах.
 
 \begin{lstlisting}[mathescape=true]
-data tele   (A: U) = nil | tel (n: name) (b: A) (xs: tele A)
-data branch (A: U) =        br (n: name) (a: list name) (t: A)
-data label  (A: U) =       lab (n: name) (t: tele A)
+data tele (A: U)   = emp | tel (n: name) (b: A) (t: tele A)
+data branch (A: U) =        br (n: name) (args: list name) (term: A)
+data label (A: U)  =       lab (n: name) (t: tele A)
 
-data Inductive (A: U)
-   = parent (p: PTS (Inductive A))
-   | sum  (n: name) (t: tele A) (labels:   list (label A))
-   | case (n: name) (t: ind)    (branches: list (branch A))
-   | ctor (n: name)             (args:     list A)
+data ind
+   = data_  (n: name) (t: tele lang) (labels:   list (label lang))
+   | case   (n: name) (t: lang)      (branches: list (branch lang))
+   | ctor   (n: name)                (args:     list lang)
 \end{lstlisting}
 
 \newpage
@@ -885,16 +898,15 @@ data alg
    | max (a b: alg)
    | min (a b: alg)
 
-data HTS (A: U)
-   = parent (p: Inductive (HTS A))
-   | path (a b: A)
-   | pathLam (n: nat) (a b: A)
-   | pathApp (f: alg) (a b: A)
-   | comp (a b: A)
-   | fill (a b c: A)
-   | glue (a b c: A)
-   | glueElem (a b: A)
-   | unglueElem (a b: A)
+data hts
+   = path (t a b: lang)
+   | plam (n: name) (a: alg) (b: lang)
+   | papp (f: name) (a: lang) (p: alg)
+   | comp_ (a b: lang)
+   | fill_ (a b c: lang)
+   | glue_ (a b c: lang)
+   | glue_elem (a b: lang)
+   | unglue_elem (a b: lang)
 \end{lstlisting}
 
 \section{Гомотопічна базова бібліотека системи доведення}
