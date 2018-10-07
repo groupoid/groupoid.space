@@ -1,6 +1,6 @@
 \addtocontents{toc}{\protect\newpage}
 
-\chapter{СЕРЕДОВИЩЕ ВИКОНАННЯ ТА МОВИ ПРОГРАМУВАННЯ}
+\chapter{СЕРЕДОВИЩЕ ВИКОНАННЯ \\ТА МОВИ ПРОГРАМУВАННЯ}
 
 Другий розділ описує розвиток концептуальної моделі системи доведення теорем
 як послідовності мов програмування, кожна наступна з яких, складніша за попередню,
@@ -25,14 +25,15 @@
 на віртуальній машині $O_{CPS}$ або екстрагований у одну з мов лямбда кубу:
 
 $$
-O_{CPS}\ ,\ System\ {F}\ ,\ System\ {F_\omega}
+O_{CPS}\ ,\ System\ {F}\ ,\ System\ {F_\omega}\ ,\ O_{PTS}
 $$
 
 Далі буде йтися тільки про формальні інтерпретатори,
 так як вони є найбільш компакними формами мов для верифікації.
 
 \begin{definition} (Інтерпретатор). Інтерпретатор визначається
-своїм синтаксичним деревом, або індуктивним типом:
+своїм трьома конструкторами: номер змінної (індекс де Брейна),
+лямбда функція та її апплікація:
 \begin{lstlisting}
 data CPS = var (x: nat)
          | lam (l: nat) (d: cps)
@@ -69,17 +70,18 @@ data CPS = var (x: nat)
 Мова програмування --- це категорія, єдиний об’єкт якої це
 Maybe-типи синтаксичних дерев мов програмування, а морфізми --- це стрілки,
 які містять правила виводу, типизації, нормалізації, екстактів, тощо.
+Морфізми мовних категорій --- правила виводу, компіляції, верифікації.
+Приклади синтаксичних дерев: $O_\Pi$, $O_\Sigma$, $O_=$.
 Приклади: $O_{PTS}$, $O_{MLTT$, $O_{HTS}$.
 \end{definition}
 
 \begin{definition} (Синтаксичне дерево).
 Об'єкти мовних категорій --- Maybe-типи синтаксичних дерев мов програмування.
-Кожна мова програмування анонсує систему типів згідно свого
-індуктивного синтаксичного дерева. Усі можливі екземпляри цього
-синтаксичного дерева є усіма можливими программами в цій мові
-програмування. Морфізми мовних категорій --- правила виводу, компіляції, верифікації.
-Приклади синтаксичних дерев: $O_\Pi$, $O_\Sigma$, $O_=$.
+Синтаксичне дерево --- це індуктивний тип, контруктори якого відповідають
+одному з 5 правил в теорії типів, як правило використовуються три правила:
+правило формації, інтро-правила та елімінатор.
 
+\begin{definition} (Типи синтаксичних дерев).
 Синтаксичні дерева мови програмування в свою чергу діляться на 5 типів:
 i) $O_\Pi$ або $O_{PTS}$ --- числення конструкцій, $\Pi$-тип або чиста система;
 ii) $O_\Sigma$ --- мова $\Sigma$-типа для вбудовування в ядро;
@@ -87,7 +89,6 @@ ii) $O_{=}$ --- мова для Id-типа для вбудовування в �
 iv) $O_{*}$ --- числення індуктивних типів (CiC);
 v) $O_{I}$ --- гомотопічна мова з вищими індуктивними типами.
 \end{definition}
-
 
 % \newpage
 \subsubsection*{Спектр формальних мов}
@@ -132,12 +133,17 @@ $$
 
 \begin{definition} (Мовна категорія чистої мови $O_{PTS}$).
 $$
+O_{PTS} =
 \begin{cases}
+Ob: \begin{cases}
 X: maybe\ PTS \\
 target: maybe\ CPS \\
+\end{cases} \\
+Hom: \begin{cases}
 type,norm: X \rightarrow X \\
 extract: X \rightarrow target \\
 certify: X \rightarrow target = type \circ norm \circ extract
+\end{cases}
 \end{cases}
 $$
 \end{definition}
@@ -175,10 +181,13 @@ $\Pi\forall$\footnote{\url{https://github.com/sweirich/pi-forall}}.
 
 \begin{definition} (Мовна категорія $O_{MLTT}$).
 $$
+O_{MLTT} =
 \begin{cases}
-X: maybe\ MLTT \\
-type,norm: X \rightarrow X \\
-certify: X \rightarrow X = type \circ norm \\
+Ob: maybe\ MLTT \\
+Hom: \begin{cases}
+type,norm: Ob \rightarrow Ob \\
+certify: Ob \rightarrow Ob = type \circ norm \\
+\end{cases}
 \end{cases}
 $$
 \end{definition}
@@ -221,12 +230,17 @@ data identity (lang: U)
 
 \begin{definition} (Мовна категорія $O_{IND}$).
 $$
+O_{IND} =
 \begin{cases}
+Ob: \begin{cases}
 X: maybe\ IND \\
 target: maybe\ CPS \\
+\end{cases} \\
+Hom: \begin{cases}
 type,norm,induction: X \rightarrow X \\
 extract: X \rightarrow target \\
 certify: X \rightarrow target = type \circ norm \circ induction \circ extract \\
+\end{cases}
 \end{cases}
 $$
 
@@ -268,10 +282,13 @@ data ind (lang: U)
 
 \begin{definition} (Мовна категорія $O_{HTS}$).
 $$
+O_{HTS} =
 \begin{cases}
-X: maybe\ HTS \\
-type,norm: X \rightarrow X \\
-certify: X \rightarrow X = type \circ norm \\
+Ob: maybe\ HTS \\
+Hom: \begin{cases}
+type,norm: Ob \rightarrow Ob \\
+certify: Ob \rightarrow Ob = type \circ norm \\
+\end{cases}
 \end{cases}
 $$
 \end{definition}
@@ -1079,7 +1096,7 @@ data ind (lang: U)
    | ctor   (n: name)                (args:     list lang)
 \end{lstlisting}
 
-\newpage
+% \newpage
   \subsection{Поліноміальні функтори}
 
   \paragraph{}
@@ -1105,29 +1122,24 @@ data ind (lang: U)
   as an non-recursive definitions of folds that include in indentity signature all the
   constructor components of (co)inductive type.
 
-  \subsection{Кодування Бома}
-  The data type of lists over a given set A can be represented as the initial algebra
-  $(\mu L_A, in)$ of the functor $L_A(X) = 1 + (A \times X)$. Denote $\mu L_A = List(A)$.
-  The constructor functions $nil: 1 \rightarrow List(A)$ and
-  $cons: A \times List(A) \rightarrow List(A)$ are defined by
-  $nil = in \circ inl$ and $cons = in \circ inr$, so $in = [nil,cons]$.
-  Given any two functions $c: 1 \rightarrow C$ and $h: A \times C \rightarrow C$,
-  the catamorphism $f = \llparenthesis [c,h] \rrparenthesis : List(A) \rightarrow C$
-  is the unique solution of the equation system:
-\vspace{0.3cm}
+\subsection{Кодування Бома}
+The data type of lists over a given set A can be represented as the initial algebra
+$(\mu L_A, in)$ of the functor $L_A(X) = 1 + (A \times X)$. Denote $\mu L_A = List(A)$.
+The constructor functions $nil: 1 \rightarrow List(A)$ and
+$cons: A \times List(A) \rightarrow List(A)$ are defined by
+$nil = in \circ inl$ and $cons = in \circ inr$, so $in = [nil,cons]$.
+Given any two functions $c: 1 \rightarrow C$ and $h: A \times C \rightarrow C$,
+the catamorphism $f = \llparenthesis [c,h] \rrparenthesis : List(A) \rightarrow C$
+is the unique solution of the equation system:
 $$
 \begin{cases}
   f \circ nil  = c \\
   f \circ cons = h \circ (id \times f)
 \end{cases}
 $$
-
-\paragraph{}
-  where $f = foldr(c,h)$. Having this the initial algebra is presented with functor
-  $\mu (1 + A \times X)$ and morphisms sum $[1 \rightarrow List(A), A \times List(A) \rightarrow List(A)]$
-  as catamorphism. Using this encdoding the base library of List will have following form:
-
-\vspace{0.5cm}
+where $f = foldr(c,h)$. Having this the initial algebra is presented with functor
+$\mu (1 + A \times X)$ and morphisms sum $[1 \rightarrow List(A), A \times List(A) \rightarrow List(A)]$
+as catamorphism. Using this encdoding the base library of List will have following form:
 $$
 \begin{cases}
  foldr = \llparenthesis [ f \circ nil , h] \rrparenthesis, f \circ cons = h \circ (id \times f)\\
@@ -1136,7 +1148,6 @@ $$
  map = \lambda\ f \rightarrow \llparenthesis [ nil, cons \circ (f \times id)] \rrparenthesis
 \end{cases}
 $$
-
 \begin{lstlisting}[mathescape=true]
              data list: (A: *) $\rightarrow$ * :=
                   (nil: list A)
@@ -1165,78 +1176,6 @@ filter = \lambda\ p \rightarrow foldr\ (\lambda x\ xs \rightarrow if\ p\ x\ then
 foldl = \lambda\ f\ v\ xs = foldr\ (\lambda\ xg\rightarrow\ (\lambda \rightarrow g\ (f\ a\ x)))\ id\ xs\ v\\
 \end{cases}
 $$
-
-You know Church encoding which also has its dependent alanolgue in CoC, however
-in Coq it is imposible to detive Inductive Principle as type system lacks fixpoint
-and functional extensionality. The example of working compiler of PTS languages are Om and Morte.
-Assume we have Church encoded NAT:
-
-\begin{lstlisting}[mathescape=true]
-nat = (X:U) -> (X -> X) -> X -> X
-\end{lstlisting}
-
-where first parameter $(X -> X)$ is a $succ$, the second parameter $X$ is $zero$,
-and the result of encoding is landed in X. Even if we encode the parameter
-
-\begin{lstlisting}[mathescape=true]
-list (A: U) = (X:U) -> X -> (A -> X) -> X
-\end{lstlisting}
-
-and paremeter A let's say live in 42 universe and X live in 2 universe, then by
-the signature of encoding the term will be landed in X, thus 2 universe. In other words
-such dependency is called impredicative displaying that landed term is not a predicate over parameters.
-This means that Church encoding is incompatible with predicative type checkers with predicative
-of predicative-cumulative hierarchies.
-
-\subsection{Імпредикативне кодування}
-
-In HoTT n-types is encoded as n-groupoids, thus we need to add a predicate in which n-type
-we would like to land the encoding:
-
-\begin{lstlisting}[mathescape=true]
-NAT (A: U) = (X:U) -> isSet X -> X -> (A -> X) -> X
-\end{lstlisting}
-
-Here we added isSet predicate. With this motto we can implement propositional
-truncation by landing term in isProp or even HIT by langing in isGroupoid:
-
-\begin{lstlisting}[mathescape=true]
-TRUN (A:U) type = (X: U) -> isProp X -> (A -> X) -> X
-S1 = (X:U) -> isGroupoid X -> ((x:X) -> Path X x x) -> X
-MONOPLE (A:U) = (X:U) -> isSet X -> (A -> X) -> X
-NAT = (X:U) -> isSet X -> X -> (A -> X) -> X
-\end{lstlisting}
-
-The main publication on this topic could be found at \cite{Awodey17} and \cite{Speight17}.
-Here we have the implementation of Unit impredicative encoding in HoTT.
-
-\begin{lstlisting}[mathescape=true]
-upPath     (X Y:U)(f:X->Y)(a:X->X): X -> Y = o X X Y f a
-downPath   (X Y:U)(f:X->Y)(b:Y->Y): X -> Y = o X Y Y b f
-naturality (X Y:U)(f:X->Y)(a:X->X)(b:Y->Y): U
-  = Path (X->Y)(upPath X Y f a)(downPath X Y f b)
-
-unitEnc': U = (X: U) -> isSet X -> X -> X
-isUnitEnc (one: unitEnc'): U
-  = (X Y:U)(x:isSet X)(y:isSet Y)(f:X->Y) ->
-    naturality X Y f (one X x)(one Y y)
-
-unitEnc: U = (x: unitEnc') * isUnitEnc x
-unitEncStar: unitEnc = (\(X:U)(_:isSet X) ->
-  idfun X,\(X Y: U)(_:isSet X)(_:isSet Y)->refl(X->Y))
-unitEncRec  (C: U) (s: isSet C) (c: C): unitEnc -> C
-  = \(z: unitEnc) -> z.1 C s c
-unitEncBeta (C: U) (s: isSet C) (c: C)
-  : Path C (unitEncRec C s c unitEncStar) c = refl C c
-unitEncEta (z: unitEnc): Path unitEnc unitEncStar z = undefined
-unitEncInd (P: unitEnc -> U) (a: unitEnc): P unitEncStar -> P a
-  = subst unitEnc P unitEncStar a (unitEncEta a)
-unitEncCondition (n: unitEnc'): isProp (isUnitEnc n)
-  =  \ (f g: isUnitEnc n) ->
-     <h> \ (x y: U) -> \ (X: isSet x) -> \ (Y: isSet y)
-  -> \ (F: x -> y) -> <i> \ (R: x) -> Y (F (n x X R)) (n y Y (F R))
-       (<j> f x y X Y F @ j R) (<j> g x y X Y F @ j R) @ h @ i
-\end{lstlisting}
 
 \newpage
 \section{Гомотопічна система}

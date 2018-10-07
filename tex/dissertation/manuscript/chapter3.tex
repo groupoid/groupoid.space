@@ -1,6 +1,5 @@
 \addtocontents{toc}{\protect\newpage}
 \chapter{ОСНОВА}
-\label{chap:foo}
 
 В третьому розділі дається опис гомотопічної мови програмування,
 реалізація якої вперше була представлена CCHM в 2017 році, та для якої написана
@@ -95,7 +94,7 @@ type theory itself and its syntax by construction. Usually the issues will refer
 following interpretations: i) type-theoretical; ii) categorical;
 iii) set-theoretical; iv) homotopical; v) fibrational or geometrical.
 
-\subsubsection*{Logical or Type-theoretical interpretation}
+\subsubsection*{Логічна або теоретико-типова інтерпретація}
 
 According to type theoretical interpretation for any type should be provided 5 formal
 inference rules: i) formation; ii) introduction; iii) dependent elimination principle;
@@ -109,7 +108,7 @@ Logical and type-theoretical interpretations could be distincted. Also
 set-theoretical interpretation is not presented in Table 1.
 
 
-\subsubsection*{Categorical or Topos-theoretical interpretation}
+\subsubsection*{Категоріальна або топосо-теоритична інтерпретація}
 
 Categorical interpretation is a modeling through categories and functors.
 First category is defined as objects, morphisms and their properties, then
@@ -120,7 +119,7 @@ intermediate result in {\bf Issue VII: Topos Theory}. In some sense we include h
 topos-theoretical interpretations, with presheaf model of type theory as
 example (in this case fibrations are constructes as functors, categorically).
 
-\subsubsection*{Homotopical interpretation}
+\subsubsection*{Гомотопічна інтерпретація}
 
 In classical MLTT uniquness rule of Id type do holds strictly. In Homotopical
 interpretation of MLTT we need to allow a path space as Path type where uniqueness
@@ -169,10 +168,10 @@ Pi (A: U) (B: A -> U): U = (x: A) -> B x
 \end{definition}
 
 \begin{definition} ($\Pi$-Introduction).
-$$\backslash (x: A) \rightarrow b =_{def} \prod_{A:U}\prod_{B:A \rightarrow U}\prod_{a: A}\prod_{b:B(a)}\lambda x.b : \prod_{y:A}B(a).$$
+$$\backslash (x: A) \rightarrow b(x) =_{def} \prod_{A:U}\prod_{B:A \rightarrow U}\prod_{b:\prod_{a:A}B(a)}\lambda x.b(x) : \prod_{y:A}B(y).$$
 \begin{lstlisting}
-lambda (A B: U) (b: B): A -> B = \ (x: A) -> b
-lam (A:U) (B: A -> U) (a:A) (b:B a) : A -> B a = \ (x: A) -> b
+lambda (A B: U) (b: B): A -> B = \(x: A) -> b
+lam (A: U) (B: A -> U) (b: (a: A) -> B a): Pi A B = \(x: A) -> b x
 \end{lstlisting}
 \end{definition}
 
@@ -180,23 +179,23 @@ lam (A:U) (B: A -> U) (a:A) (b:B a) : A -> B a = \ (x: A) -> b
 $$f\ a =_{def} \prod_{A:U}\prod_{B: A \rightarrow U}\prod_{a:A}\prod_{f: \prod_{x:A}B(a)}f(a) : B(a).$$
 \begin{lstlisting}
 apply (A B: U) (f: A -> B) (a: A) : B = f a
-app (A: U) (B: A -> U) (a: A) (f: A -> B a) : B a = f a
+app (A: U) (B: A -> U) (a: A) (f: Pi A B): B a = f a
 \end{lstlisting}
 \end{definition}
 
 \begin{theorem} ($\Pi$-Computation).
 $$f(a) =_{B(a)} (\lambda (x:A) \rightarrow f(a))(a).$$
 \begin{lstlisting}
-Beta (A: U) (B: A -> U) (a: A) (f: A -> B a)
-   : Path (B a) (app A B a (lam A B a (f a))) (f a)
+Beta (A:U) (B:A->U) (a: A) (f: Pi A B)
+   : Path (B a) (app A B a (lam A B f)) (f a)
 \end{lstlisting}
 \end{theorem}
 
 \begin{theorem} ($\Pi$-Uniqueness).
 $$f =_{(x:A)\rightarrow B(a)} (\lambda (y:A) \rightarrow f(y)).$$
 \begin{lstlisting}
-Eta (A: U) (B: A -> U) (a: A) (f: A -> B a)
-  : Path (A -> B a) f (\(x:A) -> f x)
+Eta (A:U) (B:A->U) (a:A) (f: Pi A B)
+   : Path (Pi A B) f (\(x:A) -> f x)
 \end{lstlisting}
 \end{theorem}
 
@@ -437,7 +436,7 @@ Path (A: U) (a b: A) : U = PathP (<i> A) a b
 Returns an element of reflexivity path space for a given value of the type.
 The inhabitant of that path space is the lambda on the homotopy
 interval $[0,1]$ that returns a constant value a. Written in
-syntax as |<i>a| which equals to $\lambda\ (i: I) \rightarrow a$.
+syntax as \lstinline{<i>a} which equals to $\lambda\ (i: I) \rightarrow a$.
 \begin{lstlisting}
 refl (A: U) (a: A) : Path A a a
 \end{lstlisting}
@@ -728,15 +727,15 @@ of type checker which is even more powerful.
 \begin{definition} (MLTT).
 The MLTT as a Type is defined by taking all rules
 for $\Pi$, $\Sigma$ and Path types into one $\Sigma$ telescope or context.
-\begin{lstlisting}[mathescape=true]
+\begin{lstlisting}
 MLTT (A: U): U
   = (Pi_Former: (A -> U) -> U)
-  * (Pi_Intro: (B: A -> U) (a: A) -> B a -> (A -> B a))
-  * (Pi_Elim: (B: A -> U) (a: A) -> (A -> B a) -> B a)
-  * (Pi_Comp1: (B: A -> U) (a: A) (f: A -> B a) ->
-    Path (B a) (Pi_Elim B a (Pi_Intro B a (f a))) (f a))
-  * (Pi_Comp2: (B: A -> U) (a: A) (f: A -> B a) ->
-    Path (A -> B a) f (\(x:A) -> f x))
+  * (Pi_Intro: (B: A -> U) -> ((a: A) -> B a) -> (Pi A B))
+  * (Pi_Elim: (B: A -> U) (a: A) -> (Pi A B) -> B a)
+  * (Pi_Comp1: (B: A -> U) (a : A) (f: Pi A B) ->
+    Equ (B a) (Pi_Elim B a (Pi_Intro B f)) (f a))
+  * (Pi_Comp2: (B: A -> U) (a: A) (f: Pi A B) ->
+    Equ (Pi A B) f (\(x:A) -> f x))
   * (Sigma_Former: (A -> U) -> U)
   * (Sigma_Intro: (B: A -> U) (a: A) -> (b: B a) -> Sigma A B)
   * (Sigma_Elim1: (B: A -> U) (_: Sigma A B) -> A)
@@ -768,11 +767,11 @@ instance (A: U): MLTT A
 
 \subsection*{Перевірка в кубічній теорії}
 
-The result of the work is a |mltt.ctt| file which can be runned using |cubicaltt|.
+The result of the work is a \lstinline{mltt.ctt} file which can be runned using \lstinline{cubicaltt}.
 Note that computation rules take a seconds to type check.
 
 \begin{lstlisting}
-$ time cubical -b mltt.ctt
+\$ time cubical -b mltt.ctt
 Checking: MLTT
 Checking: instance
 File loaded.
@@ -950,7 +949,77 @@ data seq (A: U) (B: A -> A -> U) (X Y: A)
    | seqCons (X Y Z: A) (_: B X Y) (_: Seq A B Y Z)
 \end{lstlisting}
 
-\subsection{Моделі та кодування}
+\subsection{Імпредикативне кодування}
+
+You know Church encoding which also has its dependent alanolgue in CoC, however
+in Coq it is imposible to detive Inductive Principle as type system lacks fixpoint
+and functional extensionality. The example of working compiler of PTS languages are Om and Morte.
+Assume we have Church encoded NAT:
+
+\begin{lstlisting}[mathescape=true]
+nat = (X:U) -> (X -> X) -> X -> X
+\end{lstlisting}
+
+where first parameter $(X -> X)$ is a $succ$, the second parameter $X$ is $zero$,
+and the result of encoding is landed in X. Even if we encode the parameter
+
+\begin{lstlisting}[mathescape=true]
+list (A: U) = (X:U) -> X -> (A -> X) -> X
+\end{lstlisting}
+
+and paremeter A let's say live in 42 universe and X live in 2 universe, then by
+the signature of encoding the term will be landed in X, thus 2 universe. In other words
+such dependency is called impredicative displaying that landed term is not a predicate over parameters.
+This means that Church encoding is incompatible with predicative type checkers with predicative
+of predicative-cumulative hierarchies.
+
+In HoTT n-types is encoded as n-groupoids, thus we need to add a predicate in which n-type
+we would like to land the encoding:
+
+\begin{lstlisting}[mathescape=true]
+NAT (A: U) = (X:U) -> isSet X -> X -> (A -> X) -> X
+\end{lstlisting}
+
+Here we added isSet predicate. With this motto we can implement propositional
+truncation by landing term in isProp or even HIT by langing in isGroupoid:
+
+\begin{lstlisting}[mathescape=true]
+TRUN (A:U) type = (X: U) -> isProp X -> (A -> X) -> X
+S1 = (X:U) -> isGroupoid X -> ((x:X) -> Path X x x) -> X
+MONOPLE (A:U) = (X:U) -> isSet X -> (A -> X) -> X
+NAT = (X:U) -> isSet X -> X -> (A -> X) -> X
+\end{lstlisting}
+
+The main publication on this topic could be found at \cite{Awodey17} and \cite{Speight17}.
+Here we have the implementation of Unit impredicative encoding in HoTT.
+
+\begin{lstlisting}[mathescape=true]
+upPath     (X Y:U)(f:X->Y)(a:X->X): X -> Y = o X X Y f a
+downPath   (X Y:U)(f:X->Y)(b:Y->Y): X -> Y = o X Y Y b f
+naturality (X Y:U)(f:X->Y)(a:X->X)(b:Y->Y): U
+  = Path (X->Y)(upPath X Y f a)(downPath X Y f b)
+
+unitEnc': U = (X: U) -> isSet X -> X -> X
+isUnitEnc (one: unitEnc'): U
+  = (X Y:U)(x:isSet X)(y:isSet Y)(f:X->Y) ->
+    naturality X Y f (one X x)(one Y y)
+
+unitEnc: U = (x: unitEnc') * isUnitEnc x
+unitEncStar: unitEnc = (\(X:U)(_:isSet X) ->
+  idfun X,\(X Y: U)(_:isSet X)(_:isSet Y)->refl(X->Y))
+unitEncRec  (C: U) (s: isSet C) (c: C): unitEnc -> C
+  = \(z: unitEnc) -> z.1 C s c
+unitEncBeta (C: U) (s: isSet C) (c: C)
+  : Path C (unitEncRec C s c unitEncStar) c = refl C c
+unitEncEta (z: unitEnc): Path unitEnc unitEncStar z = undefined
+unitEncInd (P: unitEnc -> U) (a: unitEnc): P unitEncStar -> P a
+  = subst unitEnc P unitEncStar a (unitEncEta a)
+unitEncCondition (n: unitEnc'): isProp (isUnitEnc n)
+  =  \(f g: isUnitEnc n) ->
+     <h> \(x y: U) -> \(X: isSet x) -> \(Y: isSet y)
+  -> \(F: x -> y) -> <i> \(R: x) -> Y (F (n x X R)) (n y Y (F R))
+       (<j> f x y X Y F @ j R) (<j> g x y X Y F @ j R) @ h @ i
+\end{lstlisting}
 
 \section{Гомотопічна теорія типів}
 
@@ -1548,7 +1617,7 @@ receive (p: process) : protocol p = axiom
 \end{lstlisting}
 \end{definition}
 
-efinition} (Send).
+\begin{definition} (Send).
 The response free function that represents
 sending a message to a particular process in the run-time. The Send
 nature is async and invisible but is a part of process modality as
