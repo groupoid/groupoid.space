@@ -1,2 +1,2 @@
 default:
-	(xelatex --interaction nonstopmode dissertation.tex)
+	(xelatex --interaction nonstopmode diss.tex)

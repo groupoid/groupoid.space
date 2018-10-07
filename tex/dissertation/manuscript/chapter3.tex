@@ -1,5 +1,6 @@
 \addtocontents{toc}{\protect\newpage}
 \chapter{ОСНОВА}
+\label{chap:foo}
 
 В третьому розділі дається опис гомотопічної мови програмування,
 реалізація якої вперше була представлена CCHM в 2017 році, та для якої написана
@@ -1121,6 +1122,56 @@ funext_Eta (A B: U) (f g: A -> B) (p: Path (A -> B) f g)
 \end{definition}
 
 \subsection{Пулбеки}
+
+\begin{definition} (Пулбек).
+\begin{lstlisting}
+pullback (A B C:U) (f: A -> C) (g: B -> C): U
+  = (a: A)
+  * (b: B)
+  * Path C (f a) (g b)
+
+pb1 (A B C: U) (f: A -> C) (g: B -> C)
+  : pullback A B C f g -> A
+  = \(x: pullback A B C f g) -> x.1
+
+pb2 (A B C: U) (f: A -> C) (g: B -> C)
+  : pullback A B C f g -> B
+  = \(x: pullback A B C f g) -> x.2.1
+
+pb3 (A B C: U) (f: A -> C) (g: B -> C)
+  : (x: pullback A B C f g) -> Path C (f x.1) (g x.2.1)
+  = \(x: pullback A B C f g) -> x.2.2
+\end{lstlisting}
+\end{definition}
+
+\begin{definition} (Ядро).
+\begin{lstlisting}
+kernel  (A B: U) (f: A -> B): U
+  = pullback A A B f f
+\end{lstlisting}
+\end{definition}
+
+\begin{definition} (Гомотопічне розшарування).
+\begin{lstlisting}
+hofiber (A B: U) (f: A -> B) (y: B): U
+  = pullback A unit B f (\(x: unit) -> y)
+\end{lstlisting}
+\end{definition}
+
+\begin{definition} (Пулбек Квадрат).
+\begin{lstlisting}
+pullbackSq (Z A B C: U) (f: A -> C) (g: B -> C) (z1: Z -> A) (z2: Z -> B): U
+         = (h: (z:Z) -> Path C ((o Z A C f z1) z) (((o Z B C g z2)) z))
+         * isEquiv Z (pullback A B C f g) (induced Z A B C f g z1 z2 h)
+\end{lstlisting}
+\end{definition}
+
+\begin{theorem} (Існування пулбеку).
+\begin{lstlisting}
+completePullback (A B C: U) (f: A -> C) (g: B -> C)
+    : pullbackSq (pullback A B C f g) A B C f g (pb1 A B C f g) (pb2 A B C f g)
+\end{lstlisting}
+\end{definition}
 
 \subsection{Фібрації}
 
