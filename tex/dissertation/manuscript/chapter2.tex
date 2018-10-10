@@ -272,7 +272,7 @@ data label  (A: U) =       lab (n: name) (t: tele A)
 Правило формації, конструктора та елімінатора визначається синтаксичним деревом $O_*$:
 \begin{lstlisting}
 data ind (lang: U)
-   = data_  (n: name) (t: tele lang) (labels:   list (label lang))
+   = datum  (n: name) (t: tele lang) (labels:   list (label lang))
    | case   (n: name) (t: lang)      (branches: list (branch lang))
    | ctor   (n: name)                (args:     list lang)
 \end{lstlisting}
@@ -618,7 +618,7 @@ Task-реактор або реактор задач виконує Rust зад�
 \end{figure}
 
 \newpage
-\subsubsection{Міжреакторний ранспорт InterCore}
+\subsubsection{Міжреакторний транспорт InterCore}
 
 Шина InterCore конструюється певним числом SPMC черг, виділених для певного ядра.
 Шина сама має топологію зірки між ядрами, та черга MPSC організована
@@ -779,36 +779,61 @@ Cedil з self-типами\cite{Fu14}\cite{Stump17} (Стамп, Фу), сист
 
 Головна мотивація чистих систем -- це простота аналізу ядра верифікатора,
 можливість застосування сильної нормалізації та довірена зовнішня верифікація
-та сертифікація завдяки простоті верифікатора (type checker).
-A custom type checker can be implemented to run certified programs retrieved over untrusted channels.
-The applications of such minimal cores are 1) Blockchain smart-contract languages, 2) certified applications kernels, 3) payment processing, etc.
+та сертифікація завдяки простоті верифікатора (type checker), це означає, що
+алгоритм верифікації повинен бути настільки простим, аби можна було
+просто імплементувати його на будь-якій мові програмування. Приклади застовування
+тут можуть бути: 1) формальна мова блокчейн контрактів (Pluto\footnote{Rebecca Valentine. Formal Specification of
+the Plutus Core Language. 2017. \url{https://iohk.io/research/papers/#JT5XKNBP}});
+2) сертифіковані обчислення для інтерпретаторів; 3) платіжні системи.
 
 \subsection{Генерація сертифікованих програм}
-According to Curry-Howard, a correspondence inside Martin-Löf Type Theory\cite{Lof84} proofs or certificates are lambda terms of particular types or specifications.
-As both specifications and implementations are done in a typed language with dependent types we can extract target implementation of a certified program just in any programming language.
-These languages could be so primitive as untyped lambda calculus and are usually implemented as untyped interpreters (JavaScript, Erlang, PyPy, LuaJIT, K).
-The most advanced approach is code generation to higher-level languages such as C++ and Rust (which is already language with trusted features on memory, variable accessing, linear types, etc.).
-In this work, we present a simple code extraction to Erlang programming language as a target interpreter.
+Згідно ізоморфізму Каррі-Говарда-Ламбека або інтерпретації Брауера-Гейтінга-Колмогорова
+існує взаємноознозначна відповідність між доведеннями теорем (або пруфтермами)
+та лямбда функціями в теорії типів Мартіна-Льофа\cite{Lof84}.
+
+As both specifications and implementations are done in a typed
+anguage with dependent types we can extract target implementation
+of a certified program just in any programming language.
+
+These languages could be so primitive as untyped lambda calculus
+and are usually implemented as untyped interpreters (JavaScript,
+Erlang, PyPy, LuaJIT, K).
+
+The most advanced approach is code generation to higher-level
+languages such as C++ and Rust (which is already language with
+trusted features on memory, variable accessing, linear types, etc.).
+
+In this work, we present a simple code extraction to Erlang
+programming language as a target interpreter.
 However, we have also worked on C++ and Rust targets as well.
 
-{\bf Om} as a programming language has a core type system, the {\bf PTS$^{\infty}$} --- the pure type system with the infinite number of universes.
+{\bf Om} as a programming language has a core type system,
+the {\bf PTS$^{\infty}$} --- the pure type system with the infinite number of universes.
 This type system represents the core of the language.
 Higher languages form a set of front-ends to this core.
  Here is example of possible languages:
 1) Language for inductive reasoning, based on CiC with extensions;
 2) Homotopy Core with interval [0,1] for proving J and funExt;
 3) Stream Calculus for deep stream fusion (Futhark);
-3) Pi-calculus for linear types, coinductive reasoning and runtime modeling (Erlang, Ling, Rust).
-These languages desugar to {\bf PTS$^{\infty}$} as an intermediate language before extracting to target language\footnote{Note that extracting from [0,1] Homotopy Core is an open problem}.
+3) Pi-calculus for linear types, coinductive reasoning
+and runtime modeling (Erlang, Ling, Rust).
+These languages desugar to {\bf PTS$^{\infty}$} as an
+intermediate language before extracting to target
+language\footnote{Note that extracting from [0,1]
+Homotopy Core is an open problem}.
 
 Not all terms from higher languages could be desugared to PTS.
 As was shown by Geuvers\cite{Geuvers01} we cannot build induction principle inside PTS, we need a fixpoint extension to PTS.
 And also we cannot build the J and funExt terms.
 But still PTS is very powerful, it's compatible with System F libraries.
-The properties of that libraries could be proven in higher languages with Induction and/or [0,1] Homotopy Core.
-Then runtime part could be refined to PTS, extracted to target and run in an environment.
+The properties of that libraries could be proven in higher
+languages with Induction and/or [0,1] Homotopy Core.
+Then runtime part could be refined to PTS, extracted to
+target and run in an environment.
 
-We see two levels of extensions to PTS core: 1) Inductive Types support; 2) Homotopy Core with [0,1] and its eliminators.
+We see two levels of extensions to PTS core:
+1) Inductive Types support;
+2) Homotopy Core with [0,1] and its eliminators.
 We will touch a bit this topic in the last section of this document.
 
 {\bf PTS синтаксиси}. Мінімальне ядро з однією аксіомою
@@ -865,16 +890,19 @@ Rules = U.\{i\} \leadsto U.\{j\} : U.\{max\ i\ j\}\\
 $$
 
 \paragraph{}
-An intermediate Om language is based on Henk\cite{Erik97} languages described first
-by Erik Meijer and Simon Peyton Jones in 1997. Leter on in 2015 Morte impementation
-of Henk design appeared in Haskell, using Boem-Berrarducci encoding of non-recursive lambda terms.
-It is based only on one type constructor $\Pi$, its special case $\lambda$ and theirs eliminators:
-$apply$ and $curry$, infinity number of universes,
-and one computation rule called $\beta$-reduction.
-The design of Om language resemble Henk and Morte both
-design and implementation. This language indended to be small, concise, easy provable
-and able to produce verifiable peace of code that can be distributed over the networks,
-compiled at target with safe trusted linkage.
+Проміжна мова чистої системи типів Ом базується на мові
+Henk\cite{Erik97}, вперше описаній Еріком Мейером та Саймоном Пейтоном Джонсом в 1997 році.
+Пізніше Габріель Гонзалез імплементував на мові Haskell
+верифікатор з посиланням на Henk, та використував кодування Бома для нерекурсивного
+кодування рекурсивних індуктивних типів. Ця мова базується лише на $\Pi$-типі,
+$\lambda$-функції, її елімінатора аплікації, $\beta$-редукції та $\eta$-експансії.
+Дизайн мови Ом нагадує дизайн мов Henk та Morte.
+Ця мова призначена бути максимально простою (повна імплементація займає 300 рядків),
+формально верифікованою, здатною продукувати сертифіковані програми та
+розповсюджувати їх за межі комп'ютера по мережах та недовірених каналах зв'язку,
+та компілювати (верифікувати та екстрагувати) на цільових платформах за допомогою
+тієї ж мови Ом, можливо імплементовоної на іншій мові програмування та вбудованої
+в основну систему.
 
 \newpage
 \subsection{Синтаксис}
@@ -884,7 +912,6 @@ compiled at target with safe trusted linkage.
 Однак в системі PTS присутній індекс для всесвітів який
 представлений натуральними числами.
 
-\vspace{0.5cm}
 \begin{lstlisting}[mathescape=true]
     <> := #option
      I := #identifier
@@ -1012,7 +1039,9 @@ $$
 1) інтро-правила, їх тип (правило формації), та класс (тип правила формації);
 2) правило елімінації та залежної елімінації (індукції).
 Таким чином будемо вважати, що операційна семантика системи типів $O_{PTS}$
-буде складатися з 5 правил: формації, інтро-правило, залежние елімінатор (індукція), $\beta$ правило (обчислення), $\eta$ правило
+буде складатися з 5 правил: формації, інтро-правило,
+залежний елімінатор (індукція), $\beta$-редукція правило або правило обчислення,
+$\eta$-експансія або правило унікальності.
 
 \begin{equation}
 \tag{$\Pi$-formation}
@@ -1077,28 +1106,29 @@ remote конструктор для завантаження файлів з л
 Індекси де брейна діють локально в межах одного імені.
 При додаванні існуючого імені в контекст збільшується індекс цього імені.
 Таким чином PTS верифікатор чистої системи типів відрізняється від
-канонічного приклада верифікації CoC\cite{Coq96}. Він включає
+канонічного приклада алгоритма верифікації CoC\cite{Coq88}. Він включає
 наступні функції мовної категорії: {\bf підстановка},
 {\bf зсув імені}, {\bf нормалізація} термів, {\bf рівність}
 за визначенням та {\bf верифікація}.
 
 \subsection{Перевірка типів}
 
-В чистих системах потрібно бути обережним з remote конструктором.
-Він використовуються для завантаження типів з локального довіреного сховища:
-\lstinline{#List/Cons #Nat/zero #List/nil}. При дозволі рекурсії
-по remote конструктору можливо реалізувати Self-типи (Stump, Fu).
+Для перевірки типів застосовується наступний алгоритм верифікації, який є основаю
+усіх залежних систем. В чистих системах потрібно бути обережним з \lstinline{remote}
+конструктором. Він використовуються для завантаження типів з локального довіреного сховища.
+При дозволі рекурсії по \lstinline{remote} конструктору можливо реалізувати
+self-типи\cite{Stump17}\cite{Fu14}.
 
 \begin{lstlisting}[mathescape=true]
-type (:star,N)   D $\rightarrow$ (:star,N+1)
-   (:var,N,I)    D $\rightarrow$ :true = proplists:is_defined N B, om:keyget N D I
-   (:remote,N)   D $\rightarrow$ om:cache (type N D)
-   (:pi,N,0,I,O) D $\rightarrow$ (:star,h(star(type I D)),star(type O [(N,norm I)|D]))
-   (:fn,N,0,I,O) D $\rightarrow$ let star (type I D), NI = norm I
-                       in (:pi,N,0,NI,type(O,[(N,NI)|D]))
-   (:app,F,A)    D $\rightarrow$ let T = type(F,D),
-                          (:pi,N,0,I,O) = T, :true = eq I (type A D)
-                       in norm (subst O N A)
+type (:star,N)     D $\rightarrow$ (:star,N+1)
+     (:var,N,I)    D $\rightarrow$ :true = proplists:is_defined N B, om:keyget N D I
+     (:remote,N)   D $\rightarrow$ om:cache (type N D)
+     (:pi,N,0,I,O) D $\rightarrow$ (:star,h(star(type I D)),star(type O [(N,norm I)|D]))
+     (:fn,N,0,I,O) D $\rightarrow$ let star (type I D), NI = norm I
+                         in (:pi,N,0,NI,type(O,[(N,NI)|D]))
+     (:app,F,A)    D $\rightarrow$ let T = type(F,D),
+                            (:pi,N,0,I,O) = T, :true = eq I (type A D)
+                         in norm (subst O N A)
 \end{lstlisting}
 
 \subsection{Індекси де Брейна}
@@ -1163,13 +1193,6 @@ norm (:star,X)     $\rightarrow$ (:star,X)
 \subsection{Використання мови}
 Тут буде показано використання мови PTS.
 
-Here we will show some examples of {\bf Om} language usage.
-In this section, we will show two examples.
-One is lifting PTS system to MLTT system by defining {\bf Sigma} and {\bf Equ} types using only {\bf Pi} type.
-We will use Bohm inductive dependent encoding\cite{Bohm85}.
-The second is to show how to write real world programs in {\bf Om} that performs input/output operations within Erlang environment.
-We show both recursive (finite, routine) and corecursive (infinite, coroutine, process) effects.
-
 \begin{lstlisting}
 $ ./om help me
 [{a,[expr],"to parse. Returns {_,_} or {error,_}."},
@@ -1196,25 +1219,46 @@ ok
 
 \subsection{Екстракти}
 
-This works expect to compile to limited target platforms. For now Erlang, Haskell and LLVM is awaiting.
-Erlang version is expected to be useful both on LING and BEAM Erlang virtual machines.
+Мова Ом передбачає автоматичну генерацію сертифікованих програм в цільові платформи.
+Сертифікая полягаю у візуальному доведенню одніє стрілки ізоморфізма
+$\lambda$-функції в залежній теорії типів та $\lambda$-фунції в нетипизованому лямбда численні.
+
+\begin{lstlisting}[mathescape=true]
+ext (:var,X,N,F)      $\rightarrow$ (:var,X)
+    (:app,A,B,N,F)    $\rightarrow$ (:call,N,ext(F,A,N),[ext(F,B,N)])
+    (:fn,S,_,I,O,N,F) $\rightarrow$ (:fun,N,(:clauses,[{:clause,N,
+                                [(:var,N,S)],[],[ext(F,O,N)]}]))
+                    _ $\rightarrow$ []
+\end{lstlisting}
+
+Так працьє функція екстракту в Erlang з системи типів PTS$^\infty$.
+Erlang-версія Ом повинна бути зручна для використання для
+віртуальних машин LING та BEAM. Оскільки цей екстракт генерує
+AST дерево Erlang (подідбно до Elixir), результуючий код
+подається повністью на весь стек оптимізаційного компілятора
+Erlang включаючи Erlang Core, тому весь модуль екстракта займає 30 рядків.
 
 \subsubsection{Інтерпретатори}
 
-From a practical point of view, we develop Erlang with Dependent Types.
-Thus we carefully integrate with Erlang platform by generating Erlang
-AST and trying to be compatible with Erlang kernel through mapping of
-inductive types to underlying Erlang primitives such as process,
-receive, and spawn. Erlang extraction is sponsored and supported
-by Synrc Research Center. Extraction in other languages could also be easily implemented.
+З практичною точки зору, мова Ом є способом використовувати залежні типи
+та специфікації побудовані за їх допомогу на мові Erlang.
+Завдяки глибокій інтеграції з Erlang вдалося мімізувати
+імплементацію системи до 300 рядків.
+Екстракт в інтерпретатор $O_{PTS}$ (чи інші) є альтернативною опцією для Ом.
+Також мова Ом може бути легко портована на інші мови.
 
 \subsubsection{LLVM}
 
-Another branch of research is dedicated to evaluation of LLVM lambda generation. It could be direct MIR or LLVM generation, or we could generate Rust/C++ code that could be passed to LLVM optimizer. If you are interested in LLVM target, please take a look at github.com/nponeccop/HNC.
+Більш складна опція генерації сертифікованих програм --- це генерація машинного коду,
+з використанням або без використання допоміжних проміжних мов таких як LLVM та MIR.
+Тому що для цього потрібно верифікувати модель асемблера та процесора а також
+його оптимізатора, так як зі складністю синтаксичного дерева росте складність
+та велична терму-доведення будь-яких властивостей.
 
 \subsubsection{FPGA}
 
-We are very interested in compilation to FPGA. As was shown with interaction nets it is possible to compact packaging of inductive construction in silicon, giving back the inner language of space to the natural encoding. If you are interested in moving this project forward and have a vision how to do it please drop us a line in gitter.im/groupoid/exe chat.
+Інша, не мен складна, або ще більш складна опція є безпосередня генерація
+VHDL моделей (наприклад, clash).
 
 \newpage
 \section{Система індуктивних типів ITS}
@@ -1225,25 +1269,40 @@ We are very interested in compilation to FPGA. As was shown with interaction net
 
 \subsection{Синтаксис}
 
+\begin{lstlisting}[mathescape=true]
+def := data id tele = sum + id tele : exp = exp +
+       id tele : exp where def
+exp := cotele*exp + cotele $\rightarrow$ exp + exp $\rightarrow$ exp + (exp) + app + id +
+       (exp,exp) + \ cotele $\rightarrow$ exp + split cobrs + exp .1 + exp .2
+
+  0 := #empty         imp    := [ import id ]
+brs := 0 + cobrs      tele   := 0 + cotele
+app := exp exp        cotele := ( exp : exp ) tele
+ id := [ #nat ]       sum    := 0 + id tele + id tele | sum
+ids := [ id ]         br     := ids $\rightarrow$ exp
+cod := def dec        mod    := module id where imp def
+dec := 0 + codec      cobrs  := | br brs
+\end{lstlisting}
+
 Індуктивні синтаксиси будуються на телескопах Диб'єра,
 конструкторах сум, та їх елімінаторах.
 
 \begin{lstlisting}
-data tele (A: U)   = emp | tel (n: name) (b: A) (t: tele A)
+data tele   (A: U) = emp | tel (n: name) (b: A) (t: tele A)
 data branch (A: U) =        br (n: name) (args: list name) (term: A)
-data label (A: U)  =       lab (n: name) (t: tele A)
+data label  (A: U) =       lab (n: name) (t: tele A)
                          | com (n: name) (t: tele A) (dim: list name)
-                               (str: list (prod (prod name bool) A))
+                               (s: list (prod (prod name bool) A))
 \end{lstlisting}
 
 \begin{lstlisting}
 data ind (lang: U)
-   = data_  (n: name) (t: tele lang) (labels:   list (label lang))
+   = datum  (n: name) (t: tele lang) (labels:   list (label lang))
    | case   (n: name) (t: lang)      (branches: list (branch lang))
    | ctor   (n: name)                (args:     list lang)
 \end{lstlisting}
 
-% \newpage
+ \newpage
   \subsection{Поліноміальні функтори}
 
   \paragraph{}
@@ -1269,6 +1328,7 @@ data ind (lang: U)
   as an non-recursive definitions of folds that include in indentity signature all the
   constructor components of (co)inductive type.
 
+\newpage
 \subsection{Кодування Бома}
 The data type of lists over a given set A can be represented as the initial algebra
 $(\mu L_A, in)$ of the functor $L_A(X) = 1 + (A \times X)$. Denote $\mu L_A = List(A)$.
@@ -1383,8 +1443,7 @@ data hts
    | unglue_elem (a b: lang)
 \end{lstlisting}
 
-\section{Програмне забезпечення системи доведення
-         теорем на базі гомотопічної системи типів}
+\section{Програмне забезпечення}
 
 Як апогей, система HTS є фінальною категорією,
 куди сходяться всі стрілки категорії мов. Кожна мова та її категорія
