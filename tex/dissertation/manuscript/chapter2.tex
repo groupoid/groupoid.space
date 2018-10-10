@@ -3,8 +3,12 @@
 \chapter{СЕРЕДОВИЩЕ ВИКОНАННЯ \\ТА МОВИ ПРОГРАМУВАННЯ}
 
 Другий розділ описує розвиток концептуальної моделі системи доведення теорем
-як послідовності мов програмування, кожна наступна з яких, складніша за попередню,
-має свою операційну семантику, та наслідує усі властивості попередніх мов послідовності.
+як сукупності:
+i) середовища виконання, яке складається з інтерпретатора та операційної системи;
+ii) послідовності формальних мов програмування,
+кожна наступна з яких, складніша за попередню,
+має свою операційну семантику, та наслідує усі властивості
+попередніх мов послідовності.
 
 \section{Попередні відомості та теорії}
 
@@ -16,7 +20,7 @@
 Слід зауважити, що ця формалізація проводиться на основі гомотопічної
 мови програмування побудованої в даному розділі 2.
 
-\section*{Середовище виконання та інтерпретатор}
+\section*{Формальне cередовище виконання}
 
 З точки зору класу систем, нас цікавлять всі системи з залежними типами,
 як основа теорії типів Мартіна-Льофа та гомотопічної теорії типів. Однак
@@ -30,6 +34,8 @@ $$
 
 Далі буде йтися тільки про формальні інтерпретатори,
 так як вони є найбільш компакними формами мов для верифікації.
+Таким чином будемо розглядати формальне середовище виконання, як
+сукупність інтерпретатора та операційної системи.
 
 \begin{definition} (Інтерпретатор). Інтерпретатор визначається
 своїм трьома конструкторами: номер змінної (індекс де Брейна),
@@ -44,7 +50,7 @@ data CPS = var (x: nat)
 \end{definition}
 
 В цьому розділі ми побудуємо надшвидку імплементацію інтерпретатора,
-яка цілком разом зі своїми програмами розміщується в кеш-памяті
+яка цілком, разом зі своїми програмами, розміщується в кеш-памяті
 першого рівня процесора, та здатна до AVX векторизацій засобами мови Rust.
 Як промислова опція, підтримується також екстракт
 в байт-код інтерпретатора BEAM віртуальної машини Erlang.
@@ -72,7 +78,7 @@ Maybe-типи синтаксичних дерев мов програмуван
 які містять правила виводу, типизації, нормалізації, екстактів, тощо.
 Морфізми мовних категорій --- правила виводу, компіляції, верифікації.
 Приклади синтаксичних дерев: $O_\Pi$, $O_\Sigma$, $O_=$.
-Приклади: $O_{PTS}$, $O_{MLTT$, $O_{HTS}$.
+Приклади: $O_{PTS}$, $O_{MLTT}$, $O_{HTS}$.
 \end{definition}
 
 \begin{definition} (Синтаксичне дерево).
@@ -80,6 +86,7 @@ Maybe-типи синтаксичних дерев мов програмуван
 Синтаксичне дерево --- це індуктивний тип, контруктори якого відповідають
 одному з 5 правил в теорії типів, як правило використовуються три правила:
 правило формації, інтро-правила та елімінатор.
+\end{definition}
 
 \begin{definition} (Типи синтаксичних дерев).
 Синтаксичні дерева мови програмування в свою чергу діляться на 5 типів:
@@ -151,7 +158,7 @@ $$
 \begin{definition} (Синтаксис мовної категорії $O_{PTS}$).
 Чиста мова $O_{PTS}$ містить лише синтаксис одного типу, $\Pi$-типу.
 Така теорія називається теорією з одним типом, або з однією аксіомою.
-\begin{lstlisting}[mathescape=true]
+\begin{lstlisting}
 data PTS = ppure (_: pts PTS)
 \end{lstlisting}
 \end{definition}
@@ -243,6 +250,7 @@ certify: X \rightarrow target = type \circ norm \circ induction \circ extract \\
 \end{cases}
 \end{cases}
 $$
+\end{definition}
 
 Мова індуктивних типів дозволяє безпосередньо кодувати індуктивні типи,
 не використовуючи схеми кодування Бома, містить усі попередні мовні синтаксиси:
@@ -255,6 +263,7 @@ data ITS = ipure (_: pts ITS)
          | iid (_: identity ITS)
          | iITS (_: ind ITS)
 \end{lstlisting}
+\end{definition}
 
 Мова містить наступні допоміжні визначення: i) телескопу,
 який містить послідовність елементів мови; ii) розгалуження,
@@ -276,6 +285,7 @@ data ind (lang: U)
    | case   (n: name) (t: lang)      (branches: list (branch lang))
    | ctor   (n: name)                (args:     list lang)
 \end{lstlisting}
+\end{definition}
 
 \newpage
 \subsubsection{Гомотопічна система типів $O_{HTS}$}
@@ -294,7 +304,7 @@ $$
 \end{definition}
 
 Синтаксис гомотопічна система доведення містить усі
-попередні мовні синтаксиси: $O_I$, $O_*$, $O_=$ $O_\Sigma$, $O_\Pi$.
+попередні мовні синтаксиси: $O_I$, $O_*$, $O_=$, $O_\Sigma$, $O_\Pi$.
 
 \begin{definition} (Синтаксис мовної категорії $O_{HTS}$).
 \begin{lstlisting}
@@ -329,8 +339,6 @@ data hts (lang: U)
 Таким чином,
 $O_{HTS}$ містить два Id-типа, один унаслідований від $O_=$,
 а інший який міститься в синтаксичному дереві $O_I$.
-
-\\
 
 Кожна секція цієї глави буде присвячена цим мовним компонентам
 системи доведення теорем. В кінці розділу дається повна система, яка включає в себе усі
@@ -423,7 +431,7 @@ data Lazy = Defer (otree: NodeId) (a: AST) (cont: Cont)
 функція та аплікація, є відображеннями на конструктори синтаксичного дерева.
 
 \begin{lstlisting}
-data Cont = Expressions (ast: AST) Option (vec: Iter AST) (cont: Cont)
+data Cont = Expressions (ast: AST) (vec: Option (Iter AST)) (cont: Cont)
           | Assign (ast: AST) (cont: Cont)
           | Cond (c,d: AST) (cont: Cont)
           | Func (a,b,c: AST) (cont: Cont)
@@ -433,7 +441,6 @@ data Cont = Expressions (ast: AST) Option (vec: Iter AST) (cont: Cont)
           | Intercore (m: Message) (cont: Cont)
           | Yield (cont: Cont)
 \end{lstlisting}
-
 
 \newpage
 \subsection{Синтаксис}
@@ -494,30 +501,26 @@ data Scalar  = Nil
 
 \newpage
 \subsection{Операційна система}
-
 Перелічимо основні властивості операційної системи (прототип
 якої опублікований на Github\footnote{\url{https://github.com/voxoz/kernel}}).
 
 \subsection{Властивості}
-
 Автобалансована низьколатентна, неблокована, без копіювання, система черг
 з CAS-мультикурсорами, з пріоритетами задач та масштабованими таймерами.
 
 \subsubsection{Асиметрична багапроцесорність}
-
 Ядро системи використовує асиметричну багапроцесорність (АП)
 для планування машинного часу. Так у системі для консольного
 вводу-виводу та вебсокет моніторингу використовується окремий
 ректор (закріплений за ядром процессора),
 аби планування не впливало на програми на інших процесорах.
-
+\paragraph{}
 Це означає статичне закріплення певного атомарного процесу
 обчислення за певним реактором, та навіть можливо дати гарантію, що
 цей процес не перерветься при наступному кванті планування
 ніяким іншим процесом на цьому ядрі (ситуація єдиного процесу
 на реактор ядра процесору). Ядро системи постачається разом з конфігураційною
 мовою для закріплення задач за реакторами:
-
 \begin{lstlisting}
 reactor[aux;0;mod[console;network]];
 reactor[timercore;1;mod[timer]];
@@ -526,7 +529,6 @@ reactor[core2;3;mod[task]];
 \end{lstlisting}
 
 \subsubsection{Низьколатентність}
-
 Усі реактори повинні намагатися обмежити IP-лічильник команд
 діапазоном розміром з L1/L2 кеш об'єм процесора, для унеможливлення
 колізій між ядрами на міжядерній шині можлива конфігурація, де
@@ -536,38 +538,31 @@ reactor[core2;3;mod[task]];
 
 \newpage
 \subsubsection{Мультикурсори}
-
 Серцем низьколатентної системи транспорту є система наперед виділений
 кільцевих буферів (які називаються секторами глобального кільця). У цій
 системі кілець діє система курсорі для запису та читання, ці курсори
 можуть мати різний напрямок руху.
-
 \begin{figure}[h]
-  \centerline{\includegraphics[scale=0.28]{pub}}
+  \centerline{\includegraphics[scale=0.25]{pub.eps}}
   \caption{Кільцева статична черга з CAS-курсором для публікації}
 \end{figure}
-
 Для забезпечення імутабельності (нерухомості даних) та відсутності
 копіювання в подальшій роботі, дані залишаються в черзі, а рухаються та передаються
 лише курсори на типизовані послідовності даних.
-
 \begin{figure}[h]
-  \centerline{\includegraphics[scale=0.28]{sub}}
+  \centerline{\includegraphics[scale=0.25]{sub.eps}}
   \caption{Кільцева статична черга з CAS-курсором для згортки}
 \end{figure}
 
 \newpage
 \subsubsection{Реактори}
-
 Кожен процесор має три типи реакторів які можуть бути на ньому запущені:
 i) Task-реактор; ii) Timer-реактор; iii) IO-цикли. Для Task-реактора
 існують черги пріорітетів, а для Timer-реактора --- дерева інтервалів.
-
 \begin{figure}[h]
-  \centerline{\includegraphics[scale=0.28]{sys}}
+  \centerline{\includegraphics[scale=0.25]{sys.eps}}
   \caption{Система процесорних ядер та реакторів}
 \end{figure}
-
 Загальний спосіб комунікації для задач виглядає як публікація
 в чергу (рух курсора запису) та підписка на черги і
 згортання (руху курсора читання). Кожна черга має як
@@ -579,47 +574,39 @@ i) Task-реактор; ii) Timer-реактор; iii) IO-цикли. Для Tas
 шини InterCore і систему фільтрів для згортання черги
 реактора для більш гнучкої обробки сигналів реального часу.
 
-\subsubsection*{Task-реатор}
-
-
-\begin{figure}[h]
-  \centerline{\includegraphics[scale=0.28]{task}}
-  \caption{Task-реактор або система інтерпретаторів}
-\end{figure}
-
+\subsubsection*{Task-реактор}
 Task-реактор або реактор задач виконує Rust задачі або
 програми інтерпретатора, які можуть бути двох видів:
 кінечні (які повертають результат виконання),
 або бескінечні (процеси).
+\begin{figure}[h]
+  \centerline{\includegraphics[scale=0.25]{task.eps}}
+  \caption{Task-реактор або система інтерпретаторів}
+\end{figure}
 
 Приклад бескінечної задачі --- 0-процес,
 який запускається при старті системи. Цей процес завжди доступний
 по WebSocket каналу та з консолі терміналу.
 
-\subsubsection*{IO-реатор}
-
+\subsubsection*{IO-реактор}
 Мережевий сервер або IO-реактор може обслуговувати багато
 мережевих з'єднань та підтримує Windows, Linux, Mac смаки.
-
 \begin{figure}[h]
-  \centerline{\includegraphics[scale=0.28]{net}}
+  \centerline{\includegraphics[scale=0.25]{net.eps}}
   \caption{IO-реактор або процес опитування мережевих сервісів}
 \end{figure}
 
-\subsubsection*{Timer-реатор}
-
+\subsubsection*{Timer-реактор}
 Різні типи сутностей планування (такі як Task, IO, Timer)
 мають різні дисципліни селекторів повідомлень для черг
 (послідовно, через само-балансуючі дерева, BTree дерева тощо).
-
 \begin{figure}[h]
-  \centerline{\includegraphics[scale=0.28]{dis}}
+  \centerline{\includegraphics[scale=0.25]{timer.eps}}
   \caption{Timer-реактор або драйвер процесорного таймеру}
 \end{figure}
 
 \newpage
 \subsubsection{Міжреакторний транспорт InterCore}
-
 Шина InterCore конструюється певним числом SPMC черг, виділених для певного ядра.
 Шина сама має топологію зірки між ядрами, та черга MPSC організована
 як функція над множиною паблішерів. Кожне ядро має рівно одного паблішера.
@@ -709,7 +696,7 @@ pub struct Channel {
 
 \subsubsection{Черги ядра}
 Память репрезентує усі наявні черги для публікації та читання на ядрі.
-Ця інформація передається клонованую кожній задачі планувальника на цьому ядрі.
+Ця інформація передається клонованою кожній задачі планувальника на цьому ядрі.
 \begin{lstlisting}
 pub struct Memory<'a> {
     publishers: Vec<Publisher<Value<'a>>,
@@ -722,7 +709,8 @@ pub struct Memory<'a> {
 які розрізняються як BSP-ядра (або 0-ядра, bootstrap)
 та AP ядра (інші ядра > 0, application). BSP ядро
 тримає на собі Console та WebSocket IO селектори.
-Це означає, що BSP ядро дає свій час ядру, у той час як AP процесори не обтяжені
+Це означає, що BSP ядро дає свій час на обробку зовнішньої інформації,
+у той час як AP процесори не обтяжені
 таким навантаженням (io черга в таких планувальниках пуста).
 Існує InterCore повідомлення яке додає або видаляє довільні IO селектори
 в планувальних для довільних конфігурацій.
@@ -790,58 +778,17 @@ the Plutus Core Language. 2017. \url{https://iohk.io/research/papers/#JT5XKNBP}}
 Згідно ізоморфізму Каррі-Говарда-Ламбека або інтерпретації Брауера-Гейтінга-Колмогорова
 існує взаємноознозначна відповідність між доведеннями теорем (або пруфтермами)
 та лямбда функціями в теорії типів Мартіна-Льофа\cite{Lof84}.
+Так як специфікація та доведення її відоповідності для певної програми
+відбувається за допомогою мови з залежними типами, ми можемо екстрагувати
+цільову імплементацію (зі стертою інформацією про типи) сертифікованої программи
+в довільну мову програмування. У якості такої цільової мови підходять
+майже усі інтерпретатор безтипового лямбда числення, такі як JavaScript,
+Erlang, PyPy, LuaJIT, K.
 
-As both specifications and implementations are done in a typed
-anguage with dependent types we can extract target implementation
-of a certified program just in any programming language.
-
-These languages could be so primitive as untyped lambda calculus
-and are usually implemented as untyped interpreters (JavaScript,
-Erlang, PyPy, LuaJIT, K).
-
-The most advanced approach is code generation to higher-level
-languages such as C++ and Rust (which is already language with
-trusted features on memory, variable accessing, linear types, etc.).
-
-In this work, we present a simple code extraction to Erlang
-programming language as a target interpreter.
-However, we have also worked on C++ and Rust targets as well.
-
-{\bf Om} as a programming language has a core type system,
-the {\bf PTS$^{\infty}$} --- the pure type system with the infinite number of universes.
-This type system represents the core of the language.
-Higher languages form a set of front-ends to this core.
- Here is example of possible languages:
-1) Language for inductive reasoning, based on CiC with extensions;
-2) Homotopy Core with interval [0,1] for proving J and funExt;
-3) Stream Calculus for deep stream fusion (Futhark);
-3) Pi-calculus for linear types, coinductive reasoning
-and runtime modeling (Erlang, Ling, Rust).
-These languages desugar to {\bf PTS$^{\infty}$} as an
-intermediate language before extracting to target
-language\footnote{Note that extracting from [0,1]
-Homotopy Core is an open problem}.
-
-Not all terms from higher languages could be desugared to PTS.
-As was shown by Geuvers\cite{Geuvers01} we cannot build induction principle inside PTS, we need a fixpoint extension to PTS.
-And also we cannot build the J and funExt terms.
-But still PTS is very powerful, it's compatible with System F libraries.
-The properties of that libraries could be proven in higher
-languages with Induction and/or [0,1] Homotopy Core.
-Then runtime part could be refined to PTS, extracted to
-target and run in an environment.
-
-We see two levels of extensions to PTS core:
-1) Inductive Types support;
-2) Homotopy Core with [0,1] and its eliminators.
-We will touch a bit this topic in the last section of this document.
-
-{\bf PTS синтаксиси}. Мінімальне ядро з однією аксіомою
-сприймає декілька лямбда ситаксисів.
-Перший синтаксис сумісний з системою програмування
-$morte$\footnote{http://github.com/Gabriel439/Haskell-Morte-Library}, та походить від неї.
-Інший синтаксис сумісний з синтаксисом $cubical$\footnote{http://github.com/mortberg/cubicaltt}.
-Планувалося також підтримати синтаксис $caramel$\footnote{https://github.com/MaiaVictor/caramel}.
+Більш розвинені практики та підходи до кодогенерації та екстрагуванню
+сертифікованих програм полягає у генерації С++ чи Rust програм, або програм
+для нижчих систем лямюда-кубу, таких як System F або System F$_\omega$.
+У цій роботі представлений екстракт в мову Erlang у якості цільового інтерпретатору.
 
 \begin{table}[h]
 \begin{center}
@@ -864,6 +811,21 @@ JavaScript & interpreter/native   & PureScript & System F\\
 \end{center}
 \end{table}
 
+{\bf PTS синтаксиси}. Мінімальне ядро з однією аксіомою
+сприймає декілька лямбда ситаксисів.
+Перший синтаксис сумісний з системою програмування
+$morte$\footnote{http://github.com/Gabriel439/Haskell-Morte-Library}, та походить від неї.
+Інший синтаксис сумісний з синтаксисом $cubical$\footnote{http://github.com/mortberg/cubicaltt}.
+Планувалося також підтримати синтаксис $caramel$\footnote{https://github.com/MaiaVictor/caramel}.
+
+$$
+\begin{cases}
+Sorts = U.\{i\},\ i : Nat\\
+Axioms = U.\{i\} : U.\{inc\ i\}\\
+Rules = U.\{i\} \leadsto U.\{j\} : U.\{max\ i\ j\}\\
+\end{cases}
+$$
+
 Мова програмування Ом -- це мова з залежними типами, яка є розширенням
 числення конструкцій (Calculus of Constructions, CoC) Тері Кокана. Саме з числення
 конструкцій починається сучасна обчислювальна математика. В додаток до CoC,
@@ -881,13 +843,6 @@ JavaScript & interpreter/native   & PureScript & System F\\
 та його конфігурація може бути записана згідно нотації
 Барендрехта для систем з чистими типами:
 
-$$
-\begin{cases}
-Sorts = U.\{i\},\ i : Nat\\
-Axioms = U.\{i\} : U.\{inc\ i\}\\
-Rules = U.\{i\} \leadsto U.\{j\} : U.\{max\ i\ j\}\\
-\end{cases}
-$$
 
 \paragraph{}
 Проміжна мова чистої системи типів Ом базується на мові
@@ -943,7 +898,7 @@ data pts (lang: U)
 розширення числення конструкцій Кокана, або системи P$_\omega$ Барендрехта,
 з предикативною (імпредикативною) ієрархією індексованих всесвітів.
 Це розширення мотивоване консистентністю\cite{Lof75} в залежній теорії типів та
-неможливістю кодування парадоксів Жирара-Хуркенса-Рассела. Також для
+неможливістю кодування парадоксів Жирара-Хуркенса-Рассела\footnote{Так званий парадокс голяра який виникає в системах $U : U$}. Також для
 забезпечення консистентності в мові PTS відсутня аксіома \lstinline{Fixpoint}, хоча
 за допомогою рекурсивного трактування конструктора \lstinline{remote},
 така можливість зберігається.
@@ -1040,7 +995,7 @@ $$
 2) правило елімінації та залежної елімінації (індукції).
 Таким чином будемо вважати, що операційна семантика системи типів $O_{PTS}$
 буде складатися з 5 правил: формації, інтро-правило,
-залежний елімінатор (індукція), $\beta$-редукція правило або правило обчислення,
+залежний елімінатор (індукція), $\beta$-редукція або правило обчислення,
 $\eta$-експансія або правило унікальності.
 
 \begin{equation}
@@ -1302,51 +1257,61 @@ data ind (lang: U)
    | ctor   (n: name)                (args:     list lang)
 \end{lstlisting}
 
- \newpage
-  \subsection{Поліноміальні функтори}
+\newpage
+\subsection{Поліноміальні функтори}
 
-  \paragraph{}
-  There are two types of recursion: one is least fixed point (as $F_A\ X = 1 + A\times X$
-  or $F_A\ X = A + X\times X$), in other words the recursion with a base (terminated with a bounded value),
-  lists and trees are examples of such recursive structures (so we call induction recursive sums);
-  and the second is greatest fixed point or recursion withour a base (as $F_A\ X = A\times X $) ---
-  such kind of recursion on infinite lists (codata, streams, coinductive types) we can call recursive products.\\
-  Least fixed point trees are called well-founded trees and encode polynomial functors.
+\paragraph{}
+Існує два види формальної рекурсії: 1) перша з найменшою нерухомою точкою
+(як $F_A(X) = 1 + A \times X$ або $F_A(X) = A + X \times X$), іншими словами
+рекурсія з базою (термінується $1$ або $A$). Списки та дерева є
+прикладами таких рекурсивних структур з nil та leaf термінальними
+конструкторами (або рекурсивні суми).
+2) друга з найбільшою нерухомою точкою, або рекурсія без бази
+(як $F_A(X) = A \times X$) --- така рекурсія не термінована на рівні типів,
+та моделює нетерміновані послідовності, процеси тощо (або рекурсивні добутки).
+Кодування найменшою нерухомою точкою ще називається кодуванням
+добре-визначиними деревами або кодування поліноміальними функторами.
 
-  \paragraph{}
-  Natural Numbers: $\mu\ X \rightarrow 1 + X$\\
-  List A: $\mu\ X \rightarrow 1 + A \times X$\\
-  Lambda calculus: $\mu\ X \rightarrow 1 + X \times X + X$\\
-  Stream: $\nu\ X \rightarrow A \times X$\\
-  Potentialy Infinite List A: $\nu\ X \rightarrow 1 + A \times X$\\
-  Finite Tree: $\mu\ X \rightarrow \mu\ Y \rightarrow 1 + X \times Y = \mu\ X = List\ X$\\
+\paragraph{}
+\noindent Натуральні числа: $\mu\ X \rightarrow 1 + X$\\
+Списки елементів A: $\mu\ X \rightarrow 1 + A \times X$\\
+Лямбда числення: $\mu\ X \rightarrow 1 + X \times X + X$\\
+Потоки: $\nu\ X \rightarrow A \times X$\\
+Потенційно нескінченний список елементів A: $\nu\ X \rightarrow 1 + A \times X$\\
+Кінцеве дерево: $\mu\ X \rightarrow \mu\ Y \rightarrow 1 + X \times Y = \mu\ X = List\ X$\\
 
-  \paragraph{}
-  As we know there are several ways to appear for variable in recursive algebraic type.
-  Least fixpoint are known as an recursive expressions that have a base of recursion
-  Both recursive and corecursive datatypes could be encoded using Boem-Berarducci encoding
-  as an non-recursive definitions of folds that include in indentity signature all the
-  constructor components of (co)inductive type.
+Для цих кодувань існує аналог кодування Чорча, який розповсюджує
+кодування чистими функціями з нетипизованого лямбда числення до $\Pi$-типу.
+Таке кодування називається кодуванням Бома-Беррардуччі, а просто кодування Бома.
+Воно дозволяє кодувати індуктивні типи даних $\Pi$-типами чистими функціями.
+Проте як було показано Жеверсом\cite{Geuvers01} неможливо побудувати принцип
+індукції в чистих системх без використання в явному чи прихованому
+вигляді \lstinline{Fixpoint} аксіоми. Також неможливо побудувати
+J елімінатор Id типу закодованого в Бом кодуванні, а також
+елімінатори гомотопічних примітивів, наприклад елімінатори гомотопічного
+візрізка як \lstinline{funExt}, \lstinline{homotopy}.
 
 \newpage
 \subsection{Кодування Бома}
-The data type of lists over a given set A can be represented as the initial algebra
-$(\mu L_A, in)$ of the functor $L_A(X) = 1 + (A \times X)$. Denote $\mu L_A = List(A)$.
-The constructor functions $nil: 1 \rightarrow List(A)$ and
-$cons: A \times List(A) \rightarrow List(A)$ are defined by
-$nil = in \circ inl$ and $cons = in \circ inr$, so $in = [nil,cons]$.
-Given any two functions $c: 1 \rightarrow C$ and $h: A \times C \rightarrow C$,
-the catamorphism $f = \llparenthesis [c,h] \rrparenthesis : List(A) \rightarrow C$
-is the unique solution of the equation system:
+Тип даних List над даним типом А, може бути представлений як ініціальні алгебра
+$(\mu L_A, in)$ функтору $L_A(X) = 1 + (A \times X)$. Позначається $\mu L_A = List(A)$.
+Функції-конструктори $nil: 1 \rightarrow List(A)$ та
+$cons: A \times List(A) \rightarrow List(A)$ визначені як
+$nil = in \circ inl$ та $cons = in \circ inr$, таким чином $in = [nil,cons]$.
+Для кожних двох функцій $c: 1 \rightarrow C$ та $h: A \times C \rightarrow C$,
+катаморфізм $f = \llparenthesis [c,h] \rrparenthesis : List(A) \rightarrow C$
+є унікальним розв'язком системи рівнянь:
 $$
 \begin{cases}
   f \circ nil  = c \\
   f \circ cons = h \circ (id \times f)
 \end{cases}
 $$
-where $f = foldr(c,h)$. Having this the initial algebra is presented with functor
-$\mu (1 + A \times X)$ and morphisms sum $[1 \rightarrow List(A), A \times List(A) \rightarrow List(A)]$
-as catamorphism. Using this encdoding the base library of List will have following form:
+де $f = foldr(c,h)$. Маючи це, ініціальна алгебра представлена функтором
+$\mu (1 + A \times X)$ та сумою морфізмів
+$[1 \rightarrow List(A), A \times List(A) \rightarrow List(A)]$
+як катаморфізму. Використовуючи це кодування, List-тип в базовій бібліотеці мови $O_{PTS}$
+буде мати наступну форму:
 $$
 \begin{cases}
  foldr = \llparenthesis [ f \circ nil , h] \rrparenthesis, f \circ cons = h \circ (id \times f)\\
@@ -1356,9 +1321,7 @@ $$
 \end{cases}
 $$
 \begin{lstlisting}[mathescape=true]
-             data list: (A: *) $\rightarrow$ * :=
-                  (nil: list A)
-                  (cons: A $\rightarrow$ list A $\rightarrow$ list A)
+data list (A: U) = cons (x: A) (cs: list A) | nil
 \end{lstlisting}
 $$
 \begin{cases}
@@ -1368,11 +1331,12 @@ nil = \lambda\ list \rightarrow \lambda\ cons \rightarrow \lambda\ nil \rightarr
 \end{cases}
 $$
 \begin{lstlisting}[mathescape=true]
-           record lists: (A B: *) :=
-                  (len: list A $\rightarrow$ integer)
-                  ((++): list A $\rightarrow$ list A $\rightarrow$ list A)
-                  (map: (A $\rightarrow$ B) $\rightarrow$ (list A $\rightarrow$ list B))
-                  (filter: (A $\rightarrow$ bool) $\rightarrow$ (list A $\rightarrow$ list A))
+module list where
+    map (A B: U) (f: A -> B) : list A -> list B
+    length (A: U): list A -> nat
+    append (A: U): list A -> list A -> list A
+    foldl (A B: U) (f: B -> A -> B) (Z: B): list A -> B
+    filter (A: U) (p: A -> bool) : list A -> list A
 \end{lstlisting}
 $$
 \begin{cases}
