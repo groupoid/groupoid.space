@@ -34,8 +34,6 @@
 
 \newcommand*{\incmap}{\hookrightarrow}
 
-%\lstMakeShortInline[mathescape=true,columns=fixed]|
-
 \def\mapright#1{\xrightarrow{{#1}}}
 \def\mapleft#1{\xleftarrow{{#1}}}
 \def\mapup#1{\Big\uparrow\rlap{\raise2pt{\scriptstyle{#1}}}}
@@ -44,7 +42,6 @@
 \def\mapdownl#1{\Big\downarrow\llap{\raise2pt{\scriptstyle{#1}}}}
 \def\mapdiagl#1{\vcenter{\searrow}\rlap{\raise2pt{\scriptstyle{#1}}}}
 \def\mapdiagr#1{\vcenter{\swarrow}\rlap{\raise2pt{\scriptstyle{#1}}}}
-%\lstset{basicstyle=\small,inputencoding=utf8}
 
 % To get lining figures in tables set by siunitx, which apparently uses the
 % \mathrm font instead of \mathnormal
@@ -179,7 +176,6 @@
             системи доведення теорем \\
             на основі гомотопічної теорії типів\\ }\\
 \vspace{0.5em}
-%{\bf Рукопис}
 \end{flushright}
 
 \vspace{7cm}
@@ -200,11 +196,21 @@
 \setmainfont{Geometria}
 
 \addto\captionsrussian{\renewcommand{\contentsname}{Зміст}}
-\addto\captionsrussian{\renewcommand{\bibname}{Бібліографія}}
+\addto\captionsrussian{\renewcommand{\bibname}{Список використаних джерел}}
 \addto\captionsrussian{\renewcommand{\chaptername}{Розділ}}
 \addto\captionsrussian{\renewcommand{\tablename}{Таблиця}}
 
-\lstset{morekeywords={record,data,inductive,extend,enum,Type,Path,unit,Unit,Nat,List,let,in,eq,type,sh,sub,star,var,dep,norm,fun,app,lambda,arrow,pi,case,receive,spawn,send,name,list,nat,tele,case,id,sigma,pair,fst,snd,id,idPair,idJ,branch,label,ctor,sum,prod,ty,lam,split,Glue,glue,unglue,Pi,Sigma,pr1,pr2,Beta,Eta,Beta1,Beta2,Eta2,refl,ap,apply,apd,J,process,execute,storage,axiom,undefined,comp,PathP,fill,precategory,catfunctor,equiv,trans,base,loop,S1,S2,pub,struct,Vec,Arc,Cell,sub,rcv,snd,spawn}}
+\lstset{morekeywords={record,data,inductive,extend,enum,
+Type,Path,unit,Unit,Nat,List,let,in,eq,type,sh,sub,star,
+var,dep,norm,fun,app,lambda,arrow,pi,case,receive,spawn,
+send,name,list,nat,tele,case,id,sigma,pair,fst,snd,id,idPair,idJ,
+branch,label,ctor,sum,prod,ty,lam,split,Glue,glue,unglue,Pi,
+Sigma,pr1,pr2,Beta,Eta,Beta1,Beta2,Eta2,refl,ap,apply,apd,J,
+process,execute,storage,axiom,undefined,comp,PathP,fill,
+precategory,catfunctor,equiv,trans,base,loop,S1,S2,pub,
+struct,Vec,Arc,Cell,sub,rcv,snd,spawn,module,import,
+coerce,cong,Fixpoint,Parameter,Definition,CoInductive,
+Require,Import,CoFixpoint,remote,ac,total,fix}}
 
 \lstset{
     backgroundcolor=\color{white},
