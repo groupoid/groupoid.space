@@ -98,6 +98,7 @@ data CPS = var (x: nat)
 Приклад мінімальної системи, яка містить лише одну мову для доведення теорем
 та одну мову для виконання програм.
 $$
+PTS_{CPS} = 
 \begin{cases}
 Ob: \{ O_{CPS}, O_{PTS} \} \\
 Hom: \begin{cases}
@@ -114,9 +115,11 @@ $$
   \centerline{\includegraphics[scale=0.5]{minimal.eps}}
   \caption{Мінімальна система}
 \end{figure}
+
 Інший приклад системи --- це система, яка містить дві мови для доведення,
 та два цільових інтерпретатора.
 $$
+[PTS+HTS]_{Erlang,CPS} = 
 \begin{cases}
 Ob: \{ Erlang, O_{CPS}, O_{PTS}, O_{HTS} \} \\
 Hom: \begin{cases}
@@ -144,7 +147,7 @@ $$
 завжди є змога зробити екстракт в $O_{CPS}$, тому об'єкти мовних
 категорій є $maybe$-типами.
 $$
-O_{CPS} \rightarrow O_{\pi}
+O_{CPS}: O_\lambda \rightarrow O_{\pi} \rightarrow U
 $$
 Далі буде йтися тільки про формальні інтерпретатори,
 так як вони є найбільш компакними формами мов для
