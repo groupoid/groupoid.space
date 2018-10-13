@@ -783,7 +783,7 @@ sys     0m0.014s
 
 \section{Індуктивні типи}
 
-\subsection*{Empty}
+\subsection{Empty}
 
 empty type lacks both introduction rules and eliminators. However, it has recursor and induction.
 
@@ -793,7 +793,7 @@ emptyRec (C: U): empty -> C = split {}
 emptyInd (C: empty -> U): (z: empty) -> C z = split {}
 \end{lstlisting}
 
-\subsection*{Unit}
+\subsection{Unit}
 
 \begin{lstlisting}
 data unit = star
@@ -801,7 +801,7 @@ unitRec (C: U) (x: C): unit -> C = split tt -> x
 unitInd (C: unit -> U) (x: C tt): (z: unit) -> C z = split tt -> x
 \end{lstlisting}
 
-\subsection*{Bool}
+\subsection{Bool}
 
 bool is a run-time version of the boolean logic you may use in your general purpose applications. bool is isomorphic to 1+1: either unit unit.
 
@@ -848,7 +848,7 @@ eitherInd (A B: U) (C: either A B -> U)
         = split { inl i -> x i ; inr j -> y j }
 \end{lstlisting}
 
-\subsection*{Tuple}
+\subsection{Tuple}
 
 tuple is a representation for non-dependent product types or conjunction.
 

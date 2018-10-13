@@ -1,18 +1,55 @@
-\documentclass[9pt]{memoir}
-
-\input{synrc.tex}
-
-%\settrimmedsize{297mm}{210mm}{*}
-%\setlength{\trimtop}{0pt}
-%\setlength{\trimedge}{\stockwidth}
-%\addtolength{\trimedge}{-\paperwidth}
-% \setulmargins{4cm}{*}{*}
-% \setlrmargins{*}{*}{1.5}
-%\setmarginnotes{17pt}{51pt}{\onelineskip}
-%\setheadfoot{\onelineskip}{2\onelineskip}
-
+\documentclass[twoside]{vakthesis}
+\input{vak.tex}
 \begin{document}
+\begin{titlepage}
+\begin{center}
+\frontmatter
+\thispagestyle{empty}
+\noindent
+\large Міністерство освіти і науки України \\
+Національний технічний університет України
+"Київський політехнічний інститут імені Ігоря Сікорського"
+\vspace{0.5cm}
+\begin{flushright}
+\small Кваліфікаційна наукова праця \\
+на правах рукопису
+\end{flushright}
+\vspace{1cm}
+\Large Сохацький Максим Еротейович \\
+\vspace{0.5cm}
+\begin{flushright}
+\small УДК 510.23---510.26
+\vspace{1cm}
+\end{flushright}
+\Large Дисертація \\
+\large Концептуальна модель системи доведення теорем на основі гомотопічної теорії типів \\
+\vspace{0.5cm}
+\begin{flushright}
+\small Спеціальність 01.05.03 --- математичне та програмне забезпечення \\ обчислювальних машин і систем
+\end{flushright}
+\vspace{1cm}
+\begin{flushleft}
+\renewcommand{\baselinestretch}{1.0}
+\small Подається на здобуття наукового ступеня доктора філософії. Дисертація містить результати власних
+дослідженя, використання ідей, результатів і текстів інших авторів мають посилання на джерела.
+\renewcommand{\baselinestretch}{1.5}
+\end{flushleft}
+\vspace{0.5cm}
+\begin{flushright}
+\small Науковий консультант: Павло Павлович Маслянко
+\end{flushright}
+\vspace{1cm}
+Київ --- 2018
+\end{center}
+\end{titlepage}
+
+%\newfontfamily{\cyrillicfont}{Geometria}
+%\setmainfont{Geometria}
+
 \titleINF
+
+\tableofcontents
+
 \include{intro}
 \include{chapter1}
 \include{chapter2}

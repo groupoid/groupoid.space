@@ -68,7 +68,7 @@ O_{PTS}(O_\Pi) \rightarrow O_{CTX}(O_\Pi,O_\Sigma) \rightarrow O_{EQU}(..,O_\Sig
  \quad \rightarrow O_{ITS}(...,O_=,O_W) \rightarrow O_{HTS}(...,O_W,O_I).
 \end{split}
 \end{equation}
-наступним чином. Кожна наступна мова програмування залежить
+наступним чином. Кожна мова програмування залежить
 від синтаксису який її визначає
 та всіх попредніх синтаксисів мов програмування з послідовності.
 Перша мова програмування містить тільки перший синтаксис.
@@ -136,7 +136,7 @@ O_{HTS} = O_{\Pi\Sigma=WI} : O_\Pi \rightarrow O_\Sigma \rightarrow O_= \rightar
 де кожна мова-кодомен є складнішою та біль потужною за мову-домен.
 Система мов є категорією мовних категорій або категорією мов програмування.
 \begin{equation}
-O_{System} : O_{CPS} \rightarrow O_{PTS} \rightarrow O_{MLTT} \rightarrow O_{ITS} \rightarrow O_{HTS} \rightarrow U.
+O_\infty : O_{CPS} \rightarrow O_{PTS} \rightarrow O_{MLTT} \rightarrow O_{ITS} \rightarrow O_{HTS} \rightarrow ...
 \end{equation}
 \end{definition}
 
@@ -161,7 +161,7 @@ Hom: \{ 1,2: \mathbb{1} \rightarrow O_{PTS}, 3: O_{PTS} \rightarrow O_{CPS} \}
 мову мереж Петрі для зображення екземпляра моделі системи мов.
 \begin{figure}[h]
   \centerline{\includegraphics[scale=0.5]{minimal.eps}}
-  \caption{Мінімальна система}
+  \caption{Мінімальна система з чистої мови та інтерпретатора}
 \end{figure}
 
 \subsection{Максимальна система}
@@ -182,7 +182,7 @@ Hom: \begin{cases}
 За допомогою мереж Петрі це можна відобразити наступним чином:
 \begin{figure}[h]
   \centerline{\includegraphics[scale=0.5]{full.eps}}
-  \caption{Кубічна та чиста система типів та два інтерпретатори}
+  \caption{Кубічна та чиста системи типів та середовище виконання}
 \end{figure}
 
 \newpage
@@ -313,7 +313,8 @@ O_{ITS} =
 Ob: \{\ X: maybe\ ITS, target: maybe\ CPS\ \} \\
 Hom: \begin{cases}
 type,norm,induction: X \rightarrow X, extract: X \rightarrow target \\
-certify: X \rightarrow target = type \circ norm \circ induction \circ extract \\
+certify : X \rightarrow target \\
+cerfity = type \circ norm \circ induction \circ extract \\
 \end{cases}
 \end{cases}
 \end{equation}
@@ -1548,7 +1549,7 @@ pub enum Message {
 \end{lstlisting}
 
 \newpage
-\section{Програмне забезпечення}
+\section{Висновки}
 
 Як апогей, система HTS є фінальною категорією,
 куди сходяться всі стрілки категорії мов. Кожна мова та її категорія

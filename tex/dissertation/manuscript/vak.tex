@@ -1,0 +1,109 @@
+\usepackage[osf]{mathpazo}
+\usepackage{musicography}
+\usepackage{epigraph}
+\usepackage[mathcal,mathbf]{euler}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{graphicx,sidecap,tikz}
+\usepackage{siunitx}
+\usepackage{fullwidth}
+\usepackage{fontspec}
+\usepackage{hyphenat}
+\usepackage{ifthen}
+\usepackage{tikz-cd}
+\usepackage[usenames,dvipsnames]{color}
+\usepackage[english,russian]{babel}
+\usepackage{bussproofs}
+\usepackage{tabstackengine}
+\usepackage{graphicx}
+\usepackage{cite}
+\usepackage{listingsutf8}
+\usepackage{moreverb}
+\usepackage{listings}
+\usepackage{caption}
+\usepackage{amssymb}
+\usepackage{mathtools}
+\usetikzlibrary{matrix}
+\usetikzlibrary{babel}
+\theoremstyle{definition}
+\newtheorem{theorem}{Теорема}
+\newtheorem{definition}{Визначення}
+\newtheorem{exercise}{Вправа}
+\newtheorem{example}{Приклад}
+
+\newcommand*{\incmap}{\hookrightarrow}
+
+\def\mapright#1{\xrightarrow{{#1}}}
+\def\mapleft#1{\xleftarrow{{#1}}}
+\def\mapup#1{\Big\uparrow\rlap{\raise2pt{\scriptstyle{#1}}}}
+\def\mapupl#1{\Big\uparrow\llap{\raise2pt{\scriptstyle{#1}}}}
+\def\mapdown#1{\Big\downarrow\rlap{\raise2pt{\scriptstyle{#1}}}}
+\def\mapdownl#1{\Big\downarrow\llap{\raise2pt{\scriptstyle{#1}}}}
+\def\mapdiagl#1{\vcenter{\searrow}\rlap{\raise2pt{\scriptstyle{#1}}}}
+\def\mapdiagr#1{\vcenter{\swarrow}\rlap{\raise2pt{\scriptstyle{#1}}}}
+
+\lefthyphenmin=1
+\hyphenpenalty=100
+\tolerance=3000
+
+\newfontfamily{\cyrillicfont}{Times New Roman}
+\setmainfont{Times New Roman}
+
+%\fontencoding{T1}
+%\newfontfamily{\cyrillicfont}{Times New Roman}
+%\setmainfont{Times New Roman}
+%\newfontfamily{\cyrillicfont}{Geometria}
+%\setmainfont{Geometria}
+
+\addto\captionsrussian{\renewcommand{\contentsname}{Зміст}}
+\addto\captionsrussian{\renewcommand{\bibname}{Список використаних джерел}}
+\addto\captionsrussian{\renewcommand{\chaptername}{Розділ}}
+\addto\captionsrussian{\renewcommand{\tablename}{Таблиця}}
+
+\lstset{morekeywords={record,data,inductive,extend,enum,
+Type,Path,unit,Unit,Nat,List,let,in,eq,type,sh,sub,star,
+var,dep,norm,fun,app,lambda,arrow,pi,case,receive,spawn,
+send,name,list,nat,tele,case,id,sigma,pair,fst,snd,id,idPair,idJ,
+branch,label,ctor,sum,prod,ty,lam,split,Glue,glue,unglue,Pi,
+Sigma,pr1,pr2,Beta,Eta,Beta1,Beta2,Eta2,refl,ap,apply,apd,J,
+process,execute,storage,axiom,undefined,comp,PathP,fill,
+precategory,catfunctor,equiv,trans,base,loop,S1,S2,pub,
+struct,Vec,Arc,Cell,sub,rcv,snd,spawn,module,import,
+coerce,cong,Fixpoint,Parameter,Definition,CoInductive,
+Require,Import,CoFixpoint,remote,ac,total,fix,ext,fn,
+call,true,false,is_defined,datum,id_intro,id_elim,
+where,bool,maybe,either,unit,empty,list,stream,vector,fin}}
+
+\lstset{
+    backgroundcolor=\color{white},
+    keywordstyle=\color{blue},
+    inputencoding=utf8,
+    basicstyle=\bf\ttfamily\footnotesize,
+    xleftmargin=0cm,
+    columns=fixed}
+
+\newcommand{\titleINF}{
+
+\frontmatter
+\thispagestyle{empty}
+\mbox{}
+\vspace{1in}
+\noindent
+\begin{flushright}
+{\HUGE Максим Сохацький}\\
+\vspace{0.5cm}
+{\LARGE \bf Концептуальна модель \\
+            системи доведення теорем \\
+            на основі гомотопічної теорії типів \\ }
+\vspace{2cm}
+\\
+\vspace{0.3cm}
+\hfill{\small15 жовтня 2018 e8020d8141ece25695efc185aec732f35867386b \\
+       11 живтня 2018 64c2e49765d3b997d68999c88448fef7136079d4}
+\vspace{0.3cm}
+\\
+\url{http://bit.ly/groupoid}
+\end{flushright}
+\cleartorecto\tableofcontents*
+\mainmatter
+
+}
