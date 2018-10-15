@@ -567,10 +567,10 @@
 \renewcommand\footnotesize{%
   \@savfootnotesize
   \let\@listi\@listI}
-\renewcommand\theenumi{\@arabic\c@enumi}
-\renewcommand\theenumii{\@asbuk\c@enumii}
-\renewcommand\theenumiii{\@Roman\c@enumiii}
-\renewcommand\theenumiv{\@Asbuk\c@enumiv}
+%\renewcommand\theenumi{\@arabic\c@enumi}
+%\renewcommand\theenumii{\@asbuk\c@enumii}
+%\renewcommand\theenumiii{\@Roman\c@enumiii}
+%\renewcommand\theenumiv{\@Asbuk\c@enumiv}
 \newcommand\labelenumi{\theenumi.}
 \newcommand\labelenumii{\theenumii)}
 \newcommand\labelenumiii{\theenumiii.}

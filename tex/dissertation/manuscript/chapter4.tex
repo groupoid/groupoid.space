@@ -1,5 +1,5 @@
 \addtocontents{toc}{\protect\newpage}
-\chapter{МАТЕМАТИЧНІ КОМПОНЕНТИ}
+\chapter{Математичні компоненти}
 
 Четвертий розділ надає приклади математичного моделювання
 та складних теорем теорії категорій, теорій топосів, теорії гомотопій, тощо.
@@ -55,10 +55,11 @@ isPrecategory (C: cat): U
   * ( (x y z w: C.1) (f: C.2 x y) (g: C.2 y z)
     (h: C.2 z w) -> Path (C.2 x w)
     (c x z w (c x y z f g) h) (c x y w f (c y z w g h)))
-
-precategory: U = (C: cat) * isPrecategory C
 \end{lstlisting}
-\end{defintion}
+precategory: U = (C: cat) * isPrecategory C
+\begin{lstlisting}
+\end{lstlisting}
+\end{definition}
 
 Accessors of the precategory structure.
 For $Ob$ is carrier and for $Hom$ is hom.
@@ -422,7 +423,7 @@ terminal (C: precategory): U
 %\end{lstlisting}
 %\end{definition}
 
-\subsection*{Теорія множин}
+\subsection{Теорія множин}
 
 Here is given the $\infty$-groupoid model of sets.
 
@@ -710,11 +711,11 @@ colimits and limits, respectively.
 if there is a geometric morphism $(p^*,p_*): E \rightarrow S$, such that:
 i) exists adjunction $p^! \vdash p_*$ and $ p^! \dashv p_*$;
 ii) $p^*$ and $p^!$ are full faithful; iii) $p_!$ preserves finite products.
-\end{definition}
 This quadruple defines adjoint triple:
 $$
 \int \dashv \fl \dashv \sharp
 $$
+\end{definition}
 
 \subsection{Елементарний топос}
 
@@ -853,7 +854,7 @@ And for any arrow $f: a \rightarrow b$ inverse image functor $f^*: C\downarrow b
 has left adjoint $\sum_f$ and right adjoin $\prod_f$.
 \end{theorem}
 
-\section*{Conclusion}
+\subsection{Висновки}
 
 We gave here constructive definition of topology as finite unions and
 intersections of open subsets. Then make this definition categorically
@@ -864,6 +865,8 @@ and proved that {\bf Set} is cartesian closed, has object classifier and thus a 
 This intro could be considered as a formal introduction to topos theory (at least of the level of first chapter)
 and you may evolve this library to your needs or ask to help porting or developing your application
 of topos theory to a particular formal construction.
+
+\addtocontents{toc}{\protect\newpage}
 
 \section{Алгебраїчна топологія}
 \subsection{Теорія груп}
@@ -1026,36 +1029,31 @@ $$
 \begin{definition} (Locus).
 The $S^3$ is realized as a disjoint
 union of circular fibers in Hopf coordinates $(\eta,\theta_1,\theta_2)$:
-
-\paragraph{}
+$$
 \begin{cases}
 x_0 = cos(\theta_1)sin(\eta), \\
 x_1 = sin(\theta_1)sin(\eta), \\
 x_2 = cos(\theta_2)cos(\eta), \\
-x_3 = sin(\theta_2)cos(\eta).
+x_3 = sin(\theta_2)cos(\eta). \\
 \end{cases}
-
-\paragraph{}
+$$
 Where $\eta \in [0,\frac{\pi}{2}]$ and $\theta_{1,2} \in [0,2\pi]$.
+\end{definition}
 
 \begin{definition} (Mapping on $S^2$).
-
 A mapping of the Locus to the $S^2$ has points on the circles
 parametrized by $\theta_2$:
-
-\paragraph{}
+$$
 \begin{cases}
 x = sin(2\eta)cos(\theta_1), \\
 y = sin(2\eta)sin(\theta_1), \\
 z = cos(2\eta).
 \end{cases}
-
-\paragraph{}
-\begin{figure}[h]
-  \centerline{\includegraphics[scale=0.28]{hopf-2.jpeg}}
+$$
+\begin{figure}
+  \centerline{\includegraphics[scale=0.4]{hopf-2.jpeg}}
   \caption{Розшарування Хопфа}
 \end{figure}
-
 \begin{lstlisting}
 var fiber = new THREE.Curve(),
     color = sphericalCoords.color;
@@ -1073,18 +1071,16 @@ fiber.getPoint = function(t) {
         return new THREE.Vector3(r*x1/m,r*x2/m, r*x3/m);
     };
 \end{lstlisting}
+\end{definition}
 
-\newpage
 \subsubsection*{Гомотопічна інтерпретація}
-
 Can we reason about spheres without a metric? Yes!
 But can we do this in a constructive way? Also yes.
 
-
 \subsubsection{Розшарування Хопфа}
-
 \begin{example} ($S^3$ Hopf Fiber).
-Guillaume Brunerie.
+Вперше розшарування Хопфа трьовимірної сфери було формалізовано Джильямом Брунері.
+Тут дається його модифікована версія.
 \begin{lstlisting}
 rot: (x : S1) -> Path S1 x x = split
     base -> loop1
@@ -1118,11 +1114,11 @@ $$.
 \end{definition}
 
 \begin{theorem} (Hopf Fibrations).
-There are fiber bundles:\\
-(S^0,S^1,p,S^1),
-(S^1,S^3,p,S^2),
-(S^3,S^7,p,S^4),
-(S^7,S^{15},p,S^8).
+There are fiber bundles: 
+$(S^0,S^1,p,S^1)$,
+$(S^1,S^3,p,S^2)$,
+$(S^3,S^7,p,S^4)$,
+$(S^7,S^{15},p,S^8)$.
 \end{theorem}
 
 \begin{definition} (Hopf Invariant).
@@ -1141,8 +1137,8 @@ $$
 
 Hence for $\alpha,\beta$ generators of the cohomology groups in
 degree $n$ and $2n$, respectively, there exists an integer $h(\phi)$
-that expresses the <b>cup product</b> square of $\alpha$
-as a multiple of $\beta$ &mdash; $\alpha\sqcup\alpha=h(\phi)\cdot\beta$.
+that expresses the {\bf cup product} square of $\alpha$
+as a multiple of $\beta$ --- $\alpha\sqcup\alpha=h(\phi)\cdot\beta$.
 This integer $h(\phi)$ is called Hopf invariant of $\phi$.
 
 \begin{theorem} (Adams, Atiyah).
@@ -1155,7 +1151,4 @@ Hopf Fibrations are only maps that have Hopf invariant $1$.
 \subsection{G-структури}
 \subsection{H-простори}
 
-\lstset{xleftmargin=-2.65cm}
 
-
-\lstset{xleftmargin=0cm}

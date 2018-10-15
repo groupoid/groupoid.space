@@ -1,5 +1,5 @@
 \addtocontents{toc}{\protect\newpage}
-\chapter{БАЗОВА БІБЛІОТЕКА}
+\chapter{Базова бібліотека}
 
 В третьому розділі дається опис гомотопічної мови програмування,
 реалізація якої вперше була представлена CCHM в 2017 році, та для якої написана
@@ -46,7 +46,7 @@ types will be given shortly. This interpretation or rather way of modeling is ML
 
 \begin{table}
 \centering
-  \caption{Interpretations correspond to mathematical theories}\label{tab:pov}
+  \caption{Interpretations correspond to mathematical theories}
  \begin{tabular}{lcccc}
     \hline
        Type Theory & Logic & Category Theory & Homotopy Theory\\
@@ -119,6 +119,13 @@ intermediate result in {\bf Issue VII: Topos Theory}. In some sense we include h
 topos-theoretical interpretations, with presheaf model of type theory as
 example (in this case fibrations are constructes as functors, categorically).
 
+\subsubsection*{Теоретико-типова інтерпертація}
+
+Set-theoretical interpretations could replace first-order logic, but could not allow
+higher equalities, as long as inductive types to be embedded directly. Set is modelled
+in type theory according to homotopical interpretation as n-type.
+
+\newpage
 \subsubsection*{Гомотопічна інтерпретація}
 
 In classical MLTT uniquness rule of Id type do holds strictly. In Homotopical
@@ -132,11 +139,6 @@ of fiber bundles and trivial fiber bindle as direct isomorphisms of $\Pi$ types 
 given here as theorem. As fibrations study in homotopical interpretation, geometric
 interpretation could be treated as homotopical.
 
-\subsubsection*{Теоретико-типова інтерпертація}
-
-Set-theoretical interpretations could replace first-order logic, but could not allow
-higher equalities, as long as inductive types to be embedded directly. Set is modelled
-in type theory according to homotopical interpretation as n-type.
 
 \subsection{Типи $\Pi$, $\Sigma$, Path}
 
@@ -794,7 +796,6 @@ emptyInd (C: empty -> U): (z: empty) -> C z = split {}
 \end{lstlisting}
 
 \subsection{Unit}
-
 \begin{lstlisting}
 data unit = star
 unitRec (C: U) (x: C): unit -> C = split tt -> x
@@ -803,8 +804,10 @@ unitInd (C: unit -> U) (x: C tt): (z: unit) -> C z = split tt -> x
 
 \subsection{Bool}
 
-bool is a run-time version of the boolean logic you may use in your general purpose applications. bool is isomorphic to 1+1: either unit unit.
-
+\begin{definition} (Bool).
+bool is a run-time version of the boolean logic you may use
+in your general purpose applications. bool is isomorphic
+to 1+1: either unit unit.
 \begin{lstlisting}
 data bool = false | true
 b1: U = bool -> bool
@@ -817,11 +820,15 @@ boolRec (C: U) (f t: C): bool -> C = split { false -> f ; true -> t }
 boolInd (C: bool -> U) (f: A false) (t: A true): (n:bool) -> A n
   = split { false -> f ; true -> t }
 \end{lstlisting}
+\end{definition}
 
 \subsection{Maybe}
 
-Maybe has representing functor MA(X) = 1 + A. It is used for wrapping values with optional nothing constructor. In ML-family languages this type is called Option (Miranda, ML). There is an isomorphims between (fix maybe) and nat.
-
+\begin{definition} (Maybe).
+Maybe has representing functor $M_A(X) = 1 + A$.
+It is used for wrapping values with optional nothing constructor.
+In ML-family languages this type is called Option (Miranda, ML).
+There is an isomorphims between (fix maybe) and nat.
 \begin{lstlisting}
 data maybe (A: U) = nothing | just (x: A)
 maybeRec (A P: U) (n: P) (j: A -> P): maybe A -> P
@@ -831,11 +838,10 @@ maybeInd (A: U) (P: maybe A -> U) (n: P nothing)
          (j: (a: A) -> P (just a)): (a: maybe A) -> P a
        = split { nothing -> n ; just x -> j x }
 \end{lstlisting}
+\end{definition}
 
 \subsection{Either}
-
 either is a representation for sum types or disjunction.
-
 \begin{lstlisting}
 data either (A B: U) = left (x: A) | right (y: B)
 eitherRec (A B C: U) (b: A -> C) (c: B -> C): either A B -> C
@@ -849,9 +855,7 @@ eitherInd (A B: U) (C: either A B -> U)
 \end{lstlisting}
 
 \subsection{Tuple}
-
 tuple is a representation for non-dependent product types or conjunction.
-
 \begin{lstlisting}
 data tuple (A B: U) = pair (x: A) (y: B)
 prod (A B: U) (x: A) (y: B): (_: A) * B = (x,y)
@@ -864,8 +868,9 @@ tupleInd  (A B: U) (C: tuple A B -> U)
 \end{lstlisting}
 
 \subsection{Nat}
-
-Pointed Unary System is a category nat with the terminal object and a carrier nat having morphism [zero: 1nat → nat, succ: nat → nat]. The initial object of nat is called Natural Number Object and models Peano axiom set.
+Pointed Unary System is a category nat with the terminal
+object and a carrier nat having morphism [zero: 1nat → nat, succ: nat → nat].
+The initial object of nat is called Natural Number Object and models Peano axiom set.
 
 \begin{lstlisting}
 data nat = zero | succ (n: nat)
@@ -883,8 +888,13 @@ natInd  (C:nat->U) (z: C zero)
 
 \subsection{List}
 
-The data type of list L over a given set A can be represented as the initial algebra $(\mu L_A, in)$ of the functor LA(X) = 1 + (A × X). Denote μ LA = List(A). The constructor functions $nil: 1 \rightarrow List(A)$ and $cons: A \times List(A) \rightarrow List(A)$ are defined by $nil = in \circ inl$ and $cons = in \circ inr$, so $in = [nil,cons]$.
-
+\begin{definition} (List).
+The data type of list L over a given set A can be represented
+as the initial algebra $(\mu L_A, in)$ of the functor $L_A(X) = 1 + (A × X)$.
+Denote $\mu L_A = List(A)$. The constructor functions
+$nil: 1 \rightarrow List(A)$ and $cons: A \times List(A) \rightarrow
+List(A)$ are defined by $nil = in \circ inl$ and $cons = in \circ inr$,
+so $in = [nil,cons]$.
 \begin{lstlisting}
 data list (A: U) = nil | cons (x:A) (xs: list A)
 listCase (A C:U) (a b: C): list A -> C
@@ -894,7 +904,6 @@ listElim (A: U) (C:list A->U) (z: C nil)
 listInd (A: U) (C:list A->U) (z: C nil)
    (s: (x:A)(xs:list A)->C(xs)->C(cons x xs)): (n:list A) -> C(n)
 \end{lstlisting}
-
 \begin{lstlisting}
 null (A:U): list A −> bool
 head (A:U): list A −> maybe A
@@ -911,6 +920,7 @@ filter (A: U): (A −> bool) −> list A −> list A
 length (A: U): list A −> nat
 listEq (A: eq): list A.1 −> list A.1 −> bool
 \end{lstlisting}
+\end{definition}
 
 \subsection{Stream}
 
@@ -1020,6 +1030,8 @@ unitEncCondition (n: unitEnc'): isProp (isUnitEnc n)
   -> \(F: x -> y) -> <i> \(R: x) -> Y (F (n x X R)) (n y Y (F R))
        (<j> f x y X Y F @ j R) (<j> g x y X Y F @ j R) @ h @ i
 \end{lstlisting}
+
+\addtocontents{toc}{\protect\newpage}
 
 \section{Гомотопічна теорія типів}
 
@@ -1240,7 +1252,7 @@ pullbackSq (Z A B C: U) (f: A -> C) (g: B -> C) (z1: Z -> A) (z2: Z -> B): U
 completePullback (A B C: U) (f: A -> C) (g: B -> C)
     : pullbackSq (pullback A B C f g) A B C f g (pb1 A B C f g) (pb2 A B C f g)
 \end{lstlisting}
-\end{definition}
+\end{theorem}
 
 \subsection{Фібрації}
 
@@ -1421,8 +1433,14 @@ transPathFun (A B : U) (w: equiv A B)
 \end{definition}
 
 \section{Вищі індуктивні типи}
-
-CW-complexes are fundamental objects in homotopy type theory and even included inside cubical type checker in a form of higher (co)-inductive types (HITs). Just like regular (co)-inductive types could be described as recur- sive terminating (well-founded) or non-terminating trees, higher inductive types could be described as CW-complexes. Defining HIT means to define some CW- complex directly using cubical homogeneous composition structure as an ele- ment of initial algebra inside cubical model.
+CW-complexes are fundamental objects in homotopy type theory and even
+included inside cubical type checker in a form of higher (co)-inductive
+types (HITs). Just like regular (co)-inductive types could be described
+as recur- sive terminating (well-founded) or non-terminating trees,
+higher inductive types could be described as CW-complexes.
+Defining HIT means to define some CW- complex directly using
+cubical homogeneous composition structure as an element
+of initial algebra inside cubical model.
 
 \subsection{Інтервал}
 

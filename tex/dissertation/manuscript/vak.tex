@@ -8,20 +8,20 @@
 \usepackage{fullwidth}
 \usepackage{fontspec}
 \usepackage{hyphenat}
+\usepackage{url}
 \usepackage{ifthen}
 \usepackage{tikz-cd}
-\usepackage[usenames,dvipsnames]{color}
 \usepackage[english,russian]{babel}
 \usepackage{bussproofs}
 \usepackage{tabstackengine}
 \usepackage{graphicx}
 \usepackage{cite}
-\usepackage{listingsutf8}
 \usepackage{moreverb}
 \usepackage{listings}
-\usepackage{caption}
 \usepackage{amssymb}
 \usepackage{mathtools}
+\usepackage[only,llbracket,rrbracket,llparenthesis,rrparenthesis]{stmaryrd}
+
 \usetikzlibrary{matrix}
 \usetikzlibrary{babel}
 \theoremstyle{definition}
@@ -48,12 +48,6 @@
 \newfontfamily{\cyrillicfont}{Times New Roman}
 \setmainfont{Times New Roman}
 
-%\fontencoding{T1}
-%\newfontfamily{\cyrillicfont}{Times New Roman}
-%\setmainfont{Times New Roman}
-%\newfontfamily{\cyrillicfont}{Geometria}
-%\setmainfont{Geometria}
-
 \addto\captionsrussian{\renewcommand{\contentsname}{Зміст}}
 \addto\captionsrussian{\renewcommand{\bibname}{Список використаних джерел}}
 \addto\captionsrussian{\renewcommand{\chaptername}{Розділ}}
@@ -76,34 +70,114 @@ where,bool,maybe,either,unit,empty,list,stream,vector,fin}}
 \lstset{
     backgroundcolor=\color{white},
     keywordstyle=\color{blue},
-    inputencoding=utf8,
     basicstyle=\bf\ttfamily\footnotesize,
     xleftmargin=0cm,
     columns=fixed}
 
-\newcommand{\titleINF}{
-
-\frontmatter
+\newcommand{\titleVAK}{
+\begin{titlepage}
+\begin{center}
 \thispagestyle{empty}
-\mbox{}
-\vspace{1in}
-\noindent
-\begin{flushright}
-{\HUGE Максим Сохацький}\\
+\large Міністерство освіти і науки України \\
+Національний технічний університет України
+"Київський політехнічний інститут імені Ігоря Сікорського"
 \vspace{0.5cm}
-{\LARGE \bf Концептуальна модель \\
-            системи доведення теорем \\
-            на основі гомотопічної теорії типів \\ }
+\begin{flushright}
+\small Кваліфікаційна наукова праця \\
+на правах рукопису
+\end{flushright}
+\vspace{0.5cm}
+\Large Сохацький Максим Еротейович \\
+\vspace{0.5cm}
+\begin{flushright}
+\small УДК 510.2---510.6
+\vspace{1cm}
+\end{flushright}
+\Large Дисертація \\
+\large Концептуальна модель системи доведення теорем \\ на основі гомотопічної теорії типів \\
+\vspace{0.5cm}
+\begin{flushright}
+\small Спеціальність 01.05.03 --- математичне та програмне забезпечення \\ обчислювальних машин і систем
+\end{flushright}
+\vspace{1cm}
+\begin{flushleft}
+\renewcommand{\baselinestretch}{1.0}
+\small Подається на здобуття наукового ступеня доктора філософії. Дисертація містить результати власних
+дослідженя, використання ідей, результатів і текстів інших авторів мають посилання на джерела.
+\renewcommand{\baselinestretch}{1.5}
+\end{flushleft}
+\vspace{0.5cm}
+\begin{flushright}
+\small Науковий консультант: Павло Павлович Маслянко
+\end{flushright}
+\vspace{0.5cm}
+Київ --- 2018
+\end{center}
+\end{titlepage}
+}
+
+\newcommand{\embedbib}{
+\cite{Lof72}
+\cite{Lof84}
+\cite{Coq88}
+\cite{Hofmann96}
+\cite{Henk93}
+\cite{Erik97}
+\cite{Hermida95}
+\cite{Curien08}
+\cite{MacLane71}
+\cite{Lawvere09}
+\cite{Dybjer08}
+\cite{Clairambault05}
+\cite{Abel08}
+\cite{Seely84}
+\cite{Curien14}
+\cite{Castellan14}
+\cite{Voevodsky14}
+\cite{Dybjer95}
+\cite{Bishop67}
+\cite{Nordstrom90}
+\cite{Hermida98}
+\cite{Barthe00}
+\cite{Voevodsky15}
+\cite{Sozeau}
+\cite{Selsam16}
+\cite{Bohm85}
+\cite{Pfenning89}
+\cite{Wadler90}
+\cite{Gambino03}
+\cite{Dybjer94}
+\cite{Jacobs97}
+\cite{Vene00}
+\cite{Basold16}
+\cite{Hofmann94}
+\cite{Jacobs99}
+\cite{Joyal14}
+\cite{HoTT13}
+\cite{Mortberg17}
+\cite{Shulman15}
+\cite{Orton17}
+\cite{Huber16}
+\cite{Huber17}
+\cite{Angiuli16}
+\cite{Angiuli162}
+}
+
+\newcommand{\titleINF}{
+\begin{titlepage}
+\thispagestyle{empty}
+\begin{flushleft}
+УДК 510.2
+\end{flushleft}
+\begin{flushright}
+{Максим Сохацький}\\
+\vspace{0.5cm}
+{\LARGE \bf Мова простору \\ }
 \vspace{2cm}
-\\
+15 жовтня 2018 e8020d8141ece25695efc185aec732f35867386b \\
+11 живтня 2018 64c2e49765d3b997d68999c88448fef7136079d4
 \vspace{0.3cm}
-\hfill{\small15 жовтня 2018 e8020d8141ece25695efc185aec732f35867386b \\
-       11 живтня 2018 64c2e49765d3b997d68999c88448fef7136079d4}
-\vspace{0.3cm}
-\\
 \url{http://bit.ly/groupoid}
 \end{flushright}
-\cleartorecto\tableofcontents*
-\mainmatter
-
+\end{titlepage}
 }
