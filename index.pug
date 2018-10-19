@@ -62,7 +62,7 @@ block content
                     li <a href='eff/ioi'>Infinity I/O</a>
                     li <a href='#eff/coq'>Coq Coeffects</a>
             .index__col
-                h2 $\pi$-Calculus
+                h2 RUNTIME
                 ul
                     li: a(href='pi/intro') Intro
                     li: a(href='lambda/runtime') Runtime
@@ -73,10 +73,10 @@ block content
                 ul
                     li: a(href='mltt/infinity') Language Overview
                     li: a(href='mltt/types') Math Components
-                    li: a(href='course/') Turtorial Book
-                    li: a(href='mltt/hopf') XIII. Hopf Fibrations
-                    li: a(href='mltt/iso') V. Path Iso
-                    li: a(href='mltt/topos') IX. Set Topos
+                    li: a(href='course/') HoTT Course
+                    li: a(href='mltt/hopf') IX. Hopf Fibrations
+                    li: a(href='mltt/iso') B. Path Iso
+                    li: a(href='mltt/topos') VIII. Set Topos
             .index__col
                 h2 Stream Calculus
                 ul
@@ -93,19 +93,28 @@ block content
                 desugaring to pure functions (6),
                 linking with pure base library (3),
                 and extracting (4).
+            p.
+                <b>Minimal Model.</b> This model can serve HoTT research, being
+                MLTT/CCHM prover with limited extraction of pure programs
+                to certified interpreter.
             br.
             p.
-                <b>Simple Model.</b> This model can serve HoTT research, being
-                MLTT/CCHM prover with limited extraction of pure programs.
-            p.
-                <object><img src="SimpleModel.svg?v=4" width=90%></object>
+                <object><center><img src="minimal.svg?v=5" width=50%></center></object>
             br.
             p.
-                <b>Extended Model</b>. This model intended to server needs of
+                <b>Cubical Model.</b> This model can serve HoTT research, being
+                MLTT/CCHM prover with limited extraction of pure programs
+                to certified interpreter.
+            p.
+                <object><center><img src="higher.svg?v=5" width=70%></center></object>
+            br.
+            p.
+                <b>Spectral Model</b>. This model intended to server needs of
                 linkage with $\pi$-calculus runtimes and optionally stream
                 calculuses and fusion engines. Extraction to Erlang or CPS interpreter.
             p.
-                <object><img src="ConceptualModel.svg?v=4" width=90%></object>
+                <object><center><img src="full.svg?v=5" width=90%></center></object>
+            br.
 
             section
                 h1 Fascicule de Résultats
