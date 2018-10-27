@@ -68,6 +68,81 @@
   \end{tabular}
 \end{table}
 
+\begin{definition} (Векторний простір). Множина V називається векторни мпростором над
+скалярним полем F, тоді і тільки тоді, коли визначені операції $+ :V \times V \rightarrow V$ (сума векторів)
+та $\cdot:F\times V\rightarrow V$ (добуток скаляра та вектора) з наступними властивостями:
+i) $(V,+)$ утворюють комутативну групу;
+ii) $\lambda |\psi\rangle = |\psi\rangle \lambda$;
+iii) $\lambda(\mu|\psi\rangle) = (\lambda\mu)|\psi\rangle$;
+iv) $(\lambda+\mu)|\psi\rangle = \lambda|\psi\rangle + \mu|\psi\rangle$;
+v) $\lambda(|\psi\rangle+|\varphi\rangle) = \lambda|\psi\rangle + \lambda|\varphi\rangle$.
+Далі будемо розглядати скалярне поле комплексних чисел $F=C$.
+\end{definition}
+
+\begin{definition} (Скалярний добуток).
+Функція $\langle\cdot|\cdot\rangle:V\times V\rightarrow C$ називається скалярним
+добутком, тоді і тільки тоді, коли:
+i) $\langle\psi|(\lambda\varphi\rangle+\mu|\chi\rangle) = \lambda\langle\psi|\varphi\rangle+\mu\langle\psi|\varphi\rangle$;
+ii) $\langle\psi|\varphi\rangle = \langle\varphi|\psi\rangle^*$;
+iii) $0 < \langle\psi|\psi\rangle \in \mathbb{R}$.
+Скалярний добутов визначає норму
+$\parallel|\psi\rangle\parallel = \sqrt{\langle\psi|\psi\rangle} = \parallel\psi\parallel$.
+\end{definition}
+
+\begin{definition} (Повний векторний простір).
+Нехай V векторний простір з нормою $\parallel\cdot\parallel$ та $|\psi_n\rangle \in V$
+послідовність векторів.
+i) $|\psi\rangle$ є послідовністю Коші ттт. $\forall\epsilon>0\exists N>0 : \forall n,m> N, \parallel |\psi_n\rangle - |\psi_{n+1}\rangle\parallel < \epsilon$.
+ii) $|\psi\rangle$ сходиться ттт. $\forall\epsilon>0\exists N>0 : \forall n> N, \parallel |\psi_n\rangle - |\psi\rangle\parallel < \epsilon$.
+Простір V повний ттт. кожна послідовність Коші сходиться.
+\end{definition}
+
+\begin{definition} (Гільбертів простір).
+Повний векторний простір H зі скалярний добутком $\langle\cdot|\cdot\rangle$ та
+відповідною нормою $\parallel\psi\parallel=\sqrt{\langle\psi|\psi\rangle}$ називається Гільбертовим.
+\end{definition}
+
+\begin{definition} (Лінійний оператор).
+Нехай V -- векторний простір, а А -- функція $A : V \rightarrow V$. Тоді А
+називається лінійним оператором ттт.
+$$
+A(\lambda|\psi\rangle + \mu|\varphi\rangle) = \lambda A |\psi\rangle + \mu A |\varphi\rangle
+$$
+В $C^n$ лінійний оператор є матрицею $m \times n$
+з елементами $a_{i,j} = \langle i | A | j \rangle$, де $A = \Sigma_{i,j} a_{i,j} | i\rangle\langle j|$.
+За визначенням лінійності оператор А можно записати через лінійну суму векторів базису B:
+$$
+A : |n\rangle \rightarrow \Sigma_k a_{kn}|k\rangle, \text{\ де\ } |k\rangle \in B.
+$$
+\end{definition}
+
+\begin{definition} (Тензорний добуток гільбертових просторів).
+Нехай $H_1$ та $H_2$ --- Гільбертові простори з базисами $B_1$ та $B_2$.
+Тоді тензорний добуток
+$$
+H = H_1 \otimes H_2 = \{ \Sigma_{|i\rangle \in B_1} \Sigma{|j\rangle \in B_2} c_{ij}|i,j\rangle \| c_{ij} \in \mathbb{C} \}.
+$$
+також Гільбертів простір з базисом $B = B_1 \times B_2$ та скалярним добутком:
+$$
+\langle i,j | i',j' \rangle = \langle i | i' \rangle \langle j | j' \rangle  = \delta_{ii'}\delta{jj'}, \text{\ де\ } |i\rangle,|i'\rangle \in B_1, |j\rangle,|j'\rangle \in B_2.
+$$
+\end{definition}
+
+\begin{definition} (Тензорний добуток лінійних операторів).
+Нехай A та B лінійні оператори на Гільбертових протосторах $H_1$ та $H_2$, тоді
+тензорний добуток
+$$
+A \otimes B = \Sigma_{i,j}\Sigma{i',j'} |i,j\rangle\langle i|A|i'\rangle\langle j|B|j'\rangle\langle i',j'|
+$$
+лінійний оператор на на гільбертовому просторі $H_1\otimes H_2$.
+\end{definition}
+
+\begin{definition} (Комутатор та антикомутатор).
+Нехай A та B лінійні оператори на гільбертовому просторі H.
+Оператор $[A,B] = AB - BA$ називається комутатором,
+а ${A,B} = AB + BA$ називається антикомутатором.
+\end{definition}
+
 \section{Інтерпретація квантової механіки}
 
 В залежності від того як саме моделюються та конструюються
@@ -98,54 +173,46 @@
 вірогідність знайти систему в стані $|1\rangle$, якщо над квабітом були проведені виміри.
 Простір станів квабіта є гільбертовим простором $H=\mathbb{C}^2$.
 Ортонормована система ${|0\rangle,|1\rangle}$ називається обчислювальним базисом.
+\end{definition}
 
-{\bf Сфера Блоха}. Загальний стан квабіта може бути виражений в полярних координатах $\theta$ та $\phi$:
+\begin{definition} (Сфера Блоха).
+Загальний стан квабіта може бути виражений в полярних координатах $\theta$ та $\phi$:
 $$
-    |\psi\rangle=cos\frac{\theta}{2}|0\rangle+e^{i\phi}sin\frac{\theta}{2}|1\rangle.
+|\psi\rangle=cos\frac{\theta}{2}|0\rangle+e^{i\phi}sin\frac{\theta}{2}|1\rangle.
 $$
 Одиничний вектор стану $|\psi\rangle$ називається вектором Блоха $\tilde{r}_\psi$, та має
 наступну властивість $\tilde{r}_\phi=-\tilde{r}_\xi \leftrightarrow \langle\phi|\xi\rangle = 0$.
-
 \begin{figure}[h]
   \centerline{\includegraphics[scale=0.6]{bloch.eps}}
   \caption{Сфера Блоха як представлення квабіта $|\psi\rangle$}
 \end{figure}
 \end{definition}
 
+\begin{definition} (Вимірювання).
+Проективне вимірювання визначається як самоспряжений оператор M який називається
+спостереженням зі спектральною композицією $M = \Sigma_m mP_m$, де $P_m$ проекція
+на власний простір власного значення m. Власні значення m оператора M відповідаються
+усім можливим результатам вимірювання. Вимірювання $|\psi\rangle$ дасть результат
+m з вірогідністю $p(m) = \langle\psi|P_m|\psi\rangle$, таким чином через
+скорочення $|\psi\rangle$ отримаємо новий стан системи $|\psi'\rangle = \frac{1}{\sqrt{p(m)}}P_m|\psi\rangle$.
+Для стану квабіта, самоспряжений оператор N знаний як стандартне вимірювання.
+$$
+N = \begin{pmatrix} 0 & 0 \\ 0 & 1 \end{pmatrix} = 0 \cdot |0\rangle\langle 0| + 1 \cdot|1\rangle\langle1|.
+$$
+Біль загально для простору стану $H=C^n$ стандартне вимірювання визначається як $N=\Sigma_i i|i\rangle\langle i|$.
+\end{definition}
+
+\begin{definition} (Виважене середнє).
+Виважене середнє $\langle M \rangle$ усіх можливих результатів вимірювання M називється
+очікуваним значенням та визначається як
+$$
+\langle M\rangle = \Sigma_n p(m)m = \Sigma_m \langle\psi|m P_m|\psi\rangle = \langle \psi | M | \psi \rangle.
+$$
+\end{definition}
+
 \begin{definition} (Машинне слово).
 \end{definition}
 
-\begin{definition} (Векторний простір). Множина V називається векторни мпростором над
-скалярним полем F, тоді і тільки тоді, коли визначені операції $+ :V \times V \rightarrow V$ (сума векторів)
-та $\dot:F\times V\rightarrow V$ (скалярне множення) за наступними властивостями:
-i) $(V,+)$ утворюють комутативну групу;
-ii) $\lambda |\psi\rangle = |\psi\rangle \lambda$;
-iii) $\lambda(\mu|\psi\rangle) = (\lambda\mu)|\psi\rangle$;
-iv) $(\lambda+\mu)|\psi\rangle = \lambda|\psi\rangle + \mu|\psi\rangle$;
-v) \lambda(|\psi\rangle+|\varphi\rangle) = \lambda|\psi\rangle + \lambda|\varphi\rangle$.
-Далі будемо розглядати скалярне поле комплексних чисел $F=C$.
-\end{definition}
-
-\begin{definition} (Скалярний добуток).
-Функція $\langle\dot|\dot\rangle:V\times V\rightarrow C$ називається скалярним
-добутком, тоді і тільки тоді, коли:
-i) $\langle\psi|(\lambda\varphi\rangle+\mu|\chi\rangle) = \lambda\langle\psi|\varphi\rangle+\mu\langle\psi|\varphi\rangle$;
-ii) $\langle\psi|\varphi\rangle = \langle\varphi|\psi\rangle^*$;
-iii) $0 < \langle\psi|\psi\rangle \in \mathbb{R}.
-Скалярний добутов визначає норму $\parallel|\psi\rangle\parallel = \sqrt{\langle\psi|psi\rangle} = \paralell\psi\parallel$.
-
-\begin{definition} (Повний векторний простір).
-Нехай V векторний простір з нормою $\parallel\dot\parallel$ та $|\psi_n\rangle \in V$
-послідовність векторів.
-i) $|\psi\rangle$ є послідовністю Коші ттт. $\forall\epsilon>0\exists N>0 : \forall n,m> N, \parallel |\psi_n\rangle - |\psi_{n+1}\rangle\parallel < \epsilon$.
-ii) $|\psi\rangle$ сходиться ттт. $\forall\epsilon>0\exists N>0 : \forall n> N, \parallel |\psi_n\rangle - |\psi\rangle\parallel < \epsilon$.
-Простір V повний ттт. кожна послідовність Коші сходиться.
-\end{defintion}
-
-\begin{definition} (Гільбертів простір).
-Повний векторний простір H зі скалярний добутком $\langle\dot|\dot\rangle$ та
-відповідною нормою $\parallel\psi\parallel=\sqrt{\langle\psi|\psi\rangle}$ називається Гільбертовим.
-\end{definition}
 
 \section{Огляд існуючих мов}
 
