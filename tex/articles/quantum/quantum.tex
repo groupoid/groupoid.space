@@ -85,7 +85,7 @@ v) $\lambda(|\psi\rangle+|\varphi\rangle) = \lambda|\psi\rangle + \lambda|\varph
 i) $\langle\psi|(\lambda\varphi\rangle+\mu|\chi\rangle) = \lambda\langle\psi|\varphi\rangle+\mu\langle\psi|\varphi\rangle$;
 ii) $\langle\psi|\varphi\rangle = \langle\varphi|\psi\rangle^*$;
 iii) $0 < \langle\psi|\psi\rangle \in \mathbb{R}$.
-Скалярний добутов визначає норму
+Скалярний добуток визначає норму
 $\parallel|\psi\rangle\parallel = \sqrt{\langle\psi|\psi\rangle} = \parallel\psi\parallel$.
 \end{definition}
 
@@ -166,7 +166,8 @@ $$
 \subsection{Пам'ять квантового комп'ютера}
 
 \begin{definition} (Квантовий біт). Квантовий біт або квабіт визначається як квантова система,
-стан якої може бути повністю виражений як суперпозиція двох ортонормованих власних базових станів
+стан якої може бути повністю виражений як суперпозиція (лінійна комбінація)
+двох ортонормованих власних базових станів
 позначених $|0\rangle$ та $|1\rangle$. Загальний стан $|\psi\rangle$ квабіта  тоді визначається
 як $|\psi\rangle = \alpha |0\rangle + \beta |1\rangle, |\alpha|^2 + |\beta|^2 = 1$.
 Значення квабіта описується спостереженням $N=|1\rangle\langle{1}|$. $\langle{N}\rangle$ дає
@@ -186,6 +187,25 @@ $$
   \centerline{\includegraphics[scale=0.6]{bloch.eps}}
   \caption{Сфера Блоха як представлення квабіта $|\psi\rangle$}
 \end{figure}
+\end{definition}
+
+\begin{definition} (Квантова система).
+\end{definition}
+
+\begin{definition} (Еволюція системи).
+Темпоральна еволюція стану системи описується рівнянням Шрьодінгера:
+$$
+i\hbar\frac{\delta}{\delta t}|\psi\rangle = H|\psi\rangle.
+$$
+де $\hbar \equiv 1.05457 \cdot 10^{-43}$ експериментальна константа Планка,
+а $H$ --- фіксований самоспряжений оператор на гільбертовому просторі,
+знаний як Гамільтоніан квантової системи. В квантовій фізиці нормують відносно
+$\hbar$ тоді рівняння можна записани у безвимірній формі $i|\psi\rangle = H|\psi\rangle$.
+Гамільтоніан H повністю визначає квантову систему.
+Другий спосіб визначення, через унітарний оператор $U=e^{-iH}$.
+Темпоральна еволюція замкненої квантової системи зі страну $|\psi\rangle$ та часу $t_1$
+в стан $|\psi'\rangle$ та часу $t_2$ може бути описана унітарним оператором
+$U = U (t_2 - t_1)$, таким, що $|\psi'\rangle = U |\psi\rangle$.
 \end{definition}
 
 \begin{definition} (Вимірювання).
@@ -210,8 +230,6 @@ $$
 $$
 \end{definition}
 
-\begin{definition} (Машинне слово).
-\end{definition}
 
 
 \section{Огляд існуючих мов}
