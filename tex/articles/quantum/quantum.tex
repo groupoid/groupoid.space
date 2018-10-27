@@ -115,6 +115,38 @@ $$
 \begin{definition} (Машинне слово).
 \end{definition}
 
+\begin{definition} (Векторний простір). Множина V називається векторни мпростором над
+скалярним полем F, тоді і тільки тоді, коли визначені операції $+ :V \times V \rightarrow V$ (сума векторів)
+та $\dot:F\times V\rightarrow V$ (скалярне множення) за наступними властивостями:
+i) $(V,+)$ утворюють комутативну групу;
+ii) $\lambda |\psi\rangle = |\psi\rangle \lambda$;
+iii) $\lambda(\mu|\psi\rangle) = (\lambda\mu)|\psi\rangle$;
+iv) $(\lambda+\mu)|\psi\rangle = \lambda|\psi\rangle + \mu|\psi\rangle$;
+v) \lambda(|\psi\rangle+|\varphi\rangle) = \lambda|\psi\rangle + \lambda|\varphi\rangle$.
+Далі будемо розглядати скалярне поле комплексних чисел $F=C$.
+\end{definition}
+
+\begin{definition} (Скалярний добуток).
+Функція $\langle\dot|\dot\rangle:V\times V\rightarrow C$ називається скалярним
+добутком, тоді і тільки тоді, коли:
+i) $\langle\psi|(\lambda\varphi\rangle+\mu|\chi\rangle) = \lambda\langle\psi|\varphi\rangle+\mu\langle\psi|\varphi\rangle$;
+ii) $\langle\psi|\varphi\rangle = \langle\varphi|\psi\rangle^*$;
+iii) $0 < \langle\psi|\psi\rangle \in \mathbb{R}.
+Скалярний добутов визначає норму $\parallel|\psi\rangle\parallel = \sqrt{\langle\psi|psi\rangle} = \paralell\psi\parallel$.
+
+\begin{definition} (Повний векторний простір).
+Нехай V векторний простір з нормою $\parallel\dot\parallel$ та $|\psi_n\rangle \in V$
+послідовність векторів.
+i) $|\psi\rangle$ є послідовністю Коші ттт. $\forall\epsilon>0\exists N>0 : \forall n,m> N, \parallel |\psi_n\rangle - |\psi_{n+1}\rangle\parallel < \epsilon$.
+ii) $|\psi\rangle$ сходиться ттт. $\forall\epsilon>0\exists N>0 : \forall n> N, \parallel |\psi_n\rangle - |\psi\rangle\parallel < \epsilon$.
+Простір V повний ттт. кожна послідовність Коші сходиться.
+\end{defintion}
+
+\begin{definition} (Гільбертів простір).
+Повний векторний простір H зі скалярний добутком $\langle\dot|\dot\rangle$ та
+відповідною нормою $\parallel\psi\parallel=\sqrt{\langle\psi|\psi\rangle}$ називається Гільбертовим.
+\end{definition}
+
 \section{Огляд існуючих мов}
 
 \subsection{QCL}
