@@ -63,6 +63,7 @@
        $|n\rangle$    & n-й базис вектор стандартного базису $N=(|0\rangle,...,|n\rangle)$\\
        $|\tilde{n}\rangle$    & n-й базис вектор альтернативного базису $\tilde{N}=(|\tilde{0}\rangle,...,|\tilde{n}\rangle)$ \\
        $\langle\phi|\psi\rangle$ & скалярний добуток \\
+       $|i,j\rangle$ & тензорний добуток базисних векторів $|i\rangle$ та $|j\rangle$ \\
        $|\phi\rangle\otimes|\psi\rangle$ & тензорний добуток \\
     \hline
   \end{tabular}
@@ -230,11 +231,57 @@ $$
 $$
 \end{definition}
 
-
-
 \section{Огляд існуючих мов}
+З огляду на новизну предмету розроблено не так багато мов, усі що є можна розділіти
+на імперативні по духу своєї імплемантації та функціональні, або побудовані на базі певного виду
+лямбда числення. Ми наведемо приклади програм для обох підходів.
+У якості порівняльної характеристики візьмемо алгоритм дискретного перетворення Фур'є
 
 \subsection{Імперативні мови програмування}
+Станом на 2018 рік найбільш розробленою мовою, яка компілюється під Linux та Mac
+є QLC від Бернхарда Омера. До QLC можна відзначти наступні мови:
+1) Q-gol від Грега Бейкера (1996);
+2) qGCL від Паоло Зуліані (2000);
+3) Quantum C Language від Стефана Блаха (2002);
+4) QPAlg від Марі Лолір та Філіпа Жорранда (2004);
+5) QCP (Communication Quantum Processes) від Саймона Гея та Раджагопала Нагараджана (2004);
+
+\begin{definition} (Заміна).
+\begin{lstlisting}
+cond qufunct Swap(qureg a,qureg b) {
+  int i;
+  if #a!=#b { exit "swap arguments must be of equal size"; }
+  for i=0 to #a-1 {
+    CNot(b[i],a[i]);
+    CNot(a[i],b[i]);
+    CNot(b[i],a[i]);
+  }
+}
+\end{lstlisting}
+\end{definition}
+
+\begin{definition} (Зміна порядку квабітів).
+\begin{lstlisting}
+cond qufunct flip(qureg q) {
+  int i;
+  for i=0 to #q/2-1 { Swap(q[i],q[#q-i-1]); }
+}
+\end{lstlisting}
+\end{definition}
+
+\begin{definition} (Дискретне перетворення Фур'є, Коперсміт).
+\begin{lstlisting}
+operator dft(qureg q) {
+  const n=#q;
+  int i; int j;
+  for i=1 to n {
+    for j=1 to i-1 { V(pi/2^(i-j),q[n-i] & q[n-j]); }
+    H(q[n-i]);
+  }
+  flip(q);
+}
+\end{lstlisting}
+\end{definition}
 
 \subsection{Квантові лямбда числення}
 Загалом з огляду таксономії лямбла числень, яку виконав Хенк Барендрегт та подав
@@ -243,20 +290,28 @@ $$
 вищі лямбда числення з гомотопічними типами та
 в системи доведення теорем з екстрактом або лише типизацією та обчисленнями на рівні типів.
 
+Серед робіт присвячених мовам на базі лямбда числень можна відзначити наступні:
+1) Вант Тондера;
+2) Селінжера та Валірона;
+3) Аррігі та Довека;
+4) Унруха.
+
 \begin{definition} (Синтаксичне дерево $O_H$).
 Синтаксичне дерево $O_H$ визначає лямбда числення з лінійними змінними
 поєднане з класичним нетипизованим лямбда численням. Тобто $O_H$ є
 найпростішим операційним квантовим лямбда численням для середовищ виконання.
 \begin{lstlisting}[mathescape=true]
-t = x
-  | $\lambda$ x . t
-  | t t
-  | t
-  | c
-  | ! t
-  | $\lambda$ ! x . t
+           t = x
+             | $\lambda$ x . t
+             | $\textbf{let}$ x = t $\textbf{in}$ t
+             | t t
+             | (t,t)
+             | t
+             | c
+             | ! t
+             | $\lambda$ ! x . t
 
-c = 0 | 1 | H | S | $R_3$ | CNot | X | Y | Z | ...
+           c = 0 | 1 | $\textbf{H}$ | S | $R_3$ | $\textbf{CNot}$ | X | Y | Z | ...
 \end{lstlisting}
 Тут даються примітиви лінійних типів, де доступ до змінної
 можливий лише раз в обсласті визначення змінної. Для нелінійних або звичайних
@@ -270,7 +325,53 @@ v) контрольований не вентиль CNot;
 vi) вентилі Паулі X, Y та Z.
 \end{definition}
 
+\begin{definition} (Пара Ейнштейна-Подольського-Розена).
+\begin{equation}
+\textbf{EPR} = \textbf{CNot}\ ((\textbf{H}\ 0),0)
+\end{equation}
+\end{definition}
+
+\begin{definition} (Квантова телепортація).
+\begin{multline}
+\textbf{teleport}\ x = \textbf{let}\ (e_1,e_2)\ =\ \textbf{EPR in} \\
+\textbf{let}\ (x',y') = \textbf{alice}\ (x,e_1)\ \textbf{in}\ \textbf{bob}\ (x',y',e_2) \\
+\end{multline}
+\begin{multline}
+\textbf{alice}\ (x,e_1) = \textbf{let}\ (x',y') = \\
+\textbf{CNot}\ (x,e_1)\ \textbf{in}\ ((\textbf{H}\ x'),y') \\
+\textbf{bob}\ (x',y',e_2) = \textbf{let}\ (y'',e_2') = cX\ (y',e_2)\ \textbf{in} \\
+\textbf{let}\ (x'',e_2'') = cZ\ (x',e_2')\ \textbf{in}\ (x'',y'',e_2'')
+\end{multline}
+\end{definition}
+
+\begin{definition} (Дискретне перетворення Фур'є).
+\begin{equation}
+\textbf{fourier}\ list\ =\ \textbf{reverse fourier}'\ list
+\end{equation}
+\begin{multline}
+\textbf{fourier}'\ list\ =
+\ \textbf{case}\ list\ \textbf{of}
+\begin{cases}
+() \rightarrow () \\
+h : t \rightarrow \textbf{let}\ h'\ :\ t' = \textbf{phases}\ (\textbf{H}\ h)\ t\ !2 \\
+\textbf{in}\ h'\ :\ \textbf{fourier}'\ t'
+\end{cases}
+\end{multline}
+\begin{multline}
+\textbf{phases}\ target\ controls\ !n\ = \\
+\textbf{case}\ control\ \textbf{of}
+\begin{cases}
+() \rightarrow target \\
+control : t \rightarrow \textbf{let}\ (control',target') = \\
+(cR\ !n)\ (control, target) \textbf{in} \\
+\textbf{let}\ target'' : t' = \textbf{phases}\ target'\ t\ !(\textbf{succ} n)\ \textbf{in} \\
+target '' : control' : t'
+\end{cases}
+\end{multline}
+\end{definition}
+
 \section{Висновки}
+
 
 \bibliographystyle{plain}
 \bibliography{quantum}
