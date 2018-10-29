@@ -548,7 +548,8 @@ target '' : control' : t'
 iii) операторний базис квантового числення O$_Q$ з
      конструкторами X,Y,Z,S,H,R$_3$ та конструктором визначення квабіта (quantum).
 Тоді формальний синтаксис мови для квантових комп'ютерів,
-записаний на {\bf cubicaltt}\cite{Mortberg17} буде виглядати так,
+записаний на {\bf cubicaltt}\cite{Mortberg17} у вигляді індуктивного типу синтаксичного дерева,
+буде виглядати так:
 \begin{lstlisting}[mathescape=true]
 ${\bf data}$ pure (lang: U)
    = star (n: nat) | var (l: nat) | pi (l: nat) (f: lang)
