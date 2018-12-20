@@ -17,27 +17,27 @@ block content
     article.main
         .om
             section
-                h1 MODEL
+                h1 le modèle
+
             aside <a href="https://5ht.co">Maxim Sokhatsky</a>
-                time 1 SEP 2018
+                time 20 DEC 2018
             p.
-                The conceptual model of theorem proving system is presented here as a set of:
-                1) calculi with its categorical models; 2) programs or base libraries; and
-                3) program transformations: type checking, compilation, type erasure,
-                code extraction, optimization, etc. The overall system is for math and
-                general purpose programming with code extraction to functional
-                programming languages.
+                Here is the conceptual model of a theorem-proving system
+                that unifies tower of type systems with runtime components
+                (as extraction targets). The model has presented here as
+                a set of 1) calculi with its models; 2) programs and base
+                libraries; and 3) program transformations: type checking,
+                compilation, type erasure, code extraction, optimization, etc.
             p.
-                While being generic blueprint, part of this conceptual model
-                was implemented in various languages, other research reports applied.
-                This research is founded by Synrc Research Center, Kyiv, Ukraine.
-                All works are done under supervision of Pavlo Maslianko,
-                National Technical University of Ukraine
-                «Igor Sikorsky Kyiv Polytechnic Institute»
-                Faculty of Applied Mathematics.
+                While being a generic blueprint, some parts of the model
+                implemented in various languages. The research was founded
+                by Synrc Research Center, Kyiv, Ukraine. All works were
+                done under the supervision of Pavlo Maslianko, National
+                Technical University of Ukraine «Igor Sikorsky Kyiv
+                Polytechnic Institute» Faculty of Applied Mathematics.
 
             section
-                h1 TAXONOMY
+                h1 TAXONOMIE
             p.
                 The thesis is grouped by research areas with their corresponding
                 type systems, formal models, type checkers and base libraries.
@@ -86,13 +86,15 @@ block content
 
         .om
             section
-                h1 GENESIS
+                h1 la genèse
+
             p.
-                The process of formal verification has following phases: model encoding (1),
-                linking with base library of math components (2),
-                desugaring to pure functions (6),
-                linking with pure base library (3),
-                and extracting (4).
+                The process of formal verification has following phases:
+                1) model encoding,
+                2) linking with base library of math components,
+                3) desugaring to core functions,
+                3) linking with pure base library, and
+                4) extracting.
             p.
                 <b>Minimal Model.</b> This model can serve HoTT research, being
                 MLTT/CCHM prover with limited extraction of pure programs
