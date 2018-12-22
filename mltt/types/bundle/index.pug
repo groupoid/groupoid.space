@@ -2,23 +2,30 @@ extends ../../../layout.pug
 
 block title
     title BUNDLE
-    script(src='//cdnjs.cloudflare.com/ajax/libs/mathjax/2.6.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML')
+    script(src='//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML')
     script.
-       MathJax.Hub.Config({
-          tex2jax: { inlineMath: [['$','$'], ['\\(','\\)']], processEscapes: true },
-          jax: ["input/TeX", "input/MathML", "input/AsciiMath", "output/CommonHTML", "output/NativeMML"],
-          TeX: { extensions: ["AMSmath.js", "AMSsymbols.js", "autoload-all.js"] },
-          extensions: ["tex2jax.js", "asciimath2jax.js", "mml2jax.js", "MathMenu.js", "MathZoom.js"],
-          "HTML-CSS": { imageFont: null },
-          AuthorInit: function() {
-              MathJax.Hub.Register.StartupHook("TeX AMSmath Ready", function() {
-                  var TEX = MathJax.InputJax.TeX;
-                  TEX.Definitions.Add({
-                      macros: {
-                          llparenthesis: ['Macro', '\\mathopen{\u2987}'],
-                          rrparenthesis: ['Macro', '\\mathclose{\u2988}'],
-                          llbracket:     ['Macro', '\\mathopen{\u27E6}'],
-                          rrbracket:     ['Macro', '\\mathclose{\u27E7}'], } }); }); }, });
+     window.MathJax = { jax: ["input/TeX", "input/MathML", "input/AsciiMath", "output/CommonHTML", "output/NativeMML"],
+                             TeX: { extensions: ["AMSmath.js", "AMSsymbols.js", "autoload-all.js"] },
+                             extensions: ["tex2jax.js", "asciimath2jax.js", "mml2jax.js", "MathMenu.js", "MathZoom.js"],
+                             "HTML-CSS": { imageFont: null },
+                             AuthorInit: function() {
+                                 MathJax.Hub.Register.StartupHook("TeX AMSmath Ready", function() {
+                                     var TEX = MathJax.InputJax.TeX;
+                                     TEX.Definitions.Add({
+                                         macros: {
+                                           llparenthesis: ['Macro', '\\mathopen{\u2987}'],
+                                           rrparenthesis: ['Macro', '\\mathclose{\u2988}'],
+                                           llbracket:     ['Macro', '\\mathopen{\u27E6}'],
+                                           rrbracket:     ['Macro', '\\mathclose{\u27E7}'],
+                                           incmap:        ['Macro', '\\mathclose{\u21AA}'],
+                                         }
+                                     });
+                                 });
+                             },
+                             tex2jax: { inlineMath: [['$','$'], ['\\(','\\)']],
+                                        processEscapes: true }
+                         };
+
 
 block content
     article.main
