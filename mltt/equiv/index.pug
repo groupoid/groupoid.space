@@ -28,24 +28,27 @@ block content
                     available explanations with specific examples
                     that helped me understand these formulas better,
                     when they finally "clicked" this morning.
-                .semantics
-                    figure.
-                        $$
-                        \begin{center}
+                center.
+                    .semantics
+                        figure.
+                            $$
+                            \begin{equation}
                             isSignlton (X) := \sum_{c:X}\prod_{x:X}Id(c,x).
                             f^{-1} (y) := \sum_{x:X}Id(f(x),x).
-                        \end{center}
-                        $$
-                h2#nat $\Pi$ and $\Sigma$ types
+                            \end{equation}
+                            $$
+
+                h2#nat $\prod$ and $\sum$ types
                 p.
                     Quick reminder on $\Pi$-types and $\Sigma$-types for programmers.
                 p.
                     Just a quick reminder that  is read as "dependant function" (or "for all")
                     and  as "dependent tuple" ("there exist"). So, whenever you see:
-                .semantics
-                    figure.
-                        $$
-                          someFunc : \prod_{x:X} \textbf{<rest>},
+                center.
+                    .semantics
+                        figure.
+                            $$
+                              someFunc : \prod_{x:X} \textbf{<rest>},
                         $$
                 p.
                     you can mentally replace it with:
