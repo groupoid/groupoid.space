@@ -1,5 +1,29 @@
-<!DOCTYPE html><html><head><meta charset="utf-8"><meta http-equiv="x-ua-compatible" content="ie=edge"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="author" content="Maxim Sokhatsky"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:site" content="@5HT"><meta name="twitter:creator" content="@5HT"><meta name="twitter:image" content="https://groupoid.space/card2.png?v=1"><meta property="og:title" content="Groupoid Infinity"><meta property="og:image" content="https://groupoid.space/card2.png?v=1"><meta property="og:type" content="website"><meta property="fb:app_id" content="118554188236439"><meta property="og:url" content="https://groupoid.space"><meta property="og:description" content="The Language of Space"><link rel="stylesheet" href="https://groupoid.space/main.css?v=10"><title>EQUIV</title><script src="//cdnjs.cloudflare.com/ajax/libs/mathjax/2.6.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><script>MathJax.Hub.Config({ displayAlign: "left", tex2jax: { inlineMath: [['$','$'], ['\\(','\\)']], processEscapes: true } });
-</script></head><body class="content"><header class="header"><a href="//groupoid.space/"><img class="header__logo" src="../../groupoid.svg"/></a><div class="header__titles"><h1 class="header__title">Singleton, Fiber and Equivalence</h1><h4 class="header__subtitle">The proofs of contractability.</h4></div></header><article class="main"><div class="om"><section><h1>Article</h1></section></div><aside>Kostiantyn Rybnikov<time>DATE: 30 DEC 2018</time></aside><div class="om"><section><p>I am reading a beautiful paper called <href="https://arxiv.org/abs/1803.02294">A self-contained,
+<!DOCTYPE html><html><head><meta charset="utf-8"><meta http-equiv="x-ua-compatible" content="ie=edge"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="author" content="Maxim Sokhatsky"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:site" content="@5HT"><meta name="twitter:creator" content="@5HT"><meta name="twitter:image" content="https://groupoid.space/card2.png?v=1"><meta property="og:title" content="Groupoid Infinity"><meta property="og:image" content="https://groupoid.space/card2.png?v=1"><meta property="og:type" content="website"><meta property="fb:app_id" content="118554188236439"><meta property="og:url" content="https://groupoid.space"><meta property="og:description" content="The Language of Space"><link rel="stylesheet" href="https://groupoid.space/main.css?v=10"><title>EQUIV</title><script src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML"></script><script>window.MathJax = { jax: ["input/TeX", "input/MathML", "input/AsciiMath", "output/CommonHTML", "output/NativeMML"],
+                        TeX: { extensions: ["AMSmath.js", "AMSsymbols.js", "autoload-all.js"] },
+                        extensions: ["tex2jax.js", "asciimath2jax.js", "mml2jax.js", "MathMenu.js", "MathZoom.js"],
+                        "HTML-CSS": { imageFont: null },
+                        AuthorInit: function() {
+                            MathJax.Hub.Register.StartupHook("TeX AMSmath Ready", function() {
+                                var TEX = MathJax.InputJax.TeX;
+                                TEX.Definitions.Add({
+                                    macros: {
+                                      llparenthesis: ['Macro', '\\mathopen{\u2987}'],
+                                      rrparenthesis: ['Macro', '\\mathclose{\u2988}'],
+                                      llbracket:     ['Macro', '\\mathopen{\u27E6}'],
+                                      rrbracket:     ['Macro', '\\mathclose{\u27E7}'],
+                                    }
+                                });
+                            });
+                        },
+                        tex2jax: { inlineMath: [['$','$'], ['\\(','\\)']],
+                                   processEscapes: true }
+                    };
+</script></head><body class="content"><header class="header"><a href="//groupoid.space/"><img class="header__logo" src="../../groupoid.svg"/></a><div class="header__titles"><h1 class="header__title">Singleton, Fiber and Equivalence</h1><h4 class="header__subtitle">The proofs of contractability.</h4></div></header><article class="main"><div class="om"><section><h1>Article</h1></section></div><aside>Kostiantyn Rybnikov<time>DATE: 30 DEC 2018</time></aside><div class="om"><section><p>$$\def\mapright#1{\xrightarrow{{#1}}}
+  \def\mapleft#1{\xleftarrow{{#1}}}
+  \def\mapdown#1{\Big\downarrow\rlap{\raise2pt{\scriptstyle{#1}}}}
+  \def\mapdiagl#1{\vcenter{\searrow}\rlap{\raise2pt{\scriptstyle{#1}}}}
+  \def\mapdiagr#1{\vcenter{\swarrow}\rlap{\raise2pt{\scriptstyle{#1}}}}
+$$</p><p>I am reading a beautiful paper called <href="https://arxiv.org/abs/1803.02294">A self-contained,
 brief and complete formulation of Voevodsky’s Univalence
 Axiom</a> by Martín Hötzel Escardó, and it really takes
 time to understand some of the formulas. In fact, it
@@ -12,5 +36,5 @@ that helped me understand these formulas better,
 when they finally "clicked" this morning.</p><div class="semantics"><figure>$$isSignlton (X) := \sum_{c:X}\prod_{x:X}Id(c,x),$$
 $$f^{-1} (y) := \sum_{x:X}Id(f(x),x).$$
 </figure></div><h2 id="nat">$\prod$ and $\sum$ types</h2><p>Quick reminder on $\Pi$-types and $\Sigma$-types for programmers.</p><p>Just a quick reminder that  is read as "dependant function" (or "for all")
-and  as "dependent tuple" ("there exist"). So, whenever you see:</p><div class="semantics"><figure>$$someFunc : \prod_{x:X} \textbf{<rest>},$$</figure></div><p>you can mentally replace it with:</p><div class="semantics"><figure>$$id : X \rightarrow <rest>.$$</figure></div><p>Thank you for your time. Please send your feedback in Issues or PRs in
+and  as "dependent tuple" ("there exist"). So, whenever you see:</p><div class="semantics"><figure>$$someFunc : \prod_{x:X} \llbracket rest\rrbracket,$$</figure></div><p>you can mentally replace it with:</p><div class="semantics"><figure>$$id : X \rightarrow \llbracket rest\rrbracket$$</figure></div><p>Thank you for your time. Please send your feedback in Issues or PRs in
 <a href="https://github.com/k-bx/k-bx.github.io">here</a>.</p></section></div></article><footer class="footer"><img class="footer__logo" src="https://longchenpa.guru/seal.png" width="50"><span class="footer__copy">2016&mdash;2019 &copy; <a href="//groupoid.space/team.html" style="color:white;">Groupoid Infinity</a></span></footer><script src="https://groupoid.space/bundle.js"></script><script src="https://groupoid.space/highlight.js?v=9"></script></body></html>
