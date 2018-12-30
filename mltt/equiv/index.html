@@ -37,7 +37,8 @@ when they finally "clicked" this morning.</p><div class="semantics"><figure>$$is
 $$f^{-1} (y) := \sum_{x:X}Id(f(x),x).$$
 </figure></div><h2 id="nat">$\prod$ and $\sum$ types</h2><p>Quick reminder on $\Pi$-types and $\Sigma$-types for programmers.</p><p>Just a quick reminder that  is read as "dependant function" (or "for all")
 and  as "dependent tuple" ("there exist"). So, whenever you see:</p><div class="semantics"><figure>$$someFunc : \prod_{x:X} \llbracket rest\rrbracket,$$</figure></div><p>you can mentally replace it with:</p><div class="semantics"><figure>$$id : X \rightarrow \llbracket rest\rrbracket$$</figure></div><p>where $\llbracket rest\rrbracket$ can mention x in its type.
-And when you see:</p><div class="semantics"><figure>$$someFunc : \sum_{x:X} \llbracket rest\rrbracket,$$</figure></div><p>you think</p><div class="semantics"><figure>$$someFunc : (X,\llbracket rest\rrbracket).$$</figure></div><p>where $\llbracket rest\rrbracket$ can mention x in its type.</p><h2>Singleton</h2><p>So, first question I had was: what is that isSingleton exactly? Is that a type? A function? A theorem?</p><div class="semantics"><figure>$$isSingleton(X) := \sum_{c:X}\prod_{x:X}Id(c,y)$$</figure></div><p>Singleton can be understood easily in terms of its implementation in code. I'll use cubicaltt as the implementation language which is very minimal but powerful Haskell-like language and compiler. I'll make a type which has only one constructor and derive
+And when you see:</p><div class="semantics"><figure>$$someFunc : \sum_{x:X} \llbracket rest\rrbracket,$$</figure></div><p>you think</p><div class="semantics"><figure>$$someFunc : (X,\llbracket rest\rrbracket).$$</figure></div><p>where $\llbracket rest\rrbracket$ can mention x in its type.
+</p><h2>Singleton</h2><p>So, first question I had was: what is that isSingleton exactly? Is that a type? A function? A theorem?</p><div class="semantics"><figure>$$isSingleton(X) := \sum_{c:X}\prod_{x:X}Id(c,y)$$</figure></div><p>Singleton can be understood easily in terms of its implementation in code. I'll use cubicaltt as the implementation language which is very minimal but powerful Haskell-like language and compiler. I'll make a type which has only one constructor and derive
 $isSingleton$ for it.</p><code>data One = MkOne</code><p>Intuitively, $One$ should be put instead of an $X$ in the formula,
 so if we put it there, it becomes:</p><div class="semantics"><figure>$$isSingleton(One) := \sum_{c:One}\prod_{x:One}Id(c,y)$$</figure></div><p>So, after we apply $isSingleton$ to our type $One$, it becomes
 just a type for a dependent pair of this element and a function
@@ -73,7 +74,8 @@ IsSingletonOne : IsSingleton One
   = let c : One = MkOne
     in (c, (\(x:One) -> isSingletonOneInnerEq x))</code><p>Allright! We've implemented a value of $IsSingleton One$,
 in other words, we've <b>proven that $One$ is a singleton type</b>.
-Full code can be seen at <a href="Full code can be seen at singleton.ctt">singleton.ctt</a>.</p><h2>Fiber</h2><div class="semantics"><figure>$$f^{-1}(y) := \sum_{x:X}Id(f(x),y)$$</figure></div><p>To understand a fiber and later equivalence best,
+Full code can be seen at <a href="Full code can be seen at singleton.ctt">singleton.ctt</a>.
+</p><h2>Fiber</h2><div class="semantics"><figure>$$f^{-1}(y) := \sum_{x:X}Id(f(x),y)$$</figure></div><p>To understand a fiber and later equivalence best,
 I came up with a function where domain is split in two,
 and both halves are projected to full codomain range.
 Here's how it looks like:</p><figure><img src="https://k-bx.github.io/articles/singleton_fiber_equivalence/img/halfsplit_function.jpg"></figure><p>So, a Fiber would be a type, which, after some specific  will be chosen, will look like this:</p><div class="semantics"><figure>$$f^{-1}(y_0) := \sum_{x:X}Id(f(x),y)$$</figure></div><p>and to implement it, you'd need to provide a tuple of whatever $x$ you
@@ -82,7 +84,8 @@ In other words, both $x_0$ and $x_1$ would be ok as a first tuple's element:</p>
 $$f^{-1}(y_0)_1 := (x_1,Id(f(x_1),y_0))$$</figure></div><code>Fiber (X Y : U) (f : X -> Y) (y : Y) : U
   = (x : X) * Path Y (f x) y</code><p><a href="https://k-bx.github.io/articles/singleton_fiber_equivalence/fiber.ctt">fiber.ctt</a>.
 Implementation of specific fibers in cubicaltt is left to reader as an exercise :)
-These are two fibers, both legit! But what is equivalence, now?</p><h3>Equivalence</h3><p><b>Definition.</b> The function f is called an equivalence if its
+These are two fibers, both legit! But what is equivalence, now?
+</p><h2>Equivalence</h2><p><b>Definition.</b> The function f is called an equivalence if its
 fibers are all singletons:</p><div class="semantics"><figure>$$isEquiv(f) := \prod_{y:Y}isSingleton(f^{-1}(y))$$</figure></div><p>First, let's think for a moment, what does it mean that a fiber is a singleton or not?
 Recall the formulas:</p><div class="semantics"><figure>$$isSingleton(X) := \sum_{c:X}\prod_{x:X}Id(c,x)$$
 $$f^{-1}(y) := \sum_{x:X}Id(f(x),y)$$</figure></div><p>But now, instead of imagining $X$ to be some specific type,

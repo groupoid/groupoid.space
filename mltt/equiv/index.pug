@@ -86,6 +86,7 @@ block content
                         $$someFunc : (X,\llbracket rest\rrbracket).$$
                 p.
                     where $\llbracket rest\rrbracket$ can mention x in its type.
+
                 h2 Singleton
                 p.
                     So, first question I had was: what is that isSingleton exactly? Is that a type? A function? A theorem?
@@ -171,6 +172,7 @@ block content
                     Allright! We've implemented a value of $IsSingleton One$,
                     in other words, we've <b>proven that $One$ is a singleton type</b>.
                     Full code can be seen at <a href="Full code can be seen at singleton.ctt">singleton.ctt</a>.
+
                 h2 Fiber
                 .semantics
                     figure.
@@ -204,7 +206,8 @@ block content
                     <a href="https://k-bx.github.io/articles/singleton_fiber_equivalence/fiber.ctt">fiber.ctt</a>.
                     Implementation of specific fibers in cubicaltt is left to reader as an exercise :)
                     These are two fibers, both legit! But what is equivalence, now?
-                h3 Equivalence
+
+                h2 Equivalence
                 p.
                     <b>Definition.</b> The function f is called an equivalence if its
                     fibers are all singletons:
