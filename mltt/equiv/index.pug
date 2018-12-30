@@ -74,5 +74,42 @@ block content
                     figure.
                         $$id : X \rightarrow \llbracket rest\rrbracket$$
                 p.
+                    where $\llbracket rest\rrbracket$ can mention x in its type.
+                    And when you see:
+                .semantics
+                    figure.
+                        $$someFunc : \sum_{x:X} \llbracket rest\rrbracket,$$
+                p.
+                    you think
+                .semantics
+                    figure.
+                        $$someFunc : (X,\llbracket rest\rrbracket).$$
+                p.
+                    where $\llbracket rest\rrbracket$ can mention x in its type.
+                h2 Singleton
+                p.
+                    So, first question I had was: what is that isSingleton exactly? Is that a type? A function? A theorem?
+                .semantics
+                    figure.
+                        $$isSingleton(X) := \sum_{c:X}\prod\{x:X}Id(c,y)$$
+                p.
+                    Singleton can be understood easily in terms of its implementation in code. I'll use cubicaltt as the implementation language which is very minimal but powerful Haskell-like language and compiler. I'll make a type which has only one constructor and derive
+                    $isSingleton$ for it.
+                code.
+                    data One = MkOne
+                p.
+                    Intuitively, $One$ should be put instead of an $X$ in the formula,
+                    so if we put it there, it becomes:
+                .semantics
+                    figure.
+                        $$isSingleton(One) := \sum_{c:One}\prod\{x:One}Id(c,y)$$
+                p.
+                    So, after we apply $isSingleton$ to our type $One$, it becomes
+                    just a type for a dependent pair of this element and a function
+                    from any element of $One$ to its equality to that element $c$.
+                    Or, in code, something like:
+                code.
+                    isSingletonOne = (c, \x -> &lt;proof that x is equal to c&gt)
+                p.
                     Thank you for your time. Please send your feedback in Issues or PRs in
                     <a href="https://github.com/k-bx/k-bx.github.io">here</a>.
