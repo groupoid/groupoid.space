@@ -59,7 +59,7 @@ block content
                         $$isSignlton (X) := \sum_{c:X}\prod_{x:X}Id(c,x),$$
                         $$f^{-1} (y) := \sum_{x:X}Id(f(x),x).$$
 
-                h1#nat $\prod$ and $\sum$ types
+                h2#nat $\prod$ and $\sum$ types
                 p.
                     Quick reminder on $\Pi$-types and $\Sigma$-types for programmers.
                 p.
@@ -91,7 +91,7 @@ block content
                     So, first question I had was: what is that isSingleton exactly? Is that a type? A function? A theorem?
                 .semantics
                     figure.
-                        $$isSingleton(X) := \sum_{c:X}\prod\{x:X}Id(c,y)$$
+                        $$isSingleton(X) := \sum_{c:X}\prod_{x:X}Id(c,y)$$
                 p.
                     Singleton can be understood easily in terms of its implementation in code. I'll use cubicaltt as the implementation language which is very minimal but powerful Haskell-like language and compiler. I'll make a type which has only one constructor and derive
                     $isSingleton$ for it.
@@ -102,7 +102,7 @@ block content
                     so if we put it there, it becomes:
                 .semantics
                     figure.
-                        $$isSingleton(One) := \sum_{c:One}\prod\{x:One}Id(c,y)$$
+                        $$isSingleton(One) := \sum_{c:One}\prod_{x:One}Id(c,y)$$
                 p.
                     So, after we apply $isSingleton$ to our type $One$, it becomes
                     just a type for a dependent pair of this element and a function
