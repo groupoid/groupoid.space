@@ -141,12 +141,10 @@ block content
                     -----------------------------------------------------------
                     Sigma One (\(c : One) -> (x : One) -> PathP (<!0> One) c x)
                 p.
-                    Perfect! So, we've got our first answers:
-                    <ul>
-                        <li>$IsSingleton$ is sort of a type-level function, or type alias! You use it like $IsSingleton$ YourType and get a type signature;</li>
-                        <li>It's also a theorem that you can prove by constructing a value, once you specialize it to some type, like $One$.</li>
-                    </ul>
-                    We now need to choose c. Not a lot of options to choose from:
+                    Perfect! So, we've got our first answers: 1); $IsSingleton$ is sort of a type-level function, or type alias! You use it like $IsSingleton$ YourType and get a type signature;
+                    2) It's also a theorem that you can prove by constructing a value, once you specialize it to some type, like $One$.
+                p.
+                    We now need to choose $c$. Not a lot of options to choose from:
                 code.
                     IsSingletonOne : IsSingleton One
                       = let c : One = MkOne
@@ -157,7 +155,7 @@ block content
                     Hole at (15,25) in singleton:
                     x : One
                     ------------------------
-                    PathP (<!0> One) MkOne x
+                    PathP (&lt;!0&gt; One) MkOne x
                 p.
                     Ok, now in order to implement that last ? we need to case-split.
                     Case-splitting is best done at top-level in cubicaltt, so let's

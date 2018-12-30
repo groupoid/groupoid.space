@@ -58,17 +58,13 @@ but it's important to get that a result of $IsSingleton$
 will be used in a type signature of our specialization for $One$.
 Let's use type holes to graduately derive our implementation:</p><code>IsSingletonOne : IsSingleton One = ?</code><p>gives:</p><code>Hole at (14,5) in singleton:
 -----------------------------------------------------------
-Sigma One (\(c : One) -> (x : One) -> PathP (<!0> One) c x)</code><p>Perfect! So, we've got our first answers:
-<ul>
-    <li>$IsSingleton$ is sort of a type-level function, or type alias! You use it like $IsSingleton$ YourType and get a type signature;</li>
-    <li>It's also a theorem that you can prove by constructing a value, once you specialize it to some type, like $One$.</li>
-</ul>
-We now need to choose c. Not a lot of options to choose from:</p><code>IsSingletonOne : IsSingleton One
+Sigma One (\(c : One) -> (x : One) -> PathP (<!0> One) c x)</code><p>Perfect! So, we've got our first answers: 1); $IsSingleton$ is sort of a type-level function, or type alias! You use it like $IsSingleton$ YourType and get a type signature;
+2) It's also a theorem that you can prove by constructing a value, once you specialize it to some type, like $One$.</p><p>We now need to choose $c$. Not a lot of options to choose from:</p><code>IsSingletonOne : IsSingleton One
   = let c : One = MkOne
     in (c, (\(x:One) -> ?))</code><p>This gives:</p><code>Hole at (15,25) in singleton:
 x : One
 ------------------------
-PathP (<!0> One) MkOne x</code><p>Ok, now in order to implement that last ? we need to case-split.
+PathP (&lt;!0&gt; One) MkOne x</code><p>Ok, now in order to implement that last ? we need to case-split.
 Case-splitting is best done at top-level in cubicaltt, so let's
 add a helper function and split there:</p><code>isSingletonOneInnerEq : (x:One) -> Path One MkOne x
   = split MkOne -> refl One MkOne
