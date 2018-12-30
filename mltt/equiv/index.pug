@@ -30,8 +30,12 @@ block content
                     when they finally "clicked" this morning.
                 .semantics
                     figure.
-                        $$isSignlton (X) := \sum_{c:X}\prod_{x:X}Id(c,x)$$.
-                        $$f^{-1} (y) := \sum_{x:X}Id(f(x),x)$$.
+                        $$
+                        \begin{center}
+                            isSignlton (X) := \sum_{c:X}\prod_{x:X}Id(c,x).
+                            f^{-1} (y) := \sum_{x:X}Id(f(x),x).
+                        \end{center}
+                        $$
                 h2#nat $\Pi$ and $\Sigma$ types
                 p.
                     Quick reminder on $\Pi$-types and $\Sigma$-types for programmers.
@@ -40,12 +44,16 @@ block content
                     and  as "dependent tuple" ("there exist"). So, whenever you see:
                 .semantics
                     figure.
-                        $$someFunc : \prod_{x:X} <rest>$$,
+                        $$
+                          someFunc : \prod_{x:X} \textbf{<rest>},
+                        $$
                 p.
                     you can mentally replace it with:
                 .semantics
                     figure.
-                        $$id : X \rightarrow <rest>$$.
+                        $$
+                          id : X \rightarrow <rest>.
+                          $$
                 p.
                     Thank you for your time. Please send your feedback in Issues or PRs in
                     <a href="https://github.com/k-bx/k-bx.github.io">here</a>.
