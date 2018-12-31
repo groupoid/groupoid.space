@@ -13,7 +13,7 @@ block title
     title Infinity
 
 block content
-    +header('groupoid.svg', 'Groupoid Infinity', 'The Language of Space')
+    +header('groupoid.svg', 'Groupoïd la Infini', 'Le langage de l\'espace')
     article.main
         .om
             section
@@ -22,26 +22,27 @@ block content
             aside <a href="https://tonpa.guru">Maxim Sokhatsky</a>
                 time 20 DEC 2018
             p.
-                Here is the conceptual model of a theorem-proving system
-                that unifies tower of type theories with runtime components
-                (as extraction targets). The model consists of:
-                1) calculi with its models;
-                2) programs and base libraries; and
-                3) program transformations: type checking, compilation,
-                type erasure, code extraction, optimization, etc.
+                Voici le modèle conceptuel d'un système de démonstration
+                de théorèmes qui unifie les théories de types tour avec
+                des composants d'exécution (en tant que cibles d'extraction).
+                Le modèle comprend: 1) des calculs avec ses modèles;
+                2) programmes et bibliothèques de base; et 3) les
+                transformations de programme: vérification de type,
+                compilation, effacement de type, extraction de code, optimisation, etc.
             p.
-                While being a generic blueprint, some parts of the model
-                implemented in various languages. The research was founded
-                by Synrc Research Center, Kyiv, Ukraine. All works were
-                done under the supervision of Pavlo Maslianko, National
-                Technical University of Ukraine «Igor Sikorsky Kyiv
-                Polytechnic Institute» Faculty of Applied Mathematics.
+                Tout en étant un modèle générique, certaines parties du modèle
+                sont implémentées dans différentes langues. La recherche a été
+                fondée par le centre de recherche Synrc de Kiev, en Ukraine.
+                Tous les travaux ont été réalisés sous la supervision de
+                Pavlo Maslianko, faculté de mathématiques appliquées de
+                l'Université technique nationale d'Ukraine.
 
             section
                 h1 TAXONOMIE
             p.
-                The thesis is grouped by research areas with their corresponding
-                type systems, formal models, type checkers and base libraries.
+                La thèse est regroupée par domaines de recherche avec leurs
+                systèmes de types, modèles formels, vérificateurs de types
+                et bibliothèques de base correspondants.
 
         .index
             .index__col
@@ -90,33 +91,31 @@ block content
                 h1 la genèse
 
             p.
-                The process of formal verification has following phases:
-                1) model encoding,
-                2) linking with base library of math components,
-                3) desugaring to core functions,
-                3) linking with pure base library, and
-                4) extracting.
+                Le processus de vérification formelle comporte les phases suivantes:
+                1) codage du modèle, 2) liaison avec la bibliothèque de base de
+                composants mathématiques, 3) désinsertion de fonctions essentielles,
+                3) liaison avec la bibliothèque de base pure et 4) extraction.
+
             p.
-                <b>Minimal Model.</b> This model can serve PTS (Pure Type System)
-                research, being a CoC extension (Calculus of Construction)
-                system with infinite number of universes with extraction
-                of pure programs to certified interpreter.
+                <b>Modèle minimal</b>. Ce modèle peut servir à la recherche PTS (Pure Type System),
+                en tant que système de calcul de construction (CdC) avec un nombre infini
+                d'univers avec extraction de programmes purs sur un interprète certifié.
             br.
             p.
                 <object><center><img src="minimal.svg?v=6" width=50%></center></object>
             br.
             p.
-                <b>Cubical Model.</b> This model can serve HoTT research,
-                being MLTT/CCHM (Martin-Löf Type Theory, Cohen-Coquand-Huber-Mörtberg)
-                system with limited extraction of pure programs to certified interpreter.
+                <b>Modèle cubique</b>. Ce modèle peut servir à la recherche HoTT,
+                étant le système MLTT / CCHM (théorie de type de Martin-Löf,
+                Cohen-Coquand-Huber-Mörtberg) avec extraction limitée des
+                programmes purs à un interprète certifié.
             p.
                 <object><center><img src="higher.svg?v=6" width=70%></center></object>
             br.
             p.
-                <b>Spectral Model</b>. This model intended to server needs of
-                linkage with $\pi$-calculus runtimes and optionally stream
-                calculuses and fusion engines. Extraction to Erlang
-                or CPS (Continuation Passing Style) interpreter.
+                <b>Spectral Model</b>. This model intended to server needs of linkage
+                with π-calculus runtimes and optionally stream calculuses and fusion
+                engines. Extraction to Erlang or CPS (Continuation Passing Style) interpreter.
             p.
                 <object><center><img src="full.svg?v=6" width=90%></center></object>
             br.
@@ -124,10 +123,12 @@ block content
             section
                 h1 Fascicule de Résultats
             p.
-                Peer-reviewed articles about homotopy type theory foundations
-                and formalization of mathematics, implementation details
-                and examples of practical applications.
-                See <a href="https://cubical.systems">cubical.systems</a> for more information.
+                Articles évalués par des pairs sur les fondements de la théorie
+                des types d'homotopie et la formalisation des mathématiques,
+                détails de mise en œuvre et exemples d'applications pratiques.
+                Voir <a href="https://cubical.systems">cubical.systems</a>
+                pour plus d'informations.
+
         .index
 
             <center><table cellspacing=5><tr><td width=5><img src="https://n2o.space/img/pdf.jpg" width=35></td><td width=400>
