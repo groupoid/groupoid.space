@@ -533,7 +533,7 @@ retract (A B:U) (f:A->B) (g:B->A): U = (a:A) -> Path A (g(f(a))) a
 trivial (B: U) (F: Family B): total B F -> B = \ (x: total B F) -> x.1
 homeo (B E: U) (F: Family B) (p: E -> B) (y: B)
     : fiber E B p y -> total B F = \(x: fiber E B p y) -> (y,F)
-</code><h2 id="iso"><a name="iso"><font color="#7D8A96">Iso</font></a></h2><code>Square (A: U) (a0 a1 b0 b1: A)
+</code><h2 id="iso"><a href="https://groupoid.space/mltt/iso">Iso</a></h2><code>Square (A: U) (a0 a1 b0 b1: A)
        (u: Path A a0 a1) (v: Path A b0 b1)
        (r0: Path A a0 b0) (r1: Path A a1 b1): U
 
