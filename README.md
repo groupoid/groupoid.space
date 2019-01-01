@@ -29,7 +29,6 @@ $ npm start
 ```
 .
 ├── eff
-│   ├── idris
 │   ├── io
 │   └── ioi
 ├── lambda
