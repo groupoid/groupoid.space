@@ -27,7 +27,7 @@ $$U\ I = lim\ U\\$$
 $\begin{array}{c}lim\ U\\\mapdown{\pi_i}\\X_i\end{array}
 \Longrightarrow \begin{array}{c}F\ lim\ U\\\mapdown{F\ \pi_i}\\F\ X_i\end{array}
 \Longrightarrow lim\ \begin{array}{c}F\ lim\ U\\\mapdown{F \pi_i}\\F\ X_i\end{array}$
-</figure><h2>Precise Encoding</h2><p>Our encoding allows you to precise control the type of encoded parameter.
+</figure><p><b>Precise Encoding</b></p><p>Our encoding allows you to precise control the type of encoded parameter.
 There is only three cases and three equations: 1) for unit; 2) particular functorial
 type over a parameter type and 3) recursive embedding such as in Cons constructor.</p><p><b>q</b> &mdash; is a limit in <b>Dialg P</b> category. The constructor body is calculated
 with <b>q</b> applied to forgetful functor <b>U</b>.</p></p><figure>$$
@@ -38,30 +38,30 @@ G : D \rightarrow Dialg\ P \\
 G' = UG : D \rightarrow Set \\
 U (Lim\ G) = Lim\ G'
 $$
-</figure><h3>Unit Parameters</h3><p>Like for Bool or Nil constructors encoding.</p><figure>$$
+</figure><p><b>Unit Parameters</b></p><p>Like for Bool or Nil constructors encoding.</p><figure>$$
 P_0(A,B) =  B \\
 q_0\ e : Lim\ G' \\
 q_0\ e = e
 $$
-</figure><h3>Fixed Type Parameters</h3><p>Like for Cons first parameter.</p><figure>$$
+</figure><p><b>Fixed Type Parameters</b></p><p>Like for Cons first parameter.</p><figure>$$
 P_1(A,B) = X \rightarrow P(A,B) \\
 q_1\ e : X \rightarrow P ( Lim\ G',  Lim\ G' ) \\
 q_1\ e\ x\ A = e\ A\ x
 $$
-</figure><h3>Recursive Parameters</h3><p>Like for Cons second parameter. This case is a key in encoding recursive
+</figure><p><b>Recursive Parameters</b></p><p>Like for Cons second parameter. This case is a key in encoding recursive
 data types such as <b>Lists</b> and recursive record types such as <b>Streams</b>.</p><figure>$$
 P_2(A,B) = A \rightarrow P(A,B) \\
 q_2\ e : Lim\ G' \rightarrow P ( Lim\ G',  Lim\ G' ) \\
 q_2\ e\ I\ A = e\ A\ (I\ A)
 $$
-</figure><h2>Identity Functor Encoding</h2><p>As known as predicative encoding</p><figure>$$
+</figure><p><b>Identity Functor Encoding</b></p><p>As known as predicative encoding</p><figure>$$
 \begin{array}{ccccccc}
     A &           & \mapright{f} &           & B & \mapright{f} & Set \\[3pt]
         & \mapdiagl{a}  & \varphi      & \mapdiagr{b}  &   & \searrow     & \mapdown{\mathbf{1}} \\
         &           & Set          &           &   &              & Set
 \end{array}
 $$</figure><figure>$\varphi : a \rightarrow b$
-</figure><h2>Identity Functor Limit Encoding</h2><p>As known as impredicative encoding</p><figure>$$
+</figure><p><b>Identity Functor Limit Encoding</b></p><p>As known as impredicative encoding</p><figure>$$
 \begin{array}{ccccccc}
     A &           & \mapright{f} &           & B & \mapright{f} & Set \\[3pt]
         & \mapdiagl{a}  & \varphi      & \mapdiagr{b}  &   & \searrow     & \mapdown{\mathbf{1}} \\
