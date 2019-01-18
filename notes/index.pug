@@ -19,18 +19,6 @@ html
         block content
         block vars
 
-block title
-    script(src='//cdnjs.cloudflare.com/ajax/libs/mathjax/2.6.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML')
-    script.
-       MathJax.Hub.Config({
-          tex2jax: { inlineMath: [['$','$'], ['\\(','\\)']], processEscapes: true },
-          jax: ["input/TeX", "input/MathML", "input/AsciiMath", "output/CommonHTML", "output/NativeMML"],
-          TeX: { extensions: ["AMSmath.js", "AMSsymbols.js", "autoload-all.js"] },
-          extensions: ["tex2jax.js", "asciimath2jax.js", "mml2jax.js", "MathMenu.js", "MathZoom.js"],
-          "HTML-CSS": { imageFont: null },
-       });
-    title Foundations
-
 block content
     nav
         <a href='https://etale.space'>ÉTALE</a>
@@ -41,12 +29,16 @@ block content
             section
                 h1 Notes
                 p.
+                    The series of notes on Homotopy Type Theory.
+                p.
                     20 JUN 2017 &mdash; <a href='../mltt/hopf/index.html'>Hopf Fibrations</a><br>
                     6 JUL 2018 &mdash; <a href='../mltt/infinity/index.html'>The Bibliography</a><br>
                     3 AUG 2017 &mdash; <a href='../mltt/types/index.html'>Cubical Base Library</a><br>
                     19 OCT 2017 &mdash; <a href='../mltt/inductive/index.html'>Recursion Schemes</a><br>
 
                 h1 Issues
+                p.
+                    The series of articles on foundation and mathematics of Homotopy Type Theory.
                 p.
                     13 JAN 2016 &mdash; <a href='../tex/articles/mltt/mltt.pdf'>Issue I: Internalizing MLTT</a><br>
                     17 MAR 2017 &mdash; <a href='../tex/articles/hott/hott.pdf'>Issue III: Homotopy Type Theory</a><br>
