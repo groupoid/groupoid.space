@@ -1,4 +1,4 @@
-<!DOCTYPE html><html><head><meta charset="utf-8"><meta http-equiv="x-ua-compatible" content="ie=edge"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="author" content="Maxim Sokhatsky"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:site" content="@5HT"><meta name="twitter:creator" content="@5HT"><meta name="twitter:image" content="https://groupoid.space/card2.png?v=1"><meta property="og:title" content="Groupoid Infinity"><meta property="og:image" content="https://groupoid.space/card2.png?v=1"><meta property="og:type" content="website"><meta property="fb:app_id" content="118554188236439"><meta property="og:url" content="https://groupoid.space"><meta property="og:description" content="The Language of Space"><link rel="stylesheet" href="https://groupoid.space/main.css?v=10"><title>HOPF</title><script src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML"></script><script>window.MathJax = { jax: ["input/TeX", "input/MathML", "input/AsciiMath", "output/CommonHTML", "output/NativeMML"],
+<!DOCTYPE html><html><head><meta charset="utf-8"><meta http-equiv="x-ua-compatible" content="ie=edge"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="author" content="Maxim Sokhatsky"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:site" content="@5HT"><meta name="twitter:creator" content="@5HT"><meta name="twitter:image" content="https://groupoid.space/card2.png?v=1"><meta property="og:title" content="Groupoid Infinity"><meta property="og:image" content="https://groupoid.space/card2.png?v=1"><meta property="og:type" content="website"><meta property="fb:app_id" content="118554188236439"><meta property="og:url" content="https://groupoid.space"><meta property="og:description" content="The Language of Space"><link rel="stylesheet" href="https://groupoid.space/main.css?v=10"><title>HOPF</title><script src="https://etale.space/styles/mathjax.js?config=TeX-AMS-MML_HTML"></script><script>window.MathJax = { jax: ["input/TeX", "input/MathML", "input/AsciiMath", "output/CommonHTML", "output/NativeMML"],
                         TeX: { extensions: ["AMSmath.js", "AMSsymbols.js", "autoload-all.js"] },
                         extensions: ["tex2jax.js", "asciimath2jax.js", "mml2jax.js", "MathMenu.js", "MathZoom.js"],
                         "HTML-CSS": { imageFont: null },
@@ -126,10 +126,10 @@ S3: U = susp S2
 S4: U = susp S3
 </code><h2>Hopf Fibrations</h2><p><b>Theorem</b> (Hopf Fibrations). There are fiber bundles:
 $$
-  (S^0,S^1,p,S^1), \\
-  (S^1,S^3,p,S^2), \\
-  (S^3,S^7,p,S^4), \\
-  (S^7,S^{15},p,S^8).
+  \mathbb{R} : (S^0,S^1,p,S^1), \\
+  \mathbb{C} : (S^1,S^3,p,S^2), \\
+  \mathbb{H} : (S^3,S^7,p,S^4), \\
+  \mathbb{O} : (S^7,S^{15},p,S^8).
 $$</p><p><b>Definition</b> (H-space). H-space over a carrier $A$ is a tuple
 $$
 H_A=
@@ -139,7 +139,8 @@ e : A\\
 \mu : A \rightarrow A \rightarrow A\\
 \beta : (a:A) \rightarrow \Sigma (\mu(e,a)=a) (\mu(a,e)=a)
 \end{cases}
-$$.</p><p><b>Example</b> ($S^1$ Hopf Fiber). Guillaume Brunerie.</p><code>rot: (x : S1) -> Path S1 x x = split
+$$.</p><p><b>Example</b> ($S^3$ Hopf Fiber $\mathbb{C}$). Guillaume Brunerie.
+In cubicaltt type checker.</p><code>rot: (x : S1) -> Path S1 x x = split
   base -> loop1
   loop @ i -> constSquare S1 base loop1 @ i
 
@@ -153,8 +154,19 @@ H : S2 -> U = split
   south -> S1
   merid x @ i -> ua S1 S1 (mu x) @ i
 
-total : U = (c : S2) * H c
-</code><p><b>Definition</b> (Hopf Invariant). Let $\phi: S^{2n-1} \rightarrow S^{n}$ a continuous map.
+total : U = (c : S2) * H c</code><p><b>Example</b> ($S^7$ Hopf Fiber $\mathbb{H}$). Egbert Rijke.
+In Lean prover.</p><code>definition pfiber_quaternionic_phopf
+  : pfiber quaternionic_phopf ≃* S* 3 :=
+begin
+  fapply pequiv_of_equiv,
+  { esimp, unfold [quaternionic_hopf],
+    refine fiber.equiv_precompose
+    (sigma.pr1 ◦ (hopf.total (S 3))−1e)
+    (join.spheres (of_nat 3) (of_nat 3)) − 1 e _ ·e _,
+        refine fiber.equiv_precompose _ (hopf.total (S 3))− 1 e _ ·e _,
+        apply fiber_pr1 },
+  { reflexivity }
+end</code><br><p><b>Definition</b> (Hopf Invariant). Let $\phi: S^{2n-1} \rightarrow S^{n}$ a continuous map.
 Then homotopy pushout (cofiber) of $\phi$ is $cofib(\phi) = S^{n} \bigcup_\phi \mathbb{D}^{2n}$ has
 ordinary cohomology
 $$
@@ -168,4 +180,4 @@ degree $n$ and $2n$, respectively, there exists an integer $h(\phi)$
 that expresses the <b>cup product</b> square of $\alpha$
 as a multiple of $\beta$ &mdash; $\alpha\sqcup\alpha=h(\phi)\cdot\beta$.
 This integer $h(\phi)$ is called Hopf invariant of $\phi$.</p><p><b>Theorem</b> (Adams, Atiyah). Hopf Fibrations are only
-maps that have Hopf invariant $1$.</p></section></article><footer class="footer"><a href="//tonpa.guru/"><img class="footer__logo" src="https://longchenpa.guru/seal.png" width="50"></a><span class="footer__copy">2016&mdash;2019 &copy; <a href="//groupoid.space/" style="color:Lavender;">Groupoid Infinity</a></span></footer><script src="bundle.js"></script><script src="https://groupoid.space/highlight.js?v=9"></script></body></html>
+maps that have Hopf invariant $1$.</p></section></article><footer class="footer"><a href="//tonpa.guru/"><img class="footer__logo" src="https://longchenpa.guru/seal.png" width="50"></a><span class="footer__copy">2016&mdash;2019 &copy; <a href="//groupoid.space/" style="color:Lavender;">Groupoid Infinity</a></span></footer><script src="bundle.js"></script><script src="https://groupoid.space/highlight.js?v=10"></script></body></html>

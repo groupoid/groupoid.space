@@ -4,7 +4,7 @@ block vars
     - var hopf = true
 block title
     title HOPF
-    script(src='//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML')
+    script(src='https://etale.space/styles/mathjax.js?config=TeX-AMS-MML_HTML')
     script.
      window.MathJax = { jax: ["input/TeX", "input/MathML", "input/AsciiMath", "output/CommonHTML", "output/NativeMML"],
                              TeX: { extensions: ["AMSmath.js", "AMSsymbols.js", "autoload-all.js"] },
@@ -226,10 +226,10 @@ block content
             p.
                 <b>Theorem</b> (Hopf Fibrations). There are fiber bundles:
                 $$
-                  (S^0,S^1,p,S^1), \\
-                  (S^1,S^3,p,S^2), \\
-                  (S^3,S^7,p,S^4), \\
-                  (S^7,S^{15},p,S^8).
+                  \mathbb{R} : (S^0,S^1,p,S^1), \\
+                  \mathbb{C} : (S^1,S^3,p,S^2), \\
+                  \mathbb{H} : (S^3,S^7,p,S^4), \\
+                  \mathbb{O} : (S^7,S^{15},p,S^8).
                 $$
             p.
                 <b>Definition</b> (H-space). H-space over a carrier $A$ is a tuple
@@ -243,7 +243,8 @@ block content
                 \end{cases}
                 $$.
             p.
-                <b>Example</b> ($S^1$ Hopf Fiber). Guillaume Brunerie.
+                <b>Example</b> ($S^3$ Hopf Fiber $\mathbb{C}$). Guillaume Brunerie.
+                In cubicaltt type checker.
             code.
                 rot: (x : S1) -> Path S1 x x = split
                   base -> loop1
@@ -260,7 +261,23 @@ block content
                   merid x @ i -> ua S1 S1 (mu x) @ i
 
                 total : U = (c : S2) * H c
-
+            p.
+                <b>Example</b> ($S^7$ Hopf Fiber $\mathbb{H}$). Egbert Rijke.
+                In Lean prover.
+            code.
+                definition pfiber_quaternionic_phopf
+                  : pfiber quaternionic_phopf ≃* S* 3 :=
+                begin
+                  fapply pequiv_of_equiv,
+                  { esimp, unfold [quaternionic_hopf],
+                    refine fiber.equiv_precompose
+                    (sigma.pr1 ◦ (hopf.total (S 3))−1e)
+                    (join.spheres (of_nat 3) (of_nat 3)) − 1 e _ ·e _,
+                        refine fiber.equiv_precompose _ (hopf.total (S 3))− 1 e _ ·e _,
+                        apply fiber_pr1 },
+                  { reflexivity }
+                end
+            br.
             p.
                 <b>Definition</b> (Hopf Invariant). Let $\phi: S^{2n-1} \rightarrow S^{n}$ a continuous map.
                 Then homotopy pushout (cofiber) of $\phi$ is $cofib(\phi) = S^{n} \bigcup_\phi \mathbb{D}^{2n}$ has
