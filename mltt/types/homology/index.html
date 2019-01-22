@@ -58,45 +58,47 @@ invGroup (g: group): g.1.1 -> g.1.1
 
 dgroup: U = (X: SET) * isDifferentialGroup X
 dgrouphom (a b: dgroup): U = monoidhom (a.1, a.2.1.1) (b.1, b.2.1.1)
-unitDGroup: dgroup
-</code><p><b>Definition</b> (Conjugation).
+unitDGroup: dgroup</code><p><b>Definition</b> (Diff).</p><code>diff (H: group) (g h: H.1.1) : H.1.1
+  = (opGroup H) g ((invGroup H) h)</code><p><b>Definition</b> (Conjugation).
 Let $G$ is a group, the conjucation of two elements of the group
-$x, y: G \rightarrow G$ is defined as $x y x^{-1}$.</p><code>conj (G: dgroup) (x y: G.1.1): G.1.1
-  = op (op x y) (inv x) where
-    g:   group = (G.1,G.2.1)
-    op:  g.1.1 -> g.1.1 -> g.1.1 = opGroup g
-    inv: g.1.1 -> g.1.1 = invGroup g</code><p><b>Definition</b> (Diff).</p><code>diff (H: dgroup) (g h: H.1.1) : H.1.1
-  = (opGroup (H.1,H.2.1)) g ((invGroup (H.1,H.2.1)) h)</code><br><h1>SUBGROUPS</h1><p><b>Definition</b> (Subtype).</p><code>subtypeProp (A: U): U
+$x, y: G \rightarrow G$ is defined as $x y x^{-1}$.</p><code>conjugate (G: group) (g1 g2: G.1.1): G.1.1
+  = diff G ((opGroup G) g1 g2) g1</code><br><h1>SUBGROUPS</h1><p><b>Definition</b> (Subtype).</p><code>subtypeProp (A: U): U
   = (P: A -> U) * (a: A) -> isProp (P a)
 
 subtype (A: U) (P: subtypeProp A): U
-  = (x: A) * (P.1 x)</code><p><b>Definition</b> (Subgroup).</p><code>subgroupProp (G: dgroup): U
+  = (x: A) * (P.1 x)</code><p><b>Definition</b> (Subgroup).</p><code>subgroupProp (G: group): U
   = (prop: G.1.1 -> U)
   * (level: (x: G.1.1) -> isProp (prop x))
   * (ident: prop (idGroup (G.1,G.2.1)))
-  * ((g1 g2: G.1.1) -> prop g1 -> prop g2 -> prop (diff G g1 g2))</code><p><b>Definition</b> (Normal Subgroup).</p><code>isNormal (G: dgroup) (P: subgroupProp G) : U
-  = (g1 g2: G.1.1) -> P.1 g2 -> P.1 (conj G g1 g2)
+  * ((g1 g2: G.1.1) -> prop g1 -> prop g2 -> prop (diff G g1 g2))</code><p><b>Definition</b> (Normal Subgroup).</p><code>isNormal (G: group) (P: subgroupProp G) : U
+  = (g1 g2: G.1.1) -> P.1 g2 -> P.1 (conjugate G g1 g2)
 
-normalSubgroupProp (G: dgroup): U
+normalSubgroupProp (G: group): U
   = (P: subgroupProp G)
   * isNormal G P
 
-subElProp (G: dgroup) (H: subgroupProp G)
+subElProp (G: group) (H: subgroupProp G)
   : subtypeProp G.1.1
   = (H.1,H.2.1)
 
-subEl (G: dgroup) (H: subgroupProp G): U
-  = subtype G.1.1 (subElProp G H)</code><br><h1>COMPLEXES</h1><p><b>Definition</b> (Chain Complex).</p><code>ChainComplex: U
-  = (head: dgroup)
-  * (chain: nat -> dgroup)
-  * (augment: dgrouphom (chain zero) head)
-  * ((n: nat) -> dgrouphom (chain (succ n)) (chain n))
+subEl (G: group) (H: subgroupProp G): U
+  = subtype G.1.1 (subElProp G H)</code><br><h1>COMPLEXES</h1><p><b>Definition</b> (Sequence).</p><code>mutual
+  data Seq (A: U) (B: A -> A -> U)
+     = seqNil (ob: A)
+     | seqCons (ob: A) (seq: Seq A B) (hom: B ob (head A B seq))
+  head (A: U) (B: A -> A -> U): Seq A B -> A = split
+       seqNil x -> x
+       seqCons x y z -> x</code><p><b>Definition</b> (Chain Complexes).</p><code>ChainComplex: U
+  = (sequence: Seq abgroup abgrouphom)
+  * (index: nat -> abgroup)
+  * (augment: abgrouphom (index zero) (head abgroup abgrouphom sequence))
+  * ((n: nat) -> abgrouphom (index (succ n)) (index n))
 
 CochainComplex: U
-  = (head: dgroup)
-  * (cochain: nat -> dgroup)
-  * (augment: dgrouphom head (cochain zero))
-  * ((n: nat) -> dgrouphom (cochain n) (cochain (succ n)))</code><br><h1>KER and IM</h1><p><b>Definition</b> (Kernel).</p><code>ker_prop (G H: dgroup) (phi: dgrouphom G H)
+  = (sequence: Seq abgroup abgrouphom)
+  * (index: nat -> abgroup)
+  * (augment: abgrouphom (head abgroup abgrouphom sequence) (index zero))
+  * ((n: nat) -> abgrouphom (index n) (index (succ n)))</code><br><h1>KER and IM</h1><p><b>Definition</b> (Kernel).</p><code>ker_prop (G H: dgroup) (phi: dgrouphom G H)
   : subgroupProp G
   = (prop,level,ident,di) where
     g: group = (G.1,G.2.1)

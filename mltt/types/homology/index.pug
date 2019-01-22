@@ -99,22 +99,18 @@ block content
                   dgroup: U = (X: SET) * isDifferentialGroup X
                   dgrouphom (a b: dgroup): U = monoidhom (a.1, a.2.1.1) (b.1, b.2.1.1)
                   unitDGroup: dgroup
-
+                p.
+                    <b>Definition</b> (Diff).
+                code.
+                  diff (H: group) (g h: H.1.1) : H.1.1
+                    = (opGroup H) g ((invGroup H) h)
                 p.
                     <b>Definition</b> (Conjugation).
                     Let $G$ is a group, the conjucation of two elements of the group
                     $x, y: G \rightarrow G$ is defined as $x y x^{-1}$.
                 code.
-                  conj (G: dgroup) (x y: G.1.1): G.1.1
-                    = op (op x y) (inv x) where
-                      g:   group = (G.1,G.2.1)
-                      op:  g.1.1 -> g.1.1 -> g.1.1 = opGroup g
-                      inv: g.1.1 -> g.1.1 = invGroup g
-                p.
-                    <b>Definition</b> (Diff).
-                code.
-                  diff (H: dgroup) (g h: H.1.1) : H.1.1
-                    = (opGroup (H.1,H.2.1)) g ((invGroup (H.1,H.2.1)) h)
+                  conjugate (G: group) (g1 g2: G.1.1): G.1.1
+                    = diff G ((opGroup G) g1 g2) g1
                 br.
 
                 h1 SUBGROUPS
@@ -129,7 +125,7 @@ block content
                 p.
                     <b>Definition</b> (Subgroup).
                 code.
-                  subgroupProp (G: dgroup): U
+                  subgroupProp (G: group): U
                     = (prop: G.1.1 -> U)
                     * (level: (x: G.1.1) -> isProp (prop x))
                     * (ident: prop (idGroup (G.1,G.2.1)))
@@ -137,36 +133,46 @@ block content
                 p.
                     <b>Definition</b> (Normal Subgroup).
                 code.
-                  isNormal (G: dgroup) (P: subgroupProp G) : U
-                    = (g1 g2: G.1.1) -> P.1 g2 -> P.1 (conj G g1 g2)
+                  isNormal (G: group) (P: subgroupProp G) : U
+                    = (g1 g2: G.1.1) -> P.1 g2 -> P.1 (conjugate G g1 g2)
 
-                  normalSubgroupProp (G: dgroup): U
+                  normalSubgroupProp (G: group): U
                     = (P: subgroupProp G)
                     * isNormal G P
 
-                  subElProp (G: dgroup) (H: subgroupProp G)
+                  subElProp (G: group) (H: subgroupProp G)
                     : subtypeProp G.1.1
                     = (H.1,H.2.1)
 
-                  subEl (G: dgroup) (H: subgroupProp G): U
+                  subEl (G: group) (H: subgroupProp G): U
                     = subtype G.1.1 (subElProp G H)
                 br.
 
                 h1 COMPLEXES
                 p.
-                    <b>Definition</b> (Chain Complex).
+                    <b>Definition</b> (Sequence).
+                code.
+                  mutual
+                    data Seq (A: U) (B: A -> A -> U)
+                       = seqNil (ob: A)
+                       | seqCons (ob: A) (seq: Seq A B) (hom: B ob (head A B seq))
+                    head (A: U) (B: A -> A -> U): Seq A B -> A = split
+                         seqNil x -> x
+                         seqCons x y z -> x
+                p.
+                    <b>Definition</b> (Chain Complexes).
                 code.
                   ChainComplex: U
-                    = (head: dgroup)
-                    * (chain: nat -> dgroup)
-                    * (augment: dgrouphom (chain zero) head)
-                    * ((n: nat) -> dgrouphom (chain (succ n)) (chain n))
+                    = (sequence: Seq abgroup abgrouphom)
+                    * (index: nat -> abgroup)
+                    * (augment: abgrouphom (index zero) (head abgroup abgrouphom sequence))
+                    * ((n: nat) -> abgrouphom (index (succ n)) (index n))
 
                   CochainComplex: U
-                    = (head: dgroup)
-                    * (cochain: nat -> dgroup)
-                    * (augment: dgrouphom head (cochain zero))
-                    * ((n: nat) -> dgrouphom (cochain n) (cochain (succ n)))
+                    = (sequence: Seq abgroup abgrouphom)
+                    * (index: nat -> abgroup)
+                    * (augment: abgrouphom (head abgroup abgrouphom sequence) (index zero))
+                    * ((n: nat) -> abgrouphom (index n) (index (succ n)))
                 br.
 
                 h1 KER and IM
