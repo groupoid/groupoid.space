@@ -1,4 +1,4 @@
-<!DOCTYPE html><html><head><meta charset="utf-8"><meta http-equiv="x-ua-compatible" content="ie=edge"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="author" content="Maxim Sokhatsky"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:site" content="@5HT"><meta name="twitter:creator" content="@5HT"><meta name="twitter:image" content="https://groupoid.space/card2.png?v=1"><meta property="og:title" content="Groupoid Infinity"><meta property="og:image" content="https://groupoid.space/card2.png?v=1"><meta property="og:type" content="website"><meta property="fb:app_id" content="118554188236439"><meta property="og:url" content="https://groupoid.space"><meta property="og:description" content="The Language of Space"><link rel="stylesheet" href="https://groupoid.space/main.css?v=11"><title>HOMOLOGY</title><script src="https://etale.space/styles/mathjax.js?config=TeX-AMS_HTML"></script><script>window.MathJax = { jax: ["input/TeX", "input/MathML", "input/AsciiMath", "output/CommonHTML", "output/NativeMML"],
+<!DOCTYPE html><html><head><meta charset="utf-8"><meta http-equiv="x-ua-compatible" content="ie=edge"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="author" content="Maxim Sokhatsky"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:site" content="@5HT"><meta name="twitter:creator" content="@5HT"><meta name="twitter:image" content="https://groupoid.space/card2.png?v=1"><meta property="og:title" content="Groupoid Infinity"><meta property="og:image" content="https://groupoid.space/card2.png?v=1"><meta property="og:type" content="website"><meta property="fb:app_id" content="118554188236439"><meta property="og:url" content="https://groupoid.space"><meta property="og:description" content="The Language of Space"><link rel="stylesheet" href="https://groupoid.space/main.css?v=12"><title>HOMOLOGY</title><script src="https://etale.space/styles/mathjax.js?config=TeX-AMS_HTML"></script><script>window.MathJax = { jax: ["input/TeX", "input/MathML", "input/AsciiMath", "output/CommonHTML", "output/NativeMML"],
                         TeX: { extensions: ["AMSmath.js", "AMSsymbols.js", "autoload-all.js"] },
                         extensions: ["tex2jax.js", "asciimath2jax.js", "mml2jax.js", "MathMenu.js", "MathZoom.js"],
                         "HTML-CSS": { imageFont: null },
@@ -61,7 +61,7 @@ dgrouphom (a b: dgroup): U = monoidhom (a.1, a.2.1.1) (b.1, b.2.1.1)
 unitDGroup: dgroup</code><p><b>Definition</b> (Diff).</p><code>diff (H: group) (g h: H.1.1) : H.1.1
   = (opGroup H) g ((invGroup H) h)</code><p><b>Definition</b> (Conjugation).
 Let $G$ is a group, the conjucation of two elements of the group
-$x, y: G \rightarrow G$ is defined as $x y x^{-1}$.</p><code>conjugate (G: group) (g1 g2: G.1.1): G.1.1
+$x,y \in G$ is defined as $x y x^{-1}$.</p><code>conjugate (G: group) (g1 g2: G.1.1): G.1.1
   = diff G ((opGroup G) g1 g2) g1</code><br><h1>SUBGROUPS</h1><p><b>Definition</b> (Subtype).</p><code>subtypeProp (A: U): U
   = (P: A -> U) * (a: A) -> isProp (P a)
 
@@ -82,23 +82,7 @@ subElProp (G: group) (H: subgroupProp G)
   = (H.1,H.2.1)
 
 subEl (G: group) (H: subgroupProp G): U
-  = subtype G.1.1 (subElProp G H)</code><br><h1>COMPLEXES</h1><p><b>Definition</b> (Sequence).</p><code>mutual
-  data Seq (A: U) (B: A -> A -> U)
-     = seqNil (ob: A)
-     | seqCons (ob: A) (seq: Seq A B) (hom: B ob (head A B seq))
-  head (A: U) (B: A -> A -> U): Seq A B -> A = split
-       seqNil x -> x
-       seqCons x y z -> x</code><p><b>Definition</b> (Chain Complexes).</p><code>ChainComplex: U
-  = (sequence: Seq abgroup abgrouphom)
-  * (index: nat -> abgroup)
-  * (augment: abgrouphom (index zero) (head abgroup abgrouphom sequence))
-  * ((n: nat) -> abgrouphom (index (succ n)) (index n))
-
-CochainComplex: U
-  = (sequence: Seq abgroup abgrouphom)
-  * (index: nat -> abgroup)
-  * (augment: abgrouphom (head abgroup abgrouphom sequence) (index zero))
-  * ((n: nat) -> abgrouphom (index n) (index (succ n)))</code><br><h1>KERNEL and IMAGE</h1><p><b>Definition</b> (Kernel of Homomorphism).</p><code>ker_prop (G H: group) (phi: grouphom G H)
+  = subtype G.1.1 (subElProp G H)</code><br><h1>KERNEL and IMAGE</h1><p><b>Definition</b> (Kernel of Homomorphism).</p><code>ker_prop (G H: group) (phi: grouphom G H)
   : subgroupProp G
   = (prop,level,ident,inv,op,di) where
     prop (x: G.1.1): U = Path H.1.1 (phi.1 x) (idGroup H)
@@ -124,7 +108,23 @@ Im (G: group) (H: abgroup) (psi: grouphom G (H.1,H.2.1)): group
   = pTrunc (fiber G.1.1 H.1.1 phi.1 (diff H x y))
 
 KerImEl (G H: group) (phi: grouphom G H): U
-  = quot H.1.1 (KerImRel G H phi)</code><p><b>Definition</b> (Homology Group).</p><code>homology_group (x: ChainComplex): (n: Z) -> group</code><br><h1>AXIOMS</h1><p><b>Definition</b> (Homology). The map from a pair of topological
+  = quot H.1.1 (KerImRel G H phi)</code><p><b>Definition</b> (Homology Group).</p><code>homology_group (x: ChainComplex): (n: Z) -> group</code><br><h1>COMPLEXES</h1><p><b>Definition</b> (Sequence).</p><code>mutual
+  data Seq (A: U) (B: A -> A -> U)
+     = seqNil (ob: A)
+     | seqCons (ob: A) (seq: Seq A B) (hom: B ob (head A B seq))
+  head (A: U) (B: A -> A -> U): Seq A B -> A = split
+       seqNil x -> x
+       seqCons x y z -> x</code><p><b>Definition</b> (Chain Complexes).</p><code>ChainComplex: U
+  = (sequence: Seq abgroup abgrouphom)
+  * (index: nat -> abgroup)
+  * (augment: abgrouphom (index zero) (head abgroup abgrouphom sequence))
+  * ((n: nat) -> abgrouphom (index (succ n)) (index n))
+
+CochainComplex: U
+  = (sequence: Seq abgroup abgrouphom)
+  * (index: nat -> abgroup)
+  * (augment: abgrouphom (head abgroup abgrouphom sequence) (index zero))
+  * ((n: nat) -> abgrouphom (index n) (index (succ n)))</code><br><h1>AXIOMS</h1><p><b>Definition</b> (Homology). The map from a pair of topological
 spaces $A \subset X$ to an Abelian Groups, called homological
 groups $H_n(X,A)$ iff: i) Any map $f : (X,A) \rightarrow (Y,B)$
 induces homomorphism $f_* : H_n(X,A) \rightarrow H_n(Y,B)$ such that

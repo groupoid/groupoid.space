@@ -107,7 +107,7 @@ block content
                 p.
                     <b>Definition</b> (Conjugation).
                     Let $G$ is a group, the conjucation of two elements of the group
-                    $x, y: G \rightarrow G$ is defined as $x y x^{-1}$.
+                    $x,y \in G$ is defined as $x y x^{-1}$.
                 code.
                   conjugate (G: group) (g1 g2: G.1.1): G.1.1
                     = diff G ((opGroup G) g1 g2) g1
@@ -148,32 +148,6 @@ block content
                     = subtype G.1.1 (subElProp G H)
                 br.
 
-                h1 COMPLEXES
-                p.
-                    <b>Definition</b> (Sequence).
-                code.
-                  mutual
-                    data Seq (A: U) (B: A -> A -> U)
-                       = seqNil (ob: A)
-                       | seqCons (ob: A) (seq: Seq A B) (hom: B ob (head A B seq))
-                    head (A: U) (B: A -> A -> U): Seq A B -> A = split
-                         seqNil x -> x
-                         seqCons x y z -> x
-                p.
-                    <b>Definition</b> (Chain Complexes).
-                code.
-                  ChainComplex: U
-                    = (sequence: Seq abgroup abgrouphom)
-                    * (index: nat -> abgroup)
-                    * (augment: abgrouphom (index zero) (head abgroup abgrouphom sequence))
-                    * ((n: nat) -> abgrouphom (index (succ n)) (index n))
-
-                  CochainComplex: U
-                    = (sequence: Seq abgroup abgrouphom)
-                    * (index: nat -> abgroup)
-                    * (augment: abgrouphom (head abgroup abgrouphom sequence) (index zero))
-                    * ((n: nat) -> abgrouphom (index n) (index (succ n)))
-                br.
 
                 h1 KERNEL and IMAGE
                 p.
@@ -218,6 +192,33 @@ block content
                     <b>Definition</b> (Homology Group).
                 code.
                   homology_group (x: ChainComplex): (n: Z) -> group
+                br.
+
+                h1 COMPLEXES
+                p.
+                    <b>Definition</b> (Sequence).
+                code.
+                  mutual
+                    data Seq (A: U) (B: A -> A -> U)
+                       = seqNil (ob: A)
+                       | seqCons (ob: A) (seq: Seq A B) (hom: B ob (head A B seq))
+                    head (A: U) (B: A -> A -> U): Seq A B -> A = split
+                         seqNil x -> x
+                         seqCons x y z -> x
+                p.
+                    <b>Definition</b> (Chain Complexes).
+                code.
+                  ChainComplex: U
+                    = (sequence: Seq abgroup abgrouphom)
+                    * (index: nat -> abgroup)
+                    * (augment: abgrouphom (index zero) (head abgroup abgrouphom sequence))
+                    * ((n: nat) -> abgrouphom (index (succ n)) (index n))
+
+                  CochainComplex: U
+                    = (sequence: Seq abgroup abgrouphom)
+                    * (index: nat -> abgroup)
+                    * (augment: abgrouphom (head abgroup abgrouphom sequence) (index zero))
+                    * ((n: nat) -> abgrouphom (index n) (index (succ n)))
                 br.
 
                 h1 AXIOMS
