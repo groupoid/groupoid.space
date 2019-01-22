@@ -1,4 +1,4 @@
-<!DOCTYPE html><html><head><meta charset="utf-8"><meta http-equiv="x-ua-compatible" content="ie=edge"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="author" content="Maxim Sokhatsky"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:site" content="@5HT"><meta name="twitter:creator" content="@5HT"><meta name="twitter:image" content="https://groupoid.space/card2.png?v=1"><meta property="og:title" content="Groupoid Infinity"><meta property="og:image" content="https://groupoid.space/card2.png?v=1"><meta property="og:type" content="website"><meta property="fb:app_id" content="118554188236439"><meta property="og:url" content="https://groupoid.space"><meta property="og:description" content="The Language of Space"><link rel="stylesheet" href="https://groupoid.space/main.css?v=11"><title>HOMOLOGY</title><script src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML"></script><script>window.MathJax = { jax: ["input/TeX", "input/MathML", "input/AsciiMath", "output/CommonHTML", "output/NativeMML"],
+<!DOCTYPE html><html><head><meta charset="utf-8"><meta http-equiv="x-ua-compatible" content="ie=edge"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="author" content="Maxim Sokhatsky"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:site" content="@5HT"><meta name="twitter:creator" content="@5HT"><meta name="twitter:image" content="https://groupoid.space/card2.png?v=1"><meta property="og:title" content="Groupoid Infinity"><meta property="og:image" content="https://groupoid.space/card2.png?v=1"><meta property="og:type" content="website"><meta property="fb:app_id" content="118554188236439"><meta property="og:url" content="https://groupoid.space"><meta property="og:description" content="The Language of Space"><link rel="stylesheet" href="https://groupoid.space/main.css?v=11"><title>HOMOLOGY</title><script src="https://etale.space/styles/mathjax.js?config=TeX-AMS_HTML"></script><script>window.MathJax = { jax: ["input/TeX", "input/MathML", "input/AsciiMath", "output/CommonHTML", "output/NativeMML"],
                         TeX: { extensions: ["AMSmath.js", "AMSsymbols.js", "autoload-all.js"] },
                         extensions: ["tex2jax.js", "asciimath2jax.js", "mml2jax.js", "MathMenu.js", "MathZoom.js"],
                         "HTML-CSS": { imageFont: null },
@@ -22,9 +22,71 @@
   \def\mapdown#1{\Big\downarrow\rlap{\raise2pt{\scriptstyle{#1}}}}
   \def\mapdiagl#1{\vcenter{\searrow}\rlap{\raise2pt{\scriptstyle{#1}}}}
   \def\mapdiagr#1{\vcenter{\swarrow}\rlap{\raise2pt{\scriptstyle{#1}}}}
-$$</figure><p><a href="https://raw.githubusercontent.com/groupoid/infinity/master/priv/homology.ctt">Homology package</a>
+$$</figure><p><a href="https://raw.githubusercontent.com/groupoid/cubical/master/src/homology.ctt">Homology package</a>
 contains basic theorems about general homology theory.
-</p></section><section><h1>Introduction</h1><p><b>Definition</b> (Homology). The map from a pair of topological
+</p></section><section><h1>SETS</h1><p><b>Definition</b> (Set).</p><code>n_grpd (A: U) (n: N): U = (a b: A) -> rec A a b n where
+  rec (A: U) (a b: A) : (k: N) -> U
+    = split { Z -> Path A a b ; S n -> n_grpd (Path A a b) n }
+
+isProp  (A: U): U = n_grpd A Z
+isSet   (A: U): U = n_grpd A (S Z)</code><br><h1>GROUPS</h1><p><b>Definition</b> (Monoid).</p><code>isMonoid (M: SET): U
+  = (op: M.1 -> M.1 -> M.1)
+  * (assoc: isAssociative M.1 op)
+  * (id: M.1)
+  * (hasIdentity M.1 op id)</code><p><b>Definition</b> (Group).</p><code>isGroup (G: SET): U
+  = (m: isMonoid G)
+  * (inv: G.1 -> G.1)
+  * (hasInverse G.1 m.1 m.2.2.1 inv)</code><p><b>Definition</b> (Differential Group).</p><code>isDifferentialGroup (G: SET): U
+  = (g: isGroup G)
+  * (comm: isCommutative G.1 g.1.1)
+  * (boundary: G.1 -> G.1)
+  * ((x: G.1) -> Path G.1 (boundary (boundary x)) g.1.2.2.1)</code><p><b>Definition</b> (Conjugation).</p><code>conj (G: dgroup) (g1 g2: G.1.1): G.1.1
+  = op (op g1 g2) (inv g1) where
+    g:   group = (G.1,G.2.1)
+    op:  g.1.1 -> g.1.1 -> g.1.1 = opGroup g
+    inv: g.1.1 -> g.1.1 = invGroup g</code><p><b>Definition</b> (Diff).</p><code>diff (H: dgroup) (g h: H.1.1) : H.1.1
+  = (opGroup (H.1,H.2.1)) g ((invGroup (H.1,H.2.1)) h)</code><br><h1>SUBGROUPS</h1><p><b>Definition</b> (Subtype).</p><code>subtypeProp (A: U): U
+  = (P: A -> U) * (a: A) -> isProp (P a)
+
+subtype (A: U) (P: subtypeProp A): U
+  = (x: A) * (P.1 x)</code><p><b>Definition</b> (Subgroup).</p><code>subgroupProp (G: dgroup): U
+  = (prop: G.1.1 -> U)
+  * (level: (x: G.1.1) -> isProp (prop x))
+  * (ident: prop (idGroup (G.1,G.2.1)))
+  * ((g1 g2: G.1.1) -> prop g1 -> prop g2 -> prop (diff G g1 g2))</code><p><b>Definition</b> (Normal Subgroup).</p><code>isNormal (G: dgroup) (P: subgroupProp G) : U
+  = (g1 g2: G.1.1) -> P.1 g2 -> P.1 (conj G g1 g2)
+
+normalSubgroupProp (G: dgroup): U
+  = (P: subgroupProp G)
+  * isNormal G P
+
+subElProp (G: dgroup) (H: subgroupProp G)
+  : subtypeProp G.1.1
+  = (H.1,H.2.1)
+
+subEl (G: dgroup) (H: subgroupProp G): U
+  = subtype G.1.1 (subElProp G H)</code><br><h1>COMPLEXES</h1><p><b>Definition</b> (Chain Complex).</p><code>ChainComplex: U
+  = (head: dgroup)
+  * (chain: nat -> dgroup)
+  * (augment: dgrouphom (chain zero) head)
+  * ((n: nat) -> dgrouphom (chain (succ n)) (chain n))
+
+CochainComplex: U
+  = (head: dgroup)
+  * (cochain: nat -> dgroup)
+  * (augment: dgrouphom head (cochain zero))
+  * ((n: nat) -> dgrouphom (cochain n) (cochain (succ n)))</code><br><h1>KER and IM</h1><p><b>Definition</b> (Kernel).</p><code>ker_prop (G H: dgroup) (phi: dgrouphom G H)
+  : subgroupProp G
+  = (prop,level,ident,di) where
+    g: group = (G.1,G.2.1)
+    h: group = (H.1,H.2.1)
+    prop: G.1.1 -> U = \ (g: G.1.1) -> Path H.1.1 (phi.1 g) (idGroup h)
+    level: (x: G.1.1) -> isProp (prop x)
+    ident: prop (idGroup g)
+    di: (g1 g2: G.1.1) -> prop g1 -> prop g2 -> prop (diff G g1 g2)</code><p><b>Definition</b> (Kernel/Im as Fiber Truncation).</p><code>KerImRel (G H: dgroup) (phi: dgrouphom G H) (x y: H.1.1): U
+  = pTrunc (fiber G.1.1 H.1.1 phi.1 (diff H x y))</code><p><b>Definition</b> (Kernel/Im as Quotient).</p><code>KerImEl (G H: dgroup) (phi: dgrouphom G H): U
+  = quot H.1.1 (KerImRel G H phi)
+</code><p><b>Definition</b> (Homology Group).</p><code>homology_group (x: ChainComplex): (n: Z) -> dgroup</code><br><h1>AXIOMS</h1><p><b>Definition</b> (Homology). The map from a pair of topological
 spaces $A \subset X$ to an Abelian Groups, called homological
 groups $H_n(X,A)$ iff: i) Any map $f : (X,A) \rightarrow (Y,B)$
 induces homomorphism $f_* : H_n(X,A) \rightarrow H_n(Y,B)$ such that

@@ -2,7 +2,7 @@ extends ../../../layout.pug
 
 block title
     title HOMOLOGY
-    script(src='//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML')
+    script(src='https://etale.space/styles/mathjax.js?config=TeX-AMS_HTML')
     script.
      window.MathJax = { jax: ["input/TeX", "input/MathML", "input/AsciiMath", "output/CommonHTML", "output/NativeMML"],
                              TeX: { extensions: ["AMSmath.js", "AMSsymbols.js", "autoload-all.js"] },
@@ -41,12 +41,144 @@ block content
                       \def\mapdiagr#1{\vcenter{\swarrow}\rlap{\raise2pt{\scriptstyle{#1}}}}
                     $$
                 p.
-                    <a href="https://raw.githubusercontent.com/groupoid/infinity/master/priv/homology.ctt">Homology package</a>
+                    <a href="https://raw.githubusercontent.com/groupoid/cubical/master/src/homology.ctt">Homology package</a>
                     contains basic theorems about general homology theory.
 
             section
-                h1 Introduction
+                h1 SETS
+                p.
+                    <b>Definition</b> (Set).
+                code.
+                  n_grpd (A: U) (n: N): U = (a b: A) -> rec A a b n where
+                    rec (A: U) (a b: A) : (k: N) -> U
+                      = split { Z -> Path A a b ; S n -> n_grpd (Path A a b) n }
 
+                  isProp  (A: U): U = n_grpd A Z
+                  isSet   (A: U): U = n_grpd A (S Z)
+                br.
+
+                h1 GROUPS
+                p.
+                    <b>Definition</b> (Monoid).
+                code.
+                  isMonoid (M: SET): U
+                    = (op: M.1 -> M.1 -> M.1)
+                    * (assoc: isAssociative M.1 op)
+                    * (id: M.1)
+                    * (hasIdentity M.1 op id)
+                p.
+                    <b>Definition</b> (Group).
+                code.
+                  isGroup (G: SET): U
+                    = (m: isMonoid G)
+                    * (inv: G.1 -> G.1)
+                    * (hasInverse G.1 m.1 m.2.2.1 inv)
+                p.
+                    <b>Definition</b> (Differential Group).
+                code.
+                  isDifferentialGroup (G: SET): U
+                    = (g: isGroup G)
+                    * (comm: isCommutative G.1 g.1.1)
+                    * (boundary: G.1 -> G.1)
+                    * ((x: G.1) -> Path G.1 (boundary (boundary x)) g.1.2.2.1)
+                p.
+                    <b>Definition</b> (Conjugation).
+                code.
+                  conj (G: dgroup) (g1 g2: G.1.1): G.1.1
+                    = op (op g1 g2) (inv g1) where
+                      g:   group = (G.1,G.2.1)
+                      op:  g.1.1 -> g.1.1 -> g.1.1 = opGroup g
+                      inv: g.1.1 -> g.1.1 = invGroup g
+                p.
+                    <b>Definition</b> (Diff).
+                code.
+                  diff (H: dgroup) (g h: H.1.1) : H.1.1
+                    = (opGroup (H.1,H.2.1)) g ((invGroup (H.1,H.2.1)) h)
+                br.
+
+                h1 SUBGROUPS
+                p.
+                    <b>Definition</b> (Subtype).
+                code.
+                  subtypeProp (A: U): U
+                    = (P: A -> U) * (a: A) -> isProp (P a)
+
+                  subtype (A: U) (P: subtypeProp A): U
+                    = (x: A) * (P.1 x)
+                p.
+                    <b>Definition</b> (Subgroup).
+                code.
+                  subgroupProp (G: dgroup): U
+                    = (prop: G.1.1 -> U)
+                    * (level: (x: G.1.1) -> isProp (prop x))
+                    * (ident: prop (idGroup (G.1,G.2.1)))
+                    * ((g1 g2: G.1.1) -> prop g1 -> prop g2 -> prop (diff G g1 g2))
+                p.
+                    <b>Definition</b> (Normal Subgroup).
+                code.
+                  isNormal (G: dgroup) (P: subgroupProp G) : U
+                    = (g1 g2: G.1.1) -> P.1 g2 -> P.1 (conj G g1 g2)
+
+                  normalSubgroupProp (G: dgroup): U
+                    = (P: subgroupProp G)
+                    * isNormal G P
+
+                  subElProp (G: dgroup) (H: subgroupProp G)
+                    : subtypeProp G.1.1
+                    = (H.1,H.2.1)
+
+                  subEl (G: dgroup) (H: subgroupProp G): U
+                    = subtype G.1.1 (subElProp G H)
+                br.
+
+                h1 COMPLEXES
+                p.
+                    <b>Definition</b> (Chain Complex).
+                code.
+                  ChainComplex: U
+                    = (head: dgroup)
+                    * (chain: nat -> dgroup)
+                    * (augment: dgrouphom (chain zero) head)
+                    * ((n: nat) -> dgrouphom (chain (succ n)) (chain n))
+
+                  CochainComplex: U
+                    = (head: dgroup)
+                    * (cochain: nat -> dgroup)
+                    * (augment: dgrouphom head (cochain zero))
+                    * ((n: nat) -> dgrouphom (cochain n) (cochain (succ n)))
+                br.
+
+                h1 KER and IM
+                p.
+                    <b>Definition</b> (Kernel).
+                code.
+                  ker_prop (G H: dgroup) (phi: dgrouphom G H)
+                    : subgroupProp G
+                    = (prop,level,ident,di) where
+                      g: group = (G.1,G.2.1)
+                      h: group = (H.1,H.2.1)
+                      prop: G.1.1 -> U = \ (g: G.1.1) -> Path H.1.1 (phi.1 g) (idGroup h)
+                      level: (x: G.1.1) -> isProp (prop x)
+                      ident: prop (idGroup g)
+                      di: (g1 g2: G.1.1) -> prop g1 -> prop g2 -> prop (diff G g1 g2)
+                p.
+                    <b>Definition</b> (Kernel/Im as Fiber Truncation).
+                code.
+                  KerImRel (G H: dgroup) (phi: dgrouphom G H) (x y: H.1.1): U
+                    = pTrunc (fiber G.1.1 H.1.1 phi.1 (diff H x y))
+                p.
+                    <b>Definition</b> (Kernel/Im as Quotient).
+                code.
+                  KerImEl (G H: dgroup) (phi: dgrouphom G H): U
+                    = quot H.1.1 (KerImRel G H phi)
+
+                p.
+                    <b>Definition</b> (Homology Group).
+                code.
+                  homology_group (x: ChainComplex): (n: Z) -> dgroup
+                br.
+
+                h1 AXIOMS
                 p.
                     <b>Definition</b> (Homology). The map from a pair of topological
                     spaces $A \subset X$ to an Abelian Groups, called homological
