@@ -177,18 +177,6 @@ block content
 
                 h1 KERNEL and IMAGE
                 p.
-                    <b>Definition</b> (Kernel).
-                code.
-                  ker_prop (G H: dgroup) (phi: dgrouphom G H)
-                    : subgroupProp G
-                    = (prop,level,ident,di) where
-                      g: group = (G.1,G.2.1)
-                      h: group = (H.1,H.2.1)
-                      prop: G.1.1 -> U = \ (g: G.1.1) -> Path H.1.1 (phi.1 g) (idGroup h)
-                      level: (x: G.1.1) -> isProp (prop x)
-                      ident: prop (idGroup g)
-                      di: (g1 g2: G.1.1) -> prop g1 -> prop g2 -> prop (diff G g1 g2)
-                p.
                     <b>Definition</b> (Kernel of Homomorphism).
                 code.
                   ker_prop (G H: group) (phi: grouphom G H)
