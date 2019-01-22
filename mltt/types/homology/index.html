@@ -58,9 +58,11 @@ invGroup (g: group): g.1.1 -> g.1.1
 
 dgroup: U = (X: SET) * isDifferentialGroup X
 dgrouphom (a b: dgroup): U = monoidhom (a.1, a.2.1.1) (b.1, b.2.1.1)
-unitAbGroup: abgroup
-</code><p><b>Definition</b> (Conjugation).</p><code>conj (G: dgroup) (g1 g2: G.1.1): G.1.1
-  = op (op g1 g2) (inv g1) where
+unitDGroup: dgroup
+</code><p><b>Definition</b> (Conjugation).
+Let $G$ is a group, the conjucation of two elements of the group
+$x, y: G \rightarrow G$ is defined as $x y x^{-1}$.</p><code>conj (G: dgroup) (x y: G.1.1): G.1.1
+  = op (op x y) (inv x) where
     g:   group = (G.1,G.2.1)
     op:  g.1.1 -> g.1.1 -> g.1.1 = opGroup g
     inv: g.1.1 -> g.1.1 = invGroup g</code><p><b>Definition</b> (Diff).</p><code>diff (H: dgroup) (g h: H.1.1) : H.1.1
