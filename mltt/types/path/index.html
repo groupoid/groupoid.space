@@ -26,7 +26,7 @@
   \def\mapdownl#1{\Big\downarrow\llap{\raise2pt{\scriptstyle{#1}}}}
   \def\mapdiagl#1{\vcenter{\searrow}\rlap{\raise2pt{\scriptstyle{#1}}}}
   \def\mapdiagr#1{\vcenter{\swarrow}\rlap{\raise2pt{\scriptstyle{#1}}}}
-$$</figure><p><a href="https://raw.githubusercontent.com/groupoid/infinity/master/priv/path.ctt">Path package</a>
+$$</figure><p><a href="https://raw.githubusercontent.com/groupoid/cubical/master/src/path.ctt">Path package</a>
 contains basic theorems about general homotopy path types.
 In the core the cubical has heterogeneous <mark>PathP</mark> type,</p><code>HeteroPath  (A B: U) (a: A) (b: B) (P: Path U A B) : U = PathP P a b</code><p>so you can easily define homogeneous <mark>Path</mark>:</p><code>Path (A: U) (a b: A) : U = PathP (&lt;i&gt; A) a b</code><p>The Path identity type defines a Path space with elements and values.
 Elements of that space are functions
