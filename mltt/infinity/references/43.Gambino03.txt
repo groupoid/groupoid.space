@@ -1,9 +1,0 @@
-@inproceedings{Gambino03,
-  title={Wellfounded trees and dependent polynomial functors},
-  author={Gambino, Nicola and Hyland, Martin},
-  booktitle={International Workshop on Types for Proofs and Programs},
-  pages={210--225},
-  year={2003},
-  organization={Springer}
-}
-

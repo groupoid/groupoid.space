@@ -1,9 +1,0 @@
-@inproceedings{Dybjer95,
-  title={Internal type theory},
-  author={Dybjer, Peter},
-  booktitle={International Workshop on Types for Proofs and Programs},
-  pages={120--134},
-  year={1995},
-  organization={Springer}
-}
-

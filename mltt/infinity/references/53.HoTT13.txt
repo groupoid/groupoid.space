@@ -1,7 +1,0 @@
-@book{HoTT13,
-  title={Homotopy Type Theory: Univalent Foundations of Mathematics},
-  author={Coquand, Thierry and  Martin-L{\"o}f, Per and  Voevodsky, Vladimir and  Joyal, Andr{\'e} and  Bauer, Andrej and  Awodey, Steve and  Sozeau, Matthieu and  Shulman, Michael and  Licata, Dan and  Bertot, Yves and  Dybjer, Peter and  Gambino, Nicola},
-  journal={arXiv preprint arXiv:1308.0729},
-  year={2013}
-}
-

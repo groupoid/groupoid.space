@@ -1,9 +1,0 @@
-@inproceedings{Hofmann94,
-  title={The groupoid model refutes uniqueness of identity proofs},
-  author={Hofmann, Martin and Streicher, Thomas},
-  booktitle={Logic in Computer Science, 1994. LICS'94. Proceedings., Symposium on},
-  pages={208--212},
-  year={1994},
-  organization={IEEE}
-}
-

@@ -1,9 +1,0 @@
-@article{Hermida95,
-  title={Fibrations with Indeterminates: Contextual and Functional Completeness for Polymorphic Lambda Calculi},
-  author={Claudio Hermida and Bart Jacobs},
-  journal={Mathematical Structures in Computer Science},
-  year={1995},
-  volume={5},
-  pages={501-531}
-}
-

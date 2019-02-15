@@ -1,8 +1,0 @@
-@book{Jacobs99,
-  title={Categorical logic and type theory},
-  author={Jacobs, Bart},
-  volume={141},
-  year={1999},
-  publisher={Elsevier}
-}
-

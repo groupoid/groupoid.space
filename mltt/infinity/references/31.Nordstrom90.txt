@@ -1,8 +1,0 @@
-@book{Nordstrom90,
-  title={Programming in Martin-L{\"o}f’s type theory},
-  author={Nordstr{\"o}m, Bengt and Petersson, Kent and Smith, Jan M},
-  volume={200},
-  year={1990},
-  publisher={Oxford University Press Oxford}
-}
-

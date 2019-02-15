@@ -1,7 +1,0 @@
-@article{Orton17,
-  title={Axioms for modelling cubical type theory in a topos},
-  author={Orton, Ian and Pitts, Andrew M},
-  journal={arXiv preprint arXiv:1712.04864},
-  year={2017}
-}
-

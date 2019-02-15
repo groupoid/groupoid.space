@@ -1,5 +1,0 @@
-@article{Sozeau,
-  title={Internalizing Intensional Type Theory},
-  author={Sozeau, Matthieu and Tabareau, Nicolas}
-}
-

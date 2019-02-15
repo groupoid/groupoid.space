@@ -1,58 +1,21 @@
-<!DOCTYPE html><html><head><meta charset="utf-8"><meta http-equiv="x-ua-compatible" content="ie=edge"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="author" content="Maxim Sokhatsky"><meta name="twitter:site" content="@5HT"><meta name="twitter:creator" content="@5HT"><meta property="og:type" content="website"><meta property="fb:app_id" content="118554188236439"><meta property="og:url" content="https://groupoid.space"><meta property="og:title" content="GROUPOЇD"><meta property="og:description" content="Homotopy Theory"><link rel="stylesheet" href="https://groupoid.space/main.css?v=12"><script src="//cdnjs.cloudflare.com/ajax/libs/mathjax/2.6.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><script>MathJax.Hub.Config({
-   tex2jax: { inlineMath: [['$','$'], ['\\(','\\)']], processEscapes: true },
-   jax: ["input/TeX", "input/MathML", "input/AsciiMath", "output/CommonHTML", "output/NativeMML"],
-   TeX: { extensions: ["AMSmath.js", "AMSsymbols.js", "autoload-all.js"] },
-   extensions: ["tex2jax.js", "asciimath2jax.js", "mml2jax.js", "MathMenu.js", "MathZoom.js"],
-   "HTML-CSS": { imageFont: null },
-});</script><title>GROUPOЇD</title></head><body class="content"><header class="header"><div class="header__titles"><h1 class="header__title">Groupoïd la Infini</h1><h4 class="header__subtitle">Le langage de l'espace</h4></div></header><article class="main"><div class="om"><section><h1>le modèle</h1></section><aside><a href="https://tonpa.guru">Максим Сохацький</a><time>20 DEC 2018</time></aside><p>Voici le modèle conceptuel d'un système de démonstration
-de théorèmes qui unifie les théories de types tour avec
-des composants d'exécution (en tant que cibles d'extraction).
-Le modèle comprend: 1) des calculs avec ses modèles;
-2) programmes et bibliothèques de base; et 3) les
-transformations de programme: vérification de type,
-compilation, effacement de type, extraction de code, optimisation, etc.</p><p>Tout en étant un modèle générique, certaines parties du modèle
-sont implémentées dans différentes langues. La recherche a été
-fondée par le centre de recherche Synrc de Kiev, en Ukraine.
-Tous les travaux ont été réalisés sous la supervision de
-Pavlo Maslianko, faculté de mathématiques appliquées de
-l'Université technique nationale d'Ukraine.
-</p><section><h1>TAXONOMIE</h1></section><p>La thèse est regroupée par domaines de recherche avec leurs
-systèmes de types, modèles formels, vérificateurs de types
-et bibliothèques de base correspondants.
-</p></div><div class="index"><div class="index__col"><h2>CPS</h2><ul><li><a href="lambda/intro">Verified Interpreter</a></li><li><a href="lambda/extract">Extraction</a></li></ul></div><div class="index__col"><h2>PTS/MLTT/CiC</h2><ul><li><a href="#pts/intro">Intro</a></li><li><a href="pts/pure">Pure Core</a></li><li><a href="mltt/inductive">Inductive Core</a></li><li><a href="pts/semantics">Semantics</a></li></ul></div><div class="index__col"><h2>EFFECTS</h2><ul><li><a href='eff/io'>I/O</a></li><li><a href='eff/ioi'>Infinity I/O</a></li><li><a href='#eff/coq'>Coq Coeffects</a></li></ul></div><div class="index__col"><h2>RUN-TIME</h2><ul><li><a href="pi/intro">Intro</a></li><li><a href="lambda/runtime">Runtime</a></li><li><a href="#pi/check">Type Checking</a></li><li><a href="#pi/bisim">Bisimulation</a></li></ul></div><div class="index__col"><h2>HoTT/CCHM</h2><ul><li><a href="mltt/infinity">Language Overview</a></li><li><a href="mltt/types">Math Components</a></li><li><a href="course/">Cubical Course</a></li><li><a href="mltt/hopf">Hopf Fibrations</a></li><li><a href="notes/">Notes</a></li></ul></div><div class="index__col"><h2>TENSOR STORE</h2><ul><li><a href="/array/intro">Intro</a></li><li><a href="#array/lang">The Language</a></li><li><a href="#array/vec">Vectorization</a></li></ul></div></div><div class="om"><section><h1>la genèse</h1></section><p>Le processus de vérification formelle comporte les phases suivantes:
-1) codage du modèle, 2) liaison avec la bibliothèque de base de
-composants mathématiques, 3) désinsertion de fonctions essentielles,
-3) liaison avec la bibliothèque de base pure et 4) extraction.
-</p><p><b>Modèle minimal</b>. Ce modèle peut servir à la recherche PTS (Pure Type System),
-en tant que système de calcul de construction (CdC) avec un nombre infini
-d'univers avec extraction de programmes purs sur un interprète certifié.</p><br><p><object><center><img src="minimal.svg?v=6" width=50%></center></object></p><br><p><b>Modèle cubique</b>. Ce modèle peut servir à la recherche HoTT,
-étant le système MLTT / CCHM (théorie de type de Martin-Löf,
-Cohen-Coquand-Huber-Mörtberg) avec extraction limitée des
-programmes purs à un interprète certifié.</p><p><object><center><img src="higher.svg?v=6" width=70%></center></object></p><br><p><b>Modèle spectral</b>. Ce modèle est destiné aux besoins du serveur
-en matière de liaison avec les exécutions de π-calcul et, éventuellement,
-les calculs et les moteurs de fusion. Extraction vers un interpréteur
-Erlang ou CPS (style de continuation).</p><p><object><center><img src="full.svg?v=6" width=90%></center></object></p><br><section><h1>Fascicule de Résultats</h1></section><p>Articles évalués par des pairs sur les fondements de la théorie
-des types d'homotopie et la formalisation des mathématiques,
-détails de mise en œuvre et exemples d'applications pratiques.
-Voir <a href="https://cubical.systems">cubical.systems</a>
-pour plus d'informations.
-</p></div><div class="index"><center><table cellspacing=5><tr><td width=5><img src="https://n2o.space/img/pdf.jpg" width=35></td><td width=400>
-<a href="https://github.com/groupoid/groupoid.space/blob/master/tex/articles/mltt/mltt.pdf">
-<h3>Issue I: Internalizing Martin-Löf Type Theory</h3>
-</a></td></tr></table></center>
-<center><table cellspacing=5><tr><td width=5><img src="https://n2o.space/img/pdf.jpg" width=35></td><td width=400>
-<a href="https://github.com/groupoid/groupoid.space/blob/master/tex/articles/hott/hott.pdf">
-<h3>Issue III: Homotopy Type Theory</h3>
-</a></td></tr></table></center>
-<center><table cellspacing=5><tr><td width=5><img src="https://n2o.space/img/pdf.jpg" width=35></td><td width=400>
-<a href="https://github.com/groupoid/groupoid.space/blob/master/tex/articles/topos/topos.pdf">
-<h3>Issue VIII: Formal Topos on Category of Sets</h3>
-</a></td></tr></table></center>
-<center><table cellspacing=5><tr><td width=5><img src="https://n2o.space/img/pdf.jpg" width=35></td><td width=400>
-<a href="https://github.com/groupoid/groupoid.space/blob/master/tex/articles/pts/pts.pdf">
-<h3>Addendum I: Pure Type System for Erlang</h3>
-</a></td></tr></table></center>
-<center><table cellspacing=5><tr><td width=5><img src="https://n2o.space/img/pdf.jpg" width=35></td><td width=400>
-<a href="https://github.com/groupoid/groupoid.space/blob/master/tex/articles/equ/equ.pdf">
-<h3>Addendum II: Many Faces of Equality</h3>
-</a></td></tr></table></center><p>Pour les notes en cours, voir <a href="/course/">la page du cours</a>.</p></div></article><footer class="footer"><a href="//tonpa.guru/"><img class="footer__logo" src="https://longchenpa.guru/seal.png" width="50"></a><span class="footer__copy">2016&mdash;2019 &copy; <a href="//groupoid.space/" style="color:Lavender;">Groupoid Infinity</a></span></footer><script src="https://groupoid.space/bundle.js"></script><script src="https://groupoid.space/highlight.js?v=11"></script></body></html>
+<!DOCTYPE html><html><head><meta charset="utf-8"><meta http-equiv="x-ua-compatible" content="ie=edge"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="author" content="Maxim Sokhatsky"><meta name="twitter:site" content="@5HT"><meta name="twitter:creator" content="@5HT"><meta property="og:title" content="GROUPOЇD"><meta property="og:description" content="NOTES"><meta property="og:type" content="website"><meta property="fb:app_id" content="118554188236439"><meta property="og:url" content="https://groupoid.space/notes"><link rel="stylesheet" href="https://etale.space/styles/main.css?v=4"><title>GROUPOЇD</title></head><body class="content"></body></html><nav><a href='https://etale.space'>ÉTALE</a>
+<a href='https://sheaf.space'>SHEAF</a>
+<a href='https://groupoid.space/notes/'>GROUPOЇD</a></nav><article class="main"><div class="om"><section><h1>Foundations</h1><p>The series of notes about MLTT and Foundations.</p><p>10 OCT 2016 &mdash; <a href='../pts/pure/index.html'>Pure Type System</a><br>
+3 AUG 2017 &mdash; <a href='../mltt/types/index.html'>Mathematical Components</a><br>
+19 OCT 2017 &mdash; <a href='../mltt/inductive/index.html'>Recursion Schemes</a><br>
+</p><h1>Homotopy Theory</h1><p>The series of notes on Homotopy Type Theory.</p><p>10 OCT 2017 &mdash; <a href='../mltt/iso/index.html'>Isomorphism</a><br>
+30 DEC 2018 &mdash; <a href='../mltt/equiv/index.html'>Equivalence</a><br>
+20 JUN 2017 &mdash; <a href='../mltt/hopf/index.html'>Hopf Fibrations</a><br>
+</p><h1>Base Library</h1><p>The examples of base library man pages.</p><p>16 JUL 2017 &mdash; <a href='../mltt/types/pi/index.html'>Pi</a><br>
+ 5 NOV 2017 &mdash; <a href='../mltt/types/category/index.html'>Category</a><br>
+20 MAY 2018 &mdash; <a href='../mltt/types/bundle/index.html'>Bundle</a><br>
+25 JUL 2018 &mdash; <a href='../mltt/types/path/index.html'>Path</a><br>
+25 JUL 2018 &mdash; <a href='../mltt/types/cw/index.html'>CW Complex</a><br>
+22 JAN 2019 &mdash; <a href='../mltt/types/homology/index.html'>Homology</a><br>
+</p><h1>Articles</h1><p>The series of articles on foundation and mathematics of Homotopy Type Theory.</p><p>&mdash; <a href='../tex/articles/mltt/mltt.pdf'>Issue I: Internalizing MLTT</a><br>
+&mdash; <a href='../tex/articles/hott/hott.pdf'>Issue III: Homotopy Type Theory</a><br>
+&mdash; <a href='../tex/articles/topos/topos.pdf'>Issue VIII: Formal Set Topos</a><br>
+&mdash; <a href='../tex/articles/pts/pts.pdf'>Addendum I: Pure Type System</a><br>
+&mdash; <a href='../tex/articles/equ/equ.pdf'>Addendum II: Many Faces of Equality</a><br>
+
+</p></section></div></article><footer class="footer"><a href="https://tonpa.guru/"><img class="footer__logo" src="https://longchenpa.guru/seal.png" width="50"></a><span class="footer__copy">2016&mdash;2019 &copy; <a href="https://groupoid.space/" style="color:Lavender;">Groupoid Infinity</a></span><script src="https://groupoid.space/highlight.js"></script></footer>

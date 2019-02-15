@@ -1,8 +1,0 @@
-@inproceedings{Mortberg17,
-  author    = {Cyril Cohen and Thierry Coquand and Simon Huber and Anders M{\"{o}}rtberg},
-  booktitle = {Cubical Type Theory: a constructive interpretation of the univalence axiom},
-  journal   = {CoRR},
-  volume    = {abs/1611.02108},
-  year      = {2017}
-}
-

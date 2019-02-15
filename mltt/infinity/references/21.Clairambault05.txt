@@ -1,5 +1,0 @@
-@article{Clairambault05,
-  title={From categories with families to locally cartesian closed categories},
-  author={Clairambault, Pierre}
-}
-

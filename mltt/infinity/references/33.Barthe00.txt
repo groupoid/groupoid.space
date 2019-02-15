@@ -1,7 +1,0 @@
-@article{Barthe00,
-  title={Setoids in type theory},
-  author={Barthe, Gilles and Capretta, Venanzio and Pons, Olivier},
-  year={2000},
-  publisher={Citeseer}
-}
-

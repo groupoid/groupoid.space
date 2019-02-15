@@ -1,9 +1,0 @@
-@INPROCEEDINGS{Hofmann96,
-    author = {Martin Hofmann and Thomas Streicher},
-    title = {The Groupoid Interpretation of Type Theory},
-    booktitle = {In Venice Festschrift},
-    pages = {83--111},
-    year = {1996},
-    publisher = {Oxford University Press}
-}
-

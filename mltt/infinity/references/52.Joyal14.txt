@@ -1,8 +1,0 @@
-@article{Joyal14,
-  title={Categorical homotopy type theory},
-  author={Joyal, Andr{\'e}},
-  journal={Slides from a talk at MIT dated},
-  volume={17},
-  year={2014}
-}
-

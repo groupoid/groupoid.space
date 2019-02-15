@@ -1,7 +1,0 @@
-@book{Vene00,
-  title={Categorical programming with inductive and coinductive types},
-  author={Vene, Varmo},
-  year={2000},
-  publisher={Tartu University Press}
-}
-
