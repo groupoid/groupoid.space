@@ -2,7 +2,7 @@ extends ../../layout.pug
 
 block title
     title EQUIV
-    script(src='https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML')
+    script(src='https://etale.space/styles/mathjax.js?config=TeX-AMS_HTML')
     script.
      window.MathJax = { jax: ["input/TeX", "input/MathML", "input/AsciiMath", "output/CommonHTML", "output/NativeMML"],
                              TeX: { extensions: ["AMSmath.js", "AMSsymbols.js", "autoload-all.js"] },
@@ -17,6 +17,7 @@ block title
                                            rrparenthesis: ['Macro', '\\mathclose{\u2988}'],
                                            llbracket:     ['Macro', '\\mathopen{\u27E6}'],
                                            rrbracket:     ['Macro', '\\mathclose{\u27E7}'],
+                                           incmap:        ['Macro', '\\mathclose{\u21AA}'],
                                          }
                                      });
                                  });
@@ -26,7 +27,7 @@ block title
                          };
 
 block content
-    +header('../../groupoid.svg', 'Singleton, Fiber and Equivalence', 'Contractability proofs')
+    +header('', 'Singleton, Fiber and Equivalence', 'Contractability proofs')
     article.main
         .om
             section
