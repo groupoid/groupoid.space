@@ -9,9 +9,10 @@
 \usepackage{tikz}
 \usepackage{tikz-cd}
 \usetikzlibrary{matrix}
+\usepackage[utf8]{inputenc}
+\usepackage[english,russian]{babel}
 \usetikzlibrary{babel}
 \usepackage{listings}
-\usepackage[utf8]{inputenc}
 \theoremstyle{definition}
 \newtheorem{theorem}{Theorem}
 \newtheorem{definition}{Definition}
@@ -30,17 +31,30 @@
 \def\mapdiagr#1{\vcenter{\swarrow}\rlap{\raise2pt{\scriptstyle{#1}}}}
 \lstset{basicstyle=\small,inputencoding=utf8}
 
+\usepackage[absolute]{textpos}
+
+\setlength{\TPHorizModule}{4mm}
+\setlength{\TPVertModule}{\TPHorizModule}
+\textblockorigin{4mm}{4mm}
+\setlength{\parindent}{0pt}
+
+\begin{textblock}{3}(2,3)
+\small \text{УДК 510.2---510.6}
+\end{textblock}
 
 \begin{document}
 
-\title{Issue I: Internalizing Martin-Löf Type Theory}
-\author{Maxim Sokhatsky}
+
+
+\title{\small Максим Maxim Sokhatsky^{1}}
+\author{\Huge Issue I: Internalizing Martin-Löf Type Theory}
 \date{ $^1$ National Technical University of Ukraine \\
-       \small Igor Sikorsky Kyiv Polytechnical Institute \\
-       \today }
+       \small Igor Sikorsky Kyiv Polytechnical Institute }
 
 \maketitle
 \thispagestyle{empty}
+
+
 
 \begin{abstract}
 This article demonstrates formal MLTT embedding into the host type system
@@ -56,7 +70,6 @@ areas of mathematics.
 
 {\bf Keywords}: Martin-Löf Type Theory, Cubical Type Theory
 \end{abstract}
-\tableofcontents
 
 \section*{Intro}
 
@@ -80,6 +93,12 @@ prover was presented\cite{Mortberg17}. We should not that this is only entrance
 to internalization technique, and after formal MLTT embedding we
 need to go further through CiC\cite{Pfenning89}\cite{Dybjer94} and towards CW-complexes
 embedding as the higher inductive type system. This is yet open problem.
+
+
+\subsection*{Problem Statement}
+
+The problem is simple: create full self-contained MLTT internalization in the host typechecker,
+where all theorems are being checked constructively.
 
 \subsection*{Language Syntax}
 
