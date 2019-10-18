@@ -46,10 +46,10 @@
 
 
 
-\title{\small Максим Maxim Sokhatsky^{1}}
+\title{\small Максим M.E Sokhatsky^{*}}
 \author{\Huge Issue I: Internalizing Martin-Löf Type Theory}
-\date{ $^1$ National Technical University of Ukraine \\
-       \small Igor Sikorsky Kyiv Polytechnical Institute }
+\date{ Igor Sikorsky Kyiv Polytechnical Institute, Kyiv, Ukraine\\
+       \small $^*$ Corresponding author: Maksym Sokhatskyi, maxim@synrc.com}
 
 \maketitle
 \thispagestyle{empty}
@@ -71,11 +71,11 @@ areas of mathematics.
 {\bf Keywords}: Martin-Löf Type Theory, Cubical Type Theory
 \end{abstract}
 
-\section*{Intro}
+\section*{Introduction}
 
 Each language implementation needs to be checked. The one of possible test cases
 for type checkers is the direct embedding of type theory model into the language of type checker.
-As types in Martin-Löf Type Theory\cite{Lof72}\cite{Lof75}\cite{Lof84} (MLTT) are formulated using 5 types of rules (formation,
+As types in Martin-Löf Type Theory\cite{Lof72,Lof84} (MLTT) are formulated using 5 types of rules (formation,
 introduction, elimination, computation, uniqueness), we construct aliases
 for host language primitives and use type checker to prove that it is MLTT.
 This could be seen as ultimate test sample for type checker as
@@ -91,7 +91,7 @@ This test is fully made possible only after 2017 when new constructive
 {\bf cubicaltt}\footnote{http://github.com/mortberg/cubicaltt} HoTT\cite{HoTT13}
 prover was presented\cite{Mortberg17}. We should not that this is only entrance
 to internalization technique, and after formal MLTT embedding we
-need to go further through CiC\cite{Pfenning89}\cite{Dybjer94} and towards CW-complexes
+need to go further through CiC\cite{Pfenning89,Dybjer94} and towards CW-complexes
 embedding as the higher inductive type system. This is yet open problem.
 
 
@@ -186,9 +186,9 @@ It was proven that classical Logic could be embedded into
 intuitionistic propositional logic (IPL) which is directly embedded into MLTT.
 
 Logical and type-theoretical interpretations could be distincted. Also
-set-theoretical interpretation is not presented in Table 1.
+set-theoretical interpretation is not presented in the Table.
 
-\begin{table}[h]
+\begin{table}[!ht]
   \centering
  \begin{tabular}{lcccc}
     \hline
@@ -213,7 +213,7 @@ set-theoretical interpretation is not presented in Table 1.
        quantum circuit & proof net & string diagram & \\
       \hline
   \end{tabular}
-  \caption{Interpretations correspond to mathematical theories}\label{tab:pov}
+  \caption*{Table. Interpretations correspond to mathematical theories}
 \end{table}
 
 \subsubsection{Categorical or Topos-theoretical interpretation}
@@ -803,8 +803,7 @@ $\mathrm{U_i} \rightarrow \mathrm{U_j} : \mathrm{U_{\lambda(i,j), i,j \in \mathr
     \mathrm{U_i} \rightarrow \mathrm{U_j} : \mathrm{U_{\lambda(i,j); i,j \in \mathrm{N}}}
     \}$. Where $U_i$ is a universe of $i$-level or $i$-category in categorical interpretation.
     The working prototype of $\mathrm{PTS}^\infty$ is given in
-    {\bf Addendum I: Pure Type System for Erlang}\footnote{M.Sokhatsky,P.Maslianko. The Systems Engineering of Consistent Pure Language with Effect Type System for Certified Applications and Higher Languages. AIP Conference Proceedings. 2018.
-    doi:10.1063/1.5045439}.
+    {\bf Addendum I: Pure Type System for Erlang}\cite{Tonpa18}.
 \end{example}
 
 \subsection{Contexts}
@@ -950,7 +949,7 @@ algebra: multiplication, power, factorial by using ${\bf rec_{Nat}}$.
 three {\bf J} eliminators are equal each other.
 \end{exercise}
 
-\subsection*{Conclusion}
+\subsection*{Conclusions}
 
 In this issue the type-theoretical model (interpretation) of MLTT was
 presented in cubical syntax and type checked in cubicaltt.
@@ -970,7 +969,7 @@ Type theoretical cubicaltt constructions was given along the article for other i
 all of them were taken from our Groupoing
 Infinity\footnote{https://groupoid.space/mltt/types/} base library.
 
-\subsection*{Further research}
+\subsection*{Further Research}
 
 This article opens the door to a series that will unvail the different topics of
 homotopy type theory with practical emphasis to cubical type checkers.
