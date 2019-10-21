@@ -3,6 +3,9 @@
 \documentclass[twoside]{article}
 \usepackage[top=2cm,bottom=2cm,left=2.5cm,right=1.5cm]{geometry}
 \usepackage{amsmath}
+\usepackage{cite}
+\usepackage[strict=true,style=german]{csquotes}
+\setquotestyle{english}
 \usepackage{amssymb}
 \usepackage{amsthm}
 \usepackage{url}
@@ -13,12 +16,15 @@
 \usepackage[english,russian]{babel}
 \usetikzlibrary{babel}
 \usepackage{listings}
+\usepackage[tableposition=top]{caption}
+
 \theoremstyle{definition}
 \newtheorem{theorem}{Theorem}
 \newtheorem{definition}{Definition}
 \newtheorem{exercise}{Exercise}
 \newtheorem{example}{Example}
 
+\captionsetup[table]{labelformat=empty}
 \lstMakeShortInline[mathescape=true,columns=fixed]|
 
 \def\mapright#1{\xrightarrow{{#1}}}
@@ -39,22 +45,19 @@
 \setlength{\parindent}{0pt}
 
 \begin{textblock}{3}(2,3)
-\small \text{УДК 510.2---510.6}
+\small \text{УДК 510.2:510.6}
 \end{textblock}
+
 
 \begin{document}
 
-
-
-\title{\small Максим M.E Sokhatsky^{*}}
+\title{\small Максим M.E. Sokhatsky^{*}}
 \author{\Huge Issue I: Internalizing Martin-Löf Type Theory}
 \date{ Igor Sikorsky Kyiv Polytechnical Institute, Kyiv, Ukraine\\
-       \small $^*$ Corresponding author: Maksym Sokhatskyi, maxim@synrc.com}
+       \small $^*$Corresponding author: maxim@synrc.com}
 
 \maketitle
 \thispagestyle{empty}
-
-
 
 \begin{abstract}
 This article demonstrates formal MLTT embedding into the host type system
@@ -89,11 +92,10 @@ $\Pi$ and $\Sigma$ types, this issue presents different interpretation of MLTT t
 
 This test is fully made possible only after 2017 when new constructive
 {\bf cubicaltt}\footnote{http://github.com/mortberg/cubicaltt} HoTT\cite{HoTT13}
-prover was presented\cite{Mortberg17}. We should not that this is only entrance
+prover was presented\cite{Mortberg17}. We should note that this is only entrance
 to internalization technique, and after formal MLTT embedding we
 need to go further through CiC\cite{Pfenning89,Dybjer94} and towards CW-complexes
-embedding as the higher inductive type system. This is yet open problem.
-
+embedding as the higher inductive type system. This is yet an open problem.
 
 \subsection*{Problem Statement}
 
@@ -190,6 +192,7 @@ set-theoretical interpretation is not presented in the Table.
 
 \begin{table}[!ht]
   \centering
+  \caption*{\textbf{Table}. Interpretations correspond to mathematical theories}
  \begin{tabular}{lcccc}
     \hline
        Type Theory & Logic & Category Theory & Homotopy Theory\\
@@ -213,7 +216,6 @@ set-theoretical interpretation is not presented in the Table.
        quantum circuit & proof net & string diagram & \\
       \hline
   \end{tabular}
-  \caption*{Table. Interpretations correspond to mathematical theories}
 \end{table}
 
 \subsubsection{Categorical or Topos-theoretical interpretation}
@@ -1053,6 +1055,8 @@ repository\footnote{\url{https://github.com/groupoid/pts}}.
 This article pays attension to different forms of equalities
 and builds the tower of higher equalities.
 
+\section*{Referenses}
+\renewcommand{\bibname}{References}
 \bibliographystyle{ieeetr}
 \bibliography{mltt}
 
