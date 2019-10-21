@@ -1,0 +1,89 @@
+\documentclass{article}
+\usepackage{titlesec}
+\usepackage[absolute]{textpos}
+\usepackage{amsmath}
+\usepackage{cite}
+\usepackage[strict=true,style=english]{csquotes}
+\setquotestyle{english}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{url}
+\usepackage{tikz}
+\usepackage{tikz-cd}
+\usetikzlibrary{matrix}
+\usepackage[utf8]{inputenc}
+\usepackage[english,russian]{babel}
+\usetikzlibrary{babel}
+\usepackage{listings}
+\usepackage[tableposition=top]{caption}
+\theoremstyle{definition}
+\newtheorem{theorem}{Theorem}
+\newtheorem{definition}{Definition}
+\newtheorem{exercise}{Exercise}
+\newtheorem{example}{Example}
+\captionsetup[table]{labelformat=empty}
+\lstMakeShortInline[mathescape=true,columns=fixed]|
+\def\mapright#1{\xrightarrow{{#1}}}
+\def\mapleft#1{\xleftarrow{{#1}}}
+\def\mapup#1{\Big\uparrow\rlap{\raise2pt{\scriptstyle{#1}}}}
+\def\mapupl#1{\Big\uparrow\llap{\raise2pt{\scriptstyle{#1}}}}
+\def\mapdown#1{\Big\downarrow\rlap{\raise2pt{\scriptstyle{#1}}}}
+\def\mapdownl#1{\Big\downarrow\llap{\raise2pt{\scriptstyle{#1}}}}
+\def\mapdiagl#1{\vcenter{\searrow}\rlap{\raise2pt{\scriptstyle{#1}}}}
+\def\mapdiagr#1{\vcenter{\swarrow}\rlap{\raise2pt{\scriptstyle{#1}}}}
+\lstset{basicstyle=\small,inputencoding=utf8}
+\setlength{\TPHorizModule}{4mm}
+\setlength{\TPVertModule}{\TPHorizModule}
+\textblockorigin{4mm}{4mm}
+\setlength{\parindent}{0pt}
+\titleformat{\section}[block]{\Large\bfseries\filcenter}{}{1em}{}
+
+\begin{textblock}{3}(2,3)
+\small \text{УДК 510.2:510.6}
+\end{textblock}
+
+\begin{document}
+
+\title{\small Максим M.E. Sokhatsky^{*}}
+\author{Issue I: Internalizing Martin-Löf Type Theory}
+\date{ \small Igor Sikorsky Kyiv Polytechnical Institute, Kyiv, Ukraine\\
+       \small $^*$Corresponding author: maxim@synrc.com}
+
+\maketitle
+
+\section*{Annotation}
+
+\begin{abstract}
+
+This article demonstrates formal Martin-Löf Type Theory (MLTT) embedding into the host type system
+with constructive proofs of complete set of inference rules. This was recently made possible
+by introducing cubical type theory and cubical type checker
+{\bf cubicaltt}\footnote{http://github.com/mortberg/cubicaltt}in 2017.
+The long road from pure type systems of AUTOMATH by de Brujin to type checkers with homotopical core
+was made. This artcile touches only formal MLTT core type system
+with $\Pi$, $\Sigma$ types (that correspond to $\forall$ and $\exists$ quantifiers for mathematical reasoning)
+and identity type.
+
+Each language implementation needs to be checked. The one of possible test cases
+for type checkers is the direct embedding of type theory model into the language of type checker.
+As types are formulated using 5 types of rules (formation,
+introduction, elimination, computation, uniqueness), we construct aliases
+for the host language primitives and use type checker to prove that it has realization of MLTT.
+This could be seen as ultimate test sample for type checker as
+intro-elimination fusion resides in beta-eta rules, so by proving them
+we prove properties of the host type checker.
+
+More formally cubical MLTT internalization proofs that was impossible to express contructively
+before cubical type system: the J eliminator and its beta rule.
+Also this issue opens a series of articles dedicated to examples of formalization in
+cubical type theory the foundations of mathematics, MLTT modeling and
+cubical proof verification. As many may not be familiar with
+$\Pi$ and $\Sigma$ types, this issue presents different interpretations
+of core types from other areas of mathematics.
+
+We should note that this is only entrance
+to internalization technique, and after formal MLTT embedding we
+could go through inductive types up to
+embedding of CW-complexes as pushout gluenings.
+\end{abstract}
+\end{document}
