@@ -1,0 +1,99 @@
+\documentclass{article}
+\usepackage{microtype}
+\usepackage{titlesec}
+\usepackage[absolute]{textpos}
+\usepackage{amsmath}
+\usepackage{cite}
+\usepackage[strict=true,style=english]{csquotes}
+\setquotestyle{english}
+\usepackage{amssymb}
+\usepackage{fontspec}
+\usepackage{amsthm}
+\usepackage{url}
+\usepackage{tikz}
+\usepackage{tikz-cd}
+\usetikzlibrary{matrix}
+\usepackage[utf8]{inputenc}
+\usepackage[english,russian]{babel}
+\usetikzlibrary{babel}
+\usepackage{listings}
+\usepackage[tableposition=top]{caption}
+\theoremstyle{definition}
+\newtheorem{theorem}{Theorem}
+\newtheorem{definition}{Definition}
+\newtheorem{exercise}{Exercise}
+\newtheorem{example}{Example}
+\captionsetup[table]{labelformat=empty}
+\lstMakeShortInline[mathescape=true,columns=fixed]|
+\def\mapright#1{\xrightarrow{{#1}}}
+\def\mapleft#1{\xleftarrow{{#1}}}
+\def\mapup#1{\Big\uparrow\rlap{\raise2pt{\scriptstyle{#1}}}}
+\def\mapupl#1{\Big\uparrow\llap{\raise2pt{\scriptstyle{#1}}}}
+\def\mapdown#1{\Big\downarrow\rlap{\raise2pt{\scriptstyle{#1}}}}
+\def\mapdownl#1{\Big\downarrow\llap{\raise2pt{\scriptstyle{#1}}}}
+\def\mapdiagl#1{\vcenter{\searrow}\rlap{\raise2pt{\scriptstyle{#1}}}}
+\def\mapdiagr#1{\vcenter{\swarrow}\rlap{\raise2pt{\scriptstyle{#1}}}}
+\lstset{basicstyle=\small,inputencoding=utf8}
+\setlength{\TPHorizModule}{4mm}
+\setlength{\TPVertModule}{\TPHorizModule}
+\textblockorigin{4mm}{4mm}
+\setlength{\parindent}{0pt}
+\titleformat{\section}[block]{\Large\bfseries\filcenter}{}{1em}{}
+
+\newfontfamily{\cyrillicfont}{Times New Roman}
+\setmainfont{Times New Roman}
+
+\begin{textblock}{3}(2,3)
+\small \text{УДК 510.2:510.6}
+\end{textblock}
+
+
+\begin{document}
+
+
+\title{\small М.Э. Сохацкий^{*}}
+\author{Выпуск 1: Встраивание теории типов Мартина-Лёфа}
+\date{ \small Национальный технический университет Украины \\
+      «Киевский политехнический институт имени Игоря Сикорского».\\
+       \small $^*$Корреспонденция: maxim@synrc.com}
+
+\maketitle
+
+\begin{abstract}
+
+\justifying
+
+Эта статья демонстрирует формальное встраивание теории типов Мартина-Лёфа
+в исполняющую кубическую типовую систему с полным набором правил вывода.
+Это стало возможным недавно благодаря кубической теории типов и типовому кубическому
+верификатору {\bf cubicaltt}\footnote{http://github.com/mortberg/cubicaltt} в 2017 году.
+Был пройдет длинный путь от чистых типовых систем AUTOMATH авторства де Брейна к
+гомотопическим типовым верификаторарм. Эта статья касается только формального ядра
+теории типов Мартина-Лёфа: $\Pi$ и $\Sigma$ типов (которые соотвествуют
+квантороу всеобщности $\forall$ и квантору существования $\exists$ для математических рассуждений)
+и типа равенства.
+
+Каждая языковая имплементация должна быть протестирована. Один из возможных
+сценариев тестирования типовых верификаторов это прямое встраивание в модель
+теории типов исполняющего верификатора. Так как все типы в теории формулируются
+с помощью пяти правил: формации, интро, элиминатора, уравнение вычисления, уравнение равества),
+мы сконструировали номинальные типы-синоними для исполняющего верификатора и доказали,
+что это является реализацией MLTT. Это может рассматриваться как универсальный
+тест для имплементации типового верификатора, так как компенсация интор правила и правила элиминатора
+которое спрятано в бета и эта редукциях. Таким образом, доказывая реализацию MLTT,
+мы докажем свойства самого исполняющего верификатора.
+
+Более формально, кубическое MLTT встраиваение доказывает J элиминатор
+типа-равенства и его уравнение вычисления, что не было возможно до
+геометрической кубической интерпрертации. Также этот выпуск открывает
+серию статей посвящённых формализации оснований математики в кубической теории типов,
+MLTT моделированию и кубической верификации. Так как многие могут быть незнакомы
+с системами типов этот выпуск также содержит их интерпретацию с точки
+зрения разных разделов математики.
+
+Отметим, что это только вход в технику прямого встраивания и после MLTT
+моделирования мы можем выйти выше — во встраивание в индуктивную систему типов,
+и далее, до встраивание CW-комплексов как склейки высших индуктивных типов.
+
+\end{abstract}
+\end{document}
