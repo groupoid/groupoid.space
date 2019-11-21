@@ -1,9 +1,20 @@
 % copyright (c) 2018—2019 Groupoid Infinity
 
-\documentclass[twoside]{article}
-\usepackage[top=2cm,bottom=2cm,left=2.5cm,right=1.5cm]{geometry}
+\documentclass[twocolumn,10pt]{article}
+\usepackage[a4paper, top=4.45cm,bottom=2.25cm,left=2cm,right=2cm]{geometry}
+\usepackage{scrpage2}
+\usepackage{graphics}
+\usepackage{adjustbox}
+\usepackage{setspace}
+\usepackage{titlesec}
 \usepackage{amsmath}
 \usepackage{cite}
+\usepackage{mathptmx}
+\usepackage{anyfontsize}
+\usepackage{t1enc}
+\usepackage{fontspec}
+\usepackage[english]{babel}
+\usepackage{multicol}
 \usepackage[strict=true,style=german]{csquotes}
 \setquotestyle{english}
 \usepackage{amssymb}
@@ -13,16 +24,20 @@
 \usepackage{tikz-cd}
 \usetikzlibrary{matrix}
 \usepackage[utf8]{inputenc}
-\usepackage[english,russian]{babel}
 \usetikzlibrary{babel}
 \usepackage{listings}
 \usepackage[tableposition=top]{caption}
+
+%\newfontfamily{\cyrillicfont}{Times New Roman}
+\setmainfont{Times New Roman}
 
 \theoremstyle{definition}
 \newtheorem{theorem}{Theorem}
 \newtheorem{definition}{Definition}
 \newtheorem{exercise}{Exercise}
 \newtheorem{example}{Example}
+
+\renewcommand*{\pagemark}{}
 
 \captionsetup[table]{labelformat=empty}
 \lstMakeShortInline[mathescape=true,columns=fixed]|
@@ -37,42 +52,81 @@
 \def\mapdiagr#1{\vcenter{\swarrow}\rlap{\raise2pt{\scriptstyle{#1}}}}
 \lstset{basicstyle=\small,inputencoding=utf8}
 
+\addto{\renewcommand{\bibname}{References}}
+
 \usepackage[absolute]{textpos}
 
 \setlength{\TPHorizModule}{4mm}
 \setlength{\TPVertModule}{\TPHorizModule}
 \textblockorigin{4mm}{4mm}
-\setlength{\parindent}{0pt}
+\setlength{\parindent}{0.5cm}
+\titlespacing{\section}{0.5cm}{10pt}{10pt}
+\titlespacing{\subsection}{0.5cm}{10pt}{10pt}
 
-\begin{textblock}{3}(2,3)
-\small \text{УДК 510.2:510.6}
-\end{textblock}
-
+\pagenumbering{gobble}
 
 \begin{document}
 
-\title{\small M.E. Sokhatsky^{*}}
-\author{\Huge Issue I: Internalizing Martin-Löf Type Theory}
-\date{ Igor Sikorsky Kyiv Polytechnical Institute, Kyiv, Ukraine\\
-       \small $^*$Corresponding author: maxim@synrc.com}
 
-\maketitle
-\thispagestyle{empty}
+\twocolumn[
+  \begin{@twocolumnfalse}
 
-\begin{abstract}
-This article demonstrates formal MLTT embedding into the host type system
-with constructive proofs of all inference rules. This was recently made possible
-by introducing cubical type theory in 2017. The internalization itself is a great
-tool for testing the type checkers. As types in Martin-Löf Type Theory are formulated
-by using 5 types of rules, we construct aliases for host language primitives
-and use type checker to prove theorems about its type core.
+  \textrf{DOI: }\\
+  \textrf{UDC: 510.2:510.6}\\
+  \vspace{0.01cm}
+  \begin{titlepage}
+   \begin{center}
+     \textbf{\fontsize{10}{0} M.E. Sokhatskyi^{*}}\\
+     \vspace{3pt}
+     \textrf{\fontsize{10}{0} Igor Sikorsky Kyiv Polytechnical Institute, Kyiv, Ukraine}\\
+     \vspace{3pt}\\
+     \textrf{$^*$corresponding author: maxim@synrc.com}\\
+     \vspace{12pt}
+     \textbf{\fontsize{10}{0} ISSUE I: INTERNALIZING MARTIN-LÖF TYPE THEORY}\\
+   \end{center}
+\end{titlepage}
 
-As a prerequisite for this exercise and a bonus we give along the way
-some interpretations of $\Pi$, $\Sigma$ and Path types from other
-areas of mathematics.
 
-{\bf Keywords}: Martin-Löf Type Theory, Cubical Type Theory
-\end{abstract}
+\indent This article demonstrates formal Martin-Löf Type Theory (MLTT)
+embedding into the host type system with constructive proofs
+of the complete set of inference rules. This was recently made
+possible by cubical type theory and cubical type
+checker {\bf cubicaltt}\footnote{http://github.com/mortberg/cubicaltt} in 2017.
+The long road from pure type systems of AUTOMATH by de Bruijn to type
+checkers with homotopical core was made. This article touches only
+the formal MLTT core type system with $\Pi$ and $\Sigma$ types (that correspond
+to $\forall$ and $\exists$ quantifiers for mathematical reasoning) and identity type.
+
+\indent Each language implementation needs to be checked. One of the possible
+test cases for type checkers is the direct embedding of type theory
+model into the language of the type checker. As types are formulated
+using 5 types of rules (formation, intro, elimination,
+computation, uniqueness), we construct aliases for the host
+language primitives and use type checker to prove that it has
+the realization of MLTT. This could be seen as an ultimate test
+sample for type checker as intro-elimination fusion resides in
+beta-eta rules, so by proving them, we prove properties of the
+host type checker.
+
+\indent More formally cubical MLTT internalization proofs the J eliminator
+and its beta rule, something that was impossible without geometrical
+realization of cubical type theory. Also, this issue opens a series
+of articles dedicated to the formalization of the foundations
+of mathematics in cubical type theory, MLTT modeling and cubical
+proof verification. As many may not be familiar with  types,
+this issue presents different interpretations of core types from
+other areas of mathematics.
+
+\indent We should note that this is an entrance to the internalization
+technique, and after formal MLTT embedding, we could go through
+inductive types up to embedding of CW-complexes as the indexed
+gluing of the higher inductive types.
+
+\indent {\bf Keywords}: Martin-Löf Type Theory, Cubical Type Theory
+\vspace{1cm}
+
+  \end{@twocolumnfalse}
+]
 
 \section*{Introduction}
 
@@ -112,23 +166,39 @@ iv) cubical face system;
 v) module system. It is slightly based on cubicaltt.
 
 \begin{lstlisting}[mathescape=true]
-   sys := [ sides ]          side := (id=0)$\rightarrow$exp+(id=1)$\rightarrow$exp
-  form := form\/f1+f1+f2    sides := #empty+cos+side
-   cos := side,side+side,cos  mod := ${\bf module}$ id ${\bf where}$ imps dec
-    f1 := f1/\f2               f2 := -f2+id+0+1
-   imp := ${\bf import}$ id                 brs := #empty+cobrs
-   app := exp exp             tel := #empty+cotel
-  imps := #list imp         cotel := (exp:exp) tel
-    id := #list #nat          dec := #empty+codec
-    u2 := ${\bf glue}$+${\bf unglue}$+${\bf Glue}$                   u1 := ${\bf fill}$+${\bf comp}$
-   ids := #list id             br := ids$\rightarrow$exp+ids@ids$\rightarrow$exp
+   sys := [ sides ]
+  side := (id=0)$\rightarrow$exp+(id=1)$\rightarrow$exp
+  form := form\/f1+f1+f2
+ sides := #empty+cos+side
+   cos := side,side+side,cos
+   mod := ${\bf module}$ id ${\bf where}$ imps dec
+    f1 := f1/\f2
+    f2 := -f2+id+0+1
+   imp := ${\bf import}$ id
+   brs := #empty+cobrs
+   app := exp exp
+   tel := #empty+cotel
+  imps := #list imp
+ cotel := (exp:exp) tel
+    id := #list #nat
+   dec := #empty+codec
+    u2 := ${\bf glue}$+${\bf unglue}$+${\bf Glue}$
+    u1 := ${\bf fill}$+${\bf comp}$
+   ids := #list id
+    br := ids$\rightarrow$exp+ids@ids$\rightarrow$exp
  codec := def dec
  cobrs := | br brs
-   sum := #empty+id tel+id tel|sum+id tel<ids>sys   
-   def := ${\bf data}$ id tel=sum+id tel:exp=exp+id tel:exp ${\bf where}$ def
-   exp := cotel*exp+cotel$\rightarrow$exp+exp$\rightarrow$exp+(exp)+id
-          (exp,exp)+\cotele$\rightarrow$exp+${\bf split}$ cobrs+exp${\bf.1}$+exp${\bf.2}$+
-          $\langle$ids$\rangle$exp+exp@form+app+u2 exp exp sys+u1 exp sys
+   sum := #empty + id tel + id tel | sum
+        + id tel < ids > sys
+   def := ${\bf data}$ id tel=sum + id tel:exp=exp
+        + id tel : exp ${\bf where}$ def
+   exp := cotel * exp + cotel $\rightarrow$ exp
+        + exp$\rightarrow$exp + (exp) + id
+        + (exp,exp) + \cotele $\rightarrow$ exp
+        + ${\bf split}$ cobrs + exp${\bf.1}$
+        + exp${\bf.2}$  + $\langle$ids$\rangle$exp
+        + exp @ form + app + u2 exp exp sys
+        + u1 exp sys
 \end{lstlisting}
 
 Here := (definition), + (disjoint sum), \#empty, \#nat, \#list are parts of BNF language and
@@ -190,10 +260,11 @@ intuitionistic propositional logic (IPL) which is directly embedded into MLTT.
 Logical and type-theoretical interpretations could be distincted. Also
 set-theoretical interpretation is not presented in the Table.
 
-\begin{table}[!ht]
+\begin{table}
   \centering
   \caption*{\textbf{Table}. Interpretations correspond to mathematical theories}
- \begin{tabular}{lcccc}
+  \begin{adjustbox}{width=\columnwidth,center}
+  \begin{tabular}{lcccc}
     \hline
        Type Theory & Logic & Category Theory & Homotopy Theory\\
     \hline
@@ -216,6 +287,7 @@ set-theoretical interpretation is not presented in the Table.
        quantum circuit & proof net & string diagram & \\
       \hline
   \end{tabular}
+  \end{adjustbox}
 \end{table}
 
 \subsubsection{Categorical or Topos-theoretical interpretation}
@@ -286,7 +358,8 @@ Pi (A: U) (B: A -> U): U = (x: A) -> B x
 $$\backslash (x: A) \rightarrow b =_{def} \prod_{A:U}\prod_{B:A \rightarrow U}\prod_{a: A}\prod_{b:B(a)}\lambda x.b : \prod_{y:A}B(a).$$
 \begin{lstlisting}
 lambda (A B: U) (b: B): A -> B = \ (x: A) -> b
-lam (A:U) (B: A -> U) (a:A) (b:B a) : A -> B a = \ (x: A) -> b
+lam (A:U) (B: A -> U) (a:A) (b:B a)
+   : A -> B a = \ (x: A) -> b
 \end{lstlisting}
 \end{definition}
 
@@ -294,7 +367,8 @@ lam (A:U) (B: A -> U) (a:A) (b:B a) : A -> B a = \ (x: A) -> b
 $$f\ a =_{def} \prod_{A:U}\prod_{B: A \rightarrow U}\prod_{a:A}\prod_{f: \prod_{x:A}B(a)}f(a) : B(a).$$
 \begin{lstlisting}
 apply (A B: U) (f: A -> B) (a: A) : B = f a
-app (A: U) (B: A -> U) (a: A) (f: A -> B a) : B a = f a
+app (A: U) (B: A -> U) (a: A)
+    (f: A -> B a) : B a = f a
 \end{lstlisting}
 \end{definition}
 
@@ -302,7 +376,8 @@ app (A: U) (B: A -> U) (a: A) (f: A -> B a) : B a = f a
 $$f(a) =_{B(a)} (\lambda (x:A) \rightarrow f(a))(a).$$
 \begin{lstlisting}
 Beta (A: U) (B: A -> U) (a: A) (f: A -> B a)
-   : Path (B a) (app A B a (lam A B a (f a))) (f a)
+   : Path (B a) (app A B a (lam A B a (f a)))
+                (f a)
 \end{lstlisting}
 \end{theorem}
 
@@ -334,7 +409,8 @@ $$ \Gamma_\Sigma(E) = \Pi_\Sigma (E) \in \mathbf{H}. $$
 \begin{theorem} (HomSet).
 If codomain is set then space of sections is a set.
 \begin{lstlisting}
-setFun (A B : U) (_: isSet B) : isSet (A -> B)
+setFun (A B : U) (_: isSet B)
+  : isSet (A -> B)
 \end{lstlisting}
 \end{theorem}
 
@@ -342,7 +418,8 @@ setFun (A B : U) (_: isSet B) : isSet (A -> B)
 If domain and codomain is contractible then the space of sections is contractible.
 \begin{lstlisting}
 piIsContr (A: U) (B: A -> U) (u: isContr A)
-          (q: (x: A) -> isContr (B x)) : isContr (Pi A B)
+          (q: (x: A) -> isContr (B x))
+        : isContr (Pi A B)
 \end{lstlisting}
 \end{theorem}
 
@@ -409,7 +486,8 @@ as if paths are groupoid morphisms and types are objects.
 Inverse image (fiber) of fiber bundle $(F,B*F,pr_1,B)$ in point $y:B$ equals $F(y)$.
 \begin{lstlisting}
 FiberPi (B: U) (F: B -> U) (y: B)
-      : Path U (fiber (Sigma B F) B (pi1 B F) y) (F y)
+  : Path U (fiber (Sigma B F) B (pi1 B F) y)
+           (F y)
 \end{lstlisting}
 \end{theorem}
 
@@ -418,8 +496,10 @@ If fiber space is set for all base, and
 there are two functions $f,g : (x:A) \rightarrow B(x)$ and two
 homotopies between them, then these homotopies are equal.
 \begin{lstlisting}
-setPi (A: U) (B: A -> U) (h: (x: A) -> isSet (B x)) (f g: Pi A B)
-      (p q: Path (Pi A B) f g) : Path (Path (Pi A B) f g) p q
+setPi (A: U) (B: A -> U)
+    (h: (x: A) -> isSet (B x)) (f g: Pi A B)
+    (p q: Path (Pi A B) f g)
+  : Path (Path (Pi A B) f g) p q
 \end{lstlisting}
 \end{theorem}
 
@@ -443,7 +523,8 @@ Sigma (A : U) (B : A -> U) : U = (x : A) * B x
 
 \begin{definition} ($\Sigma$-Introduction).
 \begin{lstlisting}
-dpair (A: U) (B: A -> U) (a: A) (b: B a) : Sigma A B = (a,b)
+dpair (A: U) (B: A -> U) (a: A) (b: B a)
+  : Sigma A B = (a,b)
 \end{lstlisting}
 \end{definition}
 
@@ -495,7 +576,8 @@ then there is a function $f : A \rightarrow B$
 such that for all $x : A$ there is a witness of $R(x,f(x))$.
 \begin{lstlisting}
 ac (A B: U) (R: A -> B -> U)
- : (p: (x:A) -> (y:B)*(R x y)) -> (f:A->B) * ((x:A)->R(x)(f x))
+ : (p: (x:A) -> (y:B)*(R x y))
+-> (f:A->B) * ((x:A)->R(x)(f x))
 \end{lstlisting}
 \end{theorem}
 
@@ -513,7 +595,8 @@ total (A:U) (B C: A -> U)
 \begin{theorem} ($\Sigma$-Contractability). If the fiber is set then the $\Sigma$ is set.
 \begin{lstlisting}
 setSig (A:U) (B: A -> U) (sA: isSet A)
-       (sB : (x:A) -> isSet (B x)) : isSet (Sigma A B)
+       (sB : (x:A) -> isSet (B x))
+     : isSet (Sigma A B)
 \end{lstlisting}
 \end{theorem}
 
@@ -523,7 +606,8 @@ sigma of two paths $p:t_1=_{A}u_1)$ and $(t_2=_{B(p@i)}u_2)$.
 \begin{lstlisting}
 pathSig (A:U) (B : A -> U) (t u : Sigma A B)
       : Path U (Path (Sigma A B) t u)
-               ((p: Path A t.1 u.1) * PathP (<i>B(p@i)) t.2 u.2)
+               ((p: Path A t.1 u.1)
+              * PathP (<i>B(p@i)) t.2 u.2)
 \end{lstlisting}
 \end{theorem}
 
@@ -545,8 +629,10 @@ written first constructive type checker in the world by Anders M{\"{o}}rtberg\ci
 
 \begin{definition} (Path Formation).
 \begin{lstlisting}
-Hetero (A B: U) (a: A) (b: B) (P: Path U A B) : U = PathP P a b
-Path (A: U) (a b: A) : U = PathP (<i> A) a b
+Hetero (A B: U)(a: A)(b: B)(P: Path U A B)
+  : U = PathP P a b
+Path (A: U) (a b: A)
+  : U = PathP (<i> A) a b
 \end{lstlisting}
 \end{definition}
 
@@ -563,8 +649,8 @@ refl (A: U) (a: A) : Path A a a
 \begin{definition} (Path Application).
 You can apply face to path.
 \begin{lstlisting}
-app1 (A: U) (a b: A) (p: Path A a b): A = p @ 0
-app2 (A: U) (a b: A) (p: Path A a b): A = p @ 1
+app1 (A: U)(a b:A)(p:Path A a b):A=p@0
+app2 (A: U)(a b:A)(p:Path A a b):A=p@1
 \end{lstlisting}
 \end{definition}
 
@@ -586,14 +672,18 @@ in a connected point.
 \end{tikzpicture}
 \end{center}
 \begin{lstlisting}
-composition (A: U) (a b c: A) (p: Path A a b) (q: Path A b c)
-          : Path A a c = comp (<i>Path A a (q@i)) p []
+composition
+    (A: U) (a b c: A)
+    (p: Path A a b) (q: Path A b c)
+  : Path A a c
+  = comp (<i>Path A a (q@i)) p []
 \end{lstlisting}
 \end{definition}
 
 \begin{theorem} (Path Inversion).
 \begin{lstlisting}
-inv (A: U) (a b: A) (p: Path A a b): Path A b a = <i> p @ -i
+inv (A: U) (a b: A) (p: Path A a b)
+  : Path A b a = <i> p @ -i
 \end{lstlisting}
 \end{theorem}
 
@@ -629,12 +719,12 @@ ii) $\lambda\ (i,j:I) \rightarrow p\ @\ max(i,j)$.
 \end{center}
 \begin{lstlisting}
 connection1 (A: U) (a b: A) (p: Path A a b)
-          : PathP (<x> Path A (p@x) b) p (<i>b)
-          = <y x> p @ (x \/ y)
+  : PathP (<x> Path A (p@x) b) p (<i>b)
+  = <y x> p @ (x \/ y)
 
 connection2 (A: U) (a b: A) (p: Path A a b)
-          : PathP (<x> Path A a (p@x)) (<i>a) p
-          = <x y> p @ (x /\ y)
+  : PathP (<x> Path A a (p@x)) (<i>a) p
+  = <x y> p @ (x /\ y)
 \end{lstlisting}
 \end{definition}
 
@@ -692,7 +782,8 @@ D (A: U) : U = (x y: A) -> Path A x y -> U
 J (A: U) (x y: A) (C: D A)
   (d: C x x (refl A x))
   (p: Path A x y) : C x y p
-= subst (singl A x) T (eta A x) (y, p) (contr A x y p) d where
+= subst (singl A x) T (eta A x) (y, p)
+        (contr A x y p) d where
   T (z: singl A x) : U = C x (z.1) (z.2)
 \end{lstlisting}
 \end{theorem}
@@ -727,10 +818,13 @@ trans_comp (A: U) (a: A)
 subst_comp (A: U) (P: A -> U) (a: A) (e: P a)
   : Path (P a) e (subst A P a a (refl A a) e)
   = trans_comp (P a) e
-J_comp (A: U) (a: A) (C: (x: A) -> Path A a x -> U) (d: C a (refl A a))
-  : Path (C a (refl A a)) d (J A a C d a (refl A a))
-  = subst_comp (singl A a) T (eta A a) d where T (z: singl A a)
-  : U = C a (z.1) (z.2)
+J_comp (A: U) (a: A) (C: (x: A)
+ -> Path A a x -> U) (d: C a (refl A a))
+  : Path (C a(refl A a)) d
+         (J A a C d a(refl A a))
+  = subst_comp (singl A a) T (eta A a) d
+    where T (z:singl A a)
+        : U = C a (z.1) (z.2)
 \end{lstlisting}
 \end{theorem}
 
@@ -846,28 +940,42 @@ for $\Pi$, $\Sigma$ and Path types into one $\Sigma$ telescope or context.
 \begin{lstlisting}[mathescape=true]
 MLTT (A: U): U
   = (Pi_Former: (A -> U) -> U)
-  * (Pi_Intro: (B: A -> U) (a: A) -> B a -> (A -> B a))
-  * (Pi_Elim: (B: A -> U) (a: A) -> (A -> B a) -> B a)
-  * (Pi_Comp1: (B: A -> U) (a: A) (f: A -> B a) ->
-    Path (B a) (Pi_Elim B a (Pi_Intro B a (f a))) (f a))
-  * (Pi_Comp2: (B: A -> U) (a: A) (f: A -> B a) ->
+  * (Pi_Intro: (B: A -> U) (a: A)
+    -> B a -> (A -> B a))
+  * (Pi_Elim: (B: A -> U) (a: A)
+    -> (A -> B a) -> B a)
+  * (Pi_Comp1: (B: A -> U) (a: A)
+    (f: A -> B a) -> Path (B a)
+    (Pi_Elim B a(Pi_Intro B a(f a)))(f a))
+  * (Pi_Comp2: (B: A -> U) (a: A)
+    (f: A -> B a) ->
     Path (A -> B a) f (\(x:A) -> f x))
   * (Sigma_Former: (A -> U) -> U)
-  * (Sigma_Intro: (B: A -> U) (a: A) -> (b: B a) -> Sigma A B)
-  * (Sigma_Elim1: (B: A -> U) (_: Sigma A B) -> A)
-  * (Sigma_Elim2: (B: A -> U) (x: Sigma A B) -> B (pr1 A B x))
-  * (Sigma_Comp1: (B: A -> U) (a: A) (b: B a) ->
-    Path A a (Sigma_Elim1 B (Sigma_Intro B a b)))
-  * (Sigma_Comp2:  (B: A -> U) (a: A) (b: B a) ->
-    Path (B a) b (Sigma_Elim2 B (a,b)))
-  * (Sigma_Comp3: (B: A -> U) (p: Sigma A B)  ->
-    Path (Sigma A B) p (pr1 A B p,pr2 A B p))
+  * (Sigma_Intro: (B: A -> U) (a: A)
+    -> (b: B a) -> Sigma A B)
+  * (Sigma_Elim1: (B: A -> U)
+    (_: Sigma A B) -> A)
+  * (Sigma_Elim2: (B: A -> U)
+    (x: Sigma A B) -> B (pr1 A B x))
+  * (Sigma_Comp1: (B: A -> U) (a: A)
+    (b: B a) -> Path A a (Sigma_Elim1 B
+                  (Sigma_Intro B a b)))
+  * (Sigma_Comp2: (B: A -> U) (a: A)
+    (b: B a) -> Path (B a) b
+    (Sigma_Elim2 B (a,b)))
+  * (Sigma_Comp3: (B: A -> U) (p: Sigma A B)
+    -> Path (Sigma A B) p
+            (pr1 A B p,pr2 A B p))
   * (Id_Former: A -> A -> U)
   * (Id_Intro: (a: A) -> Path A a a)
-  * (Id_Elim: (x: A) (C: D A) (d: C x x (Id_Intro x))
+  * (Id_Elim: (x: A) (C: D A)
+    (d: C x x (Id_Intro x))
     (y: A) (p: Path A x y) -> C x y p)
-  * (Id_Comp: (a:A)(C: D A) (d: C a a (Id_Intro a)) ->
-    Path (C a a (Id_Intro a)) d (Id_Elim a C d a (Id_Intro a))) * U
+  * (Id_Comp: (a:A)(C: D A)
+    (d: C a a (Id_Intro a)) ->
+    Path (C a a (Id_Intro a)) d
+         (Id_Elim a C d a (Id_Intro a)))
+  * U
 \end{lstlisting}
 \end{definition}
 
@@ -875,9 +983,12 @@ MLTT (A: U): U
 There is an instance of MLTT.
 \begin{lstlisting}
 instance (A: U): MLTT A
-    = (Pi A, lam A, app A, Beta A, Eta A,
-       Sigma A, dpair A, pr1 A, pr2 A, Beta1 A, Beta2 A, Eta2 A,
-       Path A, refl A, J A, J_comp A, A)
+  = (Pi A,    lam A, app A,
+              Beta A, Eta A,
+     Sigma A, dpair A, pr1 A, pr2 A,
+              Beta1 A, Beta2 A, Eta2 A,
+     Path A,  refl A, J A,
+              J_comp A, A)
 \end{lstlisting}
 \end{theorem}
 
@@ -1039,26 +1150,55 @@ infinitesimal constructions and Cartan geometry, the chapter is
 slightly base on Felix Wellen dissertation.
 This issue covers following modules: etale, infinitesimal, manifold, bundle.
 
-\subsubsection*{Addendums}
+\twocolumn[
+  \begin{@twocolumnfalse}
 
-A number of application will be issued during this series. At the time
-of first volume only one appendix is available, the PTS languge with
-infinite number of universes with switcheable SAR rules.
+   \renewcommand{\bibname}{\fontsize{9pt}{12pt}\selectfont References}
+   \bibliographystyle{ieeetr}
+   \bibliography{mltt}
 
-{\bf Addendum I: Pure Type System for Erlang}.
-This article overviews Erlang  implementation of Om type
-checker with PTS$^\infty$ custom type system. The inductive base library
-in Boehm-Berarducci-Church encoding is given in the Github
-repository\footnote{\url{https://github.com/groupoid/pts}}.
+ \end{@twocolumnfalse}
 
-{\bf Addendum II: Many Faces of Equality}.
-This article pays attension to different forms of equalities
-and builds the tower of higher equalities.
+\setmainfont{Arial}
 
-\subsection*{Referenses}
-\renewcommand{\bibname}{References}
-\bibliographystyle{ieeetr}
-\bibliography{mltt}
+\parindent=2em
+
+\fontsize{8pt}{12pt}\selectfont \textrf{М.Е.Сохацький}\\
+\vspace{0.1cm}
+\fontsize{9pt}{12pt}\selectfont \indent ISSUE 1: INTERNALIZING MLTT\\
+\indent Ця стаття демонструє формальне вбудовування теорії типів Мартіна-Льофа
+в виконуючу кубічну типову систему з повним набором правил виводу.
+Це стало можливим завдяки кубічній теорії типів та типовому кубічному верифікатору
+{\bf cubicaltt}\footnote{http://github.com/mortberg/cubicaltt} в 2017 році.
+Був пройдений довгий шлях від чистих типових систем AUTOMATH де Брейна до
+гомотопічних типових верифікаторів. Ця стаття стосується тільки формального ядра
+теорії типів Мартіна-Льофа: $\Pi$ и $\Sigma$ типів (які відповідають
+квантору загальності $\forall$ та квантору існування $\exists$ у класичній логіці)
+та типу-рівності.
+
+Кожна мовна імплементація повинна бути протестована. Один з можливих сценаріїв
+тестування типових верифікаторів це пряме вбудовування в модель теорії типів
+виконуючого верифікатора. Так як всі типи в теорії формулюються за допомогою п'яти
+прарвил: формації, інтро, елімінації, обчисленя, рівності), ми зконструювали
+номінальні типи-синоніми для виконуючого верифікатора та довели, що це є реалізацією MLTT.
+Це може розглядатися як універсальний тест для імплементації типового верифікатора,
+позаяк компенсаця інтро правила та правила елімінатора пов'язані в правилі
+обчислення та рівності (бета та ета редукціях). Таким чином, доводжучи реалізацію MLTT,
+ми доводимо властивості самого виконуючого верифікатора.
+
+Більш формально, кубічне MLTT вбудовування конструктивно виражає
+J елімінатор типу-рівності та його рівняння — правило обчислення,
+що було неможливо до кубічної інтерпретації. Також цей випуск
+відкриває серію статей присвячених формалізації основ математики в кубічній теорії типів,
+MLTT моделюванню та кубічнії верифікації. Так як не всі можуть бути знайомі з теорією типів,
+це випуск також містить їх інтерпретації з точки зору різних розділів математики.
+
+Додамо, що це тільки вхід в техніку прямого вбудовування і після MLTT моделювання,
+ми можем піднятися вище — до вбудовування в систему індуктивних типів, і далі,
+до вбудовування CW-комплексів як зклейок вищих індуктивних типів.
+
+
+]
 
 \end{document}
 
