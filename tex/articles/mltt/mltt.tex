@@ -86,43 +86,40 @@
    \end{center}
 \end{titlepage}
 
-
-\indent This article demonstrates formal Martin-Löf Type Theory (MLTT)
-embedding into the host type system with constructive proofs
-of the complete set of inference rules. This was recently made
-possible by cubical type theory and cubical type
-checker {\bf cubicaltt}\footnote{http://github.com/mortberg/cubicaltt} in 2017.
-The long road from pure type systems of AUTOMATH by de Bruijn to type
+{\bf Background.} The long road from pure type systems of AUTOMATH by de Bruijn to type
 checkers with homotopical core was made. This article touches only
-the formal MLTT core type system with $\Pi$ and $\Sigma$ types (that correspond
+the formal Martin-Löf Type Theory (MLTT) core type system with $\Pi$ and $\Sigma$ types (that correspond
 to $\forall$ and $\exists$ quantifiers for mathematical reasoning) and identity type.
-
-\indent Each language implementation needs to be checked. One of the possible
-test cases for type checkers is the direct embedding of type theory
-model into the language of the type checker. As types are formulated
-using 5 types of rules (formation, intro, elimination,
-computation, uniqueness), we construct aliases for the host
-language primitives and use type checker to prove that it has
-the realization of MLTT. This could be seen as an ultimate test
-sample for type checker as intro-elimination fusion resides in
-beta-eta rules, so by proving them, we prove properties of the
-host type checker.
-
-\indent More formally cubical MLTT internalization proofs the J eliminator
-and its beta rule, something that was impossible without geometrical
-realization of cubical type theory. Also, this issue opens a series
-of articles dedicated to the formalization of the foundations
-of mathematics in cubical type theory, MLTT modeling and cubical
-proof verification. As many may not be familiar with  types,
-this issue presents different interpretations of core types from
-other areas of mathematics.
-
-\indent We should note that this is an entrance to the internalization
+Expressing the MLTT embedding in a host type checker for a long time was
+inaccessible due to the non-derivability of the J eliminator in pure functions.
+This was recently made possible by cubical type theory and cubical type checker.\\
+{\bf Objective.} Select the type system as a part of conceptual model of theorem proving system that is
+able to derive the J eliminator and its theorems based on the latest research in cubical type systems.
+The goal of this article is to demonstrate the formal embedding of MLTT into MLTT$^{\nifty}$ with constructive proofs
+of the complete set of inference rules including J eliminator.\\
+{\bf Methods.}
+As types are formulated using 5 types of rules (formation, intro, elimination, computation, uniqueness)
+that are in essence the categorical isomorphism encoding of initial objects in categories of F-algebras,
+we constructed aliases for the host language primitives and used the cubical type checker to prove that it has
+the realization of MLTT.
+As many may not be familiar with types, this issue presents different interpretations of core types from
+other areas of mathematics to show the methods in action.\\
+{\bf Results.} This work leads to several results:
+1) MLTT$^{\infty}$ --- a special embedded version of type theory with infinite number of universes and Path type suitable for HoTT purposes without uniqueness rule of equality type;
+2) The actual embedding of MLTT with syntax implying universe polymorphism and cubical primitives in MLTT$^{\infty}$;
+3) The different interpretations of types were given: set-theoretical, groupoid, homotopical;
+4) As a result, this issue opens a series of articles dedicated to the formalization of the foundations of mathematics in cubical type theory, MLTT modeling and theorems mechanization;
+5) Internalization could be seen as an ultimate test sample for type checker as intro-elimination fusion resides in beta-eta rules, so by proving them, we prove properties of the host type checker;
+6) Due to this success the cubical type system was chosen as a geometrical extension to inductive type system for mathematical reasoning and as a part of the conceptual model of theorem proving system.\\
+{\bf Conclusion.} We should note that this is an entrance to the internalization
 technique, and after formal MLTT embedding, we could go through
 inductive types up to embedding of CW-complexes as the indexed
-gluing of the higher inductive types.
-
-\indent {\bf Keywords}: Martin-Löf Type Theory, Cubical Type Theory
+gluing of the higher inductive types. This means the implementation
+of a wide spectrum of math theories inside HoTT up to algebraic topology.
+The further reflection on type theories unveils the combinations in a
+spirit of do-it-yourself (DIY) type theories with unified higher-order
+abstract syntax (HOAS) for pluggable initial objects, normalization modules, and equation checkers.\\
+{\bf Keywords}: Martin-Löf Type Theory, Cubical Type Theory
 \vspace{1cm}
 
   \end{@twocolumnfalse}
@@ -137,15 +134,12 @@ introduction, elimination, computation, uniqueness), we construct aliases
 for host language primitives and use type checker to prove that it is MLTT.
 This could be seen as ultimate test sample for type checker as
 intro-elimination fusion resides in beta-eta rules, so by proving them
-we prove properties of the host type checker.
-
+we prove properties of the host type checker.\\
 Also this issue opens a series of articles dedicated to formalization in
 cubical type theory the foundations of mathematics. This issue is dedicated
 to MLTT modeling and its verification. Also as many may not be familiar with
-$\Pi$ and $\Sigma$ types, this issue presents different interpretation of MLTT types.
-
-This test is fully made possible only after 2017 when new constructive
-{\bf cubicaltt}\footnote{http://github.com/mortberg/cubicaltt} HoTT\cite{HoTT13}
+$\Pi$ and $\Sigma$ types, this issue presents different interpretation of MLTT types.\\
+This test is fully made possible only after 2017 when new constructive HoTT\cite{HoTT13} prover cubicaltt\footnote{http://github.com/mortberg/cubicaltt}
 prover was presented\cite{Mortberg17}. We should note that this is only entrance
 to internalization technique, and after formal MLTT embedding we
 need to go further through CiC\cite{Pfenning89,Dybjer94} and towards CW-complexes
@@ -156,7 +150,7 @@ embedding as the higher inductive type system.
 The problem is simple: create full self-contained MLTT internalization in the host typechecker,
 where all theorems are being checked constructively.
 
-\subsection*{Language Syntax}
+\subsection*{MLTT$^\infty$ Language Syntax}
 
 The BNF notation of type checker language used in code samples consists of:
 i) telescopes (contexts or sigma chains) and definitions;
@@ -166,47 +160,37 @@ iv) cubical face system;
 v) module system. It is slightly based on cubicaltt.
 
 \begin{lstlisting}[mathescape=true]
-   sys := [ sides ]
-  side := (id=0)$\rightarrow$exp+(id=1)$\rightarrow$exp
-  form := form\/f1+f1+f2
- sides := #empty+cos+side
-   cos := side,side+side,cos
-   mod := ${\bf module}$ id ${\bf where}$ imps dec
-    f1 := f1/\f2
-    f2 := -f2+id+0+1
-   imp := ${\bf import}$ id
-   brs := #empty+cobrs
-   app := exp exp
-   tel := #empty+cotel
-  imps := #list imp
- cotel := (exp:exp) tel
     id := #list #nat
-   dec := #empty+codec
-    u2 := ${\bf glue}$+${\bf unglue}$+${\bf Glue}$
-    u1 := ${\bf fill}$+${\bf comp}$
    ids := #list id
-    br := ids$\rightarrow$exp+ids@ids$\rightarrow$exp
- codec := def dec
+   mod := ${\bf module}$ id ${\bf where}$ imps dec
+  imps := #list imp
+   imp := ${\bf import}$ id
+   brs := #empty + cobrs
  cobrs := | br brs
+    br := ids $\rightarrow$ exp + ids @ ids $\rightarrow$ exp
+   tel := #empty + cotel
+   dec := #empty + codec
+ cotel := (exp:exp) tel
+ codec := def dec
    sum := #empty + id tel + id tel | sum
-        + id tel < ids > sys
    def := ${\bf data}$ id tel=sum + id tel:exp=exp
         + id tel : exp ${\bf where}$ def
+   app := exp exp
    exp := cotel * exp + cotel $\rightarrow$ exp
-        + exp$\rightarrow$exp + (exp) + id
+        + exp $\rightarrow$ exp + (exp) + id
         + (exp,exp) + \cotele $\rightarrow$ exp
-        + ${\bf split}$ cobrs + exp${\bf.1}$
-        + exp${\bf.2}$  + $\langle$ids$\rangle$exp
-        + exp @ form + app + u2 exp exp sys
-        + u1 exp sys
+        + ${\bf split}$ cobrs + exp ${\bf.1}$
+        + exp ${\bf.2}$  + $\langle$ ids $\rangle$ exp
+        + exp @ form + app
+    f1 := f1 /\ f2
+    f2 := -f2 + id + 0 + 1
+  form := form \/ f1 + f1 + f2
 \end{lstlisting}
 
 Here := (definition), + (disjoint sum), \#empty, \#nat, \#list are parts of BNF language and
 $\rvert$, :, *, $\langle$, $\rangle$, (, ), =, $\backslash$, /, -, $\rightarrow$, 0, 1, @, [, ],
 $\mathbf{module}$, $\mathbf{import}$,
-$\mathbf{data}$, $\mathbf{split}$, $\mathbf{where}$, $\mathbf{comp}$, $\mathbf{fill}$,
-$\mathbf{Glue}$, $\mathbf{glue}$, $\mathbf{unglue}$,
-$\mathbf{.1}$, $\mathbf{.2}$,
+$\mathbf{data}$, $\mathbf{split}$, $\mathbf{where}$, $\mathbf{comp}$, $\mathbf{.1}$, $\mathbf{.2}$,
  and $,$ are terminals of type checker language. This language includes
 inductive types, higher inductive types and gluening operations needed for
 both, the constructive homotopy type theory and univalence. All these concepts as a part of the languages
@@ -260,7 +244,7 @@ intuitionistic propositional logic (IPL) which is directly embedded into MLTT.
 Logical and type-theoretical interpretations could be distincted. Also
 set-theoretical interpretation is not presented in the Table.
 
-\begin{table}
+\begin{table}[!ht]
   \centering
   \caption*{\textbf{Table}. Interpretations correspond to mathematical theories}
   \begin{adjustbox}{width=\columnwidth,center}
@@ -894,7 +878,7 @@ $\mathrm{U_i} \rightarrow \mathrm{U_j} : \mathrm{U_{\lambda(i,j), i,j \in \mathr
         \}$. Terms live in universe $\star$, and types live in universe $\Box$. In CoC $\mathrm{\lambda=snd}$.
 \end{example}
 
-\begin{example} ($\mathrm{PTS}^\infty$). SAR = $\{ \mathrm{U}_{i \in \mathrm{N}},
+\begin{example} ($\mathrm{PTS}^\infty$, $\mathrm{MLTT}^\infty$).\\ SAR = $\{ \mathrm{U}_{i \in \mathrm{N}},
     \mathrm{U_i : U_{j; i < j; i,j \in N}},
     \mathrm{U_i} \rightarrow \mathrm{U_j} : \mathrm{U_{\lambda(i,j); i,j \in \mathrm{N}}}
     \}$. Where $U_i$ is a universe of $i$-level or $i$-category in categorical interpretation.
@@ -1008,88 +992,113 @@ user    0m6.278s
 sys     0m0.014s
 \end{lstlisting}
 
-\subsection{Exercises}
-
-In order to learn cubicaltt language you can use
-following exercises to improve your cubical skills.
-
-\begin{exercise} (Composition). Define composition of functions $A \rightarrow B$,
-functors $U \rightarrow U$ and composition operation for sigma types
-$A \times B \rightarrow B \times C \rightarrow A \times C$. Also write a generator
-of composition signature $(A \rightarrow B) \rightarrow (B \rightarrow C) \rightarrow (A \rightarrow C)$.
-\end{exercise}
-
-\begin{exercise} (Constants). Define constant type and identity function.
-\end{exercise}
-
-\begin{exercise} (Categorical Laws).
-Show that any function of $\prod$-type equals its left and right composition with identity function.
-Prove associativity of composition.
-\end{exercise}
-
-\begin{exercise} (Swap). Define swap function
-$$
-    \prod_{x:A}\prod_{y:A}C(x,y) \rightarrow \prod_{y:A}\prod_{x:A}C(x,y)
-$$
-\end{exercise}
-
-\begin{exercise} (Curry, Uncurry). Define curry and uncury functions.
-\end{exercise}
-
-\begin{exercise} (Sigma). Define (by definition here and below we mean all 5 rules of MLTT)
-$\sum$-type by using only $\prod$-type.
-\end{exercise}
-
-\begin{exercise} (Fin). Define the {\bf Fin}-type by using only $\sum$-type and recursion.
-Define function that returns max element of {\bf Fin}-set.
-\end{exercise}
-
-\begin{exercise} (W-types). Define 
-{\bf W}-type by using only $\sum$-type.
-\end{exercise}
-
-\begin{exercise} (Nat). Define {\bf Nat}-type as {\bf W}-type. Also definee a {\bf Nat}
-algebra: multiplication, power, factorial by using ${\bf rec_{Nat}}$.
-\end{exercise}
-
-\begin{exercise} (List). Define {\bf List}-type as {\bf W}-type.
-\end{exercise}
-
-\begin{exercise} (Ack). Define Ackermann function by using only ${\bf rec_{Nat}}$.
-\end{exercise}
-
-\begin{exercise} (Eliminators Extensionality). After {\bf Issue V: Many Faces of Equality}. Prove that
-three {\bf J} eliminators are equal each other.
-\end{exercise}
-
 \subsection*{Conclusions}
 
 In this issue the type-theoretical model (interpretation) of MLTT was
-presented in cubical syntax and type checked in cubicaltt.
+presented in cubical syntax and type checked in it.
 This is the first constructive proof of internalization of MLTT.
-As a bonus the landspace of possible interpretation was shown
+
+From the theoretical point of view the landspace of possible interpretation was shown
 corresponding different mathematical theories for those who are new to type theory.
 The brief description of the previous attempts to internalize MLTT could
 be found as canonical example in MLTT works, but none of them give the constructive
 J eliminator or its equality rule. As a selected prover for the article wa
- chosen cubicaltt but this excersise was implemented on all current
- cubical type checkers\footnote{https://cubical.systems}:
+chosen cubicaltt but this excersise was implemented on all current
+cubical type checkers\footnote{https://cubical.systems}:
 Arend\footnote{https://github.com/groupoid/arend},
 Agda\footnote{https://github.com/groupoid/agda},
 cubicaltt\footnote{https://github.com/groupoid/cubical},
 yacctt, redtt, RedPRL, Lean\footnote{https://github.com/groupoid/lean}.
-Type theoretical cubicaltt constructions was given along the article for other interpretations,
-all of them were taken from our Groupoing
+Type theoretical cubical constructions was given for the Path types
+along the article for other interpretations, all of them were taken from our Groupoing
 Infinity\footnote{https://groupoid.space/mltt/types/} base library.
+
+\begin{table}[!ht]
+  \centering
+  \caption*{\textbf{Table}. Core Features}
+  \begin{adjustbox}{width=\columnwidth,center}
+  \begin{tabular}{lccccccc}
+    \hline
+       Lang          & Pi & Sigma & Eq & Path & U^{\infty} & Co/Fix & Lazy\\
+    \hline
+       PTS           & x\\
+       Cedile, MLTT  & x & x & x\\
+       PTS^{\infty}  & x &   &   &   & x\\
+       \textbf{MLTT^{$\infty$}} & x & x &   & x & x\\
+       \textbf{Lean, Agda}    & x &   & x & x & x\\
+       NuPRL         & x & x & x &   &   & x\\
+       System-D      & x & x &   &   &   & x & x\\
+       \textbf{cubical}       & x & x & x & x &   & x\\
+  \end{tabular}
+  \end{adjustbox}
+\end{table}
+
+The objective of complete derivability of all eliminators, computational and uniquness rules
+is a basic objective for constructive mathematics as mathematical reasoning implies verification
+and mechanization. Yes cubical type system represent most compact system that make possible
+derivability of all theorems for core types which make this system as a first candidate for
+the metacircular type checker.
+
+Also for programming purposes we may also want to investigate Fixpoint as a useful
+type in coinductive and modal type theories and harmful type in theoretical foundation of type systems.
+Elimination the possibility of uncontrolled Fixpoint is a main objective of the correct type system
+for reasoning without paradoxes. By this creatiria we could filter all the fixpoint implementations being condidered harmful.
+
+Without a doubt the core type that makes type theory more
+like programming is the inductive type system that allows to
+define type families. In the following Issue II will be shown
+the semantics and embedding of inductive types with several types
+of Inductive-Recursive encodings.
+
+\begin{table}[!ht]
+  \centering
+  \caption*{\textbf{Table}. Inductive Type Systems}
+  \begin{adjustbox}{width=\columnwidth,center}
+  \begin{tabular}{lccc}
+    \hline
+       Lang & Co/Inductive & Quot/Trunc & HITs\\
+    \hline
+       System-D & x\\
+       Lean & x & x\\
+       NuPRL & x & x\\
+       Arend & x & x & x\\
+       Agda, Coq & x & & x\\
+       cubicaltt, yacctt, RedPRL & x & & x\\
+  \end{tabular}
+  \end{adjustbox}
+\end{table}
+
+Further research of the most pure type theory on a weak fibrations and pure Kan
+oprations without interval lattice structure (connections, de Morgan algebra, connection
+algebras) and diagonal coersions could be made building most compact homotopy core.
+
+\begin{table}[!ht]
+  \centering
+  \caption*{\textbf{Table}. Cubical Type Systems}
+  \begin{adjustbox}{width=\columnwidth,center}
+  \begin{tabular}{lccc}
+    \hline
+       Lang & Interval & Diagonal & Kan/Coe\\
+    \hline
+       BCH, cubical        & & & $0\rightarrow r$, $1 \rightarrow r$\\
+       CCHM, cubicaltt, Agda       & $\lor$,$\land$ & & $0 \rightarrow 1$\\
+       Dedekind          & $\lor$,$\land$ & & $0 \rightarrow 1$, $1 \rightarrow 0$\\
+       AFH/ABCFHL, yacct, Arend & & x & $r \rightarrow s$\\
+       HTS/CMS    & &   & $r \rightarrow s$, $weak$\\
+  \end{tabular}
+  \end{adjustbox}
+\end{table}
+
+The next langhuage after PTS$^{\infty}$ and MLTT$^{\infty}$ willl
+be HTS$^{\infty}$ with recursive higher inductive type system and infinite number of universes.
+Along with O-CPS interpreter this evaluators form a set of languages as a part of conceptual theorem
+proving system with formalized virtual machine for extraction target.
 
 \subsection*{Further Research}
 
 This article opens the door to a series that will unvail the different topics of
 homotopy type theory with practical emphasis to cubical type checkers.
 The article names are subject to change and are based on course structure.
-A number of articles could be issued under the same chapter number. The custom
-interpretations are to be issued under the volume of addendums. The volumes are:
-Foundations, Mathematics, Addendums.
 
 \subsubsection*{Foundations}
 
@@ -1151,52 +1160,128 @@ slightly base on Felix Wellen dissertation.
 This issue covers following modules: etale, infinitesimal, manifold, bundle.
 
 \twocolumn[
-  \begin{@twocolumnfalse}
 
+  \begin{@twocolumnfalse}
    \renewcommand{\bibname}{\fontsize{9pt}{12pt}\selectfont References}
    \bibliographystyle{ieeetr}
    \bibliography{mltt}
 
- \end{@twocolumnfalse}
-
-\setmainfont{Arial}
-
+ \setmainfont{Arial}
 \parindent=2em
 
 \fontsize{8pt}{12pt}\selectfont \textrf{М.Е.Сохацький}\\
 \vspace{0.1cm}
-\fontsize{9pt}{12pt}\selectfont \indent ISSUE 1: INTERNALIZING MLTT\\
-\indent Ця стаття демонструє формальне вбудовування теорії типів Мартіна-Льофа
-в виконуючу кубічну типову систему з повним набором правил виводу.
-Це стало можливим завдяки кубічній теорії типів та типовому кубічному верифікатору
-{\bf cubicaltt}\footnote{http://github.com/mortberg/cubicaltt} в 2017 році.
+\fontsize{9pt}{12pt}\selectfont \indent ВИПУСК 1: ВБУДОВУВАННЯ ТЕОРІЇ ТИПІВ МАРТІНА-ЛЬОФА
+
+{\bf Проблематика.}
 Був пройдений довгий шлях від чистих типових систем AUTOMATH де Брейна до
 гомотопічних типових верифікаторів. Ця стаття стосується тільки формального ядра
 теорії типів Мартіна-Льофа: $\Pi$ и $\Sigma$ типів (які відповідають
 квантору загальності $\forall$ та квантору існування $\exists$ у класичній логіці)
-та типу-рівності.
-
-Кожна мовна імплементація повинна бути протестована. Один з можливих сценаріїв
-тестування типових верифікаторів це пряме вбудовування в модель теорії типів
-виконуючого верифікатора. Так як всі типи в теорії формулюються за допомогою п'яти
-прарвил: формації, інтро, елімінації, обчисленя, рівності), ми зконструювали
+та типу-рівності.\\
+\indent {\bf Мета дослідження.}
+Визначити типову систему як частину концептуальної моделі системи доведення теорем,
+у якій конструктивно виражається J елімінатор та його теореми, спираючись на більш абстрактні
+примітиви типа рівності. Це стало можливим завдяки кубічній теорії типів (2016) та типовому кубічному верифікатору
+{\bf cubicaltt}\footnote{http://github.com/mortberg/cubicaltt} (2017).
+Ціль статті --- продемонструвати формальне вбудовування теорії типів Мартіна-Льофа
+в виконуючу авторську кубічну типову систему MLTT$^{\infty}$ з повним набором правил виводу.\\
+\indent {\bf Методика реалізації.}
+Так як всі типи в теорії формулюються за допомогою п'яти
+правил: формації, інтро, елімінації, обчисленя, рівності) що в сутності
+є кодуванням ізоморфізмами ініальних об'єктів в категорія F-алгебр, ми зконструювали
 номінальні типи-синоніми для виконуючого верифікатора та довели, що це є реалізацією MLTT.
-Це може розглядатися як універсальний тест для імплементації типового верифікатора,
+Так як не всі можуть бути знайомі з теорією типів,
+це випуск також містить їх інтерпретації з точки зору різних розділів математики.\\
+\indent {\bf Результати дослідження.}
+Ця робота веде до декількох результатів:
+1) MLTT$^{\infty}$ --- спеціальна версія теорії типів Мартіна-Льофа зі зліченною кількістю всесвітів та Path типом без eta-правила для HoTT застосування у яку ми будем вбудовувати класичну MLTT;
+2) Власе сама інтерналізація MLTT в MLTT$^{\infty}$ з синтаксисом який дозволяє виводити поліморфні всесвіти;
+3) Класифіковані різні інтерпретації цієї системи типів: теоретико-типова, категорна або топосо-теоретична, гомотопічна або кубічна;
+4) Як результат цей випуск відкриває серію статей по формалізації різних розділів математики,
+   та присвячений формалізації основам математики в кубічній теорії типів, MLTT моделюванню та кубічній верифікації;
+
+ \end{@twocolumnfalse}
+
+]
+
+\twocolumn[
+
+  \begin{@twocolumnfalse}
+
+\parindent=2em
+    \setmainfont{Arial}
+    \fontsize{9pt}{12pt}\selectfont
+
+5) Це може розглядатися як універсальний тест для імплементації типового верифікатора,
 позаяк компенсаця інтро правила та правила елімінатора пов'язані в правилі
 обчислення та рівності (бета та ета редукціях). Таким чином, доводжучи реалізацію MLTT,
-ми доводимо властивості самого виконуючого верифікатора.
-
-Більш формально, кубічне MLTT вбудовування конструктивно виражає
-J елімінатор типу-рівності та його рівняння — правило обчислення,
-що було неможливо до кубічної інтерпретації. Також цей випуск
-відкриває серію статей присвячених формалізації основ математики в кубічній теорії типів,
-MLTT моделюванню та кубічнії верифікації. Так як не всі можуть бути знайомі з теорією типів,
-це випуск також містить їх інтерпретації з точки зору різних розділів математики.
-
+ми доводимо властивості самого виконуючого верифікатора;
+6) Завдяки позитивним результатм кубічна теорія була вибрана як геометричне розширення системи індуктивних типів
+для математичної верифікації як частина концептуальної системи доведення теорем, яка включатимиме серію мов
+як середовище верифікації.\\
+\indent {\bf Висновки.}
 Додамо, що це тільки вхід в техніку прямого вбудовування і після MLTT моделювання,
 ми можем піднятися вище — до вбудовування в систему індуктивних типів, і далі,
-до вбудовування CW-комплексів як зклейок вищих індуктивних типів.
+до вбудовування CW-комплексів як зклейок вищих індуктивних типів, та далі до модальних логік.
+Це означає широкий спектр математичних теорії всередині HoTT аж до алегбраїчної топології.
+Подальша рефлексія веде до комбінації різних типових підсистем в спектральних категорія мовних рівнів
+з модулями-плагінами для синтаксичних розширень та алгоритмів нормалізації програм в цих синтаксисах. \\
+\indent {\bf Ключові слова:} Теорія типів Мартіна-Льофа, Кубічна теорія типів.
 
+ \setmainfont{Arial}
+    \vspace{1cm}
+\fontsize{8pt}{12pt}\selectfont \textrf{М.Э.Сохацкий}\\
+    \vspace{0.1cm}
+\fontsize{9pt}{12pt}\selectfont \hspace{0.53cm} ВЫПУСК 1: ВСТРАИВАНИЕ ТЕОРИИ ТИПОВ МАРТИНА-ЛЁФА
+
+ \setmainfont{Arial}
+
+{\bf Проблематика.}
+Был пройден долгих путь от чистых типовых систем AUTOMATH де Брейна до
+гомотопических типовых верификаторов. Эта статья затрагивает только формализацию
+ядра теории типов Мартина-Лёфа: $\Pi$ и $\Sigma$ типов (которые соотвествуют
+квантору всеобщности $\forall$ и квантору существования $\exists$ в классической логике)
+и типу-равенству.\\
+\indent {\bf Цель исследования.}
+Определить типовую систему для концептуальной модели системы доказательства теорем,
+в которой конструктивно выражетается J элиминатор и его теоремы, опираясь на более абстрактные
+примитивы типа равенства. Это стало возможным благодаря кубической интерпретации и двум
+статьям по кубической теории типов и по кубическому верификатору. Также стояла задача
+исследовать различные кубические системы типов для выбора своей минимальной подсистемы способной встроить MLTT.
+Цель статьи -- демонстрация формального встраивания теории типов Мартина-Лёфа в авторскую кубическую
+систему MLTT$^{\infty}$ с полным набором правил вывода.\\
+\indent {\bf Методика реализации.}
+Так как все типы в теории формулируются с помощью пяти
+правил: формации, интро, элиминации, вычисления, уникальности), что по существу
+есть кодированием изоморфизмами инициальных объектов в категориях F-алгебр, мы построили
+номиналные типы-синонимы для исполняющего верификатора и доказали, что это является реализацией MLTT.
+Так как не все могут быть знакомы с теорией типов, этот выпуск также включает интерпретации с точки
+зрения различных разделов математики.\\
+\indent {\bf Результаты исследования.}
+Эта робота ведет к нескольким результатам:
+1) MLTT$^{\infty}$ --- специальная версия теории типов Мартина-Лёфа со счетным количеством вселенных
+   и Path типом без eta-правила для HoTT применений, в которую будет произведено встраивание классической MLTT;
+2) Собственно сама интернализация MLTT в MLTT$^{\infty}$ с полиморфными вселенными;
+3) Классификованы разные интерпретации этой системы типов: теоретико-типовая, категорная або топосо-теоретическая, гомотопическая или кубическая;
+4) Как результат этот выпуск открывает серию статей по формализации разных разделов математики,
+   которые посвящены формализации основам математики в кубической теории типов, MLTT моделюванию и кубической верификации;
+5) Это может также рассмартриваться как универсальний тест для имплементации типового верификатора,
+как как компенсация интро правила и правила элиминации связаны в правилах бета и эта редукции, таким образом
+мы доказываем правила самого верификатора;
+6) Благодаря позитивным результатам, кубическая теория была выбрана как геометрическое расширение системы индуктивных
+типов для маметамтической механизируемой верификации как часть более общей работы --- концептуальной системы
+доказательства теорем, которая включает в себя серию языков и языковых средств как среду для верификации и экстракции доказанных программ.\\
+\indent {\bf Выводы.}
+Заметим, что это только вход в технику прямого встраивания и после MLTT моделирования мы можем
+поднятся выше — до встраивания в систему индуктивных типов, и далее, до встраивание CW-комплексов как
+склее высших индуктивных типов, и далее до модальных логик.
+Это означает широкий спектр математических теорий внутри самой HoTT вплоть до алгебраической топологии и дифференциальной геометрии.
+Дальнейшая рефлекция ведет к рассмотрению комбинаций типовых подсистем в спектральных категория языковых уравней
+с модулями-плагинами для синтаксических расширений и алгоримов нормализации программ в этих синтаксисах. \\
+\indent {\bf Ключевые слова:} Теория типов Мартина-Лёфа, Кубическая теория типов.
+
+ \end{@twocolumnfalse}
 
 ]
 
