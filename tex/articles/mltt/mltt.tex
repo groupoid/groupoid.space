@@ -95,7 +95,7 @@ inaccessible due to the non-derivability of the J eliminator in pure functions.
 This was recently made possible by cubical type theory and cubical type checker.\\
 {\bf Objective.} Select the type system as a part of conceptual model of theorem proving system that is
 able to derive the J eliminator and its theorems based on the latest research in cubical type systems.
-The goal of this article is to demonstrate the formal embedding of MLTT into MLTT$^{\nifty}$ with constructive proofs
+The goal of this article is to demonstrate the formal embedding of MLTT into MLTT$^{\infty}$ with constructive proofs
 of the complete set of inference rules including J eliminator.\\
 {\bf Methods.}
 As types are formulated using 5 types of rules (formation, intro, elimination, computation, uniqueness)
@@ -505,7 +505,8 @@ space is formed as a pair of basepoint and fibration.
 
 \begin{definition} ($\Sigma$-Formation).
 \begin{lstlisting}
-Sigma (A : U) (B : A -> U) : U = (x : A) * B x
+Sigma (A : U) (B : A -> U)
+  : U = (x : A) * B x
 \end{lstlisting}
 \end{definition}
 
@@ -524,7 +525,8 @@ pr1 (A: U) (B: A -> U)
 pr2 (A: U) (B: A -> U)
     (x: Sigma A B): B (pr1 A B x) = x.2
 
-sigInd (A: U) (B: A -> U) (C: Sigma A B -> U)
+sigInd (A: U) (B: A -> U)
+       (C: Sigma A B -> U)
        (g: (a: A) (b: B a) -> C (a, b))
        (p: Sigma A B) : C p = g p.1 p.2
 \end{lstlisting}
@@ -706,13 +708,13 @@ ii) $\lambda\ (i,j:I) \rightarrow p\ @\ max(i,j)$.
   \end{tikzpicture}
 \end{center}
 \begin{lstlisting}
-connection1 (A: U) (a b: A) (p: Path A a b)
-  : PathP (<x> Path A (p@x) b) p (<i>b)
-  = <y x> p @ (x \/ y)
-
-connection2 (A: U) (a b: A) (p: Path A a b)
+meet (A: U) (a b: A) (p: Path A a b)
   : PathP (<x> Path A a (p@x)) (<i>a) p
   = <x y> p @ (x /\ y)
+
+join (A: U) (a b: A) (p: Path A a b)
+  : PathP (<x> Path A (p@x) b) p (<i>b)
+  = <y x> p @ (x \/ y)
 \end{lstlisting}
 \end{definition}
 
@@ -986,14 +988,9 @@ The result of the work is a |mltt.ctt| file which can be runned using |cubicaltt
 Note that computation rules take a seconds to type check.
 
 \begin{lstlisting}
-# time cubical -b mltt.ctt
-Checking: MLTT
-Checking: instance
-File loaded.
-
-real    0m6.308s
-user    0m6.278s
-sys     0m0.014s
+cubicaltt -- 6 second.
+Arend -- 1 second.
+Agda (cubical) -- & 2 second.
 \end{lstlisting}
 
 \subsection*{Conclusions}
@@ -1074,7 +1071,7 @@ of Inductive-Recursive encodings.
 
 Further research of the most pure type theory on a weak fibrations and pure Kan
 oprations without interval lattice structure (connections, de Morgan algebra, connection
-algebras) and diagonal coersions could be made building most compact homotopy core.
+algebras) and diagonal coersions could be made on the way of building a minimal homotopy core\cite{Cavallo19}.
 
 \begin{table}[!ht]
   \centering
@@ -1093,75 +1090,65 @@ algebras) and diagonal coersions could be made building most compact homotopy co
   \end{adjustbox}
 \end{table}
 
-The next langhuage after PTS$^{\infty}$ and MLTT$^{\infty}$ willl
+The next language after PTS$^{\infty}$ and MLTT$^{\infty}$ will
 be HTS$^{\infty}$ with recursive higher inductive type system and infinite number of universes.
-Along with O-CPS interpreter this evaluators form a set of languages as a part of conceptual theorem
-proving system with formalized virtual machine for extraction target.
+Along with O-CPS interpreter this evaluators form a set of languages as a part of conceptual model of theorem
+proving system with formalized virtual machine as extraction target.
 
 \subsection*{Further Research}
 
 This article opens the door to a series that will unvail the different topics of
 homotopy type theory with practical emphasis to cubical type checkers.
-The article names are subject to change and are based on course structure.
-
-\subsubsection*{Foundations}
-
 The Foundations volume of articles define formal programming language
 with geometric foundations and show how to prove properties of such constructions.
-The foundations contain only programming system overview disregarding specific mathematical
-models or theories which will be given in the second volume entitled Mathematics.
+The second volume of article is dedicated to cover the programming and modeling of Mathematics.
 
-{\bf Issue I: Intenalizing Martin-Löf Type Theory}.
+\subsubsection*{\hspace{0.5cm}Foundations I--V, Mathematics VI--X}
+
+\hspace{0.4cm} {\bf Issue I: Intenalizing Martin-Löf Type Theory}.
 The first volume of definitions gathered into one article dedicated to
 various $\prod$ and $\sum$ properties and internalization of MLTT in the host language typechecker.
-This issue covers core modules: pi, sigma, path, mltt.
 
 {\bf Issue II: Inductive Types and Encodings}.
 This episode tales a story of inductive types, their encodings,
 induction principle and its models.
-This issue covers inductive base library: proto, bool, maybe, nat, list, int, stream, control, recursion.
 
 {\bf Issue III: Homotopy Type Theory}.
 This issue is try to present the Homotopy Type Theory without higher inductive types
 to neglect the core and principles of homotopical proofs.
-This issue covers following modules: pullback, equiv, iso, retract.
 
 {\bf Issue IV: Higher Inductive Types}.
 The metamodel of HIT is a theory of CW-complexes. The category of HIT is a homotopy category.
 This volume finalizes the building of the computational theory.
-This issue covers higher inductive base library: s1, s2, helix, trunc, quotient.
 
-{\bf Issue V: Modalities}. What if something couldn't be constructively
-presented? We can wrap this into modalities and interface it with 5 types
-of MLTT rules, making system sound but without computational semantics.
+{\bf Issue V: Modalities}. The constructive extensions with additional context and
+adjoint transports between toposes (cohesive toposes). This approach serves the needs
+of modal logics, differential geometry, cohomology.
 
-The main intention of Foundation volume is to show the internal language
-of working topos of CW-complexes, the construction of fibrational sheaf type theory.
+%The main intention of Foundation volume is to show the internal language
+%of working topos of CW-complexes, the construction of fibrational sheaf type theory.
 
-\subsubsection*{Mathematics}
+%\subsubsection*{Mathematics}
 
-The second volume of article is dedicated to cover the mathematical
-programming and modeling.
+%The second volume of article is dedicated to cover the mathematical
+%programming and modeling.
 
 \indent {\bf Issue VI: Set Theory}.
 The set theory and mere propositions: set, prop.
 
 {\bf Issue VII: Category Theory}.
 The model of Category Theory definitions.
-It includes: cat, adj, cones, fun, category, sip, ump, cwf.
 
 {\bf Issue VIII: Topos Theory}.
 Formal packaging of set theory in a topos. Formal Topos and Formal Sheaf.
-It also includes sheaf embedding of type theory in type theory in sole module: topos.
+It also includes sheaf embedding of type theory in type theory.
 
 {\bf Issue IX: Algebraic Topology}. This branch of study of topological spaces with abstract algebra
 includes followin areas: Homotopy Theory, Homological Algebra, Complexes,
-This issue covers following modules: pointed, algebra, euler, hopf, seq, homology. cw.
 
 {\bf Issue X: Differential Geometry}. This branch of study includes
 infinitesimal constructions and Cartan geometry, the chapter is
 slightly base on Felix Wellen dissertation.
-This issue covers following modules: etale, infinitesimal, manifold, bundle.
 
 \twocolumn[
 
