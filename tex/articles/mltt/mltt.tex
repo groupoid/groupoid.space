@@ -162,6 +162,8 @@ v) module system. It is slightly based on cubicaltt.
 \begin{lstlisting}[mathescape=true]
    sys := [ sides ]
   side := (id=0)$\rightarrow$exp + (id=1)$\rightarrow$exp
+    f1 := f1 /\ f2
+    f2 := -f2 + id + 0 + 1
   form := form \/ f1 + f1 + f2
  sides := #empty + cos + side
    cos := side,side + side,cos
@@ -187,9 +189,6 @@ v) module system. It is slightly based on cubicaltt.
         + ${\bf split}$ cobrs + exp ${\bf.1}$
         + exp ${\bf.2}$  + $\langle$ ids $\rangle$ exp
         + exp @ form + app + ${\bf comp}$ exp sys
-    f1 := f1 /\ f2
-    f2 := -f2 + id + 0 + 1
-  form := form \/ f1 + f1 + f2
 \end{lstlisting}
 
 Here := (definition), + (disjoint sum), \#empty, \#nat, \#list are parts of BNF language and
