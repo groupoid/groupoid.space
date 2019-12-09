@@ -4,6 +4,7 @@
 \usepackage[english,russian,ukrainian]{babel}
 \usepackage{amssymb}
 \usepackage{amsthm}
+\usepackage{cite}
 \usepackage{url}
 \usepackage{tikz}
 \usepackage{tikz-cd}
@@ -29,7 +30,7 @@
 а також екстрактор байткоду для віртуальної машини Erlang від Ericsson. \textbf{PTS$^\infty$} — це
 мова проміжного рівня заснована на так званій чистій системі типів, або системі типів з однією аксіомою та
 зліченною кількістью всесвітів (консистента теорія залежних типів). Ця мова програмування дає зручну
-мову проміжного рівня для застосунку у додадках з підвищеними вимогами до якості математичної верифікації.
+мову проміжного рівня для застосунку у додадках з підвищеними вимогами до математичної верифікації.
 Типовий верифікатор побудований за базі MLTT принципів та конфігурується правилами для предикативної та імпредактивної ієрархії всесвітів.
 Синтаксис цієї мови програмування сумісний з базовим синтаксистом мови Morte, та підтримує її базову бібліотеку,
 а також додає поняття нескінченної кількості всесвітів. Дуже базова бібліотека прилюдії з рекрурсивним та
@@ -37,8 +38,8 @@
 математичної верифікації до нескінченних або довго-живучих процесів.
 
 Ми коротко опишемо мову верхнього рівня, та мову проміжного ядра для описаного в статті типового верифікатора,
-та покажемо місце цієї мови у конценптуальній системі доведення теорем, яка передбачає поєднання: 1) оптимальної лямбда обчислювача;
-2) мова з однією аксіомою; 3) MLTT мова; 4) мова з гомотопічними типами та інтервалом.
+та покажемо місце цієї мови у конценптуальній системі доведення теорем, яка передбачає поєднання: 1) оптимального лямбда обчислювача;
+2) мову з однією аксіомою; 3) MLTT мову; 4) мову з гомотопічними типами та інтервалом.
 \end{abstract}
 
 \newpage
@@ -87,54 +88,55 @@ IEEE\footnote{IEEE Std 1012-2016  --- V\&V Software verification and validation}
 програмуються як окремі плагіни функтори які погружаються у головний цикл типового верифікатора разом зі своїми правилами.
 Це дозволяє пришвидшити виконання нормалізації термів у процесі типової верифікації.
 
-Not all terms from higher languages could be desugared to PTS.
-As was shown by Geuvers\cite{Geuvers01} we cannot build induction principle inside PTS, we need a fixpoint extension to PTS.
-And also we cannot build the J and funExt terms.
-But still PTS is very powerful, it's compatible with System F libraries.
-The properties of that libraries could be proven in higher languages with Induction and/or [0,1] Homotopy Core.
-Then runtime part could be refined to PTS, extracted to target and run in an environment.
+Однак не всі вищі мови можуть бути розкладені в базисі PTS.
+Як було показано Geuvers\cite{Geuvers01} ми не можемо побудувати принцип індукції всередині чистої PTS, ми повинні послабити
+до залучення оператора нерухомої точки принаймі для типової специфікації самого індуктивного рекурсивного типу.
+Також ми не можемо побудувати елімінатор рівності та функціональну екстенсіональність. Але незважаючи на це PTS
+це потужна система яка відразу дає змогу генерувати сертифіковані програми з доведених теорем. Властивосі можуть доводитися
+у інших мовах концептуальної моделі системи доведення теорем. Прошарок PTS більшим чином пов'язаний з мовою цільового інтерпретатору.
 
-We see two levels of extensions to PTS core: 1) Inductive Types support; 2) Homotopy Core with [0,1] and its eliminators.
-We will touch a bit this topic in the last section of this document.
+Як подальший розвиток цього проекту ми бачимо долучення індуктивної ситсеми типів та гомотопічної системи типів.
 
 \subsection{Місце серед інших мов}
-The product is a regular Erlang/OTP application, that provides dependent language services to the Erlang environment: 1) type checking; 2) normalization; 3) extraction.
-All parts of {\bf Om} compiler is written in Erlang language and target/runtime language is Erlang.
+Продукт який представлено у статті виконаний для телекомунікаційної платформи Erlang/OTP від Ericsson,
+що дало змогу використовувати доведені програми на цій віртуальній машині. Цей додаток експонує наступні
+сервісу у середовищі Erlang: 1) типова верифікація; 2) нормалізація; 3) екстракція.
+Усі частини системи \textbf{PTS$^\infty$} написані на мові Erlang та виключно для системи Erlang.
 
 \begin{itemize}
-\item Level 0 --- certified vectorized interpreter
-\item {\bf Level 1 --- consistent pure type system for type checking and normalization}
-\item Level 2 --- higher language for theorem proving and models property checking
+\item Рівень 0 --- сертифікований векторизований інтерпретатор
+\item {\bf Рівень 1 --- консистентна система з однією аксіомою}
+\item Рівень 2 --- вища мова для доведення теорем та перевірки властивостей
 \end{itemize}
 
 \begin{table}[h]
 \begin{center}
-\caption{List of languages, tried as verification targets}
+\caption{Список мов, досліджених у якості цільової платформи для екстракції}
 \label{tab:a}
 \tabcolsep7pt\begin{tabular}{lcccc}
 \hline
 {\bf Target} & {\bf Class} & {\bf Intermediate} & {\bf Theory}\\
 \hline
-C++        & compiler/native      & HNC & System F\\
-Rust       & compiler/native      & HNC & System F\\
-JVM        & interpreter/native   & Java    & F-sub\footnote{System F wit bounded quantification}\\
-JVM        & interpreter/native   & Scala   & System F-omega\\
-GHC Core   & compiler/native      & Haskell & System D\\
-GHC Core   & compiler/native      & Morte   & CoC\\
-Haskell    & compiler/native      & Coq     & CiC\\
-OCaml      & compiler/native      & Coq     & CiC\\
-{\bf BEAM} & {\bf interpreter} & {\bf Om}   & {\bf PTS$^\infty$} \\
-O          & interpreter          & Om  & PTS$^\infty$ \\
-K          & interpreter          & Q   & Applicative \\
-PyPy       & interpreter/native   & N/A & ULC \\
-LuaJIT     & interpreter/native   & N/A & ULC \\
-JavaScript & interpreter/native & PureScript & System F\\
+C++        & компілятор/native      & HNC & System F\\
+Rust       & компілятор/native      & HNC & System F\\
+JVM        & інтерпретатор/native   & Java    & F-sub\footnote{System F wit bounded quantification}\\
+JVM        & інтерпретатор/native   & Scala   & System F-omega\\
+GHC Core   & компілятор/native      & Haskell & System D\\
+GHC Core   & компілятор/native      & Morte   & CoC\\
+Haskell    & компілятор/native      & Coq     & CiC\\
+OCaml      & компілятор/native      & Coq     & CiC\\
+{\bf BEAM} & {\bf інтерпретатор} & {\bf Om}   & {\bf PTS$^\infty$} \\
+O          & інтерпретатор          & Om  & PTS$^\infty$ \\
+K          & інтерпретатор          & Q   & Applicative \\
+PyPy       & інтерпретатор/native   & N/A & ULC \\
+LuaJIT     & інтерпретатор/native   & N/A & ULC \\
+JavaScript & інтерпретатор/native & PureScript & System F\\
 \hline
 \end{tabular}
 \end{center}
 \end{table}
 
-\section{Consistent PTS as Intermediate Language}
+\section{Консистентна мова проміжного рівня}
 The {\bf Om} language is a dependently typed lambda calculus {\bf PTS$^\infty$}, an extension of Coquand' Calculus of Constructions\cite{Coq88} with the predicative hierarchy of indexed universes.
 There is no fixpoint axiom, so there is no infinite term dependence, the theory is fully consistent and has strong normalization property.
 
@@ -155,7 +157,7 @@ It is based only on one type constructor {\bf $\Pi$}, its intro {\bf $\lambda$} 
 The design of Om language resemble Henk and Morte both in design and in implementation.
 This language intended to be small, concise, easy provable and able to produce the verifiable piece of code that can be distributed over the networks, compiled at the target platform with a safe linkage.
 
-\subsection{BNF and AST}
+\subsection{БНФ та Синтаксичне Дерево}
 
 {\bf Om} syntax is compatible with CoC presented in Morte and Henk languages.
 However, it has extension in a part of specifying universe index as a {\bf Nat} number.
@@ -172,7 +174,7 @@ Equivalent AST tree encoding from the right side.
         | $\forall$ ( I : O ) $\rightarrow$ O
 \end{lstlisting}
 
-\subsection{Universes}
+\subsection{Всесвіти}
 
 As {\bf Om} has infinite number of universes it should include metatheoretical {\bf Nat} inductive type in its core.
 {\bf Om} supports predicative and impredicative hierarchies.
@@ -205,7 +207,7 @@ star (:star,N) $\rightarrow$ N
              _ $\rightarrow$ (:error, "*")
 \end{lstlisting}
 
-\subsection{Predicative Universes}
+\subsection{Предикативні всесвіти}
 
 All terms obey the {\bf Axioms} ranking inside the sequence of {\bf Sorts} universes, and the complexity {\bf Rules} of the dependent term is equal to a maximum of the term's complexity and its dependency.
 Note that predicative universes are incompatible with Church lambda term encoding.
@@ -239,7 +241,7 @@ However, there is another option to have the infinite impredicative hierarchy.
 {Type_i \rightarrow Type_{j} : Type_{j}}
 \end{equation}
 
-\subsection{Hierarchy Switching}
+\subsection{Переклюлчення ієрархій}
 Function {\bf h} returns the target Universe of B term dependence on A.
 There are two dependence rules known as the predicative one and the impredicative one which returns max universe or universe of the last term respectively.
 
@@ -276,7 +278,7 @@ The elimination rule is not given here as in our implementation the whole dictio
 {(x : A)\ \vdash\ \Gamma : Context}
 \end{equation}
 
-\subsection{Single Axiom Language}
+\subsection{Система з однією аксіомою}
 
 This language is called one axiom language (or pure) as eliminator
 and introduction rules inferred from type formation rule.
@@ -353,7 +355,7 @@ data om = star             (n: nat)
 Our typechecker differs from cannonical example of Coquand\cite{Coq96}. 
 We based our typechecker on variable {\bf Substitution}, variable {\bf Shifting}, term {\bf Normalization}, definitional {\bf Equality} anf {\bf Type Checker} itself.
 
-\subsection{Type Checker}
+\subsection{Верифікатор}
 For sure in a pure system, we should be careful with {\bf :remote} AST node.
 Remote AST nodes like {\bf \#List/Cons or \#List/map} are remote links to files.
 So using trick one should desire circular dependency over {\bf :remote}.
@@ -371,7 +373,7 @@ type (:star,N)         D $\rightarrow$ (:star,N+1)
 \end{lstlisting}
 
 \newpage
-\subsection{Shifting}
+\subsection{Зсув індексів де Брейна}
 Shift renames var N in B. Renaming means adding 1 to the nat component of variable.
 
 \begin{lstlisting}[mathescape=true]
@@ -384,7 +386,7 @@ Shift renames var N in B. Renaming means adding 1 to the nat component of variab
      (:app,L,R)      N P $\rightarrow$ (:app,L,R)
 \end{lstlisting}
 
-\subsection{Substitution}
+\subsection{Підстановка}
 Substitution replaces variable occurance in terms.
 
 \begin{lstlisting}[mathescape=true]
@@ -399,7 +401,7 @@ Substitution replaces variable occurance in terms.
      (:app,F,A)    N V L $\rightarrow$ (:app,   sub F N V L,sub A N V L)
 \end{lstlisting}
 
-\subsection{Normalization}
+\subsection{Нормалізація}
 Normalization performs substitutions on applications to functions (beta-reduction)
 by recursive entrance over the lambda and pi nodes.
 
@@ -415,7 +417,7 @@ norm (:star,X)     $\rightarrow$ (:star,X)
 \end{lstlisting}
 
 \newpage
-\subsection{Equality}
+\subsection{Рівність}
 Definitional Equality simply checks the equality of Erlang terms.
 
 \begin{lstlisting}[mathescape=true]
@@ -432,7 +434,7 @@ Definitional Equality simply checks the equality of Erlang terms.
      (A,B)                             $\rightarrow$ (:error,(:eq,A,B))
 \end{lstlisting}
 
-\section{Language Usage}
+\section{Використання мови}
 Here we will show some examples of {\bf Om} language usage.
 In this section, we will show two examples.
 One is lifting PTS system to MLTT system by defining {\bf Sigma} and {\bf Equ} types using only {\bf Pi} type.
@@ -465,7 +467,7 @@ ok
 \end{lstlisting}
 
 
-\subsection{Sigma Type}
+\subsection{Сігма тип}
 The PTS system is extremely powerful even without {\bf Sigma} type.
 But we can encode {\bf Sigma} type similar how we encode {\bf Prod} tuple pair in Bohm encoding.
 Let's formulate {\bf Sigma} type as an inductive type in higher language.
@@ -525,7 +527,7 @@ data Sigma (A: Prop) (P: A -> Prop): Prop =
      (intro: (x:A) (y:P x) -> Sigma A P)
 \end{lstlisting}
 
-\subsection{Equ Type}
+\subsection{Тип рівності}
 Another example of expressiveness is Equality type a la Martin-Löf.
 
 \begin{lstlisting}
@@ -574,7 +576,7 @@ ok
           {var,{'Zero',0}}}}
 \end{lstlisting}
 
-\subsection{Effect Type System}
+\subsection{Система ефектів}
 This work is expected to compile to a limited number of target platforms.
 For now, Erlang, Haskell, and LLVM are awaiting.
 Erlang version is expected to be used both on LING and BEAM Erlang virtual machines.
@@ -594,7 +596,7 @@ data IO: Type =
      (pure: () -> IO)
 \end{lstlisting}
 
-\subsubsection{Infinity I/O Type}
+\subsubsection{Нескінченний ввід-вивід}
 
 Infinity I/O Type Spec.
 
@@ -684,7 +686,7 @@ ok
 #Fun<List.3.113171260>
 \end{lstlisting}
 
-\subsubsection{I/O Type}
+\subsubsection{Скінченний ввід-вивід}
 
 I/O Type Spec.
 
@@ -752,7 +754,7 @@ Here is example of Erlang/OTP shell running recursive example.
 #Fun<List.28.113171260>
 \end{lstlisting}
 
-\section{Higher Language with Inductive Types}
+\section{Вища мова з індуктивними типами}
 As was shown by Herman Geuvers\cite{Geuvers01} the induction principle is not derivable in second-order dependent type theory.
 However there a lot of ways doing this. For example, we can build in induction principal into the core for every defined inductive type.
 We even can allow recursive type check for only terms of induction principle, which have recursion base --- that approach was successfully established by Peng Fu and Aaron Stump\cite{Stump17}.
@@ -766,7 +768,7 @@ Our future top language is a general-purpose functional language with $\Pi$ and 
 It compiles to a small MLTT core of dependent type system with inductive types and equality.
 It also has an Id-type (with its recursor) for equality reasoning, Case analysis over inductive types.
 
-\subsection{BNF}
+\subsection{БНФ}
 
 \begin{lstlisting}[mathescape=true]
     <> ::= #option
@@ -789,7 +791,7 @@ It also has an Id-type (with its recursor) for equality reasoning, Case analysis
 \end{lstlisting}
 
 \newpage
-\subsection{AST}
+\subsection{Синтаксичне дерево}
 The AST of higher language is formally defined using itself.
 Here you can find telescopes (context lists), split and its branches, inductive data definitions.
 
@@ -819,7 +821,7 @@ Here you can find telescopes (context lists), split and its branches, inductive 
 The Erlang version of parser encoded with OTP library {\bf yecc} which implements LALR-1 grammar generator.
 This version resembles the model and slightly based on cubical type checker by Mortberg\cite{Mortberg17} and could be reached at Github repository\footnote{http://github.com/groupoid/infinity/tree/master/priv}.
 
-\subsection{Inductive Type Encoding}
+\subsection{Кодування індуктивних типів}
 There are a number of inductive type encodings:
 1) Commutative square encoding of F-algebras by Hinze, Wu \cite{Hinze13};
 2) Inductive-recursive encoding, algebraic type of algebraic types, inductive family encoding by Dagand \cite{Dagand13};
@@ -830,7 +832,7 @@ Om is shipped with base library in Church encoding and we already gave the examp
 We give here simple calculations behind this theory.
 
 \newpage
-\subsection{Polynomial Functors}
+\subsection{Поліноміальні функтори}
 Least fixed point trees are called well-founded trees.
 They encode polynomial functors.\\
 
@@ -845,7 +847,7 @@ As we know there are several ways to appear for a variable in a recursive algebr
 Least fixpoint is known as a recursive expression that has a base of recursion In Chuch-Bohm-Berarducci encoding type are store as non-recursive definitions of their right folds.
 A fold in this encoding is equal to id function as the type signature contains its type constructor as parameters to a pure function.
 
-\subsection{List Example}
+\subsection{Приклад кодування модуля List}
 The data type of lists over a given set A can be represented as the initial algebra
 $(\mu L_A, in)$ of the functor $L_A(X) = 1 + (A \times X)$. Denote $\mu L_A = List(A)$.
 The constructor functions $nil: 1 \rightarrow List(A)$ and
@@ -945,7 +947,7 @@ foldl = \lambda\ f\ v\ xs = foldr\ (\lambda\ xg\rightarrow\ (\lambda \rightarrow
 \end{cases}
 $$
 
-\subsection{Base Library}
+\subsection{Базова бібліотека}
 The base library includes basic type-theoretical
 building blocks starting from {\bf Unit}, {\bf Bool}, {\bf Either}, {\bf Maybe}, {\bf Nat}, {\bf List} and {\bf IO}.
 Here some examples how it looks like. The full listing of Base Library folder
@@ -979,7 +981,7 @@ is available at {\bf Om} GitHub repository\footnote{http://github.com/groupoid/o
 
 \end{lstlisting}
 
-\subsection{Measurements}
+\subsection{Вимірювання та порівняння з іншими системами}
 The underlying {\bf Om} type checker and compiler is a target language for higher level languages.
 The overall size of {\bf Om} language with extractor to Erlang is 265 lines of code.
 
@@ -991,53 +993,55 @@ The overall size of {\bf Om} language with extractor to Erlang is 265 lines of c
 \hline
 {\bf Module} & {\bf LOC} & {\bf Description}\\
 \hline
-om\_tok     & 54 LOC & Handcoded Tokenizer\\
-om\_parse   & 81 LOC & Inductive AST Parser\\
-om\_type    & 60 LOC & Term normalization and typechecking\\
-om\_erase   & 36 LOC & Delete information about types\\
-om\_extract & 34 LOC & Extract Erlang Code\\
+om\_tok     & 54 LOC & Токенайзер\\
+om\_parse   & 81 LOC & Синтаксичний парсер\\
+om\_type    & 60 LOC & Нормалізатор та верифікатор\\
+om\_erase   & 36 LOC & Стирання типів\\
+om\_extract & 34 LOC & Екстракція Erlang байткоду\\
 \hline
 \end{tabular}
 \end{center}
 \end{table}
 
-\section{Conclusion}
-We have proposed a modified version of CoC, also known as pure type system, with predicative and impredicative switchable infinitary hierarchies.
-This system is known to be consistent, supports strong normalization and resembles the type system which is the same as foundations of modern provers, like Coq, Lean, Agda.
+\section{Висновки}
+В роботі запропонована модифікована версія CoC, також відома як чиста система або система з однією аксіомою, разом
+з предикативною або імпредикативною ієрархією зліченної кількості всесвітів. Ця система відома як консистентна,
+підтримує сильну нормалізацію термів, та відвторює базове ядро усіх сучасних систем доведення теорем, таких як Coq, Lean, Agda, тощо.
 
-{\bf Discoveries}.
- During this investigation were made following discoveries:
-1) baning recursion caused impossibility of encoding a class of theorems based on induction principle.
-As was shown by Peng Fu, Aaron Stump\cite{Fu14}, the only needed ingredient for induction in CoC is Self-Type, weak form of fixpoint recursion in the core.
-2) however for running applications at runtime it is enough System F programs or Dependent Types without Fixpoint.
-So we can prove properties of these programs in higher languages with fixpoint (and thus induction) and then erase theorems from a specification and convert runtime parts of the specification into {\bf PTS$^\infty$} with later extraction to any functional language.
-2) there are a lot of theorems, that could be expressed without fixpoint, such as theorems from higher order logic.
-3) this system could be naturally translated into untyped lambda interpreters.
+{\bf Результати дослідження}
+В результаті цього дослідження встановлені наступні відкриття:
+1) Відсутність рекурсії робить неможливим кодування принципу індукції, необхідне послаблення хоча б для сигнатур
+   рекурсивних типів, так звані Self-типи, запропоновані у мові Cedile, авторами Peng Fu та Aaron Stump\cite{Fu14}.
+2) Однак для запезпечення виконання програм System F цілком достатньо для забезпечення бібліотеки часу виконання;
+2) Теореми які можуть бути вираженими без конструктора нерухомої точки, більше відповідають категорній семантиці;
+3) Ця система може бути природнім чином транпортована у нетипизовані лямбда числення та їх евалуатори, що розширює
+   область застосування майже на усі інтерпретатори.
+4) Якщо обмежити розмір інтерпретатор та його програм розміром кеша первого рівня,
+   то швидкість інтерпретації лямбда контекстів буде на рівні JIT або native.
 
-{\bf Advantages over existing pure languages}.
-1) refined version of type checker and the clean implementation in 265 LOC.
-This will make more trust to the core by external institutions.
-2) supporting both predicative and impredicative hierarchies of {\bf PTS$^\infty$} configuration.
-3) comparing to other languages, Om is much faster on big terms
-thanks to fast Erlang lambda evaluations and a cache layer.
-4) Om is a production language.
+{\bf Переваги над існуючими аналогічними рішеннями}.
+1) рафінована версія типового верифікатора на 300 рядків; Мінімальність ядра дає змогу швидко переконатися в коректності та здійснити ревью;
+2) підтримка предикативної та імпредикативної ієрархій, як елемент конфігурації {\bf PTS$^\infty$};
+3) евалуатор Erlang більш ефективний ніж вбудовування в Haskell;
+4) мова {\bf PTS$^\infty$} використувється для специфікації нескінченних процесів.
 
-{\bf Scientific and Production usage}.
-1) The language could be used as a trusted core for certification sensitive parts of applications, such as in finance, math or other domains with the requirement for totality.
-2) This work could be used as embeddable runtime library.
-3) In the academia {\bf PTS$^\infty$} could be used as teaching instrument for logic, type systems, lambda calculus, functional languages.
+{\bf Наукове та виробниче використання}.
+1) Ця мова може використовуватися як сертифікована ядро для додатків з підвищеними вимогами до якості,
+такі як фінансові додатки, математичні, або інші теми, які потребують перевірки тотальності функцій;
+2) Ця мова може використовуватися як вбудовувана бібліотека;
+3) В академії {\bf PTS$^\infty$} може використовуватися як дидактичний інструмент з логіки, систем типів, лямбда численнню, функціональним мовам програмування.
 
-{\bf Further research perspective}.
-1) Extend the host languages from Erlang to Rust and prove the Om within Coq or Cubical.
-2) Build a theory of compilation and erasing from higher languages to {\bf PTS$^\infty$}.
-3) Build a certified interpreter (replace Erlang) in future higher level language.
-4) Make Induction Principle switchable with {\bf PTS$^\infty$} in future.
+{\bf Перспективи подальших досліджень}.
+1) Розширення спектру цільових мов та доведення семантики у cubicaltt;
+2) Побудова екстрактор в опмитальний лямбда евалуатор з {\bf PTS$^\infty$};
+3) Побудова сертифікованого інтерпретатора на Rust як заміна Erlang;
+4) Залучення принципу індукції в {\bf PTS$^\infty$} в майбутньому.
 
-\section{Acknowledgments}
-We thank all contributors of Groupoid Infinity who helped us to avoid mistakes in TeX and Erlang files.
-We also thank our spouses for continuous support.
+\section{Подяки}
+Висловлюється подяка усім дописувичам Групоїд Інфініті, хто допоміг уникнути помилок в TeX та Erlang файлах.
+Також подяка всім рідним, хто підтримує нас.
 
 \bibliographystyle{plain}
-\bibliography{pts}
+\bibliography{pts_ua}
 
 \end{document}
