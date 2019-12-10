@@ -137,11 +137,12 @@ JavaScript & інтерпретатор/native & PureScript & System F\\
 \end{table}
 
 \section{Консистентна мова проміжного рівня}
-The {\bf Om} language is a dependently typed lambda calculus {\bf PTS$^\infty$}, an extension of Coquand' Calculus of Constructions\cite{Coq88} with the predicative hierarchy of indexed universes.
-There is no fixpoint axiom, so there is no infinite term dependence, the theory is fully consistent and has strong normalization property.
-
-All terms respect ranking {\bf Axioms} inside the sequence of universes {\bf Sorts} and complexity of the dependent term is equal to the maximum complexity of term and its dependency {\bf Rules}.
-The universe system is completely described by the following PTS notation due to Barendregt\cite{Henk93}:
+Мова \textbf{PTS$^\infty$} є мовою з залежними типами, лямбда численням, розширенням CoC зі зліченною кількістю всесвітів для забезпечення консистентності.
+При цьому підтримуються два режима: предикативний та імпредикативний. В мові немає аксіоми нерухомої точки, що унеможливлює неконтрольовану рекурсію та парадокси в системі типів,
+а сама система насолоджується властивостями сильної нормалізації термів.
+Усі терми {\bf Axioms} в такій системі відповідають своєму рангу всередині вкладеної послідовності всесвітів {\bf Sorts},
+а складність залежного терму залежить від максимальної складності самого терму та терму від якого він залежить, ця складність визначається
+правилами {\bf Rules}. Систему всесвітів можна описати за допомогою SAR нотації Барендрехта \cite{Henk93}:
 
 $$
 \begin{cases}
@@ -151,39 +152,39 @@ Rules = Type.\{i\} \leadsto Type.\{j\} : Type.\{max\ i\ j\}\\
 \end{cases}
 $$
 
-The {\bf Om} language is based on Henk languages described first by Erik Meijer and Simon Peyton Jones in 1997\cite{Erik97}.
-Later on in 2015 Morte implementation of Henk design appeared in Haskell, using the Boem-Berrarducci encoding of non-recursive lambda terms.
-It is based only on one type constructor {\bf $\Pi$}, its intro {\bf $\lambda$} and apply eliminator, infinite number of universes, and {\bf $\beta$}-reduction.
-The design of Om language resemble Henk and Morte both in design and in implementation.
-This language intended to be small, concise, easy provable and able to produce the verifiable piece of code that can be distributed over the networks, compiled at the target platform with a safe linkage.
+Синтаксис мови \textbf{PTS$^\infty$} базується на синтаксису мови Henk вперше описаний Еріком Мейером та Саймоном Пейтоном Джонсом в 1997 \cite{Erik97}.
+Пізніше, в 2015 з'явилася Haskell імплементація мови Henk — Morte, яка теж використовувала кодування Бома-Берардуччі для індуктивних та нерекурсивних лямбда термів.
+Ця мова базується виключно на {\bf $\Pi$}-типі, його інтро та елімінатор, зліченним всесвітам, бета-редукції та ета-експансії.
+\textbf{PTS$^\infty$} наслідує мови Henk та Morte як з точки зору дизайна, так і з точки зору імплементації, однак у нас більш оптимізовані індекси де Брейна,
+які застосовуются лише до одноіменних ідентифікаторів. Сама мова створена в дусі мінамілзма, та не залежить від зовнішніх бібліотек,
+у тому числі не залежить від лексичних аналізаторів та генетарів парсерів.
 
 \subsection{БНФ та Синтаксичне Дерево}
 
-{\bf Om} syntax is compatible with CoC presented in Morte and Henk languages.
-However, it has extension in a part of specifying universe index as a {\bf Nat} number.
-Traditionally we present the language in Backus-Naur form.
-Equivalent AST tree encoding from the right side.
+Мова \textbf{PTS$^\infty$} сумісна з системою типів CoC, яка реалізована в мовах  Morte та Henk,
+однак містить ключове розширення — всесвіти можуть індексуватися натуральним числом {\bf Nat}.
+Традиційно наводимо синтаксис мови у формі Бакуса-Наура, еквіваленте синтаксичне дерево наведено справа.
 
 \begin{lstlisting}[mathescape=true]
-   <> ::= #option                  data pts = star (n: nat)
-    V ::= #identifier                       | var (n: name)
-    S ::= * < #number >                     | app (f a: pts)
-    O ::= S | V | ( O )                     | lambda (x: name) (d c: pts)
-        | O O | O $\rightarrow$ O                        | pi (x: name) (d c: pts)
+   <> ::= #option       data pts = star (n: nat)
+    V ::= #identifier            | var (n: name)
+    S ::= * < #number >          | app (f a: pts)
+    O ::= S | V | ( O )          | lambda (x: name) (d c: pts)
+        | O O | O $\rightarrow$ O             | pi (x: name) (d c: pts)
         | $\lambda$ ( I : O ) $\rightarrow$ O
         | $\forall$ ( I : O ) $\rightarrow$ O
 \end{lstlisting}
 
 \subsection{Всесвіти}
 
-As {\bf Om} has infinite number of universes it should include metatheoretical {\bf Nat} inductive type in its core.
-{\bf Om} supports predicative and impredicative hierarchies.
+Так як \textbf{PTS$^\infty$} підтримує нескінченну зліченну кількість всесвітів, її метатеоричний
+індуктивний тип повинен містити натуральні числа. Самі всесвіти вбодовуються один в одного.
 
 $$
 U_0 : U_1 : U_2 : U_3 : ...
 $$
 
-Where $U_0$ --- propositions, $U_1$ --- sets, $U_2$ --- types and $U_3$ --- kinds, etc.
+Де $U_0$ --- всесвіт висловлювань, $U_1$ --- всесвіт множин, $U_2$ --- всесвіт типів, $U_3$ --- всесвіт видів, тощо.
 
 \begin{equation}
 \tag{I}
@@ -199,8 +200,7 @@ Where $U_0$ --- propositions, $U_1$ --- sets, $U_2$ --- types and $U_3$ --- kind
 {Type_o}
 \end{equation}
 
-You may check if a term is a universe with the star function.
-If an argument is not a universe it returns $\{error,\_\}$.
+Ви можете перевірити чи терм є всесвітом за допомогою наступної функції. Якщо аргумент не є всесвітом функцію верне помилку  $\{error,\_\}$.
 
 \begin{lstlisting}[mathescape=true]
 star (:star,N) $\rightarrow$ N
@@ -209,9 +209,10 @@ star (:star,N) $\rightarrow$ N
 
 \subsection{Предикативні всесвіти}
 
-All terms obey the {\bf Axioms} ranking inside the sequence of {\bf Sorts} universes, and the complexity {\bf Rules} of the dependent term is equal to a maximum of the term's complexity and its dependency.
-Note that predicative universes are incompatible with Church lambda term encoding.
-You choose either predicative or impredicative universes with a type checker parameter.
+Усі терми повинні відповідати рангу {\bf Axioms} всередині послідовності всесвітів {\bf Sorts}, та складність залежних
+термів {\bf Rules} не повинна перевищувати складність бази та функтору, за допомогою якого породжений терм.
+Слід зауважити та наголосити, що предикативна ієрархія всесвітів не сумісна з Чорч-кодуванням лямбда числення, у цьому можна
+переконатися спробувавши скомпілювати базову бібліотеку в режимі предикативних всесвітів.
 
 \[
 \tag{$A_1$}
@@ -224,8 +225,9 @@ You choose either predicative or impredicative universes with a type checker par
 \]
 
 \subsection{Impredicative Universes}
-Propositional contractible bottom space is the only available extension to the predicative hierarchy which doesn't lead to inconsistency.
-However, there is another option to have the infinite impredicative hierarchy.
+
+Як відомо, всесвіт висловювань, або простір з одним населеним типом, можливо додати лише вниз ієрархії для забезпечення консистентності.
+Однак відкритим залишається питання нескінченної імпредикативної ієрархії.
 
 \begin{equation}
 \tag{$A_2$}
@@ -242,8 +244,8 @@ However, there is another option to have the infinite impredicative hierarchy.
 \end{equation}
 
 \subsection{Переклюлчення ієрархій}
-Function {\bf h} returns the target Universe of B term dependence on A.
-There are two dependence rules known as the predicative one and the impredicative one which returns max universe or universe of the last term respectively.
+Імпредикативна версію функція визначення ієрархії {\bf h} повертає цільовий всесвіт B розшарування B над A.
+Предикативна функція у свою чергу повертає максимальну потужність всесвітів B та A.
 
 \begin{lstlisting}[mathescape=true]
 dep A B :impredicative $\rightarrow$ B
@@ -253,9 +255,10 @@ h A B $\rightarrow$ dep A B :impredicative
 \end{lstlisting}
 
 \subsection{Contexts}
-The contexts model a dictionary with variables for type checker.
-It can be typed as the list of pairs or {\bf List\ Sigma}.
-The elimination rule is not given here as in our implementation the whole dictionary is destroyed after type checking.
+
+Контексти моделюють змінні в процессі розв'язання рівнянь типової сепцифікації. Контексти можна моделювати
+списками, векторами (Воєводський), та вкладеними сігмами (Канонічний спосіб). Правило елімінації тут не надається
+так як контекст в нашій імплементації повністю знищується після типової верифікації.
 
 \begin{equation}
 \tag{Ctx-formation}
@@ -280,12 +283,10 @@ The elimination rule is not given here as in our implementation the whole dictio
 
 \subsection{Система з однією аксіомою}
 
-This language is called one axiom language (or pure) as eliminator
-and introduction rules inferred from type formation rule.
-The only computation rule of Pi type is called beta-reduction.
-Computational rules of language are called operational semantics
-and establish equality of substitution and lambda application.
-Operational semantics in that way defines the rewrite rules of computations.
+Наша мова входить до класу чистих мов або мов з одним типом, так
+як всі правила виводу є компонентами кодування ізоморфізмом та виводяться з сигнатури самого $\Pi$-типу.
+Єдині правила обчислення — бета-редукція та обернене до нього спряжене правило ета-експансії, їх зв'язок поєднується у двох
+додаткових правилах рівняннях лівої та правої одиничної композиції.
 
 \begin{equation}
 \tag{$\Pi$-formation}
@@ -322,26 +323,25 @@ Operational semantics in that way defines the rewrite rules of computations.
 {[\pi_1/u]\ \pi_2 : B}
 \end{equation}
 
-The theorems (specification) of PTS could be embedded in itself and used as
-Logical Framework for the Pi type. Here is the example in the higher language.
+Теореми про PTS можуть бути вбудовані в саму PTS як логічний фреймворк для $\Pi$-типів.
+Наведемо приклад в сиснтаксисі вищої мови.
 
 \begin{lstlisting}[mathescape=true]
 record Pi (A: Type) :=
-       (intro:  (A $\rightarrow$ Type) $\rightarrow$ Type)
-       (lambda: (B: A $\rightarrow$ Type) $\rightarrow$ pi A B $\rightarrow$ intro B)
-       (app:    (B: A $\rightarrow$ Type) $\rightarrow$ intro B $\rightarrow$ pi A B)
-       (applam: (B: A $\rightarrow$ Type) (f: pi A B) $\rightarrow$ (a: A) $\rightarrow$
-                Path (B a) ((app B (lambda B f)) a) (f a))
-       (lamapp: (B: A $\rightarrow$ Type) (p: intro B) $\rightarrow$
-                Path (intro B) (lambda B ($\lambda$ (a:A) $\rightarrow$ app B p a)) p)
+  (intro:  (A $\rightarrow$ Type) $\rightarrow$ Type)
+  (lambda: (B: A $\rightarrow$ Type) $\rightarrow$ pi A B $\rightarrow$ intro B)
+  (app:    (B: A $\rightarrow$ Type) $\rightarrow$ intro B $\rightarrow$ pi A B)
+  (applam: (B: A $\rightarrow$ Type) (f: pi A B) $\rightarrow$ (a: A) $\rightarrow$
+           Path (B a) ((app B (lambda B f)) a) (f a))
+  (lamapp: (B: A $\rightarrow$ Type) (p: intro B) $\rightarrow$
+           Path (intro B) (lambda B ($\lambda$ (a:A) $\rightarrow$ app B p a)) p)
 \end{lstlisting}
 
-The proofs intentionally left blank, as it proofs could be taken from various sources \cite{Henk93}.
-The equalities of computational semantics presented here as {\bf Path} types in the higher language.
-
-The {\bf Om} language is the extention of the {\bf PTS$^\infty$} with the remote AST node which means remote file loading from trusted storage, anyway this will be checked by the type checker.
-We deny recursion over the remote node.
-We also add an index to var for simplified de Bruijn indexes, we allow overlapped names with tags, incremented on each new occurrence.
+Терми навмисно наведені без доведень, так як можуть бути взяті з різних джерел  \cite{Henk93}.
+Обчислювальна семантика бета та ета правил наведені у вищій мові як правила \textbf{Path}-типа.
+В реальній імплементації синтаксичне дерево мови {\bf PTS$^\infty$} розширене спеціальною вершиною
+для імпорта складних термів в текст программ на етапі завантаження термів з довіреного джерела.
+Ми також забороняємо рекурсію по цьому виду вершин.
 
 \begin{lstlisting}[mathescape=true]
 data om = star             (n: nat)
@@ -352,58 +352,61 @@ data om = star             (n: nat)
         | app                       (f a: om)
 \end{lstlisting}
 
-Our typechecker differs from cannonical example of Coquand\cite{Coq96}. 
-We based our typechecker on variable {\bf Substitution}, variable {\bf Shifting}, term {\bf Normalization}, definitional {\bf Equality} anf {\bf Type Checker} itself.
+Наш типовий верифікатор значно відрізняється від канонічного прикладу наведеним Террі Коканом \cite{Coq96},
+та складається з наступних примітивів: {\bf Substitution}, variable {\bf Shifting}, term {\bf Normalization},
+{\bf Equality} за визначенням та власне {\bf Type Checker}.
 
 \subsection{Верифікатор}
-For sure in a pure system, we should be careful with {\bf :remote} AST node.
-Remote AST nodes like {\bf \#List/Cons or \#List/map} are remote links to files.
-So using trick one should desire circular dependency over {\bf :remote}.
+В чистих системах ми повинні бути акуратними до рекурсії, тому як ми вже сказали ми забороняємо її
+відносно {\bf :remote} вершин синтаксичного дерева. Йдеться мова про конструкції виду
+{\bf \#List/Cons or \#List/map} де використовуються шляхи до файлів відносно сховища термів.
+За допомогою кеша у вигляді ETS таблиці ми убезпечуємо себе від подвійної нормалізації термів з одними і тими самими іменами.
 
 \begin{lstlisting}[mathescape=true]
-type (:star,N)         D $\rightarrow$ (:star,N+1)
-     (:var,N,I)        D $\rightarrow$ :true = proplists:is_defined N B, om:keyget N D I
-     (:remote,N)       D $\rightarrow$ om:cache (type N D)
-     (:pi,N,0,I,O)     D $\rightarrow$ (:star,h(star(type I D)),star(type O [(N,norm I)|D]))
-     (:fn,N,0,I,O)     D $\rightarrow$ let star (type I D), NI = norm I
-                             in (:pi,N,0,NI,type(O,[(N,NI)|D]))
-     (:app,F,A)        D $\rightarrow$ let T = type(F,D),
-                                (:pi,N,0,I,O) = T, :true = eq I (type A D)
-                             in norm (subst O N A)
+(:star,N)     D $\rightarrow$ (:star,N+1)
+(:var,N,I)    D $\rightarrow$ :true = proplists:is_defined N B, om:keyget N D I
+(:remote,N)   D $\rightarrow$ om:cache (type N D)
+(:pi,N,0,I,O) D $\rightarrow$ (:star,h(star(type I D)),star(type O [(N,norm I)|D]))
+(:fn,N,0,I,O) D $\rightarrow$ let star (type I D), NI = norm I
+                    in (:pi,N,0,NI,type(O,[(N,NI)|D]))
+(:app,F,A)    D $\rightarrow$ let T = type(F,D),
+                       (:pi,N,0,I,O) = T, :true = eq I (type A D)
+                    in norm (subst O N A)
 \end{lstlisting}
 
 \newpage
 \subsection{Зсув індексів де Брейна}
-Shift renames var N in B. Renaming means adding 1 to the nat component of variable.
+Зсув виконує переіменування змінної N в термі B. Переіменування означає додавання одиниці до індексу де Брейна у компоненті яка індексується іменем змінної.
 
 \begin{lstlisting}[mathescape=true]
-  sh (:star,X)       N P $\rightarrow$ (:star,X)
-     (:var,N,I)      N P $\rightarrow$ (:var,N,I+1) when I >= P
-                         $\rightarrow$ (:var,N,I)
-     (:remote,X)     N P $\rightarrow$ (:remote,X)
-     (:pi,N,0,I,O)   N P $\rightarrow$ (:pi,N,0,sh I N P,sh O N P+1)
-     (:fn,N,0,I,O)   N P $\rightarrow$ (:fn,N,0,sh I N P,sh O N P+1)
-     (:app,L,R)      N P $\rightarrow$ (:app,L,R)
+(:star,X)       N P $\rightarrow$ (:star,X)
+(:var,N,I)      N P $\rightarrow$ (:var,N,I+1) when I >= P
+                    $\rightarrow$ (:var,N,I)
+(:remote,X)     N P $\rightarrow$ (:remote,X)
+(:pi,N,0,I,O)   N P $\rightarrow$ (:pi,N,0,sh I N P,sh O N P+1)
+(:fn,N,0,I,O)   N P $\rightarrow$ (:fn,N,0,sh I N P,sh O N P+1)
+(:app,L,R)      N P $\rightarrow$ (:app,L,R)
 \end{lstlisting}
 
 \subsection{Підстановка}
-Substitution replaces variable occurance in terms.
+Операція підстановки рекрсивно підсталяє значення певної змінної, яка знаходиться в перному термі.
 
 \begin{lstlisting}[mathescape=true]
- sub (:star,X)     N V L $\rightarrow$ (:star,X)
-     (:var,N,L)    N V L $\rightarrow$ V
-     (:var,N,I)    N V L $\rightarrow$ (:var,N,I-1) when I > L
-     (:remote,X)   N V L $\rightarrow$ (:remote,X)
-     (:pi,N,0,I,O) N V L $\rightarrow$ (:pi,N,0,sub I N V L,sub O N (sh V N 0) L+1)
-     (:pi,F,X,I,O) N V L $\rightarrow$ (:pi,F,X,sub I N V L,sub O N (sh V F 0) L)
-     (:fn,N,0,I,O) N V L $\rightarrow$ (:fn,N,0,sub I N V L,sub O N (sh V N 0) L+1)
-     (:fn,F,X,I,O) N V L $\rightarrow$ (:fn,F,X,sub I N V L,sub O N (sh V F 0) L)
-     (:app,F,A)    N V L $\rightarrow$ (:app,   sub F N V L,sub A N V L)
+(:star,X)     N V L $\rightarrow$ (:star,X)
+(:var,N,L)    N V L $\rightarrow$ V
+(:var,N,I)    N V L $\rightarrow$ (:var,N,I-1) when I > L
+(:remote,X)   N V L $\rightarrow$ (:remote,X)
+(:pi,N,0,I,O) N V L $\rightarrow$ (:pi,N,0,sub I N V L,sub O N (sh V N 0) L+1)
+(:pi,F,X,I,O) N V L $\rightarrow$ (:pi,F,X,sub I N V L,sub O N (sh V F 0) L)
+(:fn,N,0,I,O) N V L $\rightarrow$ (:fn,N,0,sub I N V L,sub O N (sh V N 0) L+1)
+(:fn,F,X,I,O) N V L $\rightarrow$ (:fn,F,X,sub I N V L,sub O N (sh V F 0) L)
+(:app,F,A)    N V L $\rightarrow$ (:app,   sub F N V L,sub A N V L)
 \end{lstlisting}
 
 \subsection{Нормалізація}
-Normalization performs substitutions on applications to functions (beta-reduction)
-by recursive entrance over the lambda and pi nodes.
+Функція нормалізації рекурсивно виконує операцію підстановки для операції функціональної апплікаї
+(в літературі називається бета редукція, нормалізація за допомою обчислення та підстановки).
+Normalization performs substitutions on applications to functions (beta-reduction).
 
 \begin{lstlisting}[mathescape=true]
 norm (:star,X)     $\rightarrow$ (:star,X)
@@ -418,29 +421,29 @@ norm (:star,X)     $\rightarrow$ (:star,X)
 
 \newpage
 \subsection{Рівність}
-Definitional Equality simply checks the equality of Erlang terms.
+
+Операція рівності за визначення просто рекурсивно порівнює два терма-дерева за допомогою патерн-мачінг оператора Erlang.
 
 \begin{lstlisting}[mathescape=true]
-  eq (:star,N)        (:star,N)        $\rightarrow$ true
-     (:var,N,I)       (:var,(N,I))     $\rightarrow$ true
-     (:remote,N)      (:remote,N)      $\rightarrow$ true
-     (:pi,N1,0,I1,O1) (:pi,N2,0,I2,O2) $\rightarrow$
-          let :true = eq I1 I2
-           in eq O1 (subst (shift O2 N1 0) N2 (:var,N1,0) 0)
-     (:fn,N1,0,I1,O1) (:fn,N2,0,I2,O2) $\rightarrow$
-          let :true = eq I1 I2
-           in eq O1 (subst (shift O2 N1 0) N2 (:var,N1,0) 0)
-     (:app,F1,A1)       (:app,F2,A2)   $\rightarrow$ let :true = eq F1 F2 in eq A1 A2
-     (A,B)                             $\rightarrow$ (:error,(:eq,A,B))
+(:star,N)        (:star,N)        $\rightarrow$ true
+(:var,N,I)       (:var,(N,I))     $\rightarrow$ true
+(:remote,N)      (:remote,N)      $\rightarrow$ true
+(:pi,N1,0,I1,O1) (:pi,N2,0,I2,O2) $\rightarrow$
+     let :true = eq I1 I2
+      in eq O1 (subst (shift O2 N1 0) N2 (:var,N1,0) 0)
+(:fn,N1,0,I1,O1) (:fn,N2,0,I2,O2) $\rightarrow$
+     let :true = eq I1 I2
+      in eq O1 (subst (shift O2 N1 0) N2 (:var,N1,0) 0)
+(:app,F1,A1)       (:app,F2,A2)   $\rightarrow$ let :true = eq F1 F2 in eq A1 A2
+(A,B)                             $\rightarrow$ (:error,(:eq,A,B))
 \end{lstlisting}
 
 \section{Використання мови}
-Here we will show some examples of {\bf Om} language usage.
-In this section, we will show two examples.
-One is lifting PTS system to MLTT system by defining {\bf Sigma} and {\bf Equ} types using only {\bf Pi} type.
-We will use Bohm inductive dependent encoding\cite{Bohm85}.
-The second is to show how to write real world programs in {\bf Om} that performs input/output operations within Erlang environment.
-We show both recursive (finite, routine) and corecursive (infinite, coroutine, process) effects.
+
+Продемонструємо інтерфейс користувача та покажемо на прикладах, як використовувати мову \textbf{PTS$^\infty$}.
+Перший приклад, це наївне намагання імплементувати MLTT примітиви за домогою PTS та лише $\Pi$-типу. Ми будемо
+викорисовувати для нього кодування Бома-Берардуччі\cite{Bohm85}. Другий приклад показує як писати реальні програми
+з вводом-виводом в середовищі виконання Ertlang. Ми покажемо формалізацію як індуктивних так і коіндуктивних процесів.
 
 \begin{lstlisting}
 $ ./om help me
@@ -465,7 +468,6 @@ $ ./om print fst erase norm a "#List/Cons"
 -> Cons Head (Tail Cons Nil)
 ok
 \end{lstlisting}
-
 
 \subsection{Сігма тип}
 The PTS system is extremely powerful even without {\bf Sigma} type.
@@ -528,7 +530,7 @@ data Sigma (A: Prop) (P: A -> Prop): Prop =
 \end{lstlisting}
 
 \subsection{Тип рівності}
-Another example of expressiveness is Equality type a la Martin-Löf.
+Други приклад потужності мови з однією аксіомою це кодування типа рівності системи типів Мартіна-Льофа.
 
 \begin{lstlisting}
 data Equ (A: Type): A -> A -> Type :=
@@ -598,7 +600,7 @@ data IO: Type =
 
 \subsubsection{Нескінченний ввід-вивід}
 
-Infinity I/O Type Spec.
+Типова специфікація на тип Infinity I/O для нескінченного вводу-виводу.
 
 \begin{lstlisting}
 -- IOI/@: (r: U) [x: U] [[s: U] -> s -> [s -> #IOI/F r s] -> x] x
@@ -632,7 +634,7 @@ Infinity I/O Type Spec.
 #List/@ #Nat/@
 \end{lstlisting}
 
-Infinite I/O Sample Program.
+Приклад нескінченного вводу-виводу.
 
 \begin{lstlisting}[mathescape=true]
 -- Morte/corecursive
@@ -647,7 +649,7 @@ Infinite I/O Sample Program.
           (#Maybe/Just #IOI/data))))))
 \end{lstlisting}
 
-Erlang Coinductive Bindings.
+Коіндуктивні біндінги в Erlang.
 
 \begin{lstlisting}[mathescape=true]
 copure() ->
@@ -688,7 +690,7 @@ ok
 
 \subsubsection{Скінченний ввід-вивід}
 
-I/O Type Spec.
+Типова специфікація індуктивного типу I/O для скінченного вводу-виводу.
 
 \begin{lstlisting}[mathescape=true]
 -- IO/@
@@ -707,7 +709,7 @@ I/O Type Spec.
                (#IO/pure #Unit/@ #Unit/Make)
 \end{lstlisting}
 
-Guarded Recursion I/O Sample Program.
+Приклад скінченної рекурсивної програми.
 
 \begin{lstlisting}[mathescape=true]
 -- Morte/recursive
@@ -715,7 +717,7 @@ Guarded Recursion I/O Sample Program.
  ((((#IO/[>>=] #IO/data) #Unit/@) #IO/getLine) #IO/putLine))
 \end{lstlisting}
 
-Erlang Inductive Bindings.
+Індуктивні біндінги в Erlang.
 
 \begin{lstlisting}[mathescape=true]
 pure() ->
@@ -736,8 +738,7 @@ rec() ->
         [getLine(),putLine(),pure(),list([])]).
 \end{lstlisting}
 
-
-Here is example of Erlang/OTP shell running recursive example.
+Приклад виконання рекурсивної програми всередині обчислювального середовища Erlang.
 
 \begin{lstlisting}[mathescape=true]
 > om:rec().
@@ -948,10 +949,10 @@ foldl = \lambda\ f\ v\ xs = foldr\ (\lambda\ xg\rightarrow\ (\lambda \rightarrow
 $$
 
 \subsection{Базова бібліотека}
-The base library includes basic type-theoretical
-building blocks starting from {\bf Unit}, {\bf Bool}, {\bf Either}, {\bf Maybe}, {\bf Nat}, {\bf List} and {\bf IO}.
-Here some examples how it looks like. The full listing of Base Library folder
-is available at {\bf Om} GitHub repository\footnote{http://github.com/groupoid/om}.
+Базова бібліотека включає основні теоретико-типові конструкції, такі як
+{\bf Unit}, {\bf Bool}, {\bf Either}, {\bf Maybe}, {\bf Nat}, {\bf List} та {\bf IO}.
+Покажемо на прикладах, як це виглядає. Повна версія базової бібліотеки доступна на Github
+за адресою \footnote{http://github.com/groupoid/pts}.
 
 \begin{lstlisting}[mathescape=true]
 
@@ -982,8 +983,9 @@ is available at {\bf Om} GitHub repository\footnote{http://github.com/groupoid/o
 \end{lstlisting}
 
 \subsection{Вимірювання та порівняння з іншими системами}
-The underlying {\bf Om} type checker and compiler is a target language for higher level languages.
-The overall size of {\bf Om} language with extractor to Erlang is 265 lines of code.
+Мова типового верифікатора \textbf{PTS$^\infty$} у свою чергу є цільовою мовою
+для мов більш високого рівня, як то мова з індуктивними типами або мова з гомотопічним відрізком.
+Загальний розмір бібліотеки мови \textbf{PTS$^\infty$} складає 300 рядків.
 
 \begin{table}[h]
 \begin{center}
