@@ -8,6 +8,9 @@
 \usepackage{setspace}
 \usepackage[utf8]{inputenc}
 \usepackage{titlesec}
+\usepackage{mathptmx}
+\usepackage{anyfontsize}
+\usepackage{t1enc}
 \usepackage{amsmath}
 \usepackage{cite}
 \usepackage{mathptmx}
@@ -27,15 +30,24 @@
 \usetikzlibrary{babel}
 \usepackage{listings}
 \usepackage[tableposition=top]{caption}
+\usepackage[numbers]{natbib}
+
 
 %\newfontfamily{\cyrillicfont}{Times New Roman}
 \setmainfont{Times New Roman}
+
 
 \theoremstyle{definition}
 \newtheorem{theorem}{Theorem}
 \newtheorem{definition}{Definition}
 \newtheorem{exercise}{Exercise}
 \newtheorem{example}{Example}
+
+\titleformat{\section}
+  {\normalfont\fontsize{10}{10}\bfseries}{\thesection}{1em}{}
+
+\titleformat{\subsection}
+  {\normalfont\fontsize{10}{10}\bfseries}{\thesection}{1em}{}
 
 \renewcommand*{\pagemark}{}
 
@@ -86,6 +98,8 @@
    \end{center}
 \end{titlepage}
 
+\fontsize{9}{11}\selectfont
+
 {\bf Background.} The long road from pure type systems of AUTOMATH by de Bruijn to type
 checkers with homotopical core was made. This article touches only
 the formal Martin-Löf Type Theory (MLTT) core type system with $\Pi$ and $\Sigma$ types (that correspond
@@ -117,7 +131,7 @@ inductive types up to embedding of CW-complexes as the indexed
 gluing of the higher inductive types. This means the implementation
 of a wide spectrum of math theories inside HoTT up to algebraic topology.
 The further reflection on type theories unveils the combinations in a
-spirit of do-it-yourself (DIY) type theories with unified higher-order
+    spirit of do-it-yourself (DIY) type theories with unified higher-order
 abstract syntax (HOAS) for pluggable initial objects, normalization modules, and equation checkers.\\
 {\bf Keywords}: Martin-Löf Type Theory, Cubical Type Theory
 \vspace{1cm}
@@ -126,6 +140,8 @@ abstract syntax (HOAS) for pluggable initial objects, normalization modules, and
 ]
 
 \section*{Introduction}
+
+\fontsize{10}{12}\selectfont
 
 Each language implementation needs to be checked. The one of possible test cases
 for type checkers is the direct embedding of type theory model into the language of type checker.
@@ -147,8 +163,11 @@ embedding as the higher inductive type system.
 
 \subsection*{Problem Statement}
 
-The problem is simple: create full self-contained MLTT internalization in the host typechecker,
-where all theorems are being checked constructively.
+The formal initial problem was to create a full self-contained MLTT internalization in the host typechecker,
+where all theorems are being checked constructively. This task involves a modern techniques in type theory,
+namely cubical type theories. By following most advaced theories apply this results for builsing minimal
+type checker that is able to derive J and the whole MLTT theorems constructively. This leads us to the
+compact MLTT core yet compatible with future possible homotopy extensions.
 
 \subsection*{MLTT$^\infty$ Language Syntax}
 
@@ -1153,16 +1172,20 @@ slightly base on Felix Wellen dissertation.
 \twocolumn[
 
   \begin{@twocolumnfalse}
-   \renewcommand{\bibname}{\fontsize{9pt}{12pt}\selectfont References}
+
+
+   \renewcommand{\bibname}{\fontsize{10pt}{12pt}\selectfont References}
    \bibliographystyle{ieeetr}
-   \bibliography{mltt}
+   \def\bibfont{\fontsize{8}{10}\selectfont}
+    \bibliography{mltt}
+   \vspace{1cm}
 
- \setmainfont{Arial}
-\parindent=2em
+  \setmainfont{Arial}
+  \parindent=2em
 
-\fontsize{8pt}{12pt}\selectfont \textrf{М.Е.Сохацький}\\
-\vspace{0.1cm}
-\fontsize{9pt}{12pt}\selectfont \indent ВИПУСК 1: ВБУДОВУВАННЯ ТЕОРІЇ ТИПІВ МАРТІНА-ЛЬОФА
+  \fontsize{8pt}{10pt}\selectfont \textrf{М.Е.Сохацький}\\
+  \vspace{0.1cm}
+  \fontsize{9pt}{11pt}\selectfont \indent ВИПУСК 1: ВБУДОВУВАННЯ ТЕОРІЇ ТИПІВ МАРТІНА-ЛЬОФА
 
 {\bf Проблематика.}
 Був пройдений довгий шлях від чистих типових систем AUTOMATH де Брейна до
@@ -1191,19 +1214,6 @@ slightly base on Felix Wellen dissertation.
 3) Класифіковані різні інтерпретації цієї системи типів: теоретико-типова, категорна або топосо-теоретична, гомотопічна або кубічна;
 4) Як результат цей випуск відкриває серію статей по формалізації різних розділів математики,
    та присвячений формалізації основам математики в кубічній теорії типів, MLTT моделюванню та кубічній верифікації;
-
- \end{@twocolumnfalse}
-
-]
-
-\twocolumn[
-
-  \begin{@twocolumnfalse}
-
-\parindent=2em
-    \setmainfont{Arial}
-    \fontsize{9pt}{12pt}\selectfont
-
 5) Це може розглядатися як універсальний тест для імплементації типового верифікатора,
 позаяк компенсаця інтро правила та правила елімінатора пов'язані в правилі
 обчислення та рівності (бета та ета редукціях). Таким чином, доводжучи реалізацію MLTT,
@@ -1211,6 +1221,19 @@ slightly base on Felix Wellen dissertation.
 6) Завдяки позитивним результатм кубічна теорія була вибрана як геометричне розширення системи індуктивних типів
 для математичної верифікації як частина концептуальної системи доведення теорем, яка включатимиме серію мов
 як середовище верифікації.\\
+
+  \end{@twocolumnfalse}
+
+]
+
+\twocolumn[
+
+  \begin{@twocolumnfalse}
+
+  \parindent=2em
+  \setmainfont{Arial}
+  \fontsize{9pt}{11pt}\selectfont
+
 \indent {\bf Висновки.}
 Додамо, що це тільки вхід в техніку прямого вбудовування і після MLTT моделювання,
 ми можем піднятися вище — до вбудовування в систему індуктивних типів, і далі,
@@ -1219,14 +1242,16 @@ slightly base on Felix Wellen dissertation.
 Подальша рефлексія веде до комбінації різних типових підсистем в спектральних категорія мовних рівнів
 з модулями-плагінами для синтаксичних розширень та алгоритмів нормалізації програм в цих синтаксисах. \\
 \indent {\bf Ключові слова:} Теорія типів Мартіна-Льофа, Кубічна теорія типів.
+\vspace{1cm}
+
 
  \setmainfont{Arial}
-    \vspace{1cm}
-\fontsize{8pt}{12pt}\selectfont \textrf{М.Э.Сохацкий}\\
+\fontsize{8pt}{10pt}\selectfont \textrf{М.Э.Сохацкий}\\
     \vspace{0.1cm}
-\fontsize{9pt}{12pt}\selectfont \hspace{0.53cm} ВЫПУСК 1: ВСТРАИВАНИЕ ТЕОРИИ ТИПОВ МАРТИНА-ЛЁФА
+\fontsize{9pt}{11pt}\selectfont \hspace{0.53cm} ВЫПУСК 1: ВСТРАИВАНИЕ ТЕОРИИ ТИПОВ МАРТИНА-ЛЁФА
 
  \setmainfont{Arial}
+
 
 {\bf Проблематика.}
 Был пройден долгих путь от чистых типовых систем AUTOMATH де Брейна до
