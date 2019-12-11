@@ -55,8 +55,8 @@ IEEE\footnote{IEEE Std 1012-2016  --- V\&V Software verification and validation}
 з доведення властивостей цих функцій.
 
 Ера верифікованих теорем, типових верифікатори та систем доведення теорем бере свій початок з доводжувача теорем AUTOMATH та теорії типів Мартіна-Льофа.
-Станом на сьогодні ми маємо такі потужні системи як Coq, Agda, Leam, F* які базуються на CoC (Calculus of Constructions, Coquand)
-та CiC (Calculus of Inductive Constructions, Paulin-Mohring). Подальший розвиток систематизації призвів до лямбда кубу та чистим
+Станом на сьогодні ми маємо такі потужні системи як Coq, Agda, Leam, F* які базуються на CoC (Calculus of Constructions, Террі Кокан)
+та CiC (Calculus of Inductive Constructions, Поулін-Морін). Подальший розвиток систематизації призвів до лямбда кубу та чистим
 системам з одією аксіомою, як узагальнюючому визначенню ситсем типу CoC, AUT-68, ECC, Henk, Morte, PTS$^\infty$.
 Головна мотивація систем з однією аксіомою — це простота імплементації та простота формальної імпленетації
 нормалізатора термів, як термінального обчислення. За допомогою формальної мови та типового верифікатора ми можемо
@@ -374,7 +374,6 @@ data om = star             (n: nat)
                     in norm (subst O N A)
 \end{lstlisting}
 
-\newpage
 \subsection{Зсув індексів де Брейна}
 Зсув виконує переіменування змінної N в термі B. Переіменування означає додавання одиниці до індексу де Брейна у компоненті яка індексується іменем змінної.
 
@@ -419,7 +418,6 @@ norm (:star,X)     $\rightarrow$ (:star,X)
                                     NF $\rightarrow$ (:app,NF,norm A) end
 \end{lstlisting}
 
-\newpage
 \subsection{Рівність}
 
 Операція рівності за визначення просто рекурсивно порівнює два терма-дерева за допомогою патерн-мачінг оператора Erlang.
@@ -470,17 +468,16 @@ ok
 \end{lstlisting}
 
 \subsection{Сігма тип}
-The PTS system is extremely powerful even without {\bf Sigma} type.
-But we can encode {\bf Sigma} type similar how we encode {\bf Prod} tuple pair in Bohm encoding.
-Let's formulate {\bf Sigma} type as an inductive type in higher language.
+Хоча система PTS достатньо потужна і без сигма типа спроби його побудови потребують теж селф типа, або явна параметризації бази,
+що у кодуванні Бома-Берардуччі буде відповідати кодуванню, використане в мові Cedile.
 
 \begin{lstlisting}
 data Sigma (A: Type) (P: A -> Type) (x: A): Type =
      (intro: P x -> Sigma A P)
 \end{lstlisting}
 
-The {\bf Sigma-type} with its eliminators appears as example in Aaron Stump \cite{Stump17}.
-Here we will show desugaring to {\bf PTS$^\infty$}.
+{\bf $\Sigma$}-типа разом зі своїми елімінаторами, згідно Aaron Stump \cite{Stump17}.
+Тут ми показуємо додаткову параметризацію бази.
 
 \begin{lstlisting}
 -- Sigma/@
@@ -521,8 +518,7 @@ Here we will show desugaring to {\bf PTS$^\infty$}.
  {any,{{$\lambda$,{'Zero',0}},{any,{var,{'Zero',0}}}}}}
 \end{lstlisting}
 
-For using {\bf Sigma} type for Logic purposes one should change the
-home Universe of the type to {\bf Prop}. Here it is:
+Для використання {\bf $\Sigma$}-типу для потреб логіки ми повинні змініти родинний всесвіт на всесвіт висловлюлваннь {\bf Prop}:
 
 \begin{lstlisting}[mathescape=true]
 data Sigma (A: Prop) (P: A -> Prop): Prop =
@@ -530,7 +526,7 @@ data Sigma (A: Prop) (P: A -> Prop): Prop =
 \end{lstlisting}
 
 \subsection{Тип рівності}
-Други приклад потужності мови з однією аксіомою це кодування типа рівності системи типів Мартіна-Льофа.
+Другий приклад потужності мови з однією аксіомою це кодування типа рівності системи типів Мартіна-Льофа.
 
 \begin{lstlisting}
 data Equ (A: Type): A -> A -> Type :=
@@ -556,9 +552,8 @@ data Equ (A: Type): A -> A -> Type :=
 -> Refl x
 \end{lstlisting}
 
-You cannot construct a lambda that will check different values of A type is they are equal,
-however, you may want to use built-in definitional equality and
-normalization feature of type checker to actually compare two values:
+Ми не можемо зконструювати та зберегти лямбла функцію для порівняння довільних значень типу А,
+однак ми м=ожем вбудувати тип рівності в типовий верифікатор, а саме використати його вміння порівнювати довільні терми мови:
 
 \begin{lstlisting}[mathescape=true]
 > om:print(om:type(
@@ -578,17 +573,20 @@ ok
           {var,{'Zero',0}}}}
 \end{lstlisting}
 
-\subsection{Система ефектів}
-This work is expected to compile to a limited number of target platforms.
-For now, Erlang, Haskell, and LLVM are awaiting.
-Erlang version is expected to be used both on LING and BEAM Erlang virtual machines.
-This language allows you to define trusted operations in System F and extract this routine to Erlang/OTP platform and plug as trusted resources.
-As the example, we also provide infinite coinductive process creation and inductive shell that linked to Erlang/OTP IO functions directly.
+Таким чином, ми можемо порівнювати довільні значення на етапі компіляції.
 
-{\bf IO} protocol.
-We can construct in pure type system the state machine based on (co)free monads driven by {\bf IO/IOI} protocols.
-Assume that {\bf String} is a {\bf List\ Nat} (as it is in Erlang natively), and three external constructors: getLine, putLine and pure.
-We need to put correspondent implementations on host platform as parameters to perform the actual IO.
+\subsection{Система ефектів}
+Ця робота передбачає компіляцію на обмежений клас цільових платформ.
+Зараз підтримується лише Erlang, Haskell. Erlang версія призначення для використання у віртуальних
+машинах Erlang/OTP — BEAM (Ericsson, Швеція) та LING (Cloudozer, Україна).
+Для виконуючих програм достатньо використовувати кодування типових систем System F або System F$_\omega$.
+Властивості коду доводити у вищих мовах, а ядро обчислень та самі програми передбачається розповсюджувати
+у мові проміжного рівня \textbf{PTS$^\infty$}, і вже з неї, за допомогою запропонованої безкоштовної
+технології, екстракт в мову Erlang. Для забезпечення виконання таких формальних моделей на інтерпретаторі Erlang
+ми повинні запропоновати технологію формального моделювання та екстракту формального вводу-виводу.
+Для цього ми використаємо технологію вбудовування інтерпретаторів визначених синтаксичними деревами в контексті виконання
+вільних монад (процеси з термінованою рекурсією) \textbf{IO}-тип та вільних комонад (потенційно нескінченній процеси) \textbf{IOI}-тип.
+Самі функції getLine та putLine передаються зовні як функції в монадичний евалуатор інтерпретатор команд вводу-виводу.
 
 \begin{lstlisting}
 String: Type = List Nat
@@ -756,16 +754,22 @@ rec() ->
 \end{lstlisting}
 
 \section{Вища мова з індуктивними типами}
-As was shown by Herman Geuvers\cite{Geuvers01} the induction principle is not derivable in second-order dependent type theory.
-However there a lot of ways doing this. For example, we can build in induction principal into the core for every defined inductive type.
-We even can allow recursive type check for only terms of induction principle, which have recursion base --- that approach was successfully established by Peng Fu and Aaron Stump\cite{Stump17}.
-In any case for derivable induction principle in PTS$^\infty$ we need to have fixpoint somehow in the core.
+Як було показано Герман Геверс\cite{Geuvers01} принцип математичної індукції неможливо конструктивно
+побудувати в залежній теорії другого порядку. Однак існує багато способів зробити це. Наприклад,
+ми можемо вбудувати це правило в ядро типового верифікатора, як це зроблено у більшості пруверів які підтримують індуктивні типи.
+Також як показали Аарон Стамп та Пенг Фу \cite{Stump17}, можна також дозволити рекурсивне визначення для правла формації, таким чином ввівши
+послаблену версію оператора нерухомої точки, це трохи видозмінює лямбда кодування, однак може бути застосовано до теорії з
+залежними типами, як це показано Віктор Майя у мові Formality \footnote{https://github.com/moonad}.
+Іншими словам, для забезмебення принципу індукції ми так чи інашке мати певну форму оператора нерухомої точки в ядрі типової ситсеми.
 
-So-called Calculus of Inductive Constructions\cite{Mohring15} is used as a top language on top of PTS to reason about inductive types.
-Here we will show you a sketch of such inductive language model which intended to be a language extension to PTS system.
-CiC is allowing fixpoint for any terms, and base checking should be performed during type checking such terms.
+Так зване Числення Індуктивних Конструкції (Calculus of Inductive Constructions\cite{Mohring15}) використовується як мова верхнього рівня
+поверх PTS, для судження про программи індуктивними та коіндуктивними методами.
+Тут ми покажемо скетч (БНФ-нотацію) такої мови верхнього рівня, яка передбачається кінцевою мовою користування,
+яка буде розгортатися за допомогою макросів до мови \textbf{PTS$^\infty$}.
+В CiC оператор нерухомої точки дозволений для усіх термів, тому перевірка база вбудована в типовий верифікатор.
 
-Our future top language is a general-purpose functional language with $\Pi$ and $\Sigma$ types, recursive algebraic types, higher order functions, corecursion, and a free monad to encode effects.
+Our future top language is a general-purpose functional language with $\Pi$ and $\Sigma$ types,
+recursive algebraic types, higher order functions, corecursion, and a free monad to encode effects.
 It compiles to a small MLTT core of dependent type system with inductive types and equality.
 It also has an Id-type (with its recursor) for equality reasoning, Case analysis over inductive types.
 
@@ -791,10 +795,10 @@ It also has an Id-type (with its recursor) for equality reasoning, Case analysis
              | case O B
 \end{lstlisting}
 
-\newpage
 \subsection{Синтаксичне дерево}
-The AST of higher language is formally defined using itself.
-Here you can find telescopes (context lists), split and its branches, inductive data definitions.
+Синтаксичне дерево мови вищого рівня визначене на самій мові вищого рівня.
+Тут ви можете бачити метатеоретичне кодування телескопів (контекстів), розгалужень та патерн мачінгу,
+та дефініцій індуктивних типів за допомогою оператора \textbf{data}.
 
 \begin{lstlisting}[mathescape=true]
  data tele (A: U)   = emp | tel (n: name) (b: A) (t: tele A)
@@ -819,23 +823,24 @@ Here you can find telescopes (context lists), split and its branches, inductive 
     | ctor   (n: name)               (args:     list ind)
 \end{lstlisting}
 
-The Erlang version of parser encoded with OTP library {\bf yecc} which implements LALR-1 grammar generator.
-This version resembles the model and slightly based on cubical type checker by Mortberg\cite{Mortberg17} and could be reached at Github repository\footnote{http://github.com/groupoid/infinity/tree/master/priv}.
+Erlang версія парсера вищої мови реалізована за допомогою {\bf yecc} бібліотеки генератора LALR-1 парсерів, що постачається з платформою Erlang/OTP.
+Ця версія синтаксису є походження кубічного синтаксису типового верифікатора Андерса Мортберга \cite{Mortberg17} 
+та доступна за адресою \footnote{http://github.com/groupoid/hts}.
 
 \subsection{Кодування індуктивних типів}
-There are a number of inductive type encodings:
-1) Commutative square encoding of F-algebras by Hinze, Wu \cite{Hinze13};
-2) Inductive-recursive encoding, algebraic type of algebraic types, inductive family encoding by Dagand \cite{Dagand13};
-3) Encoding with motives inductive-inductive definition, also with inductive families, for modeling quotient types by Altenkirch, Kaposi \cite{Kaposi16};
-4) Henry Ford encoding or encoding with Ran,Lan-extensions by Hamana, Fiore \cite{Hamana11};
-5) Church-compatible Bohm-Berarducci encoding Bohm, Berarducci \cite{Bohm85}.
-Om is shipped with base library in Church encoding and we already gave the example of IO system encoded with runtime linkage.
-We give here simple calculations behind this theory.
+Існує багато способів кодувань та моделювання теорії індуктивних типів:
+1) Математична нотація комутативних діаграм F-алгебр (Гінзе, Ву \cite{Hinze13});
+2) Індуктивно-рекурсивне кодування, алгебраїчний тип алгебраїчний типів, кодування індуктивних сімейств (Даган \cite{Dagand13});
+3) Індуктивно-індуктивне кодування, для моделювання фактор-типів (Альтенкірх, Капозі  \cite{Kaposi16});
+4) Кодування Генрі Форда або кодування лівими та правими розширеннями Кана (Камана, Фіоре \cite{Hamana11});
+5) Чорч-сумісне кодування Бома-Берардуччі (Бом, Берардуччі \cite{Bohm85}).
 
-\newpage
+Система доведення теорем \textbf{PTS$^\infty$} поставляється з базовою бібліотекою у Чорч кодуванні
+з прикладами формального рекурсивного та корекурсивного вводу-виводу.
+
 \subsection{Поліноміальні функтори}
-Least fixed point trees are called well-founded trees.
-They encode polynomial functors.\\
+Рекурсори дерев, які визначаються оператором найменшої нерухомої точки називаються рекурсією з базою.
+Вони кодують алгоритми обходження абстрактних дерев, які є поліноміальнми функтораими.
 
 \noindent Natural Numbers: $\mu\ X \rightarrow 1 + X$\\
 List A: $\mu\ X \rightarrow 1 + A \times X$\\
@@ -844,19 +849,19 @@ Stream: $\nu\ X \rightarrow A \times X$\\
 Potentialy Infinite List A: $\nu\ X \rightarrow 1 + A \times X$\\
 Finite Tree: $\mu\ X \rightarrow \mu\ Y \rightarrow 1 + X \times Y = \mu\ X = List\ X$\\
 
-As we know there are several ways to appear for a variable in a recursive algebraic type.
-Least fixpoint is known as a recursive expression that has a base of recursion In Chuch-Bohm-Berarducci encoding type are store as non-recursive definitions of their right folds.
-A fold in this encoding is equal to id function as the type signature contains its type constructor as parameters to a pure function.
+Як ми знаємо є декілька варіантів яз змінна може бути використана в рекурсивному алгебраїному визначенні,
+найменша нерухома точка, це рекурсивний вирах який має базу рекурсії в нерекурсивному кодуванні Бома-Берардуччі,
+яке є узагальненою версію Чорч кодування. У такому кодування рекурсори є правими згортками.
 
 \subsection{Приклад кодування модуля List}
-The data type of lists over a given set A can be represented as the initial algebra
-$(\mu L_A, in)$ of the functor $L_A(X) = 1 + (A \times X)$. Denote $\mu L_A = List(A)$.
-The constructor functions $nil: 1 \rightarrow List(A)$ and
-$cons: A \times List(A) \rightarrow List(A)$ are defined by
-$nil = in \circ inl$ and $cons = in \circ inr$, so $in = [nil,cons]$.
-Given any two functions $c: 1 \rightarrow C$ and $h: A \times C \rightarrow C$,
-the catamorphism $f = \llparenthesis [c,h] \rrparenthesis : List(A) \rightarrow C$
-is the unique solution of the simultaneous equations:
+Тип даних \textbf{List} параметризований типом своїх елементів \textbf{A} може бути представлений як
+ініціальна алгебра $(\mu L_A, in)$ функтора $L_A(X) = 1 + (A \times X)$. Позначимо $\mu L_A = List(A)$.
+Функції конструктори (інтро-правила) $nil: 1 \rightarrow List(A)$ та
+$cons: A \times List(A) \rightarrow List(A)$ визначаються як
+$nil = in \circ inl$ та $cons = in \circ inr$, таким чином $in = [nil,cons]$.
+Для довільних функції $c: 1 \rightarrow C$ та $h: A \times C \rightarrow C$,
+катаморфізм $f = \llparenthesis [c,h] \rrparenthesis : List(A) \rightarrow C$
+є унікальним розв'язком системи рівнянь:
 
 $$
 \begin{cases}
@@ -865,9 +870,9 @@ $$
 \end{cases}
 $$
 
-where $f = foldr(c,h)$. Having this the initial algebra is presented with functor
-$\mu (1 + A \times X)$ and morphisms sum $[1 \rightarrow List(A), A \times List(A) \rightarrow List(A)]$
-as catamorphism. Using this encoding the base library of List will have following form:
+де $f = foldr(c,h)$. Маючи це, ініціальна алгебра представлена функтором
+$\mu (1 + A \times X)$ та морфізмом-сумою $[1 \rightarrow List(A), A \times List(A) \rightarrow List(A)]$
+як катаморфізомом. Далі, закодуємо усі компоненти використовуючи мову \textbf{PTS$^\infty$}:
 
 $$
 \begin{cases}
@@ -877,8 +882,8 @@ nil = \lambda\ list \rightarrow \lambda\ cons \rightarrow \lambda\ nil \rightarr
 \end{cases}
 $$
 
-Here traditionally we show the {\bf List} definition in higher language and its
-desugared version in {\bf Om} language.
+Тут ми традиційно показуємо, як {\bf List} визначається у мові вищого рівня,
+та як він розгортається у мову проміжного рівня, чисте лямбда числення:
 
 \begin{lstlisting}[mathescape=true]
   data List: (A: *) $\rightarrow$ * :=
