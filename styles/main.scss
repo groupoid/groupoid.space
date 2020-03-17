@@ -120,6 +120,11 @@ figure {
     display: block;
 }
 
+figure::after {
+  content: "\A";
+  white-space: pre;
+}
+
 h2 {
     font-size: 24px;
     color: #268BD2;
