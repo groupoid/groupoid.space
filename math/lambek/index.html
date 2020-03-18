@@ -1,0 +1,49 @@
+<!DOCTYPE html><html><head><meta charset="utf-8"><meta http-equiv="x-ua-compatible" content="ie=edge"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="author" content="Maxim Sokhatsky"><meta name="twitter:site" content="@5HT"><meta name="twitter:creator" content="@5HT"><meta property="og:type" content="website"><meta property="fb:app_id" content="118554188236439"><meta property="og:url" content="https://groupoid.space"><meta property="og:title" content="GROUPOЇD"><meta property="og:description" content="Homotopy Theory"><link rel="stylesheet" href="https://groupoid.space/main.css?v=14"><title>LAMBEK</title><script src="https://etale.space/styles/mathjax.js?config=TeX-AMS_HTML"></script><script>window.MathJax = { jax: ["input/TeX", "input/MathML", "input/AsciiMath", "output/CommonHTML", "output/NativeMML"],
+                        TeX: { extensions: ["AMSmath.js", "AMSsymbols.js", "autoload-all.js"] },
+                        extensions: ["tex2jax.js", "asciimath2jax.js", "mml2jax.js", "MathMenu.js", "MathZoom.js"],
+                        "HTML-CSS": { imageFont: null },
+                        AuthorInit: function() {
+                            MathJax.Hub.Register.StartupHook("TeX AMSmath Ready", function() {
+                                var TEX = MathJax.InputJax.TeX;
+                                TEX.Definitions.Add({
+                                    macros: {
+                                      llparenthesis: ['Macro', '\\mathopen{\u2987}'],
+                                      rrparenthesis: ['Macro', '\\mathclose{\u2988}'],
+                                      llbracket:     ['Macro', '\\mathopen{\u27E6}'],
+                                      rrbracket:     ['Macro', '\\mathclose{\u27E7}'],
+                                      incmap:        ['Macro', '\\mathclose{\u21AA}'],
+                                    }
+                                });
+                            });
+                        },
+                        tex2jax: { inlineMath: [['$','$'], ['\\(','\\)']],
+                                   processEscapes: true }
+                    };
+</script></head><body class="content"><header class="header"><div class="header__titles"><h1 class="header__title">Lambek Encoding</h1><h4 class="header__subtitle">Categorical Semantics of Inductive Encodings</h4></div></header><article class="main"><div class="om"><section><h1>Article</h1></section></div><aside><a href="https://tonpa.guru">Maxim Sokhatsky</a><time>DATE: 1 MAY 2016</time></aside><div class="enc"></div><section><h2>Initial Object</h2><code>data list (A: U) = nil
+                 | cons (a: A) (xs: list A)
+</code><h2>Representing Functor F</h2><code>F<sub>A</sub> = 1 + A * X
+</code><h2>Construct corresponding F-Algebra</h2><code>record listAlg (A: Type) : Type :=
+       (X: Type)
+       (nil: Unit -> X)
+       (cons: A -> X -> X)
+</code><h2>Introduce List Morphisms</h2><code>record listMor   (A: Type) (x1,x2: ListAlg A) : Type :=
+       (map:     x1.X -> x2.X)
+       (mapNil:  Path x2.X (map (x1.nil unit)) (x2.nil unit))
+       (mapCons: ∀ (a: A) -> ∀ (x: x1) ->
+                 Path x2.X (map (x1.cons a x)) (x2.cons a (map x)))
+</code><h2> Introduce connected points of List type</h2><code>record listPoint (A: Type) : Type :=
+       (point: ∀ (x: ListAlg A) -> x.X)
+       (map: ∀ (x1,x2: listAlg A) -> (m: ListMor A x1 x2) ->
+             Path x2.X (m.map (point x1)) (point x2))
+</code><figure>$$\def\mapright#1{\xrightarrow{{#1}}}
+  \def\mapdown#1{\Big\downarrow\rlap{\raise2pt{\scriptstyle{#1}}}}
+  \def\mapdiagl#1{\vcenter{\searrow}\rlap{\raise2pt{\scriptstyle{#1}}}}
+  \def\mapdiagr#1{\vcenter{\swarrow}\rlap{\raise2pt{\scriptstyle{#1}}}}
+$$
+</figure><figure>$$U = ListAlg\\$$
+
+$$U\ I = lim\ U\\$$
+
+$\begin{array}{c}lim\ U\\\mapdown{\pi_i}\\X_i\end{array}
+\Longrightarrow \begin{array}{c}F\ lim\ U\\\mapdown{F\ \pi_i}\\F\ X_i\end{array}
+\Longrightarrow lim\ \begin{array}{c}F\ lim\ U\\\mapdown{F \pi_i}\\F\ X_i\end{array}$</figure></section></article><footer class="footer"><a href="//tonpa.guru/"><img class="footer__logo" src="https://longchenpa.guru/seal.png" width="50"></a><span class="footer__copy">2016&mdash;2020 &copy; <a href="//groupoid.space/" style="color:Lavender;">Максим Сохацький</a></span></footer><script src="https://groupoid.space/bundle.js?v=5"></script><script src="https://groupoid.space/highlight.js?v=11"></script></body></html>

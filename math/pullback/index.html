@@ -1,0 +1,70 @@
+<!DOCTYPE html><html><head><meta charset="utf-8"><meta http-equiv="x-ua-compatible" content="ie=edge"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="author" content="Maxim Sokhatsky"><meta name="twitter:site" content="@5HT"><meta name="twitter:creator" content="@5HT"><meta property="og:type" content="website"><meta property="fb:app_id" content="118554188236439"><meta property="og:url" content="https://groupoid.space"><meta property="og:title" content="GROUPOЇD"><meta property="og:description" content="Homotopy Theory"><link rel="stylesheet" href="https://groupoid.space/main.css?v=14"><title>PULLBACK</title><script src="https://etale.space/styles/mathjax.js?config=TeX-AMS_HTML"></script><script>MathJax.Hub.Config({
+   tex2jax: { inlineMath: [['$','$'], ['\\(','\\)']], processEscapes: true },
+   jax: ["input/TeX", "input/MathML", "input/AsciiMath", "output/CommonHTML", "output/NativeMML"],
+   TeX: { extensions: ["AMSmath.js", "AMSsymbols.js", "autoload-all.js"] },
+   extensions: ["tex2jax.js", "asciimath2jax.js", "mml2jax.js", "MathMenu.js", "MathZoom.js" ],
+   "HTML-CSS": { imageFont: null },
+   AuthorInit: function() {
+       MathJax.Hub.Register.StartupHook("TeX AMSmath Ready", function() {
+           var TEX = MathJax.InputJax.TeX;
+           TEX.Definitions.Add({
+               macros: {
+                   llparenthesis: ['Macro', '\\mathopen{\u2987}'],
+                   rrparenthesis: ['Macro', '\\mathclose{\u2988}'],
+                   llbracket:     ['Macro', '\\mathopen{\u27E6}'],
+                   rrbracket:     ['Macro', '\\mathclose{\u27E7}'], } }); }); }, });
+</script></head><body class="content"><article class="main"><div class="om"><section><h1>PULLBACK</h1></section></div><aside><a href="..">Base Library</a><time>20 MAY 2018</time></aside><div class="enc"></div><section><figure>$$\def\mapright#1{\xrightarrow{{#1}}}
+  \def\mapdown#1{\Big\downarrow\rlap{\raise2pt{\scriptstyle{#1}}}}
+  \def\mapdiagl#1{\vcenter{\searrow}\rlap{\raise2pt{\scriptstyle{#1}}}}
+  \def\mapdiagr#1{\vcenter{\swarrow}\rlap{\raise2pt{\scriptstyle{#1}}}}
+$$</figure><p><a href="https://raw.githubusercontent.com/groupoid/cubical/master/src/pullback.ctt">
+Pullback package</a> contains basic information about Homotopy Limits known as Pullbacks.
+</p><h2>Definitions</h2><p><b>Definition</b> (Homotopy Pullback). The pullback of the first diagram (which is called cospan)</p><div class="semantics"><figure>$$
+\begin{array}{ccc}
+    & & B \\
+    & & \mapdown{\mathbf{g}} \\
+    A & \mapright{\mathbf{f}} & C \\
+\end{array}
+$$</figure><figure>$$
+\begin{array}{ccc}
+    A \times^{h}_{C} B & \mapright{\mathbf{pb_2}} & B \\
+    \mapdown{\mathbf{pb_1}} & \mapdiagl{\mathbf{pb_3}} & \mapdown{\mathbf{g}} \\
+    A & \mapright{\mathbf{f}} & C \\
+\end{array}
+$$</figure></div><figure>$$
+    A \times^{h}_{C} B = \Sigma_A\Sigma_B C^I \\
+    = \left\{ (x,y,h) : \Sigma_X\Sigma_Y C^I | h(0)=f(x), h(1)=g(y) \right\}
+$$</figure><p>is a $X \times^h_C Y$
+together with the projection maps $pb_{1,2,3}$ making the second
+diagram commute up to homotopy $H(x,y,h,t) = h(t)$.</p><code>pullback (A B C:U) (f: A -> C) (g: B -> C): U = (a: A) * (b: B) * Path C (f a) (g b)
+
+pb1 (A B C: U) (f: A -> C) (g: B -> C): pullback A B C f g -> A = \(x: pullback A B C f g) -> x.1
+pb2 (A B C: U) (f: A -> C) (g: B -> C): pullback A B C f g -> B = \(x: pullback A B C f g) -> x.2.1
+pb3 (A B C: U) (f: A -> C) (g: B -> C): (x: pullback A B C f g) -> Path C (f x.1) (g x.2.1)
+  = \(x: pullback A B C f g) -> x.2.2
+</code><p><b>Definition</b> (Homotopy Pullback Square). A homotopy pullback or cospan
+is called a homotopy pullback square if there exists a homotopy
+equivalence $\phi : Z \rightarrow A \times_C^h B$ satisfying
+$z_1 : Z \rightarrow A = pb_1 \circ \phi$
+and $z_2: Z \rightarrow B = pb_2 \circ \phi$. Map $\phi$ is called induced map.</p><figure>$$
+    \begin{array}{ccc}
+        X \times^{h}_{C} Y & \mapright{\mathbf{pb_2}} & B \\
+        \mapdown{\mathbf{pb_1}} & \square_{(Z,z_1,z_2)} & \mapdown{\mathbf{g}} \\
+        A & \mapright{\mathbf{f}} & C \\
+    \end{array}
+$$</figure><code>induced (Z A B C: U) (f: A -> C) (g: B -> C)
+        (z1: Z -> A) (z2: Z -> B)
+        (h: (z:Z) -> Path C ((o Z A C f z1) z) (((o Z B C g z2)) z))
+      : Z -> pullback A B C f g
+      = \(z: Z) -> ((z1 z),(z2 z),h z)
+
+pullbackSq (Z A B C: U) (f: A -> C) (g: B -> C) (z1: Z -> A) (z2: Z -> B): U
+         = (h: (z:Z) -> Path C ((o Z A C f z1) z) (((o Z B C g z2)) z))
+         * isEquiv Z (pullback A B C f g) (induced Z A B C f g z1 z2 h)
+
+isPullbackSq (Z A B C: U) (f: A -> C) (g: B -> C) (z1: Z -> A) (z2: Z -> B)
+             (h: (z:Z) -> Path C ((o Z A C f z1) z) (((o Z B C g z2)) z)): U
+           = isEquiv Z (pullback A B C f g) (induced Z A B C f g z1 z2 h)</code><p><b>Proposition</b> (Existence of Pullback Square).
+Pullback Square exists and equals Pullback, where induced map is identity.
+Given as 2.11 Exercise in HoTT Chapter 2.</p><code>completePullback (A B C: U) (f: A -> C) (g: B -> C) :
+    pullbackSq (pullback A B C f g) A B C f g (pb1 A B C f g) (pb2 A B C f g)</code></section></article><footer class="footer"><a href="//tonpa.guru/"><img class="footer__logo" src="https://longchenpa.guru/seal.png" width="50"></a><span class="footer__copy">2016&mdash;2020 &copy; <a href="//groupoid.space/" style="color:Lavender;">Максим Сохацький</a></span></footer><script src="https://groupoid.space/bundle.js?v=5"></script><script src="https://groupoid.space/highlight.js?v=11"></script></body></html>
