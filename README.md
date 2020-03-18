@@ -15,7 +15,7 @@ We are doing research in type theory, encodings, extraction and formalization of
 
 ## Site Map
 
-In the `core` foler presented the PTS/MLTT/HTS base library:
+In the `core` folder presented the PTS/MLTT/HTS base library:
 
 ```
 groupoid.space/core/
