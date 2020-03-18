@@ -6,7 +6,7 @@ We are doing research in type theory, encodings, extraction and formalization of
 
 * CPS — fast L1 lambda interpreter as runtime (fun, app)
 * IP — intercore protocol for process calculus (spawn, send, recv)
-* STORE — tensor array processing runtime (get, put, fold)
+* ARRAY — tensor array processing runtime (get, put, fold)
 
 ## Provers
 
