@@ -41,6 +41,8 @@ groupoid.space/core/
 ├── nat/
 ├── path/
 ├── pi/
+├── io/
+├── ioi/
 ├── prop/
 ├── proto/
 ├── sigma/
