@@ -1,0 +1,148 @@
+{- Homology Theory:
+   - Subgroups;
+   - Chain Complexes.
+   - Ker, Im;
+   - Homology Group.
+   Copyright (c) Groupoid Infinity, 2016-2018. -}
+
+module homology where
+import int
+import set
+import algebra
+import quotient
+
+diff (H: group) (g h: H.1.1) : H.1.1
+  = (opGroup H) g ((invGroup H) h)
+
+conjugate (G: group) (g1 g2: G.1.1): G.1.1
+   = diff G ((opGroup G) g1 g2) g1
+
+subtypeProp (A: U): U
+  = (P: A -> U)
+  * (a: A) -> isProp (P a)
+
+subtype (A: U) (P: subtypeProp A): U
+  = (x: A) -- prop
+  * (P.1 x) -- level
+
+subgroupProp (G: group): U
+  = (prop: G.1.1 -> U)
+  * (level: (x: G.1.1) -> isProp (prop x))
+  * (ident: prop (idGroup G))
+  * (inv: (g: G.1.1) -> prop g -> prop ((invGroup G) g))
+  * (op: (g1 g2: G.1.1) -> prop g1 -> prop g2 -> prop ((opGroup G) g1 g2))
+  * ((g1 g2: G.1.1) -> prop g1 -> prop g2 -> prop (diff G g1 g2)) -- diff
+
+isNormal (G: group) (P: subgroupProp G) : U
+  = (X: group)
+  * (g1 g2: G.1.1) -> P.1 g2 -> P.1 (conjugate G g1 g2)
+
+isFull (G: group) (P: subgroupProp G): U
+  = (g: G.1.1) -> P.1 g
+
+normalSubgroupProp (G: group): U
+  = (P: subgroupProp G)
+  * isNormal G P
+
+subElProp (G: group) (P: subgroupProp G)
+  : subtypeProp G.1.1
+  = (P.1,P.2.1)
+
+subEl (G: group) (P: subgroupProp G): U
+  = subtype G.1.1 (subElProp G P)
+
+isSetSubEl (G: group) (P: subgroupProp G): isSet (subEl G P)
+  = undefined
+
+subgroup (G: group) (P: subgroupProp G): group
+  = ((subEl G P,isSetSubEl G P),((op,asso,id,(lx,rx)),inv,(li,ri))) where
+    un: U = subEl G P
+    op (x y: un): un = ((opGroup G) x.1 y.1,P.2.2.2.2.1 x.1 y.1 x.2 y.2)
+    asso: isAssociative un op = undefined
+    id: un = ((idGroup G),P.2.2.1)
+    lx (x: un): Path un (op id x) x = undefined
+    rx (x: un): Path un (op x id) x = undefined
+    inv (x: un): un = ((invGroup G) x.1,P.2.2.2.1 x.1 x.2)
+    li: (x: un) -> Path un (op (inv x) x) id = undefined
+    ri: (x: un) -> Path un (op x (inv x)) id = undefined
+
+sq (A: U) (a b: A) (p q: Path A a b): Square A a a b b (<i>a) (<i>b) p q
+  = undefined
+
+-- <i j> comp (<_>A) ? [ (i=0) -> <k> p @ j,
+--                       (i=1) -> <k> q @ j,
+--                       (j=0) -> <k> a
+--                       (j=1) -> <k> b ]
+
+ker_prop (G H: group) (phi: grouphom G H)
+  : subgroupProp G
+  = (prop,level,ident,inv,op,di) where
+    prop (x: G.1.1): U = Path H.1.1 (phi.1 x) (idGroup H)
+    ident: prop (idGroup G) = phi.2.2
+    level (x: G.1.1): isProp (prop x) = \ (p q: prop x) -> sq H.1.1 (phi.1 x) (idGroup H) p q
+    inv: (x: G.1.1) -> prop x -> prop ((invGroup G) x) = undefined
+    op: (g1 g2: G.1.1) -> prop g1 -> prop g2 -> prop ((opGroup G) g1 g2) = undefined
+    di: (g1 g2: G.1.1) -> prop g1 -> prop g2 -> prop (diff G g1 g2) = undefined
+        -- phi.2.1 g1 (invGroup g2) ∙ ap ((opGroup H) (g2 g2)) (phi.2.2 g2)
+
+im_prop (G H: group) (phi: grouphom G H)
+  : subgroupProp H
+  = (prop,level,ident,inv,op,di) where
+    prop (x: H.1.1): U = pTrunc (fiber G.1.1 H.1.1 phi.1 x)
+    ident: prop (idGroup H) = inc ((idGroup G),<i>phi.2.2 @ -i)
+    level (x: H.1.1): isProp (prop x) = pTruncIsProp (fiber G.1.1 H.1.1 phi.1 x)
+    inv: (x: H.1.1) -> prop x -> prop ((invGroup H) x) = undefined
+    op: (g1 g2: H.1.1) -> prop g1 -> prop g2 -> prop ((opGroup H) g1 g2) = undefined
+    di: (h1 h2: H.1.1) -> prop h1 -> prop h2 -> prop (diff H h1 h2) = undefined
+
+Ker (G: abgroup) (H: group) (phi: grouphom (G.1,G.2.1) H): group
+  = subgroup (G.1,G.2.1) (ker_prop (G.1,G.2.1) H phi)
+
+Im (G: group) (H: abgroup) (psi: grouphom G (H.1,H.2.1)): group
+  = subgroup (H.1,H.2.1) (im_prop G (H.1,H.2.1) psi)
+
+KerImRel (G H: group) (phi: grouphom G H) (x y: H.1.1): U
+  = pTrunc (fiber G.1.1 H.1.1 phi.1 (diff H x y))
+
+KerImEl (G H: group) (phi: grouphom G H): U
+  = quot H.1.1 (KerImRel G H phi)
+
+mutual
+  data Seq (A: U) (B: A -> A -> U)
+     = seqNil (ob: A)
+     | seqCons (ob: A) (seq: Seq A B) (hom: B ob (head A B seq))
+  head (A: U) (B: A -> A -> U): Seq A B -> A = split
+     seqNil x -> x
+     seqCons x y z -> x
+
+ChainComplex: U
+  = (sequence: Seq abgroup abgrouphom)
+  * (index: nat -> abgroup)
+  * (augment: abgrouphom (index zero) (head abgroup abgrouphom sequence))
+  * ((n: nat) -> abgrouphom (index (succ n)) (index n))
+
+homology_group (x: ChainComplex): (n: Z) -> dgroup = split
+   inl x -> unitDGroup
+   inr x -> natElim x where
+   natElim: nat -> dgroup = split
+      zero -> unitDGroup -- TODO:
+      succ x -> unitDGroup -- TODO:
+
+CochainComplex: U
+  = (sequence: Seq abgroup abgrouphom)
+  * (index: nat -> abgroup)
+  * (augment: abgrouphom (head abgroup abgrouphom sequence) (index zero))
+  * ((n: nat) -> abgrouphom (index n) (index (succ n)))
+
+-- Theorems
+
+kernel_is_normal (G H: group) (phi: grouphom G H): normalSubgroupProp G
+  = (ker,cond) where
+    ker: subgroupProp G = ker_prop G H phi
+    cond: isNormal G ker = (G,x) where
+     x: (g1 g2: G.1.1)
+      -> PathP (<i> H.1.1) (phi.1 g2) H.2.1.2.2.1
+      -> PathP (<i> H.1.1) (phi.1 (G.2.1.1 (G.2.1.1 g1 g2) (G.2.2.1 g1))) H.2.1.2.2.1
+      = undefined
+--  φ.pres-conj g₁ g₂ ∙ ap (H.conj (φ.f g₁)) pg₂ ∙ H.conj-ident-r (φ.f g₁)
+
