@@ -38,6 +38,7 @@ groupoid.space/math/
 ├── functor/
 ├── homology/
 ├── hopf/
+├── inductive/
 ├── iso/
 ├── lambek/
 ├── limits/
