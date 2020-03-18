@@ -2,18 +2,37 @@
 
 We are doing research in type theory, encodings, extraction and formalization of mathematics.
 
-## Runtimes
+## Languages
 
+Groupoid Infinity Runtimes and Provers:
+
+```
+groupoid.space/lang
+├── apl/
+├── cps/
+├── eff/io/
+├── eff/ioi/
+├── hts/
+├── ip/
+├── ip/process
+└── pts/
+```
+
+### Runtimes
+
+* APL — tensor array processing runtime (get, put, fold)
 * CPS — fast L1 lambda interpreter as runtime (fun, app)
+* EFF — effect type system for (in)finite I/O (getString, putString, pure)
 * IP — intercore protocol for process calculus (spawn, send, recv)
-* ARRAY — tensor array processing runtime (get, put, fold)
 
-## Provers
+### Provers
 
 * PTS — pure type system for encodings exploration
 * HTS — homotopy type system for mathematical modeling
 
-## Site Map
+## Base Library
+
+### Foundation
 
 In the `core` folder presented the PTS/MLTT/HTS base library:
 
@@ -29,6 +48,8 @@ groupoid.space/core/
 ├── sigma/
 └── stream/
 ```
+
+### Mathematics
 
 In the `math` folder you will find Mathematical Components for HTS:
 
