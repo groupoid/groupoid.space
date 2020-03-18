@@ -1,13 +1,13 @@
 # Groupoid Infinity
 
-We are doing research in type theory, encodings, extraction and formalization of mathematics.
+Groupoid Infinity is doing research in type theory, encodings, extraction and formalization of mathematics.
 
 ## Languages
 
 Groupoid Infinity Runtimes and Provers:
 
 ```
-groupoid.space/lang
+groupoid.space/lang/
 ├── apl/
 ├── cps/
 ├── eff/io/
@@ -20,8 +20,8 @@ groupoid.space/lang
 
 ### Runtimes
 
-* APL — tensor array processing runtime (get, put, fold)
-* CPS — fast L1 lambda interpreter as runtime (fun, app)
+* APL — persistent tensor array processing runtime (get, put, fold)
+* CPS — fast certified L1 lambda CPS interpreter as runtime (fun, app)
 * EFF — effect type system for (in)finite I/O (getString, putString, pure)
 * IP — intercore protocol for process calculus (spawn, send, recv)
 
@@ -72,6 +72,14 @@ groupoid.space/math/
 ├── pullback/
 ├── sheaf/
 └── topos/
+```
+
+## Usage
+
+The main purpose of HTS is to check Homotopy Types:
+
+```
+$ ./homotopy check https://groupoid.space/math/hopf/hopf.txt
 ```
 
 ## Credits
