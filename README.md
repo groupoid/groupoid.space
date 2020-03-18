@@ -1,74 +1,48 @@
-# Groupoid Infinity, Inc.
+# Groupoid Infinity
 
-Groupoid Infinity is doing research in type theory, term encodings,
-program extraction, and effective compilation.
-Infinity stack consists of following languages:
+We are doing research in type theory, encodings, extraction and formalization of mathematics.
 
-* O (lambda) — untyped lambda CPS interpreter
-* Om (pts) — typechecker and code extraction
-* Infinity (mltt) — high level language with dependent types
+## Runtime
 
-Applications:
+* CPS — untyped lambda interpreter as runtime (fun, app)
+* IP — intercore protocol for process calculus (spawn, send, recv)
+* STORE — array processing runtime (get, put, fold)
 
-* Effects (eff) — collection of approaches for each MLTT language
-* Types (mltt/types) — MLTT base library
+## Provers
 
-Documentation:
-
-* Papers (tex) — Groupoid Infinity articles.
-
-## Install
-
-```
-$ npm install
-$ npm start
-```
+* PTS — pure type system for encodings exploration
+* HTS — homotopy type system for mathematical modeling
 
 ## Site Map
 
 ```
-.
-├── eff
-│   ├── io
-│   └── ioi
-├── lambda
-│   ├── extract
-│   ├── intro
-│   └── runtime
-├── mltt
-│   ├── inductive
-│   ├── infinity
-│   ├── iso
-│   ├── lambek
-│   └── types
-│       ├── cat
-│       ├── either
-│       ├── equiv
-│       ├── fun
-│       ├── functor
-│       ├── iso
-│       ├── iso.pi
-│       ├── iso.sigma
-│       ├── lambek
-│       ├── list
-│       ├── maybe
-│       ├── nat
-│       ├── path
-│       ├── pi
-│       ├── propset
-│       ├── proto
-│       ├── sigma
-│       └── stream
-├── pts
-│   ├── intro
-│   ├── pure
-│   ├── semantics
-│   └── status
-├── styles
-└── tex
-    ├── articles
-    ├── dissertation
-    └── slides
+core
+├── list
+├── maybe
+├── nat
+├── path
+├── pi
+├── prop
+├── proto
+├── sigma
+└── stream
+math
+├── bundle
+├── category
+├── cw
+├── derham
+├── disc
+├── equiv
+├── functor
+├── homology
+├── hopf
+├── iso
+├── lambek
+├── limits
+├── presheaf
+├── pullback
+├── sheaf
+└── topos
 ```
 
 ## Credits
