@@ -8,14 +8,12 @@ Groupoid Infinity Runtimes and Provers could be found in `lang` folder:
 
 ```
 groupoid.space/lang/
-├── apl/
 ├── cps/
-├── eff/io/
-├── eff/ioi/
-├── hts/
+├── eff/
 ├── ip/
-├── ip/process
-└── pts/
+├── apl/
+├── pts/
+└── hts/
 ```
 
 ### Runtimes
