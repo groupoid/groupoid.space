@@ -15,7 +15,7 @@ We are doing research in type theory, encodings, extraction and formalization of
 
 ## Site Map
 
-Here is presented the HTS base library.
+In the `core` foler presented the PTS/MLTT/HTS base library:
 
 ```
 groupoid.space/core/
@@ -28,6 +28,11 @@ groupoid.space/core/
 ├── proto/
 ├── sigma/
 └── stream/
+```
+
+In the `math` folder you will find Mathematical Components for HTS:
+
+```
 groupoid.space/math/
 ├── bundle/
 ├── category/
