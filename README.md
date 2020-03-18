@@ -2,11 +2,11 @@
 
 We are doing research in type theory, encodings, extraction and formalization of mathematics.
 
-## Runtime
+## Runtimes
 
-* CPS — untyped lambda interpreter as runtime (fun, app)
+* CPS — fast L1 lambda interpreter as runtime (fun, app)
 * IP — intercore protocol for process calculus (spawn, send, recv)
-* STORE — array processing runtime (get, put, fold)
+* STORE — tensor array processing runtime (get, put, fold)
 
 ## Provers
 
@@ -15,34 +15,36 @@ We are doing research in type theory, encodings, extraction and formalization of
 
 ## Site Map
 
+Here is presented the HTS base library.
+
 ```
-core
-├── list
-├── maybe
-├── nat
-├── path
-├── pi
-├── prop
-├── proto
-├── sigma
-└── stream
-math
-├── bundle
-├── category
-├── cw
-├── derham
-├── disc
-├── equiv
-├── functor
-├── homology
-├── hopf
-├── iso
-├── lambek
-├── limits
-├── presheaf
-├── pullback
-├── sheaf
-└── topos
+groupoid.space/core/
+├── list/
+├── maybe/
+├── nat/
+├── path/
+├── pi/
+├── prop/
+├── proto/
+├── sigma/
+└── stream/
+groupoid.space/math/
+├── bundle/
+├── category/
+├── cw/
+├── derham/
+├── disc/
+├── equiv/
+├── functor/
+├── homology/
+├── hopf/
+├── iso/
+├── lambek/
+├── limits/
+├── presheaf/
+├── pullback/
+├── sheaf/
+└── topos/
 ```
 
 ## Credits
