@@ -1,0 +1,7 @@
+@book{Lof72,
+  title     = {The Theory of Types},
+  author    = {Martin-L{\"o}f, P. and Sambin, G.},
+  series    = {Studies in proof theory},
+  year      = {1972}
+}
+

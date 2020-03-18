@@ -1,0 +1,213 @@
+<!DOCTYPE html><html><head><meta charset="utf-8"><meta http-equiv="x-ua-compatible" content="ie=edge"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="author" content="Maxim Sokhatsky"><meta name="twitter:site" content="@5HT"><meta name="twitter:creator" content="@5HT"><meta property="og:type" content="website"><meta property="fb:app_id" content="118554188236439"><meta property="og:url" content="https://groupoid.space"><meta property="og:title" content="GROUPOЇD"><meta property="og:description" content="Homotopy Theory"><link rel="stylesheet" href="https://groupoid.space/main.css?v=24"><title>PTS</title><script src="https://etale.space/styles/mathjax.js?config=TeX-AMS_HTML"></script><script>window.MathJax = { jax: ["input/TeX", "input/MathML", "input/AsciiMath", "output/CommonHTML", "output/NativeMML"],
+                        TeX: { extensions: ["AMSmath.js", "AMSsymbols.js", "autoload-all.js"] },
+                        extensions: ["tex2jax.js", "asciimath2jax.js", "mml2jax.js", "MathMenu.js", "MathZoom.js"],
+                        "HTML-CSS": { imageFont: null },
+                        AuthorInit: function() {
+                            MathJax.Hub.Register.StartupHook("TeX AMSmath Ready", function() {
+                                var TEX = MathJax.InputJax.TeX;
+                                TEX.Definitions.Add({
+                                    macros: {
+                                      llparenthesis: ['Macro', '\\mathopen{\u2987}'],
+                                      rrparenthesis: ['Macro', '\\mathclose{\u2988}'],
+                                      llbracket:     ['Macro', '\\mathopen{\u27E6}'],
+                                      rrbracket:     ['Macro', '\\mathclose{\u27E7}'],
+                                      incmap:        ['Macro', '\\mathclose{\u21AA}'],
+                                    }
+                                });
+                            });
+                        },
+                        tex2jax: { inlineMath: [['$','$'], ['\\(','\\)']],
+                                   processEscapes: true }
+                    };
+</script></head><body class="content"><header class="header"><div class="header__titles"><h1 class="header__title">Pure Type System</h1><h4 class="header__subtitle">The minimal language with universal quantifier and infinity number of universes for consistent typechecking and normalization</h4></div></header><article class="main"><div class="exe"><section><h1>Abstract</h1></section><aside>Maxim Sokhatsky<time>DATE: 10 OCT 2016</time></aside><section><p>The <b>PTS<sup>&infin;</sup></b> programming language is a higher-order dependently typed lambda calculus,
+an extension of Coquand's Calculus of Constructions with the predicative/impredicative hierarchy of indexed universes.</p></section><section><h2 id="nat">Universes</h2><p>The infinite hierarchy of universes allows to avoid paradoxes in type theory.</p><code>U₀ : U₁ : U₂ : U₃ : …
+
+U₀ — propositions
+U₁ — values and sets
+U₂ — types
+U₃ — sorts</code><div class="semantics"><figure>\begin{equation}
+ \tag{S}
+ \dfrac
+ {o : Nat}
+ {Type_o}
+ \end{equation}</figure></div><h2 id="axioms">Predicative Universes</h2><p>All terms obey the <b>A</b> ranking inside the sequence of <b>S</b> universes,
+and the complexity <b>R</b> of the dependent term is equal to a maximum of
+the term's complexity and its dependency.
+The universes system is completely described by the following
+PTS notation (due to Barendregt):</p><code>S    (n : nat) = U n
+A₁ (n m : nat) = U n : U m where m > n — cumulative
+R₁ (m n : nat) = U m ⟶ U n : U (max m n) — predicative</code><p>Note that predicative universes are incompatible with Church lambda term encoding.
+You can switch between predicative and impredicative uninverses using typecheker parameter.</p><div class="semantics"><figure>$$
+\begin{equation}
+\tag{A₁}
+\dfrac
+{i: Nat,\ \ \ \ j: Nat,\ \ \ \ i < j}
+{Type_i : Type_{j}}
+\end{equation}
+$$</figure><figure>$$
+\begin{equation}
+\tag{R₁}
+\dfrac
+{i : Nat,\ \ \ \ j : Nat}
+{Type_i \rightarrow Type_{j} : Type_{max(i,j)}}
+\end{equation}
+$$
+</figure></div><h2 id="axioms">Impredicative Universes</h2><p>Propositional contractible bottom space is the only
+available extension to predicative hierarchy that does not lead to inconsistency.
+However, there is another option to have infinite
+impredicative hierarchy.</p><code>A₂   (n : nat) = U n : U (n + 1) — non-cumulative
+R₂ (m n : nat) = U m ⟶ U n : U n — impredicative
+</code><div class="semantics"><figure>$$
+\begin{equation}
+\tag{A₂}
+\dfrac
+{i: Nat}
+{Type_i : Type_{i+1}}
+\end{equation}
+$$</figure><figure>$$
+\begin{equation}
+\tag{R₂}
+\dfrac
+{i : Nat,\ \ \ \ j : Nat}
+{Type_i \rightarrow Type_{j} : Type_{j}}
+\end{equation}
+$$
+</figure></div><h2 id="ast">Single Axiom Language</h2><p>This language is called one axiom language (or pure) as eliminator
+and introduction adjoint functors inferred from type formation rule.
+The only computation rule of Pi type is called beta-reduction.</p><code>Pi (A: U) (B: A -> U): U = (x: A) -> B x
+lambda (A: U) (B: A -> U) (b: Pi A B): Pi A B = \ (x: A) -> b x
+app (A: U) (B: A -> U) (f: Pi A B) (a: A): B a = f a
+beta (A: U) (B: A -> U) (a:A) (f: Pi A B): Equ (B a) (app A B (lambda A B f) a) (f a) =
+</code><div class="semantics"><figure>\begin{equation}
+\tag{$\Pi$-formation}
+\dfrac
+{x:A \vdash B : Type}
+{\Pi\ (x:A) \rightarrow B : Type}
+\end{equation}</figure><figure>\begin{equation}
+\tag{$\lambda$-intro}
+\dfrac
+{x:A \vdash b : B}
+{\lambda\ (x:A) \rightarrow b : \Pi\ (x: A) \rightarrow B }
+\end{equation}</figure><br><figure>$$
+\begin{equation}
+\tag{$App$-elim}
+\dfrac
+{f: (\Pi\ (x:A) \rightarrow B)\ \ \ a: A}
+{f\ a : B\ [a/x]}
+\end{equation}
+$$</figure><figure>$$
+\begin{equation}
+\tag{$\beta$-comp}
+\dfrac
+{x:A \vdash b: B\ \ \ a:A}
+{(\lambda\ (x:A) \rightarrow b)\ a = b\ [a/x] : B\ [a/x]}
+\end{equation}
+$$
+</figure></div><p>This language could be embedded in itself and used
+as Logical Framework for the Pi type:</p><code>PTS (A: U): U
+    = (intro:  (A -> U) -> U)
+    * (lambda: (B: A -> U) -> pi A B -> intro B)
+    * (app:    (B: A -> U) -> intro B -> pi A B)
+    * ((B: A -> U) (f: pi A B) -> (a: A)
+   -> Path (B a) ((app B (lambda B f)) a) (f a))</code><br><h1 id="impl">Implementation</h1><h2 id="ast">Syntax</h2><p>The terms of PTS<sup>&infin;</sup> consist of <b>nat</b> indexed stars, variables, applications,
+abstractions, and universal quantifications. This language is called Calculus
+of Construction and exists in various syntaxes. PTS<sup>&infin;</sup> supports <b>Morte's</b> syntax.</p><code><>  = #option
+I   = #identifier
+U   = * < #number >
+PTS = U | I | PTS → PTS | ∀ ( I : PTS ) → PTS
+    | PTS PTS | ( PTS ) | λ ( I : PTS ) → PTS</code><p>Equivalent HOAS tree encoding for parsed terms is following:</p><code>data pts (lang: U)
+   = star (n: nat)
+   | var (x: name) (l: nat)
+   | pi (x: name) (l: nat) (f: lang)
+   | lambda  (x: name) (l: nat) (f: lang)
+   | app (f a: lang)
+
+data PTS
+   = ppure (_: pts PTS)</code><br><h2>Universes</h2><code>star (:star,N) -> N
+star _         -> (:error, "*")
+</code><h2>Functions</h2><code>func ((:forall,),(I,O)) -> true
+func T                  -> (:error,(:forall,T))
+</code><h2>Variables</h2><code>var N B       -> var N B (proplists:is_defined N B)
+var N B true  -> true
+var N B false -> (:error,("free var",N,proplists:get_keys(B)))
+</code><h2>Shift</h2><code>sh (:var,(N,I)),N,P) when I>=P  -> (:var,(N,I+1))
+sh ((:forall,(N,0)),(I,O)),N,P) -> ((:forall,(N,0)),sh I N P,sh O N P+1)
+sh ((:lambda,(N,0)),(I,O)),N,P) -> ((:lambda,(N,0)),sh I N P,sh O N P+1)
+sh (Q,(L,R),N,P)                -> (Q,sh L N P,sh R N P)
+sh (T,N,P)                      -> T
+</code><h2>Substitution</h2><code>sub Term Name Value               -> sub Term Name Value 0
+sub (:arrow,         (I,O)) N V L -> (:arrow,         sub I N V L,sub O N V L);
+sub ((:forall,(N,0)),(I,O)) N V L -> ((:forall,(N,0)),sub I N V L,sub O N(sh V N 0)L+1)
+sub ((:forall,(F,X)),(I,O)) N V L -> ((:forall,(F,X)),sub I N V L,sub O N(sh V F 0)L)
+sub ((:lambda,(N,0)),(I,O)) N V L -> ((:lambda,(N,0)),sub I N V L,sub O N(sh V N 0)L+1)
+sub ((:lambda,(F,X)),(I,O)) N V L -> ((:lambda,(F,X)),sub I N V L,sub O N(sh V F 0)L)
+sub (:app,           (F,A)) N V L -> (:app,sub F N V L,sub A N V L)
+sub (:var,           (N,L)) N V L -> V
+sub (:var,           (N,I)) N V L when I>L -> (:var,(N,I-1))
+sub T                       _ _ _ -> T.
+</code><h2>Normalization</h2><code>norm :none                   -> :none
+norm :any                    -> :any
+norm (:app,(F,A))            -> case norm F of
+                                ((:lambda,(N,0)),(I,O)) -> norm (sub O N A)
+                                                     NF -> (:app,(NF,norm A)) end
+norm (:remote,N)             -> cache (norm N [])
+norm (:arrow,         (I,O)) -> ((:forall,("_",0)),  (norm I,norm O))
+norm ((:forall,(N,0)),(I,O)) -> ((:forall,(N,0)),    (norm I,norm O))
+norm ((:lambda,(N,0)),(I,O)) -> ((:lambda,(N,0)),    (norm I,norm O))
+norm T                       -> T
+</code><h2>Definitional Equality</h2><code>eq ((:forall,("_",0)), X) (:arrow,Y)     -> eq X Y
+eq (:app,(F1,A1))         (:app,(F2,A2)) -> let true = eq F1 F2 in eq A1 A2
+eq (:star,N)              (:star,N)      -> true
+eq (:var,(N,I))           (:var,(N,I))   -> true
+eq (:remote,N)            (:remote,N)    -> true
+eq ((:farall,(N1,0)),(I1,O1))
+   ((:forall,(N2,0)),(I2,O2)) ->
+   let true = eq I1 I2 in eq O1 (sub (sh O2 N1 0) N2 (:var,(N1,0)) 0)
+eq ((:lambda,(N1,0)),(I1,O1))
+   ((:lambda,(N2,0)),(I2,O2)) ->
+   let true = eq I1 I2 in eq O1 (sub (sh O2 N1 0) N2 (:var,(N1,0)) 0)
+eq (A,B)                      -> (:error,(:eq,A,B))</code><h2>Type Checker</h2><code>type (:star,N)               _ -> (:star,N+1)
+type (:var,(N,I))            D -> let true = var N D in keyget N D I
+type (:remote,N)             D -> cache type N D
+type (:arrow,(I,O))          D -> (:star,h(star(type I D)),star(type O D))
+type ((:forall,(N,0)),(I,O)) D -> (:star,h(star(type I D)),star(type O [(N,norm I)|D]))
+type ((:lambda,(N,0)),(I,O)) D -> let star (type I D),
+                                  NI = norm I in ((:forall,(N,0)),(NI,type O [(N,NI)|D])))
+type (:app,(F,A))            D -> let T = type(F,D),
+                                  true = func T,
+                                  ((:forall,(N,0)),(I,O)) = T,
+                                  Q = type A D,
+                                  true = eq I Q in norm (sub O N A)
+</code></section><section><h1>USAGE</h1><h2 id="normal">Normalization (by Evaluation)</h2><p>Terms in PTS<sup>&infin;</sup> language.</p><code>$ om show List/Cons
+
+λ (A: *)
+→ λ (Head: A)
+→ λ (Tail:
+    ∀ (List: *)
+→ ∀ (Cons:
+    ∀ (Head: A)
+    → ∀ (Tail: List)
+    → List)
+→ ∀ (Nil: List)
+→ List)
+→ λ (List: *)
+→ λ (Cons:
+    ∀ (Head: A)
+→ ∀ (Tail: List)
+→ List)
+→ λ (Nil: List)
+→ Cons Head (Tail List Cons Nil)
+</code><h2 id="erased">Type Erasure</h2><p>The untyped lambda language O is the simplest language used in
+PTS<sup>&infin;</sup> to generate backend programs. This O is used as the output of type erasure.</p><code>I = #identifier
+O = I | ( O ) | O O | λ I -> O</code><br><code>Inductive O := Var: nat → O | App: O → O → O | Lambda: nat → O → O → O</code><p>Terms in untyped lambda pure language.</p><code>$ om print fst erase a "#List/Cons"
+( λ Head
+→ ( λ Tail
+→ ( λ Cons
+→ ( λ Nil
+→ ((Cons Head) ((Tail Cons) Nil))))))
+ok</code><h2 id="syntax">Extraction</h2><p>Erlang extracted code. For other targets you may want to read
+<a href='../../lc/extract'> Code Extract</a> notes.</p><code>'Cons'() -> fun (Head) -> fun (Tail) -> fun (Cons) -> fun (Nil) ->
+    ((Cons(Head))((Tail(Cons))(Nil))) end end end end.</code></section><section><h1>Bibliography</h1><p><center><table cellspacing=5><tr><td width=5><img src="https://n2o.space/img/pdf.jpg" width=35></td><td width=400>
+<a href="https://github.com/groupoid/groupoid.space/blob/master/tex/articles/pts/pts.pdf">
+<h3>Addendum I: Pure Type System for Erlang</h3>
+</a></td></tr></table></center></p></section></div></article><footer class="footer"><a href="https://github.com/groupoid/"><img class="footer__logo" src="https://longchenpa.guru/seal.png" width="50"></a><span class="footer__copy">2016&mdash;2020 &copy; <a href="//groupoid.space/" style="color:Lavender;">Максим Сохацький</a></span></footer><script src="https://groupoid.space/bundle.js?v=6"></script><script src="https://groupoid.space/highlight.js?v=11"></script></body></html>

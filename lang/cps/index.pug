@@ -1,0 +1,157 @@
+extends ../../layout.pug
+
+block title
+    title CPS
+
+block content
+    +header('../../groupoid.svg', 'Certified Interpreter', 'The CPS interpeted language with general recursion')
+    article.main
+        .om
+            section
+                h1 Article
+            aside Maxim Sokhatsky
+                time 31 DEC 16
+            section
+                h2#nat Designed for L1 caches
+                p.
+                    The motivation for building an interpreter that can run
+                    on L1 cache sizes (limited to 64KB of code and data) is based on
+                    success of LuaJIT, V8, HotSpot, and vector lanaguages such as K and J.
+                    If we can build a really fast VM for such interpreter
+                    (compact aligned bytecode) and make it stick to L1 sizes
+                    with enabled AVX instruction set then it can outperform any reasonable alternative.
+
+                p.
+                    This approach was chosen for building O-CPS interpreter in Rust.
+                    Following results were achieved in factorial (5) and
+                    ackerman function (3,4) benchmarks, and that's even without bytecode VM implementation!
+                    Next step to improvement.
+
+                code.
+                    Rust    0
+                    Java    3
+                    PyPy    8
+                    O-CPS   291
+                    Python  537
+                    K       756
+                    Erlang  10699/1806/436/9
+                    LuaJIT  33856
+                <br>
+
+                code.
+                    akkerman_k     635 ns/iter (+/- 73)
+                    akkerman_rust  8,968 ns/iter (+/- 322)
+
+                p.
+                    The key challenge here was that O-CPS implementation was made in Rust's
+                    flavour of linear types. Thus lambda interpreter as an internal
+                    language of cartesian closed category was written in a language with
+                    linear types and lifetimes as an internal language of symmetric
+                    monoidal categories. Such an exercise will definitely increase
+                    your confidence in linear types.
+
+                h2#vec Built-in Vectorization by Rust
+
+                code.
+                    (&AST::Atom(Atom::Value(Value::$vec(ref l))),
+                     &AST::Atom(Atom::Value(Value::$vec(ref r)))) => {
+                        let a: Vec<$atype> = l.iter()
+                            .zip(r)
+                            .map(|(l,r)| dyad_map_expr!(l,$op,r,$atom))
+                            .collect::<Vec<$atype>>();
+                        Ok( AST::Atom(Atom::Value(Value::$r_vec(a))) )
+                    },
+                br.
+                code.
+                    objdump ./target/release/o -d | grep mulpd
+                       223f1:       c5 f5 59 0c d3          vmulpd (%rbx,%rdx,8),%ymm1,%ymm1
+                       223f6:       c5 dd 59 64 d3 20       vmulpd 0x20(%rbx,%rdx,8),%ymm4,%ymm4
+                       22416:       c5 f5 59 4c d3 40       vmulpd 0x40(%rbx,%rdx,8),%ymm1,%ymm1
+                       2241c:       c5 dd 59 64 d3 60       vmulpd 0x60(%rbx,%rdx,8),%ymm4,%ymm4
+                       2264d:       c5 f5 59 0c d3          vmulpd (%rbx,%rdx,8),%ymm1,%ymm1
+                       22652:       c5 e5 59 5c d3 20       vmulpd 0x20(%rbx,%rdx,8),%ymm3,%ymm3
+
+                h2#ast AST
+                code.
+                    data Value   = Nil
+                                 | SymbolInt (a: u16)
+                                 | SequenceInt (a: u16)
+                                 | Number (a: i64)
+                                 | Float (a: f64)
+                                 | VecNumber (Vec i64)
+                                 | VecFloat (Vec f64)
+
+                    data Scalar  = Nil
+                                 | Any
+                                 | List (a: AST)
+                                 | Dict (a: AST)
+                                 | Call (a b: AST)
+                                 | Assign (a b: AST)
+                                 | Cond (a b c: AST)
+                                 | Lambda (otree: Option NodeId) (a b: AST)
+                                 | Yield (c: Context)
+                                 | Value (v: Value)
+                                 | Name (s: String)
+
+                    data AST     = Atom (a: Scalar)
+                                 | Vector (a: Vec AST)
+
+                    data Lazy    = Defer (otree: NodeId) (a: AST) (cont: Cont)
+                                 | Continuation (otree: NodeId) (a: AST) (cont: Cont)
+                                 | Return (a: AST)
+                                 | Start
+
+                    data Cont    = Expressions (ast: AST) Option (vec: Iter AST) (cont: Cont)
+                                 | Assign (ast: AST) (cont: Cont)
+                                 | Cond (c,d: AST) (cont: Cont)
+                                 | Func (a,b,c: AST) (cont: Cont)
+                                 | List (acc: Vec AST) (vec: Iter AST) (i: Nat) (cont: Cont)
+                                 | Call (a: AST) (i: Nat) (cont: Cont)
+                                 | Return
+                                 | Intercore (m: Message) (cont: Cont)
+                                 | Yield (cont: Cont)
+
+                h2#loop O-CPS Interpreter
+                code.
+                    E: V | A | C
+                    NC: ";" = [] | ";" m:NL = m
+                    FC: ";" = [] | ";" m:FL = m
+                    EC: ";" = [] | ";" m:EL = m
+                    NL: NAME | o:NAME m:NC = Cons o m
+                    FL: E | o:E | m:FC = Cons o m
+                    EL: E | EC  | o:E m:EC = Cons o m
+                    C: N | c:N a:C = Call c a
+                    N: NAME | S | HEX | L | F
+                    L: "(" ")" = [] | "([" c:NL "]" m:FL ")" = Table c m | "(" l:EL ")" = List l
+                    F: "{" "}" = Lambda [] [] [] | "{[" c:NL "]" m:EL "}" = Lambda [] c m
+                                                 | "{" m:EL "}" = Lambda [] [] m
+
+                    lazy n (Assign n b)               e k = D n b (ContAssign n k)
+                         n (Cond v a l)               e k = D n v (ContCond l r k)
+                         n (List l)                   e k = eve n l e k
+                         n (Call c a)                 e k = D n a (ContCall c k)
+                         n (Name s)                   e k = cont (lookup n s e) k
+                         n (Lambda _ x y)             e k = cont ((Lambda n x y) n) k
+
+                    evf  n (Lambda c x y) a e k = cont (y (if (= c []) n c)) (ContFunc x a k)
+                         n       (Name s) a e k = lookup n s e
+                    eve  n       (Cons a d) e k = D n a (ContExpr d k)
+                         n              Nil e k = cont n Nil e k
+                         n                a e k = D n a k
+                    emr            (Dict x) e k = R Dict (rev x)
+                                 (Cons x y) e k = R Dict (Cons (rev x) (rev x))
+                                          a e k = R a
+                    run  D              n a e k = lazy n a e k
+                         R                a     = a
+
+                    cont n (Dict v) e (ContCall c k)          = evf n c v e k
+                         n x        e (ContCall c k)          = evf n c x e k
+                         n x        e (ContFunc s a k)        = eve (e.define_args s (rev a)) v k
+                         n False    e (ContCond l r k)        = D n r k
+                         n True     e (ContCond l r k)        = D n l k
+                         n x        e (ContCond l r k)        = D n x (ContCond l r k)
+                         n x        e (ContAssign (Name s) k) = eve n (e.define s x) k
+                         n x        e (ContExpr (Cons a d) k) = eve n (Cons a d) k
+                         n x        e (ContExpr r k)          = cont n x k
+                         n x        e  ContRet                = emr x e k
+

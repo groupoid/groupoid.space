@@ -1,0 +1,7 @@
+@INPROCEEDINGS{Erik97,
+    author = {Simon Peyton Jones and Erik Meijer},
+    title = {Henk: A Typed Intermediate Language},
+    booktitle = {In Proc. First Int'l Workshop on Types in Compilation},
+    year = {1997}
+}
+

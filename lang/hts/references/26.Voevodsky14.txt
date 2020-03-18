@@ -1,0 +1,10 @@
+@article{Voevodsky14,
+  added-at = {2014-11-17T13:16:50.000+0100},
+  author = {Voevodsky, Vladimir},
+  description = {A C-system defined by a universe in a category},
+  keywords = {C-system HoTT universe},
+  title = {A C-system defined by a universe in a category},
+  url = {http://arxiv.org/abs/1409.7925},
+  year = 2014
+}
+

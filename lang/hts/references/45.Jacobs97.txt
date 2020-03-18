@@ -1,0 +1,10 @@
+@inproceedings{Jacobs97,
+  booktitle={A tutorial on (co) algebras and (co) induction},
+  author={Jacobs, Bart and Rutten, Jan},
+  journal={Bulletin-European Association for Theoretical Computer Science},
+  volume={62},
+  pages={222--259},
+  year={1997},
+  publisher={EUROPEAN ASSOCIATION FOR THEORETICAL COMPUTER}
+}
+

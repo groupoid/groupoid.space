@@ -1,0 +1,13 @@
+@InProceedings{Abel08,
+author="Abel, Andreas and Coquand, Thierry and Dybjer, Peter",
+editor="Garrigue, Jacques and Hermenegildo, Manuel V.",
+title="On the Algebraic Foundation of Proof Assistants for Intuitionistic Type Theory",
+booktitle="Functional and Logic Programming",
+year="2008",
+publisher="Springer Berlin Heidelberg",
+address="Berlin, Heidelberg",
+pages="3--13",
+abstract="An algebraic presentation of Martin-L{\"o}f's intuitionistic type theory is given which is based on the notion of a category with families with extra structure. We then present a type-checking algorithm for the normal forms of this theory, and sketch how it gives rise to an initial category with families with extra structure. In this way we obtain a purely algebraic formulation of the correctness of the type-checking algorithm which provides the core of proof assistants for intuitionistic type theory.",
+isbn="978-3-540-78969-7"
+}
+

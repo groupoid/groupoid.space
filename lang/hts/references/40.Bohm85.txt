@@ -1,0 +1,10 @@
+@inproceedings{Bohm85,
+  author    = {Corrado B{\"o}hm and Alessandro Berarducci},
+  title     = {Automatic synthesis of typed Lambda-programs on term algebras},
+  volume    = {39},
+  number    = {2-3},
+  bookTitle = {Theoretical Computer Science},
+  year      = {1985},
+  pages     = {135--154}
+}
+

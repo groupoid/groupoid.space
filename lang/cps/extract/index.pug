@@ -1,0 +1,56 @@
+extends ../../../layout.pug
+
+block title
+    title EXTRACT
+
+block content
+    +header('../../groupoid.svg', 'Code Extraction', 'Groupoid Infinity Targets')
+    article.main
+        h2#erlang Interpreters
+        p.
+            From a practical point of view, we develop Erlang with Dependent Types.
+            Thus we carefully integrate with Erlang platform by generating Erlang AST
+            and trying to be compatible with Erlang kernel through mapping of inductive types
+            to underlying Erlang primitives such as process, receive, and spawn.
+            Erlang extraction is sponsored and supported by Synrc Research Center.
+            Extraction in other languages could also be easily implemented.
+
+        h2#llvm LLVM
+        p.
+            Another branch of research is dedicated to evaluation of LLVM lambda generation.
+            It could be direct MIR or LLVM generation, or we could generate Rust/C++ code that
+            could be passed to LLVM optimizer. If you are interested in LLVM target, please take a look
+            at <a href="http://github.com/nponeccop/HNC">github.com/nponeccop/HNC</a>.
+
+        table.stack
+            tr
+                td(colspan=4) Infinity Language
+                th Language with HIT
+            tr 
+                td(colspan=4) MORTE Base Library / System F
+                th Generic Base Library
+            tr 
+                td(colspan=2) HNC / System F
+                td(colspan=2) OM / CoC
+                th Intermediate Languages
+            tr 
+                td C++
+                td Rust
+                td O
+                td Erlang
+                th Target Languages
+            tr
+                td(colspan=2) LLVM Compiler
+                td(colspan=1) Jit Interpreter
+                td.empty
+                th Execution Environments
+
+        h2#fpga FPGA
+        p.
+            We are very interested in compilation to FPGA.
+            As was shown with interaction nets it is possible to compact
+            packaging of inductive construction in silicon, giving back
+            the inner language of space to the natural encoding.
+            If you are interested in moving this project forward
+            and have a vision how to do it please drop us a line in
+            <a href="http://gitter.im/groupoid/exe">gitter.im/groupoid/exe</a> chat.

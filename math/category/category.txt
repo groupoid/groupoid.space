@@ -1,4 +1,4 @@
-{- Category Theory: http://groupoid.space/mltt/types/category/
+{- Category Theory: http://groupoid.space/math/category/
    - Examples: Set, Cat, Func, Ab.
    Copyright (c) Groupoid Infinity, 2014-2018. -}
 

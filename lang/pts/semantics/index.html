@@ -1,0 +1,115 @@
+<!DOCTYPE html><html><head><meta charset="utf-8"><meta http-equiv="x-ua-compatible" content="ie=edge"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="author" content="Maxim Sokhatsky"><meta name="twitter:site" content="@5HT"><meta name="twitter:creator" content="@5HT"><meta property="og:type" content="website"><meta property="fb:app_id" content="118554188236439"><meta property="og:url" content="https://groupoid.space"><meta property="og:title" content="GROUPOЇD"><meta property="og:description" content="Homotopy Theory"><link rel="stylesheet" href="https://groupoid.space/main.css?v=24"><title>SEMANTICS</title><script src="https://etale.space/styles/mathjax.js?config=TeX-AMS_HTML"></script><script>window.MathJax = { jax: ["input/TeX", "input/MathML", "input/AsciiMath", "output/CommonHTML", "output/NativeMML"],
+                        TeX: { extensions: ["AMSmath.js", "AMSsymbols.js", "autoload-all.js"] },
+                        extensions: ["tex2jax.js", "asciimath2jax.js", "mml2jax.js", "MathMenu.js", "MathZoom.js"],
+                        "HTML-CSS": { imageFont: null },
+                        AuthorInit: function() {
+                            MathJax.Hub.Register.StartupHook("TeX AMSmath Ready", function() {
+                                var TEX = MathJax.InputJax.TeX;
+                                TEX.Definitions.Add({
+                                    macros: {
+                                      llparenthesis: ['Macro', '\\mathopen{\u2987}'],
+                                      rrparenthesis: ['Macro', '\\mathclose{\u2988}'],
+                                      llbracket:     ['Macro', '\\mathopen{\u27E6}'],
+                                      rrbracket:     ['Macro', '\\mathclose{\u27E7}'],
+                                      incmap:        ['Macro', '\\mathclose{\u21AA}'],
+                                    }
+                                });
+                            });
+                        },
+                        tex2jax: { inlineMath: [['$','$'], ['\\(','\\)']],
+                                   processEscapes: true }
+                    };
+</script></head><body class="content"><header class="header"><div class="header__titles"><h1 class="header__title">Logical Forms</h1><h4 class="header__subtitle">Inference rules</h4></div></header><article class="main"><div class="om"><section><h1>Article</h1></section></div><aside>Maxim Sokhatsky<time>DATE: 4 AUG 2016</time></aside><div class="semantics"><section><h2>Universes</h2><figure>\begin{equation}
+\tag{sorts}
+\dfrac
+{i : Nat}
+{Type_i}
+\end{equation}</figure><figure>$$
+\begin{equation}
+\tag{axioms}
+\dfrac
+{i: Nat}
+{Type_i : Type_{i+1}}
+\end{equation}
+$$</figure><figure>$$
+\begin{equation}
+\tag{rules}
+\dfrac
+{i : Nat,\ \ \ \ j : Nat}
+{Type_i \rightarrow Type_{j} : Type_{max(i,j)}}
+\end{equation}
+$$
+</figure><h2>Substition</h2><figure>\begin{equation}
+\tag{subst}
+\dfrac
+{\pi_1 : A\ \ \ \ u:A ⊢ π_2 : B}
+{[π_1/u]\ π_2 : B}
+\end{equation}
+</figure><h2>Dependent Types</h2><figure>\begin{equation}
+\tag{$\Pi$-formation}
+
+\dfrac
+{x:A \vdash B : Type}
+{\Pi\ (x:A) \rightarrow B : Type}
+\end{equation}</figure><figure>\begin{equation}
+\tag{$\lambda$-intro}
+\dfrac
+{x:A \vdash b : B}
+{\lambda\ (x:A) \rightarrow b : \Pi\ (x: A) \rightarrow B }
+\end{equation}</figure><br><figure>$$
+\begin{equation}
+\tag{$App$-elimination}
+\dfrac
+{f: (\Pi\ (x:A) \rightarrow B)\ \ \ a: A}
+{f\ a : B\ [a/x]}
+\end{equation}
+$$</figure><figure>$$
+\begin{equation}
+\tag{$\beta$-computation}
+\dfrac
+{x:A \vdash b: B\ \ \ a:A}
+{(\lambda\ (x:A) \rightarrow b)\ a = b\ [a/x] : B\ [a/x]}
+\end{equation}
+$$</figure></section><section><h2>Identity Types</h2><figure>\begin{equation}
+\tag{$Id$-formation}
+
+\dfrac
+{x:A\ \ \ \ b:A\ \ \ \ A:Type}
+{Id(A,a,b) : Type}
+\end{equation}</figure><figure>\begin{equation}
+\tag{$Id$-intro}
+\dfrac
+{a:A}
+{refl(A,a) : Id(A,a,a) }
+\end{equation}</figure><br><figure>\begin{equation}
+\tag{$J$-elimination}
+\dfrac
+{p:Id(a,b)\ \ \ \ x,y:A\ \ \ \ u:Id(x,y) \vdash E:Type\ \ \ \ x:A \vdash d: E\ [x/y,\ refl(x)/u]}
+{J(a,b,p,(x,y,u)\ d) : E\ [a/x,\ b/y,\ p/u]}
+\end{equation}</figure><figure>\begin{equation}
+\tag{$Id$-computation}
+\dfrac
+{a,x,y:A,\ \ \ \ u:Id(x,y) \vdash E:Type\ \ \ \ x:A \vdash d:E\ [x/y,\ refl(x)/u]}
+{J(a,a,refl(a),(x,y,u)\ d) = d\ [a/x] : E\ [a/y,\ refl(a)/u]}
+\end{equation}
+</figure><h2>Inductive Types</h2><figure>\begin{equation}
+\tag{$W$-formation}
+\dfrac
+{A:Type\ \ \ \ x:A\ \ \ \ B(x):Type}
+{W (x:A) \rightarrow B(x) : Type}
+\end{equation}</figure><figure>\begin{equation}
+\tag{$W$-intro}
+\dfrac
+{a:A\ \ \ \ t: B(a) \rightarrow W}
+{sup(a,t) : W}
+\end{equation}</figure><br><figure>\begin{equation}
+\tag{$W$-elimination}
+\dfrac
+{w: W \vdash C(w) : Type\ \ \ \ x:A,\ u:B(x) \rightarrow W,\ \ \ \ v:\Pi (y:B(x)) \rightarrow C(u(y)) \vdash c(x,u,v):C(sup(x,u))}
+{w:W \vdash wrec(w,c):C(w)}
+\end{equation}</figure><figure>\begin{equation}
+\tag{$W$-computation}
+\dfrac
+{w: W \vdash C(w) : Type\ \ \ \ x:A,\ u:B(x) \rightarrow W,\ \ \ \ v:\Pi (y:B(x)) \rightarrow C(u(y)) \vdash c(x,u,v):C(sup(x,u))}
+{x:A,\ \ \ \ u:B(x) \rightarrow W \vdash wrec(sup(x,u),c)\ =\ c(x,u,\lambda (y:B(x)) \rightarrow wrec(u(y),c)):C(sup(x,u))}
+\end{equation}</figure></section></div></article><footer class="footer"><a href="https://github.com/groupoid/"><img class="footer__logo" src="https://longchenpa.guru/seal.png" width="50"></a><span class="footer__copy">2016&mdash;2020 &copy; <a href="//groupoid.space/" style="color:Lavender;">Максим Сохацький</a></span></footer><script src="https://groupoid.space/bundle.js?v=6"></script><script src="https://groupoid.space/highlight.js?v=11"></script></body></html>

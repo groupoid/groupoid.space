@@ -1,4 +1,4 @@
-{- Fiber Bundle: https://groupoid.space/mltt/types/bundle/
+{- Fiber Bundle: https://groupoid.space/math/bundle/
    - Fiber Bundle;
    - Trivial Fiber Bundle, Trivial = Pi;
    - Local F-Bundle (4 definitions).

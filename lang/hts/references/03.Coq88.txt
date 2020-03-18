@@ -1,0 +1,15 @@
+@inproceedings{Coq88,
+    author = {Coquand, Thierry and Huet, Gerard},
+    title = {The Calculus of Constructions},
+    booktitle = {Information and Computation},
+    year = {1988},
+    issn = {0890-5401},
+    pages = {95--120},
+    numpages = {26},
+    url = {http://dx.doi.org/10.1016/0890-5401(88)90005-3},
+    doi = {10.1016/0890-5401(88)90005-3},
+    acmid = {47725},
+    publisher = {Academic Press, Inc.},
+    address = {Duluth, MN, USA},
+}
+

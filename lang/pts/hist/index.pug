@@ -1,0 +1,88 @@
+extends ../../../layout.pug
+
+block title
+    title HIST
+
+block content
+    +header('../../groupoid.svg', 'Intro', 'History of Math Provers')
+    article.main
+        .om
+            section
+            h1 Abstract
+        aside Maxim Sokhatsky
+            time 15 FEB 16
+        .intro
+            section
+            h2#fpga LISP as Extraction Target
+            p.
+                Originally, utyped lambda calculus was discovered as an inner language of the space
+                (Curry, Church, 1932). This language was called LISP (McCarthy, 1958),
+                and it was based on cons, nil, eq, atom, car, cdr, lambda, apply, and id.
+                These are parts of inductive types lately known as inductive type constructors.
+                Today untyped lambda calculus is still used as an extraction target for many
+                provers (Idris, F*), and in different domain languages (JavaScript, Erlang).
+
+            h2#auto AUTOMATH
+            p.
+                The first computer-assisted prover AUTOMATH was devised by Nicolaas Govert de Bruijn starting in 1967.
+                Type theory beneath AUTOMATH is typed lambda calculus. AUTOMATH was the first
+                prover based on Curry–Howard correspondence.
+
+            h2#fpga ML/LCF
+            p.
+                Further teardown of inner space language was the ML programming language, founded merely on algebraic
+                datatypes and algebra on higher terms rather than categorical semantic. Lately, it
+                was fixed with categorical methods in CPL (Hagino, 1987) and Charity (Cockett, 1992).
+                Assisted by Morris and Newey, Milner designed Meta Language for the purpose of building LCF
+                in early 70-s. LCF was a predecessor family of automated math provers: HOL88,
+                HOL90, HOL98, and HOL/Isabelle which is now built using Poly/ML.
+
+            h2#other Fully Automated Provers
+            p.
+                Other automated math systems appeared during 80-90s:
+                Mizar (Trybulec, 1989), PVS (Owre, Rushby, Shankar, 1995),
+                ACL2 (Boyer, Kaufmann, Moore, 1996), and Otter (McCune, 1996).
+
+            h2#mltt MLTT
+            p.
+                Modern provers (based on consistent Martin-Löf Type Theory, 1972)
+                like Agda, Coq, Lean, F*, and Idris are based on Barendregt
+                and Coquand CoC with different flavors of infinity universe hierarchies
+                and Calculus of Inductive Constructions. Some of them are automated and some
+                are trying to also be general purpose programming languages with proving facilities,
+                like Idris, Coq (coq.io), Agda (M-Alonso).
+
+            h2#cubical Cubical Type Theory
+            p.
+                Further extensions of MLTT theory is Homotopy Types. It is necessary
+                for reasoning about abstract shapes and multidimentional path types.
+                The Cubical approach was chosen in favour of Globular and Simplical
+                due to computability of Voevodsky's univalence axiom.
+
+            h2#inf Infinity Language
+            p.
+                <mark>From PTS to HTS</mark>. We want to have flexible and detachable
+                layers on top of PTS core. Then Sigma for proving.
+                Then well-founded trees or polynomial functors as known as data and record.
+                Then higher path types, interval arithmetic, glue and comp for HIT.
+                Layers are based on different math areas, the only common is
+                the method &mdash; category theory.
+            p.
+                <mark>Extensible Language Design.</mark> Encoding of inductive types is based on categorical semantic
+                of compilation to CoC. All other syntax constructions are inductive definitions plugged
+                into the stream parser. AST of the CoC language is also defined in terms of inductive
+                constructions and thus allowed in the macros. The language of polynomial functors (data
+                and record) and core language of the process calculus (spawn, receive, and send) are just
+                a macrosystem over the CoC language, its syntax extensions.
+            p.
+                <mark>Changable Encodings.</mark> In pure CoC we have only arrows, so all inductive type encodings
+                would be Church-encoding variations. Most extended nowadays is Church-Boehm-Berrarducci
+                encoding dedicated to inductive types. Another well known are Scott (laziness),
+                Parigot (laziness and constant-time iterators), and CPS (continuations) encodings.
+            p.
+                <mark>Proved Categorical Semantic.</mark> There was built a math model (using higher-order
+                categorical logic) of encoding, which calculates (co)limits in a category of (co)algebras
+                built with given set of (de)constructors. We call such encoding in honor of Lambek lemma
+                that leads us to the equality of (co)initial object and (co)limit in the categories
+                of (co)algebras. Such encoding works with dependent types and its consistency is proved
+                in Lean model.

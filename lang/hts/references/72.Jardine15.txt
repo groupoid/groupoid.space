@@ -1,0 +1,10 @@
+@book{Jardine15,
+  title={Local Homotopy Theory},
+  author={Jardine, J.F.},
+  isbn={9781493923007},
+  series={Springer Monographs in Mathematics},
+  url={https://books.google.com.ua/books?id=fpu4CQAAQBAJ},
+  year={2015},
+  publisher={Springer New York}
+}
+

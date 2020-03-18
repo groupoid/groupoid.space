@@ -1,0 +1,7 @@
+@article{Castellan14,
+  title={Dependent type theory as the initial category with families},
+  author={Castellan, Simon},
+  journal={Internship Report},
+  year={2014}
+}
+
