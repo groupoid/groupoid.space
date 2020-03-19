@@ -6,6 +6,8 @@ Groupoid Infinity is doing research in type theory, encodings, extraction and fo
 
 Groupoid Infinity Runtimes and Provers could be found in `lang` folder:
 
+### Runtimes
+
 ```
 groupoid.space/lang/
 ├── cps/
@@ -16,14 +18,17 @@ groupoid.space/lang/
 └── hts/
 ```
 
-### Runtimes
-
 * APL — persistent tensor array processing runtime (get, put, fold)
 * CPS — fast certified L1 lambda CPS interpreter as runtime (fun, app)
 * EFF — effect type system for (in)finite I/O (getString, putString, pure)
 * IP — intercore protocol for process calculus (spawn, send, recv)
 
 ### Provers
+
+```
+groupoid.space/pure/
+groupoid.space/homotopy/
+```
 
 * PTS — pure type system for encodings exploration
 * HTS — homotopy type system for mathematical modeling
