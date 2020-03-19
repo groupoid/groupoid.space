@@ -13,9 +13,7 @@ groupoid.space/lang/
 ├── cps/
 ├── eff/
 ├── ip/
-├── apl/
-├── pts/
-└── hts/
+└── apl/
 ```
 
 * APL — persistent tensor array processing runtime (get, put, fold)
