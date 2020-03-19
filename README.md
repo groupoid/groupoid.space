@@ -26,8 +26,9 @@ groupoid.space/lang/
 ### Provers
 
 ```
-groupoid.space/pure/
-groupoid.space/homotopy/
+groupoid.space/
+├── pure/
+└── homotopy/
 ```
 
 * PTS — pure type system for encodings exploration
