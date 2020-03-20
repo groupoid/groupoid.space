@@ -29,7 +29,7 @@ block title
 block content
     +header('../../groupoid.svg', 'Pure Type System', 'The minimal language with universal quantifier and infinity number of universes for consistent typechecking and normalization')
     article.main
-       .exe
+        .exe
             section
                 h1 Abstract
             aside Maxim Sokhatsky
@@ -38,6 +38,8 @@ block content
                 p.
                     The <b>PTS<sup>&infin;</sup></b> programming language is a higher-order dependently typed lambda calculus,
                     an extension of Coquand's Calculus of Constructions with the predicative/impredicative hierarchy of indexed universes.
+
+        .semantics
             section
                 h2#nat Universes
                 p.
@@ -49,14 +51,14 @@ block content
                     U₁ — values and sets
                     U₂ — types
                     U₃ — sorts
-                .semantics
-                        figure.
-                           \begin{equation}
-                            \tag{S}
-                            \dfrac
-                            {o : Nat}
-                            {Type_o}
-                            \end{equation}
+                figure.
+                    \begin{equation}
+                    \tag{S}
+                    \dfrac
+                    {o : Nat}
+                    {Type_o}
+                    \end{equation}
+
                 h2#axioms Predicative Universes
                 p.
                     All terms obey the <b>A</b> ranking inside the sequence of <b>S</b> universes,
@@ -72,7 +74,6 @@ block content
                     Note that predicative universes are incompatible with Church lambda term encoding.
                     You can switch between predicative and impredicative uninverses using typecheker parameter.
 
-            .semantics
                 figure.
                     $$
                     \begin{equation}
