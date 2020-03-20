@@ -19,28 +19,20 @@
                         tex2jax: { inlineMath: [['$','$'], ['\\(','\\)']],
                                    processEscapes: true }
                     };
-</script></head><body class="content"><header class="header"><div class="header__titles"><h1 class="header__title">Pure Type System</h1><h4 class="header__subtitle">The minimal language with universal quantifier and infinity number of universes for consistent typechecking and normalization</h4></div></header><article class="main"><div class="exe"><section><h1>Abstract</h1></section><aside>Maxim Sokhatsky<time>DATE: 10 OCT 2016</time></aside><section><p>The <b>PTS<sup>&infin;</sup></b> programming language is a higher-order dependently typed lambda calculus,
-an extension of Coquand's Calculus of Constructions with the predicative/impredicative hierarchy of indexed universes.
-</p></section></div><div class="semantics"><section><h2 id="nat">Universes</h2><p>The infinite hierarchy of universes allows to avoid paradoxes in type theory.</p><code>U₀ : U₁ : U₂ : U₃ : …
+</script></head><body class="content"><header class="header"><div class="header__titles"><h1 class="header__title">Pure Type System</h1><h4 class="header__subtitle">The minimal language with universal quantifier and infinity number of universes for consistent typechecking and normalization</h4></div></header><article class="main"><div class="exe"><section><h1>Abstract</h1></section><aside>Maxim Sokhatsky<time>DATE: 10 OCT 2016</time></aside><section><p><The><b>PTS<sup>&infin;</sup></b> programming language is a higher-order dependently typed lambda calculus,</The><an>extension of Coquand's Calculus of Constructions with the predicative/impredicative hierarchy of indexed universes.</an></p></section></div><div class="semantics"><section><h2 id="nat">Universes</h2><p><The>infinite hierarchy of universes allows to avoid paradoxes in type theory.</The></p><code>U₀ : U₁ : U₂ : U₃ : …
 
 U₀ — propositions
 U₁ — values and sets
 U₂ — types
-U₃ — sorts</code><figure>\begin{equation}
+U₃ — sorts</code><br><figure>\begin{equation}
 \tag{S}
 \dfrac
 {o : Nat}
 {Type_o}
 \end{equation}
-</figure><h2 id="axioms">Predicative Universes</h2><p>All terms obey the <b>A</b> ranking inside the sequence of <b>S</b> universes,
-and the complexity <b>R</b> of the dependent term is equal to a maximum of
-the term's complexity and its dependency.
-The universes system is completely described by the following
-PTS notation (due to Barendregt):</p><code>S    (n : nat) = U n
+</figure><h2 id="axioms">Predicative Universes</h2><p><All>terms obey the <b>A</b> ranking inside the sequence of <b>S</b> universes,</All><and>the complexity <b>R</b> of the dependent term is equal to a maximum of</and><the>term's complexity and its dependency.</the><The>universes system is completely described by the following</The><PTS>notation (due to Barendregt):</PTS></p><code>S    (n : nat) = U n
 A₁ (n m : nat) = U n : U m where m > n — cumulative
-R₁ (m n : nat) = U m ⟶ U n : U (max m n) — predicative</code><p>Note that predicative universes are incompatible with Church lambda term encoding.
-You can switch between predicative and impredicative uninverses using typecheker parameter.
-</p><figure>$$
+R₁ (m n : nat) = U m ⟶ U n : U (max m n) — predicative</code><br><p><Note>that predicative universes are incompatible with Church lambda term encoding.</Note><You>can switch between predicative and impredicative uninverses using typecheker parameter.</You></p><figure>$$
 \begin{equation}
 \tag{A₁}
 \dfrac
@@ -59,8 +51,7 @@ $$
 available extension to predicative hierarchy that does not lead to inconsistency.
 However, there is another option to have infinite
 impredicative hierarchy.</p><code>A₂   (n : nat) = U n : U (n + 1) — non-cumulative
-R₂ (m n : nat) = U m ⟶ U n : U n — impredicative
-</code><figure>$$
+R₂ (m n : nat) = U m ⟶ U n : U n — impredicative</code><br><figure>$$
 \begin{equation}
 \tag{A₂}
 \dfrac
@@ -75,13 +66,10 @@ $$</figure><figure>$$
 {Type_i \rightarrow Type_{j} : Type_{j}}
 \end{equation}
 $$
-</figure><h2 id="ast">Single Axiom Language</h2><p>This language is called one axiom language (or pure) as eliminator
-and introduction adjoint functors inferred from type formation rule.
-The only computation rule of Pi type is called beta-reduction.</p><code>Pi (A: U) (B: A -> U): U = (x: A) -> B x
+</figure><h2 id="ast">Single Axiom Language</h2><p><This>language is called one axiom language (or pure) as eliminator</This><and>introduction adjoint functors inferred from type formation rule.</and><The>only computation rule of Pi type is called beta-reduction.</The></p><code>Pi (A: U) (B: A -> U): U = (x: A) -> B x
 lambda (A: U) (B: A -> U) (b: Pi A B): Pi A B = \ (x: A) -> b x
 app (A: U) (B: A -> U) (f: Pi A B) (a: A): B a = f a
-beta (A: U) (B: A -> U) (a:A) (f: Pi A B): Equ (B a) (app A B (lambda A B f) a) (f a) =
-</code><figure>\begin{equation}
+beta (A: U) (B: A -> U) (a:A) (f: Pi A B): Equ (B a) (app A B (lambda A B f) a) (f a) =</code><br><figure>\begin{equation}
 \tag{$\Pi$-formation}
 \dfrac
 {x:A \vdash B : Type}
@@ -105,9 +93,7 @@ $$</figure><figure>$$
 {x:A \vdash b: B\ \ \ a:A}
 {(\lambda\ (x:A) \rightarrow b)\ a = b\ [a/x] : B\ [a/x]}
 \end{equation}
-$$
-</figure><p>This language could be embedded in itself and used
-as Logical Framework for the Pi type:</p><code>PTS (A: U): U
+$$</figure><p><This>language could be embedded in itself and used</This><as>Logical Framework for the Pi type:</as></p><code>PTS (A: U): U
     = (intro:  (A -> U) -> U)
     * (lambda: (B: A -> U) -> pi A B -> intro B)
     * (app:    (B: A -> U) -> intro B -> pi A B)
@@ -169,7 +155,8 @@ eq ((:farall,(N1,0)),(I1,O1))
 eq ((:lambda,(N1,0)),(I1,O1))
    ((:lambda,(N2,0)),(I2,O2)) ->
    let true = eq I1 I2 in eq O1 (sub (sh O2 N1 0) N2 (:var,(N1,0)) 0)
-eq (A,B)                      -> (:error,(:eq,A,B))</code><h2>Type Checker</h2><code>type (:star,N)               _ -> (:star,N+1)
+eq (A,B)                      -> (:error,(:eq,A,B))
+</code><h2>Type Checker</h2><code>type (:star,N)               _ -> (:star,N+1)
 type (:var,(N,I))            D -> let true = var N D in keyget N D I
 type (:remote,N)             D -> cache type N D
 type (:arrow,(I,O))          D -> (:star,h(star(type I D)),star(type O D))
