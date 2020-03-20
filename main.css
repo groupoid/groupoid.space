@@ -330,7 +330,7 @@ aside {
   padding: 16px 8px 0; }
 
 .exe figure {
-  max-width: min-content; }
+  max-width: inherit; }
 
 .exe h1 {
   color: #7D8A96;
