@@ -229,9 +229,9 @@ block content
                     data lang
                        = PTS (_: pts)
                        | SIGMA (_: exists)
-                       | ID (_: identity)
-                       | INDUCTION (_: ind)
-                       | HTS (_: hts)
+                       | PATH (_: path)
+                       | HIT (_: ind)
+                       | COMP (_: hts)
 
                 h2 Dependent Type Theory
                 code.
@@ -256,15 +256,33 @@ block content
                     <b>Defintion</b> (Sigma). The set $\Sigma(x:A)B(x)$ is the set
                     of pairs $(u,v)$ when $u:A(I),v:B(I,u)$ and restriction map $(u,v)\ f=(u\ f,v\ f)$.
 
-                h2 Identity Types
+                h2 Path Types
                 p.
+                    The fundamental development of equality inside MLTT
+                    provers led us to the notion of ∞-groupoid as spaces.
+                    In this way Path identity type appeared in the core
+                    of type checker along with de Morgan algebra on
+                    built-in interval type. Glue, unglue composition
+                    and fill operations are also needed in the core
+                    for the univalence computability and coherence.
                 code.
-                    data identity
-                       = id (a b: lang)
-                       | idpair (a b: lang)
-                       | idelim (a b c d e: lang)
+                    data path (a b: lang)
+                       | path_lam (n: name) (a b: lang)
+                       | path_app (f: name) (a b: lang)
+                br.
+                p.
+                    <b>Definition</b> (Cubical Presheaf $\mathbb{I}$).
+                    The identity types modeled with another presheaf, the presheaf on Lawvere
+                    category of distributive lattices (theory of de Morgan algebras) denoted
+                    with $\Box$ &mdash; $\mathbb{I} : \Box^{op} \rightarrow \mathrm{Set}$.
+                p.
+                    <b>Properties of $\mathbb{I}$</b>. The presheaf $\mathbb{I}$:
+                    i) has to distinct global elements $0$ and $1$ (B$_1$);
+                    ii) $\mathbb{I}$(I) has a decidable equality for each $I$ (B$_2$);
+                    iii) $\mathbb{I}$ is tiny so the path functor $X \mapsto X^\mathbb{I}$ has right adjoint (B$_3$).;
+                    iv) $\mathbb{I}$ has meet and join (connections).
 
-                h2 Inductive Types
+                h2 Higher Inductive Types
                 p.
                     The further development of induction inside MLTT provers led
                     to the theory of polynomial functors and well-founded trees,
@@ -282,43 +300,23 @@ block content
                        = data_  (n: name) (t: tele lang) (labels:   list (label lang))
                        | case   (n: name) (t: lang)      (branches: list (branch lang))
                        | ctor   (n: name)                (args:     list lang)
+                       | htor   (n: name)                (args:     list lang) (ids: list lang) (sys: lang)
                 p.
                     The non-well-founded trees or infinite coinductive trees
                     are useful for modeling infinite processes and are part
                     of Milner's Pi-calculus. Coinductive streams could be found in many MLTT base libraries.
 
-                h2 Higher Inductive Types
+                h2 Structured Types
                 p.
-                    The fundamental development of equality inside MLTT
-                    provers led us to the notion of ∞-groupoid as spaces.
-                    In this way Path identity type appeared in the core
-                    of type checker along with de Morgan algebra on
-                    built-in interval type. Glue, unglue composition
-                    and fill operations are also needed in the core
-                    for the univalence computability and coherence.
+                    HIT are implemented as composition structures attached to Type on context $\Gamma$.
                 code.
                     data hts
-                       = path (a b: lang)
-                       | path_lam (n: name) (a b: lang)
-                       | path_app (f: name) (a b: lang)
-                       | comp_ (a b: lang)
+                       = comp_ (a b: lang)
                        | fill_ (a b c: lang)
                        | glue_ (a b c: lang)
                        | glue_elem (a b: lang)
                        | unglue_elem (a b: lang)
                 br.
-                p.
-                    <b>Definition</b> (Cubical Presheaf $\mathbb{I}$).
-                    The identity types modeled with another presheaf, the presheaf on Lawvere
-                    category of distributive lattices (theory of de Morgan algebras) denoted
-                    with $\Box$ &mdash; $\mathbb{I} : \Box^{op} \rightarrow \mathrm{Set}$.
-                p.
-                    <b>Properties of $\mathbb{I}$</b>. The presheaf $\mathbb{I}$:
-                    i) has to distinct global elements $0$ and $1$ (B$_1$);
-                    ii) $\mathbb{I}$(I) has a decidable equality for each $I$ (B$_2$);
-                    iii) $\mathbb{I}$ is tiny so the path functor $X \mapsto X^\mathbb{I}$ has right adjoint (B$_3$).;
-                    iv) $\mathbb{I}$ has meet and join (connections).
-
 
             section
                 h2 Universes

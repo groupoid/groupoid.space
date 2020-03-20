@@ -112,9 +112,9 @@ The operation $\Pi(x:A)B(x)$ generalizes the semantics of
 implication in a Kripke model.</p><code>data lang
    = PTS (_: pts)
    | SIGMA (_: exists)
-   | ID (_: identity)
-   | INDUCTION (_: ind)
-   | HTS (_: hts)
+   | PATH (_: path)
+   | HIT (_: ind)
+   | COMP (_: hts)
 </code><h2>Dependent Type Theory</h2><code>data pts
    = star             (n: nat)
    | var    (x: name) (l: nat)
@@ -128,11 +128,23 @@ implication in a Kripke model.</p><code>data lang
 of functions $w_f : \Pi(u:A(J))B(J,u)$ for $f : J \rightarrow I$ such
 that $(w_f u)g=w_{f\ g}(u\ g)$ when $u:A(J)$ and $g:K\rightarrow J$.</p><p><b>Defintion</b> (Sigma). The set $\Sigma(x:A)B(x)$ is the set
 of pairs $(u,v)$ when $u:A(I),v:B(I,u)$ and restriction map $(u,v)\ f=(u\ f,v\ f)$.
-</p><h2>Identity Types</h2><p></p><code>data identity
-   = id (a b: lang)
-   | idpair (a b: lang)
-   | idelim (a b c d e: lang)
-</code><h2>Inductive Types</h2><p>The further development of induction inside MLTT provers led
+</p><h2>Path Types</h2><p>The fundamental development of equality inside MLTT
+provers led us to the notion of ∞-groupoid as spaces.
+In this way Path identity type appeared in the core
+of type checker along with de Morgan algebra on
+built-in interval type. Glue, unglue composition
+and fill operations are also needed in the core
+for the univalence computability and coherence.</p><code>data path (a b: lang)
+   | path_lam (n: name) (a b: lang)
+   | path_app (f: name) (a b: lang)</code><br><p><b>Definition</b> (Cubical Presheaf $\mathbb{I}$).
+The identity types modeled with another presheaf, the presheaf on Lawvere
+category of distributive lattices (theory of de Morgan algebras) denoted
+with $\Box$ &mdash; $\mathbb{I} : \Box^{op} \rightarrow \mathrm{Set}$.</p><p><b>Properties of $\mathbb{I}$</b>. The presheaf $\mathbb{I}$:
+i) has to distinct global elements $0$ and $1$ (B$_1$);
+ii) $\mathbb{I}$(I) has a decidable equality for each $I$ (B$_2$);
+iii) $\mathbb{I}$ is tiny so the path functor $X \mapsto X^\mathbb{I}$ has right adjoint (B$_3$).;
+iv) $\mathbb{I}$ has meet and join (connections).
+</p><h2>Higher Inductive Types</h2><p>The further development of induction inside MLTT provers led
 to the theory of polynomial functors and well-founded trees,
 known in programming languages as inductive types with data
 and record core primitives of type checker. In fact, recursive inductive
@@ -145,33 +157,16 @@ data label (A: U)  =       lab (n: name) (t: tele A)
 data ind
    = data_  (n: name) (t: tele lang) (labels:   list (label lang))
    | case   (n: name) (t: lang)      (branches: list (branch lang))
-   | ctor   (n: name)                (args:     list lang)</code><p>The non-well-founded trees or infinite coinductive trees
+   | ctor   (n: name)                (args:     list lang)
+   | htor   (n: name)                (args:     list lang) (ids: list lang) (sys: lang)</code><p>The non-well-founded trees or infinite coinductive trees
 are useful for modeling infinite processes and are part
 of Milner's Pi-calculus. Coinductive streams could be found in many MLTT base libraries.
-</p><h2>Higher Inductive Types</h2><p>The fundamental development of equality inside MLTT
-provers led us to the notion of ∞-groupoid as spaces.
-In this way Path identity type appeared in the core
-of type checker along with de Morgan algebra on
-built-in interval type. Glue, unglue composition
-and fill operations are also needed in the core
-for the univalence computability and coherence.</p><code>data hts
-   = path (a b: lang)
-   | path_lam (n: name) (a b: lang)
-   | path_app (f: name) (a b: lang)
-   | comp_ (a b: lang)
+</p><h2>Structured Types</h2><p>HIT are implemented as composition structures attached to Type on context $\Gamma$.</p><code>data hts
+   = comp_ (a b: lang)
    | fill_ (a b c: lang)
    | glue_ (a b c: lang)
    | glue_elem (a b: lang)
-   | unglue_elem (a b: lang)</code><br><p><b>Definition</b> (Cubical Presheaf $\mathbb{I}$).
-The identity types modeled with another presheaf, the presheaf on Lawvere
-category of distributive lattices (theory of de Morgan algebras) denoted
-with $\Box$ &mdash; $\mathbb{I} : \Box^{op} \rightarrow \mathrm{Set}$.</p><p><b>Properties of $\mathbb{I}$</b>. The presheaf $\mathbb{I}$:
-i) has to distinct global elements $0$ and $1$ (B$_1$);
-ii) $\mathbb{I}$(I) has a decidable equality for each $I$ (B$_2$);
-iii) $\mathbb{I}$ is tiny so the path functor $X \mapsto X^\mathbb{I}$ has right adjoint (B$_3$).;
-iv) $\mathbb{I}$ has meet and join (connections).
-
-</p></section><section><h2>Universes</h2><p>The universe system is completely described by the PTS SAR notation,
+   | unglue_elem (a b: lang)</code><br></section><section><h2>Universes</h2><p>The universe system is completely described by the PTS SAR notation,
 given by Barendregt. Find more info in
 <a href='https://groupoid.space/pure/#axioms'>Axioms and Inference Rules</a>
 of underlying Om intermediate language.</p><code>PTS : U
