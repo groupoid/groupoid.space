@@ -131,15 +131,8 @@ of pairs $(u,v)$ when $u:A(I),v:B(I,u)$ and restriction map $(u,v)\ f=(u\ f,v\ f
 </p><h2>Identity Types</h2><p></p><code>data identity
    = id (a b: lang)
    | idpair (a b: lang)
-   | idelim (a b c d e: lang)</code><p><b>Definition</b> (Cubical Presheaf $\mathbb{I}$).
-The identity types modeled with another presheaf, the presheaf on Lawvere
-category of distributive lattices (theory of de Morgan algebras) denoted
-with $\Box$ &mdash; $\mathbb{I} : \Box^{op} \rightarrow \mathrm{Set}$.</p><p><b>Properties of $\mathbb{I}$</b>. The presheaf $\mathbb{I}$:
-i) has to distinct global elements $0$ and $1$ (B$_1$);
-ii) $\mathbb{I}$(I) has a decidable equality for each $I$ (B$_2$);
-iii) $\mathbb{I}$ is tiny so the path functor $X \mapsto X^\mathbb{I}$ has right adjoint (B$_3$).;
-iv) $\mathbb{I}$ has meet and join (connections).
-</p><h2>Inductive Types</h2><p>The further development of induction inside MLTT provers led
+   | idelim (a b c d e: lang)
+</code><h2>Inductive Types</h2><p>The further development of induction inside MLTT provers led
 to the theory of polynomial functors and well-founded trees,
 known in programming languages as inductive types with data
 and record core primitives of type checker. In fact, recursive inductive
@@ -169,9 +162,16 @@ for the univalence computability and coherence.</p><code>data hts
    | fill_ (a b c: lang)
    | glue_ (a b c: lang)
    | glue_elem (a b: lang)
-   | unglue_elem (a b: lang)
+   | unglue_elem (a b: lang)</code><br><p><b>Definition</b> (Cubical Presheaf $\mathbb{I}$).
+The identity types modeled with another presheaf, the presheaf on Lawvere
+category of distributive lattices (theory of de Morgan algebras) denoted
+with $\Box$ &mdash; $\mathbb{I} : \Box^{op} \rightarrow \mathrm{Set}$.</p><p><b>Properties of $\mathbb{I}$</b>. The presheaf $\mathbb{I}$:
+i) has to distinct global elements $0$ and $1$ (B$_1$);
+ii) $\mathbb{I}$(I) has a decidable equality for each $I$ (B$_2$);
+iii) $\mathbb{I}$ is tiny so the path functor $X \mapsto X^\mathbb{I}$ has right adjoint (B$_3$).;
+iv) $\mathbb{I}$ has meet and join (connections).
 
-</code></section><section><h2>Universes</h2><p>The universe system is completely described by the PTS SAR notation,
+</p></section><section><h2>Universes</h2><p>The universe system is completely described by the PTS SAR notation,
 given by Barendregt. Find more info in
 <a href='https://groupoid.space/pure/#axioms'>Axioms and Inference Rules</a>
 of underlying Om intermediate language.</p><code>PTS : U
