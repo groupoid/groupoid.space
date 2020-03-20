@@ -92,7 +92,6 @@ img {
 
 figure {
   min-width: 300px;
-  max-width: min-content;
   overflow-x: auto;
   padding: 10px 2px;
   font-size: 18px;
