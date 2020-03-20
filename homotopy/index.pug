@@ -17,15 +17,6 @@ block content
                    In its core it has only <b>comp</b> primitive (on empty homogeneous systems) and CCHM connections (for J computability).
                    And the second is <b>HTS<sup>&infin;</sup></b>, that is a homotopy type system with full HoTT computability.
                    The syntax and semantics of both are based on <b>cubicaltt</b> type checker.
-                code.
-                   $ ./homotopy
-                   CTT-CCHM Homotopy Type System 1.3.1
-
-                      Usage := homotopy Args <filename>
-                       Args := Command | Command Args
-                    Command := parse | lex | read | fst | snd | file
-                br.
-
             section
                 .macro
                     .macro__col
@@ -59,6 +50,15 @@ block content
                 p.
                     Then Voevodsky presented HTS with strict Id and homotopical Path types, but without its computational semantics.
                     This later was fixed by Mortberg et all in <b>cubicaltt</b> and Sterling et all in <b>redtt</b>.
+
+                code.
+                   $ ./homotopy
+                   CTT-CCHM Homotopy Type System 1.3.1
+
+                      Usage := homotopy Args <filename>
+                       Args := Command | Command Args
+                    Command := parse | lex | read | fst | snd | file
+                br.
 
             section
                 h1 BNF

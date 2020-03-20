@@ -2,19 +2,19 @@
 One is <b>MLTT<sup>&infin;</sup></b> is a minimal homotopy core that is needed to compute all the MLTT [rules].
 In its core it has only <b>comp</b> primitive (on empty homogeneous systems) and CCHM connections (for J computability).
 And the second is <b>HTS<sup>&infin;</sup></b>, that is a homotopy type system with full HoTT computability.
-The syntax and semantics of both are based on <b>cubicaltt</b> type checker.</p><code>$ ./homotopy
-CTT-CCHM Homotopy Type System 1.3.1
-
-   Usage := homotopy Args <filename>
-    Args := Command | Command Args
- Command := parse | lex | read | fst | snd | file</code><br></aside><section><div class="macro"><div class="macro__col"><h3 id="om">PTS</h3><ol><li><a href="#pi">PI</a></li></ol></div><div class="macro__col"><h3 id="macro">MLTT</h3><ol><li><a href="#pi">PI</a></li><li><a href="#sigma">SIGMA</a></li><li><a href="#id">ID</a></li><li><a href="#induction">INDUCTION</a></li></ol></div><div class="macro__col"><h3 id="eff">HTS</h3><ol><li><a href="#pi">PI</a></li><li><a href="#sigma">SIGMA</a></li><li><a href="#path">PATH</a></li><li><a href="#induction">INDUCTION</a></li><li><a href="#comp">COMP</a></li><li><a href="#glue">GLUE</a></li></ol></div></div><p>The history of Type Theory takes its root from MLTT paper <sup>1</sup>.
+The syntax and semantics of both are based on <b>cubicaltt</b> type checker.</p></aside><section><div class="macro"><div class="macro__col"><h3 id="om">PTS</h3><ol><li><a href="#pi">PI</a></li></ol></div><div class="macro__col"><h3 id="macro">MLTT</h3><ol><li><a href="#pi">PI</a></li><li><a href="#sigma">SIGMA</a></li><li><a href="#id">ID</a></li><li><a href="#induction">INDUCTION</a></li></ol></div><div class="macro__col"><h3 id="eff">HTS</h3><ol><li><a href="#pi">PI</a></li><li><a href="#sigma">SIGMA</a></li><li><a href="#path">PATH</a></li><li><a href="#induction">INDUCTION</a></li><li><a href="#comp">COMP</a></li><li><a href="#glue">GLUE</a></li></ol></div></div><p>The history of Type Theory takes its root from MLTT paper <sup>1</sup>.
 Then the Type Theory was fixed for Predicative Universes with Id types,
 and W, Nat, List types were added <sup>2</sup>.
 The type checker of single axiom system with Pi types only is
 given in the CoC paper <sup>3</sup>.
 </p><p>Then Voevodsky presented HTS with strict Id and homotopical Path types, but without its computational semantics.
 This later was fixed by Mortberg et all in <b>cubicaltt</b> and Sterling et all in <b>redtt</b>.
-</p></section><section><h1>BNF</h1><p>The 10 BNF definitions declare syntax that covers:
+</p><code>$ ./homotopy
+CTT-CCHM Homotopy Type System 1.3.1
+
+   Usage := homotopy Args <filename>
+    Args := Command | Command Args
+ Command := parse | lex | read | fst | snd | file</code><br></section><section><h1>BNF</h1><p>The 10 BNF definitions declare syntax that covers:
 1) MLTT as pi, sigma and path types;
 2) inductive types case analysis; and
 3) simple module system.
