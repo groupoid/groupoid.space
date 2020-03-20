@@ -216,7 +216,7 @@ aside {
   text-align: center; }
   .semantics figure {
     display: inline-block;
-    max-width: inherit;
+    max-width: min-content;
     font-size: 13px; }
     @media (min-width: 800px) {
       .semantics figure {
