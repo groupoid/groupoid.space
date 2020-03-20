@@ -236,11 +236,11 @@ block content
                 h2 Dependent Type Theory
                 code.
                     data pts
-                       = star             (n: nat)
-                       | var    (x: name) (l: nat)
-                       | pi     (x: name) (l: nat) (d c: lang)
+                       = star (n: nat)
+                       | var (x: name) (l: nat)
+                       | pi (x: name) (l: nat) (d c: lang)
                        | lambda (x: name) (l: nat) (d c: lang)
-                       | app                       (f a: lang)
+                       | app (f a: lang)
                 br.
                 code.
                     data exists
@@ -292,15 +292,15 @@ block content
                     Bohm-Berarducci schemes or Categorical Impredicative encoding by Steve Awodey.
 
                 code.
-                    data tele (A: U)   = emp | tel (n: name) (b: A) (t: tele A)
-                    data branch (A: U) =        br (n: name) (args: list name) (term: A)
-                    data label (A: U)  =       lab (n: name) (t: tele A)
+                    data tele (A: U) = emp | tel (n: name) (b: A) (t: tele A)
+                    data branch (A: U) = br (n: name) (args: list name) (term: A)
+                    data label (A: U) = lab (n: name) (t: tele A)
 
                     data ind
-                       = data_  (n: name) (t: tele lang) (labels:   list (label lang))
-                       | case   (n: name) (t: lang)      (branches: list (branch lang))
-                       | ctor   (n: name)                (args:     list lang)
-                       | htor   (n: name)                (args:     list lang) (ids: list lang) (sys: lang)
+                       = intro (n: name) (t: tele lang) (labels: list (label lang))
+                       | case (n: name) (t: lang) (branches: list (branch lang))
+                       | ctor (n: name) (args: list lang)
+                       | htor (n: name) (args: list lang) (ids: list lang) (sys: lang)
                 p.
                     The non-well-founded trees or infinite coinductive trees
                     are useful for modeling infinite processes and are part
@@ -327,9 +327,11 @@ block content
                     of underlying Om intermediate language.
                 code.
                     PTS : U
-                        = (S: (n: nat)   -> star n)
-                          (A: (i: nat)   -> type i (succ i))
-                          (R: (i j: nat) -> pi i j (max i j)) * unit
+                        = (S: (n: nat) -> star n)
+                        * (A: (i: nat) -> type i (succ i))
+                        * (R: (i j: nat) -> pi i j (max i j))
+                        * unit
+                br.
 
             section
                 h1 Bibliography

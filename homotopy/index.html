@@ -116,11 +116,11 @@ implication in a Kripke model.</p><code>data lang
    | HIT (_: ind)
    | COMP (_: hts)
 </code><h2>Dependent Type Theory</h2><code>data pts
-   = star             (n: nat)
-   | var    (x: name) (l: nat)
-   | pi     (x: name) (l: nat) (d c: lang)
+   = star (n: nat)
+   | var (x: name) (l: nat)
+   | pi (x: name) (l: nat) (d c: lang)
    | lambda (x: name) (l: nat) (d c: lang)
-   | app                       (f a: lang)</code><br><code>data exists
+   | app (f a: lang)</code><br><code>data exists
    = sigma (n: name) (a b: lang)
    | pair (a b: lang)
    | fst (p: lang)
@@ -150,15 +150,15 @@ known in programming languages as inductive types with data
 and record core primitives of type checker. In fact, recursive inductive
 types could be encoded in PTS using non-recursive representation of
 Bohm-Berarducci schemes or Categorical Impredicative encoding by Steve Awodey.
-</p><code>data tele (A: U)   = emp | tel (n: name) (b: A) (t: tele A)
-data branch (A: U) =        br (n: name) (args: list name) (term: A)
-data label (A: U)  =       lab (n: name) (t: tele A)
+</p><code>data tele (A: U) = emp | tel (n: name) (b: A) (t: tele A)
+data branch (A: U) = br (n: name) (args: list name) (term: A)
+data label (A: U) = lab (n: name) (t: tele A)
 
 data ind
-   = data_  (n: name) (t: tele lang) (labels:   list (label lang))
-   | case   (n: name) (t: lang)      (branches: list (branch lang))
-   | ctor   (n: name)                (args:     list lang)
-   | htor   (n: name)                (args:     list lang) (ids: list lang) (sys: lang)</code><p>The non-well-founded trees or infinite coinductive trees
+   = intro (n: name) (t: tele lang) (labels: list (label lang))
+   | case (n: name) (t: lang) (branches: list (branch lang))
+   | ctor (n: name) (args: list lang)
+   | htor (n: name) (args: list lang) (ids: list lang) (sys: lang)</code><p>The non-well-founded trees or infinite coinductive trees
 are useful for modeling infinite processes and are part
 of Milner's Pi-calculus. Coinductive streams could be found in many MLTT base libraries.
 </p><h2>Structured Types</h2><p>HIT are implemented as composition structures attached to Type on context $\Gamma$.</p><code>data hts
@@ -170,10 +170,10 @@ of Milner's Pi-calculus. Coinductive streams could be found in many MLTT base li
 given by Barendregt. Find more info in
 <a href='https://groupoid.space/pure/#axioms'>Axioms and Inference Rules</a>
 of underlying Om intermediate language.</p><code>PTS : U
-    = (S: (n: nat)   -> star n)
-      (A: (i: nat)   -> type i (succ i))
-      (R: (i j: nat) -> pi i j (max i j)) * unit
-</code></section><section><h1>Bibliography</h1><p><center><table cellspacing=5><tr><td width=5><img src="https://n2o.space/img/pdf.jpg" width=35></td><td width=400>
+    = (S: (n: nat) -> star n)
+    * (A: (i: nat) -> type i (succ i))
+    * (R: (i j: nat) -> pi i j (max i j))
+    * unit</code><br></section><section><h1>Bibliography</h1><p><center><table cellspacing=5><tr><td width=5><img src="https://n2o.space/img/pdf.jpg" width=35></td><td width=400>
 <a href="https://github.com/groupoid/groupoid.space/blob/master/tex/articles/mltt/mltt.pdf">
 <h3>Issue I: Internalizing MLTT</h3>
 </a></td></tr></table></center>
