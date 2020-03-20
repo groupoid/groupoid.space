@@ -29,6 +29,7 @@ block title
 block content
     +header('../../groupoid.svg', 'Pure Type System', 'The minimal language with universal quantifier and infinity number of universes for consistent typechecking and normalization')
     article.main
+       .exe
             section
                 h1 Abstract
             aside Maxim Sokhatsky
@@ -70,25 +71,26 @@ block content
                 p.
                     Note that predicative universes are incompatible with Church lambda term encoding.
                     You can switch between predicative and impredicative uninverses using typecheker parameter.
-                .semantics
-                        figure.
-                            $$
-                            \begin{equation}
-                            \tag{A₁}
-                            \dfrac
-                            {i: Nat,\ \ \ \ j: Nat,\ \ \ \ i < j}
-                            {Type_i : Type_{j}}
-                            \end{equation}
-                            $$
-                        figure.
-                            $$
-                            \begin{equation}
-                            \tag{R₁}
-                            \dfrac
-                            {i : Nat,\ \ \ \ j : Nat}
-                            {Type_i \rightarrow Type_{j} : Type_{max(i,j)}}
-                            \end{equation}
-                            $$
+
+            .semantics
+                figure.
+                    $$
+                    \begin{equation}
+                    \tag{A₁}
+                    \dfrac
+                    {i: Nat,\ \ \ \ j: Nat,\ \ \ \ i < j}
+                    {Type_i : Type_{j}}
+                    \end{equation}
+                    $$
+                figure.
+                    $$
+                    \begin{equation}
+                    \tag{R₁}
+                    \dfrac
+                    {i : Nat,\ \ \ \ j : Nat}
+                    {Type_i \rightarrow Type_{j} : Type_{max(i,j)}}
+                    \end{equation}
+                    $$
 
                 h2#axioms Impredicative Universes
                 p.
@@ -100,25 +102,24 @@ block content
                     A₂   (n : nat) = U n : U (n + 1) — non-cumulative
                     R₂ (m n : nat) = U m ⟶ U n : U n — impredicative
 
-                .semantics
-                        figure.
-                            $$
-                            \begin{equation}
-                            \tag{A₂}
-                            \dfrac
-                            {i: Nat}
-                            {Type_i : Type_{i+1}}
-                            \end{equation}
-                            $$
-                        figure.
-                            $$
-                            \begin{equation}
-                            \tag{R₂}
-                            \dfrac
-                            {i : Nat,\ \ \ \ j : Nat}
-                            {Type_i \rightarrow Type_{j} : Type_{j}}
-                            \end{equation}
-                            $$
+                figure.
+                    $$
+                    \begin{equation}
+                    \tag{A₂}
+                    \dfrac
+                    {i: Nat}
+                    {Type_i : Type_{i+1}}
+                    \end{equation}
+                    $$
+                figure.
+                    $$
+                    \begin{equation}
+                    \tag{R₂}
+                    \dfrac
+                    {i : Nat,\ \ \ \ j : Nat}
+                    {Type_i \rightarrow Type_{j} : Type_{j}}
+                    \end{equation}
+                    $$
 
                 h2#ast Single Axiom Language
                 p.
@@ -131,40 +132,39 @@ block content
                     app (A: U) (B: A -> U) (f: Pi A B) (a: A): B a = f a
                     beta (A: U) (B: A -> U) (a:A) (f: Pi A B): Equ (B a) (app A B (lambda A B f) a) (f a) =
 
-                .semantics
-                    figure.
-                        \begin{equation}
-                        \tag{$\Pi$-formation}
-                        \dfrac
-                        {x:A \vdash B : Type}
-                        {\Pi\ (x:A) \rightarrow B : Type}
-                        \end{equation}
-                    figure.
-                        \begin{equation}
-                        \tag{$\lambda$-intro}
-                        \dfrac
-                        {x:A \vdash b : B}
-                        {\lambda\ (x:A) \rightarrow b : \Pi\ (x: A) \rightarrow B }
-                        \end{equation}
-                    br
-                    figure.
-                        $$
-                        \begin{equation}
-                        \tag{$App$-elim}
-                        \dfrac
-                        {f: (\Pi\ (x:A) \rightarrow B)\ \ \ a: A}
-                        {f\ a : B\ [a/x]}
-                        \end{equation}
-                        $$
-                    figure.
-                        $$
-                        \begin{equation}
-                        \tag{$\beta$-comp}
-                        \dfrac
-                        {x:A \vdash b: B\ \ \ a:A}
-                        {(\lambda\ (x:A) \rightarrow b)\ a = b\ [a/x] : B\ [a/x]}
-                        \end{equation}
-                        $$
+                figure.
+                    \begin{equation}
+                    \tag{$\Pi$-formation}
+                    \dfrac
+                    {x:A \vdash B : Type}
+                    {\Pi\ (x:A) \rightarrow B : Type}
+                    \end{equation}
+                figure.
+                    \begin{equation}
+                    \tag{$\lambda$-intro}
+                    \dfrac
+                    {x:A \vdash b : B}
+                    {\lambda\ (x:A) \rightarrow b : \Pi\ (x: A) \rightarrow B }
+                    \end{equation}
+                br.
+                figure.
+                    $$
+                    \begin{equation}
+                    \tag{$App$-elim}
+                    \dfrac
+                    {f: (\Pi\ (x:A) \rightarrow B)\ \ \ a: A}
+                    {f\ a : B\ [a/x]}
+                    \end{equation}
+                    $$
+                figure.
+                    $$
+                    \begin{equation}
+                    \tag{$\beta$-comp}
+                    \dfrac
+                    {x:A \vdash b: B\ \ \ a:A}
+                    {(\lambda\ (x:A) \rightarrow b)\ a = b\ [a/x] : B\ [a/x]}
+                    \end{equation}
+                    $$
 
                 p.
                     This language could be embedded in itself and used
