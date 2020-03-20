@@ -8,7 +8,7 @@ block content
     article.main
         .exe
             section
-                h1 Abstract
+                h1 SYNOPSIS
             aside Максим Сохацький
                 time 6 JUL 2018
                 p.
@@ -71,7 +71,7 @@ block content
                 br.
 
             section
-                h1 BNF
+                h1 SYNTAX
                 p.
                     The 10 BNF definitions declare syntax that covers:
                     1) MLTT as pi, sigma and path types;
@@ -185,10 +185,23 @@ block content
                     f2 := id
                 br.
 
-                h1 HOAS
+                h1 SEMANTICS
                 p.
                     The idea of <b>MLTT<sup>&infin;</sup></b> is a unified layered type checker.
-                    We selected 5 levels of type checker awareness from pure type systems up to homotopy calculus HTS<sup>&infin;</sup>.
+                    We selected 5 levels of type checker awareness from pure type systems
+                    up to homotopy calculus HTS<sup>&infin;</sup>. Each layer corresponds to its presheaf.
+                p.
+                    <b>Definition</b> (Type).
+                    A type is interpreted as a presheaf $A$, a family of sets $A_I$ with restriction maps
+                    $u \mapsto u\ f, A_I \rightarrow A_J$ for $f: J\rightarrow I$. A dependent type
+                    B on A is interpreted by a presheaf on category of elements of $A$: the objects
+                    are pairs $(I,u)$ with $u : A_I$ and morphisms $f: (J,v) \rightarrow (I,u)$ are
+                    maps $f : J \rightarrow$ such that $v = u\ f$. A dependent type B is thus given
+                    by a family of sets $B(I,u)$ and restriction maps $B(I,u) \rightarrow B(J,u\ f)$.
+                p.
+                    We think of $A$ as a type and $B$ as a family of presheves $B(x)$ varying $x:A$.
+                    The operation $\Pi(x:A)B(x)$ generalizes the semantics of
+                    implication in a Kripke model.
                 code.
                     data lang
                        = PTS (_: pts)
@@ -213,8 +226,12 @@ block content
                        | fst (p: lang)
                        | snd (p: lang)
                 p.
-                    The categorical methods for lambda calculus and category theory in general
-                    could be found in following works:
+                    <b>Defintion</b> (Pi). An element $w:[\Pi(x:A)B(x)](I)$ is a family
+                    of functions $w_f : \Pi(u:A(J))B(J,u)$ for $f : J \rightarrow I$ such
+                    that $(w_f u)g=w_{f\ g}(u\ g)$ when $u:A(J)$ and $g:K\rightarrow J$.
+                p.
+                    <b>Defintion</b> (Sigma). The set $\Sigma(x:A)B(x)$ is the set
+                    of pairs $(u,v)$ when $u:A(I),v:B(I,u)$ and restriction map $(u,v)\ f=(u\ f,v\ f)$.
 
                 h2 Identity Types
                 p.
@@ -223,6 +240,17 @@ block content
                        = id (a b: lang)
                        | idpair (a b: lang)
                        | idelim (a b c d e: lang)
+                p.
+                    <b>Definition</b> (Cubical Presheaf $\mathbb{I}$).
+                    The identity types modeled with another presheaf, the presheaf on Lawvere
+                    category of distributive lattices (theory of de Morgan algebras) denoted
+                    with $\Box$ &mdash; $\mathbb{I} : \Box^{op} \rightarrow \mathrm{Set}$.
+                p.
+                    <b>Properties of $\mathbb{I}$</b>. The presheaf $\mathbb{I}$:
+                    i) has to distinct global elements $0$ and $1$ (B$_1$);
+                    ii) $\mathbb{I}$(I) has a decidable equality for each $I$ (B$_2$);
+                    iii) $\mathbb{I}$ is tiny so the path functor $X \mapsto X^\mathbb{I}$ has right adjoint (B$_3$).;
+                    iv) $\mathbb{I}$ has meet and join (connections).
 
                 h2 Inductive Types
                 p.
