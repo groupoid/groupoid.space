@@ -4,7 +4,7 @@ Groupoid Infinity is doing research in type theory, encodings, extraction and fo
 
 ## Languages
 
-Groupoid Infinity Runtimes and Provers could be found in `lang` folder:
+Groupoid Infinity Runtimes could be found in `lang` folder:
 
 ### Runtimes
 
