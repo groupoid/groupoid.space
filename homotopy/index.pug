@@ -305,16 +305,23 @@ block content
                     are useful for modeling infinite processes and are part
                     of Milner's Pi-calculus. Coinductive streams could be found in many MLTT base libraries.
 
-                h2 Structured Types
+                h2 Partial Elements and Structured Types
                 p.
-                    HIT are implemented as composition structures attached to Type on context $\Gamma$.
+                    HIT Composition structure.
                 code.
-                    data hts
+                    data structure
                        = comp_ (a b: lang)
                        | fill_ (a b c: lang)
-                       | glue_ (a b c: lang)
-                       | glue_elem (a b: lang)
-                       | unglue_elem (a b: lang)
+                br.
+
+                h2 Glue Types
+                p.
+                    Glue Types are needed to prove univalence.
+                code.
+                    data ua
+                       = glue_ (a b c: lang)
+                       | glue_intro (a b: lang)
+                       | unglue_elim (a b: lang)
                 br.
 
             section

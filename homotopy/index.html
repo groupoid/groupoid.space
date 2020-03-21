@@ -161,12 +161,12 @@ data ind
    | htor (n: name) (args: list lang) (ids: list lang) (sys: lang)</code><p>The non-well-founded trees or infinite coinductive trees
 are useful for modeling infinite processes and are part
 of Milner's Pi-calculus. Coinductive streams could be found in many MLTT base libraries.
-</p><h2>Structured Types</h2><p>HIT are implemented as composition structures attached to Type on context $\Gamma$.</p><code>data hts
+</p><h2>Partial Elements and Structured Types</h2><p>HIT Composition structure.</p><code>data structure
    = comp_ (a b: lang)
-   | fill_ (a b c: lang)
-   | glue_ (a b c: lang)
-   | glue_elem (a b: lang)
-   | unglue_elem (a b: lang)</code><br></section><section><h2>Universes</h2><p>The universe system is completely described by the PTS SAR notation,
+   | fill_ (a b c: lang)</code><br><h2>Glue Types</h2><p>Glue Types are needed to prove univalence.</p><code>data ua
+   = glue_ (a b c: lang)
+   | glue_intro (a b: lang)
+   | unglue_elim (a b: lang)</code><br></section><section><h2>Universes</h2><p>The universe system is completely described by the PTS SAR notation,
 given by Barendregt. Find more info in
 <a href='https://groupoid.space/pure/#axioms'>Axioms and Inference Rules</a>
 of underlying Om intermediate language.</p><code>PTS : U
