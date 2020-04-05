@@ -18,7 +18,7 @@
                         tex2jax: { inlineMath: [['$','$'], ['\\(','\\)']],
                                    processEscapes: true }
                     };
-</script></head><body class="content"><article class="main"><div class="om"><section><h1>HOMOLOGY</h1></section></div><aside><a href="..">Base Library</a><time>Published: 16 OCT 2017</time></aside><div class="om"><section><figure>$$\def\mapright#1{\xrightarrow{{#1}}}
+</script></head><body class="content"><article class="main"><div class="semantics"><section><h1>HOMOLOGY</h1></section></div><aside><a href="..">Base Library</a><time>Published: 16 OCT 2017</time></aside><div class="semantics"><section><figure>$$\def\mapright#1{\xrightarrow{{#1}}}
   \def\mapdown#1{\Big\downarrow\rlap{\raise2pt{\scriptstyle{#1}}}}
   \def\mapdiagl#1{\vcenter{\searrow}\rlap{\raise2pt{\scriptstyle{#1}}}}
   \def\mapdiagr#1{\vcenter{\swarrow}\rlap{\raise2pt{\scriptstyle{#1}}}}
@@ -82,33 +82,31 @@ subElProp (G: group) (H: subgroupProp G)
   = (H.1,H.2.1)
 
 subEl (G: group) (H: subgroupProp G): U
-  = subtype G.1.1 (subElProp G H)</code><br><h1>KERNEL and IMAGE</h1><p><b>Definition</b> (Kernel of Homomorphism).</p><code>ker_prop (G H: group) (phi: grouphom G H)
+  = subtype G.1.1 (subElProp G H)</code><br><h1>KERNEL and IMAGE</h1><p><b>Definition</b> (Kernel of Homomorphism).</p><code>kerProp (G H: group) (phi: grouphom G H)
   : subgroupProp G
-  = (prop,level,ident,inv,op,di) where
-    prop (x: G.1.1): U = Path H.1.1 (phi.1 x) (idGroup H)
-    ident: prop (idGroup G) = phi.2.2
-    level (x: G.1.1): isProp (prop x) = undefined
-    inv: (x: G.1.1) -> prop x -> prop ((invGroup G) x) = undefined
-    op: (g1 g2: G.1.1) -> prop g1 -> prop g2 -> prop ((opGroup G) g1 g2) = undefined
-    di: (g1 g2: G.1.1) -> prop g1 -> prop g2 -> prop (diff G g1 g2) = undefined
 
 Ker (G: abgroup) (H: group) (phi: grouphom (G.1,G.2.1) H): group
-  = subgroup (G.1,G.2.1) (ker_prop (G.1,G.2.1) H phi)</code><p><b>Definition</b> (Image of Homomorphism).</p><code>im_prop (G H: group) (phi: grouphom G H)
+  = subgroup (G.1,G.2.1) (ker_prop (G.1,G.2.1) H phi)</code><p><b>Definition</b> (Image of Homomorphism).</p><code>imProp (G H: group) (phi: grouphom G H)
   : subgroupProp H
-  = (prop,level,ident,inv,op,di) where
-    prop (x: H.1.1): U = pTrunc (fiber G.1.1 H.1.1 phi.1 x)
-    ident: prop (idGroup H) = inc ((idGroup G),&lt;i&gt;phi.2.2 @ -i)
-    level (x: H.1.1): isProp (prop x) = pTruncIsProp (fiber G.1.1 H.1.1 phi.1 x)
-    inv: (x: H.1.1) -> prop x -> prop ((invGroup H) x) = undefined
-    op: (g1 g2: H.1.1) -> prop g1 -> prop g2 -> prop ((opGroup H) g1 g2) = undefined
-    di: (h1 h2: H.1.1) -> prop h1 -> prop h2 -> prop (diff H h1 h2) = undefined
 
 Im (G: group) (H: abgroup) (psi: grouphom G (H.1,H.2.1)): group
-  = subgroup (H.1,H.2.1) (im_prop G (H.1,H.2.1) psi)</code><p><b>Definition</b> (Quotient).</p><code>KerImRel (G H: group) (phi: grouphom G H) (x y: H.1.1): U
+  = subgroup (H.1,H.2.1) (imProp G (H.1,H.2.1) psi)</code><p><b>Definition</b> (Quotient).</p><code>KerImRel (G H: group) (phi: grouphom G H) (x y: H.1.1): U
   = pTrunc (fiber G.1.1 H.1.1 phi.1 (diff H x y))
 
 KerImEl (G H: group) (phi: grouphom G H): U
-  = quot H.1.1 (KerImRel G H phi)</code><p><b>Definition</b> (Homology Group).</p><code>homology_group (x: ChainComplex): (n: Z) -> group</code><br><h1>COMPLEXES</h1><p><b>Definition</b> (Sequence).</p><code>mutual
+  = quot H.1.1 (KerImRel G H phi)</code><p><b>Definition</b> (Homology Group).</p><code>homology_group (x: ChainComplex): (n: Z) -> group
+</code><p><b>Theorem</b> (First Group Isomorphism Theorem). Let $G$ and $H$ be groups,
+and let $\phi : G \rightarrow H$ be a homomorphism. Then: 1) The kernel of $\phi$ is normal subgroup of G;
+2) The image of $\phi$ is a subgroup of $H$; 3) The image of $\phi$ is isomorphic to the quotient group $G/ker(\phi)$.</p><figure>$$
+\begin{array}{ccc}
+    A \times^{h}_{C} B & \mapright{\mathbf{pb_2}} & B \\
+    \mapdown{\mathbf{pb_1}} & \mapdiagl{\mathbf{pb_3}} & \mapdown{\mathbf{g}} \\
+    A & \mapright{\mathbf{f}} & C \\
+\end{array}
+$$
+</figure><code>kernelIsNormalSubgroup (G H : group) (phi : grouphom G H)
+  : normalSubgroupProp G
+</code><h1>COMPLEXES</h1><p><b>Definition</b> (Sequence).</p><code>mutual
   data Seq (A: U) (B: A -> A -> U)
      = seqNil (ob: A)
      | seqCons (ob: A) (seq: Seq A B) (hom: B ob (head A B seq))
@@ -120,7 +118,7 @@ KerImEl (G H: group) (phi: grouphom G H): U
   * (augment: abgrouphom (index zero) (head abgroup abgrouphom sequence))
   * ((n: nat) -> abgrouphom (index (succ n)) (index n))
 
-CochainComplex: U
+CoChainComplex: U
   = (sequence: Seq abgroup abgrouphom)
   * (index: nat -> abgroup)
   * (augment: abgrouphom (head abgroup abgrouphom sequence) (index zero))
