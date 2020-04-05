@@ -62,7 +62,7 @@ unitDGroup: dgroup</code><p><b>Definition</b> (Diff).</p><code>diff (H: group) (
   = (opGroup H) g ((invGroup H) h)</code><p><b>Definition</b> (Conjugation).
 Let $G$ is a group, the conjucation of two elements of the group
 $x,y \in G$ is defined as $x y x^{-1}$.</p><code>conjugate (G: group) (g1 g2: G.1.1): G.1.1
-  = diff G ((opGroup G) g1 g2) g1</code><br><h1>SUBGROUPS</h1><p><b>Definition</b> (Subtype).</p><code>subtypeProp (A: U): U
+  = diff G ((opGroup G) g1 g2) g1</code><p></p><br><h1>SUBGROUPS</h1><p><b>Definition</b> (Subtype).</p><code>subtypeProp (A: U): U
   = (P: A -> U) * (a: A) -> isProp (P a)
 
 subtype (A: U) (P: subtypeProp A): U
@@ -82,19 +82,15 @@ subElProp (G: group) (H: subgroupProp G)
   = (H.1,H.2.1)
 
 subEl (G: group) (H: subgroupProp G): U
-  = subtype G.1.1 (subElProp G H)</code><br><h1>KERNEL and IMAGE</h1><p><b>Definition</b> (Kernel of Homomorphism).</p><code>kerProp (G H: group) (phi: grouphom G H)
-  : subgroupProp G
+  = subtype G.1.1 (subElProp G H)</code><p></p><br><h1>KERNEL and IMAGE</h1><p><b>Definition</b> (Kernel of Homomorphism).</p><code>Ker (G: abgroup) (H: group) (phi: grouphom (G.1,G.2.1) H): group
+  = subgroup (G.1,G.2.1) (kerProp (G.1,G.2.1) H phi)</code><p><b>Theorem</b> (Kernel of Homomorphism is subgroup).</p><code>kerProp (G H: group) (phi: grouphom G H)
+  : subgroupProp G</code><p><b>Definition</b> (Image of Homomorphism).</p><code>Im (G: group) (H: abgroup) (psi: grouphom G (H.1,H.2.1)): group
+  = subgroup (H.1,H.2.1) (imProp G (H.1,H.2.1) psi)</code><p><b>Theorem</b> (Image of Homomorphism is subgroup).</p><code>imProp (G H: group) (phi: grouphom G H)
+  : subgroupProp H</code><p><b>Definition</b> (Factor Group).</p><code>factorProp (G : group) (P : subgroupProp G) : G.1.1 -> G.1.1 -> U
+  = \(x y : G.1.1) -> P.1 (diff G x y)
 
-Ker (G: abgroup) (H: group) (phi: grouphom (G.1,G.2.1) H): group
-  = subgroup (G.1,G.2.1) (ker_prop (G.1,G.2.1) H phi)</code><p><b>Definition</b> (Image of Homomorphism).</p><code>imProp (G H: group) (phi: grouphom G H)
-  : subgroupProp H
-
-Im (G: group) (H: abgroup) (psi: grouphom G (H.1,H.2.1)): group
-  = subgroup (H.1,H.2.1) (imProp G (H.1,H.2.1) psi)</code><p><b>Definition</b> (Quotient).</p><code>KerImRel (G H: group) (phi: grouphom G H) (x y: H.1.1): U
-  = pTrunc (fiber G.1.1 H.1.1 phi.1 (diff H x y))
-
-KerImEl (G H: group) (phi: grouphom G H): U
-  = quot H.1.1 (KerImRel G H phi)</code><p><b>Definition</b> (Homology Group).</p><code>homology_group (x: ChainComplex): (n: Z) -> group
+factor (G : group) (P : subgroupProp G) : U
+    = setquot G.1.1 (factorProp G P)</code><p><b>Definition</b> (Homology Group).</p><code>homology_group (x: ChainComplex): (n: Z) -> group
 </code><p><b>Theorem</b> (First Group Isomorphism Theorem). Let $G$ and $H$ be groups,
 and let $\phi : G \rightarrow H$ be a homomorphism. Then: 1) The kernel of $\phi$ is normal subgroup of G;
 2) The image of $\phi$ is a subgroup of $H$; 3) The image of $\phi$ is isomorphic to the quotient group $G/ker(\phi)$.</p><figure>$$
@@ -103,10 +99,8 @@ and let $\phi : G \rightarrow H$ be a homomorphism. Then: 1) The kernel of $\phi
     \mapdown{\mathbf{pb_1}} & \mapdiagl{\mathbf{pb_3}} & \mapdown{\mathbf{g}} \\
     A & \mapright{\mathbf{f}} & C \\
 \end{array}
-$$
-</figure><code>kernelIsNormalSubgroup (G H : group) (phi : grouphom G H)
-  : normalSubgroupProp G
-</code><h1>COMPLEXES</h1><p><b>Definition</b> (Sequence).</p><code>mutual
+$$</figure><code>kernelIsNormalSubgroup (G H : group) (phi : grouphom G H)
+  : normalSubgroupProp G</code><p></p><br><h1>COMPLEXES</h1><p><b>Definition</b> (Sequence).</p><code>mutual
   data Seq (A: U) (B: A -> A -> U)
      = seqNil (ob: A)
      | seqCons (ob: A) (seq: Seq A B) (hom: B ob (head A B seq))
@@ -122,7 +116,7 @@ CoChainComplex: U
   = (sequence: Seq abgroup abgrouphom)
   * (index: nat -> abgroup)
   * (augment: abgrouphom (head abgroup abgrouphom sequence) (index zero))
-  * ((n: nat) -> abgrouphom (index n) (index (succ n)))</code><br><h1>AXIOMS</h1><p><b>Definition</b> (Homology). The map from a pair of topological
+  * ((n: nat) -> abgrouphom (index n) (index (succ n)))</code><p></p><br><h1>AXIOMS</h1><p><b>Definition</b> (Homology). The map from a pair of topological
 spaces $A \subset X$ to an Abelian Groups, called homological
 groups $H_n(X,A)$ iff: i) Any map $f : (X,A) \rightarrow (Y,B)$
 induces homomorphism $f_* : H_n(X,A) \rightarrow H_n(Y,B)$ such that
@@ -135,4 +129,4 @@ such that</p><figure>$$
     \mapdown{\mathbf{f_*}} & & \mapdown{\mathbf{f*}} \\
     H_n(Y,B) & \mapright{\mathbf{\delta}} & H_{n-1}(B) \\
 \end{array}
-$$</figure></section></div></article><footer class="footer"><a href="https://github.com/groupoid/"><img class="footer__logo" src="https://longchenpa.guru/seal.png" width="50"></a><span class="footer__copy">2016&mdash;2020 &copy; <a href="//groupoid.space/" style="color:Lavender;">Максим Сохацький</a></span></footer><script src="https://groupoid.space/bundle.js?v=6"></script><script src="https://groupoid.space/highlight.js?v=11"></script></body></html>
+$$</figure><p></p></section></div></article><footer class="footer"><a href="https://github.com/groupoid/"><img class="footer__logo" src="https://longchenpa.guru/seal.png" width="50"></a><span class="footer__copy">2016&mdash;2020 &copy; <a href="//groupoid.space/" style="color:Lavender;">Максим Сохацький</a></span></footer><script src="https://groupoid.space/bundle.js?v=6"></script><script src="https://groupoid.space/highlight.js?v=11"></script></body></html>
