@@ -30,7 +30,7 @@ contains basic theorems about general homology theory.
     = split { Z -> Path A a b ; S n -> n_grpd (Path A a b) n }
 
 isProp  (A: U): U = n_grpd A Z
-isSet   (A: U): U = n_grpd A (S Z)</code><br><h1>GROUPS</h1><p><b>Definition</b> (Monoid).</p><code>isMonoid (M: SET): U
+isSet   (A: U): U = n_grpd A (S Z)</code><p></p><br><h1>GROUPS</h1><p><b>Definition</b> (Monoid).</p><code>isMonoid (M: SET): U
   = (op: M.1 -> M.1 -> M.1)
   * (assoc: isAssociative M.1 op)
   * (id: M.1)
@@ -96,7 +96,7 @@ factor (G : group) (P : subgroupProp G) : U
 and let $\phi : G \rightarrow H$ be a homomorphism. Then: 1) The kernel of $\phi$ is normal subgroup of G;
 2) The image of $\phi$ is a subgroup of $H$; 3) The image of $\phi$ is isomorphic to the quotient group $G/ker(\phi)$.</p><figure>$$
 \begin{array}{ccc}
-    \phi (g_1 \cdot g_2 \cdot g_1^{-1}) & \mapright{\phi_{unfold}} & \phi(g_1) \cdot \phi(g_2) \cdot (\phi (g_1))^{-1}  \\
+    \phi (g_1 \cdot g_2 \cdot g_1^{-1}) & \mapright{unfold} & \phi(g_1) \cdot \phi(g_2) \cdot (\phi (g_1))^{-1}  \\
     \mapup{} & & \mapup{} \\
     \phi (g_1 \cdot g_2) \cdot \phi(g_1)^{-1} & \mapright{} & \phi(g_1) \cdot \phi(g_2) \cdot \phi (g_1)^{-1} \\
 \end{array}
