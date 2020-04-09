@@ -48,7 +48,13 @@ block content
             section
                 h1 SETS
                 p.
-                    <b>Definition</b> (Set).
+                    <b>Definition</b> (Proposition, Set).
+                    Type $A : \mathcal{U}$ is a proposition if
+                    all elements of $A$ are equal.
+                    Type $A : \mathcal{U}$ is a set if
+                    all paths between elements of $A$ are equal.
+                    $$ isProp(A) ≔ \prod_{x, y : A} x = y $$
+                    $$ isSet(A) ≔ \prod_{x, y : A} \prod_{p, q : x = y} p = q $$
                 code.
                   n_grpd (A: U) (n: N): U = (a b: A) -> rec A a b n where
                     rec (A: U) (a b: A) : (k: N) -> U
@@ -61,7 +67,10 @@ block content
 
                 h1 GROUPS
                 p.
-                    <b>Definition</b> (Monoid).
+                    <b>Definition</b> (Monoid). Monoid is a set $M$ equipped
+                    with binary associative operation
+                    $(x, y \mapsto x \cdot y) : M \rightarrow M \rightarrow M$ called multiplication and identity element $1$ satisfying
+                    $ x \cdot 1 = 1 \cdot x = x $.
                 code.
                   isMonoid (M: SET): U
                     = (op: M.1 -> M.1 -> M.1)
@@ -78,7 +87,9 @@ block content
                     * (ismonoidhom a b f)
 
                 p.
-                    <b>Definition</b> (Group).
+                    <b>Definition</b> (Group). Group is a monoid
+                    with inversion $(x \mapsto x^{-1})$ satisfying
+                    $ x^{-1} \cdot x = x \cdot x^{-1} = 1 $.
                 code.
                   isGroup (G: SET): U
                     = (m: isMonoid G)
@@ -102,153 +113,209 @@ block content
                   dgrouphom (a b: dgroup): U = monoidhom (a.1, a.2.1.1) (b.1, b.2.1.1)
                   unitDGroup: dgroup
                 p.
-                    <b>Definition</b> (Diff).
+                    <b>Definition</b> (Division).
+                    $$ x \backslash y ≔ x^{-1} \cdot y $$
+                    $$ x / y ≔ x \cdot y^{-1} $$
                 code.
-                  diff (H: group) (g h: H.1.1) : H.1.1
+                  ldiv (H: group) (g h: H.1.1) : H.1.1
+                    = (opGroup H) ((invGroup H) g) h
+                  
+                  rdiv (H: group) (g h: H.1.1) : H.1.1
                     = (opGroup H) g ((invGroup H) h)
                 p.
                     <b>Definition</b> (Conjugation).
-                    Let $G$ is a group, the conjucation of two elements of the group
+                    Let $G$ be a group, the conjugation of two elements of the group
                     $x,y \in G$ is defined as $x y x^{-1}$.
                 code.
                   conjugate (G: group) (g1 g2: G.1.1): G.1.1
-                    = diff G ((opGroup G) g1 g2) g1
+                     = rdiv G ((opGroup G) g1 g2) g1
                 p.
                 br.
 
                 h1 SUBGROUPS
                 p.
-                    <b>Definition</b> (Subtype).
+                    <b>Definition</b> (Predicate). Type family
+                    $P : A \rightarrow \mathcal{U}$ is a predicate iff
+                    $P(x)$ is a mere proposition for all $x : A$.
+                    $$ \forall (x : A), isProp(P(x)) $$
                 code.
                   subtypeProp (A: U): U
-                    = (P: A -> U) * (a: A) -> isProp (P a)
-
-                  subtype (A: U) (P: subtypeProp A): U
-                    = (x: A) * (P.1 x)
+                    = (P : A -> U)
+                    * (a : A) -> isProp (P a)
+                p.
+                    <b>Definition</b> (Subtype).
+                    Let $P : A \rightarrow \mathcal{U}$ be a predicate. Then:
+                    $$ \{ x \in A \mid P(x) \} ≔ \sum_{x : A} P(x) $$
+                code.
+                  subtype (A : U) (P : subtypeProp A): U
+                    = (x : A) -- prop
+                    * (P.1 x) -- level
                 p.
                     <b>Definition</b> (Subgroup).
+                    Predicate $\phi : G \rightarrow \mathcal{U}$ is a subgroup iff
+                    1) $ 1 \in \phi $
+                    2) $ \forall (x : G), x \in \phi \implies x^{-1} \in \phi $ and
+                    3) $ \forall (x, y : G), x \in \phi \land y \in \phi
+                         \implies (x \cdot y) \in \phi $
                 code.
                   subgroupProp (G: group): U
                     = (prop: G.1.1 -> U)
                     * (level: (x: G.1.1) -> isProp (prop x))
-                    * (ident: prop (idGroup (G.1,G.2.1)))
-                    * ((g1 g2: G.1.1) -> prop g1 -> prop g2 -> prop (diff G g1 g2))
+                    * (ident: prop (idGroup G))
+                    * (inv: (g: G.1.1) -> prop g -> prop ((invGroup G) g))
+                    * ((g1 g2: G.1.1) -> prop g1 -> prop g2 -> prop ((opGroup G) g1 g2))
                 p.
                     <b>Definition</b> (Normal Subgroup).
+                    Subgroup $\phi$ is normal iff for every $g \in \phi$
+                    it contains conjugate of $g$.
                 code.
                   isNormal (G: group) (P: subgroupProp G) : U
-                    = (g1 g2: G.1.1) -> P.1 g2 -> P.1 (conjugate G g1 g2)
+                    = (X: group)
+                    * (g1 g2: G.1.1) -> P.1 g2 -> P.1 (conjugate G g1 g2)
 
                   normalSubgroupProp (G: group): U
                     = (P: subgroupProp G)
                     * isNormal G P
-
-                  subElProp (G: group) (H: subgroupProp G)
-                    : subtypeProp G.1.1
-                    = (H.1,H.2.1)
-
-                  subEl (G: group) (H: subgroupProp G): U
-                    = subtype G.1.1 (subElProp G H)
                 p.
                 br.
 
                 h1 KERNEL and IMAGE
                 p.
                     <b>Definition</b> (Kernel of Homomorphism).
+                    $$ \mathrm{Ker}(\phi) ≔ \{ x \in G \mid f(x) = 1 \} $$
                 code.
-                  Ker (G: abgroup) (H: group) (phi: grouphom (G.1,G.2.1) H): group
-                    = subgroup (G.1,G.2.1) (kerProp (G.1,G.2.1) H phi)
+                    isGroupKer (G H: group) (f: G.1.1 -> H.1.1) (x: G.1.1): U
+                      = Path H.1.1 (f x) (idGroup H)
+                p.
+                    <b>Definition</b> (Image of Homomorphism).
+                    $$ \mathrm{Im}(\phi) ≔ \left\{ y \in H \middle| \left( \left\| \sum_{x : G} f(x) = y \right\| \right) \right\} $$
+                code.
+                    isGroupIm (G H: group) (f: G.1.1 -> H.1.1) (g: H.1.1): U
+                      = propTrunc (fiber G.1.1 H.1.1 f g)
                 p.
                     <b>Theorem</b> (Kernel of Homomorphism is subgroup).
                 code.
                   kerProp (G H: group) (phi: grouphom G H)
                     : subgroupProp G
                 p.
-                    <b>Definition</b> (Image of Homomorphism).
-                code.
-                  Im (G: group) (H: abgroup) (psi: grouphom G (H.1,H.2.1)): group
-                    = subgroup (H.1,H.2.1) (imProp G (H.1,H.2.1) psi)
-                p.
                     <b>Theorem</b> (Image of Homomorphism is subgroup).
                 code.
                   imProp (G H: group) (phi: grouphom G H)
                     : subgroupProp H
                 p.
-                    <b>Definition</b> (Factor Group).
+                    <b>Definition</b> (Set-Quotient).
+                    Assume some type $A : \mathcal{U}$ and relation
+                    $R : A \rightarrow A \rightarrow \mathcal{U}$ on it.
+                    We define $ \| A/R \|_0 $ as following Higher Inductive Type:
+                    $$ \| A/R \|_0 ≔
+                    \begin{cases}
+                      f : A \rightarrow A/R \\
+                      p : \prod_{a, b : A} \prod_{r : R(a, b)} f(a) = f(b) \\
+                      q : \prod_{a, b : \| A/R \|_0} \prod_{p, q : a = b} p = q
+                    \end{cases}
+                    $$
                 code.
-                  factorProp (G : group) (P : subgroupProp G) : G.1.1 -> G.1.1 -> U
-                    = \(x y : G.1.1) -> P.1 (diff G x y)
-
-                  factor (G : group) (P : subgroupProp G) : U
-                      = setquot G.1.1 (factorProp G P)
+                  data setQuot (A: U) (R: A -> A -> U)
+                     = quotient (a: A)
+                     | identification (a b: A) (r: R a b)
+                       &lt;i&gt;[ (i=0) -> quotient a, (i=1) -> quotient b ]
+                     | trunc (a b : setQuot A R) (p q : Path (setQuot A R) a b)
+                       &lt;i j&gt; [ (i = 0) -> p @ j , (i = 1) -> q @ j ,
+                               (j = 0) -> a ,     (j = 1) -> b ]
                 p.
-                    <b>Definition</b> (Homology Group).
+                    <b>Definition</b> (Factor Group).
+                    Let $G$ be a group and $\phi$ his normal subgroup. We define:
+                    $$
+                    \begin{cases}
+                       R : G \rightarrow G \rightarrow \mathcal{U} \\
+                       R ≔ (x, y) \mapsto (x / y) \in \phi
+                    \end{cases}$$
+                    $$ G/\phi ≔ \| G/R \|_0 $$
+                    We can also define $G\backslash\phi$ by relation $ (x, y) \mapsto (x \backslash y) \in \phi $.
+                    If $\phi$ is normal subgroup then $G/\phi \simeq G\backslash\phi$.
+                    This statement <a href="https://github.com/groupoid/lean/blob/master/ground_zero/algebra/group.lean">is proven in Lean</a>.
                 code.
-                  homology_group (x: ChainComplex): (n: Z) -> group
+                  factorProp (G : group) (P : normalSubgroupProp G) : G.1.1 -> G.1.1 -> U
+                    = \(x y : G.1.1) -> P.1.1 (rdiv G x y)
 
+                  factor (G : group) (P : normalSubgroupProp G) : U
+                    = setQuot G.1.1 (factorProp G P)
+                p.
+                    <b>Theorem</b> (Factor group of dihedral group $D_3$).
+                    As an test of factor group $G/\phi$ correctness we <a href="https://github.com/groupoid/lean/blob/master/ground_zero/algebra/group.lean">prove</a> that $ D_3/A_3 \cong Z_2 $, where $ A_3 = \{ R_0, R_1, R_2 \} \subset D_3 $ and $Z_2 ≅ \mathbb{Z}/2\mathbb{Z}$,
+                    i. e. smallest nontrivial group.
+                code.
+                    def D₃.iso : Z₂ ≅ D₃/A₃
+                p.
+                    <b>Definition</b> (Trivial homomorphism).
+                    Trivial homomorphism $0$ between two groups (or monoids) $G$ and $H$
+                    maps every element of $G$ to identity element of $H$: $x \mapsto 1_H$
+                code.
+                  trivmonoidhom (a b : monoid) : monoidhom a b
+                    = (\(x : a.1.1) -> idMonoid b,
+                       \(x y : a.1.1) -> &lt;i&gt; (hasIdMonoid b).1 (idMonoid b) @ -i,
+                       &lt;_&gt; idMonoid b)
+
+                  trivabgrouphom (a b : abgroup) : abgrouphom a b
+                    = trivmonoidhom (group' (abgroup' a)) (group' (abgroup' b))
+                p.
+                    <b>Definition</b> (Chain complex).
+                    Chain complex consists of:
+                    1) Sequence of abelian groups $K_n$.
+                    2) Homomorphisms between these groups $\delta_n : K_{n + 1} \rightarrow K_n$.
+                    3) Requirement: the composition of two consecutive homomorphisms is trivial: $\delta_n \circ \delta_{n + 1} = 0$
+                    $$ \ldots \xrightarrow{\delta_{n+2}} K_{n+1} \xrightarrow{\delta_n} K_n \xrightarrow{\delta_{n - 1}} \ldots \xrightarrow{\delta_1} K_1 \xrightarrow{\delta_0} K_0 $$
+                code.
+                  chainComplex : U
+                    = (K : nat -> abgroup)
+                    * (hom : (n : nat) -> abgrouphom (K (succ n)) (K n))
+                    * ((n : nat) -> Path (abgrouphom (K (succ2 n)) (K n))
+                        (abgrouphomcomp (K (succ2 n)) (K (succ n)) (K n) (hom (succ n)) (hom n))
+                        (trivabgrouphom (K (succ2 n)) (K n)))
+                p.
+                    <b>Definition</b> (Cycles). $Z_n(X) ≔ \mathrm{Ker}(\delta_n) $
+                code.
+                  propZ (C : chainComplex) (n : nat) : subgroupProp (K' C (succ n))
+                    = kerProp (K' C (succ n)) (K' C n) (hom C n)
+
+                  Z (C : chainComplex) (n : nat) : group = subgroup (K' C (succ n)) (propZ C n)
+                p.
+                    <b>Definition</b> (Boundaries). $B_n(X) ≔ \mathrm{Im}(\delta_{n + 1})$
+                code.
+                  B (C : chainComplex) (n : nat) : normalSubgroupProp (Z C n)
+                    = abelianSubgroupIsNormal (abelianSubgroupIsAbelian (K C (succ n)) (propZ C n))
+                        (subgroupSubgroup (K' C (succ n))
+                          (imProp (K' C (succ (succ n))) (K' C (succ n)) (hom C (succ n))) (propZ C n))
+                p.
+                    <b>Definition</b> (Homology Group). $H_n(X) ≔ Z_n(X) / B_n(X)$
+                code.
+                  H (C : chainComplex) (n : nat) : group = factorGroup (Z C n) (B C n)
                 p.
                     <b>Theorem</b> (First Group Isomorphism Theorem). Let $G$ and $H$ be groups,
-                    and let $\phi : G \rightarrow H$ be a homomorphism. Then: 1) The kernel of $\phi$ is normal subgroup of G;
-                    2) The image of $\phi$ is a subgroup of $H$; 3) The image of $\phi$ is isomorphic to the quotient group $G/ker(\phi)$.
-                figure.
+                    and let $\phi : G \rightarrow H$ be a homomorphism. Then:
+                    1) The kernel of $\phi$ is normal subgroup of G.
+                    2) The image of $\phi$ is a subgroup of $H$.
+                    3) The image of $\phi$ is isomorphic to the quotient group $G/ker(\phi)$.
                     $$
                     \begin{array}{ccc}
-                        \phi (g_1 \cdot g_2 \cdot g_1^{-1}) & \mapright{unfold} & \phi(g_1) \cdot \phi(g_2) \cdot (\phi (g_1))^{-1}  \\
+                        \phi (g_1 \cdot g_2 \cdot g_1^{-1}) & \mapright{phiUnfold} & \phi(g_1) \cdot \phi(g_2) \cdot (\phi (g_1))^{-1}  \\
                         \mapup{} & & \mapup{} \\
                         \phi (g_1 \cdot g_2) \cdot \phi(g_1)^{-1} & \mapright{} & \phi(g_1) \cdot \phi(g_2) \cdot \phi (g_1)^{-1} \\
                     \end{array}
                     $$
+                    $$
+                    \begin{array}{ccc}
+                        \phi(g_1) \cdot \phi(g_2) \cdot (\phi(g_1))^{-1} & \mapright{conjOne} & 1 \\
+                        \mapup{} & & \mapup{} \\
+                        \phi(g_1) \cdot 1 \cdot (\phi(g_1)^{-1}) & \mapright{} & \phi(g_1) \cdot \phi (g_1)^{-1} \\
+                    \end{array}
+                    $$
+                    By composition of $phiUnfold$ and $conjOne$ we obtain
+                    a path $\phi (g_1 \cdot g_2 \cdot g_1^{-1}) = 1$.
+                    Therefore, $\phi$ contains every conjugation of $g_2$
                 br.
                 code.
                   kernelIsNormalSubgroup (G H : group) (phi : grouphom G H)
                     : normalSubgroupProp G
                 p.
                 br.
-
-                h1 COMPLEXES
-                p.
-                    <b>Definition</b> (Sequence).
-                code.
-                  mutual
-                    data Seq (A: U) (B: A -> A -> U)
-                       = seqNil (ob: A)
-                       | seqCons (ob: A) (seq: Seq A B) (hom: B ob (head A B seq))
-                    head (A: U) (B: A -> A -> U): Seq A B -> A = split
-                         seqNil x -> x
-                         seqCons x y z -> x
-                p.
-                    <b>Definition</b> (Chain Complexes).
-                code.
-                  ChainComplex: U
-                    = (sequence: Seq abgroup abgrouphom)
-                    * (index: nat -> abgroup)
-                    * (augment: abgrouphom (index zero) (head abgroup abgrouphom sequence))
-                    * ((n: nat) -> abgrouphom (index (succ n)) (index n))
-
-                  CoChainComplex: U
-                    = (sequence: Seq abgroup abgrouphom)
-                    * (index: nat -> abgroup)
-                    * (augment: abgrouphom (head abgroup abgrouphom sequence) (index zero))
-                    * ((n: nat) -> abgrouphom (index n) (index (succ n)))
-                p.
-                br.
-
-                h1 AXIOMS
-                p.
-                    <b>Definition</b> (Homology). The map from a pair of topological
-                    spaces $A \subset X$ to an Abelian Groups, called homological
-                    groups $H_n(X,A)$ iff: i) Any map $f : (X,A) \rightarrow (Y,B)$
-                    induces homomorphism $f_* : H_n(X,A) \rightarrow H_n(Y,B)$ such that
-                    $id_* = id : H_n(X,A) \rightarrow H_n(X,A)$, $(f \circ g)_* = f_* \circ g_*$
-                    ii) There is unique homomorphism
-                    $\delta : H_n(X,A) \rightarrow H_{n-1}(A) = H_{n-1}(A,\varnothing)$
-                    such that
-                figure.
-                    $$
-                    \begin{array}{ccc}
-                        H_n(X,A) & \mapright{\mathbf{\delta}} & H_{n-1}(A) \\
-                        \mapdown{\mathbf{f_*}} & & \mapdown{\mathbf{f*}} \\
-                        H_n(Y,B) & \mapright{\mathbf{\delta}} & H_{n-1}(B) \\
-                    \end{array}
-                    $$
-                p.
