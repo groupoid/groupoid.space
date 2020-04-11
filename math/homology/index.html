@@ -172,22 +172,19 @@ Z (C : chainComplex) (n : nat) : group = subgroup (K' C (succ n)) (propZ C n)</c
 and let $\phi : G \rightarrow H$ be a homomorphism. Then:
 1) The kernel of $\phi$ is normal subgroup of G.
 2) The image of $\phi$ is a subgroup of $H$.
-3) The image of $\phi$ is isomorphic to the quotient group $G/ker(\phi)$.
-$$
+3) The image of $\phi$ is isomorphic to the quotient group $G/ker(\phi)$.</p><figure>$$
 \begin{array}{ccc}
     \phi (g_1 \cdot g_2 \cdot g_1^{-1}) & \mapright{phiUnfold} & \phi(g_1) \cdot \phi(g_2) \cdot (\phi (g_1))^{-1}  \\
     \mapup{} & & \mapup{} \\
     \phi (g_1 \cdot g_2) \cdot \phi(g_1)^{-1} & \mapright{} & \phi(g_1) \cdot \phi(g_2) \cdot \phi (g_1)^{-1} \\
 \end{array}
-$$
-$$
+$$</figure><br><figure>$$
 \begin{array}{ccc}
     \phi(g_1) \cdot \phi(g_2) \cdot (\phi(g_1))^{-1} & \mapright{conjOne} & 1 \\
     \mapup{} & & \mapup{} \\
     \phi(g_1) \cdot 1 \cdot (\phi(g_1)^{-1}) & \mapright{} & \phi(g_1) \cdot \phi (g_1)^{-1} \\
 \end{array}
-$$
-By composition of $phiUnfold$ and $conjOne$ we obtain
+$$</figure><p>By composition of $phiUnfold$ and $conjOne$ we obtain
 a path $\phi (g_1 \cdot g_2 \cdot g_1^{-1}) = 1$.
 Therefore, $\phi$ contains every conjugation of $g_2$</p><br><code>kernelIsNormalSubgroup (G H : group) (phi : grouphom G H)
   : normalSubgroupProp G</code><p></p><br></section></div></article><footer class="footer"><a href="https://github.com/groupoid/"><img class="footer__logo" src="https://longchenpa.guru/seal.png" width="50"></a><span class="footer__copy">2016&mdash;2020 &copy; <a href="//groupoid.space/" style="color:Lavender;">Максим Сохацький</a></span></footer><script src="https://groupoid.space/bundle.js?v=6"></script><script src="https://groupoid.space/highlight.js?v=11"></script></body></html>
