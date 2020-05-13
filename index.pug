@@ -36,52 +36,56 @@ block content
         .types
             br
             -
-                var logic = {
-                    'Category Theory':     { 'Categories': 'math/cat',
-                                             'Functors, Adjunctions': 'math/adj',
-                                             'Natural Transformations': 'math/nt',
+                                              var logic = {
+
+                        'Category Theory': { 'Categories': 'math/cat',
+                                             'Functors, Adjunctions': 'math/adjoint',
+                                             'Natural Transformations': 'math/natural',
                                              'Kan Extensions' : 'math/kan',
                                              '(Co)limits': 'math/lim',
                                              'Universal Properties' : 'math/ump',
                                              'Structure Identity Principle' : 'math/sip' },
 
-                    'Topos Theory':        { 'Topology' : 'math/top',
-                                             'Coverings' : 'math/cov',
-                                             'Grothendieck Topology' : '',
-                                             'Grothendieck Topos' : '',
-                                             'Elementary Topos': '' },
+                           'Topos Theory': { 'Topology' : 'math/topology',
+                                             'Coverings' : 'math/coverings',
+                                             'Grothendieck Topology' : 'math/topos',
+                                             'Grothendieck Topos' : 'math/topos',
+                                             'Elementary Topos': 'math/topos' },
 
-                    'Quillen Models':      { 'Set' : '',
-                                             'Top' : '',
-                                             'sSet' : '' } };
+                   'Metatheoretic Models': { 'Quillen model on Set' : 'https://tonpa.guru/stream/2020/2020-05-03%20%D0%9C%D0%BE%D0%B4%D0%B5%D0%BB%D1%8C%D0%BD%D1%8B%D0%B5%20%D0%BA%D0%B0%D1%82%D0%B5%D0%B3%D0%BE%D1%80%D0%B8%D0%B8.htm',
+                                             'Quillen model on Top' : 'https://tonpa.guru/stream/2020/2020-05-03%20%D0%9C%D0%BE%D0%B4%D0%B5%D0%BB%D1%8C%D0%BD%D1%8B%D0%B5%20%D0%BA%D0%B0%D1%82%D0%B5%D0%B3%D0%BE%D1%80%D0%B8%D0%B8.htm',
+                                             'Quillen model on sSet' : 'https://tonpa.guru/stream/2020/2020-05-03%20%D0%9C%D0%BE%D0%B4%D0%B5%D0%BB%D1%8C%D0%BD%D1%8B%D0%B5%20%D0%BA%D0%B0%D1%82%D0%B5%D0%B3%D0%BE%D1%80%D0%B8%D0%B8.htm',
+                                             'Presheaf model on Pi' : 'math/presheaf',
+                                             'Presheaf model on Sigma' : 'math/presheaf',
+                                             'Presheaf model on sSet' : 'math/presheaf',
+                                             'Presheaf model on I' : 'math/presheaf' } }; var algebra = {
 
-                var algebra = {
-                    'Abstract Algebra':    { 'Group' : '',
-                                             'Subgroup' : '',
-                                             'Normal Group' : '',
-                                             'Factorgroup' : '',
-                                             'Abelian Group' : '',
-                                             'Ring' : '',
-                                             'Module' : '' },
+                    'Abstract Algebra':    { 'Group' : 'math/group',
+                                             'Subgroup' : 'math/subgroup',
+                                             'Normal Group' : 'math/normalgroup',
+                                             'Factorgroup' : 'math/factorgroup',
+                                             'Abelian Group' : 'math/abgroup',
+                                             'Ring' : 'math/ring',
+                                             'Module' : 'math/module' },
 
-                    '(Co)Homotopy Theory': { 'Pullback, Pushout, (Co)Limit, (Co)Fiber' : '',
-                                             'Suspension, Loop Space' : '',
-                                             'Smash, Wedge' : '',
-                                             'H-(co)spaces' : '',
-                                             'Eilenberg-MacLane Spaces' : '',
-                                             'Cell Complexes' : '',
-                                             '(Co)Homotopy Group' : '',
-                                             'Hopf Invariant' : '' },
+                    '(Co)Homotopy Theory': { 'Pullback, Pushout' : 'math/limits',
+                                             '(Co)Limit, (Co)Fiber' : 'math/bundle',
+                                             'Suspension, Loop' : 'math/susp',
+                                             'Smash, Wedge, Join' : 'math/wedge',
+                                             'H-(co)spaces' : 'math/hspace',
+                                             'Eilenberg-MacLane Spaces' : 'math/emspace',
+                                             'Cell Complexes' : 'meth/cw',
+                                             '(Co)Homotopy Group' : 'math/homotopy',
+                                             'Hopf Invariant' : 'math/hopf' },
 
-                    '(Co)Homology Theory': { '(Co)Chain Complex' : '',
-                                             '(Co)Homology Group' : '',
-                                             'Stinrod-Eilenberg Axioms' : '',
-                                             'Hom and Tensor' : '',
-                                             'Free and Projective Resolutions' : '',
-                                             'Derived Categories and Functors' : '',
-                                             'Tor, Ext and Local Cohomology' : '',
-                                             'Cohomology Operations' : '' }
-                }
+                    '(Co)Homology Theory': { '(Co)Chain Complex' : 'math/complex',
+                                             '(Co)Homology Group' : 'math/homology',
+                                             'Stinrod-Eilenberg Axioms' : 'math/stinrod',
+                                             'Hom and Tensor' : 'math/hom',
+                                             'Free and Projective Resolutions' : 'math/resolution',
+                                             'Derived Categories and Functors' : 'math/derived',
+                                             'Tor, Ext and Local Cohomology' : 'math/tor',
+                                             'Cohomology Operations' : 'math/cohomology' } }
 
             br
             .type
