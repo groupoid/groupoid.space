@@ -207,8 +207,7 @@ block content
                        = (c: G -> M.1.1 -> G)
                        * (left: (g: G) -> Path G (c g M.2.2.2.1) g)
                        * ((g: G) (t r: M.1.1)
-                      -> Path G (c (c g t) r)
-                                (c g (M.2.1 t r)))
+                      -> Path G (c (c g t) r) (c g (M.2.1 t r)))
 
                      PSh (M: monoid): U
                        = (G: U)
@@ -237,7 +236,7 @@ block content
                      Ctx: monoid -> U = PSh
                      Type (M: monoid) (G: PSh M): U = (A: G.1 -> U) * isType M G A
                      Substitution: (M: monoid) -> Ctx M -> Ctx M -> U = NatPSh
-                <br>
+                br.
                 h1 BIBLIOGRAPHY
                 p.
 

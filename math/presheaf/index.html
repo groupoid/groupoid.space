@@ -118,8 +118,7 @@ but monoidal structure just to simplify the model?
   = (c: G -> M.1.1 -> G)
   * (left: (g: G) -> Path G (c g M.2.2.2.1) g)
   * ((g: G) (t r: M.1.1)
- -> Path G (c (c g t) r)
-           (c g (M.2.1 t r)))
+ -> Path G (c (c g t) r) (c g (M.2.1 t r)))
 
 PSh (M: monoid): U
   = (G: U)
