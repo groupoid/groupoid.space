@@ -26,16 +26,29 @@ block content
                 p.
                     <b>Groupoid</b> is doing formalization of mathematics.
 
+        br
+        hr
+        br
         .types
-            br
-            hr
-            br
             -
                 var logic = {
-                    'Category Theory': { 'Categories': 'math/cat', 'Functors, Adjunctions': 'math/adj', 'Natural Transformations': 'math/nt', 'Kan Extensions' : 'math/kan', '(Co)limits': 'math/lim', 'Universal Properties' : 'math/ump', 'Structure Identity Principle' : 'math/sip' },
-                    'Topos Theory': { 'Topology' : 'math/top', 'Covering' : 'math/cov', 'Grothendieck Topology' : '', 'Grothendieck Topod' : '', 'Elementary Topos': '' },
-                    'Quillen Models': { 'Set' : '', 'Top' : '', 'sSet' : '' },
-                }
+                    'Category Theory':     { 'Categories': 'math/cat',
+                                             'Functors, Adjunctions': 'math/adj',
+                                             'Natural Transformations': 'math/nt',
+                                             'Kan Extensions' : 'math/kan',
+                                             '(Co)limits': 'math/lim',
+                                             'Universal Properties' : 'math/ump',
+                                             'Structure Identity Principle' : 'math/sip' },
+
+                    'Topos Theory':        { 'Topology' : 'math/top',
+                                             'Covering' : 'math/cov',
+                                             'Grothendieck Topology' : '',
+                                             'Grothendieck Topod' : '',
+                                             'Elementary Topos': '' },
+
+                    'Quillen Models':      { 'Set' : '',
+                                             'Top' : '',
+                                             'sSet' : '' } };
 
                 var algebra = {
                     'Algebra':             { 'Group' : '',
@@ -44,8 +57,7 @@ block content
                                              'Factorgroup' : '',
                                              'Abelian Group' : '',
                                              'Ring' : '',
-                                             'Module' : ''
-                                           },
+                                             'Module' : '' },
 
                     '(Co)Homotopy Theory': { 'Pullback, Pushout, (Co)Limit, (Co)Fiber' : '',
                                              'Suspension, Loop Space' : '',
@@ -72,9 +84,17 @@ block content
                         h3= k
                         for j, i in v
                             li: a(href= j)= i
-            br
-            hr
-            br
+
+                for v, k in algebra
+                    ol.type__col
+                        h3= k
+                        for j, i in v
+                            li: a(href= j)= i
+
+        br
+        hr
+        br
+
         .exe
             section
             br
