@@ -144,7 +144,7 @@ This statement <a href="https://github.com/groupoid/lean/blob/master/ground_zero
 factor (G : group) (P : normalSubgroupProp G) : U
   = setQuot G.1.1 (factorProp G P)</code><p><b>Theorem</b> (Factor group of dihedral group $D_3$).
 As an test of factor group $G/\phi$ correctness we <a href="https://github.com/groupoid/lean/blob/master/ground_zero/algebra/group.lean">prove</a> that $ D_3/A_3 \cong Z_2 $, where $ A_3 = \{ R_0, R_1, R_2 \} \subset D_3 $ and $Z_2 ≅ \mathbb{Z}/2\mathbb{Z}$,
-i. e. smallest nontrivial group.</p><code>def D₃.iso : Z₂ ≅ D₃/A₃</code><p><b>Definition</b> (Trivial homomorphism).
+i. e. smallest nontrivial group.</p><code>def D₃.iso : Z₂ ≅ D₃\A₃</code><p><b>Definition</b> (Trivial homomorphism).
 Trivial homomorphism $0$ between two groups (or monoids) $G$ and $H$
 maps every element of $G$ to identity element of $H$: $x \mapsto 1_H$</p><code>trivmonoidhom (a b : monoid) : monoidhom a b
   = (\(x : a.1.1) -> idMonoid b,
