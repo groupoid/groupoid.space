@@ -336,8 +336,8 @@ block content
                     ok
                 h2#syntax Extraction
                 p.
-                    Erlang extracted code. For other targets you may want to read
-                    <a href='../../lc/extract'> Code Extract</a> notes.
+                    Erlang extracted code. For other targets you may want to read about
+                    lazy continuation-passing style <a href='../lang/cps/'>CPS-O</a> interpreter.
                 code.
                     'Cons'() -> fun (Head) -> fun (Tail) -> fun (Cons) -> fun (Nil) ->
                         ((Cons(Head))((Tail(Cons))(Nil))) end end end end.

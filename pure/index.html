@@ -208,8 +208,8 @@ O = I | ( O ) | O O | λ I -> O</code><br><code>Inductive O := Var: nat → O | 
 → ( λ Cons
 → ( λ Nil
 → ((Cons Head) ((Tail Cons) Nil))))))
-ok</code><h2 id="syntax">Extraction</h2><p>Erlang extracted code. For other targets you may want to read
-<a href='../../lc/extract'> Code Extract</a> notes.</p><code>'Cons'() -> fun (Head) -> fun (Tail) -> fun (Cons) -> fun (Nil) ->
+ok</code><h2 id="syntax">Extraction</h2><p>Erlang extracted code. For other targets you may want to read about
+lazy continuation-passing style <a href='../lang/cps/'>CPS-O</a> interpreter.</p><code>'Cons'() -> fun (Head) -> fun (Tail) -> fun (Cons) -> fun (Nil) ->
     ((Cons(Head))((Tail(Cons))(Nil))) end end end end.</code></section><section><h1>Bibliography</h1><p><center><table cellspacing=5><tr><td width=5><img src="https://n2o.space/img/pdf.jpg" width=35></td><td width=400>
 <a href="https://github.com/groupoid/groupoid.space/blob/master/articles/pts/pts.pdf">
 <h3>Addendum I: Pure Type System for Erlang</h3>
