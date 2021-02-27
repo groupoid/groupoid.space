@@ -37,7 +37,8 @@ block content
             section
                 p.
                     The <b>PTS<sup>&infin;</sup></b> programming language is a higher-order dependently typed lambda calculus,
-                    an extension of Coquand's Calculus of Constructions with the predicative/impredicative hierarchy of indexed universes.
+                    an extension of Calculus of Constructions (Coquand, Huet) with the
+                    predicative/impredicative hierarchy of indexed universes.
 
         .semantics
             section
@@ -185,7 +186,8 @@ block content
                 p.
                     The terms of PTS<sup>&infin;</sup> consist of <b>nat</b> indexed stars, variables, applications,
                     abstractions, and universal quantifications. This language is called Calculus
-                    of Construction and exists in various syntaxes. PTS<sup>&infin;</sup> supports <b>Morte's</b> syntax.
+                    of Construction and exists in various syntaxes.
+                    PTS<sup>&infin;</sup> supports <b>Morte's</b> syntax.
                 code.
                     <>  = #option
                     I   = #identifier
@@ -203,7 +205,7 @@ block content
                        | app (f a: lang)
 
                     data PTS
-                       = ppure (_: pts PTS)
+                       = pure (_: pts PTS)
                 br.
 
                 h2 Universes
