@@ -27,19 +27,21 @@ block title
                          };
 
 block content
-    +header('../../groupoid.svg', 'Homotopy Type System', 'The minimal core of HoTT computability')
+    +header('../../groupoid.svg', 'Homotopy Type System', 'The type theory with two identities')
     article.main
         .exe
             section
                 h1 SYNOPSIS
+
             aside Максим Сохацький
-                time 6 JUL 2018
+                time 28 JUN 2021
                 p.
-                   Here are preest two languages at the same time.
-                   One is <b>MLTT<sup>&infin;</sup></b> is a minimal homotopy core that is needed to compute all the MLTT [rules].
-                   In its core it has only <b>comp</b> primitive (on empty homogeneous systems) and CCHM connections (for J computability).
-                   And the second is <b>HTS<sup>&infin;</sup></b>, that is a homotopy type system with full HoTT computability.
-                   The syntax and semantics of both are based on <b>cubicaltt</b> type checker.
+                   The HTS languages proposed by Voevodsky exposes two different presheaf models of type theory:
+                   the inner one is homotopy type system presheaf that models HoTT and the outer one is traditional Martin-Löf
+                   type system presheaf that models set theory. The motivation behind this doubling is to
+                   have an ability to express semisemlicial types. Theoretical work on merging meta-theoretical
+                   and homotopical languages was continued in <a href="https://arxiv.org/pdf/1705.03307.pdf">2LTT</a> [Anenkov, Capriotti, Kraus, Sattler].
+
             section
                 .macro
                     .macro__col
@@ -54,42 +56,40 @@ block content
                             li: a(href='#id') ID
                             li: a(href='#induction') INDUCTION
                     .macro__col
+                        h3#eff HoTT
+                        ol
+                            li: a(href='#pi') PI
+                            li: a(href='#sigma') SIGMA
+                            li: a(href='#path') INTERVAL
+                            li: a(href='#hit') TRANSP
+                            li: a(href='#comp') HCOMP
+                            li: a(href='#induction') HIT
+                    .macro__col
                         h3#eff HTS
                         ol
                             li: a(href='#pi') PI
                             li: a(href='#sigma') SIGMA
-                            li: a(href='#path') PATH
-                            li: a(href='#hit') HIT
-                            li: a(href='#comp') COMP
+                            li: a(href='#id') ID
+                            li: a(href='#path') INTERVAL
+                            li: a(href='#hit') TRANSP
+                            li: a(href='#comp') HCOMP
+                            li: a(href='#induction') HIT
 
                 p.
-                    The history of Type Theory takes its root from MLTT paper <sup>1</sup>.
-                    Then the Type Theory was fixed for Predicative Universes with Id types,
-                    and W, Nat, List types were added <sup>2</sup>.
-                    The type checker of single axiom system with Pi types only is
-                    given in the CoC paper <sup>3</sup>.
-
-                p.
-                    Then Voevodsky presented HTS with strict Id and homotopical Path types, but without its computational semantics.
-                    This later was fixed by Mortberg et all in <b>cubicaltt</b> and Sterling et all in <b>redtt</b>.
-
-                p.
-                    <b>Groupoid Infinity</b> is doing research in type theory, model encodings, programs extraction and formalization of mathematics.
-                    We believe in high performance certified virtual machines, where certified programs extracted from provers should run on.
-                    We also want to use group theory and homotopy theory for proving properties about these programs.
-                p.
-                    The Erlang language as target extract was chosen not only as example of simple
-                    bootstrap on foreign platform, but also because this tool is most known to author
-                    and he naively believes that Erlang deserves not only homotopy typechecker in its
-                    platform, but type erasure and term extraction as well.
+                    While we are on our road to HTS, currently we are at the stage of regular
+                    cubical type HoTT checker with CHM-style primitives, or more general CCHM type checker.
+                    You may try it at Github: <a href="https://github.com/groupoid/anders">groupoid/anders</a>.
 
                 code.
-                   $ ./homotopy
-                   CTT-CCHM Homotopy Type System 1.3.1
+                    $ ./anders.native
+                    Anders theorem prover [MLTT].
 
-                      Usage := homotopy Args <filename>
-                       Args := Command | Command Args
-                    Command := parse | lex | read | fst | snd | file
+                       invoke = anders | anders list
+                         list = [] | command list
+                      command = check filename     | lex filename
+                              | parse filename     | help
+                              | cubicaltt filename | girard
+                              | trace
                 br.
 
             section
