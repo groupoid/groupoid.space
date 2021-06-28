@@ -25,7 +25,7 @@ type system presheaf that models set theory. The motivation behind this doubling
 have an ability to express semisemplicial types. Theoretical work on merging meta-theoretical
 and homotopical languages was continued in <a href="https://arxiv.org/pdf/1705.03307.pdf">2LTT</a> [Anenkov, Capriotti, Kraus, Sattler].
 </p></aside><section><div class="macro"><div class="macro__col"><h3 id="om">PTS</h3><ol><li><a href="#pi">PI</a></li></ol></div><div class="macro__col"><h3 id="macro">MLTT</h3><ol><li><a href="#pi">PI</a></li><li><a href="#sigma">SIGMA</a></li><li><a href="#id">ID</a></li><li><a href="#induction">INDUCTION</a></li></ol></div><div class="macro__col"><h3 id="eff">HoTT</h3><ol><li><a href="#pi">PI</a></li><li><a href="#sigma">SIGMA</a></li><li><a href="#path">INTERVAL</a></li><li><a href="#hit">TRANSP</a></li><li><a href="#comp">HCOMP</a></li><li><a href="#induction">HIT</a></li></ol></div><div class="macro__col"><h3 id="eff">HTS</h3><ol><li><a href="#pi">PI</a></li><li><a href="#sigma">SIGMA</a></li><li><a href="#id">ID</a></li><li><a href="#path">INTERVAL</a></li><li><a href="#hit">TRANSP</a></li><li><a href="#comp">HCOMP</a></li><li><a href="#induction">HIT</a></li></ol></div></div><p>While we are on our road to HTS, currently we are at the stage of regular
-cubical type HoTT checker with CHM-style primitives, or more general CCHM type checker.
+cubical (HoTT) type checker with CHM-style primitives, or more general CCHM type checker.
 You may try it at Github: <a href="https://github.com/groupoid/anders">groupoid/anders</a>.
 </p><code>$ ./anders.native
 Anders theorem prover [MLTT].
@@ -35,20 +35,22 @@ Anders theorem prover [MLTT].
   command = check filename     | lex filename
           | parse filename     | help
           | cubicaltt filename | girard
-          | trace</code><br></section><section><h1>SYNTAX</h1><p>The 10 BNF definitions declare syntax that covers:
-1) MLTT as pi, sigma and path types;
-2) inductive types case analysis; and
-3) simple module system.
-This system is enough to encode
-core <a href="https://groupoid.space/math/">cubical base library</a>.</p><p>Module system.</p><code>mod := 'module' id 'where' imp dec
-imp := '$empty'
-imp := skip imp
-imp := 'import' id imp</code><br><p>The module system is present in all intermediate languages: <a href="https://groupoid.space/pure/">PTS<sup>&infin;</sup></a>, MLTT<sup>&infin;</sup>, HTS<sup>&infin;</sup>.
-During compilation programs in these languages are being desugared to untyped lambda interpreter called <a href="https://groupoid.space/lang/cps/">CPS</a>
-(continuation passing style certified interpreter) that incorporates intercore protocol <a href="https://groupoid.space/lang/ip/">IP</a> between
-interpreter instances that are running at processor cores. While CPS could be seen as desugared run-time target of dependently typed lambda calculus or MLTT-based systems,
-the IP could be seen us untyped desugared run-time target of process calculus or linear type systems (LTS).</p><p>The sequence of variables, parsed as application fold.</p><code>ids := '$empty'
-ids := id ids</code><br><p>Telescopes.</p><code>tele := '$empty'
+          | trace</code><br></section><section><h1>SYNTAX</h1><p>The syntax resembles original syntax of the reference CCHM type checker cubicaltt [Cohen, Coquand, Huber, Mörtberg].</p><p><b>Keywords</b>.
+The words of a language consist of keywords or identifiers. The keywords are following:
+<b>module</b>, <b>where</b>, <b>import</b>, <b>option</b>, <b>def</b>, <b>axiom</b>, <b>postulate</b>, <b>theorem</b>,
+<b>:</b>, <b>(</b>, <b>)</b>, <b>[</b>, <b>]</b>, <b>&lt;</b>, <b>&gt;</b>, <b>&#47;</b>, <b>.1</b>, <b>.2</b>, <b>Π</b>,
+<b>Σ</b>, <b>,</b>, <b>λ</b>, <b>×</b>, <b>→</b>, <b>:</b>, <b>:=</b>, <b>U</b>, <b>V</b>, <b>∧</b>, <b>∨</b>, <b>-</b>,
+<b>@</b>, <b>PathP</b>, <b>transp</b>, <b>hcomp</b>, <b>hcomp</b>, <b>i₀</b>, <b>i₁</b>, <b>interval</b>, <b>data</b>, <b>record</b>..</p><p><b>Indentifiers</b>. Identifiers support UTF-8. Acceptable symbols:</p><code>let lat1   = [^ '\t' ' ' '\r' '\n' '(' ')' ':' '.' ',' '/' '<' '>']
+let beg    = lat1 # '-'
+let bytes2 = ['\192'-'\223']['\128'-'\191']
+let bytes3 = ['\224'-'\239']['\128'-'\191']['\128'-'\191']
+let bytes4 = ['\240'-'\247']['\128'-'\191']['\128'-'\191']['\128'-'\191']
+let utf8   = lat1|bytes2|bytes3|bytes4
+let ident  = beg utf8*</code><p>Sample terms.</p><code>def ¬-of-∨ (i j : I) : Eq I -(i ∨ j) (-i ∧ -j) := refl I -(i ∨ j)
+def 1<=1 : is-one? 1 := 1-refl</code><br><p><b> Definitions</b>.</p><code>declarations:
+   | DEF IDENT params DEFEQ exp1
+   | DEF IDENT params COLON exp1 DEFEQ exp1
+   | AXIOM IDENT params COLON exp1</code><br><p>Telescopes.</p><code>tele := '$empty'
 tele := cotele
 cotele := '(' exp ':' exp ')' tele</code><br><p>Top-level inductive data and function definitions.</p><code>codec := def skip dec
 codec := def dec
