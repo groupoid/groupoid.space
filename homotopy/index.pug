@@ -36,9 +36,9 @@ block content
             aside Максим Сохацький
                 time 28 JUN 2021
                 p.
-                   The HTS languages proposed by Voevodsky exposes two different presheaf models of type theory:
+                   The HTS language proposed by Voevodsky exposes two different presheaf models of type theory:
                    the inner one is homotopy type system presheaf that models HoTT and the outer one is traditional Martin-Löf
-                   type system presheaf that models set theory. The motivation behind this doubling is to
+                   type system presheaf that models set theory with UIP. The motivation behind this doubling is to
                    have an ability to express semisemplicial types. Theoretical work on merging meta-theoretical
                    and homotopical languages was continued in <a href="https://arxiv.org/pdf/1705.03307.pdf">2LTT</a> [Anenkov, Capriotti, Kraus, Sattler].
 
@@ -243,10 +243,10 @@ block content
                 code.
                     data lang
                        = PTS (_: pts)
-                       | SIGMA (_: exists)
-                       | PATH (_: path)
-                       | HIT (_: ind)
-                       | COMP (_: hts)
+                       | SIGMA (_: total)
+                       | PATH (_: homotopy)
+                       | ID (_: id)
+                       | HIT (_: inductive)
 
                 h2 Dependent Types
                 code.
@@ -258,7 +258,7 @@ block content
                        | app (f a: lang)
                 br.
                 code.
-                    data exists
+                    data total
                        = sigma (n: name) (a b: lang)
                        | pair (a b: lang)
                        | fst (p: lang)
@@ -281,9 +281,19 @@ block content
                     and fill operations are also needed in the core
                     for the univalence computability and coherence.
                 code.
-                    data path (a b: lang)
-                       | path_lam (n: name) (a b: lang)
-                       | path_app (f: name) (a b: lang)
+                    data homotopy (lang: U)
+                       = pre (n: nat)
+                       | path (A x y: lang)
+                       | plam (name: name) (a: lang)
+                       | papp (f a: lang)
+                       | I
+                       | 0
+                       | 1
+                       | \/ (a b: lang)
+                       | /\ (a b: lang)
+                       | neg (e: lang)
+                       | hcomp (a b: lang)
+                       | transp (a b c: lang)
                 br.
                 p.
                     <b>Definition</b> (Cubical Presheaf $\mathbb{I}$).
@@ -311,7 +321,7 @@ block content
                     data branch (A: U) = br (n: name) (args: list name) (term: A)
                     data label (A: U) = lab (n: name) (t: tele A)
 
-                    data ind
+                    data inductive
                        = intro (n: name) (t: tele lang) (labels: list (label lang))
                        | case (n: name) (t: lang) (branches: list (branch lang))
                        | ctor (n: name) (args: list lang)
@@ -321,39 +331,24 @@ block content
                     are useful for modeling infinite processes and are part
                     of Milner's Pi-calculus. Coinductive streams could be found in many MLTT base libraries.
 
-                h2 Partial Elements and Structured Types
-                p.
-                    HIT Composition structure.
-                code.
-                    data structure
-                       = comp_ (a b: lang)
-                       | fill_ (a b c: lang)
-                br.
-
                 h2 Glue Types
                 p.
                     Glue Types are needed to prove univalence.
                 code.
-                    data ua
-                       = glue_ (a b c: lang)
-                       | glue_intro (a b: lang)
-                       | unglue_elim (a b: lang)
+                    data gluening
+                       = Glue (a b c: lang)
+                       | glue (a b: lang)
+                       | unglue (a b: lang)
                 br.
 
-            section
-                h2 Universes
+                h2 Universe Hierachies
                 p.
-                    The universe system is completely described by the PTS SAR notation,
-                    given by Barendregt. Find more info in
-                    <a href='https://groupoid.space/pure/#axioms'>Axioms and Inference Rules</a>
-                    of underlying Om intermediate language.
+                    Language supports three universes with explicit level manipulations.
                 code.
-                    PTS : U
-                        = (S: (n: nat) -> star n)
-                        * (A: (i: nat) -> type i (succ i))
-                        * (R: (i j: nat) -> pi i j (max i j))
-                        * unit
-                br.
+                    data universes
+                       = kan (index: nat)
+                       | strict (index: nat)
+                       | pretypes (index: lang)
 
             section
                 h1 Bibliography

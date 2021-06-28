@@ -19,9 +19,9 @@
                         tex2jax: { inlineMath: [['$','$'], ['\\(','\\)']],
                                    processEscapes: true }
                     };
-</script></head><body class="content"><header class="header"><div class="header__titles"><h1 class="header__title">Homotopy Type System</h1><h4 class="header__subtitle">The type theory with two identities</h4></div></header><article class="main"><div class="exe"><section><h1>SYNOPSIS</h1></section><aside>Максим Сохацький<time>28 JUN 2021</time><p>The HTS languages proposed by Voevodsky exposes two different presheaf models of type theory:
+</script></head><body class="content"><header class="header"><div class="header__titles"><h1 class="header__title">Homotopy Type System</h1><h4 class="header__subtitle">The type theory with two identities</h4></div></header><article class="main"><div class="exe"><section><h1>SYNOPSIS</h1></section><aside>Максим Сохацький<time>28 JUN 2021</time><p>The HTS language proposed by Voevodsky exposes two different presheaf models of type theory:
 the inner one is homotopy type system presheaf that models HoTT and the outer one is traditional Martin-Löf
-type system presheaf that models set theory. The motivation behind this doubling is to
+type system presheaf that models set theory with UIP. The motivation behind this doubling is to
 have an ability to express semisemplicial types. Theoretical work on merging meta-theoretical
 and homotopical languages was continued in <a href="https://arxiv.org/pdf/1705.03307.pdf">2LTT</a> [Anenkov, Capriotti, Kraus, Sattler].
 </p></aside><section><div class="macro"><div class="macro__col"><h3 id="om">PTS</h3><ol><li><a href="#pi">PI</a></li></ol></div><div class="macro__col"><h3 id="macro">MLTT</h3><ol><li><a href="#pi">PI</a></li><li><a href="#sigma">SIGMA</a></li><li><a href="#id">ID</a></li><li><a href="#induction">INDUCTION</a></li></ol></div><div class="macro__col"><h3 id="eff">CCHM</h3><ol><li><a href="#pi">PI</a></li><li><a href="#sigma">SIGMA</a></li><li><a href="#path">INTERVAL</a></li><li><a href="#hit">TRANSP</a></li><li><a href="#comp">HCOMP</a></li><li><a href="#induction">HIT</a></li></ol></div><div class="macro__col"><h3 id="eff">HTS</h3><ol><li><a href="#pi">PI</a></li><li><a href="#sigma">SIGMA</a></li><li><a href="#id">ID</a></li><li><a href="#path">INTERVAL</a></li><li><a href="#hit">TRANSP</a></li><li><a href="#comp">HCOMP</a></li><li><a href="#induction">HIT</a></li></ol></div></div><p>While we are on our road to HTS with Lean-like tactic language, currently we are at the stage of regular
@@ -120,16 +120,16 @@ by a family of sets $B(I,u)$ and restriction maps $B(I,u) \rightarrow B(J,u\ f)$
 The operation $\Pi(x:A)B(x)$ generalizes the semantics of
 implication in a Kripke model.</p><code>data lang
    = PTS (_: pts)
-   | SIGMA (_: exists)
-   | PATH (_: path)
-   | HIT (_: ind)
-   | COMP (_: hts)
+   | SIGMA (_: total)
+   | PATH (_: homotopy)
+   | ID (_: id)
+   | HIT (_: inductive)
 </code><h2>Dependent Types</h2><code>data pts
    = star (n: nat)
    | var (x: name) (l: nat)
    | pi (x: name) (l: nat) (d c: lang)
    | lambda (x: name) (l: nat) (d c: lang)
-   | app (f a: lang)</code><br><code>data exists
+   | app (f a: lang)</code><br><code>data total
    = sigma (n: name) (a b: lang)
    | pair (a b: lang)
    | fst (p: lang)
@@ -143,9 +143,19 @@ In this way Path identity type appeared in the core
 of type checker along with de Morgan algebra on
 built-in interval type. Glue, unglue composition
 and fill operations are also needed in the core
-for the univalence computability and coherence.</p><code>data path (a b: lang)
-   | path_lam (n: name) (a b: lang)
-   | path_app (f: name) (a b: lang)</code><br><p><b>Definition</b> (Cubical Presheaf $\mathbb{I}$).
+for the univalence computability and coherence.</p><code>data homotopy (lang: U)
+   = pre (n: nat)
+   | path (A x y: lang)
+   | plam (name: name) (a: lang)
+   | papp (f a: lang)
+   | I
+   | 0
+   | 1
+   | \/ (a b: lang)
+   | /\ (a b: lang)
+   | neg (e: lang)
+   | hcomp (a b: lang)
+   | transp (a b c: lang)</code><br><p><b>Definition</b> (Cubical Presheaf $\mathbb{I}$).
 The identity types modeled with another presheaf, the presheaf on Lawvere
 category of distributive lattices (theory of de Morgan algebras) denoted
 with $\Box$ &mdash; $\mathbb{I} : \Box^{op} \rightarrow \mathrm{Set}$.</p><p><b>Properties of $\mathbb{I}$</b>. The presheaf $\mathbb{I}$:
@@ -163,26 +173,21 @@ Bohm-Berarducci schemes or Categorical Impredicative encoding by Steve Awodey.
 data branch (A: U) = br (n: name) (args: list name) (term: A)
 data label (A: U) = lab (n: name) (t: tele A)
 
-data ind
+data inductive
    = intro (n: name) (t: tele lang) (labels: list (label lang))
    | case (n: name) (t: lang) (branches: list (branch lang))
    | ctor (n: name) (args: list lang)
    | htor (n: name) (args: list lang) (ids: list lang) (sys: lang)</code><p>The non-well-founded trees or infinite coinductive trees
 are useful for modeling infinite processes and are part
 of Milner's Pi-calculus. Coinductive streams could be found in many MLTT base libraries.
-</p><h2>Partial Elements and Structured Types</h2><p>HIT Composition structure.</p><code>data structure
-   = comp_ (a b: lang)
-   | fill_ (a b c: lang)</code><br><h2>Glue Types</h2><p>Glue Types are needed to prove univalence.</p><code>data ua
-   = glue_ (a b c: lang)
-   | glue_intro (a b: lang)
-   | unglue_elim (a b: lang)</code><br></section><section><h2>Universes</h2><p>The universe system is completely described by the PTS SAR notation,
-given by Barendregt. Find more info in
-<a href='https://groupoid.space/pure/#axioms'>Axioms and Inference Rules</a>
-of underlying Om intermediate language.</p><code>PTS : U
-    = (S: (n: nat) -> star n)
-    * (A: (i: nat) -> type i (succ i))
-    * (R: (i j: nat) -> pi i j (max i j))
-    * unit</code><br></section><section><h1>Bibliography</h1><p><center><table cellspacing=5><tr><td width=5><img src="https://n2o.space/img/pdf.jpg" width=35></td><td width=400>
+</p><h2>Glue Types</h2><p>Glue Types are needed to prove univalence.</p><code>data gluening
+   = Glue (a b c: lang)
+   | glue (a b: lang)
+   | unglue (a b: lang)</code><br><h2>Universe Hierachies</h2><p>Language supports three universes with explicit level manipulations.</p><code>data universes
+   = kan (index: nat)
+   | strict (index: nat)
+   | pretypes (index: lang)
+</code></section><section><h1>Bibliography</h1><p><center><table cellspacing=5><tr><td width=5><img src="https://n2o.space/img/pdf.jpg" width=35></td><td width=400>
 <a href="https://github.com/groupoid/groupoid.space/blob/master/articles/mltt/mltt.pdf">
 <h3>Issue I: Internalizing MLTT</h3>
 </a></td></tr></table></center>
