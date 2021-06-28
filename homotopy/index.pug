@@ -61,8 +61,7 @@ block content
                             li: a(href='#pi') PI
                             li: a(href='#sigma') SIGMA
                             li: a(href='#path') INTERVAL
-                            li: a(href='#hit') TRANSP
-                            li: a(href='#comp') HCOMP
+                            li: a(href='#path') GLUE
                             li: a(href='#induction') HIT
                     .macro__col
                         h3#eff HTS
@@ -71,8 +70,7 @@ block content
                             li: a(href='#sigma') SIGMA
                             li: a(href='#id') ID
                             li: a(href='#path') INTERVAL
-                            li: a(href='#hit') TRANSP
-                            li: a(href='#comp') HCOMP
+                            li: a(href='#hit') GLUE
                             li: a(href='#induction') HIT
 
                 p.
@@ -106,16 +104,7 @@ block content
                     <b>@</b>, <b>PathP</b>, <b>transp</b>, <b>hcomp</b>, <b>i₀</b>, <b>i₁</b>, <b>interval</b>, <b>data</b>,
                     <b>record</b>, <b>Glue</b>, <b>glue</b>, <b>unglue</b>.
                 p.
-                    <b>Indentifiers</b>. Identifiers support UTF-8. Acceptable symbols
-                code.
-                    let lat1   = [^ '\t' ' ' '\r' '\n' '(' ')' ':' '.' ',' '/' '<' '>']
-                    let beg    = lat1 # '-'
-                    let bytes2 = ['\192'-'\223']['\128'-'\191']
-                    let bytes3 = ['\224'-'\239']['\128'-'\191']['\128'-'\191']
-                    let bytes4 = ['\240'-'\247']['\128'-'\191']['\128'-'\191']['\128'-'\191']
-                    let utf8   = lat1|bytes2|bytes3|bytes4
-                    let ident  = beg utf8*
-                p.
+                    <b>Indentifiers</b>. Identifiers support UTF-8. 
                     Indentifiers couldn't start with <b>:</b>, <b>-</b>, <b>→</b>. Sample identifiers:
                 code.
                     ¬-of-∨, 1=1, is-?, =, $^~]!005x, ∞, x→Nat, f'
@@ -171,7 +160,6 @@ block content
                     without proof-term or by providing proof-term as definition.
                 code.
                     axiom isProp (A : U) : U
-                    def isProp (A : U) : U := Π (a b : A), Path A a b
                     def isSet (A : U) : U := Π (a b : A)
                         (x y : Path A a b), Path (Path A a b) x y
                 p.
@@ -240,19 +228,30 @@ block content
                     We think of $A$ as a type and $B$ as a family of presheves $B(x)$ varying $x:A$.
                     The operation $\Pi(x:A)B(x)$ generalizes the semantics of
                     implication in a Kripke model.
+                br.
                 code.
                     data lang
-                       = PTS (_: pts)
+                       = UNI (_: universe)
+                       | PI (_: pure)
                        | SIGMA (_: total)
-                       | PATH (_: homotopy)
                        | ID (_: id)
+                       | PATH (_: homotopy)
+                       | GLUE (_: homotopy)
                        | HIT (_: inductive)
 
+                h2 Universe Hierachies
+                p.
+                    Language supports three universes with explicit level manipulations.
+                code.
+                    data universes
+                       = kan (index: nat)
+                       | strict (index: nat)
+                       | pretypes (index: lang)
+                br.
                 h2 Dependent Types
                 code.
-                    data pts
-                       = star (n: nat)
-                       | var (x: name) (l: nat)
+                    data pure
+                       = var (x: name) (l: nat)
                        | pi (x: name) (l: nat) (d c: lang)
                        | lambda (x: name) (l: nat) (d c: lang)
                        | app (f a: lang)
@@ -282,8 +281,7 @@ block content
                     for the univalence computability and coherence.
                 code.
                     data homotopy (lang: U)
-                       = pre (n: nat)
-                       | path (A x y: lang)
+                       = path (A x y: lang)
                        | plam (name: name) (a: lang)
                        | papp (f a: lang)
                        | I
@@ -306,6 +304,16 @@ block content
                     ii) $\mathbb{I}$(I) has a decidable equality for each $I$ (B$_2$);
                     iii) $\mathbb{I}$ is tiny so the path functor $X \mapsto X^\mathbb{I}$ has right adjoint (B$_3$).;
                     iv) $\mathbb{I}$ has meet and join (connections).
+
+                h2 Glue Types
+                p.
+                    Glue Types are needed to prove univalence.
+                code.
+                    data gluening
+                       = Glue (a b c: lang)
+                       | glue (a b: lang)
+                       | unglue (a b: lang)
+                br.
 
                 h2 Higher Inductive Types
                 p.
@@ -330,25 +338,6 @@ block content
                     The non-well-founded trees or infinite coinductive trees
                     are useful for modeling infinite processes and are part
                     of Milner's Pi-calculus. Coinductive streams could be found in many MLTT base libraries.
-
-                h2 Glue Types
-                p.
-                    Glue Types are needed to prove univalence.
-                code.
-                    data gluening
-                       = Glue (a b c: lang)
-                       | glue (a b: lang)
-                       | unglue (a b: lang)
-                br.
-
-                h2 Universe Hierachies
-                p.
-                    Language supports three universes with explicit level manipulations.
-                code.
-                    data universes
-                       = kan (index: nat)
-                       | strict (index: nat)
-                       | pretypes (index: lang)
 
             section
                 h1 Bibliography

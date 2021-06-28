@@ -24,7 +24,7 @@ the inner one is homotopy type system presheaf that models HoTT and the outer on
 type system presheaf that models set theory with UIP. The motivation behind this doubling is to
 have an ability to express semisemplicial types. Theoretical work on merging meta-theoretical
 and homotopical languages was continued in <a href="https://arxiv.org/pdf/1705.03307.pdf">2LTT</a> [Anenkov, Capriotti, Kraus, Sattler].
-</p></aside><section><div class="macro"><div class="macro__col"><h3 id="om">PTS</h3><ol><li><a href="#pi">PI</a></li></ol></div><div class="macro__col"><h3 id="macro">MLTT</h3><ol><li><a href="#pi">PI</a></li><li><a href="#sigma">SIGMA</a></li><li><a href="#id">ID</a></li><li><a href="#induction">INDUCTION</a></li></ol></div><div class="macro__col"><h3 id="eff">CCHM</h3><ol><li><a href="#pi">PI</a></li><li><a href="#sigma">SIGMA</a></li><li><a href="#path">INTERVAL</a></li><li><a href="#hit">TRANSP</a></li><li><a href="#comp">HCOMP</a></li><li><a href="#induction">HIT</a></li></ol></div><div class="macro__col"><h3 id="eff">HTS</h3><ol><li><a href="#pi">PI</a></li><li><a href="#sigma">SIGMA</a></li><li><a href="#id">ID</a></li><li><a href="#path">INTERVAL</a></li><li><a href="#hit">TRANSP</a></li><li><a href="#comp">HCOMP</a></li><li><a href="#induction">HIT</a></li></ol></div></div><p>While we are on our road to HTS with Lean-like tactic language, currently we are at the stage of regular
+</p></aside><section><div class="macro"><div class="macro__col"><h3 id="om">PTS</h3><ol><li><a href="#pi">PI</a></li></ol></div><div class="macro__col"><h3 id="macro">MLTT</h3><ol><li><a href="#pi">PI</a></li><li><a href="#sigma">SIGMA</a></li><li><a href="#id">ID</a></li><li><a href="#induction">INDUCTION</a></li></ol></div><div class="macro__col"><h3 id="eff">CCHM</h3><ol><li><a href="#pi">PI</a></li><li><a href="#sigma">SIGMA</a></li><li><a href="#path">INTERVAL</a></li><li><a href="#path">GLUE</a></li><li><a href="#induction">HIT</a></li></ol></div><div class="macro__col"><h3 id="eff">HTS</h3><ol><li><a href="#pi">PI</a></li><li><a href="#sigma">SIGMA</a></li><li><a href="#id">ID</a></li><li><a href="#path">INTERVAL</a></li><li><a href="#hit">GLUE</a></li><li><a href="#induction">HIT</a></li></ol></div></div><p>While we are on our road to HTS with Lean-like tactic language, currently we are at the stage of regular
 cubical (HoTT) type checker with CHM-style primitives, or more general CCHM type checker.
 You may try it at Github: <a href="https://github.com/groupoid/anders">groupoid/anders</a>.
 </p><code>$ ./anders.native
@@ -42,13 +42,8 @@ The words of a language consist of keywords or identifiers. The keywords are fol
 <b>:</b>, <b>(</b>, <b>)</b>, <b>[</b>, <b>]</b>, <b>&lt;</b>, <b>&gt;</b>, <b>&#47;</b>, <b>.1</b>, <b>.2</b>, <b>Π</b>,
 <b>Σ</b>, <b>,</b>, <b>λ</b>, <b>×</b>, <b>→</b>, <b>:</b>, <b>:=</b>, <b>U</b>, <b>V</b>, <b>∧</b>, <b>∨</b>, <b>-</b>,
 <b>@</b>, <b>PathP</b>, <b>transp</b>, <b>hcomp</b>, <b>i₀</b>, <b>i₁</b>, <b>interval</b>, <b>data</b>,
-<b>record</b>, <b>Glue</b>, <b>glue</b>, <b>unglue</b>.</p><p><b>Indentifiers</b>. Identifiers support UTF-8. Acceptable symbols</p><code>let lat1   = [^ '\t' ' ' '\r' '\n' '(' ')' ':' '.' ',' '/' '<' '>']
-let beg    = lat1 # '-'
-let bytes2 = ['\192'-'\223']['\128'-'\191']
-let bytes3 = ['\224'-'\239']['\128'-'\191']['\128'-'\191']
-let bytes4 = ['\240'-'\247']['\128'-'\191']['\128'-'\191']['\128'-'\191']
-let utf8   = lat1|bytes2|bytes3|bytes4
-let ident  = beg utf8*</code><p>Indentifiers couldn't start with <b>:</b>, <b>-</b>, <b>→</b>. Sample identifiers:</p><code>¬-of-∨, 1=1, is-?, =, $^~]!005x, ∞, x→Nat, f'</code><br><p><b>Modules</b>. Modules represent files with declarations. More accurate,
+<b>record</b>, <b>Glue</b>, <b>glue</b>, <b>unglue</b>.</p><p><b>Indentifiers</b>. Identifiers support UTF-8. 
+Indentifiers couldn't start with <b>:</b>, <b>-</b>, <b>→</b>. Sample identifiers:</p><code>¬-of-∨, 1=1, is-?, =, $^~]!005x, ∞, x→Nat, f'</code><br><p><b>Modules</b>. Modules represent files with declarations. More accurate,
 BNF notation of module consists of imports, options and declarations.</p><p><b>Imports</b>. The import construction supports file folder
 structure (without file extensions) by using reserved symbol <b>&#47;</b>
 for hierarchy walking.</p><p><b>Options</b>. Each option holds bool value. Language supports following options:
@@ -78,7 +73,6 @@ declarations:
    | AXIOM IDENT params COLON exp1</code><br><p>Sample declarations. For example, signature <b>isProp (A : U)</b> of
 type <b>U</b> could be defined as normalization-blocking axiom
 without proof-term or by providing proof-term as definition.</p><code>axiom isProp (A : U) : U
-def isProp (A : U) : U := Π (a b : A), Path A a b
 def isSet (A : U) : U := Π (a b : A)
     (x y : Path A a b), Path (Path A a b) x y</code><p>In this example <b>(A : U)</b>, <b>(a b : A)</b> and <b>(x y : Path A a b)</b> are
 called telescopes. Each telescope consists of a series of lenses or empty.
@@ -118,15 +112,19 @@ are pairs $(I,u)$ with $u : A_I$ and morphisms $f: (J,v) \rightarrow (I,u)$ are
 maps $f : J \rightarrow$ such that $v = u\ f$. A dependent type B is thus given
 by a family of sets $B(I,u)$ and restriction maps $B(I,u) \rightarrow B(J,u\ f)$.</p><p>We think of $A$ as a type and $B$ as a family of presheves $B(x)$ varying $x:A$.
 The operation $\Pi(x:A)B(x)$ generalizes the semantics of
-implication in a Kripke model.</p><code>data lang
-   = PTS (_: pts)
+implication in a Kripke model.</p><br><code>data lang
+   = UNI (_: universe)
+   | PI (_: pure)
    | SIGMA (_: total)
-   | PATH (_: homotopy)
    | ID (_: id)
+   | PATH (_: homotopy)
+   | GLUE (_: homotopy)
    | HIT (_: inductive)
-</code><h2>Dependent Types</h2><code>data pts
-   = star (n: nat)
-   | var (x: name) (l: nat)
+</code><h2>Universe Hierachies</h2><p>Language supports three universes with explicit level manipulations.</p><code>data universes
+   = kan (index: nat)
+   | strict (index: nat)
+   | pretypes (index: lang)</code><br><h2>Dependent Types</h2><code>data pure
+   = var (x: name) (l: nat)
    | pi (x: name) (l: nat) (d c: lang)
    | lambda (x: name) (l: nat) (d c: lang)
    | app (f a: lang)</code><br><code>data total
@@ -144,8 +142,7 @@ of type checker along with de Morgan algebra on
 built-in interval type. Glue, unglue composition
 and fill operations are also needed in the core
 for the univalence computability and coherence.</p><code>data homotopy (lang: U)
-   = pre (n: nat)
-   | path (A x y: lang)
+   = path (A x y: lang)
    | plam (name: name) (a: lang)
    | papp (f a: lang)
    | I
@@ -163,7 +160,10 @@ i) has to distinct global elements $0$ and $1$ (B$_1$);
 ii) $\mathbb{I}$(I) has a decidable equality for each $I$ (B$_2$);
 iii) $\mathbb{I}$ is tiny so the path functor $X \mapsto X^\mathbb{I}$ has right adjoint (B$_3$).;
 iv) $\mathbb{I}$ has meet and join (connections).
-</p><h2>Higher Inductive Types</h2><p>The further development of induction inside MLTT provers led
+</p><h2>Glue Types</h2><p>Glue Types are needed to prove univalence.</p><code>data gluening
+   = Glue (a b c: lang)
+   | glue (a b: lang)
+   | unglue (a b: lang)</code><br><h2>Higher Inductive Types</h2><p>The further development of induction inside MLTT provers led
 to the theory of polynomial functors and well-founded trees,
 known in programming languages as inductive types with data
 and record core primitives of type checker. In fact, recursive inductive
@@ -180,14 +180,7 @@ data inductive
    | htor (n: name) (args: list lang) (ids: list lang) (sys: lang)</code><p>The non-well-founded trees or infinite coinductive trees
 are useful for modeling infinite processes and are part
 of Milner's Pi-calculus. Coinductive streams could be found in many MLTT base libraries.
-</p><h2>Glue Types</h2><p>Glue Types are needed to prove univalence.</p><code>data gluening
-   = Glue (a b c: lang)
-   | glue (a b: lang)
-   | unglue (a b: lang)</code><br><h2>Universe Hierachies</h2><p>Language supports three universes with explicit level manipulations.</p><code>data universes
-   = kan (index: nat)
-   | strict (index: nat)
-   | pretypes (index: lang)
-</code></section><section><h1>Bibliography</h1><p><center><table cellspacing=5><tr><td width=5><img src="https://n2o.space/img/pdf.jpg" width=35></td><td width=400>
+</p></section><section><h1>Bibliography</h1><p><center><table cellspacing=5><tr><td width=5><img src="https://n2o.space/img/pdf.jpg" width=35></td><td width=400>
 <a href="https://github.com/groupoid/groupoid.space/blob/master/articles/mltt/mltt.pdf">
 <h3>Issue I: Internalizing MLTT</h3>
 </a></td></tr></table></center>
