@@ -35,7 +35,8 @@ Anders theorem prover [MLTT].
   command = check filename     | lex filename
           | parse filename     | help
           | cubicaltt filename | girard
-          | trace</code><br></section><section><h1>SYNTAX</h1><p>The syntax resembles original syntax of the reference CCHM type checker cubicaltt [Cohen, Coquand, Huber, Mörtberg].</p><p><b>Keywords</b>.
+          | trace</code><br></section><section><h1>SYNTAX</h1><p>The syntax resembles original syntax of the reference CCHM type checker cubicaltt [Cohen, Coquand, Huber, Mörtberg].
+Here will be used Menhir BNF nonation as type checker is written in OCaml.</p><p><b>Keywords</b>.
 The words of a language consist of keywords or identifiers. The keywords are following:
 <b>module</b>, <b>where</b>, <b>import</b>, <b>option</b>, <b>def</b>, <b>axiom</b>, <b>postulate</b>, <b>theorem</b>,
 <b>:</b>, <b>(</b>, <b>)</b>, <b>[</b>, <b>]</b>, <b>&lt;</b>, <b>&gt;</b>, <b>&#47;</b>, <b>.1</b>, <b>.2</b>, <b>Π</b>,
@@ -56,9 +57,10 @@ for hierarchy walking.</p><p><b>Options</b>. Each option holds bool value. Langu
 3) <b>impredicative</b> (infinite hierarchy with impredicativity rule);</p><code>path : IDENT | IDENT DIRSEP path
 file : MODULE IDENT WHERE content
 content : line content | EOF
-line : IMPORT path
-     | OPTION IDENT IDENT
-     | declarations</code><p>Sample.</p><code>module sample where
+line :
+   | IMPORT path
+   | OPTION IDENT IDENT
+   | declarations</code><p>File header sample:</p><code>module sample where
 import experiments/path
 option girard false</code><br><p><b>Declarations</b>. Language supports following top level declarations:
 1) <b>axiom</b> (non-computable declaration that breakes normalization);
@@ -68,55 +70,45 @@ option girard false</code><br><p><b>Declarations</b>. Language supports followin
 4) <b>theorem</b> (something valuable or complex enough).</p><code>vars : ident vars | ident
 lense : LPARENS vars COLON exp1 RPARENS
 telescope : lense telescope
-params : telescope
+params : telescope | []
 
 declarations:
    | DEF IDENT params DEFEQ exp1
    | DEF IDENT params COLON exp1 DEFEQ exp1
-   | AXIOM IDENT params COLON exp1</code><br><p></p><code>codec := def skip dec
-codec := def dec
-dec := '$empty'
-dec := codec
-def := 'data' id tele '=' sum
-def := id tele ':' exp '=' exp
-def := id tele ':' exp '=' exp 'where' def</code><br><p>Inductive and HIT introductions.</p><code>sum := '$empty'
-sum := rsum
-rsum := id tele
-rsum := id tele '|' rsum
-rsum := id tele '<' ids '>' sys
-rsum := id tele '<' ids '>' sys '|' rsum</code><br><p>Inductive and HIT eliminators.</p><code>cobrs := '|' br brs
-brs := '$empty'
-brs := cobrs
-br := ids arrow exp
-br := ids '@' ids arrow exp</code><br><p>Lambda and Path applications.</p><code>app := exp exp
-papp := exp '@' formula</code><br><p>Expressions.</p><code>exp := 'split' cobrs
-exp := id
-exp := id '{' exp '}'
-exp := '<' ids '>' exp
-exp := exp '.1'
-exp := exp '.2'
-exp := lam cotele arrow exp
-exp := cotele arrow exp
-exp := exp arrow exp
-exp := cotele '*' exp
-exp := 'comp' exp exp sys
-exp := 'fill' exp exp sys
-exp := 'glue' exp sys
-exp := 'unglue' exp sys
-exp := exp ',' exp
-exp := papp
-exp := '(' exp ')'
-exp := app</code><br><p>Cubical homogeneous composition system.</p><code>sys := '[' sides ']'
-sides := '$empty'
-sides := side
-sides := side ',' sides
-side := '(' id '=' id ')' arrow exp</code><br><p>CCHM connections (meet and join).</p><code>formula := formula forall f1
-formula := f1
-formula := f2
-f1 := f1 meet f2
-f1 := f2
-f2 := '-' f2
-f2 := id</code><br><h1>SEMANTICS</h1><p>The idea of <b>MLTT<sup>&infin;</sup></b> is a unified layered type checker.
+   | AXIOM IDENT params COLON exp1</code><br><p>Sample declarations. For example, signature <b>isProp (A : U)</b> of
+type <b>U</b> could be defined as normalization-blocking axiom
+without proof-term or by providing proof-term as definition.</p><code>axiom isProp (A : U) : U
+def isProp (A : U) : U := Π (a b : A), Path A a b
+def isSet (A : U) : U := Π (a b : A)
+    (x y : Path A a b), Path (Path A a b) x y</code><p>In this example <b>(A : U)</b>, <b>(a b : A)</b> and <b>(x y : Path A a b)</b> are
+called telescopes. Each telescope consists of a series of lenses or empty.
+Each lense provides a set of variable of the same type. Telescope
+defines parameters of a declaration. Types in telescope,
+type of declaration and proof-term are a language expressions <b>exp1</b>.</p><p><b>Expressions</b>. All atomic language expressions are grouped
+by four categories:
+<b>exp0</b> (pair constructions),
+<b>exp1</b> (non neutral constructions),
+<b>exp2</b> (path and pi applcations),
+<b>exp3</b> (neutral constructions).</p><code>exp0 :
+  | exp1 COMMA exp0
+  | exp1</code><br><code>exp1:
+  | LAM telescope COMMA exp1
+  | PI telescope COMMA exp1     | exp2 ARROW exp1
+  | SIGMA telescope COMMA exp1  | exp2 PROD exp1
+  | LT vars GT exp1             | exp2</code><br><p>The LR parsers demand to define <b>exp1</b> as expressions that
+cannot be used (without a parens enclosure) as a right part of
+left-associative application for both Path and Pi lambdas.</p><code>exp2 :
+  | exp2 exp3
+  | exp2 APPFORMULA exp3
+  | exp3</code><br><p>Universe indecies <b>V</b> (pretypes), <b>U</b> (inner fibrant) and <b>S</b> (outer strict)
+are using unicode subscript letters that are already processed in lexer.</p><code>exp3:
+  | HOLE          | PRE
+  | KAN           | exp3 FST
+  | exp3 SND      | NEGATE exp3
+  | exp3 AND exp3 | exp3 OR exp3
+  | PATHP exp3    | TRANSP exp3 exp3
+  | IDENT         | NO
+  | LPARENS exp0 RPARENS | STRICT</code><br><h1>SEMANTICS</h1><p>The idea of <b>MLTT<sup>&infin;</sup></b> is a unified layered type checker.
 We selected 5 levels of type checker awareness from pure type systems
 up to homotopy calculus HTS<sup>&infin;</sup>. Each layer corresponds to its presheaf.</p><p><b>Definition</b> (Type).
 A type is interpreted as a presheaf $A$, a family of sets $A_I$ with restriction maps
