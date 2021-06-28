@@ -56,7 +56,7 @@ block content
                             li: a(href='#id') ID
                             li: a(href='#induction') INDUCTION
                     .macro__col
-                        h3#eff HoTT
+                        h3#eff CCHM
                         ol
                             li: a(href='#pi') PI
                             li: a(href='#sigma') SIGMA
@@ -105,7 +105,7 @@ block content
                     <b>@</b>, <b>PathP</b>, <b>transp</b>, <b>hcomp</b>, <b>i₀</b>, <b>i₁</b>, <b>interval</b>, <b>data</b>,
                     <b>record</b>, <b>Glue</b>, <b>glue</b>, <b>unglue</b>.
                 p.
-                    <b>Indentifiers</b>. Identifiers support UTF-8. Acceptable symbols:
+                    <b>Indentifiers</b>. Identifiers support UTF-8. Acceptable symbols
                 code.
                     let lat1   = [^ '\t' ' ' '\r' '\n' '(' ')' ':' '.' ',' '/' '<' '>']
                     let beg    = lat1 # '-'
@@ -115,28 +115,56 @@ block content
                     let utf8   = lat1|bytes2|bytes3|bytes4
                     let ident  = beg utf8*
                 p.
-                    Sample terms.
+                    Indentifiers couldn't start with <b>:</b>, <b>-</b>, <b>→</b>. Sample identifiers:
                 code.
-                    def ¬-of-∨ (i j : I) : Eq I -(i ∨ j) (-i ∧ -j) := refl I -(i ∨ j)
-                    def 1<=1 : is-one? 1 := 1-refl
+                    ¬-of-∨, 1=1, is-?, =, $^~]!005x, ∞, x→Nat, f'
                 br.
                 p.
-                    <b> Definitions</b>.
+                    <b>Modules</b>. Modules represent files with declarations. More accurate,
+                    BNF notation of module consists of imports, options and declarations.
+                p.
+                    <b>Imports</b>. The import construction supports file folder
+                    structure (without file extensions) by using reserved symbol <b>&#47;</b>
+                    for hierarchy walking.
+                p.
+                    <b>Options</b>. Each option holds bool value. Language supports following options:
+                    1) <b>girard</b> (enables U : U);
+                    2) <b>pre-eval</b> (normalization cache);
+                    3) <b>impredicative</b> (infinite hierarchy with impredicativity rule);
                 code.
+                    path : IDENT | IDENT DIRSEP path
+                    file : MODULE IDENT WHERE content
+                    content : line content | EOF
+                    line : IMPORT path
+                         | OPTION IDENT IDENT
+                         | declarations
+                p.
+                    Sample.
+                code.
+                    module sample where
+                    import experiments/path
+                    option girard false
+                br.
+                p.
+                    <b>Declarations</b>. Language supports following top level declarations:
+                    1) <b>axiom</b> (non-computable declaration that breakes normalization);
+                    2) <b>postulate</b> (alternative or inverted axiom that can preserve consistency);
+                    3) <b>definition</b> (almost any explicit term or type in type theory);
+                    5) <b>lemma</b> (helper in big game).
+                    4) <b>theorem</b> (something valuable or complex enough).
+                code.
+                    vars : ident vars | ident
+                    lense : LPARENS vars COLON exp1 RPARENS
+                    telescope : lense telescope
+                    params : telescope
+
                     declarations:
                        | DEF IDENT params DEFEQ exp1
                        | DEF IDENT params COLON exp1 DEFEQ exp1
                        | AXIOM IDENT params COLON exp1
                 br.
                 p.
-                    Telescopes.
-                code.
-                    tele := '$empty'
-                    tele := cotele
-                    cotele := '(' exp ':' exp ')' tele
-                br.
-                p.
-                    Top-level inductive data and function definitions.
+                    
                 code.
                     codec := def skip dec
                     codec := def dec
