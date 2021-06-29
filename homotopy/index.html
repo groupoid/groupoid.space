@@ -102,9 +102,9 @@ are using unicode subscript letters that are already processed in lexer.</p><cod
   | exp3 AND exp3 | exp3 OR exp3
   | PATHP exp3    | TRANSP exp3 exp3
   | IDENT         | NO
-  | LPARENS exp0 RPARENS | STRICT</code><br><h1>SEMANTICS</h1><p>The idea of <b>MLTT<sup>&infin;</sup></b> is a unified layered type checker.
-We selected 5 levels of type checker awareness from pure type systems
-up to homotopy calculus HTS<sup>&infin;</sup>. Each layer corresponds to its presheaf.</p><p><b>Definition</b> (Type).
+  | LPARENS exp0 RPARENS | STRICT</code><br><h1>SEMANTICS</h1><p>The idea to have a unified layered type checker.
+We selected 7 levels of type checker awareness from universes amd pure type systems
+up to homotopy calculus. Each layer corresponds to its presheaves.</p><p><b>Definition</b> (Type).
 A type is interpreted as a presheaf $A$, a family of sets $A_I$ with restriction maps
 $u \mapsto u\ f, A_I \rightarrow A_J$ for $f: J\rightarrow I$. A dependent type
 B on A is interpreted by a presheaf on category of elements of $A$: the objects
@@ -113,21 +113,21 @@ maps $f : J \rightarrow$ such that $v = u\ f$. A dependent type B is thus given
 by a family of sets $B(I,u)$ and restriction maps $B(I,u) \rightarrow B(J,u\ f)$.</p><p>We think of $A$ as a type and $B$ as a family of presheves $B(x)$ varying $x:A$.
 The operation $\Pi(x:A)B(x)$ generalizes the semantics of
 implication in a Kripke model.</p><br><code>data lang
-   = UNI (_: universe)
-   | PI (_: pure)
-   | SIGMA (_: total)
-   | ID (_: id)
-   | PATH (_: homotopy)
-   | GLUE (_: homotopy)
-   | HIT (_: inductive)
-</code><h2>Universe Hierachies</h2><p>Language supports three universes with explicit level manipulations.</p><code>data universes
+   = UNI (_: universes)
+   | PI (_: pure lang)
+   | SIGMA (_: total lang)
+   | ID (_: id lang)
+   | PATH (_: homotopy lang)
+   | GLUE (_: gluening lang)
+   | HIT (_: inductive lang)
+</code><h2>Universe Hierachies</h2><p>Language supports three universes with explicit level manipulation.</p><code>data universes
    = kan (index: nat)
-   | strict (index: nat)
-   | pretypes (index: lang)</code><br><h2>Dependent Types</h2><code>data pure
+   | pretypes (index: nat)
+   | strict (index: nat)</code><br><h2>Dependent Types</h2><code>data pure (lang: U)
    = var (x: name) (l: nat)
    | pi (x: name) (l: nat) (d c: lang)
    | lambda (x: name) (l: nat) (d c: lang)
-   | app (f a: lang)</code><br><code>data total
+   | app (f a: lang)</code><br><code>data total (lang: U)
    = sigma (n: name) (a b: lang)
    | pair (a b: lang)
    | fst (p: lang)
@@ -145,14 +145,14 @@ for the univalence computability and coherence.</p><code>data homotopy (lang: U)
    = path (A x y: lang)
    | plam (name: name) (a: lang)
    | papp (f a: lang)
-   | I
-   | 0
-   | 1
-   | \/ (a b: lang)
-   | /\ (a b: lang)
+   | interval
+   | zero
+   | one
+   | meet (a b: lang)
+   | join (a b: lang)
    | neg (e: lang)
-   | hcomp (a b: lang)
-   | transp (a b c: lang)</code><br><p><b>Definition</b> (Cubical Presheaf $\mathbb{I}$).
+   | transp (a b c: lang)
+   | hcomp (a b: lang)</code><br><p><b>Definition</b> (Cubical Presheaf $\mathbb{I}$).
 The identity types modeled with another presheaf, the presheaf on Lawvere
 category of distributive lattices (theory of de Morgan algebras) denoted
 with $\Box$ &mdash; $\mathbb{I} : \Box^{op} \rightarrow \mathrm{Set}$.</p><p><b>Properties of $\mathbb{I}$</b>. The presheaf $\mathbb{I}$:
@@ -160,7 +160,7 @@ i) has to distinct global elements $0$ and $1$ (B$_1$);
 ii) $\mathbb{I}$(I) has a decidable equality for each $I$ (B$_2$);
 iii) $\mathbb{I}$ is tiny so the path functor $X \mapsto X^\mathbb{I}$ has right adjoint (B$_3$).;
 iv) $\mathbb{I}$ has meet and join (connections).
-</p><h2>Glue Types</h2><p>Glue Types are needed to prove univalence.</p><code>data gluening
+</p><h2>Glue Types</h2><p>Glue Types are needed to prove univalence.</p><code>data gluening (lang: U)
    = Glue (a b c: lang)
    | glue (a b: lang)
    | unglue (a b: lang)</code><br><h2>Higher Inductive Types</h2><p>The further development of induction inside MLTT provers led
@@ -173,7 +173,7 @@ Bohm-Berarducci schemes or Categorical Impredicative encoding by Steve Awodey.
 data branch (A: U) = br (n: name) (args: list name) (term: A)
 data label (A: U) = lab (n: name) (t: tele A)
 
-data inductive
+data inductive (lang: U)
    = intro (n: name) (t: tele lang) (labels: list (label lang))
    | case (n: name) (t: lang) (branches: list (branch lang))
    | ctor (n: name) (args: list lang)

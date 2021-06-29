@@ -213,9 +213,9 @@ block content
 
                 h1 SEMANTICS
                 p.
-                    The idea of <b>MLTT<sup>&infin;</sup></b> is a unified layered type checker.
-                    We selected 5 levels of type checker awareness from pure type systems
-                    up to homotopy calculus HTS<sup>&infin;</sup>. Each layer corresponds to its presheaf.
+                    The idea to have a unified layered type checker.
+                    We selected 7 levels of type checker awareness from universes amd pure type systems
+                    up to homotopy calculus. Each layer corresponds to its presheaves.
                 p.
                     <b>Definition</b> (Type).
                     A type is interpreted as a presheaf $A$, a family of sets $A_I$ with restriction maps
@@ -231,33 +231,34 @@ block content
                 br.
                 code.
                     data lang
-                       = UNI (_: universe)
-                       | PI (_: pure)
-                       | SIGMA (_: total)
-                       | ID (_: id)
-                       | PATH (_: homotopy)
-                       | GLUE (_: homotopy)
-                       | HIT (_: inductive)
+                       = UNI (_: universes)
+                       | PI (_: pure lang)
+                       | SIGMA (_: total lang)
+                       | ID (_: id lang)
+                       | PATH (_: homotopy lang)
+                       | GLUE (_: gluening lang)
+                       | HIT (_: inductive lang)
 
                 h2 Universe Hierachies
                 p.
-                    Language supports three universes with explicit level manipulations.
+                    Language supports three universes with explicit level manipulation.
                 code.
                     data universes
                        = kan (index: nat)
+                       | pretypes (index: nat)
                        | strict (index: nat)
-                       | pretypes (index: lang)
                 br.
+
                 h2 Dependent Types
                 code.
-                    data pure
+                    data pure (lang: U)
                        = var (x: name) (l: nat)
                        | pi (x: name) (l: nat) (d c: lang)
                        | lambda (x: name) (l: nat) (d c: lang)
                        | app (f a: lang)
                 br.
                 code.
-                    data total
+                    data total (lang: U)
                        = sigma (n: name) (a b: lang)
                        | pair (a b: lang)
                        | fst (p: lang)
@@ -284,14 +285,14 @@ block content
                        = path (A x y: lang)
                        | plam (name: name) (a: lang)
                        | papp (f a: lang)
-                       | I
-                       | 0
-                       | 1
-                       | \/ (a b: lang)
-                       | /\ (a b: lang)
+                       | interval
+                       | zero
+                       | one
+                       | meet (a b: lang)
+                       | join (a b: lang)
                        | neg (e: lang)
-                       | hcomp (a b: lang)
                        | transp (a b c: lang)
+                       | hcomp (a b: lang)
                 br.
                 p.
                     <b>Definition</b> (Cubical Presheaf $\mathbb{I}$).
@@ -309,7 +310,7 @@ block content
                 p.
                     Glue Types are needed to prove univalence.
                 code.
-                    data gluening
+                    data gluening (lang: U)
                        = Glue (a b c: lang)
                        | glue (a b: lang)
                        | unglue (a b: lang)
@@ -329,7 +330,7 @@ block content
                     data branch (A: U) = br (n: name) (args: list name) (term: A)
                     data label (A: U) = lab (n: name) (t: tele A)
 
-                    data inductive
+                    data inductive (lang: U)
                        = intro (n: name) (t: tele lang) (labels: list (label lang))
                        | case (n: name) (t: lang) (branches: list (branch lang))
                        | ctor (n: name) (args: list lang)
