@@ -99,13 +99,13 @@ block content
                     <b>Keywords</b>.
                     The words of a language consist of keywords or identifiers. The keywords are following:
                     <b>module</b>, <b>where</b>, <b>import</b>, <b>option</b>, <b>def</b>, <b>axiom</b>, <b>postulate</b>, <b>theorem</b>,
-                    <b>:</b>, <b>(</b>, <b>)</b>, <b>[</b>, <b>]</b>, <b>&lt;</b>, <b>&gt;</b>, <b>&#47;</b>, <b>.1</b>, <b>.2</b>, <b>Π</b>,
+                    <b>(</b>, <b>)</b>, <b>[</b>, <b>]</b>, <b>&lt;</b>, <b>&gt;</b>, <b>&#47;</b>, <b>.1</b>, <b>.2</b>, <b>Π</b>,
                     <b>Σ</b>, <b>,</b>, <b>λ</b>, <b>×</b>, <b>→</b>, <b>:</b>, <b>:=</b>, <b>U</b>, <b>V</b>, <b>∧</b>, <b>∨</b>, <b>-</b>,
                     <b>@</b>, <b>PathP</b>, <b>transp</b>, <b>hcomp</b>, <b>i₀</b>, <b>i₁</b>, <b>interval</b>, <b>data</b>,
                     <b>record</b>, <b>Glue</b>, <b>glue</b>, <b>unglue</b>.
                 p.
-                    <b>Indentifiers</b>. Identifiers support UTF-8. 
-                    Indentifiers couldn't start with <b>:</b>, <b>-</b>, <b>→</b>. Sample identifiers:
+                    <b>Indentifiers</b>. Identifiers support UTF-8. Indentifiers couldn't start
+                    with <b>:</b>, <b>-</b>, <b>→</b>. Sample identifiers:
                 code.
                     ¬-of-∨, 1=1, is-?, =, $^~]!005x, ∞, x→Nat, f'
                 br.
@@ -241,16 +241,18 @@ block content
 
                 h2 Universe Hierachies
                 p.
-                    Language supports Agda-style hierarchy of universes: omega, strict, fibrant, interval pretypes and propositions
+                    Language supports Agda-style hierarchy of universes: strict, fibrant and interval pretypes
                     with explicit level manipulation. All universes are bounded with preorder
                     $$
-                       Prop_i < Fibrant_j < Pretypes_k < Strict_l < Omega,
+                       Fibrant_j < Pretypes_k < Strict_l
                     $$
                 p.
                     in which $i,j,k$ are bounded with equation:
                     $$
-                       (i < j) \cap (j < k) \cap (k < l).
+                       (j < k) \cap (k < l).
                     $$
+                p.
+                    Large elimination to upper universes is prohibited.
                 code.
                     data cosmos
                        = fibrant (index: nat)
