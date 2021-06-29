@@ -103,8 +103,8 @@ are using unicode subscript letters that are already processed in lexer.</p><cod
   | PATHP exp3    | TRANSP exp3 exp3
   | IDENT         | NO
   | LPARENS exp0 RPARENS | STRICT</code><br><h1>SEMANTICS</h1><p>The idea to have a unified layered type checker.
-We selected 7 levels of type checker awareness from universes amd pure type systems
-up to homotopy calculus. Each layer corresponds to its presheaves.</p><p><b>Definition</b> (Type).
+We selected 7 levels of type checker awareness from universes and pure type systems
+up to synthetic language of homotopy type theory. Each layer corresponds to its presheaves.</p><p><b>Definition</b> (Type).
 A type is interpreted as a presheaf $A$, a family of sets $A_I$ with restriction maps
 $u \mapsto u\ f, A_I \rightarrow A_J$ for $f: J\rightarrow I$. A dependent type
 B on A is interpreted by a presheaf on category of elements of $A$: the objects
