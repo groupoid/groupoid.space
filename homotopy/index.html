@@ -24,7 +24,7 @@ the inner one is homotopy type system presheaf that models HoTT and the outer on
 type system presheaf that models set theory with UIP. The motivation behind this doubling is to
 have an ability to express semisemplicial types. Theoretical work on merging meta-theoretical
 and homotopical languages was continued in <a href="https://arxiv.org/pdf/1705.03307.pdf">2LTT</a> [Anenkov, Capriotti, Kraus, Sattler].
-</p></aside><section><div class="macro"><div class="macro__col"><h3 id="om">PTS</h3><ol><li><a href="#pi">PI</a></li></ol></div><div class="macro__col"><h3 id="macro">MLTT</h3><ol><li><a href="#pi">PI</a></li><li><a href="#sigma">SIGMA</a></li><li><a href="#id">ID</a></li><li><a href="#induction">INDUCTION</a></li></ol></div><div class="macro__col"><h3 id="eff">CCHM</h3><ol><li><a href="#pi">PI</a></li><li><a href="#sigma">SIGMA</a></li><li><a href="#path">INTERVAL</a></li><li><a href="#path">GLUE</a></li><li><a href="#induction">HIT</a></li></ol></div><div class="macro__col"><h3 id="eff">HTS</h3><ol><li><a href="#pi">PI</a></li><li><a href="#sigma">SIGMA</a></li><li><a href="#id">ID</a></li><li><a href="#path">INTERVAL</a></li><li><a href="#hit">GLUE</a></li><li><a href="#induction">HIT</a></li></ol></div></div><p>While we are on our road to HTS with Lean-like tactic language, currently we are at the stage of regular
+</p></aside><section><div class="macro"><div class="macro__col"><h3 id="om">PTS</h3><ol><li><a href="#univ">UNIV</a></li><li><a href="#pi">PI</a></li></ol></div><div class="macro__col"><h3 id="macro">MLTT</h3><ol><li><a href="#univ">UNIV</a></li><li><a href="#pi">PI</a></li><li><a href="#sigma">SIGMA</a></li><li><a href="#id">ID</a></li><li><a href="#induction">INDUCTION</a></li></ol></div><div class="macro__col"><h3 id="eff">CCHM</h3><ol><li><a href="#univ">UNIV</a></li><li><a href="#pi">PI</a></li><li><a href="#sigma">SIGMA</a></li><li><a href="#path">INTERVAL</a></li><li><a href="#glue">GLUE</a></li><li><a href="#induction">HIT</a></li></ol></div><div class="macro__col"><h3 id="eff">HTS</h3><ol><li><a href="#univ">UNIV</a></li><li><a href="#pi">PI</a></li><li><a href="#sigma">SIGMA</a></li><li><a href="#id">ID</a></li><li><a href="#path">INTERVAL</a></li><li><a href="#glue">GLUE</a></li><li><a href="#induction">HIT</a></li></ol></div></div><p>While we are on our road to HTS with Lean-like tactic language, currently we are at the stage of regular
 cubical (HoTT) type checker with CHM-style primitives, or more general CCHM type checker.
 You may try it at Github: <a href="https://github.com/groupoid/anders">groupoid/anders</a>.
 </p><code>$ ./anders.native
@@ -112,7 +112,7 @@ up to synthetic language of homotopy type theory. Each layer corresponds to its 
    | PATH (_: homotopy lang)
    | GLUE (_: gluening lang)
    | HIT (_: inductive lang)
-</code><h2>Universe Hierachies</h2><p>Language supports Agda-style hierarchy of universes: strict, fibrant and interval pretypes
+</code><h2 id="univ">Universe Hierachies</h2><p>Language supports Agda-style hierarchy of universes: strict, fibrant and interval pretypes
 with explicit level manipulation. All universes are bounded with preorder
 $$
    Fibrant_j \prec Pretypes_k \prec Strict_l,
@@ -139,11 +139,7 @@ implication in a Kripke model.</p><code>data pure (lang: U)
    = sigma (n: name) (a b: lang)
    | pair (a b: lang)
    | fst (p: lang)
-   | snd (p: lang)</code><p><b>Defintion</b> (Pi). An element $w:[\Pi(x:A)B(x)](I)$ is a family
-of functions $w_f : \Pi(u:A(J))B(J,u)$ for $f : J \rightarrow I$ such
-that $(w_f u)g=w_{f\ g}(u\ g)$ when $u:A(J)$ and $g:K\rightarrow J$.</p><p><b>Defintion</b> (Sigma). The set $\Sigma(x:A)B(x)$ is the set
-of pairs $(u,v)$ when $u:A(I),v:B(I,u)$ and restriction map $(u,v)\ f=(u\ f,v\ f)$.
-</p><h2>Path Types</h2><p>The fundamental development of equality inside MLTT
+   | snd (p: lang)</code><p id="pi"><b>Defintion</b> (Pi). An element $w:[\Pi(x:A)B(x)](I)$ is a family<of>functions $w_f : \Pi(u:A(J))B(J,u)$ for $f : J \rightarrow I$ such</of><that>$(w_f u)g=w_{f\ g}(u\ g)$ when $u:A(J)$ and $g:K\rightarrow J$.</that></p><p id="sigma"><b>Defintion</b> (Sigma). The set $\Sigma(x:A)B(x)$ is the set<of>pairs $(u,v)$ when $u:A(I),v:B(I,u)$ and restriction map $(u,v)\ f=(u\ f,v\ f)$.</of></p><h2 id="path">Path Types</h2><p>The fundamental development of equality inside MLTT
 provers led us to the notion of ∞-groupoid as spaces.
 In this way Path identity type appeared in the core
 of type checker along with de Morgan algebra on
@@ -168,10 +164,10 @@ i) has to distinct global elements $0$ and $1$ (B$_1$);
 ii) $\mathbb{I}$(I) has a decidable equality for each $I$ (B$_2$);
 iii) $\mathbb{I}$ is tiny so the path functor $X \mapsto X^\mathbb{I}$ has right adjoint (B$_3$).;
 iv) $\mathbb{I}$ has meet and join (connections).
-</p><h2>Glue Types</h2><p>Glue Types are needed to prove univalence.</p><code>data gluening (lang: U)
+</p><h2 id="glue">Glue Types</h2><p>Glue Types are needed to prove univalence.</p><code>data gluening (lang: U)
    = Glue (a b c: lang)
    | glue (a b: lang)
-   | unglue (a b: lang)</code><br><h2>Higher Inductive Types</h2><p>The further development of induction inside MLTT provers led
+   | unglue (a b: lang)</code><br><h2 id="induction">Higher Inductive Types</h2><p>The further development of induction inside MLTT provers led
 to the theory of polynomial functors and well-founded trees,
 known in programming languages as inductive types with data
 and record core primitives of type checker. In fact, recursive inductive

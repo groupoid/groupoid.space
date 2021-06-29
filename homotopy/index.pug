@@ -47,10 +47,12 @@ block content
                     .macro__col
                         h3#om PTS
                         ol
+                            li: a(href='#univ') UNIV
                             li: a(href='#pi') PI
                     .macro__col
                         h3#macro MLTT
                         ol
+                            li: a(href='#univ') UNIV
                             li: a(href='#pi') PI
                             li: a(href='#sigma') SIGMA
                             li: a(href='#id') ID
@@ -58,19 +60,21 @@ block content
                     .macro__col
                         h3#eff CCHM
                         ol
+                            li: a(href='#univ') UNIV
                             li: a(href='#pi') PI
                             li: a(href='#sigma') SIGMA
                             li: a(href='#path') INTERVAL
-                            li: a(href='#path') GLUE
+                            li: a(href='#glue') GLUE
                             li: a(href='#induction') HIT
                     .macro__col
                         h3#eff HTS
                         ol
+                            li: a(href='#univ') UNIV
                             li: a(href='#pi') PI
                             li: a(href='#sigma') SIGMA
                             li: a(href='#id') ID
                             li: a(href='#path') INTERVAL
-                            li: a(href='#hit') GLUE
+                            li: a(href='#glue') GLUE
                             li: a(href='#induction') HIT
 
                 p.
@@ -227,7 +231,7 @@ block content
                        | GLUE (_: gluening lang)
                        | HIT (_: inductive lang)
 
-                h2 Universe Hierachies
+                h2#univ Universe Hierachies
                 p.
                     Language supports Agda-style hierarchy of universes: strict, fibrant and interval pretypes
                     with explicit level manipulation. All universes are bounded with preorder
@@ -275,15 +279,15 @@ block content
                        | pair (a b: lang)
                        | fst (p: lang)
                        | snd (p: lang)
-                p.
+                p#pi
                     <b>Defintion</b> (Pi). An element $w:[\Pi(x:A)B(x)](I)$ is a family
                     of functions $w_f : \Pi(u:A(J))B(J,u)$ for $f : J \rightarrow I$ such
                     that $(w_f u)g=w_{f\ g}(u\ g)$ when $u:A(J)$ and $g:K\rightarrow J$.
-                p.
+                p#sigma
                     <b>Defintion</b> (Sigma). The set $\Sigma(x:A)B(x)$ is the set
                     of pairs $(u,v)$ when $u:A(I),v:B(I,u)$ and restriction map $(u,v)\ f=(u\ f,v\ f)$.
 
-                h2 Path Types
+                h2#path Path Types
                 p.
                     The fundamental development of equality inside MLTT
                     provers led us to the notion of ∞-groupoid as spaces.
@@ -318,7 +322,7 @@ block content
                     iii) $\mathbb{I}$ is tiny so the path functor $X \mapsto X^\mathbb{I}$ has right adjoint (B$_3$).;
                     iv) $\mathbb{I}$ has meet and join (connections).
 
-                h2 Glue Types
+                h2#glue Glue Types
                 p.
                     Glue Types are needed to prove univalence.
                 code.
@@ -328,7 +332,7 @@ block content
                        | unglue (a b: lang)
                 br.
 
-                h2 Higher Inductive Types
+                h2#induction Higher Inductive Types
                 p.
                     The further development of induction inside MLTT provers led
                     to the theory of polynomial functors and well-founded trees,
