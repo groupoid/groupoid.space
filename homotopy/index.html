@@ -104,15 +104,7 @@ are using unicode subscript letters that are already processed in lexer.</p><cod
   | IDENT         | NO
   | LPARENS exp0 RPARENS | STRICT</code><br><h1>SEMANTICS</h1><p>The idea to have a unified layered type checker.
 We selected 7 levels of type checker awareness from universes and pure type systems
-up to synthetic language of homotopy type theory. Each layer corresponds to its presheaves.</p><p><b>Definition</b> (Type).
-A type is interpreted as a presheaf $A$, a family of sets $A_I$ with restriction maps
-$u \mapsto u\ f, A_I \rightarrow A_J$ for $f: J\rightarrow I$. A dependent type
-B on A is interpreted by a presheaf on category of elements of $A$: the objects
-are pairs $(I,u)$ with $u : A_I$ and morphisms $f: (J,v) \rightarrow (I,u)$ are
-maps $f : J \rightarrow$ such that $v = u\ f$. A dependent type B is thus given
-by a family of sets $B(I,u)$ and restriction maps $B(I,u) \rightarrow B(J,u\ f)$.</p><p>We think of $A$ as a type and $B$ as a family of presheves $B(x)$ varying $x:A$.
-The operation $\Pi(x:A)B(x)$ generalizes the semantics of
-implication in a Kripke model.</p><br><code>data lang
+up to synthetic language of homotopy type theory. Each layer corresponds to its presheaves.</p><br><code>data lang
    = UNI (_: cosmos)
    | PI (_: pure lang)
    | SIGMA (_: total lang)
@@ -131,7 +123,15 @@ $$</p><p>Large elimination to upper universes is prohibited.</p><code>data cosmo
    = fibrant (index: nat)
    | pretypes (index: nat)
    | strict (index: nat)
-   | omega</code><br><h2>Dependent Types</h2><code>data pure (lang: U)
+   | omega</code><br><h2>Dependent Types</h2><p><b>Definition</b> (Type).
+A type is interpreted as a presheaf $A$, a family of sets $A_I$ with restriction maps
+$u \mapsto u\ f, A_I \rightarrow A_J$ for $f: J\rightarrow I$. A dependent type
+B on A is interpreted by a presheaf on category of elements of $A$: the objects
+are pairs $(I,u)$ with $u : A_I$ and morphisms $f: (J,v) \rightarrow (I,u)$ are
+maps $f : J \rightarrow$ such that $v = u\ f$. A dependent type B is thus given
+by a family of sets $B(I,u)$ and restriction maps $B(I,u) \rightarrow B(J,u\ f)$.</p><p>We think of $A$ as a type and $B$ as a family of presheves $B(x)$ varying $x:A$.
+The operation $\Pi(x:A)B(x)$ generalizes the semantics of
+implication in a Kripke model.</p><code>data pure (lang: U)
    = var (x: name) (l: nat)
    | pi (x: name) (l: nat) (d c: lang)
    | lambda (x: name) (l: nat) (d c: lang)
