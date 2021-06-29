@@ -40,8 +40,8 @@ Here will be used Menhir BNF nonation as type checker is written in OCaml.</p><p
 The words of a language consist of keywords or identifiers. The keywords are following:
 <b>module</b>, <b>where</b>, <b>import</b>, <b>option</b>, <b>def</b>, <b>axiom</b>, <b>postulate</b>, <b>theorem</b>,
 <b>(</b>, <b>)</b>, <b>[</b>, <b>]</b>, <b>&lt;</b>, <b>&gt;</b>, <b>&#47;</b>, <b>.1</b>, <b>.2</b>, <b>Π</b>,
-<b>Σ</b>, <b>,</b>, <b>λ</b>, <b>×</b>, <b>→</b>, <b>:</b>, <b>:=</b>, <b>U</b>, <b>V</b>, <b>∧</b>, <b>∨</b>, <b>-</b>,
-<b>@</b>, <b>PathP</b>, <b>transp</b>, <b>hcomp</b>, <b>i₀</b>, <b>i₁</b>, <b>interval</b>, <b>data</b>,
+<b>Σ</b>, <b>,</b>, <b>λ</b>, <b>×</b>, <b>→</b>, <b>:</b>, <b>:=</b>, <b>U</b>, <b>V</b>, <b>∧</b>, <b>∨</b>, <b>-</b>, <b>+</b>,
+<b>@</b>, <b>PathP</b>, <b>transp</b>, <b>hcomp</b>, <b>i₀</b>, <b>i₁</b>, <b>interval</b>, <b>inductive</b>,
 <b>record</b>, <b>Glue</b>, <b>glue</b>, <b>unglue</b>.</p><p><b>Indentifiers</b>. Identifiers support UTF-8. Indentifiers couldn't start
 with <b>:</b>, <b>-</b>, <b>→</b>. Sample identifiers:</p><code>¬-of-∨, 1=1, is-?, =, $^~]!005x, ∞, x→Nat, f'</code><br><p><b>Modules</b>. Modules represent files with declarations. More accurate,
 BNF notation of module consists of imports, options and declarations.</p><p><b>Imports</b>. The import construction supports file folder
