@@ -177,10 +177,10 @@ def branch (A: U) : U := + (br: name → branch A) (args: list name → A → br
 def label (A: U) : U := + (lab: name → label A) (t: tele A → label A)
 
 def hit (lang: U) := inductive
-    (intro: name → tele lang → list (label lang) → inductive lang)
-    (case: name → lang → list (branch lang) → inductive lang)
-    (ctor: name → list lang → inductive lang)
-    (htor: name → list lang → list lang → lang → inductive lang)</code><p>The non-well-founded trees or infinite coinductive trees
+    (intro: name → tele lang → list (label lang) → hit lang)
+    (case: name → lang → list (branch lang) → hit lang)
+    (ctor: name → list lang → hit lang)
+    (htor: name → list lang → list lang → lang → hit lang)</code><p>The non-well-founded trees or infinite coinductive trees
 are useful for modeling infinite processes and are part
 of Milner's Pi-calculus. Coinductive streams could be found in many MLTT base libraries.
 </p></section><section><h1>Bibliography</h1><p><center><table cellspacing=5><tr><td width=5><img src="https://n2o.space/img/pdf.jpg" width=35></td><td width=400>

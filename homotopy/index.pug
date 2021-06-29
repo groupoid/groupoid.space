@@ -346,10 +346,10 @@ block content
                     def label (A: U) : U := + (lab: name → label A) (t: tele A → label A)
 
                     def hit (lang: U) := inductive
-                        (intro: name → tele lang → list (label lang) → inductive lang)
-                        (case: name → lang → list (branch lang) → inductive lang)
-                        (ctor: name → list lang → inductive lang)
-                        (htor: name → list lang → list lang → lang → inductive lang)
+                        (intro: name → tele lang → list (label lang) → hit lang)
+                        (case: name → lang → list (branch lang) → hit lang)
+                        (ctor: name → list lang → hit lang)
+                        (htor: name → list lang → list lang → lang → hit lang)
                 p.
                     The non-well-founded trees or infinite coinductive trees
                     are useful for modeling infinite processes and are part
