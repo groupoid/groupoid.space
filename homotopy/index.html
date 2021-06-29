@@ -110,7 +110,7 @@ up to synthetic language of homotopy type theory. Each layer corresponds to its 
     (SIGMA: total lang → lang)
     (PATH: homotopy lang → lang)
     (GLUE: gluening lang → lang)
-    (HIT: inductive lang → lang)
+    (HIT: hit lang → lang)
 </code><h2 id="univ">Universe Hierachies</h2><p>Language supports Agda-style hierarchy of universes: strict, fibrant and interval pretypes
 with explicit level manipulation. All universes are bounded with preorder
 $$
@@ -176,7 +176,7 @@ Bohm-Berarducci schemes or Categorical Impredicative encoding by Steve Awodey.
 def branch (A: U) : U := + (br: name → branch A) (args: list name → A → branch A)
 def label (A: U) : U := + (lab: name → label A) (t: tele A → label A)
 
-def inductive (lang: U) := inductive
+def hit (lang: U) := inductive
     (intro: name → tele lang → list (label lang) → inductive lang)
     (case: name → lang → list (branch lang) → inductive lang)
     (ctor: name → list lang → inductive lang)
@@ -231,4 +231,4 @@ of Milner's Pi-calculus. Coinductive streams could be found in many MLTT base li
 <a href="https://raw.githubusercontent.com/groupoid.space/misc/references/58.Huber17.txt">[58]</a>. S. Huber, “Canonicity for cubical type theory,” Journal of Automated Reasoning, pp. 1–38, 2017.
 <a href="https://raw.githubusercontent.com/groupoid.space/misc/references/59.Angiuli16.txt">[59]</a>. C. Angiuli, R. Harper, and T. Wilson, “Computational higher type theory i: Abstract cubical realizability,” arXiv preprint arXiv:1604.08873, 2016.
 <a href="https://raw.githubusercontent.com/groupoid.space/misc/references/60.Angiuli16.txt">[60]</a>. C. Angiuli and R. Harper, “Computational higher type theory ii: Dependent cubical realizability,” arXiv preprint arXiv:1606.09638, 2016.
-<a href="https://raw.githubusercontent.com/groupoid.space/misc/references/61.Coquand18.txt">[61]</a>. T.Coquand, S.Huber, and A.Mörtberg , “On Higher Inductive Types in Cubical Type Theory”, arXiv preprint arXiv:1802.01170, 2018.</p></section></div></article><footer class="footer"><a href="https://github.com/groupoid/"><img class="footer__logo" src="https://longchenpa.guru/seal.png" width="50"></a><span class="footer__copy">2016&mdash;2021 &copy; <a href="//5ht.co/" style="color:Lavender;">Максим Сохацький</a></span></footer><script src="https://groupoid.space/bundle.js?v=7"></script><script src="https://groupoid.space/highlight.js?v=13"></script></body></html>
+<a href="https://raw.githubusercontent.com/groupoid.space/misc/references/61.Coquand18.txt">[61]</a>. T.Coquand, S.Huber, and A.Mörtberg , “On Higher Inductive Types in Cubical Type Theory”, arXiv preprint arXiv:1802.01170, 2018.</p></section></div></article><footer class="footer"><a href="https://github.com/groupoid/"><img class="footer__logo" src="https://longchenpa.guru/seal.png" width="50"></a><span class="footer__copy">2016&mdash;2021 &copy; <a href="//5ht.co/" style="color:Lavender;">Максим Сохацький</a></span></footer><script src="https://groupoid.space/bundle.js?v=7"></script><script src="https://groupoid.space/highlight.js?v=14"></script></body></html>

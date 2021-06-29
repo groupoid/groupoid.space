@@ -228,7 +228,7 @@ block content
                         (SIGMA: total lang → lang)
                         (PATH: homotopy lang → lang)
                         (GLUE: gluening lang → lang)
-                        (HIT: inductive lang → lang)
+                        (HIT: hit lang → lang)
 
                 h2#univ Universe Hierachies
                 p.
@@ -345,7 +345,7 @@ block content
                     def branch (A: U) : U := + (br: name → branch A) (args: list name → A → branch A)
                     def label (A: U) : U := + (lab: name → label A) (t: tele A → label A)
 
-                    def inductive (lang: U) := inductive
+                    def hit (lang: U) := inductive
                         (intro: name → tele lang → list (label lang) → inductive lang)
                         (case: name → lang → list (branch lang) → inductive lang)
                         (ctor: name → list lang → inductive lang)
