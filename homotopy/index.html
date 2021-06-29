@@ -104,13 +104,13 @@ are using unicode subscript letters that are already processed in lexer.</p><cod
   | IDENT         | NO
   | LPARENS exp0 RPARENS | STRICT</code><br><h1>SEMANTICS</h1><p>The idea to have a unified layered type checker.
 We selected 5 levels of type checker awareness from universes and pure type systems
-up to synthetic language of homotopy type theory. Each layer corresponds to its presheaves.</p><br><code>def lang : U := inductive
-    (UNI: cosmos → lang)
-    (PI: pure lang → lang)
-    (SIGMA: total lang → lang)
-    (PATH: homotopy lang → lang)
-    (GLUE: gluening lang → lang)
-    (HIT: hit lang → lang)
+up to synthetic language of homotopy type theory. Each layer corresponds to its presheaves.</p><br><code>inductive lang : U
+  | UNI: cosmos → lang
+  | PI: pure lang → lang
+  | SIGMA: total lang → lang
+  | PATH: homotopy lang → lang
+  | GLUE: gluening lang → lang
+  | HIT: hit lang → lang
 </code><h2 id="univ">Universe Hierachies</h2><p>Language supports Agda-style hierarchy of universes: strict, fibrant and interval pretypes
 with explicit level manipulation. All universes are bounded with preorder
 $$
@@ -118,11 +118,11 @@ $$
 $$</p><p>in which $j,k,l$ are bounded with equation:
 $$
    j < k < l.
-$$</p><p>Large elimination to upper universes is prohibited.</p><code>def cosmos : U := inductive
-    (fibrant: nat → cosmos)
-    (pretypes: nat → cosmos)
-    (strict: nat → cosmos)
-    (omega: cosmos)</code><br><h2>Dependent Types</h2><p><b>Definition</b> (Type).
+$$</p><p>Large elimination to upper universes is prohibited.</p><code>inductive cosmos : U
+  | fibrant: nat → cosmos
+  | pretypes: nat → cosmos
+  | strict: nat → cosmos
+  | omega: cosmos</code><br><h2>Dependent Types</h2><p><b>Definition</b> (Type).
 A type is interpreted as a presheaf $A$, a family of sets $A_I$ with restriction maps
 $u \mapsto u\ f, A_I \rightarrow A_J$ for $f: J\rightarrow I$. A dependent type
 B on A is interpreted by a presheaf on category of elements of $A$: the objects
@@ -130,32 +130,32 @@ are pairs $(I,u)$ with $u : A_I$ and morphisms $f: (J,v) \rightarrow (I,u)$ are
 maps $f : J \rightarrow$ such that $v = u\ f$. A dependent type B is thus given
 by a family of sets $B(I,u)$ and restriction maps $B(I,u) \rightarrow B(J,u\ f)$.</p><p>We think of $A$ as a type and $B$ as a family of presheves $B(x)$ varying $x:A$.
 The operation $\Pi(x:A)B(x)$ generalizes the semantics of
-implication in a Kripke model.</p><code>def pure (lang: U) : U := inductive
-    (var: name → nat → pure lang)
-    (pi: name → nat → lang → lang → pure lang)
-    (lambda: name → nat → lang → lang → pure lang)
-    (app: lang → lang → pure lang)</code><br><code>def total (lang: U) : U := inductive
-    (sigma: name → lang → lang → total lang)
-    (pair: lang → lang → total lang)
-    (fst: lang → total lang)
-    (snd: lang → total lang)</code><p id="pi"><b>Defintion</b> (Pi). An element $w:[\Pi(x:A)B(x)](I)$ is a family<of>functions $w_f : \Pi(u:A(J))B(J,u)$ for $f : J \rightarrow I$ such</of><that>$(w_f u)g=w_{f\ g}(u\ g)$ when $u:A(J)$ and $g:K\rightarrow J$.</that></p><p id="sigma"><b>Defintion</b> (Sigma). The set $\Sigma(x:A)B(x)$ is the set<of>pairs $(u,v)$ when $u:A(I),v:B(I,u)$ and restriction map $(u,v)\ f=(u\ f,v\ f)$.</of></p><h2 id="path">Path Types</h2><p>The fundamental development of equality inside MLTT
+implication in a Kripke model.</p><code>inductive pure (lang: U) : U
+  | var: name → nat → pure lang
+  | pi: name → nat → lang → lang → pure lang
+  | lambda: name → nat → lang → lang → pure lang
+  | app: lang → lang → pure lang</code><br><code>inductive total (lang: U) : U
+  | sigma: name → lang → lang → total lang
+  | pair: lang → lang → total lang
+  | fst: lang → total lang
+  | snd: lang → total lang</code><p id="pi"><b>Defintion</b> (Pi). An element $w:[\Pi(x:A)B(x)](I)$ is a family<of>functions $w_f : \Pi(u:A(J))B(J,u)$ for $f : J \rightarrow I$ such</of><that>$(w_f u)g=w_{f\ g}(u\ g)$ when $u:A(J)$ and $g:K\rightarrow J$.</that></p><p id="sigma"><b>Defintion</b> (Sigma). The set $\Sigma(x:A)B(x)$ is the set<of>pairs $(u,v)$ when $u:A(I),v:B(I,u)$ and restriction map $(u,v)\ f=(u\ f,v\ f)$.</of></p><h2 id="path">Path Types</h2><p>The fundamental development of equality inside MLTT
 provers led us to the notion of ∞-groupoid as spaces.
 In this way Path identity type appeared in the core
 of type checker along with de Morgan algebra on
 built-in interval type. Glue, unglue composition
 and fill operations are also needed in the core
-for the univalence computability and coherence.</p><code>def homotopy (lang: U) : U := inductive
-    (path: lang → lang → lang → homotopy lang)
-    (plam: name → lang → lang → homotopy lang)
-    (papp: lang → lang → homotopy lang)
-    (interval: homotopy lang)
-    (zero: homotopy lang)
-    (one: homotopy lang)
-    (meet: lang → lang → homotopy lang)
-    (join: lang → lang → homotopy lang)
-    (neg: lang → homotopy lang)
-    (transp: lang → lang → lang → homotopy lang)
-    (hcomp: lang → lang → homotopy lang)</code><br><p><b>Definition</b> (Cubical Presheaf $\mathbb{I}$).
+for the univalence computability and coherence.</p><code>inductive homotopy (lang: U) : U
+  | path: lang → lang → lang → homotopy lang
+  | plam: name → lang → lang → homotopy lang
+  | papp: lang → lang → homotopy lang
+  | interval: homotopy lang
+  | zero: homotopy lang
+  | one: homotopy lang
+  | meet: lang → lang → homotopy lang
+  | join: lang → lang → homotopy lang
+  | neg: lang → homotopy lang
+  | transp: lang → lang → lang → homotopy lang
+  | hcomp: lang → lang → homotopy lang</code><br><p><b>Definition</b> (Cubical Presheaf $\mathbb{I}$).
 The identity types modeled with another presheaf, the presheaf on Lawvere
 category of distributive lattices (theory of de Morgan algebras) denoted
 with $\Box$ &mdash; $\mathbb{I} : \Box^{op} \rightarrow \mathrm{Set}$.</p><p><b>Properties of $\mathbb{I}$</b>. The presheaf $\mathbb{I}$:
@@ -163,24 +163,24 @@ i) has to distinct global elements $0$ and $1$ (B$_1$);
 ii) $\mathbb{I}$(I) has a decidable equality for each $I$ (B$_2$);
 iii) $\mathbb{I}$ is tiny so the path functor $X \mapsto X^\mathbb{I}$ has right adjoint (B$_3$).;
 iv) $\mathbb{I}$ has meet and join (connections).
-</p><h2 id="glue">Glue Types</h2><p>Glue Types are needed to prove univalence.</p><code>def gluening (lang: U) : U := inductive
-    (Glue: lang → lang → lang → gluening lang)
-    (glue: lang → lang → gluening lang)
-    (unglue: lang → lang → gluening lang)</code><br><h2 id="induction">Higher Inductive Types</h2><p>The further development of induction inside MLTT provers led
+</p><h2 id="glue">Glue Types</h2><p>Glue Types are needed to prove univalence.</p><code>inductive gluening (lang: U) : U
+  | Glue: lang → lang → lang → gluening lang
+  | glue: lang → lang → gluening lang
+  | unglue: lang → lang → gluening lang</code><br><h2 id="induction">Higher Inductive Types</h2><p>The further development of induction inside MLTT provers led
 to the theory of polynomial functors and well-founded trees,
 known in programming languages as inductive types with data
 and record core primitives of type checker. In fact, recursive inductive
 types could be encoded in PTS using non-recursive representation of
 Bohm-Berarducci schemes or Categorical Impredicative encoding by Steve Awodey.
-</p><code>def tele (A: U) : U := + (emp: tele A) (tel: name → A → tele A → tele A)
-def branch (A: U) : U := + (br: name → branch A) (args: list name → A → branch A)
-def label (A: U) : U := + (lab: name → label A) (t: tele A → label A)
+</p><code>inductive tele (A: U) : U | emp: tele A | tel: name → A → tele A → tele A
+inductive branch (A: U) : U | br: name → branch A | args: list name → A → branch A
+inductive label (A: U) : U | lab: name → label A | t: tele A → label A
 
-def hit (lang: U) := inductive
-    (intro: name → tele lang → list (label lang) → hit lang)
-    (case: name → lang → list (branch lang) → hit lang)
-    (ctor: name → list lang → hit lang)
-    (htor: name → list lang → list lang → lang → hit lang)</code><p>The non-well-founded trees or infinite coinductive trees
+inductive hit (lang: U)
+  | intro: name → tele lang → list (label lang) → hit lang
+  | case: name → lang → list (branch lang) → hit lang
+  | ctor: name → list lang → hit lang
+  | htor: name → list lang → list lang → lang → hit lang</code><p>The non-well-founded trees or infinite coinductive trees
 are useful for modeling infinite processes and are part
 of Milner's Pi-calculus. Coinductive streams could be found in many MLTT base libraries.
 </p></section><section><h1>Bibliography</h1><p><center><table cellspacing=5><tr><td width=5><img src="https://n2o.space/img/pdf.jpg" width=35></td><td width=400>

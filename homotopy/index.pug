@@ -222,13 +222,13 @@ block content
                     up to synthetic language of homotopy type theory. Each layer corresponds to its presheaves.
                 br.
                 code.
-                    def lang : U := inductive
-                        (UNI: cosmos → lang)
-                        (PI: pure lang → lang)
-                        (SIGMA: total lang → lang)
-                        (PATH: homotopy lang → lang)
-                        (GLUE: gluening lang → lang)
-                        (HIT: hit lang → lang)
+                    inductive lang : U
+                      | UNI: cosmos → lang
+                      | PI: pure lang → lang
+                      | SIGMA: total lang → lang
+                      | PATH: homotopy lang → lang
+                      | GLUE: gluening lang → lang
+                      | HIT: hit lang → lang
 
                 h2#univ Universe Hierachies
                 p.
@@ -245,11 +245,11 @@ block content
                 p.
                     Large elimination to upper universes is prohibited.
                 code.
-                    def cosmos : U := inductive
-                        (fibrant: nat → cosmos)
-                        (pretypes: nat → cosmos)
-                        (strict: nat → cosmos)
-                        (omega: cosmos)
+                    inductive cosmos : U
+                      | fibrant: nat → cosmos
+                      | pretypes: nat → cosmos
+                      | strict: nat → cosmos
+                      | omega: cosmos
                 br.
 
                 h2 Dependent Types
@@ -266,18 +266,18 @@ block content
                     The operation $\Pi(x:A)B(x)$ generalizes the semantics of
                     implication in a Kripke model.
                 code.
-                    def pure (lang: U) : U := inductive
-                        (var: name → nat → pure lang)
-                        (pi: name → nat → lang → lang → pure lang)
-                        (lambda: name → nat → lang → lang → pure lang)
-                        (app: lang → lang → pure lang)
+                    inductive pure (lang: U) : U
+                      | var: name → nat → pure lang
+                      | pi: name → nat → lang → lang → pure lang
+                      | lambda: name → nat → lang → lang → pure lang
+                      | app: lang → lang → pure lang
                 br.
                 code.
-                    def total (lang: U) : U := inductive
-                        (sigma: name → lang → lang → total lang)
-                        (pair: lang → lang → total lang)
-                        (fst: lang → total lang)
-                        (snd: lang → total lang)
+                    inductive total (lang: U) : U
+                      | sigma: name → lang → lang → total lang
+                      | pair: lang → lang → total lang
+                      | fst: lang → total lang
+                      | snd: lang → total lang
                 p#pi
                     <b>Defintion</b> (Pi). An element $w:[\Pi(x:A)B(x)](I)$ is a family
                     of functions $w_f : \Pi(u:A(J))B(J,u)$ for $f : J \rightarrow I$ such
@@ -296,18 +296,18 @@ block content
                     and fill operations are also needed in the core
                     for the univalence computability and coherence.
                 code.
-                    def homotopy (lang: U) : U := inductive
-                        (path: lang → lang → lang → homotopy lang)
-                        (plam: name → lang → lang → homotopy lang)
-                        (papp: lang → lang → homotopy lang)
-                        (interval: homotopy lang)
-                        (zero: homotopy lang)
-                        (one: homotopy lang)
-                        (meet: lang → lang → homotopy lang)
-                        (join: lang → lang → homotopy lang)
-                        (neg: lang → homotopy lang)
-                        (transp: lang → lang → lang → homotopy lang)
-                        (hcomp: lang → lang → homotopy lang)
+                    inductive homotopy (lang: U) : U
+                      | path: lang → lang → lang → homotopy lang
+                      | plam: name → lang → lang → homotopy lang
+                      | papp: lang → lang → homotopy lang
+                      | interval: homotopy lang
+                      | zero: homotopy lang
+                      | one: homotopy lang
+                      | meet: lang → lang → homotopy lang
+                      | join: lang → lang → homotopy lang
+                      | neg: lang → homotopy lang
+                      | transp: lang → lang → lang → homotopy lang
+                      | hcomp: lang → lang → homotopy lang
                 br.
                 p.
                     <b>Definition</b> (Cubical Presheaf $\mathbb{I}$).
@@ -325,10 +325,10 @@ block content
                 p.
                     Glue Types are needed to prove univalence.
                 code.
-                    def gluening (lang: U) : U := inductive
-                        (Glue: lang → lang → lang → gluening lang)
-                        (glue: lang → lang → gluening lang)
-                        (unglue: lang → lang → gluening lang)
+                    inductive gluening (lang: U) : U
+                      | Glue: lang → lang → lang → gluening lang
+                      | glue: lang → lang → gluening lang
+                      | unglue: lang → lang → gluening lang
                 br.
 
                 h2#induction Higher Inductive Types
@@ -341,15 +341,15 @@ block content
                     Bohm-Berarducci schemes or Categorical Impredicative encoding by Steve Awodey.
 
                 code.
-                    def tele (A: U) : U := + (emp: tele A) (tel: name → A → tele A → tele A)
-                    def branch (A: U) : U := + (br: name → branch A) (args: list name → A → branch A)
-                    def label (A: U) : U := + (lab: name → label A) (t: tele A → label A)
+                    inductive tele (A: U) : U | emp: tele A | tel: name → A → tele A → tele A
+                    inductive branch (A: U) : U | br: name → branch A | args: list name → A → branch A
+                    inductive label (A: U) : U | lab: name → label A | t: tele A → label A
 
-                    def hit (lang: U) := inductive
-                        (intro: name → tele lang → list (label lang) → hit lang)
-                        (case: name → lang → list (branch lang) → hit lang)
-                        (ctor: name → list lang → hit lang)
-                        (htor: name → list lang → list lang → lang → hit lang)
+                    inductive hit (lang: U)
+                      | intro: name → tele lang → list (label lang) → hit lang
+                      | case: name → lang → list (branch lang) → hit lang
+                      | ctor: name → list lang → hit lang
+                      | htor: name → list lang → list lang → lang → hit lang
                 p.
                     The non-well-founded trees or infinite coinductive trees
                     are useful for modeling infinite processes and are part
