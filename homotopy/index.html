@@ -19,7 +19,7 @@
                         tex2jax: { inlineMath: [['$','$'], ['\\(','\\)']],
                                    processEscapes: true }
                     };
-</script></head><body class="content"><header class="header"><div class="header__titles"><h1 class="header__title">Homotopy Type System</h1><h4 class="header__subtitle">The type theory with two identities</h4></div></header><article class="main"><div class="exe"><section><h1>SYNOPSIS</h1></section><aside>Максим Сохацький<time>28 JUN 2021</time><p>The HTS language proposed by Voevodsky exposes two different presheaf models of type theory:
+</script></head><body class="content"><header class="header"><div class="header__titles"><h1 class="header__title">Homotopy Type System</h1><h4 class="header__subtitle">Type theory with two equalities</h4></div></header><article class="main"><div class="exe"><section><h1>SYNOPSIS</h1></section><aside>Максим Сохацький<time>28 JUN 2021</time><p>The HTS language proposed by Voevodsky exposes two different presheaf models of type theory:
 the inner one is homotopy type system presheaf that models HoTT and the outer one is traditional Martin-Löf
 type system presheaf that models set theory with UIP. The motivation behind this doubling is to
 have an ability to express semisemplicial types. Theoretical work on merging meta-theoretical
@@ -113,17 +113,25 @@ maps $f : J \rightarrow$ such that $v = u\ f$. A dependent type B is thus given
 by a family of sets $B(I,u)$ and restriction maps $B(I,u) \rightarrow B(J,u\ f)$.</p><p>We think of $A$ as a type and $B$ as a family of presheves $B(x)$ varying $x:A$.
 The operation $\Pi(x:A)B(x)$ generalizes the semantics of
 implication in a Kripke model.</p><br><code>data lang
-   = UNI (_: universes)
+   = UNI (_: cosmos)
    | PI (_: pure lang)
    | SIGMA (_: total lang)
    | ID (_: id lang)
    | PATH (_: homotopy lang)
    | GLUE (_: gluening lang)
    | HIT (_: inductive lang)
-</code><h2>Universe Hierachies</h2><p>Language supports three universes with explicit level manipulation.</p><code>data universes
-   = kan (index: nat)
+</code><h2>Universe Hierachies</h2><p>Language supports Agda-style hierarchy of universes: omega, strict, fibrant, interval pretypes and propositions
+with explicit level manipulation. All universes are bounded with preorder
+$$
+   Prop_i < Fibrant_j < Pretypes_k < Strict_l < Omega,
+$$</p><p>in which $i,j,k$ are bounded with equation:
+$$
+   (i < j) \cap (j < k) \cap (k < l).
+$$</p><code>data cosmos
+   = fibrant (index: nat)
    | pretypes (index: nat)
-   | strict (index: nat)</code><br><h2>Dependent Types</h2><code>data pure (lang: U)
+   | strict (index: nat)
+   | omega</code><br><h2>Dependent Types</h2><code>data pure (lang: U)
    = var (x: name) (l: nat)
    | pi (x: name) (l: nat) (d c: lang)
    | lambda (x: name) (l: nat) (d c: lang)

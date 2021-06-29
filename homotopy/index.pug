@@ -27,7 +27,7 @@ block title
                          };
 
 block content
-    +header('../../groupoid.svg', 'Homotopy Type System', 'The type theory with two identities')
+    +header('../../groupoid.svg', 'Homotopy Type System', 'Type theory with two equalities')
     article.main
         .exe
             section
@@ -231,7 +231,7 @@ block content
                 br.
                 code.
                     data lang
-                       = UNI (_: universes)
+                       = UNI (_: cosmos)
                        | PI (_: pure lang)
                        | SIGMA (_: total lang)
                        | ID (_: id lang)
@@ -241,12 +241,22 @@ block content
 
                 h2 Universe Hierachies
                 p.
-                    Language supports three universes with explicit level manipulation.
+                    Language supports Agda-style hierarchy of universes: omega, strict, fibrant, interval pretypes and propositions
+                    with explicit level manipulation. All universes are bounded with preorder
+                    $$
+                       Prop_i < Fibrant_j < Pretypes_k < Strict_l < Omega,
+                    $$
+                p.
+                    in which $i,j,k$ are bounded with equation:
+                    $$
+                       (i < j) \cap (j < k) \cap (k < l).
+                    $$
                 code.
-                    data universes
-                       = kan (index: nat)
+                    data cosmos
+                       = fibrant (index: nat)
                        | pretypes (index: nat)
                        | strict (index: nat)
+                       | omega
                 br.
 
                 h2 Dependent Types
