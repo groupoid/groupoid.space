@@ -233,7 +233,7 @@ block content
 
                 h2#univ Universe Hierarchies
                 p.
-                    Language supports Agda-style hierarchy of universes: strict, fibrant and interval pretypes
+                    Language supports Agda-style hierarchy of universes: fibrant, interval pretypes and strict omega
                     with explicit level manipulation. All universes are bounded with preorder
                     $$
                        Fibrant_j \prec Pretypes_k \prec Strict_l,
@@ -292,7 +292,7 @@ block content
                     The fundamental development of equality inside MLTT
                     provers led us to the notion of ∞-groupoid as spaces.
                     In this way Path identity type appeared in the core
-                    of type checker along with de Morgan algebra on
+                    of type checker along with De Morgan algebra on
                     built-in interval type. Glue, unglue composition
                     and fill operations are also needed in the core
                     for the univalence computability and coherence.
@@ -313,7 +313,7 @@ block content
                 p.
                     <b>Definition</b> (Cubical Presheaf $\mathbb{I}$).
                     The identity types modeled with another presheaf, the presheaf on Lawvere
-                    category of distributive lattices (theory of de Morgan algebras) denoted
+                    category of distributive lattices (theory of De Morgan algebras) denoted
                     with $\Box$ &mdash; $\mathbb{I} : \Box^{op} \rightarrow \mathrm{Set}$.
                 p.
                     <b>Properties of $\mathbb{I}$</b>. The presheaf $\mathbb{I}$:
@@ -321,6 +321,36 @@ block content
                     ii) $\mathbb{I}$(I) has a decidable equality for each $I$ (B$_2$);
                     iii) $\mathbb{I}$ is tiny so the path functor $X \mapsto X^\mathbb{I}$ has right adjoint (B$_3$).;
                     iv) $\mathbb{I}$ has meet and join (connections).
+                p.
+                    While having pretypes universe <b>V</b> with interval and
+                    associated De Morgan algebra is enough to perform DNF normalization
+                    and proving some basic statements about path, including: contractability of singletons,
+                    homotopy transport, congruence, functional extensionality; it is not enough for
+                    proving β rule for Path type or path composition.
+                p.
+                    Generalized transport <b>transp</b> adresses first problem of deriving the
+                    computational β rule for Path types:
+                code.
+                    def Equ (A : U) (x y : A) : U := PathP (&lt;_&gt; A) x y
+                    def refl (A : U) (x : A) : Equ A x x := &lt;_&gt; x
+                    def singl (A : U) (a : A) : U ≔ Σ (x: A), Equ A a x
+                    def eta (A : U) (a : A) : singl A a ≔ (a, refl A a)
+                    def trans_comp (A : U) (a : A)
+                      : Equ A a (trans A A (&lt;i&gt; A) a) ≔ &lt;j&gt; transp (&lt;_&gt; A) -j a
+                    def contr (A : U) (a b : A) (p : Equ A a b)
+                      : Equ (singl A a) (eta A a) (b, p) ≔ &lt;i&gt; (p @ i, &lt;j&gt; p @ i /\ j)
+                    def subst_comp (A: U) (P: A → U) (a: A) (e: P a)
+                      : Equ (P a) e (subst A P a a (refl A a) e) ≔ trans_comp (P a) e
+
+                    theorem Path-β (A : U) (a : A) (C : D A) (d: C a a (refl A a))
+                      : Equ (C a a (refl A a)) d (J A a C d a (refl A a))
+                      ≔ subst_comp (singl A a) (λ (z: singl A a), C a (z.1) (z.2)) (eta A a) d
+                br.
+                p.
+                    Homogeneous composition <b>hcomp</b> is the answer to second:
+                    with path composition we can build groupoid (categotically) and
+                    then build category of groupoids. Also homogeneous composition can
+                    be carried in [higher] inductive type constructors.
 
                 h2#glue Glue Types
                 p.

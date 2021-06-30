@@ -111,7 +111,7 @@ up to synthetic language of homotopy type theory. Each layer corresponds to its 
   | PATH: homotopy lang → lang
   | GLUE: gluening lang → lang
   | HIT: hit lang → lang
-</code><h2 id="univ">Universe Hierarchies</h2><p>Language supports Agda-style hierarchy of universes: strict, fibrant and interval pretypes
+</code><h2 id="univ">Universe Hierarchies</h2><p>Language supports Agda-style hierarchy of universes: fibrant, interval pretypes and strict omega
 with explicit level manipulation. All universes are bounded with preorder
 $$
    Fibrant_j \prec Pretypes_k \prec Strict_l,
@@ -141,7 +141,7 @@ implication in a Kripke model.</p><code>inductive pure (lang: U) : U
   | snd: lang → total lang</code><p id="pi"><b>Defintion</b> (Pi). An element $w:[\Pi(x:A)B(x)](I)$ is a family<of>functions $w_f : \Pi(u:A(J))B(J,u)$ for $f : J \rightarrow I$ such</of><that>$(w_f u)g=w_{f\ g}(u\ g)$ when $u:A(J)$ and $g:K\rightarrow J$.</that></p><p id="sigma"><b>Defintion</b> (Sigma). The set $\Sigma(x:A)B(x)$ is the set<of>pairs $(u,v)$ when $u:A(I),v:B(I,u)$ and restriction map $(u,v)\ f=(u\ f,v\ f)$.</of></p><h2 id="path">Path Types</h2><p>The fundamental development of equality inside MLTT
 provers led us to the notion of ∞-groupoid as spaces.
 In this way Path identity type appeared in the core
-of type checker along with de Morgan algebra on
+of type checker along with De Morgan algebra on
 built-in interval type. Glue, unglue composition
 and fill operations are also needed in the core
 for the univalence computability and coherence.</p><code>inductive homotopy (lang: U) : U
@@ -157,12 +157,33 @@ for the univalence computability and coherence.</p><code>inductive homotopy (lan
   | transp: lang → lang → lang → homotopy lang
   | hcomp: lang → lang → homotopy lang</code><br><p><b>Definition</b> (Cubical Presheaf $\mathbb{I}$).
 The identity types modeled with another presheaf, the presheaf on Lawvere
-category of distributive lattices (theory of de Morgan algebras) denoted
+category of distributive lattices (theory of De Morgan algebras) denoted
 with $\Box$ &mdash; $\mathbb{I} : \Box^{op} \rightarrow \mathrm{Set}$.</p><p><b>Properties of $\mathbb{I}$</b>. The presheaf $\mathbb{I}$:
 i) has to distinct global elements $0$ and $1$ (B$_1$);
 ii) $\mathbb{I}$(I) has a decidable equality for each $I$ (B$_2$);
 iii) $\mathbb{I}$ is tiny so the path functor $X \mapsto X^\mathbb{I}$ has right adjoint (B$_3$).;
-iv) $\mathbb{I}$ has meet and join (connections).
+iv) $\mathbb{I}$ has meet and join (connections).</p><p>While having pretypes universe <b>V</b> with interval and
+associated De Morgan algebra is enough to perform DNF normalization
+and proving some basic statements about path, including: contractability of singletons,
+homotopy transport, congruence, functional extensionality; it is not enough for
+proving β rule for Path type or path composition.</p><p>Generalized transport <b>transp</b> adresses first problem of deriving the
+computational β rule for Path types:</p><code>def Equ (A : U) (x y : A) : U := PathP (&lt;_&gt; A) x y
+def refl (A : U) (x : A) : Equ A x x := &lt;_&gt; x
+def singl (A : U) (a : A) : U ≔ Σ (x: A), Equ A a x
+def eta (A : U) (a : A) : singl A a ≔ (a, refl A a)
+def trans_comp (A : U) (a : A)
+  : Equ A a (trans A A (&lt;i&gt; A) a) ≔ &lt;j&gt; transp (&lt;_&gt; A) -j a
+def contr (A : U) (a b : A) (p : Equ A a b)
+  : Equ (singl A a) (eta A a) (b, p) ≔ &lt;i&gt; (p @ i, &lt;j&gt; p @ i /\ j)
+def subst_comp (A: U) (P: A → U) (a: A) (e: P a)
+  : Equ (P a) e (subst A P a a (refl A a) e) ≔ trans_comp (P a) e
+
+theorem Path-β (A : U) (a : A) (C : D A) (d: C a a (refl A a))
+  : Equ (C a a (refl A a)) d (J A a C d a (refl A a))
+  ≔ subst_comp (singl A a) (λ (z: singl A a), C a (z.1) (z.2)) (eta A a) d</code><br><p>Homogeneous composition <b>hcomp</b> is the answer to second:
+with path composition we can build groupoid (categotically) and
+then build category of groupoids. Also homogeneous composition can
+be carried in [higher] inductive type constructors.
 </p><h2 id="glue">Glue Types</h2><p>Glue Types are needed to prove univalence.</p><code>inductive gluening (lang: U) : U
   | Glue: lang → lang → lang → gluening lang
   | glue: lang → lang → gluening lang
@@ -231,4 +252,4 @@ of Milner's Pi-calculus. Coinductive streams could be found in many MLTT base li
 <a href="https://raw.githubusercontent.com/groupoid.space/misc/references/58.Huber17.txt">[58]</a>. S. Huber, “Canonicity for cubical type theory,” Journal of Automated Reasoning, pp. 1–38, 2017.
 <a href="https://raw.githubusercontent.com/groupoid.space/misc/references/59.Angiuli16.txt">[59]</a>. C. Angiuli, R. Harper, and T. Wilson, “Computational higher type theory i: Abstract cubical realizability,” arXiv preprint arXiv:1604.08873, 2016.
 <a href="https://raw.githubusercontent.com/groupoid.space/misc/references/60.Angiuli16.txt">[60]</a>. C. Angiuli and R. Harper, “Computational higher type theory ii: Dependent cubical realizability,” arXiv preprint arXiv:1606.09638, 2016.
-<a href="https://raw.githubusercontent.com/groupoid.space/misc/references/61.Coquand18.txt">[61]</a>. T.Coquand, S.Huber, and A.Mörtberg , “On Higher Inductive Types in Cubical Type Theory”, arXiv preprint arXiv:1802.01170, 2018.</p></section></div></article><footer class="footer"><a href="https://github.com/groupoid/"><img class="footer__logo" src="https://longchenpa.guru/seal.png" width="50"></a><span class="footer__copy">2016&mdash;2021 &copy; <a href="//5ht.co/" style="color:Lavender;">Максим Сохацький</a></span></footer><script src="https://groupoid.space/bundle.js?v=7"></script><script src="https://groupoid.space/highlight.js?v=14"></script></body></html>
+<a href="https://raw.githubusercontent.com/groupoid.space/misc/references/61.Coquand18.txt">[61]</a>. T.Coquand, S.Huber, and A.Mörtberg , “On Higher Inductive Types in Cubical Type Theory”, arXiv preprint arXiv:1802.01170, 2018.</p></section></div></article><footer class="footer"><a href="https://github.com/groupoid/"><img class="footer__logo" src="https://longchenpa.guru/seal.png" width="50"></a><span class="footer__copy">2016&mdash;2021 &copy; <a href="//5ht.co/" style="color:Lavender;">Максим Сохацький</a></span></footer><script src="https://groupoid.space/bundle.js?v=7"></script><script src="https://groupoid.space/highlight.js?v=15"></script></body></html>
