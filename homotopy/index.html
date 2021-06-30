@@ -200,7 +200,7 @@ and record core primitives of type checker.</p><p>Inductive types could be encod
 representation of Bohm-Berarducci schemes or with categorical impredicative
 encoding by Steve Awodey. We want to have optional infinite
 impredicative universe in type checker for such experiments in PTS mode.</p><p>Anders supports Lean-compatible inductive definition so we can
-copy-paste term between Lean and Anders. Maybe in future we will support Lean
+copy-paste term between Lean and Anders.
 </p><code>inductive tele (A: U) : U | emp: tele A | tel: name → A → tele A → tele A
 inductive branch (A: U) : U | br: name → branch A | args: list name → A → branch A
 inductive label (A: U) : U | lab: name → label A | t: tele A → label A
