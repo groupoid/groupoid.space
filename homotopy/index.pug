@@ -361,17 +361,6 @@ block content
                     inductive type constructors.
                 br.
 
-                h2#glue Glue Types
-                p.
-                    Glue Types are needed to prove univalence. The basic theoretical introduction
-                    of Artin Gluening could be found in SGA-4, Jonstone.
-                code.
-                    inductive gluening (lang: U) : U
-                      | Glue: lang → lang → lang → gluening lang
-                      | glue: lang → lang → gluening lang
-                      | unglue: lang → lang → gluening lang
-                br.
-
                 h2#induction Higher Inductive Types
                 p.
                     The further development of induction inside MLTT provers led
@@ -401,6 +390,17 @@ block content
                     The non-well-founded trees or infinite coinductive trees
                     are useful for modeling infinite processes and are part
                     of Milner's Pi-calculus. Coinductive streams could be found in many MLTT base libraries.
+
+                h2#glue Glue Types
+                p.
+                    Glue Types are needed to prove univalence. The basic theoretical introduction
+                    of Artin Gluening could be found in SGA-4, Jonstone.
+                code.
+                    inductive gluening (lang: U) : U
+                      | Glue: lang → lang → lang → gluening lang
+                      | glue: lang → lang → gluening lang
+                      | unglue: lang → lang → gluening lang
+                br.
 
             section
                 h1 Bibliography

@@ -189,11 +189,7 @@ theorem Path-β (A : U) (a : A) (C : D A) (d: C a a (refl A a))
 with <b>hcomp</b> and <b>transp</b> one can express path composition,
 groupoid, category of groupoids (groupoid interpretation and internalization in type theory).
 One of the main roles of homogeneous composition is to be a carrier in [higher]
-inductive type constructors.</p><br><h2 id="glue">Glue Types</h2><p>Glue Types are needed to prove univalence. The basic theoretical introduction
-of Artin Gluening could be found in SGA-4, Jonstone.</p><code>inductive gluening (lang: U) : U
-  | Glue: lang → lang → lang → gluening lang
-  | glue: lang → lang → gluening lang
-  | unglue: lang → lang → gluening lang</code><br><h2 id="induction">Higher Inductive Types</h2><p>The further development of induction inside MLTT provers led
+inductive type constructors.</p><br><h2 id="induction">Higher Inductive Types</h2><p>The further development of induction inside MLTT provers led
 to the theory of polynomial functors and well-founded trees,
 known in programming languages as inductive types with data
 and record core primitives of type checker.</p><p>Inductive types could be encoded in PTS/Cedile using non-recursive
@@ -212,7 +208,11 @@ inductive hit (lang: U)
   | htor: name → list lang → list lang → lang → hit lang</code><p>The non-well-founded trees or infinite coinductive trees
 are useful for modeling infinite processes and are part
 of Milner's Pi-calculus. Coinductive streams could be found in many MLTT base libraries.
-</p></section><section><h1>Bibliography</h1><p><center><table cellspacing=5><tr><td width=5><img src="https://n2o.space/img/pdf.jpg" width=35></td><td width=400>
+</p><h2 id="glue">Glue Types</h2><p>Glue Types are needed to prove univalence. The basic theoretical introduction
+of Artin Gluening could be found in SGA-4, Jonstone.</p><code>inductive gluening (lang: U) : U
+  | Glue: lang → lang → lang → gluening lang
+  | glue: lang → lang → gluening lang
+  | unglue: lang → lang → gluening lang</code><br></section><section><h1>Bibliography</h1><p><center><table cellspacing=5><tr><td width=5><img src="https://n2o.space/img/pdf.jpg" width=35></td><td width=400>
 <a href="https://github.com/groupoid/groupoid.space/blob/master/articles/mltt/mltt.pdf">
 <h3>Issue I: Internalizing MLTT</h3>
 </a></td></tr></table></center>
