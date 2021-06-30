@@ -181,10 +181,10 @@ def subst_comp (A: U) (P: A → U) (a: A) (e: P a)
 theorem Path-β (A : U) (a : A) (C : D A) (d: C a a (refl A a))
   : Equ (C a a (refl A a)) d (J A a C d a (refl A a))
   ≔ subst_comp (singl A a) (λ (z: singl A a), C a (z.1) (z.2)) (eta A a) d</code><br><p>Homogeneous composition <b>hcomp</b> is the answer to second:
-with path composition we can build groupoid (categotically) and
-then build category of groupoids. Also homogeneous composition can
-be carried in [higher] inductive type constructors.
-</p><h2 id="glue">Glue Types</h2><p>Glue Types are needed to prove univalence.</p><code>inductive gluening (lang: U) : U
+with <b>hcomp</b> and <b>transp</b> path composition we can
+build groupoid (categotically) and then build category of groupoids.
+Also homogeneous composition can be carried along [higher] inductive
+type constructors.</p><br><h2 id="glue">Glue Types</h2><p>Glue Types are needed to prove univalence.</p><code>inductive gluening (lang: U) : U
   | Glue: lang → lang → lang → gluening lang
   | glue: lang → lang → gluening lang
   | unglue: lang → lang → gluening lang</code><br><h2 id="induction">Higher Inductive Types</h2><p>The further development of induction inside MLTT provers led
