@@ -178,6 +178,8 @@ computational β rule for Path types:</p><code>def Equ (A : U) (x y : A) : U := 
 def refl (A : U) (x : A) : Equ A x x := &lt;_&gt; x
 def singl (A : U) (a : A) : U ≔ Σ (x: A), Equ A a x
 def eta (A : U) (a : A) : singl A a ≔ (a, refl A a)
+def subst (A: U) (P: A → U) (a b: A) (p: Path A a b) (e: P a)
+  : P b := transp (&lt;i&gt; P (p @ i)) 0 e
 def trans_comp (A : U) (a : A)
   : Equ A a (trans A A (&lt;i&gt; A) a) ≔ &lt;j&gt; transp (&lt;_&gt; A) -j a
 def contr (A : U) (a b : A) (p : Equ A a b)
@@ -262,4 +264,4 @@ of Artin Gluening could be found in SGA-4, Jonstone.</p><code>inductive gluening
 <a href="https://raw.githubusercontent.com/groupoid.space/misc/references/58.Huber17.txt">[58]</a>. S. Huber, “Canonicity for cubical type theory,” Journal of Automated Reasoning, pp. 1–38, 2017.
 <a href="https://raw.githubusercontent.com/groupoid.space/misc/references/59.Angiuli16.txt">[59]</a>. C. Angiuli, R. Harper, and T. Wilson, “Computational higher type theory i: Abstract cubical realizability,” arXiv preprint arXiv:1604.08873, 2016.
 <a href="https://raw.githubusercontent.com/groupoid.space/misc/references/60.Angiuli16.txt">[60]</a>. C. Angiuli and R. Harper, “Computational higher type theory ii: Dependent cubical realizability,” arXiv preprint arXiv:1606.09638, 2016.
-<a href="https://raw.githubusercontent.com/groupoid.space/misc/references/61.Coquand18.txt">[61]</a>. T.Coquand, S.Huber, and A.Mörtberg , “On Higher Inductive Types in Cubical Type Theory”, arXiv preprint arXiv:1802.01170, 2018.</p></section></div></article><footer class="footer"><a href="https://github.com/groupoid/"><img class="footer__logo" src="https://longchenpa.guru/seal.png" width="50"></a><span class="footer__copy">2016&mdash;2021 &copy; <a href="//5ht.co/" style="color:Lavender;">Максим Сохацький</a></span></footer><script src="https://groupoid.space/bundle.js?v=7"></script><script src="https://groupoid.space/highlight.js?v=15"></script></body></html>
+<a href="https://raw.githubusercontent.com/groupoid.space/misc/references/61.Coquand18.txt">[61]</a>. T.Coquand, S.Huber, and A.Mörtberg , “On Higher Inductive Types in Cubical Type Theory”, arXiv preprint arXiv:1802.01170, 2018.</p></section></div></article><footer class="footer"><a href="https://github.com/groupoid/"><img class="footer__logo" src="https://longchenpa.guru/seal.png" width="50"></a><span class="footer__copy">2016&mdash;2021 &copy; <a href="//5ht.co/" style="color:Lavender;">Максим Сохацький</a></span></footer><script src="https://groupoid.space/bundle.js?v=7"></script><script src="https://groupoid.space/highlight.js?v=16"></script></body></html>
