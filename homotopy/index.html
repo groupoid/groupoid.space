@@ -35,9 +35,10 @@ Anders theorem prover [MLTT].
   command = check filename     | lex filename
           | parse filename     | help
           | cubicaltt filename | girard
-          | trace</code><br><p>We carefully draw the favourite Lean-compatible syntax to fit 130 LOC in Menhir,
-the MLTT core (based on Mini-TT) is 500 LOC and pretypes presheaf is another 500 LOC.
-The MLTT hyperprover core in Clojure is <a href="https://gist.github.com/5HT/2415f9945e92d7fc364f592a1abc2f93">expressible</a> in 150 LOC.</p><br></section><section><h1>SYNTAX</h1><p>The syntax resembles original syntax of the reference CCHM type checker cubicaltt [Cohen, Coquand, Huber, Mörtberg], slightly compatible with Lean.
+          | trace</code><br><p>Anders is idiomatic and educational. We carefully draw the favourite
+Lean-compatible syntax to fit 130 LOC in Menhir, the MLTT core (based on Mini-TT)
+is 500 LOC and pretypes presheaf is another 500 LOC. The MLTT hyperprover core
+in Clojure is <a href="https://gist.github.com/5HT/2415f9945e92d7fc364f592a1abc2f93">expressible</a> in 150 LOC.</p><br></section><section><h1>SYNTAX</h1><p>The syntax resembles original syntax of the reference CCHM type checker cubicaltt [Cohen, Coquand, Huber, Mörtberg], slightly compatible with Lean.
 Here will be used Menhir BNF nonation as type checker is written in OCaml.</p><p><b>Keywords</b>.
 The words of a language consist of keywords or identifiers. The keywords are following:
 <b>module</b>, <b>where</b>, <b>import</b>, <b>option</b>, <b>def</b>, <b>axiom</b>, <b>postulate</b>, <b>theorem</b>,
