@@ -102,9 +102,16 @@ are using unicode subscript letters that are already processed in lexer.</p><cod
   | exp3 AND exp3 | exp3 OR exp3
   | PATHP exp3    | TRANSP exp3 exp3
   | IDENT         | NO
-  | LPARENS exp0 RPARENS | STRICT</code><br><h1>SEMANTICS</h1><p>The idea to have a unified layered type checker.
+  | LPARENS exp0 RPARENS | STRICT</code><br><h1>SEMANTICS</h1><p>The idea is to have a unified layered type checker, so you can disbale/enable
+any MLTT-style inference, assign types to universes and enable/disable hierachies.
+This will be done by providing linking API for pluggable presheaf modules.
 We selected 5 levels of type checker awareness from universes and pure type systems
-up to synthetic language of homotopy type theory. Each layer corresponds to its presheaves.</p><br><code>inductive lang : U
+up to synthetic language of homotopy type theory. Each layer corresponds to its
+presheaves with separate configuration for universe hierarchies.</p><p>We want to mention here with homage to its authors all categorical
+models of dependent type theory:  Comprehension Categories (Grothendieck, Jacobs),
+LCC (Seely), D-Categories and CwA (Cartmell), CwF (Dybjer), C-Systems (Voevodsky),
+Natural Models (Awodey). While we can build some transports between them,
+we leave this excercise for our mathematical components library.</p><br><code>inductive lang : U
   | UNI: cosmos → lang
   | PI: pure lang → lang
   | SIGMA: total lang → lang
@@ -142,9 +149,7 @@ implication in a Kripke model.</p><code>inductive pure (lang: U) : U
 provers led us to the notion of ∞-groupoid as spaces.
 In this way Path identity type appeared in the core
 of type checker along with De Morgan algebra on
-built-in interval type. Glue, unglue composition
-and fill operations are also needed in the core
-for the univalence computability and coherence.</p><code>inductive homotopy (lang: U) : U
+built-in interval type.</p><code>inductive homotopy (lang: U) : U
   | path: lang → lang → lang → homotopy lang
   | plam: name → lang → lang → homotopy lang
   | papp: lang → lang → homotopy lang
@@ -181,18 +186,21 @@ def subst_comp (A: U) (P: A → U) (a: A) (e: P a)
 theorem Path-β (A : U) (a : A) (C : D A) (d: C a a (refl A a))
   : Equ (C a a (refl A a)) d (J A a C d a (refl A a))
   ≔ subst_comp (singl A a) (λ (z: singl A a), C a (z.1) (z.2)) (eta A a) d</code><br><p>Homogeneous composition <b>hcomp</b> is the answer to second:
-with <b>hcomp</b> and <b>transp</b> path composition we can
-build groupoid (categotically) and then build category of groupoids.
-Also homogeneous composition can be carried along [higher] inductive
-type constructors.</p><br><h2 id="glue">Glue Types</h2><p>Glue Types are needed to prove univalence.</p><code>inductive gluening (lang: U) : U
+with <b>hcomp</b> and <b>transp</b> one can express path composition,
+groupoid, category of groupoids (groupoid interpretation and internalization in type theory).
+One of the main roles of homogeneous composition is to be a carrier in [higher]
+inductive type constructors.</p><br><h2 id="glue">Glue Types</h2><p>Glue Types are needed to prove univalence. The basic theoretical introduction
+of Artin Gluening could be found in SGA-4, Jonstone.</p><code>inductive gluening (lang: U) : U
   | Glue: lang → lang → lang → gluening lang
   | glue: lang → lang → gluening lang
   | unglue: lang → lang → gluening lang</code><br><h2 id="induction">Higher Inductive Types</h2><p>The further development of induction inside MLTT provers led
 to the theory of polynomial functors and well-founded trees,
 known in programming languages as inductive types with data
-and record core primitives of type checker. In fact, recursive inductive
-types could be encoded in PTS using non-recursive representation of
-Bohm-Berarducci schemes or Categorical Impredicative encoding by Steve Awodey.
+and record core primitives of type checker.</p><p>Inductive types could be encoded in PTS/Cedile using non-recursive
+representation of Bohm-Berarducci schemes or with categorical impredicative
+encoding by Steve Awodey. We want to have optional infinite
+impredicative universe in type checker for such experiments in PTS mode.</p><p>Anders supports Lean-compatible inductive definition so we can
+copy-paste term between Lean and Anders. Maybe in future we will support Lean
 </p><code>inductive tele (A: U) : U | emp: tele A | tel: name → A → tele A → tele A
 inductive branch (A: U) : U | br: name → branch A | args: list name → A → branch A
 inductive label (A: U) : U | lab: name → label A | t: tele A → label A
