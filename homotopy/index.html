@@ -109,7 +109,7 @@ We selected 5 levels of type checker awareness from universes and pure type syst
 up to synthetic language of homotopy type theory. Each layer corresponds to its
 presheaves with separate configuration for universe hierarchies.</p><p>We want to mention here with homage to its authors all categorical
 models of dependent type theory:  Comprehension Categories (Grothendieck, Jacobs),
-LCC (Seely), D-Categories and CwA (Cartmell), CwF (Dybjer), C-Systems (Voevodsky),
+LCCC (Seely), D-Categories and CwA (Cartmell), CwF (Dybjer), C-Systems (Voevodsky),
 Natural Models (Awodey). While we can build some transports between them,
 we leave this excercise for our mathematical components library.</p><br><code>inductive lang : U
   | UNI: cosmos → lang
@@ -137,15 +137,15 @@ are pairs $(I,u)$ with $u : A_I$ and morphisms $f: (J,v) \rightarrow (I,u)$ are
 maps $f : J \rightarrow$ such that $v = u\ f$. A dependent type B is thus given
 by a family of sets $B(I,u)$ and restriction maps $B(I,u) \rightarrow B(J,u\ f)$.</p><p>We think of $A$ as a type and $B$ as a family of presheves $B(x)$ varying $x:A$.
 The operation $\Pi(x:A)B(x)$ generalizes the semantics of
-implication in a Kripke model.</p><code>inductive pure (lang: U) : U
+implication in a Kripke model.</p><p id="pi"><b>Defintion</b> (Pi). An element $w:[\Pi(x:A)B(x)](I)$ is a family<of>functions $w_f : \Pi(u:A(J))B(J,u)$ for $f : J \rightarrow I$ such</of><that>$(w_f u)g=w_{f\ g}(u\ g)$ when $u:A(J)$ and $g:K\rightarrow J$.</that></p><code>inductive pure (lang: U) : U
   | var: name → nat → pure lang
   | pi: name → nat → lang → lang → pure lang
   | lambda: name → nat → lang → lang → pure lang
-  | app: lang → lang → pure lang</code><br><code>inductive total (lang: U) : U
+  | app: lang → lang → pure lang</code><br><p id="sigma"><b>Defintion</b> (Sigma). The set $\Sigma(x:A)B(x)$ is the set<of>pairs $(u,v)$ when $u:A(I),v:B(I,u)$ and restriction map $(u,v)\ f=(u\ f,v\ f)$.</of></p><code>inductive total (lang: U) : U
   | sigma: name → lang → lang → total lang
   | pair: lang → lang → total lang
   | fst: lang → total lang
-  | snd: lang → total lang</code><p id="pi"><b>Defintion</b> (Pi). An element $w:[\Pi(x:A)B(x)](I)$ is a family<of>functions $w_f : \Pi(u:A(J))B(J,u)$ for $f : J \rightarrow I$ such</of><that>$(w_f u)g=w_{f\ g}(u\ g)$ when $u:A(J)$ and $g:K\rightarrow J$.</that></p><p id="sigma"><b>Defintion</b> (Sigma). The set $\Sigma(x:A)B(x)$ is the set<of>pairs $(u,v)$ when $u:A(I),v:B(I,u)$ and restriction map $(u,v)\ f=(u\ f,v\ f)$.</of></p><h2 id="path">Path Types</h2><p>The fundamental development of equality inside MLTT
+  | snd: lang → total lang</code><br><h2 id="path">Path Types</h2><p>The fundamental development of equality inside MLTT
 provers led us to the notion of ∞-groupoid as spaces.
 In this way Path identity type appeared in the core
 of type checker along with De Morgan algebra on
@@ -191,8 +191,8 @@ groupoid, category of groupoids (groupoid interpretation and internalization in 
 One of the main roles of homogeneous composition is to be a carrier in [higher]
 inductive type constructors.</p><br><h2 id="induction">Higher Inductive Types</h2><p>The further development of induction inside MLTT provers led
 to the theory of polynomial functors and well-founded trees,
-known in programming languages as inductive types with data
-and record core primitives of type checker.</p><p>Inductive types could be encoded in PTS/Cedile using non-recursive
+known in programming languages as inductive types with <b>inductive</b>
+and <b>record</b> core primitives.</p><p>Inductive types could be encoded in PTS/Cedile using non-recursive
 representation of Bohm-Berarducci schemes or with categorical impredicative
 encoding by Steve Awodey. We want to have optional infinite
 impredicative universe in type checker for such experiments in PTS mode.</p><p>Anders supports Lean-compatible inductive definition so we can
