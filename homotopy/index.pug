@@ -94,6 +94,11 @@ block content
                               | cubicaltt filename | girard
                               | trace
                 br.
+                p.
+                    We carefully draw the favourite Lean-compatible syntax to fit 130 LOC in Menhir,
+                    the MLTT core (based on Mini-TT) is 500 LOC and pretypes presheaf is another 500 LOC.
+                    The MLTT hyperprover core in Clojure is <a href="https://gist.github.com/5HT/2415f9945e92d7fc364f592a1abc2f93">expressible</a> in 150 LOC.
+                br.
 
             section
                 h1 SYNTAX
@@ -224,13 +229,6 @@ block content
                     We selected 5 levels of type checker awareness from universes and pure type systems
                     up to synthetic language of homotopy type theory. Each layer corresponds to its
                     presheaves with separate configuration for universe hierarchies.
-                p.
-                    We want to mention here with homage to its authors all categorical
-                    models of dependent type theory:  Comprehension Categories (Grothendieck, Jacobs),
-                    LCCC (Seely), D-Categories and CwA (Cartmell), CwF (Dybjer), C-Systems (Voevodsky),
-                    Natural Models (Awodey). While we can build some transports between them,
-                    we leave this excercise for our mathematical components library.
-                br.
                 code.
                     inductive lang : U
                       | UNI: cosmos → lang
@@ -239,6 +237,14 @@ block content
                       | PATH: homotopy lang → lang
                       | GLUE: gluening lang → lang
                       | HIT: hit lang → lang
+                br.
+                p.
+                    We want to mention here with homage to its authors all categorical
+                    models of dependent type theory:  Comprehension Categories (Grothendieck, Jacobs),
+                    LCCC (Seely), D-Categories and CwA (Cartmell), CwF (Dybjer), C-Systems (Voevodsky),
+                    Natural Models (Awodey). While we can build some transports between them,
+                    we leave this excercise for our mathematical components library.
+                br.
 
                 h2#univ Universe Hierarchies
                 p.

@@ -35,7 +35,9 @@ Anders theorem prover [MLTT].
   command = check filename     | lex filename
           | parse filename     | help
           | cubicaltt filename | girard
-          | trace</code><br></section><section><h1>SYNTAX</h1><p>The syntax resembles original syntax of the reference CCHM type checker cubicaltt [Cohen, Coquand, Huber, Mörtberg], slightly compatible with Lean.
+          | trace</code><br><p>We carefully draw the favourite Lean-compatible syntax to fit 130 LOC in Menhir,
+the MLTT core (based on Mini-TT) is 500 LOC and pretypes presheaf is another 500 LOC.
+The MLTT hyperprover core in Clojure is <a href="https://gist.github.com/5HT/2415f9945e92d7fc364f592a1abc2f93">expressible</a> in 150 LOC.</p><br></section><section><h1>SYNTAX</h1><p>The syntax resembles original syntax of the reference CCHM type checker cubicaltt [Cohen, Coquand, Huber, Mörtberg], slightly compatible with Lean.
 Here will be used Menhir BNF nonation as type checker is written in OCaml.</p><p><b>Keywords</b>.
 The words of a language consist of keywords or identifiers. The keywords are following:
 <b>module</b>, <b>where</b>, <b>import</b>, <b>option</b>, <b>def</b>, <b>axiom</b>, <b>postulate</b>, <b>theorem</b>,
@@ -107,18 +109,17 @@ any MLTT-style inference, assign types to universes and enable/disable hierachie
 This will be done by providing linking API for pluggable presheaf modules.
 We selected 5 levels of type checker awareness from universes and pure type systems
 up to synthetic language of homotopy type theory. Each layer corresponds to its
-presheaves with separate configuration for universe hierarchies.</p><p>We want to mention here with homage to its authors all categorical
-models of dependent type theory:  Comprehension Categories (Grothendieck, Jacobs),
-LCCC (Seely), D-Categories and CwA (Cartmell), CwF (Dybjer), C-Systems (Voevodsky),
-Natural Models (Awodey). While we can build some transports between them,
-we leave this excercise for our mathematical components library.</p><br><code>inductive lang : U
+presheaves with separate configuration for universe hierarchies.</p><code>inductive lang : U
   | UNI: cosmos → lang
   | PI: pure lang → lang
   | SIGMA: total lang → lang
   | PATH: homotopy lang → lang
   | GLUE: gluening lang → lang
-  | HIT: hit lang → lang
-</code><h2 id="univ">Universe Hierarchies</h2><p>Language supports Agda-style hierarchy of universes: fibrant, interval pretypes and strict omega
+  | HIT: hit lang → lang</code><br><p>We want to mention here with homage to its authors all categorical
+models of dependent type theory:  Comprehension Categories (Grothendieck, Jacobs),
+LCCC (Seely), D-Categories and CwA (Cartmell), CwF (Dybjer), C-Systems (Voevodsky),
+Natural Models (Awodey). While we can build some transports between them,
+we leave this excercise for our mathematical components library.</p><br><h2 id="univ">Universe Hierarchies</h2><p>Language supports Agda-style hierarchy of universes: fibrant, interval pretypes and strict omega
 with explicit level manipulation. All universes are bounded with preorder
 $$
    Fibrant_j \prec Pretypes_k \prec Strict_l,
