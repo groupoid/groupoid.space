@@ -353,6 +353,8 @@ block content
                     def subst (A: U) (P: A → U) (a b: A) (p: Path A a b) (e: P a)
                       : P b := transp (&lt;i&gt; P (p @ i)) 0 e
                     def trans (A B: U) (p: PathP (&lt;_&gt; U) A B) (a: A): B := transp p 0 a
+                    def J (A: U) (x: A) (C: D A) (d: C x x (refl A x)) (y: A) (p: Equ A x y)
+                      : C x y p ≔ subst (singl A x) (λ (z: singl A x), C x (z.1) (z.2)) (eta A x) (y, p) (contr A x y p) d
                     def trans_comp (A : U) (a : A)
                       : Equ A a (trans A A (&lt;i&gt; A) a) ≔ &lt;j&gt; transp (&lt;_&gt; A) -j a
                     def contr (A : U) (a b : A) (p : Equ A a b)
