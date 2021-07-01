@@ -388,7 +388,7 @@ block content
                     impredicative universe in type checker for such experiments in PTS mode.
                 p.
                     Anders supports Lean-compatible inductive definition so we can
-                    copy-paste term between Lean and Anders.
+                    copy-paste terms between Lean and Anders.
 
                 code.
                     inductive tele (A: U) : U | emp: tele A | tel: name → A → tele A → tele A
@@ -408,7 +408,7 @@ block content
                 h2#glue Glue Types
                 p.
                     Glue Types are needed to prove univalence. The basic theoretical introduction
-                    of Artin Gluening could be found in SGA-4, Jonstone.
+                    of Artin Gluening could be found in SGA-4, Johnstone.
                 code.
                     inductive gluening (lang: U) : U
                       | Glue: lang → lang → lang → gluening lang
