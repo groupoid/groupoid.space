@@ -200,7 +200,25 @@ with <b>hcomp</b> and <b>transp</b> one can express path composition,
 groupoid, category of groupoids (groupoid interpretation and internalization in type theory).
 One of the main roles of homogeneous composition is to be a carrier in [higher]
 inductive type constructors for calculating of homotopy colimits and
-direct encoding of CW-complexes (or internal models as gluening of pushout cells).</p><br><h2 id="induction">Higher Inductive Types</h2><p>The further development of induction inside MLTT provers led
+direct encoding of CW-complexes (or internal models as gluening of pushout cells).</p><p>Equations for recursive generalized transport and homogeneous composition (Simon Huber):</p><code>transpⁱ N φ u₀ = u₀
+transpⁱ U φ A = A
+transpⁱ (Π (x : A), B) φ u₀ = transpⁱ (Π (x : A), B) φ u₀ v = transpⁱ B(x/w) φ (u₀ w(i/0)), w = transpFill⁻ⁱ A φ v, v : A(i/1)
+transpⁱ (Σ (x : A), B) φ u₀ = (transpⁱ A φ (u₀.1),transpⁱ B(x/v) φ(u₀.2)), v = transpFillⁱ A φ u₀.1
+transpⁱ (Pathʲ A v w) φ u₀ = 〈j〉compⁱ A [φ ↦ u₀ j, (j=0) ↦ v, (j=1) ↦ w] (u₀ j), u : A(j/0), v : A(j/1)
+transpⁱ (Glue [φ ↦ (T,w)] A) ψ u₀ = glue [φ(i/1) ↦ t′₁] a′₁ : B(i/1)
+
+hcompⁱ N [φ ↦ 0] 0 = 0
+hcompⁱ N [φ ↦ S u] (S u₀) = S (hcompⁱ N [φ ↦ u] u₀)
+hcompⁱ U [φ ↦ E] A = Glue [φ ↦ (E(i/1), equivⁱ E(i/1−i))] A
+hcompⁱ (Π (x : A), B) [φ ↦ u] u₀ v = hcompⁱ B(x/v) [φ ↦ u v] (u₀ v)
+hcompⁱ (Σ (x : A), B) [φ ↦ u] u₀ = (v(i/1), compⁱ B(x/v) [φ ↦ u.2] u₀.2), v = hfillⁱ A [φ ↦ u.1] u₀.1
+hcompⁱ (Pathʲ A v w) [φ ↦ u] u₀ = 〈j〉 hcompⁱ A [ φ ↦ u j, (j = 0) ↦ v, (j = 1) ↦ w ] (u₀ j)
+hcompⁱ (Glue [φ ↦ (T,w)] A) [ψ ↦ u] u₀ = glue [φ ↦ t₁] a₁ = glue [φ ↦ u(i/1)] (unglue u(i/1))
+  = u(i/1) : Glue [φ ↦ (T,w)] A, t₁ = u(i/1) : T, a₁ = unglue u(i/1) : A, glue [φ ↦ t₁] a1 = t₁ : T
+
+transp⁻ⁱ A φ u = (transpⁱ A(i/1−i) φ u)(i/1−i) : A(i/0)
+transpFillⁱ A φ u₀ = transpʲ A(i/i∧j) (φ∨(i=0)) u₀ : A
+hfillⁱ A [φ ↦ u] u₀ = hcompʲ A [φ ↦ u(i/i∧j), (i=0) ↦ u₀] u₀ : A</code><br><h2 id="induction">Higher Inductive Types</h2><p>The further development of induction inside MLTT provers led
 to the theory of polynomial functors and well-founded trees,
 known in programming languages as inductive types with <b>inductive</b>
 and <b>record</b> core primitives.</p><p>Inductive types could be encoded in PTS/Cedile using non-recursive
