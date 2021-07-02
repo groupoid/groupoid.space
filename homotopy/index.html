@@ -219,7 +219,8 @@ hcompⁱ (Glue [φ ↦ (T,w)] A) [ψ ↦ u] u₀ = glue [φ ↦ t₁] a₁ = glu
 
 transp⁻ⁱ A φ u = (transpⁱ A(i/1−i) φ u)(i/1−i) : A(i/0)
 transpFillⁱ A φ u₀ = transpʲ A(i/i∧j) (φ∨(i=0)) u₀ : A
-hfillⁱ A [φ ↦ u] u₀ = hcompʲ A [φ ↦ u(i/i∧j), (i=0) ↦ u₀] u₀ : A</code><br><h2 id="induction">Higher Inductive Types</h2><p>The further development of induction inside MLTT provers led
+hfillⁱ A [φ ↦ u] u₀ = hcompʲ A [φ ↦ u(i/i∧j), (i=0) ↦ u₀] u₀ : A</code><br><p>Note that for Path-β computability one need only transp¹ on Path,
+transpⁱ along Π and Σ and are also derivable in such system.</p><br><h2 id="induction">Higher Inductive Types</h2><p>The further development of induction inside MLTT provers led
 to the theory of polynomial functors and well-founded trees,
 known in programming languages as inductive types with <b>inductive</b>
 and <b>record</b> core primitives.</p><p>Inductive types could be encoded in PTS/Cedile using non-recursive
