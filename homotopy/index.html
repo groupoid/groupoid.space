@@ -28,7 +28,7 @@ and homotopical languages was continued in <a href="https://arxiv.org/pdf/1705.0
 cubical (HoTT) type checker with CHM-style primitives, or more general CCHM type checker.
 You may try it at Github: <a href="https://github.com/groupoid/anders">groupoid/anders</a>.
 </p><code>$ ./anders.native
-Anders theorem prover [MLTT].
+Anders theorem prover [PTS][MLTT][CCHM-4][HTS].
 
    invoke = anders | anders list
      list = [] | command list
@@ -114,6 +114,7 @@ presheaves with separate configuration for universe hierarchies.</p><code>induct
   | UNI: cosmos → lang
   | PI: pure lang → lang
   | SIGMA: total lang → lang
+  | ID: uip lang → lang
   | PATH: homotopy lang → lang
   | GLUE: gluening lang → lang
   | HIT: hit lang → lang</code><br><p>We want to mention here with homage to its authors all categorical
@@ -127,11 +128,13 @@ $$
 $$</p><p>in which $j,k,l$ are bounded with equation:
 $$
    j < k < l.
-$$</p><p>Large elimination to upper universes is prohibited.</p><code>inductive cosmos : U
+$$</p><p>Large elimination to upper universes is prohibited. This is extendable to Agda model:</p><code>inductive cosmos : U
+  | prop: nat → cosmos
   | fibrant: nat → cosmos
   | pretypes: nat → cosmos
   | strict: nat → cosmos
-  | omega: cosmos</code><br><h2>Dependent Types</h2><p><b>Definition</b> (Type).
+  | omega: cosmos
+  | lock: cosmos</code><br><h2>Dependent Types</h2><p><b>Definition</b> (Type).
 A type is interpreted as a presheaf $A$, a family of sets $A_I$ with restriction maps
 $u \mapsto u\ f, A_I \rightarrow A_J$ for $f: J\rightarrow I$. A dependent type
 B on A is interpreted by a presheaf on category of elements of $A$: the objects
@@ -268,4 +271,4 @@ of Artin Gluening could be found in SGA-4, Johnstone.</p><code>inductive gluenin
 <a href="https://raw.githubusercontent.com/groupoid.space/misc/references/58.Huber17.txt">[58]</a>. S. Huber, “Canonicity for cubical type theory,” Journal of Automated Reasoning, pp. 1–38, 2017.
 <a href="https://raw.githubusercontent.com/groupoid.space/misc/references/59.Angiuli16.txt">[59]</a>. C. Angiuli, R. Harper, and T. Wilson, “Computational higher type theory i: Abstract cubical realizability,” arXiv preprint arXiv:1604.08873, 2016.
 <a href="https://raw.githubusercontent.com/groupoid.space/misc/references/60.Angiuli16.txt">[60]</a>. C. Angiuli and R. Harper, “Computational higher type theory ii: Dependent cubical realizability,” arXiv preprint arXiv:1606.09638, 2016.
-<a href="https://raw.githubusercontent.com/groupoid.space/misc/references/61.Coquand18.txt">[61]</a>. T.Coquand, S.Huber, and A.Mörtberg , “On Higher Inductive Types in Cubical Type Theory”, arXiv preprint arXiv:1802.01170, 2018.</p></section></div></article><footer class="footer"><a href="https://github.com/groupoid/"><img class="footer__logo" src="https://longchenpa.guru/seal.png" width="50"></a><span class="footer__copy">2016&mdash;2021 &copy; <a href="//5ht.co/" style="color:Lavender;">Максим Сохацький</a></span></footer><script src="https://groupoid.space/bundle.js?v=7"></script><script src="https://groupoid.space/highlight.js?v=17"></script></body></html>
+<a href="https://raw.githubusercontent.com/groupoid.space/misc/references/61.Coquand18.txt">[61]</a>. T.Coquand, S.Huber, and A.Mörtberg , “On Higher Inductive Types in Cubical Type Theory”, arXiv preprint arXiv:1802.01170, 2018.</p></section></div></article><footer class="footer"><a href="https://github.com/groupoid/"><img class="footer__logo" src="https://longchenpa.guru/seal.png" width="50"></a><span class="footer__copy">2016&mdash;2021 &copy; <a href="//5ht.co/" style="color:Lavender;">Максим Сохацький</a></span></footer><script src="https://groupoid.space/bundle.js?v=7"></script><script src="https://groupoid.space/highlight.js?v=18"></script></body></html>

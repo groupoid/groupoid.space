@@ -85,7 +85,7 @@ block content
 
                 code.
                     $ ./anders.native
-                    Anders theorem prover [MLTT].
+                    Anders theorem prover [PTS][MLTT][CCHM-4][HTS].
 
                        invoke = anders | anders list
                          list = [] | command list
@@ -235,6 +235,7 @@ block content
                       | UNI: cosmos → lang
                       | PI: pure lang → lang
                       | SIGMA: total lang → lang
+                      | ID: uip lang → lang
                       | PATH: homotopy lang → lang
                       | GLUE: gluening lang → lang
                       | HIT: hit lang → lang
@@ -260,13 +261,15 @@ block content
                        j < k < l.
                     $$
                 p.
-                    Large elimination to upper universes is prohibited.
+                    Large elimination to upper universes is prohibited. This is extendable to Agda model:
                 code.
                     inductive cosmos : U
+                      | prop: nat → cosmos
                       | fibrant: nat → cosmos
                       | pretypes: nat → cosmos
                       | strict: nat → cosmos
                       | omega: cosmos
+                      | lock: cosmos
                 br.
 
                 h2 Dependent Types
