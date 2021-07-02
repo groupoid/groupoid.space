@@ -40,17 +40,21 @@ In the `core` folder presented the PTS/MLTT/HTS base library:
 
 ```
 groupoid.space/core/
-├── list/
-├── maybe/
-├── nat/
-├── path/
-├── pi/
-├── io/
-├── ioi/
-├── prop/
-├── proto/
-├── sigma/
-└── stream/
+├── core
+├── bool
+├── int
+├── io
+├── ioi
+├── list
+├── maybe
+├── nat
+├── path
+├── pi
+├── process
+├── prop
+├── proto
+├── sigma
+└── stream
 ```
 
 ### Mathematics
@@ -59,23 +63,51 @@ In the `math` folder you will find Mathematical Components for HTS:
 
 ```
 groupoid.space/math/
-├── bundle/
-├── category/
-├── cw/
-├── derham/
-├── disc/
-├── equiv/
-├── functor/
-├── homology/
-├── hopf/
-├── inductive/
-├── iso/
-├── lambek/
-├── limits/
-├── presheaf/
-├── pullback/
-├── sheaf/
-└── topos/
+├── algebra
+├── bundle
+├── category
+├── cw
+├── derham
+├── wellen
+├── equiv
+├── functor
+├── homology
+├── hopf
+├── inductive
+├── iso
+├── lambek
+├── limits
+├── presheaf
+├── sheaf
+└── topos
+```
+
+## Misc
+
+```
+groupoid.space/misc/
+├── course
+├── hist
+├── ncatlab
+├── references
+├── semantics
+└── history
+```
+
+## Articles
+
+```
+groupoid.space/articles/
+├── cwf
+├── equ
+├── hit
+├── hott
+├── inductive
+├── mltt
+├── pts
+├── quantum
+├── set
+└── topos
 ```
 
 ## Usage
@@ -90,3 +122,4 @@ $ ./homotopy check https://groupoid.space/math/hopf/hopf.txt
 
 * Arseniy Bushyn
 * Maxim Sokhatsky
+* Siegmentation Fault
