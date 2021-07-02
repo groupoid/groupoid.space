@@ -177,25 +177,10 @@ associated De Morgan algebra is enough to perform DNF normalization
 and proving some basic statements about path, including: contractability of singletons,
 homotopy transport, congruence, functional extensionality; it is not enough for
 proving β rule for Path type or path composition.</p><p>Generalized transport <b>transp</b> adresses first problem of deriving the
-computational β rule for Path types:</p><code>def Equ (A : U) (x y : A) : U := PathP (&lt;_&gt; A) x y
-def refl (A : U) (x : A) : Equ A x x := &lt;_&gt; x
-def singl (A : U) (a : A) : U ≔ Σ (x: A), Equ A a x
-def eta (A : U) (a : A) : singl A a ≔ (a, refl A a)
-def subst (A: U) (P: A → U) (a b: A) (p: Path A a b) (e: P a)
-  : P b := transp (&lt;i&gt; P (p @ i)) 0 e
-def trans (A B: U) (p: PathP (&lt;_&gt; U) A B) (a: A): B := transp p 0 a
-def J (A: U) (x: A) (C: D A) (d: C x x (refl A x)) (y: A) (p: Equ A x y)
-  : C x y p ≔ subst (singl A x) (λ (z: singl A x), C x (z.1) (z.2)) (eta A x) (y, p) (contr A x y p) d
-def trans_comp (A : U) (a : A)
-  : Equ A a (trans A A (&lt;i&gt; A) a) ≔ &lt;j&gt; transp (&lt;_&gt; A) -j a
-def contr (A : U) (a b : A) (p : Equ A a b)
-  : Equ (singl A a) (eta A a) (b, p) ≔ &lt;i&gt; (p @ i, &lt;j&gt; p @ i /\ j)
-def subst_comp (A: U) (P: A → U) (a: A) (e: P a)
-  : Equ (P a) e (subst A P a a (refl A a) e) ≔ trans_comp (P a) e
-
-theorem Path-β (A : U) (a : A) (C : D A) (d: C a a (refl A a))
+computational β rule for Path types:</p><code>theorem Path-β (A : U) (a : A) (C : D A) (d: C a a (refl A a))
   : Equ (C a a (refl A a)) d (J A a C d a (refl A a))
-  ≔ subst_comp (singl A a) (λ (z: singl A a), C a (z.1) (z.2)) (eta A a) d</code><br><p>Homogeneous composition <b>hcomp</b> is the answer to second:
+  ≔ λ (A : U), λ (a : A), λ (C : Π (x : A), Π (y : A), PathP (<_> A) x y → U),
+    λ (d : C a a (<_> a)), <j> transp (<_> C a a (<_> a)) -j d</code><br><p>Homogeneous composition <b>hcomp</b> is the answer to second:
 with <b>hcomp</b> and <b>transp</b> one can express path composition,
 groupoid, category of groupoids (groupoid interpretation and internalization in type theory).
 One of the main roles of homogeneous composition is to be a carrier in [higher]
