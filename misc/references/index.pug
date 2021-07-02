@@ -1,0 +1,103 @@
+extends ../../layout.pug
+
+block title
+    title REFERENCES
+    script(src='https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML')
+    script.
+     window.MathJax = { jax: ["input/TeX", "input/MathML", "input/AsciiMath", "output/CommonHTML", "output/NativeMML"],
+                             TeX: { extensions: ["AMSmath.js", "AMSsymbols.js", "autoload-all.js"] },
+                             extensions: ["tex2jax.js", "asciimath2jax.js", "mml2jax.js", "MathMenu.js", "MathZoom.js"],
+                             "HTML-CSS": { imageFont: null },
+                             AuthorInit: function() {
+                                 MathJax.Hub.Register.StartupHook("TeX AMSmath Ready", function() {
+                                     var TEX = MathJax.InputJax.TeX;
+                                     TEX.Definitions.Add({
+                                         macros: {
+                                           llparenthesis: ['Macro', '\\mathopen{\u2987}'],
+                                           rrparenthesis: ['Macro', '\\mathclose{\u2988}'],
+                                           llbracket:     ['Macro', '\\mathopen{\u27E6}'],
+                                           rrbracket:     ['Macro', '\\mathclose{\u27E7}'],
+                                           incmap:        ['Macro', '\\mathclose{\u21AA}'],
+                                         }
+                                     });
+                                 });
+                             },
+                             tex2jax: { inlineMath: [['$','$'], ['\\(','\\)']],
+                                        processEscapes: true }
+                         };
+
+block content
+    +header('../../groupoid.svg', 'References', 'TeX Bibliography')
+    article.main
+        .exe
+
+            section
+                h1 Bibliography
+                p.
+                    <center><table cellspacing=5><tr><td width=5><img src="https://n2o.space/img/pdf.jpg" width=35></td><td width=400>
+                    <a href="https://github.com/groupoid/groupoid.space/blob/master/articles/mltt/mltt.pdf">
+                    <h3>Issue I: Internalizing MLTT</h3>
+                    </a></td></tr></table></center>
+
+                h2 MLTT and PTS
+                p.
+                    <a href="https://raw.githubusercontent.com/groupoid.space/misc/references/01.Lof72.txt">[1]</a>. P. Martin-Löf and G. Sambin, The Theory of Types. Studies in proof theory, 1972.
+                    <a href="https://raw.githubusercontent.com/groupoid.space/misc/references/02.Lof84.txt">[2]</a>. P. Martin-Löf and G. Sambin, Intuitionistic type theory. Studies in proof theory, Bibliopolis, 1984.
+                    <a href="https://raw.githubusercontent.com/groupoid.space/misc/references/03.Coq88.txt">[3]</a>. T. Coquand and G. Huet, “The calculus of constructions,” in Information and Computation, (Duluth, MN, USA), pp. 95–120, Academic Press, Inc., 1988.
+                    <a href="https://raw.githubusercontent.com/groupoid.space/misc/references/04.Hofmann96.txt">[4]</a>. M. Hofmann and T. Streicher, “The groupoid interpretation of type theory,” in In Venice Festschrift, pp. 83–111, Oxford University Press, 1996.
+                    <a href="https://raw.githubusercontent.com/groupoid.space/misc/references/05.Henk93.txt">[5]</a>. H. P. Barendregt, “Lambda calculi with types,” in Handbook of Logic in Computer Science (Vol. 2) (S. Abramsky, D. M. Gabbay, and S. E. Maibaum, eds.), (New York, NY, USA), pp. 117–309, Oxford University Press, Inc., 1992.
+                    <a href="https://raw.githubusercontent.com/groupoid.space/misc/references/06.Erik97.txt">[6]</a>. S. P. Jones and E. Meijer, “Henk: A typed intermediate language,” in In Proc. First Int’l Workshop on Types in Compilation, 1997.
+
+                h2 Categorical Methods
+                p.
+                    <a href="https://raw.githubusercontent.com/groupoid.space/misc/references/10.Hermida95.txt">[10]</a>. C. Hermida and B. Jacobs, “Fibrations with indeterminates: Contextual and functional completeness for polymorphic lambda calculi,” Mathematical Structures in Computer Science, vol. 5, pp. 501–531, 1995.
+                    <a href="https://raw.githubusercontent.com/groupoid.space/misc/references/11.Curien08.txt">[11]</a>. P.-L. Curien, “Category theory: a programming language-oriented introduction,” 2008.
+                    <a href="https://raw.githubusercontent.com/groupoid.space/misc/references/12.MacLane71.txt">[12]</a>. S. MacLane, Categories for the Working Mathematician. New York: Springer-Verlag, 1971. Graduate Texts in Mathematics, Vol. 5.
+                    <a href="https://raw.githubusercontent.com/groupoid.space/misc/references/13.Lawvere09.txt">[13]</a>. F. Lawvere and S. Schanuel, Conceptual Mathematics: A First Introduction to Categories. Cambridge University Press, 2009.
+
+                h2 Categorical Models of Type Theory
+                p.
+                    <a href="https://raw.githubusercontent.com/groupoid.space/misc/references/20.Dybjer08.txt">[20]</a>. A. Buisse and P. Dybjer, “The interpretation of intuitionistic type theory in locally cartesian closed categories – an intuitionistic perspective,” Electron. Notes Theor. Comput. Sci., vol. 218, pp. 21–32, Oct. 2008.
+                    <a href="https://raw.githubusercontent.com/groupoid.space/misc/references/21.Clairambault05.txt">[21]</a>. P. Clairambault, “From categories with families to locally cartesian closed categories,”
+                    <a href="https://raw.githubusercontent.com/groupoid.space/misc/references/22.Abel08.txt">[22]</a>. A. Abel, T. Coquand, and P. Dybjer, “On the algebraic foundation of proof assistants for intuitionistic type theory,” in Functional and Logic Programming (J. Garrigue and M. V. Hermenegildo, eds.), (Berlin, Heidelberg), pp. 3–13, Springer Berlin Heidelberg, 2008.
+                    <a href="https://raw.githubusercontent.com/groupoid.space/misc/references/23.Seely84.txt">[23]</a>. R. A. Seely, “Locally cartesian closed categories and type theory,” in Mathematical proceedings of the Cambridge philosophical society, vol. 95, pp. 33–48, Cambridge University Press, 1984.
+                    <a href="https://raw.githubusercontent.com/groupoid.space/misc/references/24.Curien14.txt">[24]</a>. P.-L. Curien, R. Garner, and M. Hofmann, “Revisiting the categorical interpretation of dependent type theory,” Theoretical Computer Science, vol. 546, pp. 99–119, 2014.
+                    <a href="https://raw.githubusercontent.com/groupoid.space/misc/references/25.Castellan14.txt">[25]</a>. S. Castellan, “Dependent type theory as the initial category with families,” Internship Report, 2014.
+                    <a href="https://raw.githubusercontent.com/groupoid.space/misc/references/26.Voevodsky14.txt">[26]</a>. V. Voevodsky, “A c-system defined by a universe in a category,” 2014.
+                    <a href="https://raw.githubusercontent.com/groupoid.space/misc/references/27.Dybjer95.txt">[27]</a>. P. Dybjer, “Internal type theory,” in International Workshop on Types for Proofs and Programs, pp. 120–134, Springer, 1995.
+
+                h2 Identity Types
+                p.
+                    <a href="https://raw.githubusercontent.com/groupoid.space/misc/references/30.Bishop67.txt">[30]</a>. E. Bishop, Foundations of constructive analysis. 1967.
+                    <a href="https://raw.githubusercontent.com/groupoid.space/misc/references/31.Nordstrom90.txt">[31]</a>. B.Nordström, K.Petersson, and J.M.Smith, Programming in Martin-Löf’s type theory, vol. 200. Oxford University Press Oxford, 1990.
+                    <a href="https://raw.githubusercontent.com/groupoid.space/misc/references/32.Hermida98.txt">[32]</a>. C. Hermida and B. Jacobs, “Structural induction and coinduction in a fibrational setting,” Information and computation, vol. 145, no. 2, pp. 107–152, 1998.
+                    <a href="https://raw.githubusercontent.com/groupoid.space/misc/references/33.Barthe00.txt">[33]</a>. G. Barthe, V. Capretta, and O. Pons, “Setoids in type theory,” 2000.
+                    <a href="https://raw.githubusercontent.com/groupoid.space/misc/references/34.Voevodsky15.txt">[34]</a>. V. Voevodsky, “A c-system defined by a universe category,” Theory Appl. Categ, vol. 30, no. 37, pp. 1181–1215, 2015.
+                    <a href="https://raw.githubusercontent.com/groupoid.space/misc/references/35.Sozeau.txt">[35]</a>. M. Sozeau and N. Tabareau, “Internalizing intensional type theory,”
+                    <a href="https://raw.githubusercontent.com/groupoid.space/misc/references/36.Selsam16.txt">[36]</a>. D. Selsam and L. de Moura, “Congruence closure in intensional type theory,” in International Joint Conference on Automated Reasoning, pp. 99–115, Springer, 2016.
+
+                h2 Inductive Types
+                p.
+                    <a href="https://raw.githubusercontent.com/groupoid.space/misc/references/40.Bohm85.txt">[40]</a>. C. Böhm and A. Berarducci, “Automatic synthesis of typed lambda- programs on term algebras,” in Theoretical Computer Science, vol. 39, pp. 135–154, 1985.
+                    <a href="https://raw.githubusercontent.com/groupoid.space/misc/references/41.Pfenning89.txt">[41]</a>. F. Pfenning and C. Paulin-Mohring, “Inductively defined types in the calculus of constructions,” in Mathematical Foundations of Programming Semantics, 5th International Conference, Tulane University, New Orleans, Louisiana, USA, March 29 - April 1, 1989, Proceedings, pp. 209–228, 1989.
+                    <a href="https://raw.githubusercontent.com/groupoid.space/misc/references/42.Wadler90.txt">[42]</a>. P. Wadler in Recursive types for free, manuscript, 1990.N. Gambino and M. Hyland, “Wellfounded trees and dependent polynomial functors,” in International Workshop on Types for Proofs and Programs, pp. 210–225, Springer, 2003.
+                    <a href="https://raw.githubusercontent.com/groupoid.space/misc/references/43.Gambino03.txt">[43]</a>.N. Gambino and M. Hyland, “Wellfounded trees and dependent polynomial functors,” in International Workshop on Types for Proofs and Programs, pp. 210–225, Springer, 2003.
+                    <a href="https://raw.githubusercontent.com/groupoid.space/misc/references/44.Dybjer94.txt">[44]</a>. P. Dybjer in Inductive families, vol. 6, pp. 440–465, Springer, 1994.
+                    <a href="https://raw.githubusercontent.com/groupoid.space/misc/references/45.Jacobs97.txt">[45]</a>. B. Jacobs and J. Rutten in A tutorial on (co) algebras and (co) induction, vol. 62, pp. 222–259, EUROPEAN ASSOCIATION FOR THEORETICAL COMPUTER, 1997.
+                    <a href="https://raw.githubusercontent.com/groupoid.space/misc/references/46.Vene00.txt">[46]</a>. V. Vene, Categorical programming with inductive and coinductive types. Tartu University Press, 2000.
+                    <a href="https://raw.githubusercontent.com/groupoid.space/misc/references/47.Basold16.txt">[47]</a>. H. Basold and H. Geuvers, “Type theory based on dependent inductive and coinductive types,” in Proceedings of the 31st Annual ACM/IEEE Symposium on Logic in Computer Science, pp. 327–336, ACM, 2016.
+
+                h2 Higher Inductive Types
+                p.
+                    <a href="https://raw.githubusercontent.com/groupoid.space/misc/references/50.Hofmann94.txt">[50]</a>. M. Hofmann and T. Streicher, “The groupoid model refutes uniqueness of identity proofs,” in Logic in Computer Science, 1994. LICS’94. Proceedings., Symposium on, pp. 208–212, IEEE, 1994.
+                    <a href="https://raw.githubusercontent.com/groupoid.space/misc/references/51.Jacobs99.txt">[51]</a>. B. Jacobs, Categorical logic and type theory, vol. 141. Elsevier, 1999.
+                    <a href="https://raw.githubusercontent.com/groupoid.space/misc/references/52.Joyal14.txt">[52]</a>. A. Joyal, “Categorical homotopy type theory,” Slides from a talk at MIT dated, vol. 17, 2014.
+                    <a href="https://raw.githubusercontent.com/groupoid.space/misc/references/53.HoTT13.txt">[53]</a>. T. Coquand, P. Martin-Löf, V. Voevodsky, A. Joyal, A. Bauer, S. Awodey, M. Sozeau, M. Shulman, D. Licata, Y. Bertot, P. Dybjer, and N. Gambino, Homotopy Type Theory: Univalent Foundations of Mathematics. 2013.
+                    <a href="https://raw.githubusercontent.com/groupoid.space/misc/references/54.Mortberg17.txt">[54]</a>. C. Cohen, T. Coquand, S. Huber, and A. Mörtberg in Cubical Type Theory: a constructive interpretation of the univalence axiom, vol. abs/1611.02108, 2017.
+                    <a href="https://raw.githubusercontent.com/groupoid.space/misc/references/55.Shulman15.txt">[55]</a>. B. Ahrens, K. Kapulkin, and M. Shulman, “Univalent categories and the rezk completion,” in Extended Abstracts Fall 2013 (M. d. M. González, P. C. Yang, N. Gambino, and J. Kock, eds.), (Cham), pp. 75– 76, Springer International Publishing, 2015.
+                    <a href="https://raw.githubusercontent.com/groupoid.space/misc/references/56.Orton17.txt">[56]</a>. I. Orton and A. M. Pitts, “Axioms for modelling cubical type theory in a topos,” arXiv preprint arXiv:1712.04864, 2017.
+                    <a href="https://raw.githubusercontent.com/groupoid.space/misc/references/57.Huber16.txt">[57]</a>. S. Huber, “Cubical intepretations of type theory,” 2016.
+                    <a href="https://raw.githubusercontent.com/groupoid.space/misc/references/58.Huber17.txt">[58]</a>. S. Huber, “Canonicity for cubical type theory,” Journal of Automated Reasoning, pp. 1–38, 2017.
+                    <a href="https://raw.githubusercontent.com/groupoid.space/misc/references/59.Angiuli16.txt">[59]</a>. C. Angiuli, R. Harper, and T. Wilson, “Computational higher type theory i: Abstract cubical realizability,” arXiv preprint arXiv:1604.08873, 2016.
+                    <a href="https://raw.githubusercontent.com/groupoid.space/misc/references/60.Angiuli16.txt">[60]</a>. C. Angiuli and R. Harper, “Computational higher type theory ii: Dependent cubical realizability,” arXiv preprint arXiv:1606.09638, 2016.
+                    <a href="https://raw.githubusercontent.com/groupoid.space/misc/references/61.Coquand18.txt">[61]</a>. T.Coquand, S.Huber, and A.Mörtberg , “On Higher Inductive Types in Cubical Type Theory”, arXiv preprint arXiv:1802.01170, 2018.
