@@ -204,7 +204,7 @@ direct encoding of CW-complexes (or internal models as gluening of pushout cells
 transpⁱ U φ A = A
 transpⁱ (Π (x : A), B) φ u₀ = transpⁱ (Π (x : A), B) φ u₀ v = transpⁱ B(x/w) φ (u₀ w(i/0)), w = transpFill⁻ⁱ A φ v, v : A(i/1)
 transpⁱ (Σ (x : A), B) φ u₀ = (transpⁱ A φ (u₀.1),transpⁱ B(x/v) φ(u₀.2)), v = transpFillⁱ A φ u₀.1
-transp⁰ (Pathʲ A v w) 0 u₀ = u₀
+transp¹ (Pathʲ A v w) φ u₀ = u₀
 transpⁱ (Pathʲ A v w) φ u₀ = 〈j〉compⁱ A [φ ↦ u₀ j, (j=0) ↦ v, (j=1) ↦ w] (u₀ j), u : A(j/0), v : A(j/1)
 transpⁱ (Glue [φ ↦ (T,w)] A) ψ u₀ = glue [φ(i/1) ↦ t′₁] a′₁ : B(i/1)
 
