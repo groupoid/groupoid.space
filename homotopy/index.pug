@@ -350,9 +350,9 @@ block content
                     computational β rule for Path types:
                 code.
                     theorem Path-β (A : U) (a : A) (C : D A) (d: C a a (refl A a))
-                      : Equ (C a a (refl A a)) d (J A a C d a (refl A a))
-                      ≔ λ (A : U), λ (a : A), λ (C : Π (x : A), Π (y : A), PathP (&lt;_&gt; A) x y → U),
-                        λ (d : C a a (&lt;_&gt; a)), &lt;j&gt; transp (&lt;_&gt; C a a (&lt;_&gt; a)) -j d
+                       : Equ (C a a (refl A a)) d (J A a C d a (refl A a))
+                      := λ (A : U), λ (a : A), λ (C : Π (x : A), Π (y : A), PathP (&lt;_&gt; A) x y → U),
+                         λ (d : C a a (&lt;_&gt; a)), &lt;j&gt; transp (&lt;_&gt; C a a (&lt;_&gt; a)) -j d
                 br.
                 p.
                     Homogeneous composition <b>hcomp</b> is the answer to second:
