@@ -362,7 +362,7 @@ block content
                     inductive type constructors for calculating of homotopy colimits and
                     direct encoding of CW-complexes (or internal models as gluening of pushout cells).
                 p.
-                    Equations for recursive generalized transport and homogeneous composition (Simon Huber):
+                    Equations for recursive generalized transport and homogeneous composition by Simon Huber [9]:
                 code.
                     transpⁱ N φ u₀ = u₀
                     transpⁱ U φ A = A
@@ -370,7 +370,8 @@ block content
                     transpⁱ (Σ (x : A), B) φ u₀ = (transpⁱ A φ (u₀.1),transpⁱ B(x/v) φ(u₀.2)), v = transpFillⁱ A φ u₀.1
                     transpⁱ (Pathʲ A v w) φ u₀ = 〈j〉compⁱ A [φ ↦ u₀ j, (j=0) ↦ v, (j=1) ↦ w] (u₀ j), u : A(j/0), v : A(j/1)
                     transpⁱ (Glue [φ ↦ (T,w)] A) ψ u₀ = glue [φ(i/1) ↦ t′₁] a′₁ : B(i/1)
-
+                br.
+                code.
                     hcompⁱ N [φ ↦ 0] 0 = 0
                     hcompⁱ N [φ ↦ S u] (S u₀) = S (hcompⁱ N [φ ↦ u] u₀)
                     hcompⁱ U [φ ↦ E] A = Glue [φ ↦ (E(i/1), equivⁱ E(i/1−i))] A
@@ -379,15 +380,11 @@ block content
                     hcompⁱ (Pathʲ A v w) [φ ↦ u] u₀ = 〈j〉 hcompⁱ A [ φ ↦ u j, (j = 0) ↦ v, (j = 1) ↦ w ] (u₀ j)
                     hcompⁱ (Glue [φ ↦ (T,w)] A) [ψ ↦ u] u₀ = glue [φ ↦ t₁] a₁ = glue [φ ↦ u(i/1)] (unglue u(i/1))
                       = u(i/1) : Glue [φ ↦ (T,w)] A, t₁ = u(i/1) : T, a₁ = unglue u(i/1) : A, glue [φ ↦ t₁] a1 = t₁ : T
-
+                br.
+                code.
                     transp⁻ⁱ A φ u = (transpⁱ A(i/1−i) φ u)(i/1−i) : A(i/0)
                     transpFillⁱ A φ u₀ = transpʲ A(i/i∧j) (φ∨(i=0)) u₀ : A
                     hfillⁱ A [φ ↦ u] u₀ = hcompʲ A [φ ↦ u(i/i∧j), (i=0) ↦ u₀] u₀ : A
-                br.
-                p.
-                    Note that for Path-β type-checking you need only <b>transp</b>¹ on Path,
-                    transpⁱ along Π and Σ and are also derivable in such system.
-                    But for full transport along Path you still need <b>hcomp</b>.
                 br.
 
                 h2#induction Higher Inductive Types
