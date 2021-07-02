@@ -91,7 +91,7 @@ groupoid.space/misc/
 ├── ncatlab
 ├── references
 ├── semantics
-└── history
+└── status
 ```
 
 ## Articles
