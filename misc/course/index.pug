@@ -35,47 +35,51 @@ block content
                 та теорем на одній з реалізацій цієї теорії типів &mdash;
                 мові <a href="https://groupoid.space/homotopy/">Anders</a>.
 
-            h2 Purpose
+            h2 Мотивація
             p.
-                The seminar will focus on
-                1) direct proof-term construction
-                in cubical type theory with computer-based type checker;
-                2) solving home assignments in cubical type checker;
-                3) helping people write cubical code;
-                4) writing lecture notes by students in LaTeX;
-                5) making small course project as the
-                final task (could be porting some library or theory
-                from Agda or even formalizing a new part of mathematics);
-                6) gathering smart people together;
-                7) having fun.
+                Головні завдання курсу:
+                1) безпосередня побудова термів-доведень в кубічній теорії типів за допомогою комп'ютерної верифікації;
+                2) вирішення домашній завдань або вправ з підручника HoTT на мові Anders;
+                3) запис нонаток у TeX як основна культура документування;
+                5) курсова робота по формалізації певної математичної теорії або порт існуючої формалізації з Agda або Lean;
+                6) гуртування людей які намагаються поєднати професійну математику та програмування;
+                7) отримання інтелектуального задоволення.
 
-            h2 The HoTT Book
+            h2 Підручник HoTT
             p.
-                While this seminar will try to follow HoTT book as a main source,
-                I will try to give some theory not present in HoTT, such as
-                algebraic topology or higher category theory. On the other
-                hand, I will skip some parts from HoTT. Please treat this
-                course as author's one, but heavily inspired by HoTT book
-                and cubical type checkers.
+                Що стосується теорії та дидактичних матеріалів,
+                то курс побудований таким чином аби можна було використовувати
+                як текстуальне джерело-компаньон класичний <a href="https://homotopytypetheory.org/book/">Підручник HoTT</a>
+                Структура курсу теж ділиться на дві великі частини:
+                1) програмування (або базові синтетичні конструкції теорії типів); та
+                2) математика (математичні теорії написані на цій мові програмування).
+                На додаток до класчних тем підручника HoTT, цей курс містить початковий
+                вступ у формальну алгебраїчну топологію та диференціальну геометрію.
 
-            h2 Cubical Languages
+            h2 Кубічні мови
             p.
-                What is a cubical type theory and why is it important?
-                The cubical type theory is a theory where univalence
-                axiom by Voevodsky has computational interpretation.
-                There are several type checkers which use different
-                flavors of cubical type theory while sharing the same concept.
-                Most notable stable implementations are: 1) <b>agda --cubical</b>;
-                2) <b>cubicaltt</b>; 3) <b>cubicaltt/hcomptrans</b>; 4) <b>yacctt</b>; 5) <b>RedPRL</b>.
-                We will show differences between them, and students are free
-                to choose the type checker of their flavor (for home assignments),
-                but at learning classes (joint hackathon) I will use cubicaltt
-                flavor I most experienced with.
+                На практиці професійні математики зосереджені навколо двох мов математичного
+                програмування: Agda та Lean. У той час як Agda підтримує кубічні примітиви в ядрі прувера,
+                для Lean існує бібліотека яка інтерналізує кубічні примітиви
+                в примитіви ядра Lean які називаються фактортипами (така система є
+                консистентною проте не завжди має нормальні форми).
+
+                Усього існує небагато кубічних мов програмування:
+                1) <b>cubical/cubicaltt</b> (CCHM);
+                2) <b>RedPRL/redtt/cooltt </b> (ABCFHL).
+                3) <b>yacctt </b> (ABCFHL);
+                4) <b>Arend</b> (I-HoTT);
+                5) <b>Agda</b> (CCHM);
+                6) <b>Anders</b> (CCHM).
+                Ми покажемо відмінності між ними проте курс зосереджений навколо синтаксису CCHM.
+                Посилання на адаптації нашої бібліотеки Групоїд Інфініті для усіх цих кубічних пруверів,
+                а також посилання на самі прувери та їх математичні моделі
+                наведені на сайті <a href="https://cubical.systems">Кубічні Системи</a>
 
         .om
             section
-                h1 Foundations
-                h2 Issue I: Type Theory
+                h1 Програмування
+                h2 Лекція I: Теорія типів
         section
             p.
                 The first section is an introduction to type theory,
