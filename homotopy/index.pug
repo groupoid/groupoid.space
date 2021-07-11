@@ -116,19 +116,19 @@ block content
                     Here will be used Menhir BNF nonation as type checker is written in OCaml.
                 p.
                     $$
-                       HTS := cosmos | var | line | sub | part
+                       E := cosmos | var | line | sub | part
                             | pi | sigma | id | path | kan
                     $$
                     $$
-                       cosmos := U_j \ |\ V_k \\
+                       cosmos := \mathbf{U}_j \ |\ \mathbf{V}_k \\
                        var := \mathbf{var}\ name\ |\ \mathbf{hole} \\
                        pi := \Pi\ name\ E\ E\ |\ \lambda\ name\ E\ E\ |\ E\ E \\
                        sigma := \Sigma\ name\ E\ E\ |\ (E,E)\ |\ E.1\ |\ E.2 \\
                        id := \mathbf{Id}\ E\ |\ \mathbf{ref}\ E\ |\ \mathbf{idJ}\ E \\
                        path := \mathbf{Path}\ E\ |\ E^i\ |\ E\ @\ E \\
-                       line := \mathbf{I}\ |\ 0\ |\ 1\ |\ \meet\ |\ \join\ |\ \neg \\
+                       I := \mathbf{I}\ |\ 0\ |\ 1\ |\ \meet\ |\ \join\ |\ \neg \\
                        part := \mathbf{Partial}\ E\ I\ |\ \mathbf{[}(E=I) \rightarrow E, ...\mathbf{]} \\
-                       sub := A\ [\ I\ \map\ u\ ]\ |\ \mathbf{inc}\ E\ |\ \mathbf{ouc}\ E \\
+                       sub := E\ [\ I\ \map\ E\ ]\ |\ \mathbf{inc}\ E\ |\ \mathbf{ouc}\ E \\
                        kan := \mathbf{transp}\ E\ E\ |\ \mathbf{hcomp}\ E \\
                     $$
                 p.
