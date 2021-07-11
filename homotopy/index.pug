@@ -111,6 +111,18 @@ block content
                 p.
                     The syntax resembles original syntax of the reference CCHM type checker cubicaltt [Cohen, Coquand, Huber, Mörtberg], slightly compatible with Lean.
                     Here will be used Menhir BNF nonation as type checker is written in OCaml.
+                code.
+                    type exp =
+                      | EPre of int | EKan of int                                                              (* cosmos *)
+                      | EVar of name | EHole                                                                (* variables *)
+                      | EPi of exp * (name * exp) | ELam of exp * (name * exp) | EApp of exp * exp                 (* pi *)
+                      | ESig of exp * (name * exp) | EPair  of exp * exp | EFst of exp | ESnd of exp            (* sigma *)
+                      | EId of exp | ERef of exp | EJ of exp                                          (* strict equality *)
+                      | EPathP of exp | EPLam of exp | EAppFormula of exp * exp                         (* path equality *)
+                      | EI | EDir of dir | EAnd of exp * exp | EOr of exp * exp | ENeg of exp           (* CCHM interval *)
+                      | ETransp of exp * exp | EHComp of exp | EPartial of exp | ESystem of exp system (* Kan operations *)
+                      | ESub of exp * exp * exp | EInc of exp | EOuc of exp                          (* cubical subtypes *)
+                br.
                 p.
                     <b>Keywords</b>.
                     The words of a language consist of keywords or identifiers. The keywords are following:
