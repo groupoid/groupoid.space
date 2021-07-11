@@ -9,6 +9,9 @@
                                     macros: {
                                       llparenthesis: ['Macro', '\\mathopen{\u2987}'],
                                       rrparenthesis: ['Macro', '\\mathclose{\u2988}'],
+                                      meet:          ['Macro', '\\mathopen{\u2227}'],
+                                      map:           ['Macro', '\\mathopen{\u21A6}'],
+                                      join:          ['Macro', '\\mathopen{\u2228}'],
                                       llbracket:     ['Macro', '\\mathopen{\u27E6}'],
                                       rrbracket:     ['Macro', '\\mathclose{\u27E7}'],
                                       incmap:        ['Macro', '\\mathclose{\u21AA}'],
@@ -33,7 +36,7 @@ Anders theorem prover [MLTT][CCHM][HTS] version 0.7.2
 
   invocation = anders | anders list
         list = [] | command list
-   primitive = zero | one | interval | ...
+   primitive = zero | one | interval
 
      command = check &lt;filename>      | lex &lt;filename>
              | parse &lt;filename>      | prim primitive &lt;name>
@@ -44,16 +47,22 @@ Anders theorem prover [MLTT][CCHM][HTS] version 0.7.2
 Lean-compatible syntax to fit 130 LOC in Menhir, the MLTT core (based on Mini-TT)
 is 500 LOC and pretypes presheaf is another 500 LOC. The MLTT hyperprover core
 in Clojure is <a href="https://gist.github.com/5HT/2415f9945e92d7fc364f592a1abc2f93">expressible</a> in 150 LOC.</p><br></section><section><h1>SYNTAX</h1><p>The syntax resembles original syntax of the reference CCHM type checker cubicaltt [Cohen, Coquand, Huber, Mörtberg], slightly compatible with Lean.
-Here will be used Menhir BNF nonation as type checker is written in OCaml.</p><code>type exp =
-  | EPre of int | EKan of int                                                              (* cosmos *)
-  | EVar of name | EHole                                                                (* variables *)
-  | EPi of exp * (name * exp) | ELam of exp * (name * exp) | EApp of exp * exp                 (* pi *)
-  | ESig of exp * (name * exp) | EPair  of exp * exp | EFst of exp | ESnd of exp            (* sigma *)
-  | EId of exp | ERef of exp | EJ of exp                                          (* strict equality *)
-  | EPathP of exp | EPLam of exp | EAppFormula of exp * exp                         (* path equality *)
-  | EI | EDir of dir | EAnd of exp * exp | EOr of exp * exp | ENeg of exp           (* CCHM interval *)
-  | ETransp of exp * exp | EHComp of exp | EPartial of exp | ESystem of exp system (* Kan operations *)
-  | ESub of exp * exp * exp | EInc of exp | EOuc of exp                          (* cubical subtypes *)</code><br><p><b>Keywords</b>.
+Here will be used Menhir BNF nonation as type checker is written in OCaml.</p><p>$$
+   HTS := cosmos | var | line | sub | part
+        | pi | sigma | id | path | kan
+$$
+$$
+   cosmos := U_j \ |\ V_k \\
+   var := \mathbf{var}\ name\ |\ \mathbf{hole} \\
+   pi := \Pi\ name\ E\ E\ |\ \lambda\ name\ E\ E\ |\ E\ E \\
+   sigma := \Sigma\ name\ E\ E\ |\ (E,E)\ |\ E.1\ |\ E.2 \\
+   id := \mathbf{Id}\ E\ |\ \mathbf{ref}\ E\ |\ \mathbf{idJ}\ E \\
+   path := \mathbf{Path}\ E\ |\ E^i\ |\ E\ @\ E \\
+   line := \mathbf{I}\ |\ 0\ |\ 1\ |\ \meet\ |\ \join\ |\ \neg \\
+   part := \mathbf{Partial}\ E\ I\ |\ \mathbf{[}(E=I) \rightarrow E, ...\mathbf{]} \\
+   sub := A\ [\ I\ \map\ u\ ]\ |\ \mathbf{inc}\ E\ |\ \mathbf{ouc}\ E \\
+   kan := \mathbf{transp}\ E\ E\ |\ \mathbf{hcomp}\ E \\
+$$</p><p><b>Keywords</b>.
 The words of a language consist of keywords or identifiers. The keywords are following:
 <b>module</b>, <b>where</b>, <b>import</b>, <b>option</b>, <b>def</b>, <b>axiom</b>, <b>postulate</b>, <b>theorem</b>,
 <b>(</b>, <b>)</b>, <b>[</b>, <b>]</b>, <b>&lt;</b>, <b>&gt;</b>, <b>&#47;</b>, <b>.1</b>, <b>.2</b>, <b>Π</b>,
