@@ -57,20 +57,25 @@ structure (without file extensions) by using reserved symbol <b>&#47;</b>
 for hierarchy walking.</p><p><b>Options</b>. Each option holds bool value. Language supports following options:
 1) <b>girard</b> (enables U : U);
 2) <b>pre-eval</b> (normalization cache);
-3) <b>impredicative</b> (infinite hierarchy with impredicativity rule);</p><code>path : IDENT | IDENT DIRSEP path
-file : MODULE IDENT WHERE content
-content : line content | EOF
+3) <b>impredicative</b> (infinite hierarchy with impredicativity rule);</p><code>%start &lt;Module.file> file
+%start &lt;Module.command> repl
+
+repl : COLON IDENT exp1 EOF | COLON IDENT EOF | exp0 EOF | EOF
+file : MODULE IDENT WHERE line* EOF
+path : IDENT
+
 line :
-   | IMPORT path
-   | OPTION IDENT IDENT
-   | declarations</code><p>File header sample:</p><code>module sample where
+  | IMPORT path+
+  | OPTION IDENT IDENT
+  | declarations</code><p>File header sample:</p><code>module sample where
 import experiments/path
 option girard false</code><br><p><b>Declarations</b>. Language supports following top level declarations:
 1) <b>axiom</b> (non-computable declaration that breakes normalization);
 2) <b>postulate</b> (alternative or inverted axiom that can preserve consistency);
 3) <b>definition</b> (almost any explicit term or type in type theory);
 5) <b>lemma</b> (helper in big game).
-4) <b>theorem</b> (something valuable or complex enough).</p><code>vars : ident vars | ident
+4) <b>theorem</b> (something valuable or complex enough).</p><code>ident : IRREF | IDENT
+vars : ident+
 lense : LPARENS vars COLON exp1 RPARENS
 telescope : lense telescope
 params : telescope | []
@@ -91,26 +96,37 @@ by four categories:
 <b>exp0</b> (pair constructions),
 <b>exp1</b> (non neutral constructions),
 <b>exp2</b> (path and pi applcations),
-<b>exp3</b> (neutral constructions).</p><code>exp0 :
+<b>exp3</b> (neutral constructions).</p><code>face : LPARENS IDENT IDENT IDENT RPARENS
+partial : face+ ARROW exp1</code><br><code>exp0 :
   | exp1 COMMA exp0
   | exp1</code><br><code>exp1:
   | LAM telescope COMMA exp1
-  | PI telescope COMMA exp1     | exp2 ARROW exp1
-  | SIGMA telescope COMMA exp1  | exp2 PROD exp1
-  | LT vars GT exp1             | exp2</code><br><p>The LR parsers demand to define <b>exp1</b> as expressions that
+  | PI telescope COMMA exp1
+  | SIGMA telescope COMMA exp1
+  | LSQ IRREF ARROW exp1 RSQ
+  | LSQ separated_list(COMMA, partial) RSQ
+  | LT vars GT exp1
+  | exp2 ARROW exp1
+  | exp2 PROD exp1
+  | exp2</code><br><p>The LR parsers demand to define <b>exp1</b> as expressions that
 cannot be used (without a parens enclosure) as a right part of
 left-associative application for both Path and Pi lambdas.</p><code>exp2 :
   | exp2 exp3
   | exp2 APPFORMULA exp3
-  | exp3</code><br><p>Universe indecies <b>V</b> (pretypes), <b>U</b> (inner fibrant) and <b>S</b> (outer strict)
-are using unicode subscript letters that are already processed in lexer.</p><code>exp3:
-  | HOLE          | PRE
-  | KAN           | exp3 FST
-  | exp3 SND      | NEGATE exp3
-  | exp3 AND exp3 | exp3 OR exp3
-  | PATHP exp3    | TRANSP exp3 exp3
-  | IDENT         | NO
-  | LPARENS exp0 RPARENS | STRICT</code><br><h1>SEMANTICS</h1><p>The idea is to have a unified layered type checker, so you can disbale/enable
+  | exp3</code><br><p>Universe indecies <b>U<sub>j</sub></b> (inner fibrant), <b>V<sub>k</sub></b> (outer pretypes)
+and <b>S</b> (outer strict omega) are using unicode subscript letters
+that are already processed in lexer.</p><code>exp3:
+  | HOLE                   | PRE
+  | KAN                    | exp3 FST
+  | exp3 SND               | NEGATE exp3
+  | exp3 AND exp3          | exp3 OR exp3
+  | ID exp3                | REF exp3
+  | IDJ exp3               | INC exp3
+  | OUC exp3               | PATHP exp3
+  | TRANSP exp3 exp3       | HCOMP exp3
+  | PARTIAL exp3           | IDENT LSQ exp0 MAP exp0 RSQ
+  | LPARENS exp0 RPARENS   | IDENT
+  | LPARENS exp0 RPARENS LSQ exp0 MAP exp0 RSQ</code><br><h1>SEMANTICS</h1><p>The idea is to have a unified layered type checker, so you can disbale/enable
 any MLTT-style inference, assign types to universes and enable/disable hierachies.
 This will be done by providing linking API for pluggable presheaf modules.
 We selected 5 levels of type checker awareness from universes and pure type systems
@@ -214,7 +230,7 @@ direct encoding of CW-complexes (or internal models as gluening of pushout cells
 strict equalities live in pretypes universes.</p><code>inductive strict (lang: U) : U
   | id: name → lang → total lang
   | intro: lang → lang → total lang
-  | idJ: lang → lang → lang → total lang</code><br><p>We define <b>(Id A a b)</b> to be the type of pairs $\varphi, \omega$,
+  | idJ: lang → lang → lang → total lang</code><br><p>You may think of <b>(Id A a b)</b> [Coquand] to be the type of pairs $\varphi, \omega$,
 with $\varphi$ in $\mathbb{F}$ and $\omega$ in <b>(Path A a b)</b>
 such that $\varphi$ implies $const(\omega)$ where $const(\omega) := \Pi(i:I)[\omega(i)=\omega(0)]$.
 The reflexivity proof is then an element in <b>(Id A a b)</b>.</p><p>We use strict equality in HTS for pretypes and partial elements which live in <b>V</b>.

@@ -138,13 +138,17 @@ block content
                     2) <b>pre-eval</b> (normalization cache);
                     3) <b>impredicative</b> (infinite hierarchy with impredicativity rule);
                 code.
-                    path : IDENT | IDENT DIRSEP path
-                    file : MODULE IDENT WHERE content
-                    content : line content | EOF
+                    %start &lt;Module.file> file
+                    %start &lt;Module.command> repl
+
+                    repl : COLON IDENT exp1 EOF | COLON IDENT EOF | exp0 EOF | EOF
+                    file : MODULE IDENT WHERE line* EOF
+                    path : IDENT
+
                     line :
-                       | IMPORT path
-                       | OPTION IDENT IDENT
-                       | declarations
+                      | IMPORT path+
+                      | OPTION IDENT IDENT
+                      | declarations
                 p.
                     File header sample:
                 code.
@@ -160,7 +164,8 @@ block content
                     5) <b>lemma</b> (helper in big game).
                     4) <b>theorem</b> (something valuable or complex enough).
                 code.
-                    vars : ident vars | ident
+                    ident : IRREF | IDENT
+                    vars : ident+
                     lense : LPARENS vars COLON exp1 RPARENS
                     telescope : lense telescope
                     params : telescope | []
@@ -192,6 +197,10 @@ block content
                     <b>exp2</b> (path and pi applcations),
                     <b>exp3</b> (neutral constructions).
                 code.
+                    face : LPARENS IDENT IDENT IDENT RPARENS
+                    partial : face+ ARROW exp1
+                br.
+                code.
                     exp0 :
                       | exp1 COMMA exp0
                       | exp1
@@ -199,9 +208,14 @@ block content
                 code.
                     exp1:
                       | LAM telescope COMMA exp1
-                      | PI telescope COMMA exp1     | exp2 ARROW exp1
-                      | SIGMA telescope COMMA exp1  | exp2 PROD exp1
-                      | LT vars GT exp1             | exp2
+                      | PI telescope COMMA exp1
+                      | SIGMA telescope COMMA exp1
+                      | LSQ IRREF ARROW exp1 RSQ
+                      | LSQ separated_list(COMMA, partial) RSQ
+                      | LT vars GT exp1
+                      | exp2 ARROW exp1
+                      | exp2 PROD exp1
+                      | exp2
                 br.
                 p.
                     The LR parsers demand to define <b>exp1</b> as expressions that
@@ -214,17 +228,22 @@ block content
                       | exp3
                 br.
                 p.
-                    Universe indecies <b>V</b> (pretypes), <b>U</b> (inner fibrant) and <b>S</b> (outer strict)
-                    are using unicode subscript letters that are already processed in lexer.
+                    Universe indecies <b>U<sub>j</sub></b> (inner fibrant), <b>V<sub>k</sub></b> (outer pretypes)
+                    and <b>S</b> (outer strict omega) are using unicode subscript letters
+                    that are already processed in lexer.
                 code.
                     exp3:
-                      | HOLE          | PRE
-                      | KAN           | exp3 FST
-                      | exp3 SND      | NEGATE exp3
-                      | exp3 AND exp3 | exp3 OR exp3
-                      | PATHP exp3    | TRANSP exp3 exp3
-                      | IDENT         | NO
-                      | LPARENS exp0 RPARENS | STRICT
+                      | HOLE                   | PRE
+                      | KAN                    | exp3 FST
+                      | exp3 SND               | NEGATE exp3
+                      | exp3 AND exp3          | exp3 OR exp3
+                      | ID exp3                | REF exp3
+                      | IDJ exp3               | INC exp3
+                      | OUC exp3               | PATHP exp3
+                      | TRANSP exp3 exp3       | HCOMP exp3
+                      | PARTIAL exp3           | IDENT LSQ exp0 MAP exp0 RSQ
+                      | LPARENS exp0 RPARENS   | IDENT
+                      | LPARENS exp0 RPARENS LSQ exp0 MAP exp0 RSQ
                 br.
 
                 h1 SEMANTICS
@@ -405,7 +424,7 @@ block content
                       | idJ: lang → lang → lang → total lang
                 br.
                 p.
-                    We define <b>(Id A a b)</b> to be the type of pairs $\varphi, \omega$,
+                    You may think of <b>(Id A a b)</b> [Coquand] to be the type of pairs $\varphi, \omega$,
                     with $\varphi$ in $\mathbb{F}$ and $\omega$ in <b>(Path A a b)</b>
                     such that $\varphi$ implies $const(\omega)$ where $const(\omega) := \Pi(i:I)[\omega(i)=\omega(0)]$.
                     The reflexivity proof is then an element in <b>(Id A a b)</b>.
