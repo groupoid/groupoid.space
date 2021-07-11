@@ -116,8 +116,8 @@ block content
                     The words of a language consist of keywords or identifiers. The keywords are following:
                     <b>module</b>, <b>where</b>, <b>import</b>, <b>option</b>, <b>def</b>, <b>axiom</b>, <b>postulate</b>, <b>theorem</b>,
                     <b>(</b>, <b>)</b>, <b>[</b>, <b>]</b>, <b>&lt;</b>, <b>&gt;</b>, <b>&#47;</b>, <b>.1</b>, <b>.2</b>, <b>Π</b>,
-                    <b>Σ</b>, <b>,</b>, <b>λ</b>, <b>×</b>, <b>→</b>, <b>:</b>, <b>:=</b>, <b>U</b>, <b>V</b>, <b>∧</b>, <b>∨</b>, <b>-</b>, <b>+</b>,
-                    <b>@</b>, <b>PathP</b>, <b>transp</b>, <b>hcomp</b>, <b>i₀</b>, <b>i₁</b>, <b>interval</b>, <b>inductive</b>,
+                    <b>Σ</b>, <b>,</b>, <b>λ</b>, <b>×</b>, <b>→</b>, <b>:</b>, <b>:=</b>, <b>↦</b>, <b>U</b>, <b>V</b>, <b>∧</b>, <b>∨</b>, <b>-</b>, <b>+</b>,
+                    <b>@</b>, <b>PathP</b>, <b>transp</b>, <b>hcomp</b>, <b>zero</b>, <b>one</b>, <b>Partial</b>, <b>inc</b>, <b>ouc</b>, <b>interval</b>, <b>inductive</b>,
                     <b>record</b>, <b>Glue</b>, <b>glue</b>, <b>unglue</b>.
                 p.
                     <b>Indentifiers</b>. Identifiers support UTF-8. Indentifiers couldn't start
@@ -371,13 +371,20 @@ block content
                     we need to specify n-cubes where some faces are missing. Partial
                     primitives <b>isOne</b>, <b>1=1</b> and <b>UIP</b> on pretypes are
                     derivable in Anders due to landing strict equality <b>Id</b> in <b>V</b> universe.
+                    The idea is that <b>(Partial r A)</b> is the type of cubes in <b>A</b>
+                    that are only defined when <b>IsOne r</b> holds. <b>(Partial r A)</b>
+                    is a special version of the function space <b>IsOne r → A</b>
+                    with a more extensional equality: two of its elements are considered
+                    judgmentally equal if they represent the same subcube of <b>A</b>.
+                    They are equal whenever they reduce to equal terms for all the
+                    possible assignment of variables that make <b>r</b> equal to <b>1</b>.
                 code.
                     def isOne : I -> V := Id I 1
                     def 1=1 : isOne 1 := ref 1
                     def UIP (A : V) (a b : A) (p q : Id A a b) : Id (Id A a b) p q := ref p
                 br.
                 p.
-                    <b>Cubical Subtypes</b>.
+                    <b>Cubical Subtypes</b>. The are two
                 p.
                     <b>Homogeneous Composition</b>. Homogeneous composition <b>hcomp</b> is the answer to second problem:
                     with <b>hcomp</b> and <b>transp</b> one can express path composition,
