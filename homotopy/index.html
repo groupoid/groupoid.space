@@ -208,25 +208,60 @@ proving β rule for Path type or path composition.</p><p><b>Gegeralized Transpor
 first problem of deriving the computational β rule for Path types:</p><code>theorem Path-β (A : U) (a : A) (C : D A) (d: C a a (refl A a))
    : Equ (C a a (refl A a)) d (J A a C d a (refl A a))
   := λ (A : U), λ (a : A), λ (C : Π (x : A), Π (y : A), PathP (&lt;_&gt; A) x y → U),
-     λ (d : C a a (&lt;_&gt; a)), &lt;j&gt; transp (&lt;_&gt; C a a (&lt;_&gt; a)) -j d</code><br><p><b>Partial Elements</b>. In order to explicitly define <b>hcomp</b>
+     λ (d : C a a (&lt;_&gt; a)), &lt;j&gt; transp (&lt;_&gt; C a a (&lt;_&gt; a)) -j d</code><br><p>Transport is defined on fibrant types (only) and type checker should cover all the cases.
+Note that <b>transpⁱ (Pathʲ A v w) φ u₀</b> case is relying on <b>comp</b> operation
+which depends on <b>hcomp</b> primitive.</p><code>transpⁱ N φ u₀ = u₀
+transpⁱ U φ A = A
+transpⁱ (Π (x : A), B) φ u₀ v = transpⁱ B(x/w) φ (u₀ w(i/0))
+transpⁱ (Σ (x : A), B) φ u₀ = (transpⁱ A φ (u₀.1),transpⁱ B(x/v) φ(u₀.2))
+transpⁱ (Pathʲ A v w) φ u₀ = 〈j〉compⁱ A [φ ↦ u₀ j, (j=0) ↦ v, (j=1) ↦ w] (u₀ j)
+transpⁱ (Glue [φ ↦ (T,w)] A) ψ u₀ = glue [φ(i/1) ↦ t′₁] a′₁ : B(i/1)
+
+w = transpFill⁻ⁱ A φ v, v : A(i/1)
+v = transpFillⁱ A φ u₀.1
+u : A(j/0), v : A(j/1)
+transp⁻ⁱ A φ u = (transpⁱ A(i/1−i) φ u)(i/1−i) : A(i/0)
+transpFillⁱ A φ u₀ = transpʲ A(i/i∧j) (φ∨(i=0)) u₀ : A</code><br><p><b>Partial Elements</b>. In order to explicitly define <b>hcomp</b>
 we need to specify n-cubes where some faces are missing. Partial
 primitives <b>isOne</b>, <b>1=1</b> and <b>UIP</b> on pretypes are
 derivable in Anders due to landing strict equality <b>Id</b> in <b>V</b> universe.
-The idea is that <b>(Partial r A)</b> is the type of cubes in <b>A</b>
-that are only defined when <b>IsOne r</b> holds. <b>(Partial r A)</b>
+The idea is that <b>(Partial A r)</b> is the type of cubes in <b>A</b>
+that are only defined when <b>IsOne r</b> holds. <b>(Partial A r)</b>
 is a special version of the function space <b>IsOne r → A</b>
 with a more extensional equality: two of its elements are considered
 judgmentally equal if they represent the same subcube of <b>A</b>.
 They are equal whenever they reduce to equal terms for all the
-possible assignment of variables that make <b>r</b> equal to <b>1</b>.</p><code>def isOne : I -> V := Id I 1
+possible assignment of variables that make <b>r</b> equal to <b>1</b>.</p><code>def Partial′ (A : U) (i : I) := Partial A i
+def isOne : I -> V := Id I 1
 def 1=1 : isOne 1 := ref 1
-def UIP (A : V) (a b : A) (p q : Id A a b) : Id (Id A a b) p q := ref p</code><br><p><b>Cubical Subtypes</b>. The are two</p><p><b>Homogeneous Composition</b>. Homogeneous composition <b>hcomp</b> is the answer to second problem:
+def UIP (A : V) (a b : A) (p q : Id A a b) : Id (Id A a b) p q := ref p</code><br><p><b>Cubical Subtypes</b>. For <b>(A : U) (i : I) (Partial A i)</b>
+we can define subtype <b>A [ i ↦ u ]</b>. A term of this type is a term of
+type A that is definitionally equal to u when <b>(IsOne i)</b> is satisfied.</p><code>def sub′ (A : U) (i : I) (u : Partial A i) : V := A [i ↦ u ]
+def inc′ (A : U) (i : I) (a : A) : A [i ↦ [(i = 1) → a]] := inc a
+def ouc′ (A : U) (i : I) (u : Partial A i) (a : A [i ↦ u]) : A := ouc a</code><br><p>We have forth and back fusion rules <b>ouc (inc v) = v</b>
+and <b>inc (outc v) = v</b>. Moreover, <b>ouc v</b> will reduce to u 1=1 when i=1.</p><p><b>Homogeneous Composition</b>. Homogeneous composition <b>hcomp</b> is the answer to second problem:
 with <b>hcomp</b> and <b>transp</b> one can express path composition,
 groupoid, category of groupoids (groupoid interpretation and internalization in type theory).
 One of the main roles of homogeneous composition is to be a carrier in [higher]
 inductive type constructors for calculating of homotopy colimits and
-direct encoding of CW-complexes (or internal models as gluening of pushout cells).
-</p><h2 id="id">Strict Equality</h2><p>To avoid conflicts with path equalities which live in fibrant universes
+direct encoding of CW-complexes (or internal models as gluening of pushout cells).</p><code>def comp (A : I → U) (r : I) (u : Π (i : I), Partial (A i) r) (u₀ : (A 0)[r ↦ u 0]) : A 1
+:= hcomp (A 1) r (λ (i : I), [(φ : r = 1) → transp (&lt;j> A (i ∨ j)) i (u i φ)])
+         (inc (transp (&lt;i> A i) 0 (ouc u₀)))</code><br><p>The type checker equations for <b>hcomp</b> primitive are following:</p><code>hcompⁱ N [φ ↦ 0] 0 = 0
+hcompⁱ N [φ ↦ S u] (S u₀) = S (hcompⁱ N [φ ↦ u] u₀)
+hcompⁱ U [φ ↦ E] A = Glue [φ ↦ (E(i/1), equivⁱ E(i/1−i))] A
+hcompⁱ (Π (x : A), B) [φ ↦ u] u₀ v = hcompⁱ B(x/v) [φ ↦ u v] (u₀ v)
+hcompⁱ (Σ (x : A), B) [φ ↦ u] u₀ = (v(i/1), compⁱ B(x/v) [φ ↦ u.2] u₀.2)
+hcompⁱ (Pathʲ A v w) [φ ↦ u] u₀ = 〈j〉 hcompⁱ A [ φ ↦ u j, (j = 0) ↦ v, (j = 1) ↦ w ] (u₀ j)
+hcompⁱ (Glue [φ ↦ (T,w)] A) [ψ ↦ u] u₀
+     = glue [φ ↦ t₁] a₁
+     = glue [φ ↦ u(i/1)] (unglue u(i/1))
+     = u(i/1) : Glue [φ ↦ (T,w)] A
+
+hfillⁱ A [φ ↦ u] u₀ = hcompʲ A [φ ↦ u(i/i∧j), (i=0) ↦ u₀] u₀ : A
+v = hfillⁱ A [φ ↦ u.1] u₀.1
+t₁ = u(i/1) : T
+a₁ = unglue u(i/1) : A
+glue [φ ↦ t₁] a1 = t₁ : T</code><br><h2 id="id">Strict Equality</h2><p>To avoid conflicts with path equalities which live in fibrant universes
 strict equalities live in pretypes universes.</p><code>inductive strict (lang: U) : U
   | id: name → lang → total lang
   | intro: lang → lang → total lang
