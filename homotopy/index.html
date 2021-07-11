@@ -284,10 +284,10 @@ inductive branch (A: U) : U | br: name → branch A | args: list name → A → 
 inductive label (A: U) : U | lab: name → label A | t: tele A → label A
 
 inductive hit (lang: U)
-  | intro: name → tele lang → list (label lang) → hit lang
-  | case: name → lang → list (branch lang) → hit lang
+  | form: name → tele lang → list (label lang) → hit lang
   | ctor: name → list lang → hit lang
-  | htor: name → list lang → list lang → lang → hit lang</code><p>The non-well-founded trees or infinite coinductive trees
+  | htor: name → list lang → list lang → lang → hit lang
+  | case: name → lang → list (branch lang) → hit lang</code><p>The non-well-founded trees or infinite coinductive trees
 are useful for modeling infinite processes and are part
 of Milner's Pi-calculus. Coinductive streams could be found in many MLTT base libraries.
 </p><h2 id="glue">Glue Types</h2><p>Glue Types are needed to prove univalence. The basic theoretical introduction
