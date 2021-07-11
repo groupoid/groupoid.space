@@ -126,7 +126,7 @@ presheaves with separate configuration for universe hierarchies.</p><code>induct
 models of dependent type theory:  Comprehension Categories (Grothendieck, Jacobs),
 LCCC (Seely), D-Categories and CwA (Cartmell), CwF (Dybjer), C-Systems (Voevodsky),
 Natural Models (Awodey). While we can build some transports between them,
-we leave this excercise for our <a href="https://groupoid.space">mathematical components</a> library.</p><br><h2 id="univ">Universe Hierarchies</h2><p>Language supports Agda-style hierarchy of universes: fibrant, interval pretypes and strict omega
+we leave this excercise for our <a href="https://groupoid.space">mathematical components</a> library.</p><br><h2 id="univ">Universe Hierarchies</h2><p>Language supports Agda-style hierarchy of universes: fibrant (U), interval pretypes (V) and strict omega
 with explicit level manipulation. All universes are bounded with preorder
 $$
    Fibrant_j \prec Pretypes_k \prec Strict_l,
@@ -155,7 +155,8 @@ implication in a Kripke model.</p><p id="pi"><b>Defintion</b> (Pi). An element $
   | sigma: name → lang → lang → total lang
   | pair: lang → lang → total lang
   | fst: lang → total lang
-  | snd: lang → total lang</code><br><h2 id="path">Path Types</h2><p>The fundamental development of equality inside MLTT
+  | snd: lang → total lang</code><br><p>The preseaf configuration with only Pi and Sigma is called MLTT-72.
+</p><h2 id="path">Path Equality</h2><p>The fundamental development of equality inside MLTT
 provers led us to the notion of ∞-groupoid as spaces.
 In this way Path identity type appeared in the core
 of type checker along with De Morgan algebra on
@@ -182,13 +183,12 @@ with $\Box$ &mdash; $\mathbb{I} : \Box^{op} \rightarrow \mathrm{Set}$.</p><p><b>
 i) has to distinct global elements $0$ and $1$ (B$_1$);
 ii) $\mathbb{I}$(I) has a decidable equality for each $I$ (B$_2$);
 iii) $\mathbb{I}$ is tiny so the path functor $X \mapsto X^\mathbb{I}$ has right adjoint (B$_3$).;
-iv) $\mathbb{I}$ has meet and join (connections).
-</p><p><b>Interval Pretypes</b>. While having pretypes universe <b>V</b> with interval and
-associated De Morgan algebra is enough to perform DNF normalization
-and proving some basic statements about path, including: contractability of singletons,
+iv) $\mathbb{I}$ has meet and join (connections).</p><p><b>Interval Pretypes</b>. While having pretypes universe <b>V</b> with interval and
+associated De Morgan algebra <b>(∧, ∨, -, 0, 1, I)</b> is enough to
+perform DNF normalization and proving some basic statements about path, including:
+contractability of singletons,
 homotopy transport, congruence, functional extensionality; it is not enough for
-proving β rule for Path type or path composition.
-</p><p><b>Gegeralized Transport</b>. Generalized transport <b>transp</b> adresses
+proving β rule for Path type or path composition.</p><p><b>Gegeralized Transport</b>. Generalized transport <b>transp</b> adresses
 first problem of deriving the computational β rule for Path types:</p><code>theorem Path-β (A : U) (a : A) (C : D A) (d: C a a (refl A a))
    : Equ (C a a (refl A a)) d (J A a C d a (refl A a))
   := λ (A : U), λ (a : A), λ (C : Π (x : A), Π (y : A), PathP (&lt;_&gt; A) x y → U),
@@ -210,6 +210,16 @@ groupoid, category of groupoids (groupoid interpretation and internalization in 
 One of the main roles of homogeneous composition is to be a carrier in [higher]
 inductive type constructors for calculating of homotopy colimits and
 direct encoding of CW-complexes (or internal models as gluening of pushout cells).
+</p><h2 id="path">Strict Equality</h2><p>To avoid conflicts with path equalities which live in fibrant universes
+strict equalities live in pretypes universes.</p><code>inductive strict (lang: U) : U
+  | id: name → lang → total lang
+  | intro: lang → lang → total lang
+  | idJ: lang → lang → lang → total lang</code><br><p>We define <b>(Id A a b)</b> to be the type of pairs $\varphi, \omega$,
+with $\varphi$ in $\mathbb{F}$ and $\omega$ in <b>(Path A a b)</b>
+such that $\varphi$ implies $const(\omega)$ where $const(\omega) := \Pi(i:I)[\omega(i)=\omega(0)]$.
+The reflexivity proof is then an element in <b>(Id A a b)</b>.</p><p>We use strict equality in HTS for pretypes and partial elements which live in <b>V</b>.
+The presheaf configuration with Pi, Sigma and Id is called MLTT-73.
+The presheaf configuration with Pi, Sigma, Id and Path is called HTS.
 </p><h2 id="induction">Higher Inductive Types</h2><p>The further development of induction inside MLTT provers led
 to the theory of polynomial functors and well-founded trees,
 known in programming languages as inductive types with <b>inductive</b>

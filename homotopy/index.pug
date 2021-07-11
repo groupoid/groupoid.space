@@ -255,7 +255,7 @@ block content
 
                 h2#univ Universe Hierarchies
                 p.
-                    Language supports Agda-style hierarchy of universes: fibrant, interval pretypes and strict omega
+                    Language supports Agda-style hierarchy of universes: fibrant (U), interval pretypes (V) and strict omega
                     with explicit level manipulation. All universes are bounded with preorder
                     $$
                        Fibrant_j \prec Pretypes_k \prec Strict_l,
@@ -311,8 +311,10 @@ block content
                       | fst: lang → total lang
                       | snd: lang → total lang
                 br.
+                p.
+                    The preseaf configuration with only Pi and Sigma is called MLTT-72.
 
-                h2#path Path Types
+                h2#path Path Equality
                 p.
                     The fundamental development of equality inside MLTT
                     provers led us to the notion of ∞-groupoid as spaces.
@@ -349,14 +351,13 @@ block content
                     ii) $\mathbb{I}$(I) has a decidable equality for each $I$ (B$_2$);
                     iii) $\mathbb{I}$ is tiny so the path functor $X \mapsto X^\mathbb{I}$ has right adjoint (B$_3$).;
                     iv) $\mathbb{I}$ has meet and join (connections).
-
                 p.
                     <b>Interval Pretypes</b>. While having pretypes universe <b>V</b> with interval and
-                    associated De Morgan algebra is enough to perform DNF normalization
-                    and proving some basic statements about path, including: contractability of singletons,
+                    associated De Morgan algebra <b>(∧, ∨, -, 0, 1, I)</b> is enough to
+                    perform DNF normalization and proving some basic statements about path, including:
+                    contractability of singletons,
                     homotopy transport, congruence, functional extensionality; it is not enough for
                     proving β rule for Path type or path composition.
-
                 p.
                     <b>Gegeralized Transport</b>. Generalized transport <b>transp</b> adresses
                     first problem of deriving the computational β rule for Path types:
@@ -392,6 +393,26 @@ block content
                     One of the main roles of homogeneous composition is to be a carrier in [higher]
                     inductive type constructors for calculating of homotopy colimits and
                     direct encoding of CW-complexes (or internal models as gluening of pushout cells).
+
+                h2#path Strict Equality
+                p.
+                    To avoid conflicts with path equalities which live in fibrant universes
+                    strict equalities live in pretypes universes.
+                code.
+                    inductive strict (lang: U) : U
+                      | id: name → lang → total lang
+                      | intro: lang → lang → total lang
+                      | idJ: lang → lang → lang → total lang
+                br.
+                p.
+                    We define <b>(Id A a b)</b> to be the type of pairs $\varphi, \omega$,
+                    with $\varphi$ in $\mathbb{F}$ and $\omega$ in <b>(Path A a b)</b>
+                    such that $\varphi$ implies $const(\omega)$ where $const(\omega) := \Pi(i:I)[\omega(i)=\omega(0)]$.
+                    The reflexivity proof is then an element in <b>(Id A a b)</b>.
+                p.
+                    We use strict equality in HTS for pretypes and partial elements which live in <b>V</b>.
+                    The presheaf configuration with Pi, Sigma and Id is called MLTT-73.
+                    The presheaf configuration with Pi, Sigma, Id and Path is called HTS.
 
                 h2#induction Higher Inductive Types
                 p.
