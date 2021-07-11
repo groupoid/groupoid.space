@@ -86,14 +86,18 @@ block content
                 code.
                     $ opam install anders
                     $ anders
-                    Anders theorem prover [PTS][MLTT][CCHM-4][HTS].
+                    Anders theorem prover [MLTT][CCHM][HTS] version 0.7.2
 
-                       invoke = anders | anders list
-                         list = [] | command list
-                      command = check filename     | lex filename
-                              | parse filename     | help
-                              | cubicaltt filename | girard
-                              | trace
+                      invocation = anders | anders list
+                            list = [] | command list
+                       primitive = zero | one | interval | ...
+
+                         command = check <filename>      | lex <filename>
+                                 | parse <filename>      | prim primitive <name>
+                                 | cubicaltt <filename>  | girard
+                                 | trace                 | verbose
+                                 | repl                  | help
+
                 br.
                 p.
                     Anders is idiomatic and educational. We carefully draw the favourite
