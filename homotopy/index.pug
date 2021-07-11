@@ -397,7 +397,8 @@ block content
                     transpⁱ (Σ (x : A), B) φ u₀ = (transpⁱ A φ (u₀.1),transpⁱ B(x/v) φ(u₀.2))
                     transpⁱ (Pathʲ A v w) φ u₀ = 〈j〉compⁱ A [φ ↦ u₀ j, (j=0) ↦ v, (j=1) ↦ w] (u₀ j)
                     transpⁱ (Glue [φ ↦ (T,w)] A) ψ u₀ = glue [φ(i/1) ↦ t′₁] a′₁ : B(i/1)
-
+                br.
+                code.
                     w = transpFill⁻ⁱ A φ v, v : A(i/1)
                     v = transpFillⁱ A φ u₀.1
                     u : A(j/0), v : A(j/1)
@@ -459,7 +460,8 @@ block content
                          = glue [φ ↦ t₁] a₁
                          = glue [φ ↦ u(i/1)] (unglue u(i/1))
                          = u(i/1) : Glue [φ ↦ (T,w)] A
-
+                br.
+                code.
                     hfillⁱ A [φ ↦ u] u₀ = hcompʲ A [φ ↦ u(i/i∧j), (i=0) ↦ u₀] u₀ : A
                     v = hfillⁱ A [φ ↦ u.1] u₀.1
                     t₁ = u(i/1) : T
