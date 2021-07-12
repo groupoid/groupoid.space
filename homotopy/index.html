@@ -234,10 +234,10 @@ built-in interval type.</p><code>inductive homotopy (lang: U) : U
   | join: lang → lang → homotopy lang
   | neg: lang → homotopy lang
   | system: lang → homotopy lang
-  | partial: lang → homotopy lang
+  | Partial: lang → homotopy lang
   | transp: lang → lang → homotopy lang
   | hcomp: lang → homotopy lang
-  | _[_↦_]: lang → homotopy lang
+  | Sub: lang → homotopy lang
   | inc: lang → homotopy lang
   | ouc: lang → homotopy lang</code><br><p><b>Definition</b> (Cubical Presheaf $\mathbb{I}$).
 The identity types modeled with another presheaf, the presheaf on Lawvere
