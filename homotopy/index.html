@@ -107,9 +107,9 @@ without proof-term or by providing proof-term as definition.</p><code>axiom isPr
 def isSet (A : U) : U := Π (a b : A)
     (x y : Path A a b), Path (Path A a b) x y</code><p>In this example <b>(A : U)</b>, <b>(a b : A)</b> and <b>(x y : Path A a b)</b> are
 called telescopes. Each telescope consists of a series of lenses or empty.
-Each lense provides a set of variable of the same type. Telescope
-defines parameters of a declaration. Types in telescope,
-type of declaration and proof-term are a language expressions <b>exp1</b>.</p><p><b>Expressions</b>. All atomic language expressions are grouped
+Each lense provides a set of variables of the same type. Telescope
+defines parameters of a declaration. Types in a telescope,
+type of a declaration and a proof-terms are a language expressions <b>exp1</b>.</p><p><b>Expressions</b>. All atomic language expressions are grouped
 by four categories:
 <b>exp0</b> (pair constructions),
 <b>exp1</b> (non neutral constructions),
