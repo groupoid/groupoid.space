@@ -224,10 +224,10 @@ provers led us to the notion of ∞-groupoid as spaces.
 In this way Path identity type appeared in the core
 of type checker along with De Morgan algebra on
 built-in interval type.</p><code>inductive homotopy (lang: U) : U
-  | path: lang → lang → lang → homotopy lang
+  | PathP: lang → lang → lang → homotopy lang
   | plam: name → lang → lang → homotopy lang
   | papp: lang → lang → homotopy lang
-  | interval: homotopy lang
+  | I: homotopy lang
   | zero: homotopy lang
   | one: homotopy lang
   | meet: lang → lang → homotopy lang
@@ -237,7 +237,7 @@ built-in interval type.</p><code>inductive homotopy (lang: U) : U
   | partial: lang → homotopy lang
   | transp: lang → lang → homotopy lang
   | hcomp: lang → homotopy lang
-  | sub: lang → homotopy lang
+  | _[_↦_]: lang → homotopy lang
   | inc: lang → homotopy lang
   | ouc: lang → homotopy lang</code><br><p><b>Definition</b> (Cubical Presheaf $\mathbb{I}$).
 The identity types modeled with another presheaf, the presheaf on Lawvere
@@ -306,15 +306,19 @@ t₁ = u(i/1) : T
 a₁ = unglue u(i/1) : A
 glue [φ ↦ t₁] a1 = t₁ : T</code><br><h2 id="id">Strict Equality</h2><p>To avoid conflicts with path equalities which live in fibrant universes
 strict equalities live in pretypes universes.</p><code>inductive strict (lang: U) : U
-  | id: name → lang → total lang
-  | intro: lang → lang → total lang
-  | idJ: lang → lang → lang → total lang</code><br><p>You may think of <b>(Id A a b)</b> [Coquand] to be the type of pairs $\varphi, \omega$,
+  | Id: name → lang → total lang
+  | ref: lang → lang → total lang
+  | idJ: lang → lang → lang → total lang</code><br><p>You may think of <b>(Id A a b)</b> [Coquand] to be the type of pairs $\varphi, \omega$
 with $\varphi$ in $\mathbb{F}$ and $\omega$ in <b>(Path A a b)</b>
 such that $\varphi$ implies $const(\omega)$ where $const(\omega) := \Pi(i:I)[\omega(i)=\omega(0)]$.
 The reflexivity proof is then an element in <b>(Id A a b)</b>.</p><p>We use strict equality in <b>HTS</b> for pretypes and partial elements which live in <b>V</b>.
 The presheaf configuration with Pi, Sigma and Id is called <b>MLTT-73</b>.
 The presheaf configuration with Pi, Sigma, Id and Path is called <b>HTS</b>.
-</p><h2 id="induction">Higher Inductive Types</h2><p>The further development of induction inside <b>MLTT</b> provers led
+</p><h2 id="glue">Glue Types</h2><p>Glue Types are needed to prove univalence. The basic theoretical introduction
+of Artin Gluening could be found in SGA-4, Johnstone.</p><code>inductive gluening (lang: U) : U
+  | Glue: lang → lang → lang → gluening lang
+  | glue: lang → lang → gluening lang
+  | unglue: lang → lang → gluening lang</code><br><h2 id="induction">Higher Inductive Types</h2><p>The further development of induction inside <b>MLTT</b> provers led
 to the theory of polynomial functors and well-founded trees,
 known in programming languages as inductive types with <b>inductive</b>
 and <b>record</b> core primitives.</p><p>Inductive types could be encoded in PTS/Cedile using non-recursive
@@ -333,11 +337,8 @@ inductive hit (lang: U)
   | case: name → lang → list (branch lang) → hit lang</code><p>The non-well-founded trees or infinite coinductive trees
 are useful for modeling infinite processes and are part
 of Milner's Pi-calculus. Coinductive streams could be found in many <b>MLTT</b> base libraries.
-</p><h2 id="glue">Glue Types</h2><p>Glue Types are needed to prove univalence. The basic theoretical introduction
-of Artin Gluening could be found in SGA-4, Johnstone.</p><code>inductive gluening (lang: U) : U
-  | Glue: lang → lang → lang → gluening lang
-  | glue: lang → lang → gluening lang
-  | unglue: lang → lang → gluening lang</code><br></section><section><h1>Bibliography</h1><p>1) <a href="http://www.cse.chalmers.se/~bengt/papers/GKminiTT.pdf">A simple type-theoretic language: Mini-TT</a> [Coquand, Kinoshita, Nordström, Takeyama];
+
+</p></section><section><h1>Bibliography</h1><p>1) <a href="http://www.cse.chalmers.se/~bengt/papers/GKminiTT.pdf">A simple type-theoretic language: Mini-TT</a> [Coquand, Kinoshita, Nordström, Takeyama];
 2) <a href="https://arxiv.org/pdf/1611.02108.pdf">Cubical Type Theory: a constructive interpretation of the univalence axiom</a> [Cohen, Coquand, Huber, Mörtberg];
 3) <a href="https://arxiv.org/pdf/1802.01170.pdf">On Higher Inductive Types in Cubical Type Theory</a> [Coquand, Huber, Mörtberg];
 4) <a href="https://arxiv.org/pdf/1607.04156.pdf">Canonicity for Cubical Type Theory</a> [Huber];

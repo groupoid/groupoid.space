@@ -400,10 +400,10 @@ block content
                     built-in interval type.
                 code.
                     inductive homotopy (lang: U) : U
-                      | path: lang → lang → lang → homotopy lang
+                      | PathP: lang → lang → lang → homotopy lang
                       | plam: name → lang → lang → homotopy lang
                       | papp: lang → lang → homotopy lang
-                      | interval: homotopy lang
+                      | I: homotopy lang
                       | zero: homotopy lang
                       | one: homotopy lang
                       | meet: lang → lang → homotopy lang
@@ -413,7 +413,7 @@ block content
                       | partial: lang → homotopy lang
                       | transp: lang → lang → homotopy lang
                       | hcomp: lang → homotopy lang
-                      | sub: lang → homotopy lang
+                      | _[_↦_]: lang → homotopy lang
                       | inc: lang → homotopy lang
                       | ouc: lang → homotopy lang
                 br.
@@ -533,12 +533,12 @@ block content
                     strict equalities live in pretypes universes.
                 code.
                     inductive strict (lang: U) : U
-                      | id: name → lang → total lang
-                      | intro: lang → lang → total lang
+                      | Id: name → lang → total lang
+                      | ref: lang → lang → total lang
                       | idJ: lang → lang → lang → total lang
                 br.
                 p.
-                    You may think of <b>(Id A a b)</b> [Coquand] to be the type of pairs $\varphi, \omega$,
+                    You may think of <b>(Id A a b)</b> [Coquand] to be the type of pairs $\varphi, \omega$
                     with $\varphi$ in $\mathbb{F}$ and $\omega$ in <b>(Path A a b)</b>
                     such that $\varphi$ implies $const(\omega)$ where $const(\omega) := \Pi(i:I)[\omega(i)=\omega(0)]$.
                     The reflexivity proof is then an element in <b>(Id A a b)</b>.
@@ -546,6 +546,17 @@ block content
                     We use strict equality in <b>HTS</b> for pretypes and partial elements which live in <b>V</b>.
                     The presheaf configuration with Pi, Sigma and Id is called <b>MLTT-73</b>.
                     The presheaf configuration with Pi, Sigma, Id and Path is called <b>HTS</b>.
+
+                h2#glue Glue Types
+                p.
+                    Glue Types are needed to prove univalence. The basic theoretical introduction
+                    of Artin Gluening could be found in SGA-4, Johnstone.
+                code.
+                    inductive gluening (lang: U) : U
+                      | Glue: lang → lang → lang → gluening lang
+                      | glue: lang → lang → gluening lang
+                      | unglue: lang → lang → gluening lang
+                br.
 
                 h2#induction Higher Inductive Types
                 p.
@@ -577,16 +588,6 @@ block content
                     are useful for modeling infinite processes and are part
                     of Milner's Pi-calculus. Coinductive streams could be found in many <b>MLTT</b> base libraries.
 
-                h2#glue Glue Types
-                p.
-                    Glue Types are needed to prove univalence. The basic theoretical introduction
-                    of Artin Gluening could be found in SGA-4, Johnstone.
-                code.
-                    inductive gluening (lang: U) : U
-                      | Glue: lang → lang → lang → gluening lang
-                      | glue: lang → lang → gluening lang
-                      | unglue: lang → lang → gluening lang
-                br.
 
             section
                 h1 Bibliography
