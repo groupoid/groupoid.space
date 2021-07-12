@@ -251,7 +251,7 @@ associated De Morgan algebra <b>(∧, ∨, -, 0, 1, I)</b> is enough to
 perform DNF normalization and proving some basic statements about path, including:
 contractability of singletons,
 homotopy transport, congruence, functional extensionality; it is not enough for
-proving β rule for Path type or path composition.</p><p><b>Gegeralized Transport</b>. Generalized transport <b>transp</b> adresses
+proving β rule for Path type or path composition.</p><p><b>Generalized Transport</b>. Generalized transport <b>transp</b> adresses
 first problem of deriving the computational β rule for Path types:</p><code>theorem Path-β (A : U) (a : A) (C : D A) (d: C a a (refl A a))
    : Equ (C a a (refl A a)) d (J A a C d a (refl A a))
   := λ (A : U), λ (a : A), λ (C : Π (x : A), Π (y : A), PathP (&lt;_&gt; A) x y → U),
@@ -338,7 +338,7 @@ inductive hit (lang: U)
 are useful for modeling infinite processes and are part
 of Milner's Pi-calculus. Coinductive streams could be found in many <b>MLTT</b> base libraries.
 
-</p></section><section><h1>Bibliography</h1><h2>CCHM</h2><p>1) <a href="https://arxiv.org/pdf/1611.02108.pdf">Cubical Type Theory: a constructive interpretation of the univalence axiom</a> [Cohen, Coquand, Huber, Mörtberg];
+</p></section><section><h1>Bibliography</h1></section><section><h2>CCHM</h2><p>1) <a href="https://arxiv.org/pdf/1611.02108.pdf">Cubical Type Theory: a constructive interpretation of the univalence axiom</a> [Cohen, Coquand, Huber, Mörtberg];
 2) <a href="https://arxiv.org/pdf/1802.01170.pdf">On Higher Inductive Types in Cubical Type Theory</a> [Coquand, Huber, Mörtberg];
 3) <a href="https://arxiv.org/pdf/1607.04156.pdf">Canonicity for Cubical Type Theory</a> [Huber];
 4) <a href="https://arxiv.org/pdf/1902.06572.pdf">Canonicity and homotopy canonicity for cubical type theory</a> [Coquand, Huber, Sattler];
@@ -347,7 +347,6 @@ of Milner's Pi-calculus. Coinductive streams could be found in many <b>MLTT</b> 
 7) <a href="https://staff.math.su.se/anders.mortberg/papers/cubicalagda.pdf">Cubical Agda: A Dependently Typed PL with Univalence and HITs</a> [Vezzosi, Mörtberg, Abel];
 8) <a href="http://www.cse.chalmers.se/~simonhu/misc/hcomp.pdf">A Cubical Type Theory for Higher Inductive Types</a> [Huber];
 9) <a href="http://www.cse.chalmers.se/~simonhu/papers/p.pdf">Gluing for type theory</a> [Kaposi, Huber, Sattler].
-10) <a href="https://staff.math.su.se/anders.mortberg/papers/cubicalmethods.pdf">Cubical Methods in HoTT/UF</a> [Mörtberg].
-</p><h2>HTS</h2><p>11) <a href="https://www.math.ias.edu/vladimir/sites/math.ias.edu.vladimir/files/HTS.pdf">A simple type system with two identity types</a> [Voevodsky].
+10) <a href="https://staff.math.su.se/anders.mortberg/papers/cubicalmethods.pdf">Cubical Methods in HoTT/UF</a> [Mörtberg].</p><h2>HTS</h2><p>11) <a href="https://www.math.ias.edu/vladimir/sites/math.ias.edu.vladimir/files/HTS.pdf">A simple type system with two identity types</a> [Voevodsky].
 12) <a href="https://arxiv.org/pdf/1705.03307.pdf">Two-level type theory and applications</a> [Annenkov, Capriotti, Kraus, Sattler].
 13) <a href="https://types21.liacs.nl/download/syntax-for-two-level-type-theory/">Syntax for two-level type theory</a> [Bonacina, Ahrens].</p></section></div></article><footer class="footer"><a href="https://github.com/groupoid/"><img class="footer__logo" src="https://longchenpa.guru/seal.png" width="50"></a><span class="footer__copy">2016&mdash;2021 &copy; <a href="//5ht.co/" style="color:Lavender;">Максим Сохацький</a></span></footer><script src="https://groupoid.space/bundle.js?v=7"></script><script src="https://groupoid.space/highlight.js?v=20"></script></body></html>
