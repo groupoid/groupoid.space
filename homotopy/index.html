@@ -51,8 +51,9 @@ cubicaltt [Cohen, Coquand, Huber, Mörtberg], slightly compatible with Lean synt
 and contains the full set of primitives of Cubical Agda [8].</p><p>Here is given the mathematical pseudo-code notation
 of the language expressions that come immediately after parsing.
 This definition corresponds to <b>exp</b> type defined in <b>expr.ml</b> OCaml module:</p><p>$$
-   E := cosmos | var | line | sub | part
-        | pi | sigma | id | path | kan
+   MLTT := cosmos | var | pi | sigma | id
+   CCHM := path | line | sub | part | kan
+   E := MLTT | CCHM
 $$
 $$
    cosmos := \mathbf{U}_j \ |\ \mathbf{V}_k \\
