@@ -22,13 +22,13 @@
                         tex2jax: { inlineMath: [['$','$'], ['\\(','\\)']],
                                    processEscapes: true }
                     };
-</script></head><body class="content"><header class="header"><div class="header__titles"><h1 class="header__title">Homotopy Type System</h1><h4 class="header__subtitle">Type theory with two equalities</h4></div></header><article class="main"><div class="exe"><section><h1>SYNOPSIS</h1></section><aside><a href="https://github.com/5HT">5HT</a><br><a href="https://github.com/forked-from-1kasper">Siegmentation Fault</a><time>28 JUN 2021</time><p>The HTS language proposed by Voevodsky exposes two different presheaf models of type theory:
+</script></head><body class="content"><header class="header"><div class="header__titles"><h1 class="header__title">Homotopy Type System</h1><h4 class="header__subtitle">Type theory with two equalities</h4></div></header><article class="main"><div class="exe"><section><h1>SYNOPSIS</h1></section><aside><a href="https://github.com/5HT">5HT</a><br><a href="https://github.com/forked-from-1kasper">Siegmentation Fault</a><time>28 JUN 2021</time><p>The <b>HTS</b> language proposed by Voevodsky exposes two different presheaf models of type theory:
 the inner one is homotopy type system presheaf that models HoTT and the outer one is traditional Martin-Löf
 type system presheaf that models set theory with UIP. The motivation behind this doubling is to
 have an ability to express semisemplicial types. Theoretical work on merging meta-theoretical
 and homotopical languages was continued in <a href="https://arxiv.org/pdf/1705.03307.pdf">2LTT</a> [Anenkov, Capriotti, Kraus, Sattler].
-</p></aside><section><div class="macro"><div class="macro__col"><h3 id="pure"><b>PTS</b></h3><ol><li><a href="#univ">UNI</a></li><li><a href="#pi">PI</a></li></ol></div><div class="macro__col"><h3 id="mltt"><b>MLTT-73</b></h3><ol><li><a href="#univ">UNI</a></li><li><a href="#pi">PI</a></li><li><a href="#sigma">SIGMA</a></li><li><a href="#id">ID</a></li><li><a href="#induction">INDUCT</a></li></ol></div><div class="macro__col"><h3 id="homotopy"><b>CCHM</b></h3><ol><li><a href="#univ">UNI</a></li><li><a href="#pi">PI</a></li><li><a href="#sigma">SIGMA</a></li><li><a href="#path">INTERVAL</a></li><li><a href="#glue">GLUE</a></li><li><a href="#induction">HIT</a></li></ol></div><div class="macro__col"><h3 id="hts"><b>HTS</b></h3><ol><li><a href="#univ">UNI</a></li><li><a href="#pi">PI</a></li><li><a href="#sigma">SIGMA</a></li><li><a href="#id">ID</a></li><li><a href="#path">INTERVAL</a></li><li><a href="#glue">GLUE</a></li><li><a href="#induction">HIT</a></li></ol></div></div><p>While we are on our road to HTS with Lean-like tactic language, currently we are at the stage of regular
-cubical (HoTT) type checker with CHM-style primitives, or more general CCHM type checker.
+</p></aside><section><div class="macro"><div class="macro__col"><h3 id="pure"><b>PTS</b></h3><ol><li><a href="#univ">UNI</a></li><li><a href="#pi">PI</a></li></ol></div><div class="macro__col"><h3 id="mltt"><b>MLTT-73</b></h3><ol><li><a href="#univ">UNI</a></li><li><a href="#pi">PI</a></li><li><a href="#sigma">SIGMA</a></li><li><a href="#id">ID</a></li><li><a href="#induction">INDUCT</a></li></ol></div><div class="macro__col"><h3 id="homotopy"><b>CCHM</b></h3><ol><li><a href="#univ">UNI</a></li><li><a href="#pi">PI</a></li><li><a href="#sigma">SIGMA</a></li><li><a href="#path">INTERVAL</a></li><li><a href="#glue">GLUE</a></li><li><a href="#induction">HIT</a></li></ol></div><div class="macro__col"><h3 id="hts"><b>HTS</b></h3><ol><li><a href="#univ">UNI</a></li><li><a href="#pi">PI</a></li><li><a href="#sigma">SIGMA</a></li><li><a href="#id">ID</a></li><li><a href="#path">INTERVAL</a></li><li><a href="#glue">GLUE</a></li><li><a href="#induction">HIT</a></li></ol></div></div><p>While we are on our road to <b>HTS</b> with Lean-like tactic language, currently we are at the stage of regular
+cubical <b>HoTT</b> type checker with <b>CHM</b>-style primitives, or more general <b>CCHM</b> type checker.
 You may try it at Github: <a href="https://github.com/groupoid/anders">groupoid/anders</a>.
 </p><code>$ opam install anders
 $ anders
@@ -44,8 +44,8 @@ Anders theorem prover [MLTT][CCHM][HTS] version 0.7.2
              | trace                 | verbose
              | repl                  | help
 </code><br><p>Anders is idiomatic and educational. We carefully draw the favourite
-Lean-compatible syntax to fit 130 LOC in Menhir, the MLTT core (based on Mini-TT)
-is 500 LOC and pretypes presheaf is another 500 LOC. The MLTT hyperprover core
+Lean-compatible syntax to fit 130 LOC in Menhir, the <b>MLTT</b> core (based on Mini-TT)
+is 500 LOC and pretypes presheaf is another 500 LOC. The <b>MLTT</b> hyperprover core
 in Clojure is <a href="https://gist.github.com/5HT/2415f9945e92d7fc364f592a1abc2f93">expressible</a> in 150 LOC.</p><br></section><section><h1>SYNTAX</h1><p>The syntax resembles original syntax of the reference CCHM type checker
 cubicaltt [Cohen, Coquand, Huber, Mörtberg], slightly compatible with Lean syntax
 and contains the full set of primitives of Cubical Agda [8].</p><p>Here is given the mathematical pseudo-code notation
@@ -149,7 +149,7 @@ that are already processed in lexer.</p><code>exp3:
   | PARTIAL exp3           | IDENT LSQ exp0 MAP exp0 RSQ
   | LPARENS exp0 RPARENS   | IDENT
   | LPARENS exp0 RPARENS LSQ exp0 MAP exp0 RSQ</code><br><h1>SEMANTICS</h1><p>The idea is to have a unified layered type checker, so you can disbale/enable
-any MLTT-style inference, assign types to universes and enable/disable hierachies.
+any <b>MLTT</b>-style inference, assign types to universes and enable/disable hierachies.
 This will be done by providing linking API for pluggable presheaf modules.
 We selected 5 levels of type checker awareness from universes and pure type systems
 up to synthetic language of homotopy type theory. Each layer corresponds to its
@@ -195,8 +195,8 @@ implication in a Kripke model.</p><p id="pi"><b>Defintion</b> (Pi). An element $
   | sigma: name → lang → lang → total lang
   | pair: lang → lang → total lang
   | fst: lang → total lang
-  | snd: lang → total lang</code><br><p>The preseaf configuration with only Pi and Sigma is called MLTT-72.
-</p><h2 id="path">Path Equality</h2><p>The fundamental development of equality inside MLTT
+  | snd: lang → total lang</code><br><p>The preseaf configuration with only Pi and Sigma is called <b>MLTT-72</b>.
+</p><h2 id="path">Path Equality</h2><p>The fundamental development of equality inside <b>MLTT</b>
 provers led us to the notion of ∞-groupoid as spaces.
 In this way Path identity type appeared in the core
 of type checker along with De Morgan algebra on
@@ -288,10 +288,10 @@ strict equalities live in pretypes universes.</p><code>inductive strict (lang: U
   | idJ: lang → lang → lang → total lang</code><br><p>You may think of <b>(Id A a b)</b> [Coquand] to be the type of pairs $\varphi, \omega$,
 with $\varphi$ in $\mathbb{F}$ and $\omega$ in <b>(Path A a b)</b>
 such that $\varphi$ implies $const(\omega)$ where $const(\omega) := \Pi(i:I)[\omega(i)=\omega(0)]$.
-The reflexivity proof is then an element in <b>(Id A a b)</b>.</p><p>We use strict equality in HTS for pretypes and partial elements which live in <b>V</b>.
-The presheaf configuration with Pi, Sigma and Id is called MLTT-73.
-The presheaf configuration with Pi, Sigma, Id and Path is called HTS.
-</p><h2 id="induction">Higher Inductive Types</h2><p>The further development of induction inside MLTT provers led
+The reflexivity proof is then an element in <b>(Id A a b)</b>.</p><p>We use strict equality in <b>HTS</b> for pretypes and partial elements which live in <b>V</b>.
+The presheaf configuration with Pi, Sigma and Id is called <b>MLTT-73</b>.
+The presheaf configuration with Pi, Sigma, Id and Path is called <b>HTS</b>.
+</p><h2 id="induction">Higher Inductive Types</h2><p>The further development of induction inside <b>MLTT</b> provers led
 to the theory of polynomial functors and well-founded trees,
 known in programming languages as inductive types with <b>inductive</b>
 and <b>record</b> core primitives.</p><p>Inductive types could be encoded in PTS/Cedile using non-recursive
@@ -309,7 +309,7 @@ inductive hit (lang: U)
   | htor: name → list lang → list lang → lang → hit lang
   | case: name → lang → list (branch lang) → hit lang</code><p>The non-well-founded trees or infinite coinductive trees
 are useful for modeling infinite processes and are part
-of Milner's Pi-calculus. Coinductive streams could be found in many MLTT base libraries.
+of Milner's Pi-calculus. Coinductive streams could be found in many <b>MLTT</b> base libraries.
 </p><h2 id="glue">Glue Types</h2><p>Glue Types are needed to prove univalence. The basic theoretical introduction
 of Artin Gluening could be found in SGA-4, Johnstone.</p><code>inductive gluening (lang: U) : U
   | Glue: lang → lang → lang → gluening lang

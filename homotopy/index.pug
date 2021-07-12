@@ -40,7 +40,7 @@ block content
                 <a href="https://github.com/forked-from-1kasper">Siegmentation Fault</a>
                 time 28 JUN 2021
                 p.
-                   The HTS language proposed by Voevodsky exposes two different presheaf models of type theory:
+                   The <b>HTS</b> language proposed by Voevodsky exposes two different presheaf models of type theory:
                    the inner one is homotopy type system presheaf that models HoTT and the outer one is traditional Martin-Löf
                    type system presheaf that models set theory with UIP. The motivation behind this doubling is to
                    have an ability to express semisemplicial types. Theoretical work on merging meta-theoretical
@@ -82,8 +82,8 @@ block content
                             li: a(href='#induction') HIT
 
                 p.
-                    While we are on our road to HTS with Lean-like tactic language, currently we are at the stage of regular
-                    cubical (HoTT) type checker with CHM-style primitives, or more general CCHM type checker.
+                    While we are on our road to <b>HTS</b> with Lean-like tactic language, currently we are at the stage of regular
+                    cubical <b>HoTT</b> type checker with <b>CHM</b>-style primitives, or more general <b>CCHM</b> type checker.
                     You may try it at Github: <a href="https://github.com/groupoid/anders">groupoid/anders</a>.
 
                 code.
@@ -104,8 +104,8 @@ block content
                 br.
                 p.
                     Anders is idiomatic and educational. We carefully draw the favourite
-                    Lean-compatible syntax to fit 130 LOC in Menhir, the MLTT core (based on Mini-TT)
-                    is 500 LOC and pretypes presheaf is another 500 LOC. The MLTT hyperprover core
+                    Lean-compatible syntax to fit 130 LOC in Menhir, the <b>MLTT</b> core (based on Mini-TT)
+                    is 500 LOC and pretypes presheaf is another 500 LOC. The <b>MLTT</b> hyperprover core
                     in Clojure is <a href="https://gist.github.com/5HT/2415f9945e92d7fc364f592a1abc2f93">expressible</a> in 150 LOC.
                 br.
 
@@ -277,7 +277,7 @@ block content
                 h1 SEMANTICS
                 p.
                     The idea is to have a unified layered type checker, so you can disbale/enable
-                    any MLTT-style inference, assign types to universes and enable/disable hierachies.
+                    any <b>MLTT</b>-style inference, assign types to universes and enable/disable hierachies.
                     This will be done by providing linking API for pluggable presheaf modules.
                     We selected 5 levels of type checker awareness from universes and pure type systems
                     up to synthetic language of homotopy type theory. Each layer corresponds to its
@@ -363,11 +363,11 @@ block content
                       | snd: lang → total lang
                 br.
                 p.
-                    The preseaf configuration with only Pi and Sigma is called MLTT-72.
+                    The preseaf configuration with only Pi and Sigma is called <b>MLTT-72</b>.
 
                 h2#path Path Equality
                 p.
-                    The fundamental development of equality inside MLTT
+                    The fundamental development of equality inside <b>MLTT</b>
                     provers led us to the notion of ∞-groupoid as spaces.
                     In this way Path identity type appeared in the core
                     of type checker along with De Morgan algebra on
@@ -517,13 +517,13 @@ block content
                     such that $\varphi$ implies $const(\omega)$ where $const(\omega) := \Pi(i:I)[\omega(i)=\omega(0)]$.
                     The reflexivity proof is then an element in <b>(Id A a b)</b>.
                 p.
-                    We use strict equality in HTS for pretypes and partial elements which live in <b>V</b>.
-                    The presheaf configuration with Pi, Sigma and Id is called MLTT-73.
-                    The presheaf configuration with Pi, Sigma, Id and Path is called HTS.
+                    We use strict equality in <b>HTS</b> for pretypes and partial elements which live in <b>V</b>.
+                    The presheaf configuration with Pi, Sigma and Id is called <b>MLTT-73</b>.
+                    The presheaf configuration with Pi, Sigma, Id and Path is called <b>HTS</b>.
 
                 h2#induction Higher Inductive Types
                 p.
-                    The further development of induction inside MLTT provers led
+                    The further development of induction inside <b>MLTT</b> provers led
                     to the theory of polynomial functors and well-founded trees,
                     known in programming languages as inductive types with <b>inductive</b>
                     and <b>record</b> core primitives.
@@ -549,7 +549,7 @@ block content
                 p.
                     The non-well-founded trees or infinite coinductive trees
                     are useful for modeling infinite processes and are part
-                    of Milner's Pi-calculus. Coinductive streams could be found in many MLTT base libraries.
+                    of Milner's Pi-calculus. Coinductive streams could be found in many <b>MLTT</b> base libraries.
 
                 h2#glue Glue Types
                 p.
