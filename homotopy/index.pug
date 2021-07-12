@@ -122,7 +122,7 @@ block content
                 p.
                     $$
                        MLTT := pi\ |\ sigma\ |\ id \\
-                       CCHM := path\ |\ I\ |\ part\ |\ sub\ |\ kan \\
+                       CCHM := path\ |\ I\ |\ part\ |\ sub\ |\ kan\ |\ glue \\
                        E := cosmos\ |\ var\ |\ MLTT\ |\ CCHM \\
                     $$
                     $$
@@ -136,6 +136,7 @@ block content
                        part := \mathbf{Partial}\ E\ I\ |\ \mathbf{[}(E=I) \rightarrow E, ...\mathbf{]} \\
                        sub := E\ [\ I\ \map\ E\ ]\ |\ \mathbf{inc}\ E\ |\ \mathbf{ouc}\ E \\
                        kan := \mathbf{transp}\ E\ E\ |\ \mathbf{hcomp}\ E \\
+                       glue := \mathbf{Glue}\ E\ |\ \mathbf{glue}\ E\ |\ \mathbf{unglue}\ E\ E \\
                     $$
                 p.
                     Further Menhir BNF notation will be used to describe the parser
