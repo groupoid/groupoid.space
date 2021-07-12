@@ -22,14 +22,14 @@
                         tex2jax: { inlineMath: [['$','$'], ['\\(','\\)']],
                                    processEscapes: true }
                     };
-</script></head><body class="content"><header class="header"><div class="header__titles"><h1 class="header__title">Homotopy Type System</h1><h4 class="header__subtitle">Type theory with two equalities</h4></div></header><article class="main"><div class="exe"><section><h1>SYNOPSIS</h1></section><aside><a href="https://github.com/5HT">5HT</a><br><a href="https://github.com/forked-from-1kasper">Siegmentation Fault</a><time>28 JUN 2021</time><p>The <b>HTS</b> language proposed by Voevodsky exposes two different presheaf models of type theory:
+</script></head><body class="content"><header class="header"><div class="header__titles"><h1 class="header__title">Homotopy Type System</h1><h4 class="header__subtitle">Type theory with two equalities</h4></div></header><article class="main"><div class="exe"><section><h1>SYNOPSIS</h1></section><aside><a href="https://github.com/5HT">5HT</a><br><a href="https://github.com/forked-from-1kasper">Siegmentation Fault</a><time>28 JUN 2021</time><p>The <b>HTS</b> [1] language proposed by Voevodsky exposes two different presheaf models of type theory:
 the inner one is homotopy type system presheaf that models HoTT and the outer one is traditional Martin-Löf
 type system presheaf that models set theory with UIP. The motivation behind this doubling is to
-have an ability to express semisemplicial types. Theoretical work on merging meta-theoretical
-and homotopical languages was continued in <a href="https://arxiv.org/pdf/1705.03307.pdf">2LTT</a> [Anenkov, Capriotti, Kraus, Sattler].
-</p></aside><section><div class="macro"><div class="macro__col"><h3 id="pure"><b>PTS</b></h3><ol><li><a href="#univ">UNI</a></li><li><a href="#pi">PI</a></li></ol></div><div class="macro__col"><h3 id="mltt"><b>MLTT-73</b></h3><ol><li><a href="#univ">UNI</a></li><li><a href="#pi">PI</a></li><li><a href="#sigma">SIGMA</a></li><li><a href="#id">ID</a></li><li><a href="#induction">INDUCT</a></li></ol></div><div class="macro__col"><h3 id="homotopy"><b>CCHM</b></h3><ol><li><a href="#univ">UNI</a></li><li><a href="#pi">PI</a></li><li><a href="#sigma">SIGMA</a></li><li><a href="#path">INTERVAL</a></li><li><a href="#glue">GLUE</a></li><li><a href="#induction">HIT</a></li></ol></div><div class="macro__col"><h3 id="hts"><b>HTS</b></h3><ol><li><a href="#univ">UNI</a></li><li><a href="#pi">PI</a></li><li><a href="#sigma">SIGMA</a></li><li><a href="#id">ID</a></li><li><a href="#path">INTERVAL</a></li><li><a href="#glue">GLUE</a></li><li><a href="#induction">HIT</a></li></ol></div></div><p>While we are on our road to Lean-like tactic language, currently
+have an ability to express semisemplicial types. Theoretical work on merging inner
+and outer languages was continued in <a href="https://arxiv.org/pdf/1705.03307.pdf">2LTT</a> [2,3].
+</p></aside><section><div class="macro"><div class="macro__col"><h3 id="pure"><b>PTS</b></h3><ol><li><a href="#univ">UNI</a></li><li><a href="#pi">PI</a></li></ol></div><div class="macro__col"><h3 id="mltt"><b>MLTT-73</b></h3><ol><li><a href="#univ">UNI</a></li><li><a href="#pi">PI</a></li><li><a href="#sigma">SIGMA</a></li><li><a href="#id">ID</a></li><li><a href="#induction">INDUCT</a></li></ol></div><div class="macro__col"><h3 id="homotopy"><b>CCHM</b></h3><ol><li><a href="#univ">UNI</a></li><li><a href="#pi">PI</a></li><li><a href="#sigma">SIGMA</a></li><li><a href="#path">PATH</a></li><li><a href="#glue">GLUE</a></li><li><a href="#induction">HIT</a></li></ol></div><div class="macro__col"><h3 id="hts"><b>HTS</b></h3><ol><li><a href="#univ">UNI</a></li><li><a href="#pi">PI</a></li><li><a href="#sigma">SIGMA</a></li><li><a href="#id">ID</a></li><li><a href="#path">PATH</a></li><li><a href="#glue">GLUE</a></li><li><a href="#induction">HIT</a></li></ol></div></div><p>While we are on our road to Lean-like tactic language, currently
 we are at the stage of regular cubical <b>HTS</b> type checker
-with <b>CHM</b>-style primitives.
+with <b>CHM</b>-style [5] primitives.
 You may try it at Github: <a href="https://github.com/groupoid/anders">groupoid/anders</a> or
 install through OPAM:
 </p><code>$ opam install anders
@@ -47,10 +47,10 @@ Anders theorem prover [MLTT][CCHM][HTS] version 0.7.2
              | repl                  | help
 </code><br><p>Anders is idiomatic and educational. We carefully draw the favourite
 Lean-compatible syntax to fit 130 LOC in Menhir, the <b>MLTT</b> core
-is 500 LOC and <b>CCHM</b> pretypes presheaf is another 500 LOC.
+is 500 LOC and <b>CCHM</b> [4] pretypes is another 500 LOC.
 </p></section><section><h1>SYNTAX</h1><p>The syntax resembles original syntax of the reference <b>CCHM</b> type checker
-cubicaltt [Cohen, Coquand, Huber, Mörtberg], is slightly compatible with Lean syntax
-and contains the full set of primitives of Cubical Agda [8].</p><p>Here is given the mathematical pseudo-code notation
+<b>cubicaltt</b>, is slightly compatible with <b>Lean</b> syntax
+and contains the full set of primitives of <b>Cubical&nbsp;Agda</b> [10].</p><p>Here is given the mathematical pseudo-code notation
 of the language expressions that come immediately after parsing.
 The core syntax definition of <b>HTS</b> language $E$ corresponds
 to <b>exp</b> type defined in <b>expr.ml</b> OCaml module:</p><p>$$
@@ -338,15 +338,16 @@ inductive hit (lang: U)
 are useful for modeling infinite processes and are part
 of Milner's Pi-calculus. Coinductive streams could be found in many <b>MLTT</b> base libraries.
 
-</p></section><section><h1>Bibliography</h1></section><section><h2>CCHM</h2><p>1) <a href="https://arxiv.org/pdf/1611.02108.pdf">Cubical Type Theory: a constructive interpretation of the univalence axiom</a> [Cohen, Coquand, Huber, Mörtberg];
-2) <a href="https://arxiv.org/pdf/1802.01170.pdf">On Higher Inductive Types in Cubical Type Theory</a> [Coquand, Huber, Mörtberg];
-3) <a href="https://arxiv.org/pdf/1607.04156.pdf">Canonicity for Cubical Type Theory</a> [Huber];
-4) <a href="https://arxiv.org/pdf/1902.06572.pdf">Canonicity and homotopy canonicity for cubical type theory</a> [Coquand, Huber, Sattler];
-5) <a href="https://staff.math.su.se/anders.mortberg/papers/cubicalsynthetic.pdf">Cubical Synthetic Homotopy Theory</a> [Mörtberg, Pujet];
-6) <a href="https://staff.math.su.se/anders.mortberg/papers/unifying.pdf">Unifying Cubical Models of Univalent Type Theory</a> [Cavallo, Mörtberg, Swan];
-7) <a href="https://staff.math.su.se/anders.mortberg/papers/cubicalagda.pdf">Cubical Agda: A Dependently Typed PL with Univalence and HITs</a> [Vezzosi, Mörtberg, Abel];
-8) <a href="http://www.cse.chalmers.se/~simonhu/misc/hcomp.pdf">A Cubical Type Theory for Higher Inductive Types</a> [Huber];
-9) <a href="http://www.cse.chalmers.se/~simonhu/papers/p.pdf">Gluing for type theory</a> [Kaposi, Huber, Sattler].
-10) <a href="https://staff.math.su.se/anders.mortberg/papers/cubicalmethods.pdf">Cubical Methods in HoTT/UF</a> [Mörtberg].</p><h2>HTS</h2><p>11) <a href="https://www.math.ias.edu/vladimir/sites/math.ias.edu.vladimir/files/HTS.pdf">A simple type system with two identity types</a> [Voevodsky].
-12) <a href="https://arxiv.org/pdf/1705.03307.pdf">Two-level type theory and applications</a> [Annenkov, Capriotti, Kraus, Sattler].
-13) <a href="https://types21.liacs.nl/download/syntax-for-two-level-type-theory/">Syntax for two-level type theory</a> [Bonacina, Ahrens].</p></section></div></article><footer class="footer"><a href="https://github.com/groupoid/"><img class="footer__logo" src="https://longchenpa.guru/seal.png" width="50"></a><span class="footer__copy">2016&mdash;2021 &copy; <a href="//5ht.co/" style="color:Lavender;">Максим Сохацький</a></span></footer><script src="https://groupoid.space/bundle.js?v=7"></script><script src="https://groupoid.space/highlight.js?v=20"></script></body></html>
+</p></section><section><h1>Bibliography</h1><br></section><section><h2>HTS</h2><p>1) <a href="https://www.math.ias.edu/vladimir/sites/math.ias.edu.vladimir/files/HTS.pdf">A simple type system with two identity types</a> [Voevodsky].
+2) <a href="https://arxiv.org/pdf/1705.03307.pdf">Two-level type theory and applications</a> [Annenkov, Capriotti, Kraus, Sattler].
+3) <a href="https://types21.liacs.nl/download/syntax-for-two-level-type-theory/">Syntax for two-level type theory</a> [Bonacina, Ahrens].
+</p><h2>CCHM</h2><p>4) <a href="https://arxiv.org/pdf/1611.02108.pdf">Cubical Type Theory: a constructive interpretation of the univalence axiom</a> [Cohen, Coquand, Huber, Mörtberg];
+5) <a href="https://arxiv.org/pdf/1802.01170.pdf">On Higher Inductive Types in Cubical Type Theory</a> [Coquand, Huber, Mörtberg];
+6) <a href="https://arxiv.org/pdf/1607.04156.pdf">Canonicity for Cubical Type Theory</a> [Huber];
+7) <a href="https://arxiv.org/pdf/1902.06572.pdf">Canonicity and homotopy canonicity for cubical type theory</a> [Coquand, Huber, Sattler];
+8) <a href="https://staff.math.su.se/anders.mortberg/papers/cubicalsynthetic.pdf">Cubical Synthetic Homotopy Theory</a> [Mörtberg, Pujet];
+9) <a href="https://staff.math.su.se/anders.mortberg/papers/unifying.pdf">Unifying Cubical Models of Univalent Type Theory</a> [Cavallo, Mörtberg, Swan];
+10) <a href="https://staff.math.su.se/anders.mortberg/papers/cubicalagda.pdf">Cubical Agda: A Dependently Typed PL with Univalence and HITs</a> [Vezzosi, Mörtberg, Abel];
+11) <a href="http://www.cse.chalmers.se/~simonhu/misc/hcomp.pdf">A Cubical Type Theory for Higher Inductive Types</a> [Huber];
+12) <a href="http://www.cse.chalmers.se/~simonhu/papers/p.pdf">Gluing for type theory</a> [Kaposi, Huber, Sattler].
+13) <a href="https://staff.math.su.se/anders.mortberg/papers/cubicalmethods.pdf">Cubical Methods in HoTT/UF</a> [Mörtberg].</p></section></div></article><footer class="footer"><a href="https://github.com/groupoid/"><img class="footer__logo" src="https://longchenpa.guru/seal.png" width="50"></a><span class="footer__copy">2016&mdash;2021 &copy; <a href="//5ht.co/" style="color:Lavender;">Максим Сохацький</a></span></footer><script src="https://groupoid.space/bundle.js?v=7"></script><script src="https://groupoid.space/highlight.js?v=20"></script></body></html>
