@@ -317,8 +317,13 @@ such that $\varphi$ implies $const(\omega)$ where $const(\omega) := \Pi(i:I)[\om
 The reflexivity proof is then an element in <b>(Id A a b)</b>.</p><p>We use strict equality in <b>HTS</b> for pretypes and partial elements which live in <b>V</b>.
 The presheaf configuration with Pi, Sigma and Id is called <b>MLTT-73</b>.
 The presheaf configuration with Pi, Sigma, Id and Path is called <b>HTS</b>.
-</p><h2 id="glue">Glue Types</h2><p>Glue Types are needed to prove univalence. The basic theoretical introduction
-of Artin Gluening could be found in SGA-4, Johnstone.</p><code>inductive gluening (lang: U) : U
+</p><h2 id="glue">Glue Types</h2><p>The main purpose of Glue types is to construct a cube where some faces
+have been replaced by equivalent types. This is analogous to how hcomp
+lets us replace some faces of a cube by composing it with other cubes, but for
+Glue types you can compose with equivalences instead of paths.
+This implies the univalence principle and it is what lets us
+transport along paths built out of equivalences.
+</p><code>inductive gluening (lang: U) : U
   | Glue: lang → lang → lang → gluening lang
   | glue: lang → lang → gluening lang
   | unglue: lang → lang → gluening lang</code><br><h2 id="induction">Higher Inductive Types</h2><p>The further development of induction inside <b>MLTT</b> provers led

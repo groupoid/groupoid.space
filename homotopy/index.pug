@@ -552,8 +552,13 @@ block content
 
                 h2#glue Glue Types
                 p.
-                    Glue Types are needed to prove univalence. The basic theoretical introduction
-                    of Artin Gluening could be found in SGA-4, Johnstone.
+                    The main purpose of Glue types is to construct a cube where some faces
+                    have been replaced by equivalent types. This is analogous to how hcomp
+                    lets us replace some faces of a cube by composing it with other cubes, but for
+                    Glue types you can compose with equivalences instead of paths.
+                    This implies the univalence principle and it is what lets us
+                    transport along paths built out of equivalences.
+
                 code.
                     inductive gluening (lang: U) : U
                       | Glue: lang → lang → lang → gluening lang
