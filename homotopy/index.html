@@ -103,9 +103,9 @@ line :
   | IMPORT path+
   | OPTION IDENT IDENT
   | declarations</code><p>In Anders you can enable or disable language core types,
-adjust syntaxes or tune inner variavles of the type checker.
-Here is example how to tune type checker to be minimal able
-to prove internalization of <b>MLTT-73</b> variation (<b>Path</b>
+adjust syntaxes or tune inner variables of the type checker.
+Here is the example how to setup minimal core able to prove
+internalization of <b>MLTT-73</b> variation (<b>Path</b>
 instead of <b>Id</b> and no inductive types, see base library):</p><code>module MLTT-Intern where
 option HIT false
 option CCHM false
