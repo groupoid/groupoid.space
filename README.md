@@ -1,6 +1,15 @@
 # Groupoid Infinity
 
-Groupoid Infinity is doing research in type theory, encodings, extraction and formalization of mathematics.
+Groupoid Infinity is doing research in type theory, encodings, extraction and formalization of mathematics. 
+
+## Integrated Environment for Mathematician
+
+* ANT — Publishing environment a la ТеХ
+* NOTE — Notebook Interface a la Jupyter
+* MATH — Computable and Symbolic Mathematics a la Wolfram Mathematica
+* CA — Computable Algebra a la AP
+* VEC — Tenzor and Stream processing a la SPIRAL, Futhark
+* ANDERS — Theorem Prover a la Lean/Agda
 
 ## Languages
 
