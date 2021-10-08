@@ -7,28 +7,14 @@ Groupoid Infinity is doing research in type theory, encodings, extraction and fo
 * ANT — Publishing environment a la ТеХ
 * NOTE — Notebook Interface a la Jupyter
 * MATH — Computable and Symbolic Mathematics a la Wolfram Mathematica
-* CA — Computable Algebra a la GAP
-* VEC — Tenzor and Stream processing a la SPIRAL, Futhark
 * ANDERS — Theorem Prover a la Lean/Agda
 
 ## Languages
 
-Groupoid Infinity Runtimes could be found in `lang` folder:
-
-### Runtimes
-
-```
-groupoid.space/lang/
-├── cps/
-├── eff/
-├── ip/
-└── apl/
-```
-
 * APL — persistent tensor array processing runtime (get, put, fold)
 * CPS — fast certified L1 lambda CPS interpreter as runtime (fun, app)
 * EFF — effect type system for (in)finite I/O (getString, putString, pure)
-* IP — intercore protocol for process calculus (spawn, send, recv)
+* ITS — intercore protocol for process calculus (spawn, send, recv)
 
 ### Provers
 
