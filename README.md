@@ -7,7 +7,7 @@ Groupoid Infinity is doing research in type theory, encodings, extraction and fo
 * ANT — Publishing environment a la ТеХ
 * NOTE — Notebook Interface a la Jupyter
 * MATH — Computable and Symbolic Mathematics a la Wolfram Mathematica
-* CA — Computable Algebra a la AP
+* CA — Computable Algebra a la GAP
 * VEC — Tenzor and Stream processing a la SPIRAL, Futhark
 * ANDERS — Theorem Prover a la Lean/Agda
 
