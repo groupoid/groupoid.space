@@ -1,0 +1,33 @@
+extends ../../layout.pug
+
+block title
+    script(src='//cdnjs.cloudflare.com/ajax/libs/mathjax/2.6.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML')
+    script.
+       MathJax.Hub.Config({
+          tex2jax: { inlineMath: [['$','$'], ['\\(','\\)']], processEscapes: true },
+          jax: ["input/TeX", "input/MathML", "input/AsciiMath", "output/CommonHTML", "output/NativeMML"],
+          TeX: { extensions: ["AMSmath.js", "AMSsymbols.js", "autoload-all.js"] },
+          extensions: ["tex2jax.js", "asciimath2jax.js", "mml2jax.js", "MathMenu.js", "MathZoom.js"],
+          "HTML-CSS": { imageFont: null },
+       });
+    title ІПМ-ГІ
+
+block content
+    +header('../../groupoid.svg', 'Інститут прикладної математики', 'Навчальна програма другого освітнього рівня')
+    article.main
+        .om
+            section
+                h1 ІНСТИТУТ ПРИКЛАДНОЇ МАТЕМАТИКИ
+            aside <span>Погодив</span>: <b>Максим Сохацький</b><br>
+                <span>Код програми</span>: <b><a href="https://tonpa.guru/stream/2021/2021-10-13%20%D0%9F%D1%80%D0%B8%D0%BA%D0%BB%D0%B0%D0%B4%D0%BD%D0%B0%20%D0%BC%D0%B0%D1%82%D0%B5%D0%BC%D0%B0%D1%82%D0%B8%D0%BA%D0%B0.htm">ІПМ-ГІ</a></b><br>
+                <span>Кількість кредитів</span>: <b>500</b><br>
+
+        .index
+            .index__col
+                h2 Курси кафедри
+                ul
+                    li: a(href='КФ-033/') КФ-033 Кафедра філософії
+                    li: a(href='КМ-111/') КМ-111 Кафедра чистої математики
+                    li: a(href='КМ-133/') КМ-133 Кафедра прикладної математики
+                    li: a(href='КВ-121/') КВ-121 Кафедра мовного забезпечення
+                    li: a(href='КВ-123/') КВ-123 Кафедра теоретичної інформатики
