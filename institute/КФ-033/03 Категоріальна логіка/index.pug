@@ -1,0 +1,37 @@
+extends ../../../layout.pug
+
+block title
+    script(src='//cdnjs.cloudflare.com/ajax/libs/mathjax/2.6.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML')
+    script.
+       MathJax.Hub.Config({
+          tex2jax: { inlineMath: [['$','$'], ['\\(','\\)']], processEscapes: true },
+          jax: ["input/TeX", "input/MathML", "input/AsciiMath", "output/CommonHTML", "output/NativeMML"],
+          TeX: { extensions: ["AMSmath.js", "AMSsymbols.js", "autoload-all.js"] },
+          extensions: ["tex2jax.js", "asciimath2jax.js", "mml2jax.js", "MathMenu.js", "MathZoom.js"],
+          "HTML-CSS": { imageFont: null },
+       });
+    title КФ-033-03
+
+block content
+    +header('../../../groupoid.svg', 'Категоріальна логіка', 'Курс лекцій для студентів другого курсу кафедри формальної філософії КФ-033-03')
+    article.main
+        .om
+            aside <span>Автор</span>: <b>Стів Ауді</b><br>
+                <span>Код курсу</span>: <b><a href="../">КФ-033-03</a></b><br>
+                <span>Кількість кредитів</span>: <b>12</b><br>
+            section
+                h1 Категоріальна логіка
+            section
+                p.
+                    Категоріальна логіка &mdash; прикладне застосування теорії категорій до формальної логіки,
+                    що складає основу сучасного топосо-теоретичного бачення основ математики.
+
+        .index
+            .index__col
+                ul
+                    li: a(href='https://github.com/awodey/CatLogNotes/blob/master/catlog1.pdf') 1. Алгебраїчні теорії
+                    li: a() 2. Фібраційні категорії
+                    li: a(href='https://github.com/awodey/CatLogNotes/blob/master/catlog2.pdf') 3. Логіка предикатів першого порядку
+                    li: a() 4. Логіка вищих порядків
+                    li: a() 5. Залежна теорія першого порядку
+                    li: a() 6. Залежна теорія вищих порядків
