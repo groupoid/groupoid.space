@@ -1,0 +1,39 @@
+extends ../../../layout.pug
+
+block title
+    script(src='//cdnjs.cloudflare.com/ajax/libs/mathjax/2.6.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML')
+    script.
+       MathJax.Hub.Config({
+          tex2jax: { inlineMath: [['$','$'], ['\\(','\\)']], processEscapes: true },
+          jax: ["input/TeX", "input/MathML", "input/AsciiMath", "output/CommonHTML", "output/NativeMML"],
+          TeX: { extensions: ["AMSmath.js", "AMSsymbols.js", "autoload-all.js"] },
+          extensions: ["tex2jax.js", "asciimath2jax.js", "mml2jax.js", "MathMenu.js", "MathZoom.js"],
+          "HTML-CSS": { imageFont: null },
+       });
+    title КВ-123-01
+
+block content
+    +header('../../../groupoid.svg', 'Лямбда-числення', 'Курс лекцій для студентів першого курсу кафедри формальної філософії КВ-123-01')
+    article.main
+        .om
+            aside <span>Автор</span>: <b>Хенк Барендрехт</b><br>
+                <span>Код курсу</span>: <b><a href="../">КВ-123-01</a></b><br>
+                <span>Кількість кредитів</span>: <b>12</b><br>
+            section
+                h1 Лямбда-числення
+            section
+                p.
+                    Лямбда-числення &mdash; внутрішня мова декартово-замкнених категорій,
+                    природня мова програмування математики. Цей курс знайомить з основними
+                    системами типів, що складають куб Барендрехта.
+
+        .index
+            .index__col
+                ul
+                    li: a(href='#') 1. Лямбда-куб
+                    li: a(href='#') 2. Проста система типів
+                    li: a(href='#') 3. Система F
+                    li: a(href='#') 4. Система F2
+                    li: a(href='#') 5. Система F<sub>ω</sub>
+                    li: a(href='#') 6. Система AUTOMATH
+                    li: a(href='#') 7. Числення конструкцій CoC
