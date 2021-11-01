@@ -1,0 +1,57 @@
+extends ../../../layout.pug
+
+block title
+    script(src='//cdnjs.cloudflare.com/ajax/libs/mathjax/2.6.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML')
+    script.
+       MathJax.Hub.Config({
+          tex2jax: { inlineMath: [['$','$'], ['\\(','\\)']], processEscapes: true },
+          jax: ["input/TeX", "input/MathML", "input/AsciiMath", "output/CommonHTML", "output/NativeMML"],
+          TeX: { extensions: ["AMSmath.js", "AMSsymbols.js", "autoload-all.js"] },
+          extensions: ["tex2jax.js", "asciimath2jax.js", "mml2jax.js", "MathMenu.js", "MathZoom.js"],
+          "HTML-CSS": { imageFont: null },
+       });
+    title КМ-113-06
+
+block content
+    +header('../../../groupoid.svg', 'Математичний аналіз', 'Курс лекцій для студентів першого та другого курсу кафедри прикладної математики КМ-113-06')
+    article.main
+        .om
+            aside <span>Автори</span>: <b>Ільїн, Позняк</b><br>
+                <span>Код курсу</span>: <b><a href="../">КМ-113-06</a></b><br>
+                <span>Кількість кредитів</span>: <b>12</b><br>
+            section
+                h1 Математичний аналіз
+            section
+                p.
+                    Математичний аналіз &mdash; спецільний курс
+                    математичного аналізу для факулутетів обчислювальної
+                    математики та кібернетики.
+
+        .index
+            .index__col
+                ul
+                    li: a(href='#') 1. Дійсні числа
+                    li: a(href='#') 2. Границі послідовності
+                    li: a(href='#') 3. Поняття функції. Неперервність
+                    li: a(href='#') 4. Основи диференційного числення
+                    li: a(href='#') 5. Невизначений інтеграл
+                    li: a(href='#') 6. Комплексні числа
+                    li: a(href='#') 7. Неперервні та диференційовані функції
+                    li: a(href='#') 8. Визначений інтеграл
+                    li: a(href='#') 9. Наближені обчислення
+                    li: a(href='#') 10. Функції багатьох змінних
+                    li: a(href='#') 11. Функціональні послідовності та числові ряди
+                    li: a(href='#') 12. n-кратні інтеграли
+                    li: a(href='#') 13. Невласні інтеграли
+                    li: a(href='#') 14. Криволінійні інтеграли
+                    li: a(href='#') 15. Поверхневі інтеграли
+                    li: a(href='#') 16. Теорія поля
+                    li: a(href='#') 17. Формули Гріна, Стокса, Остроградського
+                    li: a(href='#') 18. Параметризовані інтеграли
+                    li: a(href='#') 19. Ряди та інтеграл Фур'є
+                    li: a(href='#') 20. Гільбертові простори
+                    li: a(href='#') 21. Векторні функції
+
+
+
+
