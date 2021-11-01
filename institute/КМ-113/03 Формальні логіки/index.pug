@@ -1,0 +1,44 @@
+extends ../../../layout.pug
+
+block title
+    script(src='//cdnjs.cloudflare.com/ajax/libs/mathjax/2.6.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML')
+    script.
+       MathJax.Hub.Config({
+          tex2jax: { inlineMath: [['$','$'], ['\\(','\\)']], processEscapes: true },
+          jax: ["input/TeX", "input/MathML", "input/AsciiMath", "output/CommonHTML", "output/NativeMML"],
+          TeX: { extensions: ["AMSmath.js", "AMSsymbols.js", "autoload-all.js"] },
+          extensions: ["tex2jax.js", "asciimath2jax.js", "mml2jax.js", "MathMenu.js", "MathZoom.js"],
+          "HTML-CSS": { imageFont: null },
+       });
+    title КМ-113-03
+
+block content
+    +header('../../../groupoid.svg', 'Формальні логіки', 'Курс лекцій для студентів першого курсу кафедри формальної філософії КМ-113-03')
+    article.main
+        .om
+            aside <span>Автор</span>: <b>Максим Сохацький</b><br>
+                <span>Код курсу</span>: <b><a href="../">КМ-113-03</a></b><br>
+                <span>Кількість кредитів</span>: <b>12</b><br>
+            section
+                h1 Формальні логіки
+            section
+                p.
+                    Формальні логіки &mdash; класичний курс по основам математичної формальної
+                    логіки та теорії рекурсивних функцій сумісний з роботами ранніх
+                    майстрів інтуіціонізму.
+
+        .index
+            .index__col
+                ul
+                    li: a(href='#') 1. Проблеми основ математики
+                    li: a(href='#') 2. Формальна система
+                    li: a(href='#') 3. Формальний вивід
+                    li: a(href='#') 4. Числення висловлювань
+                    li: a(href='#') 5. Числення предикатів
+                    li: a(href='#') 6. Формальна арифметика
+                    li: a(href='#') 7. Примітивна рекурсія
+                    li: a(href='#') 8. Загально-рекурсивні функції
+                    li: a(href='#') 9. Частково-рекурсивні функції
+                    li: a(href='#') 10. Аксіоматика
+                    li: a(href='#') 11. Повнота та непротирічність
+
