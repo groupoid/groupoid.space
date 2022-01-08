@@ -192,13 +192,13 @@ LCCC (Seely), D-Categories and CwA (Cartmell), CwF (Dybjer), C-Systems (Voevodsk
 Natural Models (Awodey). While we can build some transports between them,
 we leave this excercise for our <a href="https://groupoid.space">mathematical components</a> library.</p><p>We will use here the Coquand's notation
 for <a href="https://groupoid.space/math/presheaf/">Presheaf Type Theories</a> in
-terms of restriction maps.</p><br><h2 id="univ">Universe Hierarchies</h2><p>Language supports Agda-style hierarchy of universes: fibrant (U), interval pretypes (V) and strict omega
-with explicit level manipulation. All universes are bounded with preorder
+terms of restriction maps.</p><br><h2 id="univ">Universe Hierarchies</h2><p>Language supports Agda-style hierarchy of universes: fibrant (U) and pretypes (V).
+All universes are bounded with preorder
 $$
-   Fibrant_j \prec Pretypes_k \prec Strict_l,
-$$</p><p>in which $j,k,l$ are bounded with equation:
+   Fibrant_i \prec Pretypes_j,
+$$</p><p>in which $i$ and $j$ are bounded with equation:
 $$
-   j < k < l.
+   i < j.
 $$</p><p>Large elimination to upper universes is prohibited. This is extendable to Agda model:</p><code>inductive cosmos : U
   | prop: nat → cosmos
   | fibrant: nat → cosmos
@@ -293,8 +293,9 @@ groupoid, category of groupoids (groupoid interpretation and internalization in 
 One of the main roles of homogeneous composition is to be a carrier in [higher]
 inductive type constructors for calculating of homotopy colimits and
 direct encoding of CW-complexes (or internal models as gluening of pushout cells).</p><code>def comp (A : I → U) (r : I) (u : Π (i : I), Partial (A i) r) (u₀ : (A 0)[r ↦ u 0]) : A 1
-:= hcomp (A 1) r (λ (i : I), [(φ : r = 1) → transp (&lt;j> A (i ∨ j)) i (u i φ)])
-         (inc (transp (&lt;i> A i) 0 (ouc u₀)))</code><br><p>The type checker equations for <b>hcomp</b> primitive are following:</p><code>hcompⁱ N [φ ↦ 0] 0 = 0
+ := hcomp (A 1) r (λ (i : I), [(r = 1) → transp (&lt;j&gt; A (i ∨ j)) i (u i 1=1)])
+          (transp (&lt;i&gt; A i) 0 (ouc u₀))
+</code><br><p>The type checker equations for <b>hcomp</b> primitive are following:</p><code>hcompⁱ N [φ ↦ 0] 0 = 0
 hcompⁱ N [φ ↦ S u] (S u₀) = S (hcompⁱ N [φ ↦ u] u₀)
 hcompⁱ U [φ ↦ E] A = Glue [φ ↦ (E(i/1), equivⁱ E(i/1−i))] A
 hcompⁱ (Π (x : A), B) [φ ↦ u] u₀ v = hcompⁱ B(x/v) [φ ↦ u v] (u₀ v)

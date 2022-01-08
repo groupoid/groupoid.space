@@ -335,15 +335,15 @@ block content
 
                 h2#univ Universe Hierarchies
                 p.
-                    Language supports Agda-style hierarchy of universes: fibrant (U), interval pretypes (V) and strict omega
-                    with explicit level manipulation. All universes are bounded with preorder
+                    Language supports Agda-style hierarchy of universes: fibrant (U) and pretypes (V).
+                    All universes are bounded with preorder
                     $$
-                       Fibrant_j \prec Pretypes_k \prec Strict_l,
+                       Fibrant_i \prec Pretypes_j,
                     $$
                 p.
-                    in which $j,k,l$ are bounded with equation:
+                    in which $i$ and $j$ are bounded with equation:
                     $$
-                       j < k < l.
+                       i < j.
                     $$
                 p.
                     Large elimination to upper universes is prohibited. This is extendable to Agda model:
@@ -505,8 +505,9 @@ block content
                     direct encoding of CW-complexes (or internal models as gluening of pushout cells).
                 code.
                      def comp (A : I → U) (r : I) (u : Π (i : I), Partial (A i) r) (u₀ : (A 0)[r ↦ u 0]) : A 1
-                     := hcomp (A 1) r (λ (i : I), [(φ : r = 1) → transp (&lt;j> A (i ∨ j)) i (u i φ)])
-                              (inc (transp (&lt;i> A i) 0 (ouc u₀)))
+                      := hcomp (A 1) r (λ (i : I), [(r = 1) → transp (&lt;j&gt; A (i ∨ j)) i (u i 1=1)])
+                               (transp (&lt;i&gt; A i) 0 (ouc u₀))
+
                 br.
                 p.
                     The type checker equations for <b>hcomp</b> primitive are following:
