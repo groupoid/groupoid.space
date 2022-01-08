@@ -285,7 +285,7 @@ def 1=1 : isOne 1 := ref 1
 def UIP (A : V) (a b : A) (p q : Id A a b) : Id (Id A a b) p q := ref p</code><br><p><b>Cubical Subtypes</b>. For <b>(A : U) (i : I) (Partial A i)</b>
 we can define subtype <b>A [ i ↦ u ]</b>. A term of this type is a term of
 type A that is definitionally equal to u when <b>(IsOne i)</b> is satisfied.</p><code>def sub′ (A : U) (i : I) (u : Partial A i) : V := A [i ↦ u ]
-def inc′ (A : U) (i : I) (a : A) : A [i ↦ [(i = 1) → a]] := inc a
+def inc′ (A : U) (i : I) (a : A) : A [i ↦ [(i = 1) → a]] := inc A i a
 def ouc′ (A : U) (i : I) (u : Partial A i) (a : A [i ↦ u]) : A := ouc a</code><br><p>We have forth and back fusion rules <b>ouc (inc v) = v</b>
 and <b>inc (outc v) = v</b>. Moreover, <b>ouc v</b> will reduce to u 1=1 when i=1.</p><p><b>Homogeneous Composition</b>. Homogeneous composition <b>hcomp</b> is the answer to second problem:
 with <b>hcomp</b> and <b>transp</b> one can express path composition,

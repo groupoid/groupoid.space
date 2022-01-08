@@ -490,7 +490,7 @@ block content
                     type A that is definitionally equal to u when <b>(IsOne i)</b> is satisfied.
                 code.
                     def sub′ (A : U) (i : I) (u : Partial A i) : V := A [i ↦ u ]
-                    def inc′ (A : U) (i : I) (a : A) : A [i ↦ [(i = 1) → a]] := inc a
+                    def inc′ (A : U) (i : I) (a : A) : A [i ↦ [(i = 1) → a]] := inc A i a
                     def ouc′ (A : U) (i : I) (u : Partial A i) (a : A [i ↦ u]) : A := ouc a
                 br.
                 p.
