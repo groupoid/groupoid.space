@@ -92,7 +92,7 @@ block content
                 code.
                     $ opam install anders
                     $ anders
-                    Anders theorem prover [MLTT][CCHM][HTS] version 0.7.2
+                    Anders theorem prover [MLTT][CCHM][HTS][deRham] version 1.1.1
 
                       invocation = anders | anders list
                             list = [] | command list
@@ -125,10 +125,9 @@ block content
                     to <b>exp</b> type defined in <b>expr.ml</b> OCaml module:
                 p.
                     $$
-                       E := cosmos\ |\ var\ |\ MLTT\ |\ CCHM\ |\ HIT \\
-                       HIT := \mathbf{inductive}\ E\ E\ |\ \mathbf{ctor}\ name\ E\ |\ \mathbf{match}\ E\ E \\
+                       E := cosmos\ |\ var\ |\ MLTT\ |\ CCHM\ |\ deRham \\
                        CCHM := path\ |\ I\ |\ part\ |\ sub\ |\ kan\ |\ glue \\
-                       MLTT := pi\ |\ sigma\ |\ id \\
+                       MLTT := pi\ |\ sigma\ |\ id\ |\ 0\ |\ 1\ |\ 2\ |\ W \\
                     $$
                     $$
                        cosmos := \mathbf{U}_j \ |\ \mathbf{V}_k \\
@@ -136,12 +135,17 @@ block content
                        pi := \Pi\ name\ E\ E\ |\ \lambda\ name\ E\ E\ |\ E\ E \\
                        sigma := \Sigma\ name\ E\ E\ |\ (E,E)\ |\ E.1\ |\ E.2 \\
                        id := \mathbf{Id}\ E\ |\ \mathbf{ref}\ E\ |\ \mathbf{idJ}\ E \\
+                       0 := \mathbf{0}\ |\ \mathbf{ind_0}\ E\ E\ E \\
+                       1 := \mathbf{1}\ |\ \star |\ \mathbf{ind_1}\ E\ E\ E \\
+                       2 := \mathbf{2}\ |\ 0_2\ |\ 1_2\ |\ \mathbf{ind_2}\ E\ E\ E \\
+                       W := \mathbf{W}\ name\ E\ E\ |\ \mathbf{sup}\ E\ E\ |\ \mathbf{ind_{W}}\ E\ E \\
                        path := \mathbf{Path}\ E\ |\ E^i\ |\ E\ @\ E \\
                        I := \mathbf{I}\ |\ 0\ |\ 1\ |\ E\ \meet\ E\ |\ E\ \join\ E\ |\ \neg E \\
                        part := \mathbf{Partial}\ E\ E\ |\ \mathbf{[}\ (E=I) \rightarrow E, ...\ \mathbf{]} \\
                        sub := \mathbf{inc}\ E\ |\ \mathbf{ouc}\ E\ |\ E\ \mathbf{[}\ I\ \map\ E\ \mathbf{]} \\
                        kan := \mathbf{transp}\ E\ E\ |\ \mathbf{hcomp}\ E \\
-                       glue := \mathbf{Glue}\ E\ |\ \mathbf{glue}\ E\ |\ \mathbf{unglue}\ E\ E
+                       glue := \mathbf{Glue}\ E\ |\ \mathbf{glue}\ E\ |\ \mathbf{unglue}\ E\ E \\
+                       deRham := \mathbf{Im}\ E\ |\ \mathbf{Inf}\ E\ |\ \mathbf{Join}\ E\ |\ \mathbf{ind_{Im}}\ E\ E \\
                     $$
                     $$
                     $$
@@ -157,7 +161,8 @@ block content
                     <b>Σ</b>, <b>,</b>, <b>λ</b>, <b>×</b>, <b>→</b>, <b>:</b>, <b>:=</b>, <b>↦</b>, <b>U</b>,
                     <b>V</b>, <b>∧</b>, <b>∨</b>, <b>-</b>, <b>+</b>, <b>@</b>, <b>PathP</b>, <b>transp</b>,
                     <b>hcomp</b>, <b>zero</b>, <b>one</b>, <b>Partial</b>, <b>inc</b>, <b>ouc</b>,
-                    <b>interval</b>, <b>inductive</b>, <b>Glue</b>, <b>glue</b>, <b>unglue</b>.
+                    <b>interval</b>, <b>W</b>, <b>sup</b>, <b>Glue</b>, <b>glue</b>, <b>unglue</b>, <b>ind$_0$</b>,
+                    <b>ind$_1$</b>, <b>ind$_2$</b>, <b>ind$_W$</b>.
                 p.
                     <b>Indentifiers</b>. Identifiers support UTF-8. Indentifiers couldn't start
                     with <b>:</b>, <b>-</b>, <b>→</b>. Sample identifiers:
@@ -607,6 +612,13 @@ block content
                 br.
 
             section
+                h2 Modal HoTT
+                p.
+                    1) <a href="https://arxiv.org/pdf/1310.7930v1.pdf">Differential cohomology in a cohesive ∞-topos</a> [Schreiber].
+                    2) <a href="https://arxiv.org/pdf/1806.05966.pdf">Cartan Geometry in Modal Homotopy Type Theory</a> [Cherubini].
+                    3) <a href="https://hott-uf.github.io/2017/abstracts/cohesivett.pdf">Differential Cohesive Type Theory</a> [Gross, Licata, New, Paykin, Riley, Shulman, Cherubini].
+                    4) <a href="https://arxiv.org/abs/1509.07584">Brouwer's fixed-point theorem in real-cohesive homotopy type theory</a> [Shulman].
+
                 h2 HTS
                 p.
                     1) <a href="https://www.math.ias.edu/vladimir/sites/math.ias.edu.vladimir/files/HTS.pdf">A simple type system with two identity types</a> [Voevodsky].
