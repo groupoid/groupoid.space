@@ -1,15 +1,14 @@
 # Groupoid Infinity
 
-Groupoid Infinity is doing research in type theory, encodings, extraction and formalization of mathematics. 
-
-## Integrated Environment for Mathematician
+Groupoid Infinity is building integrated environment for mathematician:
 
 * ANT — Publishing environment a la ТеХ
+* CAS — Computable and Symbolic Mathematics a la Wolfram Mathematica
 * NOTE — Notebook Interface a la Jupyter
-* MATH — Computable and Symbolic Mathematics a la Wolfram Mathematica
-* HOMOTOPY — Theorem Prover a la Lean/Agda
+* RUNTIME — Runtime Interpreter and Virtual Machines
+* VERIFY — Theorem Prover a la Lean/Agda
 
-### Virtual Machines and Runtime Languages
+## Virtual Machines and Runtime Languages
 
 * APL — persistent tensor array processing runtime (get, put, fold)
 * CPS — fast certified L1 lambda CPS interpreter as runtime (fun, app)
@@ -17,7 +16,7 @@ Groupoid Infinity is doing research in type theory, encodings, extraction and fo
 * N2O — app frameworks: MNESIA, BPE, N2O, KVS, NITRO
 * PROCESS — intercore protocol for process calculus (spawn, send, recv)
 
-### Verification Languages
+## Verification Languages
 
 * Principia — METAMATH-like prover
 * PTS — Pure Type System for encodings exploration
@@ -25,7 +24,7 @@ Groupoid Infinity is doing research in type theory, encodings, extraction and fo
 * HoTT-I — JetBrains Arend-like core
 * HoTT-∂ — Groupoid Homotopy Core
 
-## Base Library
+## Base Library for Verification Language
 
 ### Foundation
 
