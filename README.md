@@ -120,10 +120,13 @@ groupoid.space/articles/
 
 ## Usage
 
-The main purpose of HTS is to check Homotopy Types:
+The main purpose of Anders is doing Homotopy Theory:
 
 ```
-$ ./homotopy check https://groupoid.space/math/hopf/hopf.txt
+$ opam install anders
+$ anders repl
+Anders theorem prover [MLTT][CCHM][HTS][deRham] version 1.1.1
+>
 ```
 
 ## Credits
