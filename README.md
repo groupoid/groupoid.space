@@ -7,25 +7,23 @@ Groupoid Infinity is doing research in type theory, encodings, extraction and fo
 * ANT — Publishing environment a la ТеХ
 * NOTE — Notebook Interface a la Jupyter
 * MATH — Computable and Symbolic Mathematics a la Wolfram Mathematica
-* ANDERS — Theorem Prover a la Lean/Agda
+* HOMOTOPY — Theorem Prover a la Lean/Agda
 
-## Languages
+### Virtual Machines and Runtime Languages
 
 * APL — persistent tensor array processing runtime (get, put, fold)
 * CPS — fast certified L1 lambda CPS interpreter as runtime (fun, app)
 * EFF — effect type system for (in)finite I/O (getString, putString, pure)
-* ITS — intercore protocol for process calculus (spawn, send, recv)
+* N2O — app frameworks: MNESIA, BPE, N2O, KVS, NITRO
+* PROCESS — intercore protocol for process calculus (spawn, send, recv)
 
-### Provers
+### Verification Languages
 
-```
-groupoid.space/
-├── pure/
-└── homotopy/
-```
-
-* PTS — pure type system for encodings exploration
-* HTS — homotopy type system for mathematical modeling
+* Principia — METAMATH-like prover
+* PTS — Pure Type System for encodings exploration
+* HTS — Modal CCHM Homotopy Type System for math modeling
+* HoTT-I — JetBrains Arend-like core
+* HoTT-∂ — Groupoid Homotopy Core
 
 ## Base Library
 
