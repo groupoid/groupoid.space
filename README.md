@@ -31,7 +31,7 @@ Groupoid Infinity is building integrated environment for mathematician:
 In the `foundations` folder presented the MLTT, Modal and Univalent base libraries:
 
 ```
-groupoid.space/library/foundations/
+groupoid.space/foundations/
 ├── mltt/
 │   ├── bool/
 │   ├── either/
@@ -59,7 +59,7 @@ groupoid.space/library/foundations/
 In the `mathematics` folder you will find Mathematical Components for HTS:
 
 ```
-groupoid.space/library/mathematics/
+groupoid.space/mathematics/
 ├── algebra/
 │   ├── homology/
 │   └── algebra/
