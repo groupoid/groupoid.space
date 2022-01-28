@@ -1,0 +1,101 @@
+extends ../../../layout.pug
+
+block title
+    title PUSHOUT
+    script(src='https://groupoid.space/styles/mathjax.js?config=TeX-AMS_HTML')
+    script.
+       MathJax.Hub.Config({
+          tex2jax: { inlineMath: [['$','$'], ['\\(','\\)']], processEscapes: true },
+          jax: ["input/TeX", "input/MathML", "input/AsciiMath", "output/CommonHTML", "output/NativeMML"],
+          TeX: { extensions: ["AMSmath.js", "AMSsymbols.js", "autoload-all.js"] },
+          extensions: ["tex2jax.js", "asciimath2jax.js", "mml2jax.js", "MathMenu.js", "MathZoom.js" ],
+          "HTML-CSS": { imageFont: null },
+          AuthorInit: function() {
+              MathJax.Hub.Register.StartupHook("TeX AMSmath Ready", function() {
+                  var TEX = MathJax.InputJax.TeX;
+                  TEX.Definitions.Add({
+                      macros: {
+                          llparenthesis: ['Macro', '\\mathopen{\u2987}'],
+                          rrparenthesis: ['Macro', '\\mathclose{\u2988}'],
+                          llbracket:     ['Macro', '\\mathopen{\u27E6}'],
+                          rrbracket:     ['Macro', '\\mathclose{\u27E7}'], } }); }); }, });
+
+block content
+    article.main
+        .om
+            section
+                h1 PUSHOUT
+        aside <a href="..">Base Library</a>
+            time 20 MAY 2018
+        .enc
+            section
+                figure.
+                    $$
+                      \def\mapright#1{\xrightarrow{{#1}}}
+                      \def\mapleft#1{\xleftarrow{{#1}}}
+                      \def\mapdown#1{\Big\downarrow\rlap{\raise2pt{\scriptstyle{#1}}}}
+                      \def\mapdiagl#1{\vcenter{\searrow}\rlap{\raise2pt{\scriptstyle{#1}}}}
+                      \def\mapdiagr#1{\vcenter{\swarrow}\rlap{\raise2pt{\scriptstyle{#1}}}}
+                    $$
+                p.
+                    <b>Definition</b> (Span).
+                    The two maps $f,g$ with the same domain $C$ are called <i>span</i>:
+                    $$
+                        A \mapleft{f} C \mapright{g} B.
+                    $$
+                p.
+                    <b>Definition</b> (Homotopy Pushout).
+                    The homotopy pushout or homotopy colimit (denoted as $\mathrm{hocolim}$)
+                    of the span diagram:
+                    $$
+                        \mathrm{hocolim}(A \mapleft{f} C \mapright{g} B)
+                          = A \sqcup B \sqcup C \times I\ / \sim,
+                    $$
+                    where $\sim$ is an equivalence relation $f(c) \sim (w,0)$ and $g(w) \sim (w,1)$
+                    for $w \in C$. If $C$ is a based space with basepoint $w_0$, we
+                    add the relation $(w_0,t) ~ (w_1,s)$ for all $s,t \in I$.
+                code.
+                  data pushout (A B C: U) (f: C -> A) (g: C -> B)
+                     = po1 (_: A)
+                     | po2 (_: B)
+                     | po3 (c: C) &lt;i&gt; [ (i = 0) -> po1 (f c) ,
+                                        (i = 1) -> po2 (g c) ]
+                br.
+
+                h1 EXAMPLES
+
+                p.
+                    <b>Definition</b> (Homotopy Fibers).
+                code.
+                  hofiber (A B: U) (f: A -> B) (y: B): U
+                    = pullback A unit B f (\(x: unit) -> y)
+
+                p.
+                    <b>Definition</b> (Fiber Pullback).
+                code.
+                  fiberPullback (A B: U) (f: A -> B) (y: B)
+                    : pullbackSq (hofiber A B f y)
+
+                p.
+                    <b>Definition</b> (Homotopy Cofiber).
+                code.
+                  cofiber (A B: U) (f: B -> A): U
+                    = pushout A unit B f (\(x: B) -> tt)
+
+                p.
+                    <b>Defintion</b> (Kernel).
+                code.
+                  kernel (A B: U) (f: A -> B): U
+                    = pullback A A B f f
+
+                p.
+                    <b>Definition</b> (Cokernel).
+                code.
+                  cokernel (A B: U) (f: B -> A): U
+                    = pushout A A B f f
+                br.
+
+                h1 LITERATURE
+                p.
+                    [1]. Brian Munson and Ismar Volić. <a href="https://web.math.rochester.edu/people/faculty/doug/otherpapers/munson-volic.pdf">Cubical Homotopy Theory</a><br>
+

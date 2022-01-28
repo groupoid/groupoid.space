@@ -1,0 +1,87 @@
+doctype html
+html
+    head
+        meta(charset='utf-8')
+        meta(http-equiv='x-ua-compatible' content='ie=edge')
+        meta(name='viewport'        content='width=device-width, initial-scale=1')
+        meta(name='author'          content='Maxim Sokhatsky')
+        meta(name='twitter:site'    content='@5HT')
+        meta(name='twitter:creator' content='@5HT')
+        meta(property='og:title'       content='Presheaf Type Theories')
+        meta(property='og:description' content='Here is shown the preshifification of cartesian closed categories or topoi.')
+        meta(property='og:type'        content='website')
+        meta(property='fb:app_id'      content='118554188236439')
+        meta(property='og:url'         content='https://sheaf.space')
+        link(rel='stylesheet' href='https://groupoid.space/main.css')
+        block title
+            title SHEAF
+    body.content
+        block content
+        block vars
+
+block title
+    script(src='https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML')
+    script.
+     window.MathJax = { jax: ["input/TeX", "input/MathML", "input/AsciiMath", "output/CommonHTML", "output/NativeMML"],
+                             TeX: { extensions: ["AMSmath.js", "AMSsymbols.js", "autoload-all.js"] },
+                             extensions: ["tex2jax.js", "asciimath2jax.js", "mml2jax.js", "MathMenu.js", "MathZoom.js"],
+                             "HTML-CSS": { imageFont: null },
+                             AuthorInit: function() {
+                                 MathJax.Hub.Register.StartupHook("TeX AMSmath Ready", function() {
+                                     var TEX = MathJax.InputJax.TeX;
+                                     TEX.Definitions.Add({
+                                         macros: {
+                                           llparenthesis: ['Macro', '\\mathopen{\u2987}'],
+                                           rrparenthesis: ['Macro', '\\mathclose{\u2988}'],
+                                           llbracket:     ['Macro', '\\mathopen{\u27E6}'],
+                                           rrbracket:     ['Macro', '\\mathclose{\u27E7}'],
+                                           incmap:        ['Macro', '\\mathclose{\u21AA}'],
+                                         }
+                                     });
+                                 });
+                             },
+                             tex2jax: { inlineMath: [['$','$'], ['\\(','\\)']],
+                                        processEscapes: true }
+                         };
+
+block content
+    article.main
+        .exe
+            section
+                h1 INFINITY SHEAVES
+        aside <a href="https://tonpa.guru">Максим Сохацький</a>
+            time 13 JAN 2019
+        .exe
+            section
+                p.
+                    This article requires as prerequisites an article about the formalization
+                    of the category theory and topos theory:
+                    <a href="../topos/index.html">Formal Set Topos</a>.
+
+            section
+                figure.
+                    $$\def\mapright#1{\xrightarrow{{#1}}}
+                      \def\mapdown#1{\Big\downarrow\rlap{\raise2pt{\scriptstyle{#1}}}}
+                      \def\mapdiagl#1{\vcenter{\searrow}\rlap{\raise2pt{\scriptstyle{#1}}}}
+                      \def\mapdiagr#1{\vcenter{\swarrow}\rlap{\raise2pt{\scriptstyle{#1}}}}
+                    $$
+                h1 INTRO
+                p.
+                    The concept of a sheaf was conceived in the German camp for prisoners
+                    of war called Oflag XVII where French officers taken captive during
+                    the fighting in France in the spring 1940 were imprisoned. Among
+                    them was the mathematician and lieutenant Jean Leray.
+                    In the camp he gave a course in algebraic topology during
+                    which he introduced some version of the theory of sheaves.
+                p.
+                    Jean Leray was aimed at calculating the cohomology of a total space
+                    of a fibration in terms of invariants of the base and the fibres (and
+                    naturally the fibration). To achieve this in addition to the concept
+                    of sheaves, he invented spectral sequences.
+                p.
+                    After the war Henri Cartan and Jean Pierre Serre developed
+                    the theory further, and finally the theory was brought to
+                    the state as we know it today by Alexandre Grothendieck.
+
+    include ../../../footer.pug
+

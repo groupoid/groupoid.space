@@ -1,0 +1,172 @@
+doctype html
+html
+    head
+        meta(charset='utf-8')
+        meta(http-equiv='x-ua-compatible' content='ie=edge')
+        meta(name='viewport'        content='width=device-width, initial-scale=1')
+        meta(name='author'          content='Maxim Sokhatsky')
+        meta(name='twitter:site'    content='@5HT')
+        meta(name='twitter:creator' content='@5HT')
+        meta(property='og:title'       content='de Rham Cohesion')
+        meta(property='og:description' content='Here is shown the synthetic differential geometry in cohesive topos.')
+        meta(property='og:type'        content='website')
+        meta(property='fb:app_id'      content='118554188236439')
+        meta(property='og:url'         content='https://groupoid.space')
+        block title
+            title DE RHAM
+    body.content
+        block content
+        block vars
+
+block title
+    script(src='https://groupoid.space/styles/mathjax.js?config=TeX-AMS_HTML')
+    script.
+     window.MathJax = { jax: ["input/TeX", "input/MathML", "input/AsciiMath", "output/CommonHTML", "output/NativeMML"],
+                             TeX: { extensions: ["AMSmath.js", "AMSsymbols.js", "autoload-all.js"] },
+                             extensions: ["tex2jax.js", "asciimath2jax.js", "mml2jax.js", "MathMenu.js", "MathZoom.js"],
+                             "HTML-CSS": { imageFont: null },
+                             AuthorInit: function() {
+                                 MathJax.Hub.Register.StartupHook("TeX AMSmath Ready", function() {
+                                     var TEX = MathJax.InputJax.TeX;
+                                     TEX.Definitions.Add({
+                                         macros: {
+                                           llparenthesis: ['Macro', '\\mathopen{\u2987}'],
+                                           rrparenthesis: ['Macro', '\\mathclose{\u2988}'],
+                                           llbracket:     ['Macro', '\\mathopen{\u27E6}'],
+                                           rrbracket:     ['Macro', '\\mathclose{\u27E7}'],
+                                           incmap:        ['Macro', '\\mathclose{\u21AA}'],
+                                         }
+                                     });
+                                 });
+                             },
+                             tex2jax: { inlineMath: [['$','$'], ['\\(','\\)']],
+                                        processEscapes: true }
+                         };
+
+block content
+    article.main
+        .om
+            section
+                h1 DE RHAM
+        aside <a href="https://tonpa.guru">Максим Сохацький</a>
+            time 17 JAN 2019
+        .om
+            section
+                h1 COHOMOLOGY
+                p.
+                    <b>Definition</b> (Cohesive $\infty$-Topos).
+                    An $\infty$-Topos which is local and $\infty$-connected is called cohesive.
+                    
+                h1 COHESION
+                p.
+                    Here is very short intro to de Rham cohesion built on
+                    top of $ʃ$ and $\flat$ modalities.
+                figure.
+                    $$\def\mapright#1{\xrightarrow{{#1}}}
+                      \def\mapdown#1{\Big\downarrow\rlap{\raise2pt{\scriptstyle{#1}}}}
+                      \def\mapdiagl#1{\vcenter{\searrow}\rlap{\raise2pt{\scriptstyle{#1}}}}
+                      \def\mapdiagr#1{\vcenter{\swarrow}\rlap{\raise2pt{\scriptstyle{#1}}}}
+                    $$
+
+                p.
+                    <b>Definition</b> (Cohesive $\infty$-Topos).
+                    An $\infty$-Topos which is local and $\infty$-connected is called cohesive.
+                p.
+                    <b>Definition</b> (de Rham shape modality).
+                    de Rham cohesive homotopy type of A is defined as a homotopy
+                    cofiber of the unit of the shape modality:
+                    $$
+                      ʃ_{dR} A =_{def} \mathrm{cofib}\ \Big(A \to ʃ A \Big),
+                    $$
+                    or the (looping opetaion of) the cokernel of the unit of the shape modality.
+                    It is also called de Rham shape modality.
+                    $$
+                    \begin{array}{ccc}
+                        A & \mapright{} & {}1 \\
+                        \mapdown{} & \square & \mapdown{} \\
+                        ʃ A & \mapright{} & ʃ_{dR} A
+                    \end{array}.
+                    $$
+                p.
+                    <b>Definition</b> (de Rham flat modality).
+                    de Rham complex with coefficients in A is defined as the homotopy fiber
+                    of the counit of the flat modality:
+                    $$
+                      \flat_{dR} A =_{def} \mathrm{fib}\ \Big( \flat A \to A \Big),
+                    $$
+                    or the (delooping opetaion of) the cokernel of the unit of the shape modality.
+                    It is also called de Rham flat modality.
+                    $$
+                      \begin{array}{ccc}
+                        \flat_{dR} A  & \mapright{} & \flat A \\
+                        \mapdown{} & \square & \mapdown{} \\
+                        {}1 & \mapright{} & A \\
+                      \end{array}.
+                    $$
+                    The object A is called de Rham coefficient object of $pt_A : {}1 \rightarrow A$.
+                p.
+                    <b>Definition</b> (Loop Space Object).
+                    Loop space objects are defined in any $\infty$-category $C$
+                    with homotopy pullbacks: for any pointed object $X$ of $C$
+                    with point ${}1 \rightarrow X$, its loop space object is the homotopy pullback
+                    $\Omega(X)$ of this point along itself:
+                    $$
+                      \begin{array}{ccc}
+                        \Omega(X)  & \mapright{} & {}1 \\
+                        \mapdown{} & \square & \mapdown{} \\
+                        {}1 & \mapright{} & X \\
+                      \end{array}.
+                    $$
+                p.
+                    <b>Definition</b> (Delooping).
+                    if $X$ is given and a homotopy pullback diagram
+                    $$
+                    \begin{array}{ccc}
+                        X & \mapright{} & {}1 \\
+                        \mapdown{} & \square & \mapdown{} \\
+                        {}1 & \mapright{} & \mathbb{B}X \\
+                    \end{array}.
+                    $$
+                    exists, with the point ${}1 \rightarrow \mathbb{B}X$
+                    being essentially unique, by the above $X$ has been
+                    realized as the loop space object of $\mathbb{B}X$.
+                    $\mathbb{B}X$ is called delooping of X:
+                    $$
+                        X = \Omega\mathbb{B}X.
+                    $$
+                p.
+                    <b>Theorem</b> (Milnor–Lurie).
+                    There is an adjoint functor
+                    $$
+                      \mathrm{\infty\text{-Grp}}(\mathbb{H})
+                      \mathrel{\mathop{\rightleftarrows}^{\mathrm{\Omega}}_{\mathrm{\\ \\ \mathbb{B}}}}
+                      \mathbb{H}_{conn}
+                    $$
+                    between $\infty$-groups of $\mathbb{H}$ and uniquely pointed
+                    connected objects $\mathbb{B}\mathrm{G}$ in $\mathbb{H}$ which are doneted $\mathbb{H}_{conn}$.
+                    Where $\Omega$ is a looping and $\mathbb{B}$ is a delooping operations.
+                p.
+                    <b>Definition</b> (Maurer-Cartan form).
+                    For $G \in \text{Group}(\mathbb{H})$ and $\infty$-group in the cohesive
+                    $\infty$-topos $\mathbb{H}$ Maurer-Cartan form $\theta$ is defines as
+                    $$
+                        \theta_G =_{def} G \rightarrow \flat_{dR}\mathbb{B}G
+                    $$
+                    for the $G$-valued de Rham cocycle on $G$ induced by pullback pasting:
+                    $$
+                      \begin{array}{ccc}
+                        G & \mapright{} & {}1 \\
+                        \mapdown{\theta} & \square & \mapdown{} \\
+                        \flat_{dR}\mathbb{B}G  & \mapright{} & \flat \mathbb{B}G \\
+                        \mapdown{} & \square & \mapdown{} \\
+                        {}1 & \mapright{} & \mathbb{B}G \\
+                      \end{array}.
+                    $$
+                br.
+
+                h1 LITERATURE
+                p.
+                    [1]. Urs Schreiber. <a href="https://arxiv.org/pdf/1310.7930v1.pdf">Differential cohomology in a cohesive ∞-topos</a><br>
+
+    include ../../../footer.pug
+

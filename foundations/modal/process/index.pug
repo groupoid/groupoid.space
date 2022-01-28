@@ -1,0 +1,176 @@
+extends ../../../layout.pug
+
+block title
+    script(src='https://groupoid.space/styles/mathjax.js?config=TeX-AMS_HTML')
+    script.
+     window.MathJax = { jax: ["input/TeX", "input/MathML", "input/AsciiMath", "output/CommonHTML", "output/NativeMML"],
+                             TeX: { extensions: ["AMSmath.js", "AMSsymbols.js", "autoload-all.js"] },
+                             extensions: ["tex2jax.js", "asciimath2jax.js", "mml2jax.js", "MathMenu.js", "MathZoom.js"],
+                             "HTML-CSS": { imageFont: null },
+                             AuthorInit: function() {
+                                 MathJax.Hub.Register.StartupHook("TeX AMSmath Ready", function() {
+                                     var TEX = MathJax.InputJax.TeX;
+                                     TEX.Definitions.Add({
+                                         macros: {
+                                           llparenthesis: ['Macro', '\\mathopen{\u2987}'],
+                                           rrparenthesis: ['Macro', '\\mathclose{\u2988}'],
+                                           llbracket:     ['Macro', '\\mathopen{\u27E6}'],
+                                           rrbracket:     ['Macro', '\\mathclose{\u27E7}'],
+                                           incmap:        ['Macro', '\\mathclose{\u21AA}'],
+                                         }
+                                     });
+                                 });
+                             },
+                             tex2jax: { inlineMath: [['$','$'], ['\\(','\\)']],
+                                        processEscapes: true }
+                         };
+    title LTS
+
+block content
+    +header('../../groupoid.svg', 'Process Calculus', 'Formal Model of Business Process Engine')
+    article.main
+        .om
+            section
+                h1 Intro
+            aside Максим Сохацький, Київ<br>
+                24-05-2018
+            p.
+                Process Calculus defines formal business process engine that could
+                be mapped onto Synrc/BPE Erlang/OTP application or OCaml Lwt library
+                with Coq.io front-end. Here we will describe an Erlang approach for modeling processes.
+
+            p.
+                We will describe process calculus as a formal model of two types:
+                1) the general abstract MLTT interface of process modality that can be used
+                as a formal binding to low-level programming or as a top-level interface;
+                2) the low-level formal model of Erlang/OTP generic server.
+
+        .types
+            h2 Process Encoding
+            -
+                var core = {
+                    'former' : [ 'process' ],
+                    'intros' : [ 'spawn' ],
+                    'elims' : [ 'accs', 'exec', 'recv', 'send' ],
+                    'comp' : [ 'beta', 'eta' ],
+                }
+
+            .type
+                for v, k in core
+                    ol.type__col
+                        h3= k.toUpperCase()
+                        for i in v
+                            li: a(href='#'+i)= i.toUpperCase()
+            br.
+            p.
+                According to MLTT, declaring a type means formally defining its formation rule or type former,
+                sole introduction rule, a lot of elims (projections and modality morphisms, recursor, and induction),
+                and beta and eta computational equalities. In this article we will formally define
+                process modality and will end up with two examples: Erlang/OTP generic server
+                process and Synrc/BPE application.
+
+            section
+                h1 Process Modality
+
+        br.
+        section
+            p.
+                <b>Definition</b> (Storage). The secure storage based on verified
+                cryptography. NOTE: For simplicity let it be a compatible list.
+
+            code.
+                storage: U -> U = list
+
+            p.
+                <b>Definition</b> (Process). The type formation rule of the process
+                is a $\Sigma$ telescope that contains: i) protocol type; ii) state type;
+                iii) in-memory current state of process in the form of cartesian product
+                of protocol and state which is called signature of the process; iv) monoidal
+                action on signature; v) persistent storage for process trace.
+
+            code.
+                process : U
+                        = (protocol state: U)
+                        * (current: prod protocol state)
+                        * (act: id (prod protocol state))
+                        * (storage (prod protocol state))
+
+            p.
+                <b>Definition</b> (Spawn). The sole introduction rule, process constructor
+                is a tuple with filled process type information. Spawn is a modal arrow
+                representing the fact that process instance is created at some
+                scheduler of CPU core.
+
+            code.
+                spawn (protocol state: U) (init: prod protocol state)
+                      (action: id (prod protocol state)) : process
+                    = (protocol,state,init,action,nil)
+
+            p.
+                <b>Definition</b> (Accessors). Process type defines following
+                accessors (projections, this eliminators) to its structure:
+                i) protocol type; ii) state type; iii) signature of the
+                process; iv) current state of the process; v) action
+                projection; vi) trace projection.
+
+            code.
+                protocol  (p: process): U = p.1
+                state     (p: process): U = p.2.1
+                signature (p: process): U = prod p.1 p.2.1
+                current   (p: process):          signature p  = p.2.2.1
+                action    (p: process):      id (signature p) = p.2.2.2.1
+                trace     (p: process): storage (signature p) = p.2.2.2.2
+
+            p.
+                NOTE: there are two kinds of approaches to process design:
+                1) Semigroup: $P \times S \rightarrow S$;
+                and 2) Monoidal: $P \times S \rightarrow P \times S$,
+                where P is protocol and S is state of the process.
+
+            p.
+                <b>Definition</b> (Receive). The modal arrow that represents
+                sleep of the process until protocol message arrived.
+            code.
+                receive (p: process) : protocol p = axiom
+
+            p.
+                <b>Definition</b> (Send). The response free function that represents
+                sending a message to a particular process in the run-time. The Send
+                nature is async and invisible but is a part of process modality as
+                it's effectfull.
+
+            code.
+                send (p: process) (message: protocol p) : unit = axiom
+
+            p.
+                <b>Definition</b> (Execute). The Execute function is an
+                eliminator of process stream performing addition of a single entry
+                to the secured storage of the process. Execute is a transactional
+                or synchronized version of asynchronous Send.
+
+            code.
+                execute (p: process) (message: protocol p) : process
+                     = let step: signature p = (action p) (message, (current p).2)
+                        in (protocol p, state p, step, action p, cons step (trace p))
+            br.
+
+        .om
+            section
+                h1 Applications
+
+            p.
+                1) Run-time formal model
+                of Erlang/OTP compatible generic server with extraction to Erlang.
+                This is an example of low-level process modality usage.
+                The run-time formal model can be seen here:
+                <a href="https://n2o.space/articles/streams.htm">streams</a>.
+
+            p.
+                2) Formal model of Business Process Engine application that runs on top of Erlang/OTP
+                extracted model. The Synrc/BPE model can be seen here:
+                <a href="https://n2o.space/articles/bpe.htm">bpe</a>.
+
+            p.
+                3) Formal model of Synrc/N2O application and
+                <a href="https://mqtt.n2o.space/man/n2o_async.htm">n2o_async</a> in particular.
+

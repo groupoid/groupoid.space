@@ -1,0 +1,86 @@
+extends ../../../layout.pug
+
+block title
+    title LAMBEK
+    script(src='https://groupoid.space/styles/mathjax.js?config=TeX-AMS_HTML')
+    script.
+     window.MathJax = { jax: ["input/TeX", "input/MathML", "input/AsciiMath", "output/CommonHTML", "output/NativeMML"],
+                             TeX: { extensions: ["AMSmath.js", "AMSsymbols.js", "autoload-all.js"] },
+                             extensions: ["tex2jax.js", "asciimath2jax.js", "mml2jax.js", "MathMenu.js", "MathZoom.js"],
+                             "HTML-CSS": { imageFont: null },
+                             AuthorInit: function() {
+                                 MathJax.Hub.Register.StartupHook("TeX AMSmath Ready", function() {
+                                     var TEX = MathJax.InputJax.TeX;
+                                     TEX.Definitions.Add({
+                                         macros: {
+                                           llparenthesis: ['Macro', '\\mathopen{\u2987}'],
+                                           rrparenthesis: ['Macro', '\\mathclose{\u2988}'],
+                                           llbracket:     ['Macro', '\\mathopen{\u27E6}'],
+                                           rrbracket:     ['Macro', '\\mathclose{\u27E7}'],
+                                           incmap:        ['Macro', '\\mathclose{\u21AA}'],
+                                         }
+                                     });
+                                 });
+                             },
+                             tex2jax: { inlineMath: [['$','$'], ['\\(','\\)']],
+                                        processEscapes: true }
+                         };
+
+block content
+    +header('../../groupoid.svg', 'Lambek Encoding', 'Categorical Semantics of Inductive Encodings')
+
+    article.main
+        .om
+            section
+                h1 Article
+        aside <a href="https://tonpa.guru">Maxim Sokhatsky</a>
+            time DATE: 1 MAY 2016
+        .enc
+        section
+            h2 Initial Object
+            code.
+                data list (A: U) = nil
+                                 | cons (a: A) (xs: list A)
+
+            h2 Representing Functor F
+            code.
+                F<sub>A</sub> = 1 + A * X
+
+            h2 Construct corresponding F-Algebra
+            code.
+                record listAlg (A: Type) : Type :=
+                       (X: Type)
+                       (nil: Unit -> X)
+                       (cons: A -> X -> X)
+
+            h2 Introduce List Morphisms
+            code.
+                record listMor   (A: Type) (x1,x2: ListAlg A) : Type :=
+                       (map:     x1.X -> x2.X)
+                       (mapNil:  Path x2.X (map (x1.nil unit)) (x2.nil unit))
+                       (mapCons: ∀ (a: A) -> ∀ (x: x1) ->
+                                 Path x2.X (map (x1.cons a x)) (x2.cons a (map x)))
+
+            h2  Introduce connected points of List type
+            code.
+                record listPoint (A: Type) : Type :=
+                       (point: ∀ (x: ListAlg A) -> x.X)
+                       (map: ∀ (x1,x2: listAlg A) -> (m: ListMor A x1 x2) ->
+                             Path x2.X (m.map (point x1)) (point x2))
+
+            figure.
+                $$\def\mapright#1{\xrightarrow{{#1}}}
+                  \def\mapdown#1{\Big\downarrow\rlap{\raise2pt{\scriptstyle{#1}}}}
+                  \def\mapdiagl#1{\vcenter{\searrow}\rlap{\raise2pt{\scriptstyle{#1}}}}
+                  \def\mapdiagr#1{\vcenter{\swarrow}\rlap{\raise2pt{\scriptstyle{#1}}}}
+                $$
+
+            figure.
+                $$U = ListAlg\\$$
+
+                $$U\ I = lim\ U\\$$
+
+                $\begin{array}{c}lim\ U\\\mapdown{\pi_i}\\X_i\end{array}
+                \Longrightarrow \begin{array}{c}F\ lim\ U\\\mapdown{F\ \pi_i}\\F\ X_i\end{array}
+                \Longrightarrow lim\ \begin{array}{c}F\ lim\ U\\\mapdown{F \pi_i}\\F\ X_i\end{array}$
+

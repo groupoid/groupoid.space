@@ -1,0 +1,583 @@
+doctype html
+html
+    head
+        meta(charset='utf-8')
+        meta(http-equiv='x-ua-compatible' content='ie=edge')
+        meta(name='viewport'        content='width=device-width, initial-scale=1')
+        meta(name='author'          content='Maxim Sokhatsky')
+        meta(name='twitter:site'    content='@5HT')
+        meta(name='twitter:creator' content='@5HT')
+        meta(property='og:title'       content='Formal Set Topos')
+        meta(property='og:description' content='Here is given formal definitions of topos on a cetegory of sets.')
+        meta(property='og:type'        content='website')
+        meta(property='fb:app_id'      content='118554188236439')
+        meta(property='og:url'         content='https://sheaf.space')
+        link(rel='stylesheet' href='https://groupoid.space/main.css')
+        block title
+            title TOPOS
+    body.content
+        block content
+        block vars
+
+block title
+    script(src='https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML')
+    script.
+     window.MathJax = { jax: ["input/TeX", "input/MathML", "input/AsciiMath", "output/CommonHTML", "output/NativeMML"],
+                             TeX: { extensions: ["AMSmath.js", "AMSsymbols.js", "autoload-all.js"] },
+                             extensions: ["tex2jax.js", "asciimath2jax.js", "mml2jax.js", "MathMenu.js", "MathZoom.js"],
+                             "HTML-CSS": { imageFont: null },
+                             AuthorInit: function() {
+                                 MathJax.Hub.Register.StartupHook("TeX AMSmath Ready", function() {
+                                     var TEX = MathJax.InputJax.TeX;
+                                     TEX.Definitions.Add({
+                                         macros: {
+                                           llparenthesis: ['Macro', '\\mathopen{\u2987}'],
+                                           rrparenthesis: ['Macro', '\\mathclose{\u2988}'],
+                                           llbracket:     ['Macro', '\\mathopen{\u27E6}'],
+                                           rrbracket:     ['Macro', '\\mathclose{\u27E7}'],
+                                         }
+                                     });
+                                 });
+                             },
+                             tex2jax: { inlineMath: [['$','$'], ['\\(','\\)']],
+                                        processEscapes: true }
+                         };
+
+block content
+    article.main
+        .exe
+            section
+                h1 Formal Set Topos
+
+        aside <a href="https://tonpa.guru">Максим Сохацький</a>
+            time 9 AUG 2018
+
+        .exe
+            section
+                p.
+                    The purpose of this work is to clarify all topos definitions and variants of its components.
+                    Not much effort was put into providing all the examples, but one example, a topos
+                    on category of sets, is constructively presented in the finale.
+                p.
+                    As this cricial example definition is used in presheaf definition,
+                    the construction of category of sets is a mandatory excercise for any constructive topos library.
+                    We propose here cubical version of consctructive version of elementary
+                    topos on category of sets to demonstrate categorical
+                    semantics (from logic perspective) of the fundamental notion of set theory in mathematics.
+                p.
+                    Other disputed foundations for set theory could be taken as:
+                    ZFC, NBG, ETCS. We will disctinct syntetically: i) category theory;
+                    ii) set theory in univalent foundations; iii) topos theory, grothendieck topos,
+                    elementary topos.
+                p.
+                    This article provides a minimal self contained setup for
+                    topos on category of sets instance in <a href="https://homotopytypetheory.org/2017/09/16/a-hands-on-introduction-to-cubicaltt/">cubicaltt</a>.
+                    As for base library this is a chance to unvail the simplicity
+                    for the domain of intersection of: category theory, set theory, and topos theory.
+                p.
+                    One can admit two topos theory lineages. One lineage takes its roots from initial work
+                    on sheaves and specral sequences published by Jean Leray in 1945. Later this lineage
+                    was developed by Henri Paul Cartan and André Weil. The peak of lineage was settled
+                    with works of Jean-Pierre Serre, Alexander Grothendieck, and Roger Godement.
+                p.
+                    Second remarkable lineage take its root from William Lawvere and
+                    Myles Tierney. The main contribution is the reformulation of Grothendieck topology
+                    using subobject classifier.
+                    $$\def\mapright#1{\xrightarrow{{#1}}}\def\mapleft#1{\xleftarrow{{#1}}}\def\mapdown#1{\Big\downarrow\rlap{\raise2pt{\scriptstyle{#1}}}}\def\mapdiagl#1{\vcenter{\searrow}\rlap{\raise2pt{\scriptstyle{#1}}}}\def\mapdiagr#1{\vcenter{\swarrow}\rlap{\raise2pt{\scriptstyle{#1}}}}$$
+
+                h1 Category Theory
+                p.
+                    First of all, a very simple category theory up to pullbacks is provided. We provide here
+                    all definitions only to keep the context valid.
+                p.
+                    <b>Definition</b> (Category Signature). The signature of category is
+                    a $\sum_{A:U}A \rightarrow A \rightarrow U$ where $U$ could be any universe.
+                    The $\mathrm{pr}_1$ projection is called $\mathrm{Ob}$ and $\mathrm{pr}_2$ projection is
+                    called $\mathrm{Hom}(a,b)$, where $a,b:\mathrm{Ob}$.
+                code.
+                    cat: U = (A: U) * (A -> A -> U)
+                p.
+                    Precategory $\mathrm{C}$ defined as set of $\mathrm{Hom}_C(a,b)$ where $a,b:\mathrm{Ob}_C$
+                    are objects defined by its $\mathrm{id}$ arrows $\mathrm{Hom}_C(x,x)$.
+                    Properfies of left and right units included with composition
+                    and its associativity.
+                code.
+                    isPrecategory (C: cat): U
+                      = (id: (x: C.1) -> C.2 x x)
+                      * (c: (x y z: C.1) -> C.2 x y -> C.2 y z -> C.2 x z)
+                      * (homSet: (x y: C.1) -> isSet (C.2 x y))
+                      * (left: (x y: C.1) -> (f: C.2 x y) -> Path (C.2 x y) (c x x y (id x) f) f)
+                      * (right: (x y: C.1) -> (f: C.2 x y) -> Path (C.2 x y) (c x y y f (id y)) f)
+                      * ( (x y z w: C.1) -> (f: C.2 x y) -> (g: C.2 y z) -> (h: C.2 z w) ->
+                        Path (C.2 x w) (c x z w (c x y z f g) h) (c x y w f (c y z w g h)))
+                p.
+                    <b>Definition</b> (Precategory). More formally, precategory $\mathrm{C}$ consists of the following.
+                    (i) A type $\mathrm{Ob}_C$, whose elements are called objects;
+                    (ii) for each $a,b: \mathrm{Ob}_C$, a set $\mathrm{Hom}_C(a,b)$, whose elements are called arrows or morphisms.
+                    (iii) For each $a: \mathrm{Ob}_C$, a morphism $1_a : \mathrm{Hom}_C(a,a)$, called the identity morphism.
+                    (iv) For each $a,b,c: \mathrm{Ob}_C$, a function
+                    $\mathrm{Hom}_C(b,c) \rightarrow \mathrm{Hom}_C(a,b) \rightarrow \mathrm{Hom}_C(a,c)$
+                    called composition, and denoted $g \circ f$.
+                    (v) For each $a,b: \mathrm{Ob}_C$ and $f: \mathrm{Hom}_C(a,b)$,
+                    $f = 1_b \circ f$ and $f = f \circ 1_a$.
+                    (vi) For each $a,b,c,d: A$ and
+                    $f: \mathrm{Hom}_C(a,b)$, $g: \mathrm{Hom}_C(b,c)$, $h: \mathrm{Hom}_C(c,d)$,
+                    $h \circ (g \circ f ) = (h \circ g) \circ f$.
+                code.
+                    carrier (C: precategory) : U
+                    hom     (C: precategory) (a b: carrier C) : U
+                    compose (C: precategory) (x y z: carrier C)
+                            (f: hom C x y) (g: hom C y z) : hom C x z
+                p.
+                    <b>Definition</b> (Terminal Object). Is such object $\mathrm{Ob}_C$,
+                    that $\Pi_{x,y:\mathrm{Ob}_C} \mathrm{isContr}(\mathrm{Hom}_C(y,x))$.
+                code.
+                    isTerminal (C: precategory) (y: carrier C): U = (x: carrier C) -> isContr (hom C x y)
+                    terminal   (C: precategory): U = (y: carrier C) * isTerminal C y
+                p.
+                    <b>Definition</b> (Categorical Pullback).
+                    The pullback of the cospan $A \mapright{f} C \mapleft{g} B$ is a object $A \times_{C} B$ with
+                    morphisms $pb_1 : \times_C \rightarrow A $, $pb_2 : \times_C \rightarrow B$, such that
+                    diagram commutes:
+                    $$
+                    \begin{array}{ccc}
+                        A \times_{C} B & \mapright{\mathbf{pb_2}} & B \\
+                        \mapdown{\mathbf{pb_1}} & \square & \mapdown{\mathbf{g}} \\
+                        A & \mapright{\mathbf{f}} & C \\
+                    \end{array}.
+                    $$
+                    Pullback $(\times_C,pb_1,pb_2)$ must be universal, meaning that for any $(D,q_1,q_2)$
+                    for which diagram also commutes there must exist a unique $u: D \rightarrow \times_C$,
+                    such that $pb_1 \circ u = q_1$ and $pb_2 \circ q_2$.
+                code.
+                    homTo  (C: precategory) (X: carrier C): U   = (Y: carrier C) * hom C Y X
+                    cospan (C: precategory): U = (X: carrier C) * (_: homTo C X) * homTo C X
+
+                    hasCospanCone (C: precategory) (D: cospan C) (W: carrier C) : U
+                      = (f: hom C W D.2.1.1)
+                      * (g: hom C W D.2.2.1)
+                      * Path (hom C W D.1)
+                             (compose C W D.2.1.1 D.1 f D.2.1.2)
+                             (compose C W D.2.2.1 D.1 g D.2.2.2)
+
+                    cospanCone (C: precategory) (D: cospan C): U = (W: carrier C) * hasCospanCone C D W
+                    isCospanConeHom (C: precategory) (D: cospan C) (E1 E2: cospanCone C D) (h: hom C E1.1 E2.1) : U
+                      = (_ : Path (hom C E1.1 D.2.1.1) (compose C E1.1 E2.1 D.2.1.1 h E2.2.1)   E1.2.1)
+                      * (    Path (hom C E1.1 D.2.2.1) (compose C E1.1 E2.1 D.2.2.1 h E2.2.2.1) E1.2.2.1)
+
+                    cospanConeHom (C: precategory) (D: cospan C) (E1 E2: cospanCone C D) : U
+                      = (h: hom C E1.1 E2.1) * isCospanConeHom C D E1 E2 h
+                    isPullback (C: precategory) (D: cospan C) (E: cospanCone C D) : U
+                      = (h: cospanCone C D) -> isContr (cospanConeHom C D h E)
+                    hasPullback (C: precategory) (D: cospan C) : U
+                      = (E: cospanCone C D) * isPullback C D E
+
+                br
+                h1 Set Theory
+                p.
+                    Here is the $\infty$-groupoid model of sets.
+                p.
+                    <b>Definition</b> (Mere proposition, $\mathrm{PROP}$). A type P is a mere proposition
+                    if for all $x,y: P$ we have $x=y$:
+                    $$
+                        \mathrm{isProp}(P) = \prod_{x,y:P}(x=y).
+                    $$
+                p.
+                    <b>Definition</b> (0-type). A type A is a 0-type is for all
+                    $x,y: A$ and $p,q: x =_A y$ we have $p = q$.
+                p.
+                    <b>Definition</b> (1-type). A type A is a 1-type if for all
+                    $x,y: A$ and $p,q: x =_A y$ and $r,s:p =_{=_A} q$, we have $r = s$.
+                p.
+                    <b>Definition</b> (A set of elements, $\mathrm{SET}$).
+                    A type A is a $\mathrm{SET}$ if for all $x,y: A$ and $p,q: x = y$, we have $p = q$:
+                    $$
+                        \mathrm{isSet}(A) = \prod_{x,y:A}\prod_{p,q:x=y}(p=q).
+                    $$
+                p.
+                    <b>Theorem</b>. If A is a set then A is a 1-type.
+                code.
+                    data N = Z  | S (n: N)
+
+                    n_grpd (A: U) (n: N): U = (a b: A) -> rec A a b n where
+                       rec (A: U) (a b: A) : (k: N) -> U
+                         = split { Z -> Path A a b ; S n -> n_grpd (Path A a b) n }
+
+                    isContr (A: U): U = (x: A) * ((y: A) -> Path A x y)
+                    isProp  (A: U): U = n_grpd A Z
+                    isSet   (A: U): U = n_grpd A (S Z)
+
+                    PROP  : U = (X:U) * isProp X
+                    SET   : U = (X:U) * isSet X
+                p.
+                    <b>Theorem</b> ($\Pi$-Contractability). if fiber is set then
+                    path space between any sections is contractible.
+                code.
+                    setPi  (A: U) (B: A -> U) (h: (x: A) -> isSet (B x)) (f g: Pi A B)
+                           (p q: Path (Pi A B) f g)
+                         : Path (Path (Pi A B) f g) p q
+                p.
+                    <b>Theorem</b> ($\Sigma$-Contractability). if fiber is set then $\Sigma$ is set.
+                code.
+                    setSig (A:U) (B: A -> U) (sA: isSet A)
+                           (sB : (x:A) -> isSet (B x)) : isSet (Sigma A B)
+                p.
+                    <b>Definition</b> (Unit type, $1$). The unit $1$ is a type with one element.
+                code.
+                    data unit = tt
+                    unitRec (C: U) (x: C): unit -> C = split tt -> x
+                    unitInd (C: unit -> U) (x: C tt): (z:unit) -> C z = split tt -> x
+                p.
+                    <b>Theorem</b> ($1$ is a proposition).
+                code.
+                    propUnit : isProp unit
+                p.
+                    <b>Theorem</b> ($1$ is a set).
+                code.
+                    setUnit : isSet unit
+                p.
+                    <b>Theorem</b> (Category of Sets, $\mathrm{Set}$). Sets forms a Category.
+                    All compositional theorems are proved using reflection rule of internal language.
+                    The proof that $\mathrm{Hom}$ forms a set is taken through $\Pi$-contractability.
+                code.
+                    Set: precategory = ((Ob,Hom),id,c,HomSet,L,R,Q) where
+                      Ob: U = SET
+                      Hom (A B: Ob): U = A.1 -> B.1
+                      id (A: Ob): Hom A A = idfun A.1
+                      c (A B C: Ob) (f: Hom A B) (g: Hom B C): Hom A C = o A.1 B.1 C.1 g f
+                      HomSet (A B: Ob): isSet (Hom A B) = setFun A.1 B.1 B.2
+                      L (A B: Ob) (f: Hom A B): Path (Hom A B) (c A A B (id A) f) f = refl (Hom A B) f
+                      R (A B: Ob) (f: Hom A B): Path (Hom A B) (c A B B f (id B)) f = refl (Hom A B) f
+                      Q (A B C D: Ob) (f: Hom A B) (g: Hom B C) (h: Hom C D)
+                       : Path (Hom A D) (c A C D (c A B C f g) h) (c A B D f (c B C D g h))
+                       = refl (Hom A D) (c A B D f (c B C D g h))
+
+                br
+                h1 Topos Theory
+                p.
+                    Topos theory extends category theory with notion of topological
+                    structure reformulated in a categorical way
+                    as a category of sheaves on a site or as one that has cartesian closure
+                    and subobject classifier. We provide two definitions here.
+                h2 Topological Structure
+                p.
+                    <b>Definition</b> (Topology). The topological structure on $\mathrm{A}$
+                    (or topology) is a subset $S \in \mathrm{A}$ with following properties:
+                    i) any finite union of subsets of $\mathrm{S}$ belongs to $\mathrm{S}$;
+                    ii) any finite intersection of subsets of $\mathrm{S}$ belongs to $\mathrm{S}$.
+                    Subets of $\mathrm{S}$ are called open sets of family $\mathrm{S}$.
+                p.
+                    Here is a code snippet in Coq for this classical definition.
+                code.
+                     Structure topology (A : Type) := {
+                               open :> (A -> Prop) -> Prop;
+                               empty_open: open (empty _);
+                               full_open:  open (full _);
+                               inter_open: forall u, open u
+                                        -> forall v, open v
+                                        -> open (inter A u v) ;
+                               union_open: forall s, (subset _ s open)
+                                        -> open (union A s) }.
+                br.
+                code.
+                    Definition subset   (A: Type) (u v : A -> Prop) := (forall x : A, u x -> v x).
+                    Definition disjoint (A: Type) (u v : A -> Prop) := forall x, ~ (u x /\ v x).
+                    Definition union    (A: Type) (B   :(A -> Prop) -> Prop) := fun x : A => exists U, B U /\ U x.
+                    Definition inter    (A: Type) (u v : A -> Prop) := fun x : A => u x /\ v x.
+                    Definition empty    (A: Type) := fun x : A => False.
+                    Definition full     (A: Type) := fun x : A => True.
+                p.
+                    For fully functional general topology theorems and Zorn lemma you can refer to
+                    the Coq library <a href="https://github.com/verimath/topology">topology</a> by
+                    Daniel Schepler.
+
+                h2 Grothendieck Topos
+                p.
+                    Grothendieck Topology is a calculus of coverings which generalizes the algebra
+                    of open covers of a topological space, and can exist on much more general categories.
+                    There are three variants of Grothendieck topology definition:
+                    i) sieves; ii) coverage; iii) covering failies.
+                    A category that has one of these three is called a Grothendieck site.
+                p.
+                    <b>Examples</b>: Zariski, flat, étale, Nisnevich topologies.
+                p.
+                    A sheaf is a presheaf (functor from opposite category to category of sets) which
+                    satisties patching conditions arising from Grothendieck topology, and applying
+                    the associated sheaf functor to preashef forces compliance with these conditions.
+                p.
+                    The notion of Grothendieck topos is a geometric flavour of topos theory,
+                    where topos is defined as category of sheaves on a Grothendieck site with
+                    geometric moriphisms as adjoint pairs of functors between topoi, that
+                    satisfy exactness properties.
+                p.
+                    As this flavour of topos theory uses category of sets as a prerequisite,
+                    the formal construction of set topos is cricual in doing sheaf topos theory.
+                p.
+                    <b>Definition</b> (Sieves). Sieves are a family of subfunctors
+                    $$\def\mapright#1{\xrightarrow{{#1}}}
+                      \def\mapdown#1{\Big\downarrow\rlap{\raise2pt{\scriptstyle{#1}}}}
+                      \def\mapdiagl#1{\vcenter{\searrow}\rlap{\raise2pt{\scriptstyle{#1}}}}
+                      \def\mapdiagr#1{\vcenter{\swarrow}\rlap{\raise2pt{\scriptstyle{#1}}}}
+                        R \subset Hom_C(\_,U), U \in \mathrm{C},
+                    $$
+                    such that following axioms hold: i) (base change) If $R \subset Hom_C(\_,U)$ is covering
+                    and $\phi : V \rightarrow U$ is a morphism of $\mathrm{C}$, then the subfuntor
+                    $$
+                        \phi^{-1}(R) = \{ \gamma : W \rightarrow V\ |\ \phi \cdot \gamma \in R \}
+                    $$
+                    is covering for $V$; ii) (local character) Suppose that $R,R' \subset Hom_C(\_,U)$ are
+                    subfunctors and R is covering. If $\phi^{-1}(R')$ is covering for
+                    all $\phi : V \rightarrow U$ in $R$, then $R'$ is covering; iii)
+                    $Hom_C(\_,U)$ is covering for all $U \in \mathrm{C}$.
+                p.
+                    <b>Definition</b> (Coverage). A coverage is a function assigning
+                    to each $\mathrm{Ob}_C$ the family of morphisms $\{f_i : U_i \rightarrow U \}_{i\in I}$ called
+                    covering families, such that for any $g: V \rightarrow U$ exist
+                    a covering family $\{h:V_j \rightarrow V\}_{j \in J}$ such that
+                    each composite $h_j \circ g$ factors some $f_i$:
+                    $$
+                    \begin{array}{ccc}
+                        V_j & \mapright{k} & U_i \\
+                        \mapdown{h} & \square & \mapdown{f_i} \\
+                        V & \mapright{g} & U \\
+                    \end{array}
+                    $$
+                code.
+                    Co (C: precategory) (cod: carrier C) : U
+                      = (dom: carrier C)
+                      * (hom C dom cod)
+
+                    Delta (C: precategory) (d: carrier C) : U
+                      = (index: U)
+                      * (index -> Co C d)
+
+                    Coverage (C: precategory): U
+                      = (cod: carrier C)
+                      * (fam: Delta C cod)
+                      * (coverings: carrier C -> Delta C cod -> U)
+                      * (coverings cod fam)
+                p.
+                    <b>Definition</b> (Grothendieck Topology). Suppose category $\mathrm{C}$ has all pullbacks.
+                    Since $\mathrm{C}$ is small, a pretopology on $\mathrm{C}$ consists of families of sets of
+                    morphisms
+                    $$
+                        \{ \phi_\alpha : U_\alpha \rightarrow U \}, U \in \mathrm{C},
+                    $$
+                    called covering families, such that following axioms hold:
+                    i) suppose that $\phi_\alpha : U_\alpha \rightarrow U$ is a covering family
+                    and that $\psi : V \rightarrow U$ is a morphism of $\mathrm{C}$.
+                    Then the collection $V \times_U U_\alpha \rightarrow V$ is a cvering family for $V$.
+                    ii) If $\{\phi_\alpha : U_\alpha \rightarrow U \}$ is covering,
+                    and $\{\gamma_{\alpha,\beta} : W_{\alpha,\beta} \rightarrow U_\alpha \}$
+                    is covering for all $\alpha$, then the family of composites
+                    $$
+                        W_{\alpha,\beta} \mapright{\gamma_{\alpha,\beta}} U_\alpha \mapright{\phi_\alpha} U.
+                    $$
+                    is covering;
+                    iii) The family $\{1: U \rightarrow U\}$ is covering for all $U \in \mathrm{C}$.
+                p.
+                    <b>Definition</b> (Site). Site is a category having either a coverage,
+                    grothendieck topology, or sieves.
+                code.
+                    site (C: precategory): U
+                      = (C: precategory)
+                      * Coverage C
+                p.
+                    <b>Definition</b> (Presheaf). Presheaf of a category $\mathrm{C}$
+                    is a functor from opposite category to category of sets:
+                    $\mathrm{C}^{op} \rightarrow \mathrm{Set}$.
+                code.
+                    presheaf (C: precategory): U
+                      = catfunctor (opCat C) Set
+                p.
+                    <b>Definition</b> (Presheaf Category, $\mathrm{PSh}$).
+                    Presheaf category $\mathrm{PSh}$ for a site $\mathrm{C}$ is category
+                    were objects are presheaves and morphisms are natural transformations
+                    of presheaf functors.
+                p.
+                    <b>Definition</b> (Sheaf). Sheaf is a presheaf on a site. In other words
+                    a presheaf $F : \mathrm{C}^{op} \rightarrow \mathrm{Set}$ such that the
+                    cannonical map of inverse limit
+                    $$
+                        F(U) \rightarrow \lim^{\leftarrow}_{V \to U \in R}{F(V)}
+                    $$
+                    is an isomorphism for each covering sieve $R \subset Hom_C(\_,U)$.
+                    Equivalently, all induced functions
+                    $$
+                        Hom_C(Hom_C(\_,U),F) \rightarrow Hom_C(R,F)
+                    $$
+                    should be bijections.
+                code.
+                    sheaf (C: precategory): U
+                      = (S: site C)
+                      * presheaf S.1
+                p.
+                    <b>Definition</b> (Sheaf Category, $\mathrm{Sh}$). Sheaf category $\mathrm{Sh}$
+                    is a category where objects are sheaves and morphisms are
+                    natural transformation of sheves. Sheaf category is a full subcategory
+                    of category of presheaves $\mathrm{PSh}$.
+                p.
+                    <b>Definition</b> (Grothendieck Topos). Topos is the category
+                    of sheaves $\mathrm{Sh}(\mathrm{C},J)$ on a site $\mathrm{C}$ with topology $J$.
+                p.
+                    <b>Theorem</b> (Giraud). A category $\mathrm{C}$ is a Grothiendieck topos if
+                    it has following properties:
+                    i) has all finite limits;
+                    ii) has small disjoint coproducts stable under pullbacks;
+                    iii) any epimorphism is coequalizer;
+                    iv) any equivalence relation $R \rightarrow E$ is a kernel pair and has a quotient;
+                    v) any coequalizer $R \rightarrow E \rightarrow Q$ is stably exact;
+                    vi) there is a set of objects that generates $\mathrm{C}$.
+                p.
+                    <b>Definition</b> (Geometric Morphism). Suppose that $\mathrm{C}$ and $\mathrm{D}$
+                    are Grothendieck sites. A geometric morphism
+                    $$
+                        f : \mathrm{Sh}(C) \rightarrow \mathrm{Sh}(D)
+                    $$
+                    consists of functors $f_* : \mathrm{Sh}(C) \rightarrow \mathrm{Sh}(D)$ and
+                    $f^* : \mathrm{Sh}(D) \rightarrow \mathrm{Sh}(C)$ such that $f^*$ is
+                    left adjoint to $f_*$ and $f^*$ preserves finite limits. The left adjoint $f^*$ is called
+                    the inverse image functor, while $f_*$ is called the direct image. The inverse image functor
+                    $f^*$ is left and right exact in the sense that it preserves all finite
+                    colimits and limits, respectively.
+                p.
+                    <b>Definition</b> (Point of a Topos).
+                    A point $x$ of a topos $E$ is a geometric morphism: $p: \mathrm{Set} \rightarrow E$.
+                p.
+                    <b>Definition</b> (Stalk).
+                    The stalk at $x$ of an object $e \in E$ is the image of $e$ under
+                    corresponding inverse image morphism
+                    $x^{-1}: E \rightarrow \mathrm{Set}$.
+                p.
+                    <b>Definition</b> (Étale space $\mathrm{Spé}(F)$).
+                    Let $X$ &mdash; a topological space, $C$ a category and $F$ is a $C$-valued presheaf on $X$.
+                    Then, the étalé space is a a pair $(\mathrm{Ét}(F),\pi)$ where:
+                    i) $\mathrm{Ét}(F)$ is a disjoin union $\bigcup_{x\in X} F_x$ of stalks of $F$;
+                    ii) $\pi: \mathrm{Ét}(F) \rightarrow X$ is the canonical projection.
+
+                h2 Elementary Topos
+                p.
+                    Giraud theorem was a synonymical topos definition that involved only topos
+                    properties but not site properties. That was a step forward in
+                    predicative definition. The other step was made by Lawvere and Tierney,
+                    by removing explicit dependance on categorical model of set
+                    theory (as category of set is used in definition of presheaf). This information
+                    was hidden into subobject classifier which was well defined through
+                    categorical pullback and property of being cartesian
+                    closed (having lambda calculus as internal language).
+                p.
+                    Elementary topos doesn't involve 2-categorical modeling, so we can construct
+                    set topos without using functors and natural transformations
+                    (that we need in geometrical topos theory flavour). This flavour of topos
+                    theory is more suited for logic needs rather than for geometry, as its set properties
+                    are hidden under predicative pullback definition of subobject classifier
+                    rather than functorial notation of presheaf functor. So we can simplify proofs
+                    at the homotopy levels, not to lift everything to 2-categorical model.
+                p.
+                    <b>Definition</b> (Monomorphism). A morphism $f : Y \rightarrow Z $ is a monic or mono
+                    if for any object $X$ and every pair of parralel morphisms $g_1,g_2: X \rightarrow Y$ the
+                    $$
+                        f \circ g_1 = f \circ g_2 \rightarrow g_1 = g_2.
+                    $$
+                    More abstractly, f is mono if for any $X$ the $\mathrm{Hom}(X,\_)$ takes it to an injective
+                    function between hom sets $\mathrm{Hom}(X,Y) \rightarrow \mathrm{Hom}(X,Z)$.
+                code.
+                    mono (P: precategory) (Y Z: carrier P) (f: hom P Y Z): U
+                      = (X: carrier P) (g1 g2: hom P X Y)
+                     -> Path (hom P X Z) (compose P X Y Z g1 f) (compose P X Y Z g2 f)
+                     -> Path (hom P X Y) g1 g2
+                p.
+                    <b>Definition</b> (Subobject Classifier). In category $\mathrm{C}$ with finite limits,
+                    a subobject classifier is a monomorphism $true: 1 \rightarrow \Omega$ out of terminal
+                    object $\mathrm{1}$, such that for any mono $U \rightarrow X$ there is a unique
+                    morphism $\chi_U : X \rightarrow \Omega$ and a pullback diagram:
+                    $$
+                    \begin{array}{ccc}
+                        U & \mapright{k} & \mathrm{1} \\
+                        \mapdown{} & \square & \mapdown{} \\
+                        X & \mapright{\chi_U} & \Omega \\
+                    \end{array}
+                    $$
+                code.
+                    subobjectClassifier (C: precategory): U
+                      = (omega: carrier C)
+                      * (end: terminal C)
+                      * (trueHom: hom C end.1 omega)
+                      * (chi: (V X: carrier C) (j: hom C V X) -> hom C X omega)
+                      * (square: (V X: carrier C) (j: hom C V X) -> mono C V X j
+                        -> hasPullback C (omega,(end.1,trueHom),(X,chi V X j)))
+                      * ((V X: carrier C) (j: hom C V X) (k: hom C X omega)
+                        -> mono C V X j
+                        -> hasPullback C (omega,(end.1,trueHom),(X,k))
+                        -> Path (hom C X omega) (chi V X j) k)
+                p.
+                    <b>Theorem</b> (Category of Sets has Subobject Classifier).
+                p.
+                    <b>Definition</b> (Cartesian Closed Categories).
+                    The category $\mathrm{C}$ is called cartesian closed if exists all:
+                    i) terminals; ii) products; iii) exponentials. Note that this definition
+                    lacks beta and eta rules which could be found in embedding $\mathrm{MLTT}$.
+                code.
+                    isCCC (C: precategory): U
+                      = (Exp:   (A B: carrier C) -> carrier C)
+                      * (Prod:  (A B: carrier C) -> carrier C)
+                      * (Apply: (A B: carrier C) -> hom C (Prod (Exp A B) A) B)
+                      * (P1:    (A B: carrier C) -> hom C (Prod A B) A)
+                      * (P2:    (A B: carrier C) -> hom C (Prod A B) B)
+                      * (Term:  terminal C)
+                      * unit
+                p.
+                    <b>Theorem</b> (Category of Sets has Cartesian Closure). As you can see
+                    from exp and pro we internalize $\Pi$ and $\Sigma$ types as $\mathrm{SET}$ instances,
+                    the $\mathrm{isSet}$ predicates are provided with contractability.
+                    Exitense of terminals is proved by $\mathrm{propPi}$. The same technique you
+                    can find in $\mathrm{MLTT}$ embedding.
+                code.
+                    cartesianClosure : isCCC Set
+                      = (expo,prod,appli,proj1,proj2,term,tt) where
+                      exp (A B: SET): SET = (A.1   -> B.1, setFun A.1 B.1 B.2)
+                      pro (A B: SET): SET = (prod A.1 B.1,
+                        setSig A.1 (\(_ : A.1) -> B.1) A.2 (\(_ : A.1) -> B.2))
+                      expo:  (A B: SET) -> SET = \(A B: SET) -> exp A B
+                      prod:  (A B: SET) -> SET = \(A B: SET) -> pro A B
+                      appli: (A B: SET) -> hom Set (pro (exp A B) A) B
+                        = \(A B:SET)-> \(x:(pro(exp A B)A).1)-> x.1 x.2
+                      proj1: (A B: SET) -> hom Set (pro A B) A = \(A B: SET) (x: (pro A B).1) -> x.1
+                      proj2: (A B: SET) -> hom Set (pro A B) B = \(A B: SET) (x: (pro A B).1) -> x.2
+                      unitContr (x: SET) (f: x.1 -> unit) : isContr (x.1 -> unit)
+                        = (f, \(z: x.1 -> unit) -> propPi x.1 (\(_:x.1)->unit) (\(x:x.1) ->propUnit) f z)
+                      term: terminal Set = ((unit,setUnit),\(x: SET) -> unitContr x (\(z: x.1) -> tt))
+                p.
+                    Note that rules of cartesian closure form a type theoretical language
+                    called lambda calculus.
+                p.
+                    <b>Definition</b> (Elementary Topos). Topos is a precategory which is
+                    cartesian closed and has subobject classifier.
+                code.
+                    Topos (cat: precategory)
+                      : U
+                      = (cartesianClosure: isCCC cat)
+                      * subobjectClassifier cat
+                p.
+                    <b>Theorem</b> (Topos Definitions). Any Grothendieck topos is an elementary topos too.
+                    The proof is sligthly based on results of Giraud theorem.
+                p.
+                    <b>Theorem</b> (Category of Sets forms a Topos). There is a
+                    cartesian closure and subobject classifier for a categoty of sets.
+                code.
+                    internal
+                      : Topos Set
+                      = (cartesianClosure,hasSubobject)
+                br.
+                h1 Literature
+                p.
+                    <a href="https://raw.githubusercontent.com/groupoid/groupoid.space/master/mltt/infinity/references/70.Johnstone14.txt">[70]</a>. P.T. Johnstone. Topos Theory. 2014,
+                    <a href="https://raw.githubusercontent.com/groupoid/groupoid.space/master/mltt/infinity/references/71.Goldblatt14.txt">[71]</a>. R. Goldblatt. Topoi: The Categorial Analysis of Logic. 2014,
+                    <a href="https://raw.githubusercontent.com/groupoid/groupoid.space/master/mltt/infinity/references/72.Jardine15.txt">[72]</a>. J.F. Jardine. Local Homotopy Theory. 2015.
+                p.
+                    <center><table cellspacing=20><tr><td><img src="https://n2o.space/img/pdf.jpg" width=50></td><td>
+                    <a href="https://github.com/groupoid/groupoid.space/blob/master/articles/topos/topos.pdf">
+                    <h3>Issue VIII: Formal Topos on Category of Sets</h3>
+                    </a></td></tr></table></center>
+
+    include ../../../footer.pug

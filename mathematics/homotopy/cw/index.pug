@@ -1,0 +1,143 @@
+extends ../../../layout.pug
+
+block title
+    title CW
+    script(src='https://groupoid.space/styles/mathjax.js?config=TeX-AMS_HTML')
+    script.
+     window.MathJax = { jax: ["input/TeX", "input/MathML", "input/AsciiMath", "output/CommonHTML", "output/NativeMML"],
+                             TeX: { extensions: ["AMSmath.js", "AMSsymbols.js", "autoload-all.js"] },
+                             extensions: ["tex2jax.js", "asciimath2jax.js", "mml2jax.js", "MathMenu.js", "MathZoom.js"],
+                             "HTML-CSS": { imageFont: null },
+                             AuthorInit: function() {
+                                 MathJax.Hub.Register.StartupHook("TeX AMSmath Ready", function() {
+                                     var TEX = MathJax.InputJax.TeX;
+                                     TEX.Definitions.Add({
+                                         macros: {
+                                           llparenthesis: ['Macro', '\\mathopen{\u2987}'],
+                                           rrparenthesis: ['Macro', '\\mathclose{\u2988}'],
+                                           llbracket:     ['Macro', '\\mathopen{\u27E6}'],
+                                           rrbracket:     ['Macro', '\\mathclose{\u27E7}'],
+                                           incmap:        ['Macro', '\\mathclose{\u21AA}'],
+                                         }
+                                     });
+                                 });
+                             },
+                             tex2jax: { inlineMath: [['$','$'], ['\\(','\\)']],
+                                        processEscapes: true }
+                         };
+
+block content
+    article.main
+        .om
+            section
+                h1 CW-Complex
+        aside <a href="..">Base Library</a>
+            time Published: 25 JUL 2018
+        .om
+            section
+                figure.
+                    $$\def\mapright#1{\xrightarrow{{#1}}}
+                      \def\mapdown#1{\Big\downarrow\rlap{\raise2pt{\scriptstyle{#1}}}}
+                      \def\mapdiagl#1{\vcenter{\searrow}\rlap{\raise2pt{\scriptstyle{#1}}}}
+                      \def\mapdiagr#1{\vcenter{\swarrow}\rlap{\raise2pt{\scriptstyle{#1}}}}
+                    $$
+                p.
+                    <a href="https://raw.githubusercontent.com/groupoid/cubical/master/src/cw.ctt">CW package</a>
+                    contains basic theorems about general theory of CW-complexes.
+
+            section
+                h1 FOUNDATIONS
+                p.
+                    CW-complexes are fundamental objects in homotopy type theory.
+                    They're even present in cubical type checker in the form of
+                    higher (co)-inductive types (HITs).
+                    Just like regular (co)-inductive types could be described as recursive
+                    terminating (well-founded) or non-terminating trees,
+                    higher inductive types could be described as CW-complexes.
+                    Defining HIT means to define some CW-complex
+                    directly using cubical homogeneous composition structure as an
+                    element of initial algebra inside cubical model.
+                p.
+                    <b>Examples.</b> One of the notables is pushout as it's used
+                    to define the cell attachment formally, as others cofibrant objects.
+                code.
+                    data pushout (A B C: U) (f: C -> A) (g: C -> B)
+                           = po1 (_: A)
+                           | po2 (_: B)
+                           | po3 (c: C) &lt;i&gt; [ (i = 0) -> po1 (f c) ,
+                                              (i = 1) -> po2 (g c) ]
+                p.
+                    <b>Shperes and Disks.</b> Here are some examples of using
+                    dimensions to construct spherical shapes.
+                code.
+                    data S1 = base | loop &lt;i&gt; [ (i = 0) -> base, (i = 1) -> base ]
+                br.
+                code.
+                    data S2 = point | surf &lt;i j&gt; [ (i = 0) -> point, (i = 1) -> point,
+                                                   (j = 0) -> point, (j = 1) -> point ]
+                br.
+                code.
+                    data D3 (x: S2) = border (x: S2)
+                        | space &lt;i j k&gt; [ ( i = 0) -> border x, (i = 1) -> border x ,
+                                          ( j = 0) -> border x, (j = 1) -> border x ,
+                                          ( k = 0) -> border x, (k = 1) -> border x ]
+                p.
+                    <b>Structure of $I^2$ same as of $S^2$</b>. ASCII proof
+                    that <b>comp</b> parameters are the same as in <b>surf</b> constructor:
+                code.
+                    I2 (A: U) (a0 a1 b0 b1: A) (u: Path A a0 a1) (v: Path A b0 b1)
+                          (r0: Path A a0 b0) (r1: Path A a1 b1) : U
+                          = PathP (&lt;i&gt; (PathP (&lt;j&gt; A) (u@i) (v@i))) r0 r1
+
+                    plain (A: U) (x: A): I2 A x x x x (&lt;i&gt; x) (&lt;i&gt; x) (&lt;i&gt; x) (&lt;i&gt; x)
+                          = &lt;i j&gt; comp (&lt;_&gt;A) x [(i = 0) -> &lt;i&gt; x, (i = 1) -> &lt;i&gt; x,
+                                                 (j = 0) -> &lt;i&gt; x, (j = 1) -> &lt;i&gt; x ]
+                p.
+                    Recursive and parametrised HITs such as Truncation and Quotients
+                    along with Hopf construction became possible after <b>hcomptrans</b>
+                    branch in cubicaltt and paper <a href="https://arxiv.org/pdf/1802.01170.pdf">"On Higher Inductive Types
+                    in Cubical Type Theory"</a> by Thierry Coquand, Simon Huber,
+                    and Anders Mörtberg. This paper describes decomposing of
+                    composition operation into homogeneous composition
+                    and transport operation, so that they preserve
+                    the universe level and are strictly stable under substitution.
+                    This decomposition is intended to solve the problem of
+                    interpretation of higher inductive types with parameters.
+            section
+                h1 MATHEMATICS
+                p.
+                    In definition of homotopy groups, a special role belongs
+                    to inclusions $S^{n−1} \incmap D^n$. We study spaces
+                    obtained through iterated attachments of $D^n$ along $S^{n−1}$.
+                p.
+                    <b>Definition</b> (Attachment). Attaching n-cell to a space $X$
+                    along a map $f : S^{n-1} \rightarrow X$ means taking a pushout
+                figure.
+                    $$
+                    \begin{array}{ccc}
+                        S^{n-1} & \mapright{\mathbf{f}} & X \\
+                        \mapdown{} & & \mapdown{} \\
+                        D^n & \mapright{} & X \cup_f D^n \\
+                    \end{array}
+                    $$
+                p.
+                    where the notation $X \cup_f D^n$ means that the result depends
+                    on homotopy class of $f$.
+                p.
+                    <b>Definition</b> (CW-Complex). Inductively. The only
+                    CW-complex of dimention $-1$ is $\varnothing$.
+                    A CW-complex of dimension $\leqslant n$ on $X$ is a
+                    space $X$ obtained by attaching a collection of n-cells
+                    to a CW-complex of dimension $n−1$.
+                p.
+                    A CW-complex is a space $X$ which is the colimit(X_i) of a
+                    sequence $X_{-1} = \varnothing \incmap X_0 \incmap X_1 \incmap X_2 \incmap ... X$ of
+                    CW-complexes $X_i$ of dimension $\leqslant n$, with $X_{i+1}$
+                    obtained from $X_i$ by i-cell attachments.
+                    Thus if X is a CW-complex, it comes with a filtration
+                    $$
+                        \varnothing \incmap X_0 \incmap X_1 \incmap X_2 \incmap ... X
+                    $$
+                    where $X_i$ is a CW-complex of dimension $\leqslant i$ called
+                    the i-skeleton, and hence the filtration is called the skeletal
+                    filtration.

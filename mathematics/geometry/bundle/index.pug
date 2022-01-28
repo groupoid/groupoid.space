@@ -1,0 +1,139 @@
+extends ../../../layout.pug
+
+block title
+    title BUNDLE
+    script(src='https://groupoid.space/styles/mathjax.js?config=TeX-AMS_HTML')
+    script.
+     window.MathJax = { jax: ["input/TeX", "input/MathML", "input/AsciiMath", "output/CommonHTML", "output/NativeMML"],
+                             TeX: { extensions: ["AMSmath.js", "AMSsymbols.js", "autoload-all.js"] },
+                             extensions: ["tex2jax.js", "asciimath2jax.js", "mml2jax.js", "MathMenu.js", "MathZoom.js"],
+                             "HTML-CSS": { imageFont: null },
+                             AuthorInit: function() {
+                                 MathJax.Hub.Register.StartupHook("TeX AMSmath Ready", function() {
+                                     var TEX = MathJax.InputJax.TeX;
+                                     TEX.Definitions.Add({
+                                         macros: {
+                                           llparenthesis: ['Macro', '\\mathopen{\u2987}'],
+                                           rrparenthesis: ['Macro', '\\mathclose{\u2988}'],
+                                           llbracket:     ['Macro', '\\mathopen{\u27E6}'],
+                                           rrbracket:     ['Macro', '\\mathclose{\u27E7}'],
+                                           incmap:        ['Macro', '\\mathclose{\u21AA}'],
+                                         }
+                                     });
+                                 });
+                             },
+                             tex2jax: { inlineMath: [['$','$'], ['\\(','\\)']],
+                                        processEscapes: true }
+                         };
+
+
+block content
+    article.main
+        .exe
+            section
+                h1 BUNDLE
+        aside <a href="..">Base Library</a>
+            time 20 MAY 2018
+        section
+        .exe
+            figure.
+                $$\def\mapright#1{\xrightarrow{{#1}}}
+                  \def\mapdown#1{\Big\downarrow\rlap{\raise2pt{\scriptstyle{#1}}}}
+                  \def\mapdiagl#1{\vcenter{\searrow}\rlap{\raise2pt{\scriptstyle{#1}}}}
+                  \def\mapdiagr#1{\vcenter{\swarrow}\rlap{\raise2pt{\scriptstyle{#1}}}}
+                $$
+            p.
+                <a href="https://raw.githubusercontent.com/groupoid/cubical/master/src/bundle.ctt">
+                Bundle package</a> contains basic information about fibers (needed
+                for weak-equivalence) and fiber bundles, constructions
+                from algebraic topology.
+
+            h2 Fiber
+            p.
+                <b>Definition</b> (Fiber). The fiber of the map $p: E \rightarrow B$ in a point $y: B$
+                is all points $x: E$ such that $p(x)=y$.
+            p.
+            code.
+                fiber (E B: U) (p: E -> B) (y: B): U
+                    = (x: E) * Path B y (p x)
+
+            h2 Fiber Bundle
+            p.
+                <b>Definition</b> (Fiber Bundle). The fiber bundle $ F \rightarrow E \mapright{p} B$ on a
+                total space $E$ with fiber layer $F$ and base $B$ is a
+                structure $(F,E,p,B)$ where $p: E \rightarrow B$ is a surjective
+                map with following property:
+                for any point $y: B$ exists a neighborhood $U_b$ for which a
+                homeomorphism $f: p^{-1}(U_b) \rightarrow U_b \times F$
+                making the following diagram commute.
+            p.
+            figure.
+                $$
+                \begin{array}{ccc}
+                    p^{-1}(U_b) & \mapright{f} & U_b \times F \\
+                    \mapdown{\mathbf{p}} & \mapdiagr{pr_1} & \\
+                    U_b & & \\
+                \end{array}
+                $$
+
+            h2 Trivial Fiber Bundle
+            p.
+                <b>Definition</b> (Trivial Fiber Bundle).
+                When total space $E$ is cartesian product $\Sigma(B,F)$
+                and $p = pr_1$ then such bundle is called trivial $(F,\Sigma(B,F),pr_1,B)$.
+            code.
+                Family (B: U): U = B -> U
+
+                total (B: U) (F: Family B): U = Sigma B F
+                trivial (B: U) (F: Family B): total B F -> B = \ (x: total B F) -> x.1
+                homeo (B E: U) (F: Family B) (p: E -> B) (y: B) :
+                           fiber E B p y -> total B F
+
+            h2 Fiber is a Dependent Family
+            p.
+                <b>Theorem</b> (Fiber in a trivial total space is a family over base).
+                Inverse image (fiber) of fiber bundle $(F,B*F,pr_1,B)$ in point $y:B$ equals $F(y)$.
+                Thre proof sketch is following:
+            code.
+
+                  F y = (_: isContr B) * (F y)
+                      = (x y: B) * (_: Path B x y) * (F y)
+                      = (z: B) * (k: F z) * Path B z y
+                      = (z: E) * Path B z.1 y
+                      = fiber (total B F) B (trivial B F) y
+            br.
+            p.
+                The equality is proven by $isoPath$ lemma and $encode/decode$ functions.
+            code.
+                encode (B: U) (F: B -> U) (y: B)
+                     : fiber (total B F) B (trivial B F) y -> F y
+                     = \ (x: fiber (total B F) B (trivial B F) y)
+                      -> subst B F x.1.1 y (&lt;i&gt;x.2@-i) x.1.2
+
+                decode (B: U) (F: B -> U) (y: B)
+                     : F y -> fiber (total B F) B (trivial B F) y
+                     = \ (x: F y) -> ((y,x),refl B y)
+
+                lem2 (B: U) (F: B -> U) (y: B) (x: F y)
+                   : Path (F y) (comp (&lt;_&gt; F y) x []) x
+                   = &lt;j&gt; comp (&lt;_&gt; F y) x [ (j=1) -> &lt;_&gt; x]
+
+                lem3 (B: U) (F: B -> U) (y: B) (x: fiber (total B F) B (trivial B F) y)
+                   : Path (fiber (total B F) B (trivial B F) y) ((y,encode B F y x),refl B y) x
+                   = &lt;i&gt; ((x.2 @ -i,comp (&lt;j&gt; F (x.2 @ -i /\ j)) x.1.2 [(i=1) -> &lt;_&gt; x.1.2 ]),&lt;j&gt; x.2 @ -i \/ j)
+
+                TrivialFiberBundleEqualsPi (B: U) (F: Family B) (y: B)
+                    : Path U (fiber (total B F) B (trivial B F) y) (F y)
+                    = isoPath T A f g s t where
+                    T: U = fiber (total B F) B (trivial B F) y
+                    A: U = F y
+                    f: T -> A = encode B F y
+                    g: A -> T = decode B F y
+                    s (x: A): Path A (f (g x)) x = lem2 B F y x
+                    t (x: T): Path T (g (f x)) x = lem3 B F y x
+
+            h2 G-structure
+            p.
+                The structure group of an $F$-fiber bundle is just Aut(F),
+                the loop space of BAut(F).
+

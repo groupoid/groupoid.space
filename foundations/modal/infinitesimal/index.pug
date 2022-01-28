@@ -1,0 +1,225 @@
+doctype html
+html
+    head
+        meta(charset='utf-8')
+        meta(http-equiv='x-ua-compatible' content='ie=edge')
+        meta(name='viewport'        content='width=device-width, initial-scale=1')
+        meta(name='author'          content='Maxim Sokhatsky')
+        meta(name='twitter:site'    content='@5HT')
+        meta(name='twitter:creator' content='@5HT')
+        meta(property='og:title'       content='Differential Geometry')
+        meta(property='og:description' content='Étale Maps and Manifolds.')
+        meta(property='og:type'        content='website')
+        meta(property='fb:app_id'      content='118554188236439')
+        meta(property='og:url'         content='https://groupoid.space')
+        block title
+            title ÉTALE
+    body.content
+        block content
+        block vars
+
+block title
+    script(src='https://groupoid.space/styles/mathjax.js?config=TeX-AMS_HTML')
+    script.
+     window.MathJax = { jax: ["input/TeX", "input/MathML", "input/AsciiMath", "output/CommonHTML", "output/NativeMML"],
+                             TeX: { extensions: ["AMSmath.js", "AMSsymbols.js", "autoload-all.js"] },
+                             extensions: ["tex2jax.js", "asciimath2jax.js", "mml2jax.js", "MathMenu.js", "MathZoom.js"],
+                             "HTML-CSS": { imageFont: null },
+                             AuthorInit: function() {
+                                 MathJax.Hub.Register.StartupHook("TeX AMSmath Ready", function() {
+                                     var TEX = MathJax.InputJax.TeX;
+                                     TEX.Definitions.Add({
+                                         macros: {
+                                           llparenthesis: ['Macro', '\\mathopen{\u2987}'],
+                                           rrparenthesis: ['Macro', '\\mathclose{\u2988}'],
+                                           llbracket:     ['Macro', '\\mathopen{\u27E6}'],
+                                           rrbracket:     ['Macro', '\\mathclose{\u27E7}'],
+                                           incmap:        ['Macro', '\\mathclose{\u21AA}'],
+                                         }
+                                     });
+                                 });
+                             },
+                             tex2jax: { inlineMath: [['$','$'], ['\\(','\\)']],
+                                        processEscapes: true }
+                         };
+
+block content
+    article.main
+        .exe
+            section
+                h1 DIFFERENTIAL GEOMETRY
+        aside <a href="https://tonpa.guru">Максим Сохацький</a>
+            time 15 JAN 2019
+        .exe
+            section
+                p.
+                    Here is very short intro to formal differential geometry.
+                    It contains the notion of étale maps and formal disk bundles.
+                figure.
+                    $$\def\mapright#1{\xrightarrow{{#1}}}
+                      \def\mapdown#1{\Big\downarrow\rlap{\raise2pt{\scriptstyle{#1}}}}
+                      \def\mapdiagl#1{\vcenter{\searrow}\rlap{\raise2pt{\scriptstyle{#1}}}}
+                      \def\mapdiagr#1{\vcenter{\swarrow}\rlap{\raise2pt{\scriptstyle{#1}}}}
+                    $$
+
+                h1 INFINITESIMAL MODALITY
+                p.
+                    <b>Definition</b> (Infinitesimal Shape Modality). The two maps
+                    $Im∶ U \rightarrow U$ and $\iota_A ∶ A \rightarrow Im(A)$ are called <i>shape modality</i> if
+                    i) $\iota_A$ is an equivalence, the type $A$ is then called coreduced.; ii)
+                    identity types of coreduced types are coreduced; iii) if $B∶Im(A)\rightarrow U$
+                    is a dependent type such that for all $a∶Im(A)$ the type $B(a)$ is coreduced,
+                    then we can define a section of $B$ by induction. The $Im(A)$ is called de Rham space.
+                code.
+                    Im : U -> U
+                    ImUnit (A: U) : A -> Im A
+                    isCoreduced (A:U): U = isEquiv A (Im A) (ImUnit A)
+                    ImCoreduced (A:U): isCoreduced (Im A)
+                    ImRecursion (A B: U) (c: isCoreduced B) (f: A -> B) : Im A -> B
+                    ImInduction (A: U) (B: Im A -> U) (x: (a: Im A) -> isCoreduced (B a))
+                                (y: (a: A) -> B (ImUnit A a)) : (a: Im A) -> B a
+                br.
+
+                h1 ÉTALE MAP
+                p.
+                    <b>Definition</b> (Étale map). A map $f:A \rightarrow B$ is <i>formally étale</i>
+                    if its naturality square is a pullback:
+                    $$
+                    \begin{array}{ccc}
+                        A & \mapright{ι_A} & Im(A) \\
+                        \mapdown{f} & \square & \mapdown{Im(f)} \\
+                        B & \mapright{ι_B} & Im(B) \\
+                    \end{array}
+                    $$
+                    with induced naturality equation:
+                    $$
+                        \eta_f(x) : Im(f(\iota_A(x))) = \iota_B(Im(f(x))).
+                    $$
+                code.
+                    ImApp (A B: U) (f: A -> B) : Im A -> Im B
+                    ImNaturality (A B: U) (f: A -> B) : (a: A) ->
+                      Path (Im B) ((ImUnit B) (f a)) ((ImApp A B f) (ImUnit A a))
+                br.
+                code.
+                  isÉtaleMap (A B: U) (f: A -> B): U
+                    = isPullbackSq A iA B (Im B) x y w f h where
+                    iA : U = Im A
+                    iB : U = Im B
+                    x: iA -> iB = ImApp  A B f
+                    y:  B -> iB = ImUnit B
+                    w:  A -> iA = ImUnit A
+                    c1: A -> iB = o A iA iB x w
+                    c2: A -> iB = o A B  iB y f
+                    T2: U = (a:A) -> Path iB (c1 a) (c2 a)
+                    h: T2 = \(a : A) -> &lt;i&gt; ImNaturality A B f a @ -i
+                br.
+                code.
+                  EtaleMap (A B: U): U
+                    = (f: A -> B)
+                    * isÉtaleMap A B f
+                p.
+                    <b>Definition</b> (Infinitesimal Close).
+                    Let $x,y: A$, then we have a type which could be
+                    read x is infinitesimally close to y and is given as:
+                    $$
+                        x \sim y =_{def} ι_A (x) = ι_B (y).
+                    $$
+                code.
+                  isInfinitesimalClose (X: U) (a x': X): U
+                    = Path (Im X) (ImUnit X a) (ImUnit X x')
+                br.
+                h1 FORMAL DISK BUNDLE
+                p.
+                    <b>Definition</b> (Formal Disk).
+                    Let $A$ be a type and $a:A$. The type $\mathbb{D}_a$
+                    defined below in three equivalent ways is called
+                    the formal disk at a:
+                    i) $\mathbb{D}_a$ is the sum of all point infinitesimal close to a;
+                    $$
+                      \mathbb{D}_a =_{def} \sum_{x:A} x \sim a
+                    $$
+                    ii) $\mathbb{D}_a$ is a fiber of $ι_A$ at $ι_A(a)$;
+                    iii) $\mathbb{D}_a$ is defined as a pullback square:
+                    $$
+                    \begin{array}{ccc}
+                        \mathbb{D}_a & \mapright{} & 1 \\
+                        \mapdown{} & \square & \mapdown{* \mapsto ι_A(a)} \\
+                        A & \mapright{ι_A} & Im(A) \\
+                    \end{array}
+                    $$
+                code.
+                  formalDisc (X: U) (a: X): U
+                    = (x': X) * isInfinitesimalClose X a x'
+                p.
+                    <b>Definition</b> (Differential).
+                    If $f: A \rightarrow B$ is a type, there is a dependent function
+                    $$
+                        df : \prod_{x:A} \mathbb{D}_x \rightarrow \mathbb{D}_{f(x)}
+                    $$
+                    defined as
+                    $$
+                       df_a =_{def} (x,ε) \mapsto (f(x),η^{−1}(x)•Im(f(ε))•η_f(x))
+                    $$
+                code.
+                  differential (X Y: U) (f: X -> Y) (x: X)
+                    : formalDisc X x -> formalDisc Y (f x)
+                p.
+                    <b>Definition</b> (Formal Disk Bundle).
+                    Let $A$ be a type. The type $T_\infty(A)$
+                    defined in one of the equivalent ways below
+                    is called the formal disk bundle of $A$:
+                    i) $T_\infty(A)$ is the sum over all formal disks in A:
+                    $$
+                      T_\infty(A) =_{def} \sum_{x:A}\mathbb{D}_x
+                    $$
+                    ii) $T_\infty(A)$ is defined by pullback square:
+                    $$
+                    \begin{array}{ccc}
+                        T_\infty(A) & \mapright{} & A \\
+                        \mapdown{} & \square & \mapdown{ι_A} \\
+                        A & \mapright{ι_A} & Im(A) \\
+                    \end{array}
+                    $$
+                code.
+                  formalDiscBundle (A: U): U
+                    = (a: A) * formalDisc A a
+                p.
+                    <b>Theorem</b> (Hennion).
+                    The tangent complex of a derived algebraic stack $X$
+                    is equivalently the (sheaf of modules of) sections
+                    of the formal neighbourhood of the diagonal of $X$.
+                    We may think of $T_\infty(X)$ as being the tangent complex of $X$.
+                p.
+                    <b>Theorem</b> (Kock).
+                    The infinitesimal disk bundle construction is
+                    left adjoint to the jet comonad:
+                    $$
+                        T_\infty \vdash Jet
+                    $$
+                p.
+                    <b>Definition</b> (Induced map).
+                    For a map $f : A \rightarrow B$ there is an
+                    induced map on the formal disk bundles, given as
+                    $$
+                        T_\infty(A) =_{def} (a,ε) \mapsto (f(a),df_a(ε))
+                    $$
+
+                h1 MANIFOLDS
+                p.
+                    <b>Definition</b> (Homogeneous structure).
+                    A type $A$ is homogeneous, if there are terms of the following types:
+                    i) $e:A$; ii) $t: \prod_{x:A} A = A$; iii) $p: \prod_{x:A}t_x(e) = x$.
+                code.
+                  homogeneous (A: U): U
+                    = (e: A)
+                    * (translationsFamily: (x: A) -> Path U A A)
+                    * ((x: A) -> Path A (transport (translationsFamily x) e) x)
+                br.
+
+                h1 LITERATURE
+                p.
+                    [1]. Felix Wellen. <a href="http://www.andrew.cmu.edu/user/fwellen/cartan-draft.pdf">Cartan Geometry in Modal Homotopy Type Theory</a><br>
+
+
+    include ../../../footer.pug
+

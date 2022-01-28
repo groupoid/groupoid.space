@@ -1,0 +1,65 @@
+extends ../../../layout.pug
+
+block title
+    title PROP
+    script(src='//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML')
+    script.
+     window.MathJax = { jax: ["input/TeX", "input/MathML", "input/AsciiMath", "output/CommonHTML", "output/NativeMML"],
+                             TeX: { extensions: ["AMSmath.js", "AMSsymbols.js", "autoload-all.js"] },
+                             extensions: ["tex2jax.js", "asciimath2jax.js", "mml2jax.js", "MathMenu.js", "MathZoom.js"],
+                             "HTML-CSS": { imageFont: null },
+                             AuthorInit: function() {
+                                 MathJax.Hub.Register.StartupHook("TeX AMSmath Ready", function() {
+                                     var TEX = MathJax.InputJax.TeX;
+                                     TEX.Definitions.Add({
+                                         macros: {
+                                           llparenthesis: ['Macro', '\\mathopen{\u2987}'],
+                                           rrparenthesis: ['Macro', '\\mathclose{\u2988}'],
+                                           llbracket:     ['Macro', '\\mathopen{\u27E6}'],
+                                           rrbracket:     ['Macro', '\\mathclose{\u27E7}'],
+                                         }
+                                     });
+                                 });
+                             },
+                             tex2jax: { inlineMath: [['$','$'], ['\\(','\\)']],
+                                        processEscapes: true }
+                         };
+
+block content
+    article.main
+        .om
+            section
+                h1 prop
+        aside <a href="..">Base Library</a>
+            time Published: 24 JUN 2018
+        .om
+            section
+                p.
+                    <a href="https://raw.githubusercontent.com/groupoid/cubical/master/src/prop.ctt">Prop package</a>
+                    contains basic theorems about Contractible Signletons, Mere Propositions.
+                code.
+                    isContr (A: U): U = (x: A) * ((y: A) -> Path A x y)
+                    isProp  (A: U): U = n_grpd A Z
+                    isSet   (A: U): U = n_grpd A (S Z)
+
+            section
+                h1 Theorems
+
+                h2 propSig
+                code.
+                    propSig (A: U) (B: A -> U)
+                            (pi1: isProp A)
+                            (pi2: (x : A) -> isProp (B x))
+                            (f g: Sigma A B):
+                            Path (Sigma A B) f g
+
+                h2 propPi
+                code.
+                     propPi (A: U) (B : A -> U)
+                            (h: (x : A) -> isProp (B x))
+                            (f g: Pi A B):
+                            Path (Pi A B) f g
+
+                h2 propSet
+                code.
+                    propSet (A: U) (h: isProp A): isSet A

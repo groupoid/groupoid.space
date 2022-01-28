@@ -1,0 +1,328 @@
+extends ../../../layout.pug
+
+block title
+    title CATEGORY
+    script(src='https://groupoid.space/styles/mathjax.js?config=TeX-AMS_HTML')
+    script.
+     window.MathJax = { jax: ["input/TeX", "input/MathML", "input/AsciiMath", "output/CommonHTML", "output/NativeMML"],
+                             TeX: { extensions: ["AMSmath.js", "AMSsymbols.js", "autoload-all.js"] },
+                             extensions: ["tex2jax.js", "asciimath2jax.js", "mml2jax.js", "MathMenu.js", "MathZoom.js"],
+                             "HTML-CSS": { imageFont: null },
+                             AuthorInit: function() {
+                                 MathJax.Hub.Register.StartupHook("TeX AMSmath Ready", function() {
+                                     var TEX = MathJax.InputJax.TeX;
+                                     TEX.Definitions.Add({
+                                         macros: {
+                                           llparenthesis: ['Macro', '\\mathopen{\u2987}'],
+                                           rrparenthesis: ['Macro', '\\mathclose{\u2988}'],
+                                           llbracket:     ['Macro', '\\mathopen{\u27E6}'],
+                                           rrbracket:     ['Macro', '\\mathclose{\u27E7}'],
+                                         }
+                                     });
+                                 });
+                             },
+                             tex2jax: { inlineMath: [['$','$'], ['\\(','\\)']],
+                                        processEscapes: true }
+                         };
+
+block content
+    article.main.list
+        section
+            h1 category
+            aside <a href="..">Base Library</a>
+                time Published: 16 OCT 2017
+            p.
+                <a href="https://raw.githubusercontent.com/groupoid/cubical/master/src/category.ctt">Category package</a>
+                contains basic notion of $(\infty,1)$-categories, canstructions and examples.
+
+            h1 Basics
+
+            h2 Monoidal Structure
+            p.
+                <b>Definition</b> (Category Signature). The signature of category is
+                a $\Sigma_{A:U}A \rightarrow A \rightarrow U$ where $U$ could be any universe.
+                The $pr_1$ projection is called $Ob$ and $pr_2$ projection is
+                called $Hom(a,b)$, where $a,b:Ob$.
+            code.
+                cat: U = (A: U) * (A -> A -> U)
+
+            h2 Precategory
+            p.
+                Precategory $C$ defined as set of $Hom_C(a,b)$ where $a,b:Ob_C$
+                are objects defined by its $id$ arrows $Hom_C(x,x)$.
+                Properfies of left and right units included with composition c
+                and its associativity.
+            p.
+                <b>Definition</b> (Precategory). More formal, precategory $C$ consists of the following.
+                (i) A type $Ob_C$, whose elements are called objects;
+                (ii) for each $a,b: Ob_C$, a set $Hom_C(a,b)$, whose elements are called arrows or morphisms.
+                (iii) For each $a: Ob_C$, a morphism $1_a : Hom_C(a,a)$, called the identity morphism.
+                (iv) For each $a,b,c: Ob_C$, a function
+                $Hom_C(b,c) \rightarrow Hom_C(a,b) \rightarrow Hom_C(a,c)$
+                called composition, and denoted $g \circ f$.
+                (v) For each $a,b: Ob_C$ and $f: Hom_C(a,b)$,
+                $f = 1_b \circ f$ and $f = f \circ 1_a$.
+                (vi) For each $a,b,c,d: A$ and
+                $f: Hom_C(a,b)$, $g: Hom_C(b,c)$, $h: Hom_C(c,d)$,
+                $h \circ (g \circ f ) = (h \circ g) \circ f$.
+            p.
+                <b>Definition</b> (Small Category). If for all $a,b: Ob$ the $Hom_C(a,b)$ forms a Set, then
+                such category is called small category.
+            code.
+                isPrecategory (C: cat): U
+                  = (id: (x: C.1) -> C.2 x x)
+                  * (c: (x y z: C.1) -> C.2 x y -> C.2 y z -> C.2 x z)
+                  * (homSet: (x y: C.1) -> isSet (C.2 x y))
+                  * (left: (x y: C.1) -> (f: C.2 x y) -> Path (C.2 x y) (c x x y (id x) f) f)
+                  * (right: (x y: C.1) -> (f: C.2 x y) -> Path (C.2 x y) (c x y y f (id y)) f)
+                  * ( (x y z w: C.1) -> (f: C.2 x y) -> (g: C.2 y z) -> (h: C.2 z w) ->
+                    Path (C.2 x w) (c x z w (c x y z f g) h) (c x y w f (c y z w g h)))
+                precategory: U = (C: cat) * isPrecategory C
+            p.
+                Accessors of the precategory structure.
+                For $Ob$ is carrier and for $Hom$ is hom.
+            code.
+                carrier (C: precategory): U = C.1.1
+                hom     (C: precategory) (a b: carrier C): U = C.1.2 a b
+                path    (C: precategory) (x: carrier C): hom C x x = C.2.1 x
+                compose (C: precategory) (x y z: carrier C)
+                        (f: hom C x y) (g: hom C y z): hom C x z = C.2.2.1 x y z f g
+
+            h2 (Co)-Terminal Objects
+            p.
+                <b>Definition</b> (Initial Object). Is such object $Ob_C$,
+                that $\Pi_{x,y:Ob_C} isContr(Hom_C(x,y))$.
+            p.
+                <b>Definition</b> (Terminal Object). Is such object $Ob_C$,
+                that $\Pi_{x,y:Ob_C} isContr(Hom_C(y,x))$.
+            code.
+                isInitial  (C: precategory) (x: carrier C): U = (y: carrier C) -> isContr (hom C x y)
+                isTerminal (C: precategory) (y: carrier C): U = (x: carrier C) -> isContr (hom C x y)
+                initial    (C: precategory): U = (x: carrier C) * isInitial  C x
+                terminal   (C: precategory): U = (y: carrier C) * isTerminal C y
+
+            h2 Functor
+            p.
+                <b>Definition</b> (Category Functor). Let $A$ and $B$ be precategories.
+                A functor $F : A \rightarrow B$ consists of: (i) A function $F_{Ob}: Ob_hA \rightarrow Ob_B$;
+                (ii) for each $a,b:Ob_A$, a function $F_{Hom}:Hom_A(a,b)\rightarrow Hom_B(F_{Ob}(a),F_{Ob}(b))$;
+                (iii) for each $a:Ob_A$, $F_{Ob}(1_a) = 1_{F_{Ob}}(a)$;
+                (iv) for $a,b,c:Ob_A$ and $f: Hom_A(a,b)$ and $g: Hom_A(b,c)$, $F(g\circ f) = F_{Hom}(g)\circ F_{Hom}(f)$.
+            code.
+                catfunctor (A B: precategory): U
+                  = (ob: carrier A -> carrier B)
+                  * (mor: (x y: carrier A) -> hom A x y -> hom B (ob x) (ob y))
+                  * (id: (x: carrier A) -> Path (hom B (ob x) (ob x)) (mor x x (path A x)) (path B (ob x)))
+                  * ((x y z: carrier A) -> (f: hom A x y) -> (g: hom A y z) ->
+                     Path (hom B (ob x) (ob z)) (mor x z (compose A x y z f g))
+                      (compose B (ob x) (ob y) (ob z) (mor x y f) (mor y z g)))
+
+            h2 Natural Transformation
+            p.
+                <b>Definition</b> (Natural Transformation). For functors $F,G: C \rightarrow D$,
+                a nagtural transformation $\gamma: F \rightarrow G$ consists of:
+                (i) for each $x:C$, a morphism $\gamma_a : Hom_D(F(x),G(x))$;
+                (ii) for each $x,y:C$ and $f: Hom_C(x,y)$, $G(f)\circ \gamma_x = \gamma_y \circ F(g)$.
+            code.
+                isNaturalTrans (C D: precategory)
+                               (F G: catfunctor C D)
+                               (eta: (x: carrier C) -> hom D (F.1 x) (G.1 x)): U
+                  = (x y: carrier C) (h: hom C x y) ->
+                    Path (hom D (F.1 x) (G.1 y))
+                         (compose D (F.1 x) (F.1 y) (G.1 y) (F.2.1 x y h) (eta y))
+                         (compose D (F.1 x) (G.1 x) (G.1 y) (eta x) (G.2.1 x y h))
+
+                ntrans (C D: precategory) (F G: catfunctor C D): U
+                     = (eta: (x: carrier C) -> hom D (F.1 x) (G.1 x))
+                     * (isNaturalTrans C D F G eta)
+
+            h2 Kan Extensions
+            p.
+                <b>Definition</b> (Kan Extension).
+            code.
+                extension (C C' D: precategory) (K: catfunctor C C') (G: catfunctor C D) : U
+                   = (F: catfunctor C' D)
+                   * (ntrans C D (compFunctor C C' D K F) G)
+
+            h2 Category Isomorphism
+            p.
+                <b>Definition</b> (Category Isomorphism). A morphism $f : Hom_A(a,b)$ is an iso
+                if there is a morphism $g: Hom_A(b,a)$ such that
+                $1_a =_\eta g \circ f$ and
+                $f \circ g =_\epsilon 1_b = g$. "f is iso" is
+                a mere proposition.
+            p.
+                If A is a precategory and $a,b: A$,
+                then $a = b \rightarrow iso_A(a,b)$ (idtoiso).
+            code.
+                 iso (C: precategory) (A B: carrier C): U
+                   = (f: hom C A B)
+                   * (g: hom C B A)
+                   * (eta: Path (hom C A A) (compose C A B A f g) (path C A))
+                   * (Path (hom C B B) (compose C B A B g f) (path C B))
+
+            h2 Rezk-completion
+            p.
+                <b>Definition</b> (Category). A category is a precategory
+                such that for all $a:Ob_C$, the $\Pi_{A:Ob_C} isContr \Sigma_{B:Ob_C} iso_C(A,B)$.
+            code.
+                 isCategory (C: precategory): U
+                    = (A: carrier C) -> isContr ((B: carrier C) * iso C A B)
+                 category: U = (C: precategory) * isCategory C
+
+            br.
+            h1 Constructions
+
+            h2 (Co)-Product of Categories
+            p.
+                <b>Definition</b> (Category Product).
+            code.
+                Product    (X Y: precategory) : precategory
+                Coproduct  (X Y: precategory) : precategory
+
+            h2 Opposite Category
+            p.
+                <b>Definition</b> (Opposite Category). The opposite category to category $C$
+                is a category $C^{op}$ with same structure, except all arrows are inverted.
+            code.
+                opCat (P: precategory): precategory
+
+            h2 (Co)-Slice Category
+            p.
+                <b>Definition</b> (Slice Category).
+            p.
+                <b>Definition</b> (Coslice Category).
+            code.
+                sliceCat (C D: precategory)
+                         (a: carrier (opCat C))
+                         (F: catfunctor D (opCat C))
+                       : precategory
+                       = cosliceCat (opCat C) D a F
+
+                cosliceCat (C D: precategory)
+                           (a: carrier C)
+                           (F: catfunctor D C) : precategory
+
+            h2 Universal Mapping Property
+            p.
+                <b>Definition</b> (Universal Mapping Property).
+            code.
+                initArr (C D: precategory)
+                        (a: carrier C)
+                        (F: catfunctor D C): U = initial (cosliceCat C D a F)
+
+                termArr (C D: precategory)
+                        (a: carrier (opCat C))
+                        (F: catfunctor D (opCat C)): U = terminal (sliceCat C D a F)
+
+            h2 Unit Category
+            p.
+                <b>Definition</b> (Unit Category). In unit category both $Ob = \top$ and $Hom = \top$.
+            code.
+                unitCat: precategory
+
+            br.
+            h1 Examples
+
+            h2 Category of Sets
+            p.
+                <b>Definition</b> (Category of Sets).
+            code.
+                Set: precategory = ((Ob,Hom),id,c,HomSet,L,R,Q) where
+                    Ob: U = SET
+                    Hom (A B: Ob): U = A.1 -> B.1
+                    id (A: Ob): Hom A A = idfun A.1
+                    c (A B C: Ob) (f: Hom A B) (g: Hom B C): Hom A C = o A.1 B.1 C.1 g f
+                    HomSet (A B: Ob): isSet (Hom A B) = setFun A.1 B.1 B.2
+                    L (A B: Ob) (f: Hom A B): Path (Hom A B) (c A A B (id A) f) f = refl (Hom A B) f
+                    R (A B: Ob) (f: Hom A B): Path (Hom A B) (c A B B f (id B)) f = refl (Hom A B) f
+                    Q (A B C D: Ob) (f: Hom A B) (g: Hom B C) (h: Hom C D)
+                     : Path (Hom A D) (c A C D (c A B C f g) h) (c A B D f (c B C D g h))
+                     = refl (Hom A D) (c A B D f (c B C D g h))
+
+            h2 Category of Functions
+            p.
+                <b>Definition</b> (Category of Functions over Sets).
+            code.
+                Functions (X Y: U) (Z: isSet Y): precategory = ((Ob,Hom),id,c,HomSet,L,R,Q) where
+                    Ob: U = X -> Y
+                    Hom (A B: Ob): U = id (X -> Y)
+                    id (A: Ob): Hom A A = idfun (X -> Y)
+                    c (A B C: Ob) (f: Hom A B) (g: Hom B C): Hom A C = idfun (X -> Y)
+                    HomSet (A B: Ob): isSet (Hom A B) = setFun Ob Ob (setFun X Y Z)
+                    L (A B: Ob) (f: Hom A B): Path (Hom A B) (c A A B (id A) f) f = undefined
+                    R (A B: Ob) (f: Hom A B): Path (Hom A B) (c A B B f (id B)) f = undefined
+                    Q (A B C D: Ob) (f: Hom A B) (g: Hom B C) (h: Hom C D)
+                    : Path (Hom A D) (c A C D (c A B C f g) h) (c A B D f (c B C D g h)) = undefined
+
+            h2 Category of Categories
+            p.
+                <b>Definition</b> (Category of Categories).
+            code.
+                Cat: precategory = ((Ob,Hom),id,c,HomSet,L,R,Q) where
+                    Ob: U = precategory
+                    Hom (A B: Ob): U = catfunctor A B
+                    id (A: Ob): catfunctor A A = idFunctor A
+                    c (A B C: Ob) (f: Hom A B) (g: Hom B C): Hom A C = compFunctor A B C f g
+                    HomSet (A B: Ob): isSet (Hom A B) = undefined
+                    L (A B: Ob) (f: Hom A B): Path (Hom A B) (c A A B (id A) f) f = undefined
+                    R (A B: Ob) (f: Hom A B): Path (Hom A B) (c A B B f (id B)) f = undefined
+                    Q (A B C D: Ob) (f: Hom A B) (g: Hom B C) (h: Hom C D)
+                       : Path (Hom A D) (c A C D (c A B C f g) h) (c A B D f (c B C D g h)) = undefined
+
+            h2 Category of Functors
+            p.
+                <b>Definition</b> (Category of Functors).
+            code.
+                Func (X Y: precategory): precategory = ((Ob,Hom),id,c,HomSet,L,R,Q) where
+                    Ob: U = catfunctor X Y
+                    Hom (A B: Ob): U = ntrans X Y A B
+                    id (A: Ob): ntrans X Y A A = undefined
+                    c (A B C: Ob) (f: Hom A B) (g: Hom B C): Hom A C = undefined
+                    HomSet (A B: Ob): isSet (Hom A B) = undefined
+                    L (A B: Ob) (f: Hom A B): Path (Hom A B) (c A A B (id A) f) f = undefined
+                    R (A B: Ob) (f: Hom A B): Path (Hom A B) (c A B B f (id B)) f = undefined
+                    Q (A B C D: Ob) (f: Hom A B) (g: Hom B C) (h: Hom C D)
+                       : Path (Hom A D) (c A C D (c A B C f g) h) (c A B D f (c B C D g h)) = undefined
+
+            br.
+            h1 Higher Categories
+
+            h2 k-morphisms
+            p.
+                <b>Definition</b> ($k$-Morphism). The k-morphism is defined as morphism
+                between $(k-1)$-morphism. The base of induction, the $0$-morphism is
+                defined as object of $1$-category, which is precategory.
+            code.
+                equiv: U
+                functor (C D: cat): U
+                ntrans (C D: cat) (F G: functor C D): U
+                modification (C D: cat) (F G: functor C D) (I J: ntrans C D F G): U
+                ...
+
+            h2 2-Category
+            p.
+                <b>Definition</b> (2-Category).
+            code.
+                Cat2 : U
+                     = (Ob: U)
+                     * (Hom:  (A B: Ob) -> U)
+                     * (Hom2: (A B: Ob) -> (C F: Hom A B) -> U)
+                     * (id:     (A: Ob) -> Hom A A)
+                     * (id2:    (A: Ob) -> (B: Hom A A) -> Hom2 A A B B)
+                     * (c:  (A B C: Ob) (f: Hom A B) (g: Hom B C) -> Hom A C)
+                     * (c2:   (A B: Ob) (X Y Z: Hom A B)
+                       (f: Hom2 A B X Y) (g: Hom2 A B Y Z) -> Hom2 A B X Z)
+                     ...
+
+            h2 3-Category
+            p.
+                <b>Definition</b> (3-Category).
+            code.
+                Cat2 : U
+                     = (Ob: U)
+                     * (Hom:  (A B: Ob) -> U)
+                     * (Hom2: (A B: Ob) -> (C F: Hom A B) -> U)
+                     * (Hom3: (A B: Ob) -> (C F: Hom A B) -> (F G: Hom2 A B C F) -> U)
+                     ..
+

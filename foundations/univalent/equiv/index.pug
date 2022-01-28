@@ -1,0 +1,335 @@
+extends ../../../layout.pug
+
+block title
+    title EQUIV
+    script(src='https://groupoid.space/styles/mathjax.js?config=TeX-AMS_HTML')
+    script.
+     window.MathJax = { jax: ["input/TeX", "input/MathML", "input/AsciiMath", "output/CommonHTML", "output/NativeMML"],
+                             TeX: { extensions: ["AMSmath.js", "AMSsymbols.js", "autoload-all.js"] },
+                             extensions: ["tex2jax.js", "asciimath2jax.js", "mml2jax.js", "MathMenu.js", "MathZoom.js"],
+                             "HTML-CSS": { imageFont: null },
+                             AuthorInit: function() {
+                                 MathJax.Hub.Register.StartupHook("TeX AMSmath Ready", function() {
+                                     var TEX = MathJax.InputJax.TeX;
+                                     TEX.Definitions.Add({
+                                         macros: {
+                                           llparenthesis: ['Macro', '\\mathopen{\u2987}'],
+                                           rrparenthesis: ['Macro', '\\mathclose{\u2988}'],
+                                           llbracket:     ['Macro', '\\mathopen{\u27E6}'],
+                                           rrbracket:     ['Macro', '\\mathclose{\u27E7}'],
+                                           incmap:        ['Macro', '\\mathclose{\u21AA}'],
+                                         }
+                                     });
+                                 });
+                             },
+                             tex2jax: { inlineMath: [['$','$'], ['\\(','\\)']],
+                                        processEscapes: true }
+                         };
+
+block content
+    +header('', 'Singleton, Fiber and Equivalence', 'Contractability proofs')
+    article.main
+        .om
+            section
+                h1 Article
+        aside <a href="https://k-bx.github.io">Kostiantyn Rybnikov</a>
+            time DATE: 30 DEC 2018
+        .om
+            section
+                p.
+                    $$\def\mapright#1{\xrightarrow{{#1}}}
+                      \def\mapleft#1{\xleftarrow{{#1}}}
+                      \def\mapdown#1{\Big\downarrow\rlap{\raise2pt{\scriptstyle{#1}}}}
+                      \def\mapdiagl#1{\vcenter{\searrow}\rlap{\raise2pt{\scriptstyle{#1}}}}
+                      \def\mapdiagr#1{\vcenter{\swarrow}\rlap{\raise2pt{\scriptstyle{#1}}}}
+                    $$
+
+                p.
+                    I am reading a beautiful paper called
+                    <a href="https://arxiv.org/abs/1803.02294">A self-contained,
+                    brief and complete formulation of Voevodsky’s Univalence
+                    Axiom</a> by Martín Hötzel Escardó, and it really takes
+                    time to understand some of the formulas. In fact, it
+                    takes so much time, that I've spent an hour on the
+                    airplane from Frankfurt to Kyiv gazing at just the
+                    first three of them. Intention of this article is
+                    not to create any new knowledge, but to extend
+                    available explanations with specific examples
+                    that helped me understand these formulas better,
+                    when they finally "clicked" this morning.
+
+                .semantics
+                    figure.
+                        $$isSignlton (X) := \sum_{c:X}\prod_{x:X}Id(c,x),$$
+                        $$f^{-1} (y) := \sum_{x:X}Id(f(x),y).$$
+
+                h2#nat $\prod$ and $\sum$ types
+                p.
+                    Quick reminder on $\Pi$-types and $\Sigma$-types for programmers.
+
+                p.
+                    Just a quick reminder that  is read as "dependant function" (or "for all")
+                    and  as "dependent tuple" ("there exist"). So, whenever you see:
+
+                .semantics
+                    figure.
+                        $$someFunc : \prod_{x:X} \llbracket rest\rrbracket,$$
+
+                p.
+                    you can mentally replace it with:
+
+                .semantics
+                    figure.
+                        $$id : X \rightarrow \llbracket rest\rrbracket$$
+                p.
+                    where $\llbracket rest\rrbracket$ can mention x in its type.
+                    And when you see:
+
+                .semantics
+                    figure.
+                        $$someFunc : \sum_{x:X} \llbracket rest\rrbracket,$$
+                p.
+                    you think
+
+                .semantics
+                    figure.
+                        $$someFunc : (X,\llbracket rest\rrbracket).$$
+                p.
+                    where $\llbracket rest\rrbracket$ can mention x in its type.
+
+                h2 Singleton
+                p.
+                    So, first question I had was: what is that isSingleton exactly? Is that a type? A function? A theorem?
+
+                .semantics
+                    figure.
+                        $$isSingleton(X) := \sum_{c:X}\prod_{x:X}Id(c,x)$$
+
+                p.
+                    Singleton can be understood easily in terms of its implementation in code. I'll use cubicaltt as the implementation language which is very minimal but powerful Haskell-like language and compiler. I'll make a type which has only one constructor and derive
+                    $isSingleton$ for it.
+
+                code.
+                    data One = MkOne
+
+                p.
+                    Intuitively, $One$ should be put instead of an $X$ in the formula,
+                    so if we put it there, it becomes:
+
+                .semantics
+                    figure.
+                        $$isSingleton(One) := \sum_{c:One}\prod_{x:One}Id(c,x)$$
+
+                p.
+                    So, after we apply $isSingleton$ to our type $One$, it becomes
+                    just a type for a dependent pair of this element and a function
+                    from any element of $One$ to its equality to that element $c$.
+                    Or, in code, something like:
+
+                code.
+                    isSingletonOne = (c, \x -> &lt;proof that x is equal to c&gt)
+
+                p.
+                    As can be seen, implementation consists of making a tuple of
+                    specific element c and a function proving its equality to any given $x$. Nice!
+
+                p.
+                    Due to <a href="https://github.com/mortberg/cubicaltt/blob/master/lectures/lecture1.ctt">cubicaltt lecture1</a>,
+                    to make a $\Pi$ you just use syntax $(x : A) -> B$ where $B$ can refer to $x$, and for $\Sigma$
+                    you use syntax $(x : A) * B$ where $*$ builds a tuple and $B$ can
+                    refer to $x$ in it. Full code looks like this:
+
+                code.
+                    -- Copied from prelude.ctt, just read Path as "equality of two elements of
+                    -- type A between a0 and a1", and refl is the way to make a Path
+                    Path (A : U) (a0 a1 : A) : U = PathP (&lti&gt; A) a0 a1
+                    refl (A : U) (a : A) : Path A a a = &lti&gt; a
+
+                    IsSingleton (X : U) : U
+                      = (c : X) * ((x : X) -> Path X c x)
+
+                p.
+                    Interestingly, $IsSingleton$ returns a type, not a value.
+                    Well, values and types are all mixed in this dependent world,
+                    but it's important to get that a result of $IsSingleton$
+                    will be used in a type signature of our specialization for $One$.
+                    Let's use type holes to graduately derive our implementation:
+
+                code.
+                    IsSingletonOne : IsSingleton One = ?
+
+                p.
+                    gives:
+
+                code.
+                    Hole at (14,5) in singleton:
+                    -----------------------------------------------------------
+                    Sigma One (\(c : One) -> (x : One) -> PathP (<!0> One) c x)
+
+                p.
+                    Perfect! So, we've got our first answers: 1); $IsSingleton$ is sort of a type-level function, or type alias! You use it like $IsSingleton$ YourType and get a type signature;
+                    2) It's also a theorem that you can prove by constructing a value, once you specialize it to some type, like $One$.
+
+                p.
+                    We now need to choose $c$. Not a lot of options to choose from:
+
+                code.
+                    IsSingletonOne : IsSingleton One
+                      = let c : One = MkOne
+                        in (c, (\(x:One) -> ?))
+
+                p.
+                    This gives:
+
+                code.
+                    Hole at (15,25) in singleton:
+                    x : One
+                    ------------------------
+                    PathP (&lt;!0&gt; One) MkOne x
+
+                p.
+                    Ok, now in order to implement that last ? we need to case-split.
+                    Case-splitting is best done at top-level in cubicaltt, so let's
+                    add a helper function and split there:
+
+                code.
+                    isSingletonOneInnerEq : (x:One) -> Path One MkOne x
+                      = split MkOne -> refl One MkOne
+
+                    IsSingletonOne : IsSingleton One
+                      = let c : One = MkOne
+                        in (c, (\(x:One) -> isSingletonOneInnerEq x))
+
+                p.
+                    Allright! We've implemented a value of $IsSingleton One$,
+                    in other words, we've <b>proven that $One$ is a singleton type</b>.
+                    Full code can be seen at <a href="Full code can be seen at singleton.ctt">singleton.ctt</a>.
+
+                h2 Fiber
+                .semantics
+                    figure.
+                        $$f^{-1}(y) := \sum_{x:X}Id(f(x),y)$$
+
+                p.
+                    To understand a fiber and later equivalence best,
+                    I came up with a function where domain is split in two,
+                    and both halves are projected to full codomain range.
+                    Here's how it looks like:
+
+                figure.
+                    <img src="https://k-bx.github.io/articles/singleton_fiber_equivalence/img/halfsplit_function.jpg">
+
+                p.
+                    So, a Fiber would be a type, which, after some specific  will be chosen, will look like this:
+
+                .semantics
+                    figure.
+                        $$f^{-1}(y_0) := \sum_{x:X}Id(f(x),y)$$
+
+                p.
+                    and to implement it, you'd need to provide a tuple of whatever $x$ you
+                    like such that $f(x)$ will be equal to $y_0$.
+                    In other words, both $x_0$ and $x_1$ would be ok as a first tuple's element:
+
+                figure.
+                    <img src="https://k-bx.github.io/articles/singleton_fiber_equivalence/img/halfsplit_function_x0_x1.jpg">
+
+                .semantics
+                    figure.
+                        $$f^{-1}(y_0)_0 := (x_0,Id(f(x_0),y_0))$$
+                        $$f^{-1}(y_0)_1 := (x_1,Id(f(x_1),y_0))$$
+
+                code.
+                    Fiber (X Y : U) (f : X -> Y) (y : Y) : U
+                      = (x : X) * Path Y (f x) y
+
+                p.
+                    <a href="https://k-bx.github.io/articles/singleton_fiber_equivalence/fiber.ctt">fiber.ctt</a>.
+                    Implementation of specific fibers in cubicaltt is left to reader as an exercise :)
+                    These are two fibers, both legit! But what is equivalence, now?
+
+                h2 Equivalence
+
+                p.
+                    <b>Definition.</b> The function f is called an equivalence if its
+                    fibers are all singletons:
+
+                .semantics
+                    figure.
+                        $$isEquiv(f) := \prod_{y:Y}isSingleton(f^{-1}(y))$$
+
+                p.
+                    First, let's think for a moment, what does it mean that a fiber is a singleton or not?
+                    Recall the formulas:
+
+                .semantics
+                    figure.
+                        $$isSingleton(X) := \sum_{c:X}\prod_{x:X}Id(c,x)$$
+                        $$f^{-1}(y) := \sum_{x:X}Id(f(x),y)$$
+
+                p.
+                    But now, instead of imagining $X$ to be some specific type,
+                    we need to imagine it to be a Fiber!
+
+                p.
+                    In other words, <b>to prove that a fiber is singleton,
+                    I will give you a pair of some specific fiber, and a
+                    proof that for all fibers you give me in that point y,
+                    it will be equal to it.</b> Let's define the function
+                    we've seen on the drawing earlier like this:
+
+                code.
+                    halfsplit : (X Y : U) -> (X -> Y)
+
+                p.
+                    You can imagine actual implementation by making real
+                    types for $X$ and $Y$ with some fixed set of points,
+                    but let's skip this for brevity. Fiber for this function
+                    in some specific $y$ (think $y_0$) would look like this:
+
+                code.
+                    halfsplitFiber : (X Y : U) (y : Y) -> Fiber X Y (halfsplit X Y) y
+
+                p.
+                    So, what would it look like, to prove that this fiber is a singleton?
+
+                code.
+                    halfsplitFiberIsSingleton : (X Y : U) (y : Y)
+                      -> IsSingleton (Fiber X Y (halfsplit X Y) y)
+
+                p.
+                    Put $IsSingleton$ definition in:
+
+                code.
+                    halfsplitFiberIsSingleton : (X Y : U) (y : Y)
+                       -> (c : Fiber X Y (halfsplit X Y) y)
+                       * ((x : Fiber X Y (halfsplit X Y) y)
+                      -> Path (Fiber X Y (halfsplit X Y) y) c x)
+
+                p.
+                    Let's add some annotation:
+
+                code.
+                    -- In order to prove that our halpsplit function's fiber is a singleton:
+                    halfsplitFiberIsSingleton : (X Y : U) (y : Y)
+                     -> (c : Fiber X Y (halfsplit X Y) y)
+                    --   ^
+                    --   \--- we need to provide some specific fiber in y0
+                         * ((x : Fiber X Y (halfsplit X Y) y)
+                    --     ^
+                    --      \--- and a function, which, given any other fiber to y0
+                            -> Path (Fiber X Y (halfsplit X Y) y) c x)
+                    --      ^
+                    --       \--- will prove that this given fiber is idential
+                    --            to the one in tuple's fst element
+
+                p.
+                    Now, think about the two fibers in
+                    question ($x_0 \rightarrow y_0$ and $x_1 \rightarrow y_0$),
+                    and you will understand, why this function will not
+                    have the Equivalence property: <b>the function f is
+                    called an equivalence if its fibers are all singletons</b>.
+
+                p.
+                    Thank you for your time. Please send your feedback in Issues or PRs in
+                    <a href="https://github.com/k-bx/k-bx.github.io">here</a>.

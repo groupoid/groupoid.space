@@ -1,0 +1,113 @@
+extends ../../../layout.pug
+
+block title
+    title PULLBACK
+    script(src='https://groupoid.space/styles/mathjax.js?config=TeX-AMS_HTML')
+    script.
+       MathJax.Hub.Config({
+          tex2jax: { inlineMath: [['$','$'], ['\\(','\\)']], processEscapes: true },
+          jax: ["input/TeX", "input/MathML", "input/AsciiMath", "output/CommonHTML", "output/NativeMML"],
+          TeX: { extensions: ["AMSmath.js", "AMSsymbols.js", "autoload-all.js"] },
+          extensions: ["tex2jax.js", "asciimath2jax.js", "mml2jax.js", "MathMenu.js", "MathZoom.js" ],
+          "HTML-CSS": { imageFont: null },
+          AuthorInit: function() {
+              MathJax.Hub.Register.StartupHook("TeX AMSmath Ready", function() {
+                  var TEX = MathJax.InputJax.TeX;
+                  TEX.Definitions.Add({
+                      macros: {
+                          llparenthesis: ['Macro', '\\mathopen{\u2987}'],
+                          rrparenthesis: ['Macro', '\\mathclose{\u2988}'],
+                          llbracket:     ['Macro', '\\mathopen{\u27E6}'],
+                          rrbracket:     ['Macro', '\\mathclose{\u27E7}'], } }); }); }, });
+
+block content
+    article.main
+        .om
+            section
+                h1 PULLBACK
+        aside <a href="..">Base Library</a>
+            time 20 MAY 2018
+        .enc
+        section
+            figure.
+                $$\def\mapright#1{\xrightarrow{{#1}}}
+                  \def\mapdown#1{\Big\downarrow\rlap{\raise2pt{\scriptstyle{#1}}}}
+                  \def\mapdiagl#1{\vcenter{\searrow}\rlap{\raise2pt{\scriptstyle{#1}}}}
+                  \def\mapdiagr#1{\vcenter{\swarrow}\rlap{\raise2pt{\scriptstyle{#1}}}}
+                $$
+            p.
+                <a href="https://raw.githubusercontent.com/groupoid/cubical/master/src/pullback.ctt">
+                Pullback package</a> contains basic information about Homotopy Limits known as Pullbacks.
+
+            h2 Definitions
+            p.
+                <b>Definition</b> (Homotopy Pullback). The pullback of the first diagram (which is called cospan)
+            .semantics
+                figure.
+                    $$
+                    \begin{array}{ccc}
+                        & & B \\
+                        & & \mapdown{\mathbf{g}} \\
+                        A & \mapright{\mathbf{f}} & C \\
+                    \end{array}
+                    $$
+                figure.
+                    $$
+                    \begin{array}{ccc}
+                        A \times^{h}_{C} B & \mapright{\mathbf{pb_2}} & B \\
+                        \mapdown{\mathbf{pb_1}} & \mapdiagl{\mathbf{pb_3}} & \mapdown{\mathbf{g}} \\
+                        A & \mapright{\mathbf{f}} & C \\
+                    \end{array}
+                    $$
+            figure.
+                $$
+                    A \times^{h}_{C} B = \Sigma_A\Sigma_B C^I \\
+                    = \left\{ (x,y,h) : \Sigma_X\Sigma_Y C^I | h(0)=f(x), h(1)=g(y) \right\}
+                $$
+            p.
+                is a $X \times^h_C Y$
+                together with the projection maps $pb_{1,2,3}$ making the second
+                diagram commute up to homotopy $H(x,y,h,t) = h(t)$.
+            code.
+                pullback (A B C:U) (f: A -> C) (g: B -> C): U = (a: A) * (b: B) * Path C (f a) (g b)
+
+                pb1 (A B C: U) (f: A -> C) (g: B -> C): pullback A B C f g -> A = \(x: pullback A B C f g) -> x.1
+                pb2 (A B C: U) (f: A -> C) (g: B -> C): pullback A B C f g -> B = \(x: pullback A B C f g) -> x.2.1
+                pb3 (A B C: U) (f: A -> C) (g: B -> C): (x: pullback A B C f g) -> Path C (f x.1) (g x.2.1)
+                  = \(x: pullback A B C f g) -> x.2.2
+
+            p.
+                <b>Definition</b> (Homotopy Pullback Square). A homotopy pullback or cospan
+                is called a homotopy pullback square if there exists a homotopy
+                equivalence $\phi : Z \rightarrow A \times_C^h B$ satisfying
+                $z_1 : Z \rightarrow A = pb_1 \circ \phi$
+                and $z_2: Z \rightarrow B = pb_2 \circ \phi$. Map $\phi$ is called induced map.
+            figure.
+                $$
+                    \begin{array}{ccc}
+                        X \times^{h}_{C} Y & \mapright{\mathbf{pb_2}} & B \\
+                        \mapdown{\mathbf{pb_1}} & \square_{(Z,z_1,z_2)} & \mapdown{\mathbf{g}} \\
+                        A & \mapright{\mathbf{f}} & C \\
+                    \end{array}
+                $$
+            code.
+                induced (Z A B C: U) (f: A -> C) (g: B -> C)
+                        (z1: Z -> A) (z2: Z -> B)
+                        (h: (z:Z) -> Path C ((o Z A C f z1) z) (((o Z B C g z2)) z))
+                      : Z -> pullback A B C f g
+                      = \(z: Z) -> ((z1 z),(z2 z),h z)
+
+                pullbackSq (Z A B C: U) (f: A -> C) (g: B -> C) (z1: Z -> A) (z2: Z -> B): U
+                         = (h: (z:Z) -> Path C ((o Z A C f z1) z) (((o Z B C g z2)) z))
+                         * isEquiv Z (pullback A B C f g) (induced Z A B C f g z1 z2 h)
+
+                isPullbackSq (Z A B C: U) (f: A -> C) (g: B -> C) (z1: Z -> A) (z2: Z -> B)
+                             (h: (z:Z) -> Path C ((o Z A C f z1) z) (((o Z B C g z2)) z)): U
+                           = isEquiv Z (pullback A B C f g) (induced Z A B C f g z1 z2 h)
+            p.
+                <b>Proposition</b> (Existence of Pullback Square).
+                Pullback Square exists and equals Pullback, where induced map is identity.
+                Given as 2.11 Exercise in HoTT Chapter 2.
+            code.
+                completePullback (A B C: U) (f: A -> C) (g: B -> C) :
+                    pullbackSq (pullback A B C f g) A B C f g (pb1 A B C f g) (pb2 A B C f g)

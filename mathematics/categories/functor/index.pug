@@ -1,0 +1,64 @@
+extends ../../../layout.pug
+
+block title
+    title functor
+
+block content
+    article.main.list
+        section
+            h1 functor
+            aside <a href="..">Base Library</a>
+                time Published: 5 NOV 2017
+            p.
+                <a href="https://raw.githubusercontent.com/groupoid/cubical/master/src/functor.ctt">Functor package</a>
+                contains functor implementation and laws packed in Sigma container.
+
+            h2 Signature
+            code.
+                fmap_sig (F: U -> U) : U = (A B: U) -> (A -> B) -> F A -> F B
+
+            h2 Type Class
+            code.
+                functor: U = (F: U -> U) * fmap_sig F
+
+            h2 Properties
+            p.
+                The package also contains proof-free code for runtime facilities.
+            code.
+                isFunctor (F: functor): U
+                    = (id: (A: U) -> (x: F.1 A) -> Path (F.1 A) (fmap F A A (idfun A) x) x)
+                    * (compose: (A B C: U) (f: B -> C) (g: A -> B) (x: F.1 A) ->
+                      Path (F.1 C) (F.2 A C (o A B C f g) x)
+                       ((o (F.1 A) (F.1 B) (F.1 C)
+                           (F.2 B C f) (F.2 A B g)) x)) * unit
+                                functor (A B: U) (F: U -> U): U
+                                    = (fmap: (A -> B) -> F A -> F B) * unit
+            br.
+            code.
+                FUNCTOR: U = (f: functor) * isFunctor f
+            p.
+
+            h1 Functor Instances
+            p.
+            code.
+                functor_id: FUNCTOR = ((\(A:U)->A,apply),(id,compose,tt)) where
+                  id: (A: U) -> (a: A) -> Path A a a = refl
+                  compose (A B C: U) (f: B->C) (g: A->B) (x: A):
+                     Path C (f(g(x))) (f(g(x))) = refl C (o A B C f g x)
+
+                functor_const (A: U): FUNCTOR = ((const A,fmap),(id,compose,tt)) where
+                  fmap (B C: U) (_: B -> C): A -> A = idfun A
+                  id (_ : U): (x : A) -> Path A x x = refl A
+                  compose (X B C: U) (f: B->C) (g: X->B): (x: A) -> Path A x x = refl A
+
+                functor_fun (T: U): FUNCTOR = ((\(B:U)->T->B,fmap),(id,compose,tt)) where
+                  fmap (A B: U) (map: A -> B): (T -> A) -> (T -> B) = o T A B map
+                  id (A: U): (x: T->A) -> Path (T->A) x x = refl (T->A)
+                  compose (A B C: U) (f: B->C) (g: A->B) (x: T->A):
+                     Path (T->C) (\(y: T) -> f (g (x y)))
+                                 (\(y: T) -> f (g (x y)))
+                   = refl (T->C) (\(y: T) -> f (g (x y)))
+
+                functor_comptype (f g: FUNCTOR): FUNCTOR
+                   = ((funcomp F G,fmap),(id,compose,tt)) where ...
+            br.

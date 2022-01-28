@@ -1,0 +1,39 @@
+extends ../../../layout.pug
+
+block title
+    title IOI
+
+block content
+    +header('../../../../groupoid.svg', 'Corecursive I/O', 'I/O Library')
+    article.main
+        .om
+            section
+                h1 Infinity I/O Monads
+        section
+            h2#ioi IOI
+            p Infinity I/O
+            code.
+                data IOI.F (A,State: Type): Type :=
+                     (getLine: (String → State) → IO)
+                     (putLine: String → State → IO)
+                     (pure: A → IO)
+
+                data IOI (A,State: Type) :=
+                     (intro: State -> (State -> IOI.F A State) -> IOI)
+
+            p Example:
+            code.
+                record Main: Type :=
+                (main: λ (r: Type) ->
+                    IOI.MkIO r (Maybe IOI.data) (Maybe.Nothing IOI.data)
+                                ( λ (m: Maybe IOI.data) ->
+                                    Maybe.maybe IOI.data m
+                                    (IOI.F r (Maybe IOI.data))
+                                    ( λ (str: IOI.data) ->
+                                        IOI.putLine r (Maybe IOI.data)
+                                        str (Maybe.Nothing IOI.data))
+                                    (IOI.getLine r (Maybe IOI.data)
+                                                (Maybe.Just IOI.data))))
+
+
+        .om

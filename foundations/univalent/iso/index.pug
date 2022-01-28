@@ -1,0 +1,313 @@
+extends ../../../layout.pug
+
+block title
+    title ISO
+    script(src='https://groupoid.space/styles/mathjax.js?config=TeX-AMS_HTML')
+    script.
+       MathJax.Hub.Config({
+          tex2jax: { inlineMath: [['$','$'], ['\\(','\\)']], processEscapes: true },
+          jax: ["input/TeX", "input/MathML", "input/AsciiMath", "output/CommonHTML", "output/NativeMML"],
+          TeX: { extensions: ["AMSmath.js", "AMSsymbols.js", "autoload-all.js"] },
+          extensions: ["tex2jax.js", "asciimath2jax.js", "mml2jax.js", "MathMenu.js", "MathZoom.js" ],
+          "HTML-CSS": { imageFont: null },
+          AuthorInit: function() {
+              MathJax.Hub.Register.StartupHook("TeX AMSmath Ready", function() {
+                  var TEX = MathJax.InputJax.TeX;
+                  TEX.Definitions.Add({
+                      macros: {
+                          llparenthesis: ['Macro', '\\mathopen{\u2987}'],
+                          rrparenthesis: ['Macro', '\\mathclose{\u2988}'],
+                          llbracket:     ['Macro', '\\mathopen{\u27E6}'],
+                          rrbracket:     ['Macro', '\\mathclose{\u27E7}'], } }); }); }, });
+
+block content
+    +header('../../groupoid.svg', 'Isomorphism', 'Comparing two Zeros')
+    article.main
+        .exe
+            section
+                h1 Article
+        aside Maxim Sokhatsky
+            time DATE: 10 OCT 2017
+        .exe
+            section
+                h2#nat Background
+                p.
+                    I've just got a <mark>cubical</mark> <a href="https://homotopytypetheory.org/2017/09/16/a-hands-on-introduction-to-cubicaltt/">type
+                    checker from Mortberg et all</a>,
+                    and the first thing I wanted to try was connecting
+                    two different values of two different types. As you may know,
+                    the core thing of Type Theory is equality or isomorphism
+                    or equivalence (which is the same thing but in different
+                    universes: 0, 1, 2, ...). Although cubical is U : U,
+                    this task is possible here.
+                p.
+                    So I will try a simple comparison of two nat types.
+                code.
+                    $ cat isoPath.ctt
+                    data nat = zero | suc (n : nat)
+                    data nat2 = zero2 | suc2 (n : nat2)
+
+                    $ cubical isoPath.ctt
+                    > nat
+                    EVAL: nat
+                    > nat2
+                    EVAL: nat2
+                p.
+                    In MLTT, propositional equality in some sense
+                    reflects definitional which is usually built into typechecker.
+                    Everything that involves comparison of normalized terms
+                    stems from definitional equality.
+                p.
+                    The groupoid model gives us ∞-dimentional equality and also
+                    denies the uniqueness of identity proofs. That means we can build
+                    paths between objects in many distinguishable ways and the space of
+                    terms is ∞-groupoid:
+                code.
+                    Path     (A : U) : U = (a b : A) -> PathP (&lt;i&gt; A) a b
+                    prop     (A : U) : U = (a b : A) -> Path A a b
+                    set      (A : U) : U = (a b : A) -> prop     (Path A a b)
+                    groupoid (A : U) : U = (a b : A) -> set      (Path A a b)
+                    gr_2     (A : U) : U = (a b : A) -> groupoid (Path A a b)
+                    gr_3     (A : U) : U = (a b : A) -> gr_2     (Path A a b)
+
+                h2 n-Groupoid
+                code.
+                    mutual
+                      rec (A: U) (a b: A): (k: nat) -> U = split
+                        zero -> Path A a b
+                        succ n -> n_grpd (Path A a b) n
+                      n_grpd (A: U) (n: nat): U = (a b: A) -> ((rec A a b) n)
+
+                   prop      (A: U): U = n_grpd A zero
+                   set       (A: U): U = n_grpd A (succ zero)
+                   groupoid  (A: U): U = n_grpd A (succ (succ zero))
+
+                h2 ∞-Groupoid
+                code.
+                   inf_grpd (A: U): U =
+                            (carrier: A)
+                          * (eq: (a b: A) -> Path A a b)
+                          * (next: (a b: A) -> inf_grpd (Path A a b))
+                          * Unit
+
+                p.
+                    To model other types of equalities, we need to design
+                    their properties. The desired property, in general,
+                    is to compare incomparable things (heterogenous equality):
+                    namely two different points of two different types.
+                    The cubical built-in <mark>PathP</mark> type is exactly such equality.
+                    It connects different points of space with the function defined
+                    on interval $I=[0,1]$ that is smooth between values at interval edges.
+                h2#nat Path between Elements
+                p.
+                    So let us be clear, we want to compare two points of A and B
+                    types which both live on U. At the higher level, we will use
+                    <mark>Path U A B</mark> which is homogenous on U. At the lower level we
+                    will use heterogenous <mark>PathP (Path U A B) a b</mark>:
+                code.
+                    PathTypes (A B: U) : U = PathP (&lt;i&gt; U) A B
+                    PathElem  (A B: U) (a: A) (b: B) (P: PathTypes A B) : U = PathP P a b
+                p.
+                    Let's try to build a proof-term:
+                code.
+                    PathElem nat2 nat zero2 zero nat2nat
+                p.
+                    You may think of it as building proof of $0_A = 0_B$.
+                h2#nat Path Isomorphism
+                p.
+                    But how to construct elements of <mark>Path U nat2 nat</mark> ?
+                code.
+                    nat2nat : Path U nat2 nat = isoPath nat2 nat toNat fromNat fromNatK toNatK
+                p.
+                    There is already an <mark>isoPath</mark> inside cubical. The proof-term
+                    of isoPath is implemented using glueing of types and composition
+                    primitives of type checker inside <mark>isoToEquiv</mark> lemma.
+                .semantics
+                    figure.
+                        $$Iso(A,B) = \sum_{f:A\rightarrow B}\sum_{g:B\rightarrow A}\Biggl(\prod_{x:A} Id_A(gfx,x)) \times \prod_{y:B} Id_B(fgy,y)\Biggr)$$
+                code.
+                    isoPath (A B : U) (f : A -> B) (g : B -> A)
+                            (s : (y : B) -> Path B (f (g y)) y)
+                            (t : (x : A) -> Path A (g (f x)) x) : Path U A B =
+                            &lt;i&gt; Glue B [ (i = 0) -> (A,f,isoToEquiv A B f g s t),
+                                         (i = 1) -> (B,idfun B,idIsEquiv B) ]
+
+                h2 Contractability and Fibers
+                p.
+                    A type $A$ is contractible, or a singleton, if there is $a : A$,
+                    called the center of contraction, such that $a = x$ for all $x : A$:
+                .semantics
+                    figure.
+                        $$isContr(A) = \sum_{a:A}\prod_{x:A} a = x$$.
+                p.
+                    The fiber of a map $f : A \rightarrow B$ over a point
+                    $y : B$ is:
+                .semantics
+                    figure.
+                        $$fib_f(y) = \sum f x = y$$.
+                code.
+                    isContr (A : U) : U = (x : A) * ((y : A) -> Path A x y)
+                    fiber (A B : U) (f : A -> B) (y : B) : U = (x : A) * Path B y (f x)
+                    refl (A : U) (a : A) : Path A a a = &lt;i&gt; a
+                    contrSingl (A : U) (a b : A) (p : Path A a b) :
+                        Path (singl A a) (a,refl A a) (b,p) = &lt;i&gt; (p @ i,&lt;j&gt; p @ i/\j)
+
+                h2 Equivalence
+                p.
+                    <mark>isEquiv</mark> is a contractible map $f: A \rightarrow B$, so that
+                    for all $y:B$ the fiber $fib_f(y)$ is contractible.
+                code.
+                    isEquiv (A B : U) (f : A -> B) : U = (y : B) -> isContr (fiber A B f y)
+                p.
+                .semantics
+                    figure.
+                        $$Iso(A,B) \rightarrow Equiv(A,B)$$.
+                code.
+                    isoToEquiv (A B : U) (f : A -> B) (g : B -> A)
+                               (s : (y : B) -> Path B (f (g y)) y)
+                               (t : (x : A) -> Path A (g (f x)) x) : isEquiv A B f =
+                        \(y:B) -> ((g y,&lt;i&gt;s y@-i),\ (z:fiber A B f y) ->
+                               lemIso A B f g s t y (g y) z.1 (&lt;i&gt;s y@-i) z.2)
+                br.
+                code.
+                    idIsEquiv (A : U) : isEquiv A A (idfun A) =
+                         \(a : A) -> ((a, refl A a),\(z : fiber A A (idfun A) a) ->
+                         contrSingl A a z.1 z.2)
+
+                h2 Commutative Square
+                p.
+                    For proving <mark>lemIso</mark> we need a simple
+                    commutative square term which is higher 2-path.
+                .semantics
+                    figure.
+                        $\require{AMScd}$
+                        \begin{CD}
+                             a_0 @>u>> a_1\\
+                             @V r_0 V V= @VV r_1 V\\
+                             b_0 @>>v> b_1
+                        \end{CD}
+                code.
+                    Square (A : U) (a0 a1 b0 b1 : A)
+                           (u : Path A a0 a1) (v : Path A b0 b1)
+                           (r0 : Path A a0 b0) (r1 : Path A a1 b1) : U
+                         = PathP (&lt;i&gt; (PathP (&lt;j&gt; A) (u @ i) (v @ i))) r0 r1
+                h2 Iso Lemma
+                code.
+                    lemIso (A B : U) (f : A -> B) (g : B -> A)
+                           (s : (y : B) -> Path B (f (g y)) y)
+                           (t : (x : A) -> Path A (g (f x)) x)
+                           (y : B) (x0 x1 : A) (p0 : Path B y (f x0)) (p1 : Path B y (f x1)) :
+                           Path (fiber A B f y) (x0,p0) (x1,p1) = &lt;i&gt; (p @ i,sq1 @ i)
+                    where
+                        rem0  : Path A (g y) x0 = &lt;i&gt; comp (&lt;k&gt; A) (g (p0 @ i)) [ (i = 1) -> t x0, (i = 0) -> &lt;k&gt; g y ]
+                        rem1  : Path A (g y) x1 = &lt;i&gt; comp (&lt;k&gt; A) (g (p1 @ i)) [ (i = 1) -> t x1, (i = 0) -> &lt;k&gt; g y ]
+                        p     : Path A x0 x1 = &lt;i&gt; comp (&lt;k&gt; A) (g y) [ (i = 0) -> rem0, (i = 1) -> rem1 ]
+                        fill0 : Square A (g y) (g (f x0)) (g y) x0
+                                (&lt;i&gt; g (p0 @ i)) rem0 (&lt;i&gt; g y) (t x0)  =
+                                 &lt;i j&gt; comp (&lt;k&gt; A) (g (p0 @ i)) [ (i = 1) -> &lt;k&gt; t x0 @ j /\ k,
+                                                                   (i = 0) -> &lt;k&gt; g y,
+                                                                   (j = 0) -> &lt;k&gt; g (p0 @ i) ]
+                        fill1 : Square A (g y) (g (f x1)) (g y) x1
+                               (&lt;i&gt; g (p1 @ i)) rem1 (&lt;i&gt; g y) (t x1) =
+                                &lt;i j&gt; comp (&lt;k&gt; A) (g (p1 @ i)) [ (i = 1) -> &lt;k&gt; t x1 @ j /\ k,
+                                                                  (i = 0) -> &lt;k&gt; g y,
+                                                                  (j = 0) -> &lt;k&gt; g (p1 @ i) ]
+                        fill2 : Square A (g y) (g y) x0 x1
+                                (&lt;k&gt; g y) p rem0 rem1 =
+                                 &lt;i j&gt; comp (&lt;k&gt; A) (g y) [ (i = 0) -> &lt;k&gt; rem0 @ j /\ k,
+                                                            (i = 1) -> &lt;k&gt; rem1 @ j /\ k,
+                                                            (j = 0) -> &lt;k&gt; g y ]
+
+                        sq : Square A (g y) (g y) (g (f x0)) (g (f x1))
+                             (&lt;i&gt; g y) (&lt;i&gt; g (f (p @ i)))
+                             (&lt;j&gt; g (p0 @ j)) (&lt;j&gt; g (p1 @ j)) =
+                              &lt;i j&gt; comp (&lt;k&gt; A) (fill2 @ i @ j) [ (i = 0) -> &lt;k&gt; fill0 @ j @ -k,
+                                                                   (i = 1) -> &lt;k&gt; fill1 @ j @ -k,
+                                                                   (j = 0) -> &lt;k&gt; g y,
+                                                                   (j = 1) -> &lt;k&gt; t (p @ i) @ -k ]
+
+                        sq1 : Square B y y (f x0) (f x1)
+                              (&lt;k&gt;y) (&lt;i&gt; f (p @ i)) p0 p1 =
+                               &lt;i j&gt; comp (&lt;k&gt; B) (f (sq @ i @j)) [ (i = 0) -> s (p0 @ j),
+                                                                    (i = 1) -> s (p1 @ j),
+                                                                    (j = 1) -> s (f (p @ i)),
+                                                                    (j = 0) -> s y ]
+                p.
+                    Now we need to pass maps $f$ and $g$:
+                code.
+                    toNat : nat2 -> nat = split
+                        zero2 -> zero
+                        suc2 n -> suc (toNat n)
+
+                    fromNat : nat -> nat2 = split
+                        zero -> zero2
+                        suc n -> suc2 (fromNat n)
+
+                    toNatK : (n : nat2) -> Path nat2 (fromNat (toNat n)) n = split
+                        zero2 -> <_> zero2
+                        suc2 n -> &lt;i&gt; suc2 (toNatK n @ i)
+
+                    fromNatK : (n : nat) -> Path nat (toNat (fromNat n)) n = split
+                        zero -> <_> zero
+                        suc n -> &lt;i&gt; suc (fromNatK n @ i)
+                h2 Final Proof Term
+                p.
+                    Now let's see what we have built:
+                code.
+                    > PathElem nat2 nat zero2 zero nat2nat
+                pre.
+                    EVAL: PathP (<!0> Glue nat [ (!0 = 0) -> (nat2,(toNat,(\(y : B)
+                    -> ((g y,&lt;i&gt; (s y) @ -i),\(z : fiber A B f y) -> lemIso A B f g
+                    s t y (g y) z.1 (&lt;i&gt; (s y) @ -i) z.2)) (A = nat2, B = nat, f =
+                    toNat, g = fromNat, s = fromNatK, t = toNatK))), (!0 = 1) ->
+                    (nat,((\(a : A) -> a) (A = nat),(\(a : A) -> ((a,refl A a),\(z:
+                    fiber A A (idfun A) a) -> contrSingl A a z.1 z.2)) (A = nat)))])
+                    zero2 zero
+                p.
+                    And its normalized version:
+                code.
+                    > :n PathElem nat2 nat zero2 zero nat2nat
+                pre.
+                    NORMEVAL: PathP (<!0> Glue nat [ (!0 = 0) -> (nat2,(toNat,\(y
+                    : nat) -> ((fromNat y,<!0> fromNatK y @ -!0),\(z : Sigma nat2
+                    (\(x : nat2) -> PathP (<!0> nat) y (toNat x))) -> <!0> (comp
+                    (<!1> nat2) (fromNat y) [ (!0 = 0) -> <!1> comp (<!2> nat2)
+                    (fromNat (fromNatK y @ -!1)) [ (!1 = 0) -> <!2> fromNat y,
+                    (!1 = 1) -> <!2> toNatK (fromNat y) @ !2 ], (!0 = 1) -> <!1>
+                    comp (<!2> nat2) (fromNat (z.2 @ !1)) [ (!1 = 0) -> <!2> fromNat y,
+                    (!1 = 1) -> <!2> toNatK z.1 @ !2 ] ],<!1> comp (<!2> nat)
+                    (toNat (comp (<!2> nat2) (comp (<!2> nat2) (fromNat y) [(!0 = 0)
+                    -> <!2> comp (<!3> nat2) (fromNat (fromNatK y @ (-!1 \/ -!2)))
+                    [ (!1 = 0) -> <!3> fromNat y, (!1 = 1)(!2 = 1) -> <!3> toNatK
+                    (fromNat y) @ !3, (!2 = 0) -> <!3> fromNat y ], (!0 = 1) -> <!2>
+                    comp (<!3> nat2) (fromNat (z.2 @ (!1 /\ !2))) [ (!1 = 0) -> <!3>
+                    fromNat y, (!1 = 1)(!2 = 1) -> <!3> toNatK z.1 @ !3, (!2 = 0) ->
+                    <!3> fromNat y ], (!1 = 0) -> <!2> fromNat y ]) [ (!0 = 0) -> <!2>
+                    comp (<!3> nat2) (fromNat (fromNatK y @ -!1)) [ (!1 = 0) -> <!3>
+                    fromNat y, (!1 = 1) -> <!3> toNatK (fromNat y) @ (-!2 /\ !3),
+                    (!2 = 1) -> <!3> fromNat (fromNatK y @ -!1) ], (!0 = 1) -> <!2>
+                    comp (<!3> nat2) (fromNat (z.2 @ !1)) [ (!1 = 0) -> <!3> fromNat
+                    y, (!1 = 1) -> <!3> toNatK z.1 @ (-!2 /\ !3), (!2 = 1) -> <!3>
+                    fromNat (z.2 @ !1) ], (!1 = 0) -> <!2> fromNat y, (!1 = 1) ->
+                    <!2> toNatK (comp (<!1> nat2) (fromNat y) [ (!0 = 0) -> <!1>
+                    comp (<!2> nat2) (fromNat (fromNatK y @ -!1)) [ (!1 = 0) ->
+                    <!2> fromNat y, (!1 = 1) -> <!2> toNatK (fromNat y) @ !2 ],
+                    (!0 = 1) -> <!1> comp (<!2> nat2) (fromNat (z.2 @ !1)) [ (!1 = 0)
+                    -> <!2> fromNat y, (!1 = 1) -> <!2> toNatK z.1 @ !2 ] ]) @ -!2 ]))
+                    [ (!0 = 0) -> <!2> fromNatK (fromNatK y @ -!1) @ !2, (!0 = 1) ->
+                    <!2> fromNatK (z.2 @ !1) @ !2, (!1 = 0) -> <!2> fromNatK y @ !2,
+                    (!1 = 1) -> <!2> fromNatK (toNat (comp (<!1> nat2) (fromNat y)
+                    [ (!0 = 0) -> <!1> comp (<!2> nat2) (fromNat (fromNatK y @ -!1))
+                    [ (!1 = 0) -> <!2> fromNat y, (!1 = 1) -> <!2> toNatK (fromNat y)
+                    @ !2 ], (!0 = 1) -> <!1> comp (<!2> nat2) (fromNat (z.2 @ !1))
+                    [ (!1 = 0) -> <!2> fromNat y, (!1 = 1) -> <!2> toNatK z.1 @ !2 ] ]))
+                    @ !2 ])))), (!0 = 1) -> (nat,(\(a : nat) -> a,\(a : nat) -> ((a,<!0> a),
+                    \(z : Sigma nat (\(x : nat) -> PathP (<!0> nat) a x)) -> <!0>
+                    (z.2 @ !0,<!1> z.2 @ (!0 /\ !1))))) ]) zero2 zero
+                p.
+                    The code is <a href="https://raw.githubusercontent.com/groupoid/cubical/master/src/iso.ctt">here</a>.
+                p.
+                    <center><table cellspacing=20><tr><td><img src="https://n2o.space/img/pdf.jpg" width=50></td><td>
+                    <a href="https://github.com/groupoid/groupoid.space/blob/master/articles/equ/equ.pdf">
+                    <h3>Constructive Proofs of Heterogeneous Equalities in Cubical Type Theory</h3>
+                    </a></td></tr></table></center>
