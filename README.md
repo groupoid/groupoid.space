@@ -24,9 +24,9 @@ Groupoid Infinity is building integrated environment for mathematician:
 * HoTT-I — JetBrains Arend-like core
 * HoTT-∂ — Groupoid Homotopy Core
 
-## Base Library for Verification Language
+## 🧊 Base Library for Verification Language
 
-### 🧊 Foundations
+### Foundations
 
 In the `foundations` folder presented the MLTT, Modal and Univalent base libraries:
 
@@ -54,7 +54,7 @@ groupoid.space/library/foundations/
     └── prop/
 ```
 
-### 🧊 Mathematics
+### Mathematics
 
 In the `mathematics` folder you will find Mathematical Components for HTS:
 
