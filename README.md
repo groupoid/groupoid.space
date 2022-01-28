@@ -89,34 +89,6 @@ groupoid.space/library/mathematics/
     └── topos/
 ```
 
-## Misc
-
-```
-groupoid.space/misc/
-├── course/
-├── hist/
-├── ncatlab/
-├── references/
-├── semantics/
-└── status/
-```
-
-## Articles
-
-```
-groupoid.space/articles/
-├── cwf/
-├── equ/
-├── hit/
-├── hott/
-├── inductive/
-├── mltt/
-├── pts/
-├── quantum/
-├── set/
-└── topos/
-```
-
 ## 🧊 Usage
 
 The main purpose of Anders is doing Homotopy Theory:
