@@ -26,7 +26,7 @@ Groupoid Infinity is building integrated environment for mathematician:
 
 ## Base Library for Verification Language
 
-### Foundation
+### Foundations
 
 In the `foundations` folder presented the MLTT, Modal and Univalent base libraries:
 
