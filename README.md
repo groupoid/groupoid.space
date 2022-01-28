@@ -31,78 +31,93 @@ groupoid.space/
 
 ### Foundation
 
-In the `core` folder presented the PTS/MLTT/HTS base library:
+In the `foundations` folder presented the MLTT, Modal and Univalent base libraries:
 
 ```
-groupoid.space/core/
-├── core
-├── bool
-├── int
-├── io
-├── ioi
-├── list
-├── maybe
-├── nat
-├── path
-├── pi
-├── process
-├── prop
-├── proto
-├── sigma
-└── stream
+groupoid.space/library/foundations/
+├── mltt/
+│   ├── bool/
+│   ├── either/
+│   ├── fin/
+│   ├── induction/
+│   ├── list/
+│   ├── maybe/
+│   ├── mltt/
+│   ├── nat/
+│   ├── pi/
+│   ├── sigma/
+│   └── vec/
+├── modal
+│   └── infinitesimal/
+└── univalent
+    ├── equiv/
+    ├── extensionality/
+    ├── iso/
+    ├── path/
+    └── prop/
 ```
 
 ### Mathematics
 
-In the `math` folder you will find Mathematical Components for HTS:
+In the `mathematics` folder you will find Mathematical Components for HTS:
 
 ```
-groupoid.space/math/
-├── algebra
-├── bundle
-├── category
-├── cw
-├── derham
-├── wellen
-├── equiv
-├── functor
-├── homology
-├── hopf
-├── inductive
-├── iso
-├── lambek
-├── limits
-├── presheaf
-├── sheaf
-└── topos
+groupoid.space/library/mathematics/
+├── algebra/
+│   ├── homology/
+│   └── algebra/
+├── analysis/
+│   └── real/
+├── categories/
+│   ├── abelian/
+│   ├── category/
+│   ├── functor/
+│   └── groupoid/
+├── geometry/
+│   ├── bundle/
+│   ├── etale/
+│   └── formalDisc/
+├── homotopy/
+│   ├── KGn/
+│   ├── S1/
+│   ├── Sn/
+│   ├── coequalizer/
+│   ├── hubSpokes/
+│   ├── pullback/
+│   ├── pushout/
+│   ├── quotient/
+│   ├── suspension/
+│   └── truncation/
+── topoi/
+    └── topos/
 ```
 
 ## Misc
 
 ```
 groupoid.space/misc/
-├── course
-├── hist
-├── ncatlab
-├── references
-├── semantics
-└── status
+├── course/
+├── hist/
+├── ncatlab/
+├── references/
+├── semantics/
+└── status/
 ```
 
 ## Articles
 
 ```
 groupoid.space/articles/
-├── cwf
-├── equ
-├── hit
-├── hott
-├── inductive
-├── mltt
-├── pts
-├── quantum
-├── set
-└── topos
+├── cwf/
+├── equ/
+├── hit/
+├── hott/
+├── inductive/
+├── mltt/
+├── pts/
+├── quantum/
+├── set/
+└── topos/
 ```
 
 ## Usage
