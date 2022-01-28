@@ -5,7 +5,7 @@ Groupoid Infinity is building integrated environment for mathematician:
 * ANT — Publishing environment a la ТеХ
 * CAS — Computable and Symbolic Mathematics a la Wolfram Mathematica
 * NOTE — Notebook Interface a la Jupyter
-* RUNTIME — Runtime Interpreter and Virtual Machines
+* RUN — Runtime Interpreter and Virtual Machines
 * VERIFY — Theorem Prover a la Lean/Agda
 
 ## Virtual Machines and Runtime Languages
