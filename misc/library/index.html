@@ -239,7 +239,7 @@ between <b>(fix maybe)</b> and <b>nat</b>.</p><code>data maybe (A: U) = nothing 
 maybeInd (A: U) (P: maybe A -> U) (n: P nothing)
          (j: (a: A) -> P (just a)): (a: maybe A) -> P a
        = split { nothing -> n ; just x -> j x }
-</code><h2 id="nat"><a name='nat'><a href='../core/nat/'>Nat</a></a></h2><p>Pointed Unary System is a category nat with the terminal object
+</code><h2 id="nat"><a name='nat'><a href='../foundations/mltt/nat/'>Nat</a></a></h2><p>Pointed Unary System is a category nat with the terminal object
 and a carrier <b>nat</b> having morphism <b>[zero:
 1<sub>nat</sub> → nat, succ: nat → nat]</b>. The initial
 object of nat is called Natural Number Object and models
