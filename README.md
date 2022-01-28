@@ -26,7 +26,7 @@ Groupoid Infinity is building integrated environment for mathematician:
 
 ## Base Library for Verification Language
 
-### Foundations
+### 🧊 Foundations
 
 In the `foundations` folder presented the MLTT, Modal and Univalent base libraries:
 
@@ -54,7 +54,7 @@ groupoid.space/library/foundations/
     └── prop/
 ```
 
-### Mathematics
+### 🧊 Mathematics
 
 In the `mathematics` folder you will find Mathematical Components for HTS:
 
@@ -117,7 +117,7 @@ groupoid.space/articles/
 └── topos/
 ```
 
-## Usage
+## 🧊 Usage
 
 The main purpose of Anders is doing Homotopy Theory:
 
