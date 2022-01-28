@@ -24,7 +24,7 @@ Groupoid Infinity is building integrated environment for mathematician:
 * HoTT-I — JetBrains Arend-like core
 * HoTT-∂ — Groupoid Homotopy Core
 
-## 🧊 Base Library for Verification Language
+## 🧊 HoTT Library
 
 ### Foundations
 
