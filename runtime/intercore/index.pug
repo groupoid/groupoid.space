@@ -1,0 +1,61 @@
+extends ../../layout.pug
+
+block title
+    title IP
+
+block content
+    +header('../../groupoid.svg', 'Intercore Protocol', 'The (A)SMP Scheduler, CAS Queues and CPS Tasks')
+
+    article.main
+        .om
+            section
+                h1 Article
+        aside Maxim Sokhatsky
+            time 31 DEC 16
+        section
+        h2#Abstract Low Latency Transport
+        p.
+            The InterCore bus is constructed of a number of SPMC queues per core. The bus itself
+            has a star topology between cores, and MPSC is organized as a computable function
+            over a set of publisher queues. Each core has exatcly one publisher queue.
+        p.
+            The InterCore protocol handler is called <b>poll_bus</b> and is a member of
+            each <b>Scheduler</b>. You may think of InterCore as a teleport transport between
+            processors since <b>poll_bus</b> is being fired on every yield to scheduler, and
+            if any core has a message addressed to you since the last yield on your
+            core, then your core will execute the handler on this message before the next task.
+
+        h2#Publisher Publisher [capacity]
+        p.
+            <b>pub</b> creates new publisher CAS cursor for writing.
+            Returns system-wide cursor Id.
+        code.
+            o) p: pub[16]
+
+        h2#Subscriber Subscribe [publisher]
+        p.
+            <b>sub</b> creates new subscriber CAS cursor based on a given writer cursor.
+            Returns system-wide cursor Id for reading.
+        code.
+            o) s: sub[p]
+
+        h2#Spawn Spawn [core program cursors]
+        p.
+            <b>spawn</b> creates a new Task on a given core. The Task could be O program
+            or any LLVM code with compatible FFI. Also, you should specify the ownership
+            list of cursors that are exclusively available to that Task.
+        code.
+            o) spawn [0 "etc/proc0" (0;1)]
+
+        h2#Send Send [writer data]
+        p.
+            <b>snd</b> sends particular data to a given writer cursor. Returns nil if OK.
+        code.
+            o) snd[p;42]
+
+        h2#Receive Receive [reader]
+        p.
+            <b>rcv</b> returns data from the given reader cursor.
+            If none then yields to scheduler for another task.
+        code.
+            o) rcv[s]
