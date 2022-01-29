@@ -1,39 +1,52 @@
-extends ../../../layout.pug
-
-block title
-    title MAYBE
+doctype html
+html
+    head
+        meta(charset='utf-8')
+        meta(http-equiv='x-ua-compatible' content='ie=edge')
+        meta(name='viewport'        content='width=device-width, initial-scale=1')
+        meta(name='author'          content='Namdak Tonpa')
+        meta(name='twitter:site'    content='@5HT')
+        meta(name='twitter:creator' content='@5HT')
+        meta(property='og:title'       content='MAYBE')
+        meta(property='og:description' content='Maybe')
+        meta(property='og:type'        content='website')
+        meta(property='fb:app_id'      content='118554188236439')
+        meta(property='og:url'         content='https://groupoid.space/foundations/mltt/maybe/')
+        link(rel='stylesheet' href='https://groupoid.space/main.css')
+        block title
+            title MAYBE
+            script(src='https://groupoid.space/styles/mathjax.js?config=TeX-AMS_HTML')
+            script.
+              window.MathJax = { jax: ["input/TeX", "input/MathML", "input/AsciiMath", "output/CommonHTML", "output/NativeMML"],
+                             TeX: { extensions: ["AMSmath.js", "AMSsymbols.js", "autoload-all.js"] },
+                             extensions: ["tex2jax.js", "asciimath2jax.js", "mml2jax.js", "MathMenu.js", "MathZoom.js"],
+                             "HTML-CSS": { imageFont: null },
+                             AuthorInit: function() {
+                                 MathJax.Hub.Register.StartupHook("TeX AMSmath Ready", function() {
+                                     var TEX = MathJax.InputJax.TeX;
+                                     TEX.Definitions.Add({
+                                         macros: {
+                                           llparenthesis: ['Macro', '\\mathopen{\u2987}'],
+                                           rrparenthesis: ['Macro', '\\mathclose{\u2988}'],
+                                           llbracket:     ['Macro', '\\mathopen{\u27E6}'],
+                                           rrbracket:     ['Macro', '\\mathclose{\u27E7}'],
+                                         }
+                                     });
+                                 });
+                             },
+                             tex2jax: { inlineMath: [['$','$'], ['\\(','\\)']],
+                                        processEscapes: true }
+                         };
+    body.content
+        block content
+        block vars
 
 block content
     article.main.list
         section
-            h1 maybe
-            aside <a href="..">Base Library</a>
+            h1 MAYBE
+            aside
                 time Published: 4 NOV 2017
-            p.
-                <a href="https://raw.githubusercontent.com/groupoid/cubical/master/src/maybe.ctt">Maybe package</a>
-                contains inductive data type definition representing value container with optional empty constructor.
-            code.
-                data maybe (A: U)
-                    = nothing
-                    | just (a: A)
-
-            h2 nothing
-            p <mark>nothing</mark> is basic maybe point constructor.
-            code.
-                null: maybe nat = nothing
-
-            h2 just
-            p <mark>just</mark> is maybe value wrapper.
-            code.
-                wrapped: maybe nat = just one
-
-        section
-            h1 Generics
-
-            h2 maybe (A B: U) (n: B) (j: A -> B) : maybe A -> B
-            p Returns a function from wrapped to raw values.
-            pre.
-                > maybe_ nat nat zero (\ (x: nat) -> x) (just zero)
-            pre.
-                EVAL: zero
-
+            h2 Constructors
+            h2 Eliminators
+            h2 Induction Principle

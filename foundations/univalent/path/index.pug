@@ -1,10 +1,23 @@
-extends ../../../layout.pug
-
-block title
-    title PATH
-    script(src='https://groupoid.space/styles/mathjax.js?config=TeX-AMS_HTML')
-    script.
-     window.MathJax = { jax: ["input/TeX", "input/MathML", "input/AsciiMath", "output/CommonHTML", "output/NativeMML"],
+doctype html
+html
+    head
+        meta(charset='utf-8')
+        meta(http-equiv='x-ua-compatible' content='ie=edge')
+        meta(name='viewport'        content='width=device-width, initial-scale=1')
+        meta(name='author'          content='Namdak Tonpa')
+        meta(name='twitter:site'    content='@5HT')
+        meta(name='twitter:creator' content='@5HT')
+        meta(property='og:title'       content='PATH')
+        meta(property='og:description' content='Path')
+        meta(property='og:type'        content='website')
+        meta(property='fb:app_id'      content='118554188236439')
+        meta(property='og:url'         content='https://groupoid.space/foundations/univalent/path/')
+        link(rel='stylesheet' href='https://groupoid.space/main.css')
+        block title
+            title PATH
+            script(src='https://groupoid.space/styles/mathjax.js?config=TeX-AMS_HTML')
+            script.
+              window.MathJax = { jax: ["input/TeX", "input/MathML", "input/AsciiMath", "output/CommonHTML", "output/NativeMML"],
                              TeX: { extensions: ["AMSmath.js", "AMSsymbols.js", "autoload-all.js"] },
                              extensions: ["tex2jax.js", "asciimath2jax.js", "mml2jax.js", "MathMenu.js", "MathZoom.js"],
                              "HTML-CSS": { imageFont: null },
@@ -24,17 +37,17 @@ block title
                              tex2jax: { inlineMath: [['$','$'], ['\\(','\\)']],
                                         processEscapes: true }
                          };
+    body.content
+        block content
+        block vars
+
 
 block content
     article.main
         .om
             section
-                h1 path
-        aside <a href="..">Base Library</a>
-            time Published: 25 JUL 2018
-        .om
-            section
-                figure.
+                h1 PATH
+                span.
                     $$\def\mapright#1{\xrightarrow{{#1}}}
                       \def\mapleft#1{\xleftarrow{{#1}}}
                       \def\mapup#1{\Big\uparrow\rlap{\raise2pt{\scriptstyle{#1}}}}
@@ -44,52 +57,38 @@ block content
                       \def\mapdiagl#1{\vcenter{\searrow}\rlap{\raise2pt{\scriptstyle{#1}}}}
                       \def\mapdiagr#1{\vcenter{\swarrow}\rlap{\raise2pt{\scriptstyle{#1}}}}
                     $$
-                p.
-                    <a href="https://raw.githubusercontent.com/groupoid/cubical/master/src/path.ctt">Path package</a>
-                    contains basic theorems about general homotopy path types.
-                    In the core the cubical has heterogeneous <mark>PathP</mark> type,
-                code.
-                    HeteroPath  (A B: U) (a: A) (b: B) (P: Path U A B) : U = PathP P a b
-                p.
-                    so you can easily define homogeneous <mark>Path</mark>:
-                code.
-                    Path (A: U) (a b: A) : U = PathP (&lt;i&gt; A) a b
+        aside
+            time Published: 25 JUL 2018
+        .om
+            section
                 p.
                     The Path identity type defines a Path space with elements and values.
                     Elements of that space are functions
                     from interval $[0,1]$ to values of that path space.
                     This ctt file reflects <a href="https://arxiv.org/pdf/1611.02108.pdf">CCHM</a><sup>2</sup> cubicaltt model with connections.
-                    For <a href="https://guillaumebrunerie.github.io/pdf/cart-cube.pdf">ABCFHL</a><sup>4</sup> yacctt model with variables please refer to ytt file.
-                    You may also want to read <a href="http://www.cse.chalmers.se/~coquand/mod1.pdf">BCH</a><sup>1</sup>,
-                    <a href="https://www.cs.cmu.edu/~cangiuli/papers/ccctt.pdf">AFH</a><sup>5</sup>.
                     There is a <a href="https://arxiv.org/pdf/1712.04864.pdf">PO</a><sup>3</sup>
                     paper about CCHM axiomatic in a topos.
                 h.
                     <div><sup>1</sup> &mdash; Bezem, Coquand, Huber (2014)<br>
                     <sup>2</sup> &mdash; Cohen, Coquand, Huber, Mörtberg (2015)<br>
                     <sup>3</sup> &mdash; Pitts, Orton (2016)<br>
-                    <sup>4</sup> &mdash; Angiuli, Brunerie, Coquand, Favonia, Harper, Licata (2017)<br>
-                    <sup>5</sup> &mdash; Angiuli, Favonia, Harper (2018)<br>
                     </div>
 
             section
-                h1 Definitions
-
-                h2 Introduction
+                h2 Constructors
                 code.
                     refl (A: U) (a: A) : Path A a a
                 p.
                     Returns a reflexivity path space for a given value of the type.
                     The inhabitant of that path space is the lambda on the homotopy
                     interval $[0,1]$ that returns a constant value a. Written in
-                    syntax as <mark>&lt;i&gt; a</mark>.
+                    syntax as $&lt;i&gt;a$.
 
-                h2 Applications
+                h2 Eliminators
                 code.
                     app1 (A: U) (a b: A) (p: Path A a b): A = p @ 0
                     app2 (A: U) (a b: A) (p: Path A a b): A = p @ 1
 
-                h2 Connections
                 p.
                     Connections allow you to build a square
                     with only one element of path: i) $\\(i,j:I) \rightarrow p\ @\ min(i,j)$;
@@ -118,8 +117,6 @@ block content
                       : PathP (&lt;x&gt; Path A a (p@x)) (&lt;i&gt; a) p
                       = &lt;x y&gt; p @ (x /\ y)
                 br.
-
-                h1 Lemmas
 
                 h2 Congruence
                 code.
@@ -222,9 +219,7 @@ block content
                       (p: Path A x y) : C x y p
                 p.
 
-                h1 Computation
-
-                h2 Beta Equality
+                h2 Computation
                 code.
                     trans_comp (A: U) (a: A)
                              : Path A a (trans A A (<_> A) a)
@@ -241,38 +236,4 @@ block content
                     UIP at any Path level which is prohibited. UIP in HoTT
                     is defined only as instance of n-groupoid, the PROP type.
 
-                h1 Function Extensionality
-
-                h2 Introduction
-                code.
-                    funext (A B: U) (f g: A -> B)
-                           (p: (x:A) -> Path B (f x) (g x))
-                         : Path (A -> B) f g
-                p.
-
-                h2 Elimination
-                code.
-                    happly (A B: U) (f g: A -> B) (p: Path (A -> B) f g) (x: A)
-                         : Path B (f x) (g x)
-                p.
-
-                h2 Computation
-                code.
-                    funext_Beta (A B: U) (f g: A -> B)
-                                (p: (x:A) -> Path B (f x) (g x))
-                              : (x:A) -> Path B (f x) (g x)
-                p.
-
-                h2 Uniqueness
-                code.
-                    funext_Eta (A B: U) (f g: A -> B)
-                               (p: Path (A -> B) f g)
-                             : Path (Path (A -> B) f g) (funext A B f g (happly A B f g p)) p
-                p.
-
-                h2 Dependent Version
-                code.
-                    piext (A: U) (B: A -> U) (f g: (x: A) -> B x)
-                          (p: (x: A) -> Path (B x) (f x) (g x))
-                        : Path ((y: A) -> B y) f g
-                p.
+    include ../../../footer.pug
