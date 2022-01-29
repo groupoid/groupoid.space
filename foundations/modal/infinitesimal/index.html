@@ -1,4 +1,4 @@
-<!DOCTYPE html><html><head><meta charset="utf-8"><meta http-equiv="x-ua-compatible" content="ie=edge"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="author" content="Maxim Sokhatsky"><meta name="twitter:site" content="@5HT"><meta name="twitter:creator" content="@5HT"><meta property="og:title" content="Differential Geometry"><meta property="og:description" content="Étale Maps and Manifolds."><meta property="og:type" content="website"><meta property="fb:app_id" content="118554188236439"><meta property="og:url" content="https://groupoid.space"><title>ÉTALE</title></head><body class="content"></body></html><script src="https://groupoid.space/styles/mathjax.js?config=TeX-AMS_HTML"></script><script>window.MathJax = { jax: ["input/TeX", "input/MathML", "input/AsciiMath", "output/CommonHTML", "output/NativeMML"],
+<!DOCTYPE html><html><head><meta charset="utf-8"><meta http-equiv="x-ua-compatible" content="ie=edge"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="author" content="Maxim Sokhatsky"><meta name="twitter:site" content="@5HT"><meta name="twitter:creator" content="@5HT"><meta property="og:title" content="INFINITESIMAL"><meta property="og:description" content="Infinitesimal Modality"><meta property="og:type" content="website"><meta property="fb:app_id" content="118554188236439"><meta property="og:url" content="https://groupoid.space"><title>INFINITESIMAL</title></head><body class="content"></body></html><script src="https://groupoid.space/styles/mathjax.js?config=TeX-AMS_HTML"></script><script>window.MathJax = { jax: ["input/TeX", "input/MathML", "input/AsciiMath", "output/CommonHTML", "output/NativeMML"],
                         TeX: { extensions: ["AMSmath.js", "AMSsymbols.js", "autoload-all.js"] },
                         extensions: ["tex2jax.js", "asciimath2jax.js", "mml2jax.js", "MathMenu.js", "MathZoom.js"],
                         "HTML-CSS": { imageFont: null },
@@ -19,13 +19,11 @@
                         tex2jax: { inlineMath: [['$','$'], ['\\(','\\)']],
                                    processEscapes: true }
                     };
-</script><article class="main"><div class="exe"><section><h1>DIFFERENTIAL GEOMETRY</h1></section></div><aside><a href="https://tonpa.guru">Максим Сохацький</a><time>15 JAN 2019</time></aside><div class="exe"><section><p>Here is very short intro to formal differential geometry.
-It contains the notion of étale maps and formal disk bundles.</p><figure>$$\def\mapright#1{\xrightarrow{{#1}}}
+</script><article class="main"><div class="exe"><section><h1>INFINITESIMAL MODALITY</h1><span>$$\def\mapright#1{\xrightarrow{{#1}}}
   \def\mapdown#1{\Big\downarrow\rlap{\raise2pt{\scriptstyle{#1}}}}
   \def\mapdiagl#1{\vcenter{\searrow}\rlap{\raise2pt{\scriptstyle{#1}}}}
   \def\mapdiagr#1{\vcenter{\swarrow}\rlap{\raise2pt{\scriptstyle{#1}}}}
-$$
-</figure><h1>INFINITESIMAL MODALITY</h1><p><b>Definition</b> (Infinitesimal Shape Modality). The two maps
+$$</span></section></div><aside><time>15 JAN 2019</time></aside><div class="exe"><section><p><b>Definition</b> (Infinitesimal Shape Modality or de Rham stack). The two maps
 $Im∶ U \rightarrow U$ and $\iota_A ∶ A \rightarrow Im(A)$ are called <i>shape modality</i> if
 i) $\iota_A$ is an equivalence, the type $A$ is then called coreduced.; ii)
 identity types of coreduced types are coreduced; iii) if $B∶Im(A)\rightarrow U$
@@ -131,5 +129,4 @@ i) $e:A$; ii) $t: \prod_{x:A} A = A$; iii) $p: \prod_{x:A}t_x(e) = x$.</p><code>
   = (e: A)
   * (translationsFamily: (x: A) -> Path U A A)
   * ((x: A) -> Path A (transport (translationsFamily x) e) x)</code><br><h1>LITERATURE</h1><p>[1]. Felix Wellen. <a href="http://www.andrew.cmu.edu/user/fwellen/cartan-draft.pdf">Cartan Geometry in Modal Homotopy Type Theory</a><br>
-
 </p></section></div></article><link rel="stylesheet" href="https://groupoid.space/main.css?v=31"><footer class="footer"><a href="https://github.com/groupoid/"><img class="footer__logo" src="https://longchenpa.guru/seal.png" width="50"></a><span class="footer__copy">2016&mdash;2022 &copy; <a href="https://5ht.co/" style="color:Lavender;">Максим Сохацький</a></span><script src="https://groupoid.space/highlight.js?v=1"></script></footer>

@@ -7,13 +7,13 @@ html
         meta(name='author'          content='Maxim Sokhatsky')
         meta(name='twitter:site'    content='@5HT')
         meta(name='twitter:creator' content='@5HT')
-        meta(property='og:title'       content='Differential Geometry')
-        meta(property='og:description' content='Étale Maps and Manifolds.')
+        meta(property='og:title'       content='INFINITESIMAL')
+        meta(property='og:description' content='Infinitesimal Modality')
         meta(property='og:type'        content='website')
         meta(property='fb:app_id'      content='118554188236439')
         meta(property='og:url'         content='https://groupoid.space')
         block title
-            title ÉTALE
+            title INFINITESIMAL
     body.content
         block content
         block vars
@@ -47,24 +47,19 @@ block content
     article.main
         .exe
             section
-                h1 DIFFERENTIAL GEOMETRY
-        aside <a href="https://tonpa.guru">Максим Сохацький</a>
-            time 15 JAN 2019
-        .exe
-            section
-                p.
-                    Here is very short intro to formal differential geometry.
-                    It contains the notion of étale maps and formal disk bundles.
-                figure.
+                h1 INFINITESIMAL MODALITY
+                span.
                     $$\def\mapright#1{\xrightarrow{{#1}}}
                       \def\mapdown#1{\Big\downarrow\rlap{\raise2pt{\scriptstyle{#1}}}}
                       \def\mapdiagl#1{\vcenter{\searrow}\rlap{\raise2pt{\scriptstyle{#1}}}}
                       \def\mapdiagr#1{\vcenter{\swarrow}\rlap{\raise2pt{\scriptstyle{#1}}}}
                     $$
-
-                h1 INFINITESIMAL MODALITY
+        aside
+            time 15 JAN 2019
+        .exe
+            section
                 p.
-                    <b>Definition</b> (Infinitesimal Shape Modality). The two maps
+                    <b>Definition</b> (Infinitesimal Shape Modality or de Rham stack). The two maps
                     $Im∶ U \rightarrow U$ and $\iota_A ∶ A \rightarrow Im(A)$ are called <i>shape modality</i> if
                     i) $\iota_A$ is an equivalence, the type $A$ is then called coreduced.; ii)
                     identity types of coreduced types are coreduced; iii) if $B∶Im(A)\rightarrow U$
@@ -220,6 +215,4 @@ block content
                 p.
                     [1]. Felix Wellen. <a href="http://www.andrew.cmu.edu/user/fwellen/cartan-draft.pdf">Cartan Geometry in Modal Homotopy Type Theory</a><br>
 
-
     include ../../../footer.pug
-
