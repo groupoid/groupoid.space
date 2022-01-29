@@ -1,47 +1,41 @@
-<!DOCTYPE html><html><head><meta charset="utf-8"><meta http-equiv="x-ua-compatible" content="ie=edge"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="author" content="Maxim Sokhatsky"><meta name="twitter:site" content="@5HT"><meta name="twitter:creator" content="@5HT"><meta property="og:type" content="website"><meta property="fb:app_id" content="118554188236439"><meta property="og:url" content="https://groupoid.space"><meta property="og:title" content="GROUPOЇD"><meta property="og:description" content="Formalization of Mathematics"><link rel="stylesheet" href="https://groupoid.space/main.css?v=31"><title>SIGMA</title><script src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML"></script><script>window.MathJax = { jax: ["input/TeX", "input/MathML", "input/AsciiMath", "output/CommonHTML", "output/NativeMML"],
-                        TeX: { extensions: ["AMSmath.js", "AMSsymbols.js", "autoload-all.js"] },
-                        extensions: ["tex2jax.js", "asciimath2jax.js", "mml2jax.js", "MathMenu.js", "MathZoom.js"],
-                        "HTML-CSS": { imageFont: null },
-                        AuthorInit: function() {
-                            MathJax.Hub.Register.StartupHook("TeX AMSmath Ready", function() {
-                                var TEX = MathJax.InputJax.TeX;
-                                TEX.Definitions.Add({
-                                    macros: {
-                                      llparenthesis: ['Macro', '\\mathopen{\u2987}'],
-                                      rrparenthesis: ['Macro', '\\mathclose{\u2988}'],
-                                      llbracket:     ['Macro', '\\mathopen{\u27E6}'],
-                                      rrbracket:     ['Macro', '\\mathclose{\u27E7}'],
-                                    }
-                                });
-                            });
-                        },
-                        tex2jax: { inlineMath: [['$','$'], ['\\(','\\)']],
-                                   processEscapes: true }
-                    };
-</script></head><body class="content"><article class="main"><div class="om"><section><h1>sigma</h1></section></div><aside><a href="..">Base Library</a><time>Published: 16 OCT 2017</time></aside><div class="om"><section><p><a href="https://raw.githubusercontent.com/groupoid/cubical/master/src/sigma.ctt">Sigma package</a>
-contains basic theorems about sigma types. Sigma type is built in MLTT core.</p><code>Sigma (A : U) (B : A -> U) : U
-    = (x : A) * B x</code><p>Sigma is a dependent product type, the generalization of products.</p><p>Sigma type is a total space of fibration. Element of total
+<!DOCTYPE html><html><head><meta charset="utf-8"><meta http-equiv="x-ua-compatible" content="ie=edge"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="author" content="Namdak Tonpa"><meta name="twitter:site" content="@5HT"><meta name="twitter:creator" content="@5HT"><meta property="og:title" content="SIGMA"><meta property="og:description" content="Dependent Sum"><meta property="og:type" content="website"><meta property="fb:app_id" content="118554188236439"><meta property="og:url" content="https://groupoid.space/foundations/mltt/sigma/"><link rel="stylesheet" href="https://groupoid.space/main.css"><title>SIGMA</title><script src="https://groupoid.space/styles/mathjax.js?config=TeX-AMS_HTML"></script><script>window.MathJax = { jax: ["input/TeX", "input/MathML", "input/AsciiMath", "output/CommonHTML", "output/NativeMML"],
+               TeX: { extensions: ["AMSmath.js", "AMSsymbols.js", "autoload-all.js"] },
+               extensions: ["tex2jax.js", "asciimath2jax.js", "mml2jax.js", "MathMenu.js", "MathZoom.js"],
+               "HTML-CSS": { imageFont: null },
+               AuthorInit: function() {
+                   MathJax.Hub.Register.StartupHook("TeX AMSmath Ready", function() {
+                       var TEX = MathJax.InputJax.TeX;
+                       TEX.Definitions.Add({
+                           macros: {
+                             llparenthesis: ['Macro', '\\mathopen{\u2987}'],
+                             rrparenthesis: ['Macro', '\\mathclose{\u2988}'],
+                             llbracket:     ['Macro', '\\mathopen{\u27E6}'],
+                             rrbracket:     ['Macro', '\\mathclose{\u27E7}'],
+                           }
+                       });
+                   });
+               },
+               tex2jax: { inlineMath: [['$','$'], ['\\(','\\)']],
+                          processEscapes: true }
+           };</script></head><body class="content"></body></html><article class="main"><div class="om"><section><h1>DISJOINT UNION</h1></section></div><aside><time>Published: 16 OCT 2017</time></aside><div class="om"><section><p><a href="https://raw.githubusercontent.com/groupoid/cubical/master/src/sigma.ctt">Sigma package</a>
+contains basic theorems about sigma types. Sigma type is built in MLTT core.</p><code>def Sigma (A : U) (B : A -> U) : U := Σ (x : A), B x</code><p>$Σ$ is a dependent product type, the generalization of products or disjoin union of family of sets.</p><p>$Σ$-type is a total space of fibration. Element of total
 space is formed as a pair of basepoint and fibration.
-</p></section><section><h1>Definition</h1><p><b>Definition</b> (Dependent Sum). The dependent sum
+</p></section><section><h2>Definition</h2><p><b>Definition</b> (Dependent Sum). The dependent sum
 along the morphism $f: A \rightarrow B$ in category $C$ is the left
 adjoint $\Sigma_f : C_{/A} \rightarrow C_{/B}$ of the base change functor.
-</p><h2>Introduction</h2><code>dpair (A: U)
-      (B: A -> U)
-      (a: A)
-      (b: B a): Sigma A B
-    = (a,b)</code><br><h1>Elimination</h1><h2>Pair accessors</h2><code>pr1 (A: U) (B: A -> U)
+</p><h2>Constructors</h2><code>def pair (A: U) (B: A → U) (a: A) (b: B a) : Sigma A B := (a, b)</code><br><h2>Eliminators</h2><code>pr1 (A: U) (B: A -> U)
     (x: Sigma A B): A = x.1
 
 pr2 (A: U) (B: A -> U)
-    (x: Sigma A B): B (pr1 A B x) = x.2</code><p>If you want to access deep sigma a series of <mark>.2</mark>
-accessors should be applied followed by <mark>.1</mark>.
+    (x: Sigma A B): B (pr1 A B x) = x.2</code><p>If you want to access deep sigma a series of $.2$
+accessors should be applied followed by $.1$.
 </p><h2>Induction Principle</h2><p>Dependent Elimination Principle states that
 if predicate holds for two projections
 then predicate holds for total space.</p><code>sigInd (A: U) (B: A -> U)
        (C: Sigma A B -> U)
        (g: (a: A) (b: B a) -> C (a, b))
        (p: Sigma A B): C p
-     = g p.1 p.2</code><br><h1>Computation</h1><h2>Beta</h2><code>Beta1 (A: U) (B: A -> U)
+     = g p.1 p.2</code><br><h2>Computation and Uniquness</h2><p></p><code>Beta1 (A: U) (B: A -> U)
       (a:A) (b: B a)
     : Equ A a (pr1 A B (a,b))
     = refl A a
@@ -49,7 +43,7 @@ then predicate holds for total space.</p><code>sigInd (A: U) (B: A -> U)
 Beta2 (A: U) (B: A -> U)
       (a: A) (b: B a)
     : Equ (B a) b (pr2 A B (a,b))
-    = reflect (B a)</code><h2>Eta</h2><code>Eta12 (A: U) (B: A -> U) (p: Sigma A B)
+    = reflect (B a)</code><p></p><code>Eta12 (A: U) (B: A -> U) (p: Sigma A B)
     : Equ (Sigma A B) p (pr1 A B p,pr2 A B p)
     = refl (Sigma A B) p</code><br><h1>Theorems</h1><p><b>Theorem</b> (Axiom of Choice). If for all $x : A$ there is $y : B$
 such that $R(x,y)$, then there is a function $f : A \rightarrow B$ such
@@ -83,4 +77,5 @@ corSigSet (A:U) (B:A-> U)
     isProp (PathP (&lt;i&gt;B (p@i)) t.2 u.2)</code><p><b>Theorem</b> (Contractability). If first and second component of sigma
 are contractible then the total space of sigma is contractible.</p><code>sigmaIsContr (A: U) (B: A -> U) (u: isContr A)
              (q: (x: A) -> isContr (B x))
-           : isContr (Sigma A B)</code></section></div></article><footer class="footer"><a href="https://github.com/groupoid/"><img class="footer__logo" src="https://longchenpa.guru/seal.png" width="50"></a><span class="footer__copy">2016&mdash;2022 &copy; <a href="//5ht.co/" style="color:Lavender;">Максим Сохацький</a></span></footer><script src="https://groupoid.space/bundle.js?v=7"></script><script src="https://groupoid.space/highlight.js?v=20"></script></body></html>
+           : isContr (Sigma A B)
+</code></section></div></article><link rel="stylesheet" href="https://groupoid.space/main.css?v=31"><footer class="footer"><a href="https://github.com/groupoid/"><img class="footer__logo" src="https://longchenpa.guru/seal.png" width="50"></a><span class="footer__copy">2016&mdash;2022 &copy; <a href="https://5ht.co/" style="color:Lavender;">Максим Сохацький</a></span><script src="https://groupoid.space/highlight.js?v=1"></script></footer>

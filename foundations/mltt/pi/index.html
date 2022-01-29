@@ -1,40 +1,32 @@
-<!DOCTYPE html><html><head><meta charset="utf-8"><meta http-equiv="x-ua-compatible" content="ie=edge"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="author" content="Maxim Sokhatsky"><meta name="twitter:site" content="@5HT"><meta name="twitter:creator" content="@5HT"><meta property="og:type" content="website"><meta property="fb:app_id" content="118554188236439"><meta property="og:url" content="https://groupoid.space"><meta property="og:title" content="GROUPOЇD"><meta property="og:description" content="Formalization of Mathematics"><link rel="stylesheet" href="https://groupoid.space/main.css?v=31"><title>PI</title><script src="https://groupoid.space/styles/mathjax.js?config=TeX-AMS_HTML"></script><script>window.MathJax = { jax: ["input/TeX", "input/MathML", "input/AsciiMath", "output/CommonHTML", "output/NativeMML"],
-                        TeX: { extensions: ["AMSmath.js", "AMSsymbols.js", "autoload-all.js"] },
-                        extensions: ["tex2jax.js", "asciimath2jax.js", "mml2jax.js", "MathMenu.js", "MathZoom.js"],
-                        "HTML-CSS": { imageFont: null },
-                        AuthorInit: function() {
-                            MathJax.Hub.Register.StartupHook("TeX AMSmath Ready", function() {
-                                var TEX = MathJax.InputJax.TeX;
-                                TEX.Definitions.Add({
-                                    macros: {
-                                      llparenthesis: ['Macro', '\\mathopen{\u2987}'],
-                                      rrparenthesis: ['Macro', '\\mathclose{\u2988}'],
-                                      llbracket:     ['Macro', '\\mathopen{\u27E6}'],
-                                      rrbracket:     ['Macro', '\\mathclose{\u27E7}'],
-                                    }
-                                });
-                            });
-                        },
-                        tex2jax: { inlineMath: [['$','$'], ['\\(','\\)']],
-                                   processEscapes: true }
-                    };
-</script></head><body class="content"><article class="main"><div class="om"><section><h1>pi</h1></section></div><aside><a href="..">Base Library</a><time>Published: 16 OCT 2017</time></aside><div class="om"><section><figure>$$\def\mapright#1{\xrightarrow{{#1}}}
+<!DOCTYPE html><html><head><meta charset="utf-8"><meta http-equiv="x-ua-compatible" content="ie=edge"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="author" content="Namdak Tonpa"><meta name="twitter:site" content="@5HT"><meta name="twitter:creator" content="@5HT"><meta property="og:title" content="PI"><meta property="og:description" content="Dependent Product"><meta property="og:type" content="website"><meta property="fb:app_id" content="118554188236439"><meta property="og:url" content="https://groupoid.space/foundations/mltt/pi/"><link rel="stylesheet" href="https://groupoid.space/main.css"><title>PI</title><script src="https://groupoid.space/styles/mathjax.js?config=TeX-AMS_HTML"></script><script>window.MathJax = { jax: ["input/TeX", "input/MathML", "input/AsciiMath", "output/CommonHTML", "output/NativeMML"],
+               TeX: { extensions: ["AMSmath.js", "AMSsymbols.js", "autoload-all.js"] },
+               extensions: ["tex2jax.js", "asciimath2jax.js", "mml2jax.js", "MathMenu.js", "MathZoom.js"],
+               "HTML-CSS": { imageFont: null },
+               AuthorInit: function() {
+                   MathJax.Hub.Register.StartupHook("TeX AMSmath Ready", function() {
+                       var TEX = MathJax.InputJax.TeX;
+                       TEX.Definitions.Add({
+                           macros: {
+                             llparenthesis: ['Macro', '\\mathopen{\u2987}'],
+                             rrparenthesis: ['Macro', '\\mathclose{\u2988}'],
+                             llbracket:     ['Macro', '\\mathopen{\u27E6}'],
+                             rrbracket:     ['Macro', '\\mathclose{\u27E7}'],
+                           }
+                       });
+                   });
+               },
+               tex2jax: { inlineMath: [['$','$'], ['\\(','\\)']],
+                          processEscapes: true }
+           };</script></head><body class="content"></body></html><article class="main"><div class="om"><section><h1>CARTESIAN FAMILY</h1></section></div><aside><time>Published: 28 JAN 2017</time></aside><div class="om"><section><figure>$$\def\mapright#1{\xrightarrow{{#1}}}
   \def\mapdown#1{\Big\downarrow\rlap{\raise2pt{\scriptstyle{#1}}}}
   \def\mapdiagl#1{\vcenter{\searrow}\rlap{\raise2pt{\scriptstyle{#1}}}}
   \def\mapdiagr#1{\vcenter{\swarrow}\rlap{\raise2pt{\scriptstyle{#1}}}}
-$$</figure><p><a href="https://raw.githubusercontent.com/groupoid/cubical/master/src/pi.ctt">Pi package</a>
-contains basic theorems about Pi types.
-Pi type is built in core of any dependent type checker.
-Type checkers with Pi only type are called Pure Type Systems.
-See <a href="https://groupoid.space/pts/pure">OM</a> language for
-our Erlang implementation.</p><code>Pi (A: U) (B: A -> U): U
- = (x: A) -> B x</code><p>Pi is a dependent function type, the generalization of functions.
+$$</figure><p>Pi is a dependent function type, the generalization of functions.
 As a function it can serve the wide range of mathematical constructions,
 objects, types, or spaces. The known domain and codomain spaces could be:
 sets, functions, polynomial functors, $\infty$-groupoids,
 topological $\infty$-groupoid, cw-complexes,
-categories, languages, etc. We give here immediate  isomorphism of Pi types,
-the fibrations or <a href="../bundle/">fiber bundles</a>.</p><p>The adjoints Pi and Sigma is not the only adjoints could be presented
+categories, languages, etc.</p><p>The adjoints Pi and Sigma is not the only adjoints could be presented
 in type system. Axiomatic cohesions could contain a set of adjoint pairs
 as a core type checker operations.</p><p>Geometrically, Pi type is a space of sections,
 while the dependent codomain is a space of fibrations.
@@ -42,7 +34,7 @@ Lambda functions are sections or points in these spaces,
 while the function result is a fibration. Pi type also represents
 the cartesian family of sets, generalizing
 the cartesian product of sets.
-</p></section><section><h1>Definition</h1><p><b>Definition</b> (Section). A section of morphism $f: A \rightarrow B$
+</p><h2>Definitions</h2><p><b>Definition</b> (Section). A section of morphism $f: A \rightarrow B$
 in some category is the morphism $g: B \rightarrow A$ such that
 $f \circ g: B \mapright{g} A \mapright{f} B$ equals the identity morphism on B.</p><p><b>Definition</b> (Fiber). The fiber of the map $p: E \rightarrow B$ in a point $y: B$
 is all points $x: E$ such that $p(x)=y$.</p><p><b>Definition</b> (Fiber Bundle). The fiber bundle $ F \rightarrow E \mapright{p} B$ on a
@@ -74,18 +66,16 @@ a $(\infty,1)$-topos, and let $E \rightarrow B : \mathbf{H}_{/B}$ a bundle in
 $\mathbf{H}$, object in the slice topos. Then the space of sections $\Gamma_\Sigma(E)$
 of this bundle is the Dependent Product:</p><figure>$$
     \Gamma_\Sigma(E) = \Pi_\Sigma (E) \in \mathbf{H}.
-$$</figure><br><h2>Introduction</h2><p>Lambda constructor defines a new lambda closure that could be
-saved or passed by in context.</p><code>lambda (A B: U) (b: B): A -> B = \ (x: A) -> b
-lam (A: U) (B: A -> U)
-    (a: A) (b: B a) : A -> B a = \ (x: A) -> b</code><br><h1>Elimination</h1><h2>Application</h2><p>Application reduces the term by using recursive substitution.</p><code>apply (A B: U) (f: A -> B) (x: A): B = f(x)
-app (A: U) (B: A -> U)
-    (a: A) (f: A -> B a): B a = f a</code><h2>Composition</h2><p>Composition is using application of appropriate singnatures.</p><code>ot (A B C: U) : U = (B -> C) -> (A -> B) -> (A -> C)
-o  (A B C: U) : ot A B C = \ (x: A) -> f (g x)
-O  (F G: U -> U) (t: U): U = F (G t)</code><br><h1>Computation</h1><h2>Beta</h2><p>Beta rule shows that composition $lam \circ app$ could be fused.</p><code>Pi_Beta (A: U) (B: A -> U) (a: A) (f: A -> B a)
-      : Path (B a) (app A B a (lam A B a (f a))) (f a)
-      = refl (B a) (f a)</code><h2>Eta</h2><p>Eta rule shows that composition $app \circ lam$ could be fused.</p><code>Pi_Eta (A: U) (B: A -> U) (a: A) (f: A -> B a)
-      : Path (A -> B a) f (\(x:A) -> f x)
-      = refl (A -> B a) f</code><br><h1>Theorems</h1><p><b>Theorem</b> (Functions Preserve Paths). For a function $f: (x:A) \rightarrow B(x)$
+$$</figure><br><h2>Constructors</h2><p>Lambda constructor defines a new lambda closure that could be
+saved or passed by in context.</p><code>def Pi (A : U) (B : A → U) : U := Π (x : A), B x
+def lambda (A: U) (B: A → U) (b: Pi A B) : Pi A B := λ (x : A), b x
+def lam (A B: U) (f: A → B) : A → B ≔ λ (x : A), f x</code><br><h2>Eliminators</h2><p>Application reduces the term by using recursive substitution.</p><code>def apply (A: U) (B: A → U) (f: Pi A B) (a: A) : B a := f a
+def app (A B: U) (f: A → B) (x: A): B := f x</code><p>Composition is using application of appropriate singnatures.</p><code>def ∘ᵀ (α β γ: U) : U := (β → γ) → (α → β) → (α → γ)
+def ∘ (α β γ : U) : ∘ᵀ α β γ := λ (g: β → γ) (f: α → β) (x: α), g (f x)</code><br><h2>Computation and Uniqueness</h2><p>$β$-rule shows that composition $lam \circ app$ could be fused.</p><code>def Π-β (A : U) (B : A → U) (a : A) (f : Pi A B)
+  : Path (B a) (apply A B (lambda A B f) a) (f a)
+ := idp (B a) (f a)</code><p>$η$-rule shows that composition $app \circ lam$ could be fused.</p><code>def Π-η (A : U) (B : A → U) (a : A) (f : Pi A B)
+  : Path (Pi A B) f (λ (x : A), f x)
+ := idp (Pi A B) f</code><br><h1>Theorems</h1><p><b>Theorem</b> (Functions Preserve Paths). For a function $f: (x:A) \rightarrow B(x)$
 there is an $ap_f : Path_A(x,y) \rightarrow Path_{B(x)}(f(x),f(y))$. This is called
 application of $f$ to path or congruence property (for non-dependent case &mdash;
 $cong$ function). This property behaves functoriality
@@ -99,4 +89,5 @@ the space of sections is contractible.</p><code>piIsContr (A: U) (B: A -> U) (u:
           (q: (x: A) -> isContr (B x))
         : isContr (Pi A B)</code><br><code>pathPi (A:U) (B:A->U) (f g : Pi A B)
      : Path U (Path (Pi A B) f g)
-              ((x:A) -> Path (B x) (f x) (g x))</code></section></div></article><footer class="footer"><a href="https://github.com/groupoid/"><img class="footer__logo" src="https://longchenpa.guru/seal.png" width="50"></a><span class="footer__copy">2016&mdash;2022 &copy; <a href="//5ht.co/" style="color:Lavender;">Максим Сохацький</a></span></footer><script src="https://groupoid.space/bundle.js?v=7"></script><script src="https://groupoid.space/highlight.js?v=20"></script></body></html>
+              ((x:A) -> Path (B x) (f x) (g x))
+</code></section></div></article><link rel="stylesheet" href="https://groupoid.space/main.css?v=31"><footer class="footer"><a href="https://github.com/groupoid/"><img class="footer__logo" src="https://longchenpa.guru/seal.png" width="50"></a><span class="footer__copy">2016&mdash;2022 &copy; <a href="https://5ht.co/" style="color:Lavender;">Максим Сохацький</a></span><script src="https://groupoid.space/highlight.js?v=1"></script></footer>

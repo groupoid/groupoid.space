@@ -1,10 +1,23 @@
-extends ../../../layout.pug
-
-block title
-    title PI
-    script(src='https://groupoid.space/styles/mathjax.js?config=TeX-AMS_HTML')
-    script.
-     window.MathJax = { jax: ["input/TeX", "input/MathML", "input/AsciiMath", "output/CommonHTML", "output/NativeMML"],
+doctype html
+html
+    head
+        meta(charset='utf-8')
+        meta(http-equiv='x-ua-compatible' content='ie=edge')
+        meta(name='viewport'        content='width=device-width, initial-scale=1')
+        meta(name='author'          content='Namdak Tonpa')
+        meta(name='twitter:site'    content='@5HT')
+        meta(name='twitter:creator' content='@5HT')
+        meta(property='og:title'       content='PI')
+        meta(property='og:description' content='Dependent Product')
+        meta(property='og:type'        content='website')
+        meta(property='fb:app_id'      content='118554188236439')
+        meta(property='og:url'         content='https://groupoid.space/foundations/mltt/pi/')
+        link(rel='stylesheet' href='https://groupoid.space/main.css')
+        block title
+            title PI
+            script(src='https://groupoid.space/styles/mathjax.js?config=TeX-AMS_HTML')
+            script.
+              window.MathJax = { jax: ["input/TeX", "input/MathML", "input/AsciiMath", "output/CommonHTML", "output/NativeMML"],
                              TeX: { extensions: ["AMSmath.js", "AMSsymbols.js", "autoload-all.js"] },
                              extensions: ["tex2jax.js", "asciimath2jax.js", "mml2jax.js", "MathMenu.js", "MathZoom.js"],
                              "HTML-CSS": { imageFont: null },
@@ -24,14 +37,17 @@ block title
                              tex2jax: { inlineMath: [['$','$'], ['\\(','\\)']],
                                         processEscapes: true }
                          };
+    body.content
+        block content
+        block vars
 
 block content
     article.main
         .om
             section
-                h1 pi
-        aside <a href="..">Base Library</a>
-            time Published: 16 OCT 2017
+                h1 CARTESIAN FAMILY
+        aside
+            time Published: 28 JAN 2017
         .om
             section
                 figure.
@@ -41,23 +57,12 @@ block content
                       \def\mapdiagr#1{\vcenter{\swarrow}\rlap{\raise2pt{\scriptstyle{#1}}}}
                     $$
                 p.
-                    <a href="https://raw.githubusercontent.com/groupoid/cubical/master/src/pi.ctt">Pi package</a>
-                    contains basic theorems about Pi types.
-                    Pi type is built in core of any dependent type checker.
-                    Type checkers with Pi only type are called Pure Type Systems.
-                    See <a href="https://groupoid.space/pts/pure">OM</a> language for
-                    our Erlang implementation.
-                code.
-                    Pi (A: U) (B: A -> U): U
-                     = (x: A) -> B x
-                p.
                     Pi is a dependent function type, the generalization of functions.
                     As a function it can serve the wide range of mathematical constructions,
                     objects, types, or spaces. The known domain and codomain spaces could be:
                     sets, functions, polynomial functors, $\infty$-groupoids,
                     topological $\infty$-groupoid, cw-complexes,
-                    categories, languages, etc. We give here immediate  isomorphism of Pi types,
-                    the fibrations or <a href="../bundle/">fiber bundles</a>.
+                    categories, languages, etc.
                 p.
                     The adjoints Pi and Sigma is not the only adjoints could be presented
                     in type system. Axiomatic cohesions could contain a set of adjoint pairs
@@ -70,8 +75,8 @@ block content
                     the cartesian family of sets, generalizing
                     the cartesian product of sets.
 
-            section
-                h1 Definition
+                h2 Definitions
+
                 p.
                     <b>Definition</b> (Section). A section of morphism $f: A \rightarrow B$
                     in some category is the morphism $g: B \rightarrow A$ such that
@@ -128,48 +133,43 @@ block content
                         \Gamma_\Sigma(E) = \Pi_\Sigma (E) \in \mathbf{H}.
                     $$
                 br
-                h2 Introduction
+
+                h2 Constructors
                 p.
                     Lambda constructor defines a new lambda closure that could be
                     saved or passed by in context.
                 code.
-                    lambda (A B: U) (b: B): A -> B = \ (x: A) -> b
-                    lam (A: U) (B: A -> U)
-                        (a: A) (b: B a) : A -> B a = \ (x: A) -> b
+                    def Pi (A : U) (B : A → U) : U := Π (x : A), B x
+                    def lambda (A: U) (B: A → U) (b: Pi A B) : Pi A B := λ (x : A), b x
+                    def lam (A B: U) (f: A → B) : A → B ≔ λ (x : A), f x
                 br
 
-                h1 Elimination
-                h2 Application
+                h2 Eliminators
                 p.
                     Application reduces the term by using recursive substitution.
                 code.
-                    apply (A B: U) (f: A -> B) (x: A): B = f(x)
-                    app (A: U) (B: A -> U)
-                        (a: A) (f: A -> B a): B a = f a
-                h2 Composition
+                    def apply (A: U) (B: A → U) (f: Pi A B) (a: A) : B a := f a
+                    def app (A B: U) (f: A → B) (x: A): B := f x
                 p.
                     Composition is using application of appropriate singnatures.
                 code.
-                    ot (A B C: U) : U = (B -> C) -> (A -> B) -> (A -> C)
-                    o  (A B C: U) : ot A B C = \ (x: A) -> f (g x)
-                    O  (F G: U -> U) (t: U): U = F (G t)
+                    def ∘ᵀ (α β γ: U) : U := (β → γ) → (α → β) → (α → γ)
+                    def ∘ (α β γ : U) : ∘ᵀ α β γ := λ (g: β → γ) (f: α → β) (x: α), g (f x)
                 br
 
-                h1 Computation
-                h2 Beta
+                h2 Computation and Uniqueness
                 p.
-                    Beta rule shows that composition $lam \circ app$ could be fused.
+                    $β$-rule shows that composition $lam \circ app$ could be fused.
                 code.
-                    Pi_Beta (A: U) (B: A -> U) (a: A) (f: A -> B a)
-                          : Path (B a) (app A B a (lam A B a (f a))) (f a)
-                          = refl (B a) (f a)
-                h2 Eta
+                    def Π-β (A : U) (B : A → U) (a : A) (f : Pi A B)
+                      : Path (B a) (apply A B (lambda A B f) a) (f a)
+                     := idp (B a) (f a)
                 p.
-                    Eta rule shows that composition $app \circ lam$ could be fused.
+                    $η$-rule shows that composition $app \circ lam$ could be fused.
                 code.
-                    Pi_Eta (A: U) (B: A -> U) (a: A) (f: A -> B a)
-                          : Path (A -> B a) f (\(x:A) -> f x)
-                          = refl (A -> B a) f
+                    def Π-η (A : U) (B : A → U) (a : A) (f : Pi A B)
+                      : Path (Pi A B) f (λ (x : A), f x)
+                     := idp (Pi A B) f
                 br
 
                 h1 Theorems
@@ -208,3 +208,5 @@ block content
                     pathPi (A:U) (B:A->U) (f g : Pi A B)
                          : Path U (Path (Pi A B) f g)
                                   ((x:A) -> Path (B x) (f x) (g x))
+
+    include ../../../footer.pug

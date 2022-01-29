@@ -1,10 +1,23 @@
-extends ../../../layout.pug
-
-block title
-    title SIGMA
-    script(src='//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML')
-    script.
-     window.MathJax = { jax: ["input/TeX", "input/MathML", "input/AsciiMath", "output/CommonHTML", "output/NativeMML"],
+doctype html
+html
+    head
+        meta(charset='utf-8')
+        meta(http-equiv='x-ua-compatible' content='ie=edge')
+        meta(name='viewport'        content='width=device-width, initial-scale=1')
+        meta(name='author'          content='Namdak Tonpa')
+        meta(name='twitter:site'    content='@5HT')
+        meta(name='twitter:creator' content='@5HT')
+        meta(property='og:title'       content='SIGMA')
+        meta(property='og:description' content='Dependent Sum')
+        meta(property='og:type'        content='website')
+        meta(property='fb:app_id'      content='118554188236439')
+        meta(property='og:url'         content='https://groupoid.space/foundations/mltt/sigma/')
+        link(rel='stylesheet' href='https://groupoid.space/main.css')
+        block title
+            title SIGMA
+            script(src='https://groupoid.space/styles/mathjax.js?config=TeX-AMS_HTML')
+            script.
+              window.MathJax = { jax: ["input/TeX", "input/MathML", "input/AsciiMath", "output/CommonHTML", "output/NativeMML"],
                              TeX: { extensions: ["AMSmath.js", "AMSsymbols.js", "autoload-all.js"] },
                              extensions: ["tex2jax.js", "asciimath2jax.js", "mml2jax.js", "MathMenu.js", "MathZoom.js"],
                              "HTML-CSS": { imageFont: null },
@@ -24,13 +37,16 @@ block title
                              tex2jax: { inlineMath: [['$','$'], ['\\(','\\)']],
                                         processEscapes: true }
                          };
+    body.content
+        block content
+        block vars
 
 block content
     article.main
         .om
             section
-                h1 sigma
-        aside <a href="..">Base Library</a>
+                h1 DISJOINT UNION
+        aside
             time Published: 16 OCT 2017
         .om
             section
@@ -38,33 +54,27 @@ block content
                     <a href="https://raw.githubusercontent.com/groupoid/cubical/master/src/sigma.ctt">Sigma package</a>
                     contains basic theorems about sigma types. Sigma type is built in MLTT core.
                 code.
-                    Sigma (A : U) (B : A -> U) : U
-                        = (x : A) * B x
+                    def Sigma (A : U) (B : A -> U) : U := Σ (x : A), B x
                 p.
-                    Sigma is a dependent product type, the generalization of products.
+                    $Σ$ is a dependent product type, the generalization of products or disjoin union of family of sets.
                 p.
-                    Sigma type is a total space of fibration. Element of total
+                    $Σ$-type is a total space of fibration. Element of total
                     space is formed as a pair of basepoint and fibration.
 
             section
-                h1 Definition
+                h2 Definition
                 p.
                     <b>Definition</b> (Dependent Sum). The dependent sum
                     along the morphism $f: A \rightarrow B$ in category $C$ is the left
                     adjoint $\Sigma_f : C_{/A} \rightarrow C_{/B}$ of the base change functor.
 
-                h2 Introduction
+                h2 Constructors
                 code.
-                    dpair (A: U)
-                          (B: A -> U)
-                          (a: A)
-                          (b: B a): Sigma A B
-                        = (a,b)
+                    def pair (A: U) (B: A → U) (a: A) (b: B a) : Sigma A B := (a, b)
                 br
 
-                h1 Elimination
+                h2 Eliminators
 
-                h2 Pair accessors
                 code.
                     pr1 (A: U) (B: A -> U)
                         (x: Sigma A B): A = x.1
@@ -72,8 +82,8 @@ block content
                     pr2 (A: U) (B: A -> U)
                         (x: Sigma A B): B (pr1 A B x) = x.2
                 p.
-                    If you want to access deep sigma a series of <mark>.2</mark>
-                    accessors should be applied followed by <mark>.1</mark>.
+                    If you want to access deep sigma a series of $.2$
+                    accessors should be applied followed by $.1$.
 
                 h2 Induction Principle
                 p.
@@ -87,9 +97,8 @@ block content
                            (p: Sigma A B): C p
                          = g p.1 p.2
                 br
-                h1 Computation
-
-                h2 Beta
+                h2 Computation and Uniquness
+                p.
                 code.
                     Beta1 (A: U) (B: A -> U)
                           (a:A) (b: B a)
@@ -100,7 +109,7 @@ block content
                           (a: A) (b: B a)
                         : Equ (B a) b (pr2 A B (a,b))
                         = reflect (B a)
-                h2 Eta
+                p.
                 code.
                     Eta12 (A: U) (B: A -> U) (p: Sigma A B)
                         : Equ (Sigma A B) p (pr1 A B p,pr2 A B p)
@@ -160,3 +169,5 @@ block content
                     sigmaIsContr (A: U) (B: A -> U) (u: isContr A)
                                  (q: (x: A) -> isContr (B x))
                                : isContr (Sigma A B)
+
+    include ../../../footer.pug
