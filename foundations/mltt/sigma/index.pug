@@ -45,18 +45,13 @@ block content
     article.main
         .om
             section
-                h1 DISJOINT UNION
+                h1 DEPENDENT SUM
         aside
             time Published: 16 OCT 2017
         .om
             section
                 p.
-                    <a href="https://raw.githubusercontent.com/groupoid/cubical/master/src/sigma.ctt">Sigma package</a>
-                    contains basic theorems about sigma types. Sigma type is built in MLTT core.
-                code.
-                    def Sigma (A : U) (B : A -> U) : U := Σ (x : A), B x
-                p.
-                    $Σ$ is a dependent product type, the generalization of products or disjoin union of family of sets.
+                    $Σ$ is a dependent product type, the generalization of products or disjoint union of family of sets.
                 p.
                     $Σ$-type is a total space of fibration. Element of total
                     space is formed as a pair of basepoint and fibration.
