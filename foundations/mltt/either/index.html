@@ -1,0 +1,21 @@
+<!DOCTYPE html><html><head><meta charset="utf-8"><meta http-equiv="x-ua-compatible" content="ie=edge"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="author" content="Namdak Tonpa"><meta name="twitter:site" content="@5HT"><meta name="twitter:creator" content="@5HT"><meta property="og:title" content="MAYBE"><meta property="og:description" content="Maybe"><meta property="og:type" content="website"><meta property="fb:app_id" content="118554188236439"><meta property="og:url" content="https://groupoid.space/foundations/mltt/maybe/"><link rel="stylesheet" href="https://groupoid.space/main.css"><title>EITHER</title><script src="https://groupoid.space/styles/mathjax.js?config=TeX-AMS_HTML"></script><script>window.MathJax = { jax: ["input/TeX", "input/MathML", "input/AsciiMath", "output/CommonHTML", "output/NativeMML"],
+               TeX: { extensions: ["AMSmath.js", "AMSsymbols.js", "autoload-all.js"] },
+               extensions: ["tex2jax.js", "asciimath2jax.js", "mml2jax.js", "MathMenu.js", "MathZoom.js"],
+               "HTML-CSS": { imageFont: null },
+               AuthorInit: function() {
+                   MathJax.Hub.Register.StartupHook("TeX AMSmath Ready", function() {
+                       var TEX = MathJax.InputJax.TeX;
+                       TEX.Definitions.Add({
+                           macros: {
+                             llparenthesis: ['Macro', '\\mathopen{\u2987}'],
+                             rrparenthesis: ['Macro', '\\mathclose{\u2988}'],
+                             llbracket:     ['Macro', '\\mathopen{\u27E6}'],
+                             rrbracket:     ['Macro', '\\mathclose{\u27E7}'],
+                           }
+                       });
+                   });
+               },
+               tex2jax: { inlineMath: [['$','$'], ['\\(','\\)']],
+                          processEscapes: true }
+           };</script></head><body class="content"></body></html><article class="main list"><section><h1>EITHER</h1><aside><time>Published: 4 NOV 2017</time></aside><p><b>either</b> is a representation for sum types or disjunction.
+</p><h2>Constructors</h2><h2>Eliminators</h2><h2>Induction Principle</h2></section></article>
