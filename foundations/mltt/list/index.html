@@ -24,7 +24,10 @@ Denote &mu; L<sub>A</sub> = List(A). The constructor
 functions nil: 1 &rightarrow; List(A) and cons: A
 &times; List(A) &rightarrow; List(A) are defined
 by nil = in ◦ inl and cons = in ◦ inr, so
-in = <b>[nil,cons]</b>.
+in = <b>[nil,cons]</b>.</p><p>In type theory $List$ type could be expressed as
+$$
+   List(A) := W_{(x:1+A)},\ rec_{1+A}(A,U,0,λa.𝟏,x).
+$$
 </p><h2>Constructors</h2><code>def List-ctor (A: U) := maybe-rec A U 𝟎 (λ (a : A), 𝟏)
 def List (A: U) := W (x : Maybe A), List-ctor A x
 def nil (A: U) : List A
