@@ -56,9 +56,9 @@ block content
                 The Empty type represents False-type logical 𝟎, type without inhabitants, Void or ⊥ (Bottom).
                 As it has not inhabitants it lacks both constructors and eliminators, however, it has induction.
             p.
-                <b>Definition</b> (Empty-type 𝟎). Empty-type is defined as built-in 𝟎-type.
+                <b>Definition</b> (Empty-type 𝟎). Empty-type is defined as built-in 𝟎-type:
                 $$
-                    𝟎 : U
+                    𝟎 : U.
                 $$
             code.
                 def Empty : U := 𝟎
@@ -77,7 +77,7 @@ block content
             br.
 
             p.
-                <b>Definition</b> (Negation or isEmpty). For any type A negation of A is defined as arrow from A to 𝟎.
+                <b>Definition</b> (Negation or isEmpty). For any type A negation of A is defined as arrow from A to 𝟎:
                 $$
                    \neg A := A \rightarrow 𝟎.
                 $$

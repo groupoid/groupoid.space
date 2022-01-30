@@ -20,14 +20,14 @@
            };</script></head><body class="content"></body></html><article class="main list"><section><h1>INDUCTIVE BASIS</h1><aside><time>Published: 27 JAN 2022</time></aside><p>These types form the inductive basis of MLTT foundations
 and are built-in into type checker.
 </p><h1>EMPTY</h1><p>The Empty type represents False-type logical 𝟎, type without inhabitants, Void or ⊥ (Bottom).
-As it has not inhabitants it lacks both constructors and eliminators, however, it has induction.</p><p><b>Definition</b> (Empty-type 𝟎). Empty-type is defined as built-in 𝟎-type.
+As it has not inhabitants it lacks both constructors and eliminators, however, it has induction.</p><p><b>Definition</b> (Empty-type 𝟎). Empty-type is defined as built-in 𝟎-type:
 $$
-    𝟎 : U
+    𝟎 : U.
 $$</p><code>def Empty : U := 𝟎</code><br><h2>Induction Principle</h2><p><b>Definition</b> (Induction Principle $ind_0$). 𝟎-type is satisfying the
 induction principle:
 $$
     \prod_{C\ :\ 𝟎\ \rightarrow\ U} \prod_{z\ :\ 𝟎} C(z) := ind_0(C(z),z).
-$$</p><br><code>def Empty-ind (C: 𝟎 → U) (z: 𝟎) : C z := ind₀ (C z) z</code><br><p><b>Definition</b> (Negation or isEmpty). For any type A negation of A is defined as arrow from A to 𝟎.
+$$</p><br><code>def Empty-ind (C: 𝟎 → U) (z: 𝟎) : C z := ind₀ (C z) z</code><br><p><b>Definition</b> (Negation or isEmpty). For any type A negation of A is defined as arrow from A to 𝟎:
 $$
    \neg A := A \rightarrow 𝟎.
 $$</p><code>def isEmpty (A: U): U := A → 𝟎</code><p>The witness of $\neg A$ is obtained by assuming A and deriving a contradiction.
