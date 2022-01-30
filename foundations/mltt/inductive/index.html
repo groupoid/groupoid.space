@@ -1,196 +1,27 @@
-<!DOCTYPE html><html><head><meta charset="utf-8"><meta http-equiv="x-ua-compatible" content="ie=edge"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="author" content="Maxim Sokhatsky"><meta name="twitter:site" content="@5HT"><meta name="twitter:creator" content="@5HT"><meta property="og:type" content="website"><meta property="fb:app_id" content="118554188236439"><meta property="og:url" content="https://groupoid.space"><meta property="og:title" content="GROUPOЇD"><meta property="og:description" content="Formalization of Mathematics"><link rel="stylesheet" href="https://groupoid.space/main.css?v=31"><title>INDUCTIVE</title><script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML"></script><script>window.MathJax = { jax: ["input/TeX", "input/MathML", "input/AsciiMath", "output/CommonHTML", "output/NativeMML"],
-                        TeX: { extensions: ["AMSmath.js", "AMSsymbols.js", "autoload-all.js"] },
-                        extensions: ["tex2jax.js", "asciimath2jax.js", "mml2jax.js", "MathMenu.js", "MathZoom.js"],
-                        "HTML-CSS": { imageFont: null },
-                        AuthorInit: function() {
-                            MathJax.Hub.Register.StartupHook("TeX AMSmath Ready", function() {
-                                var TEX = MathJax.InputJax.TeX;
-                                TEX.Definitions.Add({
-                                    macros: {
-                                      llparenthesis: ['Macro', '\\mathopen{\u2987}'],
-                                      rrparenthesis: ['Macro', '\\mathclose{\u2988}'],
-                                      llbracket:     ['Macro', '\\mathopen{\u27E6}'],
-                                      rrbracket:     ['Macro', '\\mathclose{\u27E7}'],
-                                    }
-                                });
-                            });
-                        },
-                        tex2jax: { inlineMath: [['$','$'], ['\\(','\\)']],
-                                   processEscapes: true }
-                    };
-</script></head><body class="content"><header class="header"><div class="header__titles"><h1 class="header__title">Inductive Data Types</h1><h4 class="header__subtitle">Well-founded trees and corecursion<br/> in Martin-Löf Type Theory with fixpoint</h4></div></header><article class="main"><div class="om"><section><h1>Abstract</h1></section></div><aside>Denis Stoyanov<br>Maxim Sokhatsky<time>DATE: 19 OCT 2017</time></aside><div class="om"><section><p>This work shows how to encode inductive types using recursion schemes.
-Unlike Church-Boem-Berarducci encoding that can encode inductive types
-without fixpoint, recursion schemes require the fixpoint constructor
-in the typechecker core in order to express this encoding.
-We will use <n>cubicaltt</b>
-<a href="https://homotopytypetheory.org/2017/09/16/a-hands-on-introduction-to-cubicaltt/">type
-checker</a> from Mörtberg et all. You may want
-to try this in Agda, Idris, Coq, or any other MLTT prover.
-</p><h1>Prerequisites</h1><h2>Fixpoint</h2><p>The core fixpoint reflection type is parametrized by a functor
-and has only one contructor with the value of this functor applied to fixpoint itself.</p><code>data fix (F: U -> U) = Fix (point: F (fix F))</code><p>We also need functions for projecting and embedding values to/from
-fixpoint functiorial stream.</p><code>unfix (F: U -> U): fix F -> F (fix F) = split Fix f -> f
-embed (F: U -> U): F (fix F) -> fix F = \(x: F (fix F)) -> Fix x
-</code><h2>F-Algebra</h2><p>F-Algebras give us a categorical understanding of recursive types.
-Let $F : C \rightarrow C$ be an endofunctor on category $C$.
-An F-algebra is a pair $(A, \varphi)$, where A
-is an object and $\varphi\ : F\ A \rightarrow A$
-is a morphism in the category $C$. The object A is the carrier and the functor
-F is the signature of the algebra. Reversing arrows gives us F-coalgebra.</p><div class="semantics"><figure>$\require{AMScd}$
-\begin{CD}
-    F C @>\varphi>> C\\
-    @V F f V V\ =\ @VV f V\\
-    F D @>>\psi> D
-\end{CD}
-$f \circ \varphi = \psi \circ F f$
-</figure><figure>$\require{AMScd}$
-\begin{CD}
-    C @>\phi>> F C\\
-    @V f V V\ =\ @VV F f V\\
-    D @>>\psi^*> F D
-\end{CD}
-$\psi^* \circ f = F f \circ \phi$
-</figure></div><h2>Initial Algebra</h2><p>A F-algebra $(\mu F, in)$ is the initial F-algebra if for any F-algebra $(C, \varphi)$
-there exists a unique arrow $\llparenthesis \varphi \rrparenthesis : \mu F \rightarrow C$ where $f = \llparenthesis \varphi \rrparenthesis$
-and is called catamorphism. Similarly, a F-coalgebra $(\nu F, out)$ is the terminal
-F-coalgebra if for any F-coalgebra $(C, \phi)$ there exists a unique arrow
-$\llbracket \phi \rrbracket : C \rightarrow \nu F$ where $f = \llbracket \phi \rrbracket$</p><div class="semantics"><figure>$\require{AMScd}$
-\begin{CD}
-     F \mu F @>in>> \mu F\\
-     @V fmap\ =\ F \llparenthesis \varphi \rrparenthesis V V\ =\ @VV \llparenthesis \varphi \rrparenthesis\ =\ cata V\\
-     F C @>>\varphi> C
-\end{CD}
-$f \circ in = \varphi \circ F f == f = \llparenthesis \varphi \rrparenthesis$
-</figure><figure>$\require{AMScd}$
-\begin{CD}
-     C @>\phi>> F C\\
-     @V ana\ =\ \llbracket \phi \rrbracket V V\ =\ @VV fmap\ =\ F \llbracket \phi \rrbracket V\\
-     \nu F @>>out> F \nu F
-\end{CD}
-$out \circ f =  F f \circ \phi == f = \llbracket \phi \rrbracket$
-</figure></div><h2>Example of Initial Algebra</h2><p>The data type of $List$ over a given set
-$A$ can be represented as the initial algebra $\mu\ L_A in$
-of the functor $L_A(X) = 1 + (A \times X)$.
-Denote $\mu\ L_A = List (A)$. The constructor
-functions $nil: 1 \rightarrow List (A)$ and $cons: A \times
-List(A) \rightarrow List(A)$ are defined by $nil = in \circ inl$
-and $cons = in \circ inr$, so $in = [nil,cons]$.
-</p><h2>Catamorphism</h2><p>Catamorphism is known as generalized version of fold.
-Assume we have fmap defined somewhere else. It is used
-to construct instances of inductive datatypes.</p><code>fmap (A B: U) (F: U -> U): (A -> B) -> F A -> F B = undefined</code><p>Then cata is defined as follows:</p><code>cata (A: U) (F: U -> U) (alg: F A -> A) (f: fix F): A
-    = alg (fmap (fix F) A F (cata A F alg) (unfix F f))
-
-</code><h2>Inductive</h2><p>Let's rewrite fix data type as an interface structure along
-with its fold:</p><code>ind (F: U -> U) (A: U): U
-    = (in_: F (fix F) -> fix F)
-    * (in_rev: fix F -> F (fix F))
-    * (fold_: (F A -> A) -> fix F -> A)
-    * Unit</code><p>Then instance of this type class would be:</p><code>inductive (F: U -> U) (A: U): ind F A
-    = (embed F,unfix F,cata A F,tt)
-</code><h2>Anamorphism</h2><p>Anamorphism is used to build instances of coinductive
-data types and represents generic stream unfold.</p><code>ana (A: U) (F: U -> U) (coalg: A -> F A) (a: A): fix F
-    = Fix (fmap A (fix F) F (ana A F coalg) (coalg a))
-</code><h2>Coinductive</h2><p>All arrows are reversed, in is out, fold is unfold.</p><code>coind (F: U -> U) (A: U): U
-    = (out_: F (fix F) -> fix F)
-    * (out_rev: fix F -> F (fix F))
-    * (unfold_: (F A -> A) -> fix F -> A)
-    * Unit</code><p>Then instance of this type class would be:</p><code>coinductive (F: U -> U) (A: U) : coind A F
-    = (unfix F,embed F,ana A F,tt)
-</code><h2>Inductive List Nat</h2><p>Here is an example of inductive encoding of list nat:</p><code>> inductive list</code><pre>EVAL: (\(A : U) -> (embed F,(unfix F,(cata A F,tt)))) (F = (\(A : U) -> list))</pre><code>> inductive list nat</code><pre>EVAL: ((\(x : F (fix F)) -> Fix x) (F = (\(A : U) -> list)),
-(unfix (\(A : U) -> list),((\(alg : Pi \(_ : F A) -> A) ->
-\(f : fix F) -> alg (fmap (fix F) A F (cata A F alg)
-(unfix F f))) (A = nat, F = (\(A : U) -> list)),tt)))
-</pre><h2>Coinductive Stream Nat</h2><p>Here is example of coinductive encoding of stream nat:</p><code>> coinductive stream nat</code><pre>EVAL: (unfix (\(A : U) -> stream),((\(x : F (fix F))
--> Fix x) (F = (\(A : U) -> stream)),((\(coalg : Pi
-\(_ : A) -> F A) -> \(a : A) -> Fix (fmap A (fix F)
-F (ana A F coalg) (coalg a))) (A = nat, F = (\(A :
-U) -> stream)),tt)))
-</pre><h1>Recursion Schemes</h1><h2>Hylomorphism</h2><p>Hylomorphism is a bi-functor that could be taken as axiom,
-since all other recursion schemas are derivable from it.
-More common, (Co)-Inductive types could be represented
-as di-algebras.</p><code>hylo (A B: U) (F: U -> U)
-     (alg: F B -> B) (coalg: A -> F A) (a: A): B
-    = alg (fmap A B F (hylo A B F alg coalg) (coalg a))
-</code><h2>Prelude</h2><p>First we need to set up an inductive type tuple for para
-and either type for apomorphism.</p><code>data tuple  (A B: U) = pair  (a: A) (b: B)
-data either (A B: U) = left  (a: A)
-                     | right (b: B)
-
-either_ (A B C: U): (A -> C) -> (B -> C) ->
-                    (either A B) -> C
-    = \(b: A -> C) -> \(c: B -> C) ->
-        split@(either A B -> C) with
-            left x -> b x
-            right y -> c y
-
-fst (A B: U): tuple A B -> A = split pair a b -> a
-snd (A B: U): tuple A B -> B = split pair a b -> b</code><p></p><h2>Primitive Recursion</h2><h3>Paramorphism</h3><code>para (A: U) (F: U -> U)
-     (psi: F (tuple (fix F) A) -> A) (f: fix F): A
-    = psi (fmap (fix F) (tuple (fix F) A) F (\(m: fix F)
-    -> pair m (para A F psi m)) (unfix F f))
-</code><h3>Apomorphism</h3><code>apo (A: U) (F: U -> U) (coalg: A ->
-    F(either (fix F) A)) (a: A): fix F
-    = Fix(fmap (either (fix F) A) (fix F) F
-    (\(x: either (fix F) A) -> either_ (fix F) A (fix F)
-    (idfun (fix F)) (apo A F coalg) x) (coalg a))
-</code><h3>Gapomorphism</h3><code>gapo (A B: U) (F: U -> U) (coalg: A -> F A)
-    (coalg2: B -> F(either A B)) (b: B): fix F
-    = Fix((fmap (either A B) (fix F) F (\(x: either A B)
-    -> either_ A B (fix F) (\(y: A) -> ana A F coalg y)
-    (\(z: B) -> gapo A B F coalg coalg2 z) x) (coalg2 b)))
-</code><h2>Morphisms on (Co)-Initial Objects</h2><code>data freeF   (F: U -> U) (A B: U)  = ReturnF (a: A) | BindF (f: F B)
-data cofreeF (F: U -> U) (A B: U)  = CoBindF (a: A)         (f: F B)
-data free    (F: U -> U) (A: U)    = Free    (_: fix (freeF     F A))
-data cofree  (F: U -> U) (A: U)    = CoFree  (_: fix (cofreeF   F A))
-
-unfree   (A: U) (F: U -> U): free   F A -> fix (freeF   F A) = split Free   a -> a
-uncofree (A: U) (F: U -> U): cofree F A -> fix (cofreeF F A) = split CoFree a -> a
-</code><h3>Histomorphism</h3><code>histo (A:U) (F: U->U) (f: F (cofree F A) -> A) (z: fix F): A =
-  extract A F ((cata (cofree F A) F (\(x: F (cofree F A)) ->
-    CoFree (Fix (CoBindF (f x) ((fmap (cofree F A)
-    (fix (cofreeF F A)) F (uncofree A F) x)))))) z) where
-  extract (A: U) (F: U -> U): cofree F A -> A = split
-    CoFree f -> unpack_fix f where
-  unpack_fix: fix (cofreeF F A) -> A = split
-    Fix f -> unpack_cofree f where
-  unpack_cofree: cofreeF F A (fix (cofreeF F A)) -> A = split
-    CoBindF a -> a
-</code><h3>Futumorphism</h3><code>futu (A: U) (F: U -> U) (f: A -> F (free F A)) (a: A): fix F =
-    Fix (fmap (free F A) (fix F) F (\(z: free F A) -> w z) (f a)) where
-  w: free F A -> fix F = split
-    Free x -> unpack x where
-  unpack_free: freeF F A (fix (freeF F A)) -> fix F = split
-    ReturnF x -> futu A F f x
-    BindF g -> Fix (fmap (fix (freeF F A)) (fix F) F (\(x: fix (freeF F A)) -> w (Free x)) g)
-  unpack: fix (freeF F A) -> fix F = split
-    Fix x -> unpack_free x
-</code><h3>Chronomorphism</h3><code>chrono (A B: U) (F: U -> U)
-   (f: F (cofree F B) -> B)
-   (g: A -> F (free F A))
-   (a: A): B = histo B F f (futu A F g a)
-</code><h2>Appendix</h2><h3>Metamorphism</h3><code>meta  (A B: U) (F: U -> U)
-      (f: A -> F A) (e: B -> A)
-      (g: F B -> B) (t: fix F): fix F
-    = ana A F f (e (cata B F g t))
-</code><h3>Mutumorphism</h3><code>mutu (A B: U) (F: U -> U)
-     (f: F (tuple A B) -> B)
-     (g: F (tuple B A) -> A)
-     (t: fix F): A
-   = g (fmap (fix F) (tuple B A) F (\(x: fix F) ->
-     pair (mutu B A F g f x) (mutu A B F f g x)) (unfix F t))
-</code><h3>Zygomorphism</h3><code>zygo (A B: U) (F: U -> U) (g: F A -> A)
-     (alg: F (tuple A B) -> B) (f: fix F): B
-    = snd A B (cata (tuple A B) F (\(x: F (tuple A B))
-    -> pair (g(fmap (tuple A B) A F (\(y: tuple A B)
-    -> fst A B y) x)) (alg x)) f)
-</code><h3>Prepromorphism</h3><code>prepro (A: U) (F: U -> U)
-       (nt: F(fix F) -> F(fix F)) (alg: F A -> A)
-       (f: fix F): A
-    = alg (fmap (fix F) A F (\(x: fix F) ->
-    prepro A F nt alg (cata (fix F) F (\(y: F(fix F))
-    -> Fix (nt(y))) x)) (unfix F f))
-</code><h3>Postpromorphism</h3><code>postpro (A: U) (F: U -> U) (nt : F(fix F) ->
-    F(fix F)) (coalg: A -> F A) (a: A): fix F
-    = Fix(fmap A (fix F) F (\(x: A) ->
-    ana (fix F) F (\(y: fix F) -> nt(unfix F y))
-    (postpro A F nt coalg x)) (coalg a))
-</code><p>The code is <a href="https://raw.githubusercontent.com/groupoid/cubical/master/src/lambek.ctt">here</a>.</p></section></div></article><footer class="footer"><a href="https://groupoid.space/"><img class="footer__logo" src="https://longchenpa.guru/seal.png" width="50"></a><span class="footer__copy">2016&mdash;2022 &copy; <a href="//5ht.co/" style="color:Lavender;">Namdak Tönpa</a></span></footer><script src="https://groupoid.space/bundle.js?v=7"></script><script src="https://groupoid.space/highlight.js?v=20"></script></body></html>
+<!DOCTYPE html><html><head><meta charset="utf-8"><meta http-equiv="x-ua-compatible" content="ie=edge"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="author" content="Namdak Tonpa"><meta name="twitter:site" content="@5HT"><meta name="twitter:creator" content="@5HT"><meta property="og:title" content="BOOL"><meta property="og:description" content="Boolean or 0-sphere"><meta property="og:type" content="website"><meta property="fb:app_id" content="118554188236439"><meta property="og:url" content="https://groupoid.space/foundations/mltt/bool/"><link rel="stylesheet" href="https://groupoid.space/main.css"><title>0,1,2,W</title><script src="https://groupoid.space/styles/mathjax.js?config=TeX-AMS_HTML"></script><script>window.MathJax = { jax: ["input/TeX", "input/MathML", "input/AsciiMath", "output/CommonHTML", "output/NativeMML"],
+               TeX: { extensions: ["AMSmath.js", "AMSsymbols.js", "autoload-all.js"] },
+               extensions: ["tex2jax.js", "asciimath2jax.js", "mml2jax.js", "MathMenu.js", "MathZoom.js"],
+               "HTML-CSS": { imageFont: null },
+               AuthorInit: function() {
+                   MathJax.Hub.Register.StartupHook("TeX AMSmath Ready", function() {
+                       var TEX = MathJax.InputJax.TeX;
+                       TEX.Definitions.Add({
+                           macros: {
+                             llparenthesis: ['Macro', '\\mathopen{\u2987}'],
+                             rrparenthesis: ['Macro', '\\mathclose{\u2988}'],
+                             llbracket:     ['Macro', '\\mathopen{\u27E6}'],
+                             rrbracket:     ['Macro', '\\mathclose{\u27E7}'],
+                           }
+                       });
+                   });
+               },
+               tex2jax: { inlineMath: [['$','$'], ['\\(','\\)']],
+                          processEscapes: true }
+           };</script></head><body class="content"></body></html><article class="main list"><section><h1>INDUCTIVE BASIS</h1><aside><time>Published: 4 NOV 2017</time></aside><p>These types forms the inductive bases and are built-in into type checker.
+</p><h1>EMPTY</h1><p><b>𝟎</b> type lacks both constructors and eliminators,
+however, it has recursor and induction.
+</p><h2>Induction Principle</h2><h1>UNIT</h1><p><b>𝟏</b> type has single inhabitant <b>★</b>.
+</p><h2>Constructors</h2><h2>Eliminators</h2><h2>Induction Principle</h2><h1>BOOL</h1><p><b>𝟐</b> is a logical boolean type or 0-sphere. Has
+two inhabitants <b>false=0<sub>2</sub></b> and <b>true=1<sub>2</sub></b>.
+</p><h2>Constructors</h2><h2>Eliminators</h2><h2>Induction Principle</h2><h1>W</h1><p>Well-founded trees without mutual recursion represented as <b>W</b>-types.
+</p><h2>Constructors</h2><h2>Eliminators</h2><h2>Induction Principle</h2></section></article>
