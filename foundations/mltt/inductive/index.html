@@ -27,7 +27,7 @@ $$
 </p><h2>Induction Principle</h2><p><b>Definition</b> (Induction Principle $ind_0$). 𝟎-type is satisfying the
 induction principle:
 $$
-    \prod_{C\ :\ 𝟎\ \rightarrow\ U} \prod_{z\ :\ 𝟎} C(z) := ind_0(C(z),z).
+    ind_0(C(z),z) : \prod_{C\ :\ 𝟎\ \rightarrow\ U} \prod_{z\ :\ 𝟎} C(z).
 $$</p><br><code>def Empty-ind (C: 𝟎 → U) (z: 𝟎) : C z := ind₀ (C z) z</code><br><p><b>Definition</b> (Negation or isEmpty). For any type A negation of A is defined as arrow from A to 𝟎:
 $$
    \neg A := A \rightarrow 𝟎.
@@ -46,7 +46,7 @@ $$
 </p><h2>Induction Principle</h2><p><b>Definition</b> (Induction Principle $ind_1$). 𝟏-type satisfies
 induction principle that for any family $P(x)$ indexed by $x : 1$ there is a function
 $$
-    \prod_{C\ :\ 𝟏\ \rightarrow\ U} \prod_{x\ :\ C(★)} \prod_{z\ :\ 𝟏} C(z) := ind_1(C,x,z).
+    ind_1(C,x,z) = \prod_{C\ :\ 𝟏\ \rightarrow\ U} \prod_{x\ :\ C(★)} \prod_{z\ :\ 𝟏} C(z).
 $$</p><code>def 1-ind (C: 𝟏 → U) (x: C ★) (z: 𝟏) : C z := ind₁ C x z</code><br><h2>Computation</h2><p><b>Theorem</b> (Unit Computates). The following equation holds:
 $$
    ind_1(C,x,★) = x.
@@ -64,7 +64,7 @@ $$
      1_2 : 𝟐.
 $$</p><br><h2>Induction Principle</h2><p><b>Definition</b> (Induction Principle $ind_2$).
 $$
-    \prod_{C\ :\ 𝟐\ \rightarrow\ U} \prod_{x\ :\ C(0_2)} \prod_{y\ :\ C(0_1)} \prod_{z\ :\ 𝟐} C(z) := ind_2(C,x,y,z).
+    ind_2(C,x,y,z) = \prod_{C\ :\ 𝟐\ \rightarrow\ U} \prod_{x\ :\ C(0_2)} \prod_{y\ :\ C(0_1)} \prod_{z\ :\ 𝟐} C(z).
 $$</p><code>def 2-ind (C: 𝟐 → U) (x: C 0₂) (y: C 1₂) (z: 𝟐) : C z := ind₂ C x y z</code><br><h1>W</h1><p>Well-founded trees without mutual recursion represented as <b>W</b>-types.
 
 </p><h2>Constructor</h2><code></code><br><h2>Induction Principle</h2><code>def indᵂ-β (A : U) (B : A → U)
