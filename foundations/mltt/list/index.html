@@ -27,12 +27,13 @@ by nil = in ◦ inl and cons = in ◦ inr, so
 in = <b>[nil,cons]</b>.</p><p>In type theory $List$ type could be expressed as
 $$
    List(A) := W_{(x:1+A)},\ rec_{1+A}(A,U,0,λa.𝟏,x).
-$$
-</p><h2>Constructors</h2><code>def List-ctor (A: U) := maybe-rec A U 𝟎 (λ (a : A), 𝟏)
+$$</p><code>def List-ctor (A: U) := maybe-rec A U 𝟎 (λ (a : A), 𝟏)
 def List (A: U) := W (x : Maybe A), List-ctor A x
-def nil (A: U) : List A
+</code><h2>Constructors</h2><p>You can create zero list with <b>nil</b> and append an element
+to the head of the list with <b>cons</b>.</p><code>def nil (A: U) : List A
 def cons (A: U) (x : A) (xs: List A) : List A
-</code><h2>Induction Principle</h2><code>def List-ind (A: U) (C: List A -> U)
+</code><h2>Induction Principle</h2><p>Induction principle allows you to prove general predicate on List (C n)
+from predicates on constructors (C nil) and (C cons).</p><code>def List-ind (A: U) (C: List A -> U)
     (z: C (nil A)) (s: Π (x: A) (xs: List A), C xs -> C (cons A x xs))
   : Π (n: List A), C n
 </code><h2>Eliminators</h2><code>def List-rec  (A: U) (C : U) (z : C) (s : A → List A → C → C) : List A → C

@@ -61,15 +61,22 @@ block content
                 $$
                    List(A) := W_{(x:1+A)},\ rec_{1+A}(A,U,0,λa.𝟏,x).
                 $$
-
-            h2 Constructors
             code.
                 def List-ctor (A: U) := maybe-rec A U 𝟎 (λ (a : A), 𝟏)
                 def List (A: U) := W (x : Maybe A), List-ctor A x
+
+            h2 Constructors
+            p.
+                You can create zero list with <b>nil</b> and append an element
+                to the head of the list with <b>cons</b>.
+            code.
                 def nil (A: U) : List A
                 def cons (A: U) (x : A) (xs: List A) : List A
 
             h2 Induction Principle
+            p.
+               Induction principle allows you to prove general predicate on List (C n)
+               from predicates on constructors (C nil) and (C cons).
             code.
                 def List-ind (A: U) (C: List A -> U)
                     (z: C (nil A)) (s: Π (x: A) (xs: List A), C xs -> C (cons A x xs))
