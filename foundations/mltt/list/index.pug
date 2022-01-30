@@ -47,6 +47,31 @@ block content
             h1 LIST
             aside
                 time Published: 4 NOV 2017
+            p.
+                The data type of <b>list</b> over a given set A can
+                be represented as the initial algebra (&mu;&nbsp;L<sub>A</sub>,&nbsp;in)
+                of the functor L<sub>A</sub>(X) = 1 + (A &times; X).
+                Denote &mu; L<sub>A</sub> = List(A). The constructor
+                functions nil: 1 &rightarrow; List(A) and cons: A
+                &times; List(A) &rightarrow; List(A) are defined
+                by nil = in ◦ inl and cons = in ◦ inr, so
+                in = <b>[nil,cons]</b>.
+
             h2 Constructors
-            h2 Eliminators
+            code.
+                def List-ctor (A: U) := maybe-rec A U 𝟎 (λ (a : A), 𝟏)
+                def List (A: U) := W (x : Maybe A), List-ctor A x
+                def nil (A: U) : List A
+                def cons (A: U) (x : A) (xs: List A) : List A
+
             h2 Induction Principle
+            code.
+                def List-ind (A: U) (C: List A -> U)
+                    (z: C (nil A)) (s: Π (x: A) (xs: List A), C xs -> C (cons A x xs))
+                  : Π (n: List A), C n
+
+            h2 Eliminators
+            code.
+                def List-rec  (A: U) (C : U) (z : C) (s : A → List A → C → C) : List A → C
+                def List-iter (A: U) (C : U) (z : C) (s : A → C → C) : List A → C
+                def List-case (A: U) (C : U) (z : C) (s : A → C) : List A → C
