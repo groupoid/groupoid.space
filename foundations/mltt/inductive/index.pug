@@ -7,11 +7,11 @@ html
         meta(name='author'          content='Namdak Tonpa')
         meta(name='twitter:site'    content='@5HT')
         meta(name='twitter:creator' content='@5HT')
-        meta(property='og:title'       content='BOOL')
-        meta(property='og:description' content='Boolean or 0-sphere')
+        meta(property='og:title'       content='INDUCTIVE')
+        meta(property='og:description' content='Inductive MLTT Foundations')
         meta(property='og:type'        content='website')
         meta(property='fb:app_id'      content='118554188236439')
-        meta(property='og:url'         content='https://groupoid.space/foundations/mltt/bool/')
+        meta(property='og:url'         content='https://groupoid.space/foundations/mltt/inductive/')
         link(rel='stylesheet' href='https://groupoid.space/main.css')
         block title
             title 0,1,2,W
@@ -56,13 +56,10 @@ block content
                 The Empty type represents False-type logical 𝟎, type without inhabitants, Void or ⊥ (Bottom).
                 As it has not inhabitants it lacks both constructors and eliminators, however, it has induction.
             p.
-                <b>Definition</b> (Empty-type 𝟎). Empty-type is defined as built-in 𝟎-type:
+                <b>Definition</b> (Empty). Empty-type is defined as built-in 𝟎-type:
                 $$
                     𝟎 : U.
                 $$
-            code.
-                def Empty : U := 𝟎
-            br.
 
             h2 Induction Principle
             p.
@@ -95,13 +92,10 @@ block content
                 Unit type is the simplest type equipped with full set of MLTT inference rules.
                 It contains single inhabitant ★ (Star).
             p.
-                <b>Definition</b> (Unit-type 𝟏). Unit-type is defined as built-in 𝟏-type.
+                <b>Definition</b> (Unit). Unit-type is defined as built-in 𝟏-type:
                 $$
                     𝟏 : U.
                 $$
-            code.
-                def Unit : U := 𝟏
-            br.
 
             h2 Constructor
             p.
@@ -109,8 +103,6 @@ block content
                 $$
                      ★ : 𝟏.
                 $$
-            code.
-                def 1-ctor : 𝟏 := ★
 
             h2 Induction Principle
             p.
@@ -123,16 +115,34 @@ block content
                 def 1-ind (C: 𝟏 → U) (x: C ★) (z: 𝟏) : C z := ind₁ C x z
             br
 
+            h2 Computation
+            p.
+                <b>Theorem</b> (Unit Computates). The following equation holds:
+                $$
+                   ind_1(C,x,★) = x.
+                $$
+
             h1 BOOL
             p.
                 𝟐 is a logical boolean type or 0-sphere which has two
                 inhabitants false=0$_2$ and true=1$_2$.
+            p.
+                <b>Definition</b> (Bool). Boolean-type or 0-sphere is defined as built-in 𝟐-type:
+                $$
+                    𝟐 : U.
+                $$
 
             h2 Constructors
             p.
-                <b>Definition</b> (0$_2$).
+                <b>Definition</b> (0$_2$). North=False=0$_2$.
+                $$
+                     0_2 : 𝟐.
+                $$
             p.
-                <b>Definition</b> (1$_2$).
+                <b>Definition</b> (1$_2$). South=True=1$_2$.
+                $$
+                     1_2 : 𝟐.
+                $$
             br.
 
             h2 Induction Principle
@@ -148,6 +158,7 @@ block content
             h1 W
             p.
                Well-founded trees without mutual recursion represented as <b>W</b>-types.
+          
 
             h2 Constructor
             code.

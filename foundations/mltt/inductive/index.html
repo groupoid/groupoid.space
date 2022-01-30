@@ -1,4 +1,4 @@
-<!DOCTYPE html><html><head><meta charset="utf-8"><meta http-equiv="x-ua-compatible" content="ie=edge"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="author" content="Namdak Tonpa"><meta name="twitter:site" content="@5HT"><meta name="twitter:creator" content="@5HT"><meta property="og:title" content="BOOL"><meta property="og:description" content="Boolean or 0-sphere"><meta property="og:type" content="website"><meta property="fb:app_id" content="118554188236439"><meta property="og:url" content="https://groupoid.space/foundations/mltt/bool/"><link rel="stylesheet" href="https://groupoid.space/main.css"><title>0,1,2,W</title><script src="https://groupoid.space/styles/mathjax.js?config=TeX-AMS_HTML"></script><script>window.MathJax = { jax: ["input/TeX", "input/MathML", "input/AsciiMath", "output/CommonHTML", "output/NativeMML"],
+<!DOCTYPE html><html><head><meta charset="utf-8"><meta http-equiv="x-ua-compatible" content="ie=edge"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="author" content="Namdak Tonpa"><meta name="twitter:site" content="@5HT"><meta name="twitter:creator" content="@5HT"><meta property="og:title" content="INDUCTIVE"><meta property="og:description" content="Inductive MLTT Foundations"><meta property="og:type" content="website"><meta property="fb:app_id" content="118554188236439"><meta property="og:url" content="https://groupoid.space/foundations/mltt/inductive/"><link rel="stylesheet" href="https://groupoid.space/main.css"><title>0,1,2,W</title><script src="https://groupoid.space/styles/mathjax.js?config=TeX-AMS_HTML"></script><script>window.MathJax = { jax: ["input/TeX", "input/MathML", "input/AsciiMath", "output/CommonHTML", "output/NativeMML"],
                TeX: { extensions: ["AMSmath.js", "AMSsymbols.js", "autoload-all.js"] },
                extensions: ["tex2jax.js", "asciimath2jax.js", "mml2jax.js", "MathMenu.js", "MathZoom.js"],
                "HTML-CSS": { imageFont: null },
@@ -20,10 +20,11 @@
            };</script></head><body class="content"></body></html><article class="main list"><section><h1>INDUCTIVE BASIS</h1><aside><time>Published: 27 JAN 2022</time></aside><p>These types form the inductive basis of MLTT foundations
 and are built-in into type checker.
 </p><h1>EMPTY</h1><p>The Empty type represents False-type logical 𝟎, type without inhabitants, Void or ⊥ (Bottom).
-As it has not inhabitants it lacks both constructors and eliminators, however, it has induction.</p><p><b>Definition</b> (Empty-type 𝟎). Empty-type is defined as built-in 𝟎-type:
+As it has not inhabitants it lacks both constructors and eliminators, however, it has induction.</p><p><b>Definition</b> (Empty). Empty-type is defined as built-in 𝟎-type:
 $$
     𝟎 : U.
-$$</p><code>def Empty : U := 𝟎</code><br><h2>Induction Principle</h2><p><b>Definition</b> (Induction Principle $ind_0$). 𝟎-type is satisfying the
+$$
+</p><h2>Induction Principle</h2><p><b>Definition</b> (Induction Principle $ind_0$). 𝟎-type is satisfying the
 induction principle:
 $$
     \prod_{C\ :\ 𝟎\ \rightarrow\ U} \prod_{z\ :\ 𝟎} C(z) := ind_0(C(z),z).
@@ -34,23 +35,38 @@ $$</p><code>def isEmpty (A: U): U := A → 𝟎</code><p>The witness of $\neg A$
 This techniques is called proof of negation and is applicable to any types in constrast
 to proof by contradiction which implies $\neg\neg A \rightarrow A$ (double negation elimination) and is
 applicable only to decidable types with $\neg A + A$ property.</p><br><h1>UNIT</h1><p>Unit type is the simplest type equipped with full set of MLTT inference rules.
-It contains single inhabitant ★ (Star).</p><p><b>Definition</b> (Unit-type 𝟏). Unit-type is defined as built-in 𝟏-type.
+It contains single inhabitant ★ (Star).</p><p><b>Definition</b> (Unit). Unit-type is defined as built-in 𝟏-type:
 $$
     𝟏 : U.
-$$</p><code>def Unit : U := 𝟏</code><br><h2>Constructor</h2><p><b>Definition</b> (Star). 𝟏-type containts single inhabitant ★:
+$$
+</p><h2>Constructor</h2><p><b>Definition</b> (Star). 𝟏-type containts single inhabitant ★:
 $$
      ★ : 𝟏.
-$$</p><code>def 1-ctor : 𝟏 := ★
-</code><h2>Induction Principle</h2><p><b>Definition</b> (Induction Principle $ind_1$). 𝟏-type satisfies
+$$
+</p><h2>Induction Principle</h2><p><b>Definition</b> (Induction Principle $ind_1$). 𝟏-type satisfies
 induction principle that for any family $P(x)$ indexed by $x : 1$ there is a function
 $$
     \prod_{C\ :\ 𝟏\ \rightarrow\ U} \prod_{x\ :\ C(★)} \prod_{z\ :\ 𝟏} C(z) := ind_1(C,x,z).
-$$</p><code>def 1-ind (C: 𝟏 → U) (x: C ★) (z: 𝟏) : C z := ind₁ C x z</code><br><h1>BOOL</h1><p>𝟐 is a logical boolean type or 0-sphere which has two
-inhabitants false=0$_2$ and true=1$_2$.
-</p><h2>Constructors</h2><p><b>Definition</b> (0$_2$).</p><p><b>Definition</b> (1$_2$).</p><br><h2>Induction Principle</h2><p><b>Definition</b> (Induction Principle $ind_2$).
+$$</p><code>def 1-ind (C: 𝟏 → U) (x: C ★) (z: 𝟏) : C z := ind₁ C x z</code><br><h2>Computation</h2><p><b>Theorem</b> (Unit Computates). The following equation holds:
+$$
+   ind_1(C,x,★) = x.
+$$
+</p><h1>BOOL</h1><p>𝟐 is a logical boolean type or 0-sphere which has two
+inhabitants false=0$_2$ and true=1$_2$.</p><p><b>Definition</b> (Bool). Boolean-type or 0-sphere is defined as built-in 𝟐-type:
+$$
+    𝟐 : U.
+$$
+</p><h2>Constructors</h2><p><b>Definition</b> (0$_2$). North=False=0$_2$.
+$$
+     0_2 : 𝟐.
+$$</p><p><b>Definition</b> (1$_2$). South=True=1$_2$.
+$$
+     1_2 : 𝟐.
+$$</p><br><h2>Induction Principle</h2><p><b>Definition</b> (Induction Principle $ind_2$).
 $$
     \prod_{C\ :\ 𝟐\ \rightarrow\ U} \prod_{x\ :\ C(0_2)} \prod_{y\ :\ C(0_1)} \prod_{z\ :\ 𝟐} C(z) := ind_2(C,x,y,z).
 $$</p><code>def 2-ind (C: 𝟐 → U) (x: C 0₂) (y: C 1₂) (z: 𝟐) : C z := ind₂ C x y z</code><br><h1>W</h1><p>Well-founded trees without mutual recursion represented as <b>W</b>-types.
+
 </p><h2>Constructor</h2><code></code><br><h2>Induction Principle</h2><code>def indᵂ-β (A : U) (B : A → U)
     (C : (W (x : A), B x) → U) (g : Π (x : A)
     (f : B x → (W (x : A), B x)), (Π (b : B x), C (f b)) → C (sup A B x f))
