@@ -31,8 +31,9 @@ $$</p><br><code>def Empty-ind (C: 𝟎 → U) (z: 𝟎) : C z := ind₀ (C z) z<
 $$
    \neg A := A \rightarrow 𝟎.
 $$</p><code>def isEmpty (A: U): U := A → 𝟎</code><p>The witness of $\neg A$ is obtained by assuming A and deriving a contradiction.
-This techniques is called proof of negation and is constructive in constrast
-to non-constructive proof by contradiction which implies $\neg\neg A \rightarrow A$ (double negation elimination).</p><br><h1>UNIT</h1><p>Unit type is the simplest type equipped with full set of MLTT inference rules.
+This techniques is called proof of negation and is applicable to any types in constrast
+to proof by contradiction which implies $\neg\neg A \rightarrow A$ (double negation elimination) and is
+applicable only to decidable types with $\neg A + A$ property.</p><br><h1>UNIT</h1><p>Unit type is the simplest type equipped with full set of MLTT inference rules.
 It contains single inhabitant ★ (Star).</p><p><b>Definition</b> (Unit-type 𝟏). Unit-type is defined as built-in 𝟏-type.
 $$
     𝟏 : U.
