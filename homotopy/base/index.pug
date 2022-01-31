@@ -1,0 +1,107 @@
+doctype html
+html
+    head
+        meta(charset='utf-8')
+        meta(http-equiv='x-ua-compatible' content='ie=edge')
+        meta(name='viewport'        content='width=device-width, initial-scale=1')
+        meta(name='author'          content='Maxim Sokhatsky')
+        meta(name='twitter:site'    content='@5HT')
+        meta(name='twitter:creator' content='@5HT')
+        meta(property='og:title'       content='BASE LIB')
+        meta(property='og:description' content='Groupoid Infinity Cubical Base Library')
+        meta(property='og:type'        content='website')
+        meta(property='fb:app_id'      content='118554188236439')
+        meta(property='og:url'         content='https://groupoid.space/homotopy/base/')
+        link(rel='stylesheet' href='https://groupoid.space/main.css')
+        block title
+            title BASE LIB
+    body.content
+        block content
+        block vars
+
+block content
+    article.main
+        .exe
+            section
+            h1 CUBICAL BASE LIBRARY
+            p.
+                Cubical base library for <b>Anders</b> theorem prover consists
+                of two parts Foundations and Mathematics just like HoTT Book.
+
+            h2 Foundations
+            p.
+                MLTT, Modal and Univalent Foundations represent a basic
+                language primitives of <b>Anders</b> and its base library.
+
+            section
+                .macro
+                    .macro__col
+                        h3#mltt <b>MLTT</b>
+                        ol
+                            li: a(href='https://groupoid.space/foundations/mltt/pi/') PI
+                            li: a(href='https://groupoid.space/foundations/mltt/sigma/') SIGMA
+                            li: a(href='https://groupoid.space/foundations/mltt/id/') ID
+                            li: <a href='https://groupoid.space/foundations/mltt/inductive/'>0, 1, 2, W</a>
+                            li: <a href='https://groupoid.space/foundations/mltt/either/'>+</a>, <a href='https://groupoid.space/foundations/mltt/maybe/'>1+</a>
+                            li: <a href='https://groupoid.space/foundations/mltt/nat/'>N</a>, <a href='https://groupoid.space/foundations/mltt/list/'>LIST</a>
+                            li: <a href='https://groupoid.space/foundations/mltt/fin/'>FIN</a>, <a href='https://groupoid.space/foundations/mltt/vec/'>VEC</a>
+                    .macro__col
+                        h3#modal <b>MODAL</b>
+                        ol
+                            li: a(href='https://groupoid.space/foundations/modal/derham/') DERHAM
+                            li: a(href='https://groupoid.space/foundations/modal/process/') PROCESS
+                            li: a(href='https://groupoid.space/foundations/modal/infinitesimal/') INFINITESIMAL
+                    .macro__col
+                        h3#univalent <b>UNIVALENT</b>
+                        ol
+                            li: a(href='https://groupoid.space/foundations/univalent/equiv/') EQUIV
+                            li: a(href='https://groupoid.space/foundations/univalent/iso/') ISO
+                            li: a(href='https://groupoid.space/foundations/univalent/funext/') FUNEXT
+                            li: a(href='https://groupoid.space/foundations/univalent/path/') PATH
+                            li: a(href='https://groupoid.space/foundations/univalent/glue/') GLUE
+
+            h2 Mathematics
+            p.
+                The second part is dedicated to mathematical models and theories internalized in this language.
+
+            section
+                .macro
+                    .macro__col
+                        h3#algebra <b>ALGEBRA</b>
+                        ol
+                            li: a(href='https://groupoid.space/mathematics/algebra/algebra/') ALGEBRA
+                            li: a(href='https://groupoid.space/mathematics/algebra/homology/') HOMOLOGY
+                    .macro__col
+                        h3#geometry <b>GEOMETRY</b>
+                        ol
+                            li: a(href='https://groupoid.space/mathematics/geometry/etale') ETALE
+                            li: a(href='https://groupoid.space/mathematics/geometry/bundle') BUNDLE
+                            li: a(href='https://groupoid.space/mathematics/geometry/manifold') MANIFOLD
+                    .macro__col
+                        h3#homotopy <b>HOMOTOPY</b>
+                        ol
+                            li: a(href='https://groupoid.space/mathematics/homotopy/coequalizer/') COEQUALIZER
+                            li: a(href='https://groupoid.space/mathematics/homotopy/pushout/') PUSHOUT
+                            li: a(href='https://groupoid.space/mathematics/homotopy/pullback/') PULLBACK
+                            li: a(href='https://groupoid.space/mathematics/homotopy/hopf/') HOPF
+                            li: a(href='https://groupoid.space/mathematics/homotopy/cw/') CW
+            section
+                .macro
+                    .macro__col
+                        h3#categories <b>CATEGORIES</b>
+                        ol
+                            li: a(href='https://groupoid.space/mathematics/categories/category/') CATEGORY
+                            li: a(href='https://groupoid.space/mathematics/categories/functor/') FUNCTOR
+                            li: a(href='https://groupoid.space/mathematics/categories/groupoid/') GROUPOID
+                    .macro__col
+                        h3#categories <b>TOPOI</b>
+                        ol
+                            li: a(href='https://groupoid.space/mathematics/topoi/topos/') TOPOS
+                            li: a(href='https://groupoid.space/mathematics/topoi/presheaf/') PRESHEAF
+            br.
+            p.
+                 The base library for <b>cubicaltt</b> is given on separate page:
+                 <a href='https://groupoid.space/misc/library/'>Formal Mathematics: The Cubical Base Library</a><br>
+
+hr
+include ../../footer
