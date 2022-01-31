@@ -158,7 +158,7 @@ block content
             p.
                 Well-founded trees without mutual recursion represented as $\mathrm{W}$-types.
             p.
-                <b>Definition</b> (W). For $A : \mathcal{U}$ and $B : A \rightarrow U$, type $\mathrm{W}$
+                <b>Definition</b> (W). For $A : \mathcal{U}$ and $B : A \rightarrow \mathcal{U}$, type $\mathrm{W}$
                 is defined as $\mathrm{W}(A,B) : \mathcal{U}$ or
                 $$
                    \mathrm{W}_{(x : A)} B(x) : \mathcal{U}.
@@ -188,7 +188,7 @@ block content
                 $$
                 there is a dependent function:
                 $$
-                   \mathrm{ind^W} : \prod_{C: \mathrm{W}(A,B) → U}\prod_{g:G}\prod_{a: A}\prod_{f: B(a) → \mathrm{W}(A,B)}\prod_{b: B(a)}C(f(b)).
+                   \mathrm{ind^W} : \prod_{C: \mathrm{W}(A,B) → \mathcal{U}}\prod_{g:G}\prod_{a: A}\prod_{f: B(a) → \mathrm{W}(A,B)}\prod_{b: B(a)}C(f(b)).
                 $$
             code.
                 def W-ind (A : U) (B : A → U)
