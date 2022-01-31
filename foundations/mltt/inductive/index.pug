@@ -134,12 +134,12 @@ block content
 
             h2 Constructors
             p.
-                <b>Definition</b> ($0_2$). north, or false, or $0_2$.
+                <b>Definition</b> ($0_2$). false or $0_2$.
                 $$
                      0_2 : 𝟐.
                 $$
             p.
-                <b>Definition</b> ($1_2$). south, or true, or $1_2$.
+                <b>Definition</b> ($1_2$). true or $1_2$.
                 $$
                      1_2 : 𝟐.
                 $$
@@ -159,7 +159,8 @@ block content
             p.
                 Well-founded trees without mutual recursion represented as $\mathrm{W}$-types.
             p.
-                <b>Definition</b> (W). Type W is defined as $W_{A,B} : U$ or
+                <b>Definition</b> (W). For $A : U$ and $B : A \rightarrow U$, type $\mathrm{W}$
+                is defined as $\mathrm{W}(A,B) : U$ or
                 $$
                    \mathrm{W}_{(x : A)} B(x) : U.
                 $$
@@ -187,7 +188,7 @@ block content
                 $$
                 there is a dependent function:
                 $$
-                   \mathrm{ind^W} : \prod_{A : U}\prod_{B: A → U}\prod_{C: \mathrm{W}_{(x : A)} B(x) → U}\prod_{x: A}\prod_{g:G}\prod_{a: A}\prod_{f: B(a) → \mathrm{W}_{(x : A)} B(x)}\prod_{b: B(a)}C(f(b)).
+                   \mathrm{ind^W} : \prod_{A : U}\prod_{B: A → U}\prod_{C: \mathrm{W}(A,B) → U}\prod_{g:G}\prod_{a: A}\prod_{f: B(a) → \mathrm{W}(A,B)}\prod_{b: B(a)}C(f(b)).
                 $$
             code.
                 def W-ind (A : U) (B : A → U)
