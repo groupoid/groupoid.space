@@ -28,7 +28,6 @@ the inner one is homotopy type system presheaf that models HoTT and the outer on
 type system presheaf that models set theory with UIP. The motivation behind this doubling is to
 have an ability to express semisemplicial types. Theoretical work on merging inner
 and outer languages was continued in <b><a href="https://arxiv.org/pdf/1705.03307.pdf">2LTT</a></b> [2,3].
-<b>Anders</b> comes with its own <a href="https://groupoid.space/homotopy/base/">Cubical Base Library</a>.
 </p></aside><section><div class="macro"><div class="macro__col"><h3 id="pure"><b>PTS</b></h3><ol><li><a href="#univ">UNI</a></li><li><a href="#pi">PI</a></li></ol></div><div class="macro__col"><h3 id="mltt"><b>MLTT-73</b></h3><ol><li><a href="#univ">UNI</a></li><li><a href="#pi">PI</a></li><li><a href="#sigma">SIGMA</a></li><li><a href="#id">ID</a></li><li><a href="#induction">NAT</a></li></ol></div><div class="macro__col"><h3 id="homotopy"><b>CCHM</b></h3><ol><li><a href="#univ">UNI</a></li><li><a href="#pi">PI</a></li><li><a href="#sigma">SIGMA</a></li><li><a href="#path">PATH</a></li><li><a href="#glue">GLUE</a></li><li><a href="#induction">HIT</a></li></ol></div><div class="macro__col"><h3 id="hts"><b>HTS</b></h3><ol><li><a href="#univ">UNI</a></li><li><a href="#pi">PI</a></li><li><a href="#sigma">SIGMA</a></li><li><a href="#id">ID</a></li><li><a href="#path">PATH</a></li><li><a href="#glue">GLUE</a></li><li><a href="#induction">HIT</a></li></ol></div></div><p>While we are on our road to Lean-like tactic language, currently
 we are at the stage of regular cubical <b>HTS</b> type checker
 with <b>CHM</b>-style [5] primitives.
@@ -47,11 +46,12 @@ Anders theorem prover [MLTT][CCHM][HTS][deRham] version 1.1.1
              | cubicaltt &lt;filename>  | girard
              | trace                 | verbose
              | repl                  | help
-</code><br><p>Anders is fast, idiomatic and educational. We carefully draw the favourite
-Lean-compatible syntax to fit 130 LOC in Menhir, the <b>MLTT</b> core
-is 500 LOC and <b>CCHM</b> [4] pretypes is another 500 LOC.
-It compiles under 2 seconds and
-checks all the base library under 1 second [Haswell, 2013].
+</code><br><p> Anders is fast, idiomatic and educational. We carefully draw the favourite
+ Lean-compatible syntax to fit 130 LOC in Menhir, the <b>MLTT</b> core
+ is 500 LOC and <b>CCHM</b> [4] pretypes is another 500 LOC.
+ It compiles under 2 seconds and
+ checks all the base library under 1 second [Haswell, 2013].
+<b>Anders</b> comes with its own <a href="https://groupoid.space/homotopy/base/">Cubical Base Library</a>.
 </p></section><section><h1>SYNTAX</h1><p>The syntax resembles original syntax of the reference <b>CCHM</b> type checker
 <b>cubicaltt</b>, is slightly compatible with <b>Lean</b> syntax
 and contains the full set of <b>Cubical&nbsp;Agda</b> [10] primitives.</p><p>Here is given the mathematical pseudo-code notation
