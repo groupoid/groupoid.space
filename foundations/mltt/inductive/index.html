@@ -83,7 +83,7 @@ $$
 $$
 there is a dependent function:
 $$
-   \mathrm{ind^W} : \prod_{A : U}\prod_{B: A → U}\prod_{C: \mathrm{W}(A,B) → U}\prod_{g:G}\prod_{a: A}\prod_{f: B(a) → \mathrm{W}(A,B)}\prod_{b: B(a)}C(f(b)).
+   \mathrm{ind^W} : \prod_{C: \mathrm{W}(A,B) → U}\prod_{g:G}\prod_{a: A}\prod_{f: B(a) → \mathrm{W}(A,B)}\prod_{b: B(a)}C(f(b)).
 $$</p><code>def W-ind (A : U) (B : A → U)
     (C : (W (x : A), B x) → U)
     (g : Π (x : A) (f : B x → (W (x : A), B x)), (Π (b : B x), C (f b)) → C (sup A B x f))
