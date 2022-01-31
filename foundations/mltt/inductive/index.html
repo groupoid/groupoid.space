@@ -65,7 +65,7 @@ $$
 $$</p><br><h2>Induction Principle</h2><p><b>Definition</b> (Induction Principle $\mathrm{ind_2}$).
 $$
     \mathrm{ind_2} : \prod_{C\ :\ 𝟐\ \rightarrow\ U} \prod_{x\ :\ C(0_2)} \prod_{y\ :\ C(0_1)} \prod_{z\ :\ 𝟐} C(z).
-$$</p><code>def 2-ind (C: 𝟐 → U) (x: C 0₂) (y: C 1₂) (z: 𝟐) : C z := ind₂ C x y z</code><br><h1>W</h1><p>Well-founded trees without mutual recursion represented as $\mathrm{W}$-types.</p><p><b>Definition</b> (W). Type W is defined as $W_{(x:A)}\ B(x) : U$ or $W_{A,B} : U$.
+$$</p><code>def 2-ind (C: 𝟐 → U) (x: C 0₂) (y: C 1₂) (z: 𝟐) : C z := ind₂ C x y z</code><br><h1>W</h1><p>Well-founded trees without mutual recursion represented as $\mathrm{W}$-types.</p><p><b>Definition</b> (W). Type W is defined as $W_{A,B} : U$ or
 $$
    \mathrm{W}_{(x : A)} B(x) : U.
 $$</p><code>def W' (A : U) (B : A → U) : U := W (x : A), B x
