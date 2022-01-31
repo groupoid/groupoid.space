@@ -89,7 +89,7 @@ $$</p><code>def W-ind (A : U) (B : A → U)
 </code><h2>Computation</h2><p><b>Theorem</b> ($ind^W$ computes). The induction principle $ind^W$ satisfies
 the equation:
 $$
-    ind^W_\beta : ind^W(g,sup(a,f)) = g(a,f,λb.ind^W(g,f(b))).
+    ind^W_\beta : g(a,f,λb.ind^W(g,f(b))) = ind^W(g,sup(a,f)).
 $$</p><code>def indᵂ-β (A : U) (B : A → U)
     (C : (W (x : A), B x) → U) (g : Π (x : A)
     (f : B x → (W (x : A), B x)), (Π (b : B x), C (f b)) → C (sup A B x f))
