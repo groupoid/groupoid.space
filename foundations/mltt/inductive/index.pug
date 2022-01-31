@@ -57,7 +57,7 @@ block content
             p.
                 <b>Definition</b> (Empty). Empty-type is defined as built-in 𝟎-type:
                 $$
-                    𝟎 : U.
+                    𝟎 : \mathcal{U}.
                 $$
 
             h2 Induction Principle
@@ -65,7 +65,7 @@ block content
                 <b>Definition</b> (Induction Principle $\mathrm{ind_0}$). 𝟎-type is satisfying the
                 induction principle:
                 $$
-                    \mathrm{ind_0} : \prod_{C\ :\ 𝟎\ \rightarrow\ U} \prod_{z\ :\ 𝟎} C(z).
+                    \mathrm{ind_0} : \prod_{C\ :\ 𝟎\ \rightarrow\ \mathcal{U}} \prod_{z\ :\ 𝟎} C(z).
                 $$
             br.
             code.
@@ -93,7 +93,7 @@ block content
             p.
                 <b>Definition</b> (Unit). Unit-type is defined as built-in 𝟏-type:
                 $$
-                    𝟏 : U.
+                    𝟏 : \mathcal{U}.
                 $$
 
             h2 Constructor
@@ -108,7 +108,7 @@ block content
                 <b>Definition</b> (Induction Principle $\mathrm{ind_1}$). 𝟏-type satisfies
                 induction principle that for any family $C$ indexed by $x : 1$ there is a function
                 $$
-                    \mathrm{ind_1} : \prod_{C\ :\ 𝟏\ \rightarrow\ U} \prod_{x\ :\ C(★)} \prod_{z\ :\ 𝟏} C(z).
+                    \mathrm{ind_1} : \prod_{C\ :\ 𝟏\ \rightarrow\ \mathcal{U}} \prod_{x\ :\ C(★)} \prod_{z\ :\ 𝟏} C(z).
                 $$
             code.
                 def 1-ind (C: 𝟏 → U) (x: C ★) (z: 𝟏) : C z := ind₁ C x z
@@ -128,7 +128,7 @@ block content
             p.
                 <b>Definition</b> (Bool). Boolean-type or 0-sphere is defined as built-in 𝟐-type:
                 $$
-                    𝟐 : U.
+                    𝟐 : \mathcal{U}.
                 $$
 
             h2 Constructors
@@ -158,10 +158,10 @@ block content
             p.
                 Well-founded trees without mutual recursion represented as $\mathrm{W}$-types.
             p.
-                <b>Definition</b> (W). For $A : U$ and $B : A \rightarrow U$, type $\mathrm{W}$
-                is defined as $\mathrm{W}(A,B) : U$ or
+                <b>Definition</b> (W). For $A : \mathcal{U}$ and $B : A \rightarrow U$, type $\mathrm{W}$
+                is defined as $\mathrm{W}(A,B) : \mathcal{U}$ or
                 $$
-                   \mathrm{W}_{(x : A)} B(x) : U.
+                   \mathrm{W}_{(x : A)} B(x) : \mathcal{U}.
                 $$
             code.
                 def W' (A : U) (B : A → U) : U := W (x : A), B x
@@ -181,7 +181,7 @@ block content
             h2 Induction Principle
             p.
                 <b>Definition</b> (Induction Principle $\mathrm{ind^W}$). The induction principle states that
-                for any types $A: U$ and $B: A \rightarrow U$ and type family $C$ over $\mathrm{W}(A,B)$
+                for any types $A: \mathcal{U}$ and $B: A \rightarrow \mathcal{U}$ and type family $C$ over $\mathrm{W}(A,B)$
                 and the function $g : G$, where
                 $$
                    G = \prod_{x: A}\prod_{f: B(x) → \mathrm{W}(A,B)}\prod_{b: B(x)} C(f(b)) → C(\mathrm{sup}(x,f))
