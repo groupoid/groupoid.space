@@ -5,6 +5,11 @@
     font-style: normal;
 }
 
+.MathJax_Display {
+  overflow-x: hidden;
+  overflow-y: hidden;
+}
+
 nav a {
     font-size: 18px;
     border: 2px solid #dedede;
