@@ -157,7 +157,7 @@ block content
 
             h1 W
             p.
-                Well-founded trees without mutual recursion represented as $W$-types.
+                Well-founded trees without mutual recursion represented as $\mathrm{W}$-types.
                 $$
                    \mathrm{W}_{x: A}B(x) : U.
                 $$
@@ -166,7 +166,7 @@ block content
 
             h2 Constructor
             p.
-                Elements of $W_{A,B}$ are called trees and created with single sup constructor:
+                Elements of $\mathrm{W}_{A,B}$ are called trees and created with single $\mathrm{sup}$ constructor:
                 $$
                     \mathrm{sup} : \mathrm{W}_{x: A}B(x).
                 $$
@@ -178,14 +178,14 @@ block content
 
             h2 Induction Principle
             p.
-                <b>Definition</b> (Induction Principle $ind^W$). The induction principle states that
-                for any type family C over $W_{A,B}$ and the function $g : G$, where
+                <b>Definition</b> (Induction Principle $\mathrm{ind^W}$). The induction principle states that
+                for any type family C over $\mathrm{W}_{A,B}$ and the function $g : G$, where
                 $$
-                   G = \prod_{x: A}\prod_{f: B(x) → W_{A,B}}\prod_{b: B(x)} C(f(b)) → C(sup(x,f))
+                   G = \prod_{x: A}\prod_{f: B(x) → \mathrm{W}_{A,B}}\prod_{b: B(x)} C(f(b)) → C(\mathrm{sup}(x,f))
                 $$
                 there is a dependent function:
                 $$
-                   \mathrm{ind^W} : \prod_{A : U}\prod_{B: A → U}\prod_{C: W → U}\prod_{x: A}\prod_{g:G}\prod_{a: A}\prod_{f: B(a) → W_{A,B}}\prod_{b: B(a)}C(f(b)).
+                   \mathrm{ind^W} : \prod_{A : U}\prod_{B: A → U}\prod_{C: W → U}\prod_{x: A}\prod_{g:G}\prod_{a: A}\prod_{f: B(a) → \mathrm{W}_{A,B}}\prod_{b: B(a)}C(f(b)).
                 $$
             code.
                 def W-ind (A : U) (B : A → U)
@@ -195,10 +195,10 @@ block content
 
             h2 Computation
             p.
-                <b>Theorem</b> ($ind^W$ computes). The induction principle $ind^W$ satisfies
+                <b>Theorem</b> ($\mathrm{ind^W}$ computes). The induction principle $\mathrm{ind^W}$ satisfies
                 the equation:
                 $$
-                    ind^W_\beta : g(a,f,λb.ind^W(g,f(b))) = ind^W(g,sup(a,f)).
+                    \mathrm{ind^W_\beta} : g(a,f,λb.\mathrm{ind^W}(g,f(b))) = \mathrm{ind^W}(g,sup(a,f)).
                 $$
             code.
                 def indᵂ-β (A : U) (B : A → U)

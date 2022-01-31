@@ -65,31 +65,31 @@ $$
 $$</p><br><h2>Induction Principle</h2><p><b>Definition</b> (Induction Principle $\mathrm{ind_2}$).
 $$
     \mathrm{ind_2} : \prod_{C\ :\ 𝟐\ \rightarrow\ U} \prod_{x\ :\ C(0_2)} \prod_{y\ :\ C(0_1)} \prod_{z\ :\ 𝟐} C(z).
-$$</p><code>def 2-ind (C: 𝟐 → U) (x: C 0₂) (y: C 1₂) (z: 𝟐) : C z := ind₂ C x y z</code><br><h1>W</h1><p>Well-founded trees without mutual recursion represented as $W$-types.
+$$</p><code>def 2-ind (C: 𝟐 → U) (x: C 0₂) (y: C 1₂) (z: 𝟐) : C z := ind₂ C x y z</code><br><h1>W</h1><p>Well-founded trees without mutual recursion represented as $\mathrm{W}$-types.
 $$
    \mathrm{W}_{x: A}B(x) : U.
 $$</p><code>def W' (A: U) (B: A → U): U := W (x: A), B x
-</code><h2>Constructor</h2><p>Elements of $W_{A,B}$ are called trees and created with single sup constructor:
+</code><h2>Constructor</h2><p>Elements of $\mathrm{W}_{A,B}$ are called trees and created with single $\mathrm{sup}$ constructor:
 $$
     \mathrm{sup} : \mathrm{W}_{x: A}B(x).
 $$</p><code>def sup' (A: U) (B: A → U) (x: A) (f: B x → W' A B)
   : W' A B
- := sup A B x f</code><br><h2>Induction Principle</h2><p><b>Definition</b> (Induction Principle $ind^W$). The induction principle states that
-for any type family C over $W_{A,B}$ and the function $g : G$, where
+ := sup A B x f</code><br><h2>Induction Principle</h2><p><b>Definition</b> (Induction Principle $\mathrm{ind^W}$). The induction principle states that
+for any type family C over $\mathrm{W}_{A,B}$ and the function $g : G$, where
 $$
-   G = \prod_{x: A}\prod_{f: B(x) → W_{A,B}}\prod_{b: B(x)} C(f(b)) → C(sup(x,f))
+   G = \prod_{x: A}\prod_{f: B(x) → \mathrm{W}_{A,B}}\prod_{b: B(x)} C(f(b)) → C(\mathrm{sup}(x,f))
 $$
 there is a dependent function:
 $$
-   \mathrm{ind^W} : \prod_{A : U}\prod_{B: A → U}\prod_{C: W → U}\prod_{x: A}\prod_{g:G}\prod_{a: A}\prod_{f: B(a) → W_{A,B}}\prod_{b: B(a)}C(f(b)).
+   \mathrm{ind^W} : \prod_{A : U}\prod_{B: A → U}\prod_{C: W → U}\prod_{x: A}\prod_{g:G}\prod_{a: A}\prod_{f: B(a) → \mathrm{W}_{A,B}}\prod_{b: B(a)}C(f(b)).
 $$</p><code>def W-ind (A : U) (B : A → U)
     (C : (W (x : A), B x) → U)
     (g : Π (x : A) (f : B x → (W (x : A), B x)), (Π (b : B x), C (f b)) → C (sup A B x f))
     (a : A) (f : B a → (W (x : A), B x)) (b : B a) : C (f b) := indᵂ A B C g (f b)
-</code><h2>Computation</h2><p><b>Theorem</b> ($ind^W$ computes). The induction principle $ind^W$ satisfies
+</code><h2>Computation</h2><p><b>Theorem</b> ($\mathrm{ind^W}$ computes). The induction principle $\mathrm{ind^W}$ satisfies
 the equation:
 $$
-    ind^W_\beta : g(a,f,λb.ind^W(g,f(b))) = ind^W(g,sup(a,f)).
+    \mathrm{ind^W_\beta} : g(a,f,λb.\mathrm{ind^W}(g,f(b))) = \mathrm{ind^W}(g,sup(a,f)).
 $$</p><code>def indᵂ-β (A : U) (B : A → U)
     (C : (W (x : A), B x) → U) (g : Π (x : A)
     (f : B x → (W (x : A), B x)), (Π (b : B x), C (f b)) → C (sup A B x f))
