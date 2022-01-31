@@ -178,14 +178,14 @@ block content
 
             h2 Induction Principle
             p.
-                <b>Definition</b> (Induction Principle $ind_W$). The induction principle states that
+                <b>Definition</b> (Induction Principle $ind^W$). The induction principle states that
                 for any type family C over $W_{A,B}$ and the function
                 $$
                    g : \prod_{x: A}\prod_{f: B(x) → W_{A,B}}\prod_{b: B(x)} C(f(b)) → C(sup(x,f))
                 $$
-                determined a dependent function $ind_W$:
+                determined a dependent function $ind^W$:
                 $$
-                   ind_W : \prod_{A : U}\prod_{B: A → U}\prod_{C: W → U}\prod_{x: A}\prod_{a: A}\prod_{f: B(a) → W_{A,B}}\prod_{b: B(a)}C(f(b)).
+                   ind^W : \prod_{A : U}\prod_{B: A → U}\prod_{C: W → U}\prod_{x: A}\prod_{a: A}\prod_{f: B(a) → W_{A,B}}\prod_{b: B(a)}C(f(b)).
                 $$
             code.
                 def W-ind (A : U) (B : A → U)
@@ -195,10 +195,10 @@ block content
 
             h2 Computation
             p.
-                <b>Theorem</b> ($ind_W$ computes). The induction principle $ind_W$ satisfies
+                <b>Theorem</b> ($ind^W$ computes). The induction principle $ind^W$ satisfies
                 the equation:
                 $$
-                    ind_{W\beta} : ind_W(g,sup(a,f)) = g(a,f,λb.ind_W(g,f(b))).
+                    ind^W_\beta : ind^W(g,sup(a,f)) = g(a,f,λb.ind^W(g,f(b))).
                 $$
             code.
                 def indᵂ-β (A : U) (B : A → U)

@@ -74,22 +74,22 @@ $$
     sup : W_{x: A}B(x).
 $$</p><code>def sup' (A: U) (B: A → U) (x: A) (f: B x → W' A B)
   : W' A B
- := sup A B x f</code><br><h2>Induction Principle</h2><p><b>Definition</b> (Induction Principle $ind_W$). The induction principle states that
+ := sup A B x f</code><br><h2>Induction Principle</h2><p><b>Definition</b> (Induction Principle $ind^W$). The induction principle states that
 for any type family C over $W_{A,B}$ and the function
 $$
    g : \prod_{x: A}\prod_{f: B(x) → W_{A,B}}\prod_{b: B(x)} C(f(b)) → C(sup(x,f))
 $$
-determined a dependent function $ind_W$:
+determined a dependent function $ind^W$:
 $$
-   ind_W : \prod_{A : U}\prod_{B: A → U}\prod_{C: W → U}\prod_{x: A}\prod_{a: A}\prod_{f: B(a) → W_{A,B}}\prod_{b: B(a)}C(f(b)).
+   ind^W : \prod_{A : U}\prod_{B: A → U}\prod_{C: W → U}\prod_{x: A}\prod_{a: A}\prod_{f: B(a) → W_{A,B}}\prod_{b: B(a)}C(f(b)).
 $$</p><code>def W-ind (A : U) (B : A → U)
     (C : (W (x : A), B x) → U)
     (g : Π (x : A) (f : B x → (W (x : A), B x)), (Π (b : B x), C (f b)) → C (sup A B x f))
     (a : A) (f : B a → (W (x : A), B x)) (b : B a) : C (f b) := indᵂ A B C g (f b)
-</code><h2>Computation</h2><p><b>Theorem</b> ($ind_W$ computes). The induction principle $ind_W$ satisfies
+</code><h2>Computation</h2><p><b>Theorem</b> ($ind^W$ computes). The induction principle $ind^W$ satisfies
 the equation:
 $$
-    ind_{W\beta} : ind_W(g,sup(a,f)) = g(a,f,λb.ind_W(g,f(b))).
+    ind^W_\beta : ind^W(g,sup(a,f)) = g(a,f,λb.ind^W(g,f(b))).
 $$</p><code>def indᵂ-β (A : U) (B : A → U)
     (C : (W (x : A), B x) → U) (g : Π (x : A)
     (f : B x → (W (x : A), B x)), (Π (b : B x), C (f b)) → C (sup A B x f))
