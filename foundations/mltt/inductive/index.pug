@@ -179,13 +179,13 @@ block content
             h2 Induction Principle
             p.
                 <b>Definition</b> (Induction Principle $ind^W$). The induction principle states that
-                for any type family C over $W_{A,B}$ and the function
+                for any type family C over $W_{A,B}$ and the function $g : G$:
                 $$
-                   g : \prod_{x: A}\prod_{f: B(x) → W_{A,B}}\prod_{b: B(x)} C(f(b)) → C(sup(x,f))
+                   G = \prod_{x: A}\prod_{f: B(x) → W_{A,B}}\prod_{b: B(x)} C(f(b)) → C(sup(x,f))
                 $$
                 there is a dependent function $ind^W$:
                 $$
-                   ind^W : \prod_{A : U}\prod_{B: A → U}\prod_{C: W → U}\prod_{x: A}\prod_{a: A}\prod_{f: B(a) → W_{A,B}}\prod_{b: B(a)}C(f(b)).
+                   ind^W : \prod_{A : U}\prod_{B: A → U}\prod_{C: W → U}\prod_{x: A}\prod_{g:G}\prod_{a: A}\prod_{f: B(a) → W_{A,B}}\prod_{b: B(a)}C(f(b)).
                 $$
             code.
                 def W-ind (A : U) (B : A → U)
