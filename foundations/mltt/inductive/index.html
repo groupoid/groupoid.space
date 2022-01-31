@@ -87,7 +87,7 @@ $$</p><code>def W-ind (A : U) (B : A → U)
     (g : Π (x : A) (f : B x → (W (x : A), B x)), (Π (b : B x), C (f b)) → C (sup A B x f))
     (a : A) (f : B a → (W (x : A), B x)) (b : B a) : C (f b) := indᵂ A B C g (f b)
 </code><h2>Computation</h2><p><b>Theorem</b> ($ind_W$ computes). The induction principle $ind_W$ satisfies
-the the equation:
+the equation:
 $$
     ind_{W\beta} : ind_W(g,sup(a,f)) = g(a,f,λb.ind_W(g,f(b))).
 $$</p><code>def indᵂ-β (A : U) (B : A → U)
