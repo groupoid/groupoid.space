@@ -346,7 +346,8 @@ aside {
   margin-top: 0px; }
 
 .MathJax_Display {
-  overflow-x: auto; }
+  overflow-x: hidden;
+  overflow-y: hidden; }
 
 .macro {
   margin: 0 auto;
