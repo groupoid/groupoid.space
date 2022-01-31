@@ -76,9 +76,10 @@ $$
 $$</p><code>def sup' (A: U) (B: A → U) (x: A) (f: B x → W' A B)
   : W' A B
  := sup A B x f</code><br><h2>Induction Principle</h2><p><b>Definition</b> (Induction Principle $\mathrm{ind^W}$). The induction principle states that
-for any type family C over $\mathrm{W}_{(x : A)} B(x)$ and the function $g : G$, where
+for any types $A: U$ and $B: A \rightarrow U$ and type family $C$ over $\mathrm{W}(A,B)$
+and the function $g : G$, where
 $$
-   G = \prod_{x: A}\prod_{f: B(x) → \mathrm{W}_{(x : A)} B(x)}\prod_{b: B(x)} C(f(b)) → C(\mathrm{sup}(x,f))
+   G = \prod_{x: A}\prod_{f: B(x) → \mathrm{W}(A,B)}\prod_{b: B(x)} C(f(b)) → C(\mathrm{sup}(x,f))
 $$
 there is a dependent function:
 $$
