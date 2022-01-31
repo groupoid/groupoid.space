@@ -24,10 +24,10 @@ As it has not inhabitants it lacks both constructors and eliminators, however, i
 $$
     𝟎 : U.
 $$
-</p><h2>Induction Principle</h2><p><b>Definition</b> (Induction Principle $ind_0$). 𝟎-type is satisfying the
+</p><h2>Induction Principle</h2><p><b>Definition</b> (Induction Principle $\mathrm{ind_0}$). 𝟎-type is satisfying the
 induction principle:
 $$
-    ind_0 : \prod_{C\ :\ 𝟎\ \rightarrow\ U} \prod_{z\ :\ 𝟎} C(z).
+    \mathrm{ind_0} : \prod_{C\ :\ 𝟎\ \rightarrow\ U} \prod_{z\ :\ 𝟎} C(z).
 $$</p><br><code>def Empty-ind (C: 𝟎 → U) (z: 𝟎) : C z := ind₀ (C z) z</code><br><p><b>Definition</b> (Negation or isEmpty). For any type A negation of A is defined as arrow from A to 𝟎:
 $$
    \neg A := A \rightarrow 𝟎.
@@ -43,13 +43,13 @@ $$
 $$
      ★ : 𝟏.
 $$
-</p><h2>Induction Principle</h2><p><b>Definition</b> (Induction Principle $ind_1$). 𝟏-type satisfies
+</p><h2>Induction Principle</h2><p><b>Definition</b> (Induction Principle $\mathrm{ind_1}$). 𝟏-type satisfies
 induction principle that for any family $P(x)$ indexed by $x : 1$ there is a function
 $$
-    ind_1 : \prod_{C\ :\ 𝟏\ \rightarrow\ U} \prod_{x\ :\ C(★)} \prod_{z\ :\ 𝟏} C(z).
+    \mathrm{ind_1} : \prod_{C\ :\ 𝟏\ \rightarrow\ U} \prod_{x\ :\ C(★)} \prod_{z\ :\ 𝟏} C(z).
 $$</p><code>def 1-ind (C: 𝟏 → U) (x: C ★) (z: 𝟏) : C z := ind₁ C x z</code><br><h2>Computation</h2><p><b>Theorem</b> (Unit Computes). The following equation holds:
 $$
-   ind_1(x,★) = x.
+   \mathrm{ind_1}(x,★) = x.
 $$
 </p><h1>BOOL</h1><p>𝟐 is a logical boolean type or 0-sphere which has two
 inhabitants false=0$_2$ and true=1$_2$.</p><p><b>Definition</b> (Bool). Boolean-type or 0-sphere is defined as built-in 𝟐-type:
@@ -62,16 +62,16 @@ $$
 $$</p><p><b>Definition</b> (1$_2$). South=True=1$_2$.
 $$
      1_2 : 𝟐.
-$$</p><br><h2>Induction Principle</h2><p><b>Definition</b> (Induction Principle $ind_2$).
+$$</p><br><h2>Induction Principle</h2><p><b>Definition</b> (Induction Principle $\mathrm{ind_2}$).
 $$
-    ind_2 : \prod_{C\ :\ 𝟐\ \rightarrow\ U} \prod_{x\ :\ C(0_2)} \prod_{y\ :\ C(0_1)} \prod_{z\ :\ 𝟐} C(z).
+    \mathrm{ind_2} : \prod_{C\ :\ 𝟐\ \rightarrow\ U} \prod_{x\ :\ C(0_2)} \prod_{y\ :\ C(0_1)} \prod_{z\ :\ 𝟐} C(z).
 $$</p><code>def 2-ind (C: 𝟐 → U) (x: C 0₂) (y: C 1₂) (z: 𝟐) : C z := ind₂ C x y z</code><br><h1>W</h1><p>Well-founded trees without mutual recursion represented as $W$-types.
 $$
-   W_{x: A}B(x) : U.
+   \mathrm{W}_{x: A}B(x) : U.
 $$</p><code>def W' (A: U) (B: A → U): U := W (x: A), B x
 </code><h2>Constructor</h2><p>Elements of $W_{A,B}$ are called trees and created with single sup constructor:
 $$
-    sup : W_{x: A}B(x).
+    \mathrm{sup} : \mathrm{W}_{x: A}B(x).
 $$</p><code>def sup' (A: U) (B: A → U) (x: A) (f: B x → W' A B)
   : W' A B
  := sup A B x f</code><br><h2>Induction Principle</h2><p><b>Definition</b> (Induction Principle $ind^W$). The induction principle states that
@@ -81,7 +81,7 @@ $$
 $$
 there is a dependent function:
 $$
-   ind^W : \prod_{A : U}\prod_{B: A → U}\prod_{C: W → U}\prod_{x: A}\prod_{g:G}\prod_{a: A}\prod_{f: B(a) → W_{A,B}}\prod_{b: B(a)}C(f(b)).
+   \mathrm{ind^W} : \prod_{A : U}\prod_{B: A → U}\prod_{C: W → U}\prod_{x: A}\prod_{g:G}\prod_{a: A}\prod_{f: B(a) → W_{A,B}}\prod_{b: B(a)}C(f(b)).
 $$</p><code>def W-ind (A : U) (B : A → U)
     (C : (W (x : A), B x) → U)
     (g : Π (x : A) (f : B x → (W (x : A), B x)), (Π (b : B x), C (f b)) → C (sup A B x f))

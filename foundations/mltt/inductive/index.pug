@@ -63,10 +63,10 @@ block content
 
             h2 Induction Principle
             p.
-                <b>Definition</b> (Induction Principle $ind_0$). 𝟎-type is satisfying the
+                <b>Definition</b> (Induction Principle $\mathrm{ind_0}$). 𝟎-type is satisfying the
                 induction principle:
                 $$
-                    ind_0 : \prod_{C\ :\ 𝟎\ \rightarrow\ U} \prod_{z\ :\ 𝟎} C(z).
+                    \mathrm{ind_0} : \prod_{C\ :\ 𝟎\ \rightarrow\ U} \prod_{z\ :\ 𝟎} C(z).
                 $$
             br.
             code.
@@ -106,10 +106,10 @@ block content
 
             h2 Induction Principle
             p.
-                <b>Definition</b> (Induction Principle $ind_1$). 𝟏-type satisfies
+                <b>Definition</b> (Induction Principle $\mathrm{ind_1}$). 𝟏-type satisfies
                 induction principle that for any family $P(x)$ indexed by $x : 1$ there is a function
                 $$
-                    ind_1 : \prod_{C\ :\ 𝟏\ \rightarrow\ U} \prod_{x\ :\ C(★)} \prod_{z\ :\ 𝟏} C(z).
+                    \mathrm{ind_1} : \prod_{C\ :\ 𝟏\ \rightarrow\ U} \prod_{x\ :\ C(★)} \prod_{z\ :\ 𝟏} C(z).
                 $$
             code.
                 def 1-ind (C: 𝟏 → U) (x: C ★) (z: 𝟏) : C z := ind₁ C x z
@@ -119,7 +119,7 @@ block content
             p.
                 <b>Theorem</b> (Unit Computes). The following equation holds:
                 $$
-                   ind_1(x,★) = x.
+                   \mathrm{ind_1}(x,★) = x.
                 $$
 
             h1 BOOL
@@ -147,9 +147,9 @@ block content
 
             h2 Induction Principle
             p.
-                <b>Definition</b> (Induction Principle $ind_2$).
+                <b>Definition</b> (Induction Principle $\mathrm{ind_2}$).
                 $$
-                    ind_2 : \prod_{C\ :\ 𝟐\ \rightarrow\ U} \prod_{x\ :\ C(0_2)} \prod_{y\ :\ C(0_1)} \prod_{z\ :\ 𝟐} C(z).
+                    \mathrm{ind_2} : \prod_{C\ :\ 𝟐\ \rightarrow\ U} \prod_{x\ :\ C(0_2)} \prod_{y\ :\ C(0_1)} \prod_{z\ :\ 𝟐} C(z).
                 $$
             code.
                 def 2-ind (C: 𝟐 → U) (x: C 0₂) (y: C 1₂) (z: 𝟐) : C z := ind₂ C x y z
@@ -159,7 +159,7 @@ block content
             p.
                 Well-founded trees without mutual recursion represented as $W$-types.
                 $$
-                   W_{x: A}B(x) : U.
+                   \mathrm{W}_{x: A}B(x) : U.
                 $$
             code.
                 def W' (A: U) (B: A → U): U := W (x: A), B x
@@ -168,7 +168,7 @@ block content
             p.
                 Elements of $W_{A,B}$ are called trees and created with single sup constructor:
                 $$
-                    sup : W_{x: A}B(x).
+                    \mathrm{sup} : \mathrm{W}_{x: A}B(x).
                 $$
             code.
                 def sup' (A: U) (B: A → U) (x: A) (f: B x → W' A B)
@@ -185,7 +185,7 @@ block content
                 $$
                 there is a dependent function:
                 $$
-                   ind^W : \prod_{A : U}\prod_{B: A → U}\prod_{C: W → U}\prod_{x: A}\prod_{g:G}\prod_{a: A}\prod_{f: B(a) → W_{A,B}}\prod_{b: B(a)}C(f(b)).
+                   \mathrm{ind^W} : \prod_{A : U}\prod_{B: A → U}\prod_{C: W → U}\prod_{x: A}\prod_{g:G}\prod_{a: A}\prod_{f: B(a) → W_{A,B}}\prod_{b: B(a)}C(f(b)).
                 $$
             code.
                 def W-ind (A : U) (B : A → U)
