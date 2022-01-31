@@ -67,21 +67,21 @@ $$
     \mathrm{ind_2} : \prod_{C\ :\ 𝟐\ \rightarrow\ U} \prod_{x\ :\ C(0_2)} \prod_{y\ :\ C(0_1)} \prod_{z\ :\ 𝟐} C(z).
 $$</p><code>def 2-ind (C: 𝟐 → U) (x: C 0₂) (y: C 1₂) (z: 𝟐) : C z := ind₂ C x y z</code><br><h1>W</h1><p>Well-founded trees without mutual recursion represented as $\mathrm{W}$-types.
 $$
-   \mathrm{W}_{x : A} B(x) : U.
+   \mathrm{W}_{(x : A)} B(x) : U.
 $$</p><code>def W' (A : U) (B : A → U) : U := W (x : A), B x
-</code><h2>Constructor</h2><p>Elements of $\mathrm{W}_{x: A} B(x)$ are called trees and created with single $\mathrm{sup}$ constructor:
+</code><h2>Constructor</h2><p>Elements of $\mathrm{W}_{(x : A)} B(x)$ are called trees and created with single $\mathrm{sup}$ constructor:
 $$
-    \mathrm{sup} : \mathrm{W}_{x : A} B(x).
+    \mathrm{sup} : \mathrm{W}_{(x : A)} B(x).
 $$</p><code>def sup' (A: U) (B: A → U) (x: A) (f: B x → W' A B)
   : W' A B
  := sup A B x f</code><br><h2>Induction Principle</h2><p><b>Definition</b> (Induction Principle $\mathrm{ind^W}$). The induction principle states that
-for any type family C over $\mathrm{W}_{x : A} B(x)$ and the function $g : G$, where
+for any type family C over $\mathrm{W}_{(x : A)} B(x)$ and the function $g : G$, where
 $$
-   G = \prod_{x: A}\prod_{f: B(x) → \mathrm{W}_{x : A} B(x)}\prod_{b: B(x)} C(f(b)) → C(\mathrm{sup}(x,f))
+   G = \prod_{x: A}\prod_{f: B(x) → \mathrm{W}_{(x : A)} B(x)}\prod_{b: B(x)} C(f(b)) → C(\mathrm{sup}(x,f))
 $$
 there is a dependent function:
 $$
-   \mathrm{ind^W} : \prod_{A : U}\prod_{B: A → U}\prod_{C: \mathrm{W}_{x : A} B(x) → U}\prod_{x: A}\prod_{g:G}\prod_{a: A}\prod_{f: B(a) → \mathrm{W}_{x : A} B(x)}\prod_{b: B(a)}C(f(b)).
+   \mathrm{ind^W} : \prod_{A : U}\prod_{B: A → U}\prod_{C: \mathrm{W}_{(x : A)} B(x) → U}\prod_{x: A}\prod_{g:G}\prod_{a: A}\prod_{f: B(a) → \mathrm{W}_{(x : A)} B(x)}\prod_{b: B(a)}C(f(b)).
 $$</p><code>def W-ind (A : U) (B : A → U)
     (C : (W (x : A), B x) → U)
     (g : Π (x : A) (f : B x → (W (x : A), B x)), (Π (b : B x), C (f b)) → C (sup A B x f))

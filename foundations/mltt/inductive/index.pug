@@ -159,16 +159,16 @@ block content
             p.
                 Well-founded trees without mutual recursion represented as $\mathrm{W}$-types.
                 $$
-                   \mathrm{W}_{x : A} B(x) : U.
+                   \mathrm{W}_{(x : A)} B(x) : U.
                 $$
             code.
                 def W' (A : U) (B : A → U) : U := W (x : A), B x
 
             h2 Constructor
             p.
-                Elements of $\mathrm{W}_{x: A} B(x)$ are called trees and created with single $\mathrm{sup}$ constructor:
+                Elements of $\mathrm{W}_{(x : A)} B(x)$ are called trees and created with single $\mathrm{sup}$ constructor:
                 $$
-                    \mathrm{sup} : \mathrm{W}_{x : A} B(x).
+                    \mathrm{sup} : \mathrm{W}_{(x : A)} B(x).
                 $$
             code.
                 def sup' (A: U) (B: A → U) (x: A) (f: B x → W' A B)
@@ -179,13 +179,13 @@ block content
             h2 Induction Principle
             p.
                 <b>Definition</b> (Induction Principle $\mathrm{ind^W}$). The induction principle states that
-                for any type family C over $\mathrm{W}_{x : A} B(x)$ and the function $g : G$, where
+                for any type family C over $\mathrm{W}_{(x : A)} B(x)$ and the function $g : G$, where
                 $$
-                   G = \prod_{x: A}\prod_{f: B(x) → \mathrm{W}_{x : A} B(x)}\prod_{b: B(x)} C(f(b)) → C(\mathrm{sup}(x,f))
+                   G = \prod_{x: A}\prod_{f: B(x) → \mathrm{W}_{(x : A)} B(x)}\prod_{b: B(x)} C(f(b)) → C(\mathrm{sup}(x,f))
                 $$
                 there is a dependent function:
                 $$
-                   \mathrm{ind^W} : \prod_{A : U}\prod_{B: A → U}\prod_{C: \mathrm{W}_{x : A} B(x) → U}\prod_{x: A}\prod_{g:G}\prod_{a: A}\prod_{f: B(a) → \mathrm{W}_{x : A} B(x)}\prod_{b: B(a)}C(f(b)).
+                   \mathrm{ind^W} : \prod_{A : U}\prod_{B: A → U}\prod_{C: \mathrm{W}_{(x : A)} B(x) → U}\prod_{x: A}\prod_{g:G}\prod_{a: A}\prod_{f: B(a) → \mathrm{W}_{(x : A)} B(x)}\prod_{b: B(a)}C(f(b)).
                 $$
             code.
                 def W-ind (A : U) (B : A → U)
