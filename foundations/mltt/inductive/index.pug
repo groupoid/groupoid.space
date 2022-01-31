@@ -159,7 +159,7 @@ block content
             p.
                 Well-founded trees without mutual recursion represented as $\mathrm{W}$-types.
                 $$
-                   \mathrm{W}_{x: A}B(x) : U.
+                   \mathrm{W}_{x: A}, B(x) : U.
                 $$
             code.
                 def W' (A: U) (B: A → U): U := W (x: A), B x
@@ -168,7 +168,7 @@ block content
             p.
                 Elements of $\mathrm{W}_{A,B}$ are called trees and created with single $\mathrm{sup}$ constructor:
                 $$
-                    \mathrm{sup} : \mathrm{W}_{x: A}B(x).
+                    \mathrm{sup} : \mathrm{W}_{x: A}, B(x).
                 $$
             code.
                 def sup' (A: U) (B: A → U) (x: A) (f: B x → W' A B)
