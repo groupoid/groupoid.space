@@ -66,7 +66,7 @@ block content
                 <b>Definition</b> (Induction Principle $ind_0$). 𝟎-type is satisfying the
                 induction principle:
                 $$
-                    ind_0 : \prod_{C\ :\ 𝟎\ \rightarrow\ U} \prod_{z\ :\ 𝟎} C(z).
+                    ind_0(z) : \prod_{C\ :\ 𝟎\ \rightarrow\ U} \prod_{z\ :\ 𝟎} C(z).
                 $$
             br.
             code.
@@ -109,7 +109,7 @@ block content
                 <b>Definition</b> (Induction Principle $ind_1$). 𝟏-type satisfies
                 induction principle that for any family $P(x)$ indexed by $x : 1$ there is a function
                 $$
-                    ind_1 : \prod_{C\ :\ 𝟏\ \rightarrow\ U} \prod_{x\ :\ C(★)} \prod_{z\ :\ 𝟏} C(z).
+                    ind_1(x,z) : \prod_{C\ :\ 𝟏\ \rightarrow\ U} \prod_{x\ :\ C(★)} \prod_{z\ :\ 𝟏} C(z).
                 $$
             code.
                 def 1-ind (C: 𝟏 → U) (x: C ★) (z: 𝟏) : C z := ind₁ C x z
@@ -149,7 +149,7 @@ block content
             p.
                 <b>Definition</b> (Induction Principle $ind_2$).
                 $$
-                    ind_2 : \prod_{C\ :\ 𝟐\ \rightarrow\ U} \prod_{x\ :\ C(0_2)} \prod_{y\ :\ C(0_1)} \prod_{z\ :\ 𝟐} C(z).
+                    ind_2(x,y,z) : \prod_{C\ :\ 𝟐\ \rightarrow\ U} \prod_{x\ :\ C(0_2)} \prod_{y\ :\ C(0_1)} \prod_{z\ :\ 𝟐} C(z).
                 $$
             code.
                 def 2-ind (C: 𝟐 → U) (x: C 0₂) (y: C 1₂) (z: 𝟐) : C z := ind₂ C x y z
@@ -157,22 +157,55 @@ block content
 
             h1 W
             p.
-               Well-founded trees without mutual recursion represented as <b>W</b>-types.
-          
+                Well-founded trees without mutual recursion represented as <b>W</b>-types.
+                $$
+                   W_{x: A}B(x) : U.
+                $$
+            code.
+                def W' (A: U) (B: A → U): U := W (x: A), B x
 
             h2 Constructor
+            p.
+                Elements of $W_{A,B}$ are called trees and created with single sup constructor:
+                $$
+                    sup : W_{x: A}B(x).
+                $$
             code.
+                def sup' (A: U) (B: A → U) (x: A) (f: B x → W' A B) : W' A B := sup A B x f
             br.
 
             h2 Induction Principle
+            p.
+                <b>Definition</b> (Induction Principle $ind_W$). The induction principle states that
+                for any type family C over $W_{A,B}$ and the function
+                $$
+                   g : \prod_{x: A}\prod_{f: B(x) → W_{A,B}}\prod_{b: B(x)} C(f(b)) → C(sup(x,f))
+                $$
+                determined a dependent function $ind_W$:
+                $$
+                   ind_W : \prod_{A : U}\prod_{B: A → U}\prod_{C: W → U}\prod_{x: A}\prod_{a: A}\prod_{f: B(a) → W_{A,B}}\prod_{b: B(a)}C(f(b)).
+                $$
             code.
-               def indᵂ-β (A : U) (B : A → U)
-                   (C : (W (x : A), B x) → U) (g : Π (x : A)
-                   (f : B x → (W (x : A), B x)), (Π (b : B x), C (f b)) → C (sup A B x f))
-                   (a : A) (f : B a → (W (x : A), B x))
-                 : PathP (<_> C (sup A B a f))
-                         (indᵂ A B C g (sup A B a f))
-                         (g a f (λ (b : B a), indᵂ A B C g (f b)))
-                := <_> g a f (λ (b : B a), indᵂ A B C g (f b))
+                def W-ind (A : U) (B : A → U)
+                    (C : (W (x : A), B x) → U)
+                    (g : Π (x : A) (f : B x → (W (x : A), B x)), (Π (b : B x), C (f b)) → C (sup A B x f))
+                    (a : A) (f : B a → (W (x : A), B x)) (b : B a) : C (f b) := indᵂ A B C g (f b)
+
+            h2 Computation
+            p.
+                <b>Theorem</b> ($ind_W$ computes). The induction principle $ind_W$ satisfies
+                the the equation:
+                $$
+                    ind_{W\beta} : ind_W(g,sup(a,f)) = g(a,f,λb.ind_W(g,f(b))).
+                $$
+            code.
+                def indᵂ-β (A : U) (B : A → U)
+                    (C : (W (x : A), B x) → U) (g : Π (x : A)
+                    (f : B x → (W (x : A), B x)), (Π (b : B x), C (f b)) → C (sup A B x f))
+                    (a : A) (f : B a → (W (x : A), B x))
+                  : PathP (<_> C (sup A B a f))
+                          (indᵂ A B C g (sup A B a f))
+                          (g a f (λ (b : B a), indᵂ A B C g (f b)))
+                 := <_> g a f (λ (b : B a), indᵂ A B C g (f b))
 
     include ../../../footer.pug
