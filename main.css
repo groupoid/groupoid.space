@@ -345,11 +345,15 @@ aside {
 .exe h1 + h2 {
   margin-top: 0px; }
 
+MathJax_Display {
+  overflow-x: auto; }
+
 .macro {
   margin: 0 auto;
   display: flex;
   justify-content: space-around;
   max-width: 600px;
+  flex-wrap: wrap;
   width: 100%; }
   .macro__col {
     padding-left: 24px;
