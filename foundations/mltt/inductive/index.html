@@ -72,7 +72,7 @@ $$
 $$</p><code>def W' (A : U) (B : A → U) : U := W (x : A), B x
 </code><h2>Constructor</h2><p>Elements of $\mathrm{W}_{(x : A)} B(x)$ are called trees and created with single $\mathrm{sup}$ constructor:
 $$
-    \mathrm{sup} : \mathrm{W}_{(x: A)}\ B(x).
+    \mathrm{sup} : \mathrm{W}_{(x: A)} B(x).
 $$</p><code>def sup' (A: U) (B: A → U) (x: A) (f: B x → W' A B)
   : W' A B
  := sup A B x f</code><br><h2>Induction Principle</h2><p><b>Definition</b> (Induction Principle $\mathrm{ind^W}$). The induction principle states that
