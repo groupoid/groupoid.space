@@ -20,11 +20,12 @@
            };</script></head><body class="content"></body></html><article class="main list"><section><h1>INDUCTIVE BASIS</h1><aside><a href="https://groupoid.space/homotopy/library/">Homotopy Library</a><time>Published: 27 JAN 2022</time></aside><p>These types form the inductive basis of MLTT foundations
 and are built-in into type checker.
 </p><h1>EMPTY</h1><p>The Empty type represents False-type logical 𝟎, type without inhabitants, Void or ⊥ (Bottom).
-As it has not inhabitants it lacks both constructors and eliminators, however, it has induction.</p><p><b>Definition</b> (Empty). Empty-type is defined as built-in 𝟎-type:
+As it has not inhabitants it lacks both constructors and eliminators, however, it has induction.
+</p><h2>Formation</h2><p><b>Definition</b> (Empty). Empty-type is defined as built-in 𝟎-type:
 $$
     𝟎 : \mathcal{U}.
 $$
-</p><h2>Induction Principle</h2><p><b>Definition</b> (Induction Principle $\mathrm{ind_0}$). 𝟎-type is satisfying the
+</p><h2>Elimination</h2><p><b>Definition</b> (Induction Principle $\mathrm{ind_0}$). 𝟎-type is satisfying the
 induction principle:
 $$
     \mathrm{ind_0} : \prod_{C\ :\ 𝟎\ \rightarrow\ \mathcal{U}} \prod_{z\ :\ 𝟎} C(z).
@@ -35,15 +36,16 @@ $$</p><code>def isEmpty (A: U): U := A → 𝟎</code><p>The witness of $\neg A$
 This techniques is called proof of negation and is applicable to any types in constrast
 to proof by contradiction which implies $\neg\neg A \rightarrow A$ (double negation elimination) and is
 applicable only to decidable types with $\neg A + A$ property.</p><br><h1>UNIT</h1><p>Unit type is the simplest type equipped with full set of MLTT inference rules.
-It contains single inhabitant ★ (star).</p><p><b>Definition</b> (Unit). Unit-type is defined as built-in 𝟏-type:
+It contains single inhabitant ★ (star).
+</p><h2>Formation</h2><p><b>Definition</b> (Unit). Unit-type is defined as built-in 𝟏-type:
 $$
     𝟏 : \mathcal{U}.
 $$
-</p><h2>Constructor</h2><p><b>Definition</b> (Star). 𝟏-type containts single inhabitant ★:
+</p><h2>Introduction</h2><p><b>Definition</b> (Star). 𝟏-type containts single inhabitant ★:
 $$
      ★ : 𝟏.
 $$
-</p><h2>Induction Principle</h2><p><b>Definition</b> (Induction Principle $\mathrm{ind_1}$). 𝟏-type satisfies
+</p><h2>Elimination</h2><p><b>Definition</b> (Induction Principle $\mathrm{ind_1}$). 𝟏-type satisfies
 induction principle that for any family $C$ indexed by $x : 1$ there is a function
 $$
     \mathrm{ind_1} : \prod_{C\ :\ 𝟏\ \rightarrow\ \mathcal{U}} \prod_{x\ :\ C(★)} \prod_{z\ :\ 𝟏} C(z).
@@ -52,31 +54,33 @@ $$
    \mathrm{ind_1}(x,★) = x.
 $$
 </p><h1>BOOL</h1><p>𝟐 is a logical boolean type or 0-sphere which has two
-inhabitants false (or $0_2$) and true (or $1_2$).</p><p><b>Definition</b> (Bool). Boolean-type or 0-sphere is defined as built-in 𝟐-type:
+inhabitants false (or $0_2$) and true (or $1_2$).
+</p><h2>Formation</h2><p><b>Definition</b> (Bool). Boolean-type or 0-sphere is defined as built-in 𝟐-type:
 $$
     𝟐 : \mathcal{U}.
 $$
-</p><h2>Constructors</h2><p><b>Definition</b> ($0_2$). false or $0_2$.
+</p><h2>Introduction</h2><p><b>Definition</b> ($0_2$). false or $0_2$.
 $$
      0_2 : 𝟐.
 $$</p><p><b>Definition</b> ($1_2$). true or $1_2$.
 $$
      1_2 : 𝟐.
-$$</p><br><h2>Induction Principle</h2><p><b>Definition</b> (Induction Principle $\mathrm{ind_2}$).
+$$</p><br><h2>Elimination</h2><p><b>Definition</b> (Induction Principle $\mathrm{ind_2}$).
 $$
     \mathrm{ind_2} : \prod_{C\ :\ 𝟐\ \rightarrow\ U} \prod_{x\ :\ C(0_2)} \prod_{y\ :\ C(0_1)} \prod_{z\ :\ 𝟐} C(z).
-$$</p><code>def 2-ind (C: 𝟐 → U) (x: C 0₂) (y: C 1₂) (z: 𝟐) : C z := ind₂ C x y z</code><br><h1>W</h1><p>Well-founded trees without mutual recursion represented as $\mathrm{W}$-types.</p><p><b>Definition</b> ($\mathcal{W}$-types). For $A : \mathcal{U}$ and $B : A \rightarrow \mathcal{U}$, type $\mathrm{W}$
+$$</p><code>def 2-ind (C: 𝟐 → U) (x: C 0₂) (y: C 1₂) (z: 𝟐) : C z := ind₂ C x y z</code><br><h1>W</h1><p>Well-founded trees without mutual recursion represented as $\mathrm{W}$-types.
+</p><h2>Formation</h2><p><b>Definition</b> ($\mathrm{W}$-Formation). For $A : \mathcal{U}$ and $B : A \rightarrow \mathcal{U}$, type $\mathrm{W}$
 is defined as $\mathrm{W}(A,B) : \mathcal{U}$ or
 $$
    \mathrm{W}_{(x : A)} B(x) : \mathcal{U}.
 $$</p><code>def W' (A : U) (B : A → U) : U := W (x : A), B x
-</code><h2>Constructor</h2><p><b>Definition</b> (Well-founded Tree). Elements of $\mathrm{W}_{(x : A)} B(x)$ are called
+</code><h2>Introduction</h2><p><b>Definition</b> ($\mathrm{W}$-Introduction). Elements of $\mathrm{W}_{(x : A)} B(x)$ are called
 well-founded trees and created with single $\mathrm{sup}$ constructor:
 $$
     \mathrm{sup} : \mathrm{W}_{(x: A)} B(x).
 $$</p><code>def sup' (A: U) (B: A → U) (x: A) (f: B x → W' A B)
   : W' A B
- := sup A B x f</code><br><h2>Induction Principle</h2><p><b>Definition</b> (Induction Principle $\mathrm{ind^W}$). The induction principle states that
+ := sup A B x f</code><br><h2>Elimination</h2><p><b>Definition</b> (Induction Principle $\mathrm{ind^W}$). The induction principle states that
 for any types $A: \mathcal{U}$ and $B: A \rightarrow \mathcal{U}$ and type family $C$ over $\mathrm{W}(A,B)$
 and the function $g : G$, where
 $$

@@ -54,13 +54,15 @@ block content
             p.
                 The Empty type represents False-type logical 𝟎, type without inhabitants, Void or ⊥ (Bottom).
                 As it has not inhabitants it lacks both constructors and eliminators, however, it has induction.
+
+            h2 Formation
             p.
                 <b>Definition</b> (Empty). Empty-type is defined as built-in 𝟎-type:
                 $$
                     𝟎 : \mathcal{U}.
                 $$
 
-            h2 Induction Principle
+            h2 Elimination
             p.
                 <b>Definition</b> (Induction Principle $\mathrm{ind_0}$). 𝟎-type is satisfying the
                 induction principle:
@@ -90,20 +92,22 @@ block content
             p.
                 Unit type is the simplest type equipped with full set of MLTT inference rules.
                 It contains single inhabitant ★ (star).
+
+            h2 Formation
             p.
                 <b>Definition</b> (Unit). Unit-type is defined as built-in 𝟏-type:
                 $$
                     𝟏 : \mathcal{U}.
                 $$
 
-            h2 Constructor
+            h2 Introduction
             p.
                 <b>Definition</b> (Star). 𝟏-type containts single inhabitant ★:
                 $$
                      ★ : 𝟏.
                 $$
 
-            h2 Induction Principle
+            h2 Elimination
             p.
                 <b>Definition</b> (Induction Principle $\mathrm{ind_1}$). 𝟏-type satisfies
                 induction principle that for any family $C$ indexed by $x : 1$ there is a function
@@ -125,13 +129,15 @@ block content
             p.
                 𝟐 is a logical boolean type or 0-sphere which has two
                 inhabitants false (or $0_2$) and true (or $1_2$).
+
+            h2 Formation
             p.
                 <b>Definition</b> (Bool). Boolean-type or 0-sphere is defined as built-in 𝟐-type:
                 $$
                     𝟐 : \mathcal{U}.
                 $$
 
-            h2 Constructors
+            h2 Introduction
             p.
                 <b>Definition</b> ($0_2$). false or $0_2$.
                 $$
@@ -144,7 +150,7 @@ block content
                 $$
             br.
 
-            h2 Induction Principle
+            h2 Elimination
             p.
                 <b>Definition</b> (Induction Principle $\mathrm{ind_2}$).
                 $$
@@ -157,8 +163,10 @@ block content
             h1 W
             p.
                 Well-founded trees without mutual recursion represented as $\mathrm{W}$-types.
+
+            h2 Formation
             p.
-                <b>Definition</b> ($\mathcal{W}$-types). For $A : \mathcal{U}$ and $B : A \rightarrow \mathcal{U}$, type $\mathrm{W}$
+                <b>Definition</b> ($\mathrm{W}$-Formation). For $A : \mathcal{U}$ and $B : A \rightarrow \mathcal{U}$, type $\mathrm{W}$
                 is defined as $\mathrm{W}(A,B) : \mathcal{U}$ or
                 $$
                    \mathrm{W}_{(x : A)} B(x) : \mathcal{U}.
@@ -166,9 +174,9 @@ block content
             code.
                 def W' (A : U) (B : A → U) : U := W (x : A), B x
 
-            h2 Constructor
+            h2 Introduction
             p.
-                <b>Definition</b> (Well-founded Tree). Elements of $\mathrm{W}_{(x : A)} B(x)$ are called
+                <b>Definition</b> ($\mathrm{W}$-Introduction). Elements of $\mathrm{W}_{(x : A)} B(x)$ are called
                 well-founded trees and created with single $\mathrm{sup}$ constructor:
                 $$
                     \mathrm{sup} : \mathrm{W}_{(x: A)} B(x).
@@ -179,7 +187,7 @@ block content
                  := sup A B x f
             br.
 
-            h2 Induction Principle
+            h2 Elimination
             p.
                 <b>Definition</b> (Induction Principle $\mathrm{ind^W}$). The induction principle states that
                 for any types $A: \mathcal{U}$ and $B: A \rightarrow \mathcal{U}$ and type family $C$ over $\mathrm{W}(A,B)$
