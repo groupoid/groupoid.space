@@ -22,13 +22,20 @@
                         tex2jax: { inlineMath: [['$','$'], ['\\(','\\)']],
                                    processEscapes: true }
                     };
-</script></head><body class="content"><header class="header"><div class="header__titles"><h1 class="header__title">Homotopy Type System</h1><h4 class="header__subtitle">Modal Type Theory with Two Equalities<br>Syntax and Semantics</h4></div></header><article class="main"><div class="exe"><section><h1>SYNOPSIS</h1></section><aside><a href="https://github.com/5HT">5HT</a><br><a href="https://github.com/forked-from-1kasper">Siegmentation Fault</a><time>17 JAN 2022</time><p>The <b><a href="https://www.math.ias.edu/vladimir/sites/math.ias.edu.vladimir/files/HTS.pdf">HTS</a></b> [1]
+</script></head><body class="content"><header class="header"><div class="header__titles"><h1 class="header__title">Homotopy Type System</h1><h4 class="header__subtitle">Modal Type Theory with Two Equalities<br>Syntax and Semantics</h4></div></header><article class="main"><div class="exe"><section><h1>SYNOPSIS</h1></section><aside><a href="https://github.com/5HT">5HT</a><br><a href="https://github.com/forked-from-1kasper">Siegmentation Fault</a><time>17 JAN 2022</time><p>Anders is HoTT theorem prover based on: classical <a href="http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.131.926&rep=rep1&type=pdf">MLTT-80</a> [14] with 0, 1, 2, W types;
+<a href="https://arxiv.org/pdf/1611.02108.pdf">CCHM</a> [4] in CHM flavour as cubical type system with hcomp/transp Kan operations;
+HTS strict equality on pretypes; <a href="https://arxiv.org/pdf/1806.05966.pdf">de Rham</a> [19]  stack modality primitives.
+We tend not to touch general recursive higher inductive schemes yet,
+instead we will try to express as much HIT as possible through W, Coequlizer
+and HubSpokes Disc in the style of HoTT/Coq homotopy library and Three-HIT theorem.
+
+</p></aside><section><div class="macro"><div class="macro__col"><h3 id="pure"><b>PTS</b></h3><ol><li><a href="#univ">UNI</a></li><li><a href="#pi">PI</a></li></ol></div><div class="macro__col"><h3 id="mltt"><b>MLTT</b></h3><ol><li><a href="#univ">UNI</a></li><li><a href="#pi">PI</a></li><li><a href="#sigma">SIGMA</a></li><li><a href="#id">ID</a></li><li><a href="#induction">0, 1, 2, W</a></li></ol></div><div class="macro__col"><h3 id="homotopy"><b>CCHM</b></h3><ol><li><a href="#univ">UNI</a></li><li><a href="#pi">PI</a></li><li><a href="#sigma">SIGMA</a></li><li><a href="#path">PATH</a></li><li><a href="#glue">GLUE</a></li><li><a href="#induction">HIT</a></li></ol></div><div class="macro__col"><h3 id="hts"><b>HTS</b></h3><ol><li><a href="#univ">UNI</a></li><li><a href="#pi">PI</a></li><li><a href="#sigma">SIGMA</a></li><li><a href="#id">ID</a></li><li><a href="#path">PATH</a></li><li><a href="#glue">GLUE</a></li><li><a href="#induction">HIT</a></li></ol></div></div><p>The <a href="https://www.math.ias.edu/vladimir/sites/math.ias.edu.vladimir/files/HTS.pdf">HTS</a> [1]
 language proposed by Voevodsky exposes two different presheaf models of type theory:
 the inner one is homotopy type system presheaf that models HoTT and the outer one is traditional Martin-Löf
 type system presheaf that models set theory with UIP. The motivation behind this doubling is to
 have an ability to express semisemplicial types. Theoretical work on merging inner
-and outer languages was continued in <b><a href="https://arxiv.org/pdf/1705.03307.pdf">2LTT</a></b> [2,3].
-</p></aside><section><div class="macro"><div class="macro__col"><h3 id="pure"><b>PTS</b></h3><ol><li><a href="#univ">UNI</a></li><li><a href="#pi">PI</a></li></ol></div><div class="macro__col"><h3 id="mltt"><b>MLTT-73</b></h3><ol><li><a href="#univ">UNI</a></li><li><a href="#pi">PI</a></li><li><a href="#sigma">SIGMA</a></li><li><a href="#id">ID</a></li><li><a href="#induction">NAT</a></li></ol></div><div class="macro__col"><h3 id="homotopy"><b>CCHM</b></h3><ol><li><a href="#univ">UNI</a></li><li><a href="#pi">PI</a></li><li><a href="#sigma">SIGMA</a></li><li><a href="#path">PATH</a></li><li><a href="#glue">GLUE</a></li><li><a href="#induction">HIT</a></li></ol></div><div class="macro__col"><h3 id="hts"><b>HTS</b></h3><ol><li><a href="#univ">UNI</a></li><li><a href="#pi">PI</a></li><li><a href="#sigma">SIGMA</a></li><li><a href="#id">ID</a></li><li><a href="#path">PATH</a></li><li><a href="#glue">GLUE</a></li><li><a href="#induction">HIT</a></li></ol></div></div><p>While we are on our road to Lean-like tactic language, currently
+and outer languages was continued in <a href="https://arxiv.org/pdf/1705.03307.pdf">2LTT</a> [2,3].
+</p><p>While we are on our road to Lean-like tactic language, currently
 we are at the stage of regular cubical <b>HTS</b> type checker
 with <b>CHM</b>-style [5] primitives.
 You may try it at Github: <a href="https://github.com/groupoid/anders">groupoid/anders</a> or
@@ -54,7 +61,8 @@ Anders theorem prover [MLTT][CCHM][HTS][deRham] version 1.1.1
 <b>Anders</b> comes with its own <a href="https://groupoid.space/homotopy/base/">Cubical Base Library</a>.
 </p></section><section><h1>SYNTAX</h1><p>The syntax resembles original syntax of the reference <b>CCHM</b> type checker
 <b>cubicaltt</b>, is slightly compatible with <b>Lean</b> syntax
-and contains the full set of <b>Cubical&nbsp;Agda</b> [10] primitives.</p><p>Here is given the mathematical pseudo-code notation
+and contains the full set of <b>Cubical&nbsp;Agda</b> [10]
+primitives (except generic higher inductive schemes).</p><p>Here is given the mathematical pseudo-code notation
 of the language expressions that come immediately after parsing.
 The core syntax definition of <b>HTS</b> language $E$ corresponds
 to <b>exp</b> type defined in <b>expr.ml</b> OCaml module:</p><p>$$
@@ -112,18 +120,7 @@ line :
 adjust syntaxes or tune inner variables of the type checker.
 Here is the example how to setup minimal core able to prove
 internalization of <b>MLTT-73</b> variation (<b>Path</b>
-instead of <b>Id</b> and no inductive types, see base library):</p><code>module MLTT-Intern where
-option HIT false
-option CCHM false
-option MLTT true
-option Path true
-option Interval true
-option Transport true
-import lib/mltt</code><br><p>In order to turn HIT into ordinary CiC calculus you may say:</p><code>module CiC where
-option CCHM false
-option MLTT true
-option HIT true
-import lib/list</code><br><p><b>Declarations</b>. Language supports following top level declarations:
+instead of <b>Id</b> and no inductive types, see base library):</p><p><b>Declarations</b>. Language supports following top level declarations:
 1) <b>axiom</b> (non-computable declaration that breakes normalization);
 2) <b>postulate</b> (alternative or inverted axiom that can preserve consistency);
 3) <b>definition</b> (almost any explicit term or type in type theory);
@@ -332,14 +329,12 @@ transport along paths built out of equivalences.
 </p><code>inductive gluening (lang: U) : U
   | Glue: lang → lang → lang → gluening lang
   | glue: lang → lang → gluening lang
-  | unglue: lang → lang → gluening lang</code><br><h2 id="induction">Higher Inductive Types</h2><p>The further development of induction inside <b>MLTT</b> provers led
+  | unglue: lang → lang → gluening lang</code><br><h2 id="induction">Generic Higher Inductive Schemes</h2><p>The further development of induction inside <b>MLTT</b> provers led
 to the theory of polynomial functors and well-founded trees,
-known in programming languages as inductive types with <b>inductive</b>
-and <b>record</b> core primitives.</p><p>Inductive types could be encoded in PTS/Cedile using non-recursive
+known in programming languages as inductive types.</p><p>Inductive types could be encoded in PTS/Cedile using non-recursive
 representation of Bohm-Berarducci schemes or with categorical impredicative
-encoding by Steve Awodey. We want to have optional infinite
-impredicative universe in type checker for such experiments in PTS mode.</p><p>Anders supports Lean-compatible inductive definition so we can
-copy-paste terms between Lean and Anders.
+encoding by Steve Awodey.</p><p>Anders currently don't support Lean-compatible generic inductive schemes
+definition but in case it will the following AST occurs:
 </p><code>inductive tele (A: U) : U | emp: tele A | tel: name → A → tele A → tele A
 inductive branch (A: U) : U | br: name → branch A | args: list name → A → branch A
 inductive label (A: U) : U | lab: name → label A | t: tele A → label A
@@ -348,17 +343,22 @@ inductive hit (lang: U)
   | form: name → tele lang → list (label lang) → hit lang
   | ctor: name → list lang → hit lang
   | htor: name → list lang → list lang → lang → hit lang
-  | case: name → lang → list (branch lang) → hit lang</code><p>The non-well-founded trees or infinite coinductive trees
+  | case: name → lang → list (branch lang) → hit lang
+</code><p>So instead of generic inductive schemes Anders supports well-founded
+trees (W-types). Basic data types like List, Nat, Fin, Vec are
+implemented as W-types in base library. As for higher inductive types
+Anders has Three-HIT basis (Coequalizer, HubSpoke and Colimit) to
+express other HIT.</p><p>The non-well-founded trees (M-types) or infinite coinductive trees
 are useful for modeling infinite processes and are part
-of Milner's Pi-calculus. Coinductive streams could be found in many <b>MLTT</b> base libraries.
-</p><p><center><table cellspacing=5><tr><td width=5><img src="https://n2o.space/img/pdf.jpg" width=35></td><td width=400>
+of Milner's Pi-calculus. Coinductive streams could be
+found in many <b>MLTT</b> base libraries.</p><p><center><table cellspacing=5><tr><td width=5><img src="https://n2o.space/img/pdf.jpg" width=35></td><td width=400>
 <a href="https://github.com/groupoid/anders/blob/master/doc/anders.pdf">
 <h3>ANDERS.PDF</h3>
 </a></td></tr></table></center>
-</p></section><section><h1>Bibliography</h1><br></section><section><h2>Modal HoTT</h2><p>1) <a href="https://arxiv.org/pdf/1310.7930v1.pdf">Differential cohomology in a cohesive ∞-topos</a> [Schreiber].
-2) <a href="https://arxiv.org/pdf/1806.05966.pdf">Cartan Geometry in Modal Homotopy Type Theory</a> [Cherubini].
-3) <a href="https://hott-uf.github.io/2017/abstracts/cohesivett.pdf">Differential Cohesive Type Theory</a> [Gross, Licata, New, Paykin, Riley, Shulman, Cherubini].
-4) <a href="https://arxiv.org/abs/1509.07584">Brouwer's fixed-point theorem in real-cohesive homotopy type theory</a> [Shulman].
+</p></section><section><h1>Bibliography</h1><br></section><section><h2>Modal HoTT</h2><p>18) <a href="https://arxiv.org/pdf/1310.7930v1.pdf">Differential cohomology in a cohesive ∞-topos</a> [Schreiber].
+19) <a href="https://arxiv.org/pdf/1806.05966.pdf">Cartan Geometry in Modal Homotopy Type Theory</a> [Cherubini].
+20) <a href="https://hott-uf.github.io/2017/abstracts/cohesivett.pdf">Differential Cohesive Type Theory</a> [Gross, Licata, New, Paykin, Riley, Shulman, Cherubini].
+21) <a href="https://arxiv.org/abs/1509.07584">Brouwer's fixed-point theorem in real-cohesive homotopy type theory</a> [Shulman].
 </p><h2>HTS</h2><p>1) <a href="https://www.math.ias.edu/vladimir/sites/math.ias.edu.vladimir/files/HTS.pdf">A simple type system with two identity types</a> [Voevodsky].
 2) <a href="https://arxiv.org/pdf/1705.03307.pdf">Two-level type theory and applications</a> [Annenkov, Capriotti, Kraus, Sattler].
 3) <a href="https://types21.liacs.nl/download/syntax-for-two-level-type-theory/">Syntax for two-level type theory</a> [Bonacina, Ahrens].
