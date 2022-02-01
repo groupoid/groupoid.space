@@ -63,6 +63,49 @@ block content
                     sets, functions, polynomial functors, $\infty$-groupoids,
                     topological $\infty$-groupoid, cw-complexes,
                     categories, languages, etc.
+
+                p.
+                    <b>Definition</b> ($\Pi$-Formation).
+                    $$
+                       \Pi (x: A), B(x) =_{def} \prod_{x:A}B(x) : \mathcal{U}.
+                    $$
+                code.
+                    def Pi (A: U) (B: A -> U): U := П (x: A), B x
+                br
+                h2 Constructors
+                p.
+                    <b>Definition</b> ($\lambda$-function).
+
+                h2 Eliminators
+                p.
+                    <b>Definition</b> (Application).
+                    Application reduces the term by using recursive substitution.
+                code.
+                    def apply (A: U) (B: A → U) (f: Pi A B) (a: A) : B a := f a
+                    def app (A B: U) (f: A → B) (x: A): B := f x
+                p.
+                    Composition is using application of appropriate singnatures.
+                code.
+                    def ∘ᵀ (α β γ: U) : U := (β → γ) → (α → β) → (α → γ)
+                    def ∘ (α β γ : U) : ∘ᵀ α β γ := λ (g: β → γ) (f: α → β) (x: α), g (f x)
+                br
+
+                h2 Computation and Uniqueness
+                p.
+                    $β$-rule shows that composition $lam \circ app$ could be fused.
+                code.
+                    def Π-β (A : U) (B : A → U) (a : A) (f : Pi A B)
+                      : Path (B a) (apply A B (lambda A B f) a) (f a)
+                     := idp (B a) (f a)
+                p.
+                    $η$-rule shows that composition $app \circ lam$ could be fused.
+                code.
+                    def Π-η (A : U) (B : A → U) (a : A) (f : Pi A B)
+                      : Path (Pi A B) f (λ (x : A), f x)
+                     := idp (Pi A B) f
+                br
+
+                h2 Geometric Interpretation
                 p.
                     Geometrically, $П$-type is a space of sections,
                     while the dependent codomain is a space of fibrations.
@@ -70,8 +113,6 @@ block content
                     while the function result is a fibration. $П$-type also represents
                     the cartesian family of sets, generalizing
                     the cartesian product of sets.
-
-                h2 Definitions
 
                 p.
                     <b>Definition</b> (Section). A section of morphism $f: A \rightarrow B$
@@ -130,7 +171,6 @@ block content
                     $$
                 br
 
-                h2 Constructors
                 p.
                     Lambda constructor defines a new lambda closure that could be
                     saved or passed by in context.
@@ -138,34 +178,6 @@ block content
                     def Pi (A : U) (B : A → U) : U := Π (x : A), B x
                     def lambda (A: U) (B: A → U) (b: Pi A B) : Pi A B := λ (x : A), b x
                     def lam (A B: U) (f: A → B) : A → B ≔ λ (x : A), f x
-                br
-
-                h2 Eliminators
-                p.
-                    Application reduces the term by using recursive substitution.
-                code.
-                    def apply (A: U) (B: A → U) (f: Pi A B) (a: A) : B a := f a
-                    def app (A B: U) (f: A → B) (x: A): B := f x
-                p.
-                    Composition is using application of appropriate singnatures.
-                code.
-                    def ∘ᵀ (α β γ: U) : U := (β → γ) → (α → β) → (α → γ)
-                    def ∘ (α β γ : U) : ∘ᵀ α β γ := λ (g: β → γ) (f: α → β) (x: α), g (f x)
-                br
-
-                h2 Computation and Uniqueness
-                p.
-                    $β$-rule shows that composition $lam \circ app$ could be fused.
-                code.
-                    def Π-β (A : U) (B : A → U) (a : A) (f : Pi A B)
-                      : Path (B a) (apply A B (lambda A B f) a) (f a)
-                     := idp (B a) (f a)
-                p.
-                    $η$-rule shows that composition $app \circ lam$ could be fused.
-                code.
-                    def Π-η (A : U) (B : A → U) (a : A) (f : Pi A B)
-                      : Path (Pi A B) f (λ (x : A), f x)
-                     := idp (Pi A B) f
                 br
 
                 h1 Theorems
