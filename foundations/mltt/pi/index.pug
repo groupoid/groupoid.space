@@ -68,7 +68,7 @@ block content
                     <b>Definition</b> ($\Pi$-Formation). $\Pi$-types represents the way we create
                     the spaces of dependent functions from type family B of functions over type A.
                     $$
-                       \Pi (x: A), B(x) =_{def} \prod_{x:A}B(x) : \mathcal{U}.
+                       \Pi (A,B) =_{def} \prod_{x:A}B(x) : \mathcal{U}.
                     $$
                 code.
                     def Pi (A : U) (B : A → U) : U := Π (x : A), B x

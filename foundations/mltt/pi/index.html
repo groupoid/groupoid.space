@@ -30,7 +30,7 @@ categories, languages, etc.
 </p><p><b>Definition</b> ($\Pi$-Formation). $\Pi$-types represents the way we create
 the spaces of dependent functions from type family B of functions over type A.
 $$
-   \Pi (x: A), B(x) =_{def} \prod_{x:A}B(x) : \mathcal{U}.
+   \Pi (A,B) =_{def} \prod_{x:A}B(x) : \mathcal{U}.
 $$</p><code>def Pi (A : U) (B : A → U) : U := Π (x : A), B x</code><br><h2>Constructor</h2><p><b>Definition</b> ($\lambda$-function).
 Lambda constructor defines a new lambda function in the space of dependent functions.
 it is called lambda abstraction and displayed as $\lambda x. b(x)$ or $x \mapsto b(x)$.</p><code>def lambda (A: U) (B: A → U) (b: Pi A B) : Pi A B := λ (x : A), b x
