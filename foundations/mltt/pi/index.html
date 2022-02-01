@@ -42,7 +42,7 @@ def ∘ (α β γ : U) : ∘ᵀ α β γ := λ (g: β → γ) (f: α → β) (x:
 $β$-rule shows that composition $lam \circ app$ could be fused.</p><code>def Π-β (A : U) (B : A → U) (a : A) (f : Pi A B)
   : Path (B a) (apply A B (lambda A B f) a) (f a)
  := idp (B a) (f a)
-</code><h2>Uniqueness</h2><p><b>Theorem</b> (Uniquness $\Pi_\eta$).
+</code><h2>Uniqueness</h2><p><b>Theorem</b> (Uniqueness $\Pi_\eta$).
 $η$-rule shows that composition $app \circ lam$ could be fused.</p><code>def Π-η (A : U) (B : A → U) (a : A) (f : Pi A B)
   : Path (Pi A B) f (λ (x : A), f x)
  := idp (Pi A B) f</code><br><h2>Theorems</h2><p><b>Theorem</b> (Functions Preserve Paths). For a function $f: (x:A) \rightarrow B(x)$
