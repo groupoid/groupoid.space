@@ -27,18 +27,24 @@ objects, types, or spaces. The known domain and codomain spaces could be:
 sets, functions, polynomial functors, $\infty$-groupoids,
 topological $\infty$-groupoid, cw-complexes,
 categories, languages, etc.
-</p><p><b>Definition</b> ($\Pi$-Formation).
+</p><p><b>Definition</b> ($\Pi$-Formation). $\Pi$-types represents the way we create
+the spaces of dependent functions from type family B of functions over type A.
 $$
    \Pi (x: A), B(x) =_{def} \prod_{x:A}B(x) : \mathcal{U}.
-$$</p><code>def Pi (A: U) (B: A -> U): U := П (x: A), B x</code><br><h2>Constructors</h2><p><b>Definition</b> ($\lambda$-function).
-</p><h2>Eliminators</h2><p><b>Definition</b> (Application).
+$$</p><code>def Pi (A : U) (B : A → U) : U := Π (x : A), B x</code><br><h2>Constructor</h2><p><b>Definition</b> ($\lambda$-function).
+Lambda constructor defines a new lambda function in the space of dependent functions.
+it is called lambda abstraction and displayed as $\lambda x. b(x)$ or $x \mapsto b(x)$.</p><code>def lambda (A: U) (B: A → U) (b: Pi A B) : Pi A B := λ (x : A), b x
+def lam (A B: U) (f: A → B) : A → B ≔ λ (x : A), f x</code><br><h2>Eliminator</h2><p><b>Definition</b> (Application).
 Application reduces the term by using recursive substitution.</p><code>def apply (A: U) (B: A → U) (f: Pi A B) (a: A) : B a := f a
-def app (A B: U) (f: A → B) (x: A): B := f x</code><p>Composition is using application of appropriate singnatures.</p><code>def ∘ᵀ (α β γ: U) : U := (β → γ) → (α → β) → (α → γ)
-def ∘ (α β γ : U) : ∘ᵀ α β γ := λ (g: β → γ) (f: α → β) (x: α), g (f x)</code><br><h2>Computation and Uniqueness</h2><p>$β$-rule shows that composition $lam \circ app$ could be fused.</p><code>def Π-β (A : U) (B : A → U) (a : A) (f : Pi A B)
+def app (A B: U) (f: A → B) (x: A): B := f x</code><p><b>Definition</b> (Composition).
+Composition is using application of appropriate singnatures.</p><code>def ∘ᵀ (α β γ: U) : U := (β → γ) → (α → β) → (α → γ)
+def ∘ (α β γ : U) : ∘ᵀ α β γ := λ (g: β → γ) (f: α → β) (x: α), g (f x)</code><br><h2>Computation and Uniqueness</h2><p><b>Theorem</b> ($\Pi_\beta$).
+$β$-rule shows that composition $lam \circ app$ could be fused.</p><code>def Π-β (A : U) (B : A → U) (a : A) (f : Pi A B)
   : Path (B a) (apply A B (lambda A B f) a) (f a)
- := idp (B a) (f a)</code><p>$η$-rule shows that composition $app \circ lam$ could be fused.</p><code>def Π-η (A : U) (B : A → U) (a : A) (f : Pi A B)
+ := idp (B a) (f a)</code><p><b>Theorem</b> ($\Pi_\eta$).
+$η$-rule shows that composition $app \circ lam$ could be fused.</p><code>def Π-η (A : U) (B : A → U) (a : A) (f : Pi A B)
   : Path (Pi A B) f (λ (x : A), f x)
- := idp (Pi A B) f</code><br><h2>Geometric Interpretation</h2><p>Geometrically, $П$-type is a space of sections,
+ := idp (Pi A B) f</code><br><h2>Homotopical Interpretation</h2><p>Geometrically, $П$-type is a space of sections,
 while the dependent codomain is a space of fibrations.
 Lambda functions are sections or points in these spaces,
 while the function result is a fibration. $П$-type also represents
@@ -76,10 +82,7 @@ a $(\infty,1)$-topos, and let $E \rightarrow B : \mathbf{H}_{/B}$ a bundle in
 $\mathbf{H}$, object in the slice topos. Then the space of sections $\Gamma_\Sigma(E)$
 of this bundle is the Dependent Product:</p><figure>$$
     \Gamma_\Sigma(E) = \Pi_\Sigma (E) \in \mathbf{H}.
-$$</figure><br><p>Lambda constructor defines a new lambda closure that could be
-saved or passed by in context.</p><code>def Pi (A : U) (B : A → U) : U := Π (x : A), B x
-def lambda (A: U) (B: A → U) (b: Pi A B) : Pi A B := λ (x : A), b x
-def lam (A B: U) (f: A → B) : A → B ≔ λ (x : A), f x</code><br><h1>Theorems</h1><p><b>Theorem</b> (Functions Preserve Paths). For a function $f: (x:A) \rightarrow B(x)$
+$$</figure><br><h2>Theorems</h2><p><b>Theorem</b> (Functions Preserve Paths). For a function $f: (x:A) \rightarrow B(x)$
 there is an $ap_f : Path_A(x,y) \rightarrow Path_{B(x)}(f(x),f(y))$. This is called
 application of $f$ to path or congruence property (for non-dependent case &mdash;
 $cong$ function). This property behaves functoriality

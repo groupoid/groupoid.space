@@ -65,18 +65,25 @@ block content
                     categories, languages, etc.
 
                 p.
-                    <b>Definition</b> ($\Pi$-Formation).
+                    <b>Definition</b> ($\Pi$-Formation). $\Pi$-types represents the way we create
+                    the spaces of dependent functions from type family B of functions over type A.
                     $$
                        \Pi (x: A), B(x) =_{def} \prod_{x:A}B(x) : \mathcal{U}.
                     $$
                 code.
-                    def Pi (A: U) (B: A -> U): U := П (x: A), B x
+                    def Pi (A : U) (B : A → U) : U := Π (x : A), B x
                 br
-                h2 Constructors
+                h2 Constructor
                 p.
                     <b>Definition</b> ($\lambda$-function).
+                    Lambda constructor defines a new lambda function in the space of dependent functions.
+                    it is called lambda abstraction and displayed as $\lambda x. b(x)$ or $x \mapsto b(x)$.
+                code.
+                    def lambda (A: U) (B: A → U) (b: Pi A B) : Pi A B := λ (x : A), b x
+                    def lam (A B: U) (f: A → B) : A → B ≔ λ (x : A), f x
+                br
 
-                h2 Eliminators
+                h2 Eliminator
                 p.
                     <b>Definition</b> (Application).
                     Application reduces the term by using recursive substitution.
@@ -84,6 +91,7 @@ block content
                     def apply (A: U) (B: A → U) (f: Pi A B) (a: A) : B a := f a
                     def app (A B: U) (f: A → B) (x: A): B := f x
                 p.
+                    <b>Definition</b> (Composition).
                     Composition is using application of appropriate singnatures.
                 code.
                     def ∘ᵀ (α β γ: U) : U := (β → γ) → (α → β) → (α → γ)
@@ -92,12 +100,14 @@ block content
 
                 h2 Computation and Uniqueness
                 p.
+                    <b>Theorem</b> ($\Pi_\beta$).
                     $β$-rule shows that composition $lam \circ app$ could be fused.
                 code.
                     def Π-β (A : U) (B : A → U) (a : A) (f : Pi A B)
                       : Path (B a) (apply A B (lambda A B f) a) (f a)
                      := idp (B a) (f a)
                 p.
+                    <b>Theorem</b> ($\Pi_\eta$).
                     $η$-rule shows that composition $app \circ lam$ could be fused.
                 code.
                     def Π-η (A : U) (B : A → U) (a : A) (f : Pi A B)
@@ -105,7 +115,7 @@ block content
                      := idp (Pi A B) f
                 br
 
-                h2 Geometric Interpretation
+                h2 Homotopical Interpretation
                 p.
                     Geometrically, $П$-type is a space of sections,
                     while the dependent codomain is a space of fibrations.
@@ -171,16 +181,7 @@ block content
                     $$
                 br
 
-                p.
-                    Lambda constructor defines a new lambda closure that could be
-                    saved or passed by in context.
-                code.
-                    def Pi (A : U) (B : A → U) : U := Π (x : A), B x
-                    def lambda (A: U) (B: A → U) (b: Pi A B) : Pi A B := λ (x : A), b x
-                    def lam (A B: U) (f: A → B) : A → B ≔ λ (x : A), f x
-                br
-
-                h1 Theorems
+                h2 Theorems
                 p.
                     <b>Theorem</b> (Functions Preserve Paths). For a function $f: (x:A) \rightarrow B(x)$
                     there is an $ap_f : Path_A(x,y) \rightarrow Path_{B(x)}(f(x),f(y))$. This is called
