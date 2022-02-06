@@ -1,0 +1,317 @@
+extends ../../../layout.pug
+block vars
+    - var hopf = true
+block title
+    title HOPF
+    script(src='https://groupoid.space/styles/mathjax.js?config=TeX-AMS-MML_HTML')
+    script.
+     window.MathJax = { jax: ["input/TeX", "input/MathML", "input/AsciiMath", "output/CommonHTML", "output/NativeMML"],
+                             TeX: { extensions: ["AMSmath.js", "AMSsymbols.js", "autoload-all.js"] },
+                             extensions: ["tex2jax.js", "asciimath2jax.js", "mml2jax.js", "MathMenu.js", "MathZoom.js"],
+                             "HTML-CSS": { imageFont: null },
+                             AuthorInit: function() {
+                                 MathJax.Hub.Register.StartupHook("TeX AMSmath Ready", function() {
+                                     var TEX = MathJax.InputJax.TeX;
+                                     TEX.Definitions.Add({
+                                         macros: {
+                                           llparenthesis: ['Macro', '\\mathopen{\u2987}'],
+                                           rrparenthesis: ['Macro', '\\mathclose{\u2988}'],
+                                           llbracket:     ['Macro', '\\mathopen{\u27E6}'],
+                                           rrbracket:     ['Macro', '\\mathclose{\u27E7}'],
+                                         }
+                                     });
+                                 });
+                             },
+                             tex2jax: { inlineMath: [['$','$'], ['\\(','\\)']],
+                                        processEscapes: true }
+                         };
+
+block content
+    +header('../../../groupoid.svg', 'Hopf Fibrations', 'The geometric and topological interpretation')
+    article.main
+        .om
+            section
+                h1 Abstract
+        aside Yuri Artyukh<br>Maxim Sokhatsky
+            time DATE: 20 JUN 2018
+        .om
+            section
+                p.
+                    This article defines the Hopf Fibration (HF), the concept
+                    of splitting the $S^3$ sphere onto the twisted cartesian product
+                    of spheres $S^1$ and $S^2$.
+                    Basic HF applications are:
+                    1) HF is a Fiber Bundle structure of Dirac Monopole;
+                    2) HF is a map from the $S^3$ in H to the Bloch sphere;
+                    3) If HF is a vector field in $R^3$ then there exists a solution
+                    to compressible non-viscous Navier-Stokes equations.
+                    It was figured out that there are only
+                    4 dimensions of fibers with Hopf invariant 1, namely
+                    $S^0$, $S^1$, $S^3$, $S^7$.
+                p.
+                    This article consists of two parts:
+                    1) geometric visualization of projection of $S^3$ to $S^2$ (frontend);
+                    2) formal topological version of HF in cubical type theory (backend).
+                    Consider this a basic intro and a summary of results or companion
+                    guide to the chapter 8.5 from HoTT.
+            figure.
+                $$\def\mapright#1{\xrightarrow{{#1}}}
+                  \def\mapdown#1{\Big\downarrow\rlap{\raise2pt{\scriptstyle{#1}}}}
+                  \def\mapdiagl#1{\vcenter{\searrow}\rlap{\raise2pt{\scriptstyle{#1}}}}
+                  \def\mapdiagr#1{\vcenter{\swarrow}\rlap{\raise2pt{\scriptstyle{#1}}}}
+                $$
+
+        .om
+            section
+                h1 Geometry
+                p.
+                    Let's imagine $S^3$ as smooth differentiable manifold and build
+                    a projection onto the display as if demoscene is still alive.
+
+        section
+            h2 Equations
+
+        p.
+            <b>Definition</b> (Sphere $S^3$). Like a little baby in $\mathbb{R}^4$:
+            $$
+            S^3 = \{ (x_0,x_1,x_2,x_3) \in \mathbb{R}^4 : \sum_{i=0}^3 x_i^2 = 1 \};
+            $$
+
+        p.
+            after math classes in quaternions $\mathbb{H}$:
+            $$
+            S^3 = \{ x \in \mathbb{H} : \|x\| = 1 \}.
+            $$
+
+        p.
+            <b>Definition</b> (Locus). The $S^3$ is realized as a disjoint
+            union of circular fibers in Hopf coordinates $(\eta,\theta_1,\theta_2)$:
+            $$
+            \begin{equation}
+            x_0 = cos(\theta_1)sin(\eta), \\
+            x_1 = sin(\theta_1)sin(\eta), \\
+            x_2 = cos(\theta_2)cos(\eta), \\
+            x_3 = sin(\theta_2)cos(\eta).
+            \end{equation}
+            $$
+            Where $\eta \in [0,\frac{\pi}{2}]$ and $\theta_{1,2} \in [0,2\pi]$.
+        p.
+            <img style="margin-left:0px" src="hopf-1.jpeg" width="100%">
+        p.
+            <b>Definition</b> (Mapping on $S^2$).
+            A mapping of the Locus to the $S^2$ has points on the circles
+            parametrized by $\theta_2$:
+            $$
+            \begin{equation}
+            x = sin(2\eta)cos(\theta_1), \\
+            y = sin(2\eta)sin(\theta_1), \\
+            z = cos(2\eta).\end{equation}
+            $$
+        p.
+            <img style="margin-left:0px" src="hopf-2.jpeg" width="100%">
+        p.
+            Code in <b>three.js</b>:
+        code.
+            var fiber = new THREE.Curve(),
+                color = sphericalCoords.color;
+
+            fiber.getPoint = function(t) {
+                var eta = sphericalCoords.eta,
+                    phi = sphericalCoords.phi,
+                    theta = 2 * Math.PI * t;
+                var x1 = Math.cos(phi+theta) * Math.sin(eta/2),
+                    x2 = Math.sin(phi+theta) * Math.sin(eta/2),
+                    x3 = Math.cos(phi-theta) * Math.cos(eta/2),
+                    x4 = Math.sin(phi-theta) * Math.cos(eta/2);
+                var m = mag([x1,x2,x3]),
+                    r = Math.sqrt((1-x4)/(1+x4));
+                return new THREE.Vector3(r*x1/m,r*x2/m, r*x3/m);
+            };
+
+        .om
+            section
+                h1 Topology
+                p.
+                    Can we reason about spheres without a metric? Yes!
+                    But can we do this in a constructive way? Also yes.
+
+        section
+
+            h2 Fiber
+            p.
+                <b>Definition</b> (Fiber). The fiber of the map $p: E \rightarrow B$ in a point $y: B$
+                is all points $x: E$ such that $p(x)=y$.
+            p.
+            code.
+                fiber (E B: U) (p: E -> B) (y: B): U
+                    = (x: E) * Path B y (p x)
+
+            h2 Fiber Bundle
+            p.
+                <b>Definition</b> (Fiber Bundle). The fiber bundle $ F \rightarrow E \mapright{p} B$ on a
+                total space $E$ with fiber layer $F$ and base $B$ is a
+                structure $(F,E,p,B)$ where $p: E \rightarrow B$ is a surjective
+                map with following property:
+                for any point $y: B$ exists a neighborhood $U_b$ for which a
+                homeomorphism $f: p^{-1}(U_b) \rightarrow U_b \times F$
+                making the following diagram commute.
+            p.
+            figure.
+                $$
+                \begin{array}{ccc}
+                    p^{-1}(U_b) & \mapright{f} & U_b \times F \\
+                    \mapdown{\mathbf{p}} & \mapdiagr{pr_1} & \\
+                    U_b & & \\
+                \end{array}
+                $$
+
+            h2 Trivial Fiber Bundle
+            p.
+                <b>Definition</b> (Trivial Fiber Bundle).
+                When total space $E$ is cartesian product $\Sigma(B,F)$
+                and $p = pr_1$ then such bundle is called trivial $(F,\Sigma(B,F),pr_1,B)$.
+            code.
+                Family (B: U): U = B -> U
+
+                total (B: U) (F: Family B): U = Sigma B F
+                trivial (B: U) (F: Family B): total B F -> B
+                    = \ (x: total B F) -> x.1
+            p.
+                <b>Theorem</b> (Fiber Bundle is a Type Family).
+                Inverse image (fiber) of fiber bundle $(F,B*F,pr_1,B)$ in point $y:B$ equals $F(y)$.
+            code.
+                FiberPi (B: U) (F: B -> U) (y: B)
+                      : Path U (fiber (total B F) B (trivial B F) y) (F y)
+            p.
+                <b>Definition</b> (Structure Group). The structure group of
+                an $F$-fiber bundle is just Aut(F), the loop space of BAut(F).
+
+            h2 Higher Spheres
+
+            p.
+                <b>Definition</b> (2-points, Bool, Sphere $S^0$).
+            code.
+                data bool = false | true
+
+            p.
+                <b>Definition</b> (Suspension).
+            code.
+                data susp (A: U)
+                   = north
+                   | south
+                   | merid (a: A) &lt;i&gt; [ (i = 0) -> north,
+                                        (i = 1) -> south ]
+            p.
+                <b>Definition</b> (Sphere $S^1$). Direct definition.
+            code.
+                data S1
+                   = base
+                   | loop &lt;i&gt; [ (i = 0) -> base,
+                                (i = 1) -> base ]
+
+            p.
+                <b>Definition</b> (Sphere $S^n$). Recursive definition.
+            code.
+                S: nat -> U = split
+                   zero -> bool
+                   succ x -> susp (S x)
+
+                S2: U = susp S1
+                S3: U = susp S2
+                S4: U = susp S3
+
+            h2 Hopf Fibrations
+            p.
+                <b>Theorem</b> (Hopf Fibrations). There are fiber bundles:
+                $$
+                  \mathbb{R} : (S^0,S^1,p,S^1), \\
+                  \mathbb{C} : (S^1,S^3,p,S^2), \\
+                  \mathbb{H} : (S^3,S^7,p,S^4), \\
+                  \mathbb{O} : (S^7,S^{15},p,S^8).
+                $$
+            p.
+                <b>Definition</b> (H-space). H-space over a carrier $A$ is a tuple
+                $$
+                H_A=
+                \begin{cases}
+                A : U\\
+                e : A\\
+                \mu : A \rightarrow A \rightarrow A\\
+                \beta : (a:A) \rightarrow \mu(e,a)=\mu(a,e)=a
+                \end{cases}
+                $$.
+            p.
+                <b>Example</b> ($S^1$ Hopf Fiber $\mathbb{R}$). Mobius fiber.
+                In cubicaltt type checker.
+            code.
+                moebius : S1 -> U = split
+                  base -> bool
+                  loop @ i -> ua bool bool negBoolEquiv @ i
+
+                H0 : U = (c : S1) * moebius c
+            p.
+                <b>Example</b> ($S^3$ Hopf Fiber $\mathbb{C}$). Guillaume Brunerie.
+                In cubicaltt type checker.
+            code.
+                rot: (x : S1) -> Path S1 x x = split
+                  base -> loop1
+                  loop @ i -> constSquare S1 base loop1 @ i
+
+                mu : S1 -> equiv S1 S1 = split
+                  base -> idEquiv S1
+                  loop @ i -> equivPath S1 S1 (idEquiv S1)
+                        (idEquiv S1) (<j> \(x : S1) -> rot x @ j) @ i
+
+                H : S2 -> U = split
+                  north -> S1
+                  south -> S1
+                  merid x @ i -> ua S1 S1 (mu x) @ i
+
+                total : U = (c : S2) * H c
+            p.
+                <b>Example</b> ($S^7$ Hopf Fiber $\mathbb{H}$). By Egbert Rijke and Ulrik Buchholtz.
+                In Lean prover.
+            code.
+                definition pfiber_quaternionic_phopf
+                  : pfiber quaternionic_phopf ≃* S* 3 :=
+                begin
+                  fapply pequiv_of_equiv,
+                  { esimp, unfold [quaternionic_hopf],
+                    refine fiber.equiv_precompose
+                    (sigma.pr1 ◦ (hopf.total (S 3))−1e)
+                    (join.spheres (of_nat 3) (of_nat 3)) − 1 e _ ·e _,
+                        refine fiber.equiv_precompose _ (hopf.total (S 3))− 1 e _ ·e _,
+                        apply fiber_pr1 },
+                  { reflexivity }
+                end
+            br.
+            p.
+                <b>Definition</b> (Hopf Invariant). Let $\phi: S^{2n-1} \rightarrow S^{n}$ a continuous map.
+                Then homotopy pushout (cofiber) of $\phi$ is $cofib(\phi) = S^{n} \bigcup_\phi \mathbb{D}^{2n}$ has
+                ordinary cohomology
+                $$
+                H^{k}(cofib(\phi),\mathbb{Z})=
+                \begin{cases}
+                \mathbb{Z}\ for\ k=n,2n \\[2ex]
+                0\ otherwise
+                \end{cases}
+                $$.
+            p.
+                Hence for $\alpha,\beta$ generators of the cohomology groups in
+                degree $n$ and $2n$, respectively, there exists an integer $h(\phi)$
+                that expresses the <b>cup product</b> square of $\alpha$
+                as a multiple of $\beta$ &mdash; $\alpha\sqcup\alpha=h(\phi)\cdot\beta$.
+                This integer $h(\phi)$ is called Hopf invariant of $\phi$.
+            p.
+                <b>Theorem</b> (Adams, Atiyah). Hopf Fibrations are only
+                maps that have Hopf invariant $1$.
+
+        .om
+            section
+                h1 Literature
+        section
+            p.
+                [1]. Ulrik Buchholtz, Egbert Rijke.
+                     <a href="https://arxiv.org/pdf/1610.01134.pdf">The Cayley-Dickson Construction in Homotopy Type Theory</a>
+            br.
+            
