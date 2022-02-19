@@ -8,7 +8,7 @@ Groupoid Infinity is building integrated environment for mathematician:
 * RUN — Runtime Interpreter and Virtual Machines
 * VERIFY — Theorem Prover a la Lean/Agda
 
-## Virtual Machines and Runtime Languages
+## RUN: Virtual Machines and Runtime Languages
 
 * APL — persistent tensor array processing runtime (get, put, fold)
 * CPS — fast certified L1 lambda CPS interpreter as runtime (fun, app)
@@ -16,7 +16,7 @@ Groupoid Infinity is building integrated environment for mathematician:
 * N2O — app frameworks: MNESIA, BPE, N2O, KVS, NITRO
 * PROCESS — intercore protocol for process calculus (spawn, send, recv)
 
-## Verification Languages
+## VERIFY: Verification Languages
 
 * Principia — METAMATH-like prover
 * PTS — Pure Type System for encodings exploration
