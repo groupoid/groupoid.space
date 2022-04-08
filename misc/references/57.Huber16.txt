@@ -1,0 +1,6 @@
+@article{Huber16,
+  title={Cubical intepretations of type theory},
+  author={Huber, Simon},
+  year={2016}
+}
+

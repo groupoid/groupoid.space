@@ -1,0 +1,99 @@
+\documentclass{article}
+\usepackage{microtype}
+\usepackage{titlesec}
+\usepackage[absolute]{textpos}
+\usepackage{amsmath}
+\usepackage{cite}
+\usepackage[strict=true,style=english]{csquotes}
+\setquotestyle{english}
+\usepackage{amssymb}
+\usepackage{fontspec}
+\usepackage{amsthm}
+\usepackage{url}
+\usepackage{tikz}
+\usepackage{tikz-cd}
+\usetikzlibrary{matrix}
+\usepackage[utf8]{inputenc}
+\usepackage[english,russian]{babel}
+\usetikzlibrary{babel}
+\usepackage{listings}
+\usepackage[tableposition=top]{caption}
+\theoremstyle{definition}
+\newtheorem{theorem}{Theorem}
+\newtheorem{definition}{Definition}
+\newtheorem{exercise}{Exercise}
+\newtheorem{example}{Example}
+\captionsetup[table]{labelformat=empty}
+\lstMakeShortInline[mathescape=true,columns=fixed]|
+\def\mapright#1{\xrightarrow{{#1}}}
+\def\mapleft#1{\xleftarrow{{#1}}}
+\def\mapup#1{\Big\uparrow\rlap{\raise2pt{\scriptstyle{#1}}}}
+\def\mapupl#1{\Big\uparrow\llap{\raise2pt{\scriptstyle{#1}}}}
+\def\mapdown#1{\Big\downarrow\rlap{\raise2pt{\scriptstyle{#1}}}}
+\def\mapdownl#1{\Big\downarrow\llap{\raise2pt{\scriptstyle{#1}}}}
+\def\mapdiagl#1{\vcenter{\searrow}\rlap{\raise2pt{\scriptstyle{#1}}}}
+\def\mapdiagr#1{\vcenter{\swarrow}\rlap{\raise2pt{\scriptstyle{#1}}}}
+\lstset{basicstyle=\small,inputencoding=utf8}
+\setlength{\TPHorizModule}{4mm}
+\setlength{\TPVertModule}{\TPHorizModule}
+\textblockorigin{4mm}{4mm}
+\setlength{\parindent}{0pt}
+\titleformat{\section}[block]{\Large\bfseries\filcenter}{}{1em}{}
+
+\newfontfamily{\cyrillicfont}{Times New Roman}
+\setmainfont{Times New Roman}
+
+\begin{textblock}{3}(2,3)
+\small \text{УДК 510.2:510.6}
+\end{textblock}
+
+\selectlanguage{ukranian}
+
+
+\begin{document}
+
+\renewcommand{\abstractname}{Анотація}
+
+\title{\small М.Е. Сохацький^{*}}
+\author{Випуск 1: Вбудовування теорії типів Мартіна-Льофа}
+\date{ \small Національний технічний університет України \\
+      «Київський політехнічний інститут імені Ігоря Сікорського».\\
+       \small $^*$Кореспондент: maxim@synrc.com}
+
+\maketitle
+
+\begin{abstract}
+
+Ця стаття демонструє формальне вбудовування теорії типів Мартіна-Льофа
+в виконуючу кубічну типову систему з повним набором правил виводу.
+Це стало можливим завдяки кубічній теорії типів та типовому кубічному верифікатору
+{\bf cubicaltt}\footnote{http://github.com/mortberg/cubicaltt} в 2017 році.
+Був пройдений довгий шлях від чистих типових систем AUTOMATH де Брейна до
+гомотопічних типових верифікаторів. Ця стаття стосується тільки формального ядра
+теорії типів Мартіна-Льофа: $\Pi$ и $\Sigma$ типів (які відповідають
+квантору загальності $\forall$ та квантору існування $\exists$ у класичній логіці)
+та типу-рівності.
+
+Кожна мовна імплементація повинна бути протестована. Один з можливих сценаріїв
+тестування типових верифікаторів це пряме вбудовування в модель теорії типів
+виконуючого верифікатора. Так як всі типи в теорії формулюються за допомогою п'яти
+прарвил: формації, інтро, елімінації, обчисленя, рівності), ми зконструювали
+номінальні типи-синоніми для виконуючого верифікатора та довели, що це є реалізацією MLTT.
+Це може розглядатися як універсальний тест для імплементації типового верифікатора,
+позаяк компенсаця інтро правила та правила елімінатора пов'язані в правилі
+обчислення та рівності (бета та ета редукціях). Таким чином, доводжучи реалізацію MLTT,
+ми доводимо властивості самого виконуючого верифікатора.
+
+Більш формально, кубічне MLTT вбудовування конструктивно виражає
+J елімінатор типу-рівності та його рівняння — правило обчислення,
+що було неможливо до кубічної інтерпретації. Також цей випуск
+відкриває серію статей присвячених формалізації основ математики в кубічній теорії типів,
+MLTT моделюванню та кубічнії верифікації. Так як не всі можуть бути знайомі з теорією типів,
+це випуск також містить їх інтерпретації з точки зору різних розділів математики.
+
+Додамо, що це тільки вхід в техніку прямого вбудовування і після MLTT моделювання,
+ми можем піднятися вище — до вбудовування в систему індуктивних типів, і далі,
+до вбудовування CW-комплексів як зклейок вищих індуктивних типів.
+
+\end{abstract}
+\end{document}

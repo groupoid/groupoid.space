@@ -1,0 +1,64 @@
+% copyright (c) 2018 Groupoid Infinity
+
+\documentclass{article}
+\usepackage{listings}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{url}
+\usepackage{tikz-cd}
+\usepackage[utf8]{inputenc}
+
+\theoremstyle{definition}
+\newtheorem{definition}{Definition}
+\newtheorem{theorem}{Theorem}
+\newcommand*{\incmap}{\hookrightarrow}
+\newcommand*{\thead}[1]{\multicolumn{1}{c}{\bfseries #1}}
+\lstset{basicstyle=\small,inputencoding=utf8}
+
+\begin{document}
+
+\title{Issue VI: Set Theory}
+\author{Maxim Sokhatsky $^1$}
+\date{ $^1$ National Technical University of Ukraine \\
+       \small Igor Sikorsky Kyiv Polytechnical Institute \\
+       \today }
+
+\maketitle
+
+\begin{abstract}
+CW-complexes are fundamental objects in homotopy type theory
+and even included inside cubical type checker in a form of
+higher (co)-inductive types (HITs).
+Just like regular (co)-inductive types could be described as recursive
+terminating (well-founded) or non-terminating trees,
+higher inductive types could be described as CW-complexes.
+Defining HIT means to define some CW-complex
+directly using cubical homogeneous composition structure as an
+element of initial algebra inside cubical model.
+\\
+\\
+{\bf Keywords}: Set Theory, Cubical Type Theory
+\end{abstract}
+\tableofcontents
+
+\newpage
+\section{Prerequisites}
+
+\subsection{ETCS}
+Lawvere’s theory ETCS (Lawvere 2005) has eight axioms:
+(L1) finite roots exist,
+(L2) the exponential of any pair of objects exist,
+(L3) there is a Dedekind-Peano object,
+(L4) the terminal object is separating,
+(L5) axiom of choice,
+(L6) every object not isomorphic to an initial object contains an element,
+(L7) Each element of a sum is a member of one of its injections,
+(L8) there is an object with more than one element.
+
+
+\bibliographystyle{plain}
+\bibliography{cwf}
+
+\end{document}
+

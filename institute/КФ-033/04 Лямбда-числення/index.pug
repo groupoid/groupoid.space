@@ -1,0 +1,37 @@
+include ../../../header
+
+html
+    head
+        meta(property='og:title'       content='INSTITUTE')
+        meta(property='og:description' content='Інститут Прикладної Математики')
+        meta(property='og:url'         content='https://groupoid.space/institute/')
+
+block title
+    title КФ-033-01
+
+block content
+    +header('', 'Лямбда-числення', 'Курс лекцій для студентів першого курсу кафедри формальної філософії КФ-033-04')
+    article.main
+        .om
+            aside <span>Автор</span>: <b>Хенк Барендрехт</b><br>
+                <span>Код курсу</span>: <b><a href="../">КФ-033-04</a></b><br>
+                <span>Кількість кредитів</span>: <b>12</b><br>
+            section
+                h1 Лямбда-числення
+            section
+                p.
+                    Лямбда-числення &mdash; внутрішня мова декартово-замкнених категорій,
+                    природня мова програмування математики. Цей курс знайомить з основними
+                    системами типів, що складають куб Барендрехта.
+
+        .index
+            .index__col
+                ul
+                    li: a(href='#') 1. Лямбда-куб
+                    li: a(href='#') 2. Проста система типів
+                    li: a(href='#') 3. Система F
+                    li: a(href='#') 4. Система F<sub>ω</sub>
+                    li: a(href='#') 5. Система AUTOMATH
+                    li: a(href='#') 6. Числення конструкцій CoC
+
+include ../../../footer

@@ -1,0 +1,39 @@
+include ../../../header
+
+html
+    head
+        meta(property='og:title'       content='INSTITUTE')
+        meta(property='og:description' content='Інститут Прикладної Математики')
+        meta(property='og:url'         content='https://groupoid.space/institute/')
+
+block title
+    title КМ-111-10
+
+block content
+    +header('', 'Гомотопічна теорія типів', 'Курс лекцій для студентів третього курсу кафедри чистої математики КМ-111-10')
+    article.main
+        .om
+            aside <span>Автор</span>: <b>Максим Сохацький</b><br>
+                <span>Код курсу</span>: <b><a href="../">КМ-111-10</a></b><br>
+                <span>Кількість кредитів</span>: <b>12</b><br>
+            section
+                h1 Гомотопічна теорія типів
+                p.
+                    Гомотопічна теорія типів &mdash; спеціальна синтетична конструктивна версія теорії гомотопій,
+                    що дозволяє безпосередньо оперувати багатовимірними рівностями у вигляді кубів.
+
+        .index
+            .index__col
+                ul
+                    li: a(href='https://groupoid.space/articles/mltt/mltt.pdf') 1. Теорія типів
+                    li: a(href='https://groupoid.space/articles/inductive/inductive.pdf') 2. Індуктивні типи
+                    li: a(href='https://groupoid.space/articles/hott/hott.pdf') 3. Гомотопічні типи
+                    li: a(href='https://groupoid.space/articles/hit/hit.pdf') 4. Вищі індуктивні типи
+                    li: a(href='#') 5. Модальності
+                    li: a(href='https://groupoid.space/articles/set/set.pdf') 6. Теорія множин
+                    li: a(href='#') 7. Теорія категорій
+                    li: a(href='https://groupoid.space/articles/topos/topos.pdf') 8. Теорія топосів
+                    li: a(href='#') 9. Алгебраїчна топологія
+                    li: a(href='#') 10. Диференціальна геометрія
+
+include ../../../footer

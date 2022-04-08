@@ -1,0 +1,207 @@
+@font-face {
+    font-family: 'local';
+    src: url('https://groupoid.space/Geometria-Light.otf');
+    font-weight: normal;
+    font-style: normal;
+}
+
+.MathJax_Display {
+  overflow-x: auto;
+  overflow-y: hidden;
+}
+
+nav a {
+    font-size: 18px;
+    border: 2px solid #dedede;
+    background-color: white;
+    color: lightblue;
+    text-decoration: none;
+    margin: 5px 5px;
+    padding: 7px 12px;
+    min-width: 150px;
+    text-align: center;
+}
+
+nav a:visited {
+    color: lightblue;
+}
+
+nav a:hover {
+    border-bottom: 2px solid #00b8cf;
+}
+
+
+nav {
+    display: flex;
+    background-color: #FBFBFB;
+    flex-direction: row;
+    justify-content: center;
+}
+
+nav a {
+    font-size: 18px;
+    min-width: initial;
+}
+
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+sub,
+sup {
+  font-size: 80%;
+  line-height: 0;
+  position: relative;
+  vertical-align: baseline;
+}
+
+sub {
+  bottom: -0.25em;
+}
+
+sup {
+  top: -0.5em;
+}
+
+html {
+    height: 100%;
+}
+
+body {
+    min-height: 100%;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+}
+
+h1, h2, h3, h4 {
+    font-weight: normal;
+}
+
+ul {
+    list-style-type: none;
+}
+
+ol,
+ul {
+    text-align: left;
+    line-height: 1.5;
+}
+
+img, figure {
+    vertical-align: middle;
+}
+
+img { margin-left:20px; }
+
+.content {
+    min-height: 100%;
+    font-family: local;
+    display: flex; // sticky footer
+    flex-direction: column;
+    position: relative;
+}
+
+.main {
+    color: #586E75;
+    background: #FBFBFB;
+    padding: 50px 0px;
+    text-align: center;
+    box-shadow: 0 3px 10px rgba(0,0,0,0);
+//                0 -3px 10px rgba(0,0,0,0.3);
+    z-index: 5;
+    flex: 1 1 auto; // sticky footer
+
+}
+
+figure {
+    min-width: 300px;
+    overflow-x: auto;
+    padding: 10px 2px;
+    font-size: 18px;
+    display: block;
+}
+
+figure::after {
+  content: "\A";
+  white-space: pre;
+}
+
+h2 {
+    font-size: 24px;
+    color: #268BD2;
+    @media(min-width: 768px) {
+        font-size: 32px;
+    }
+    margin: 34px 0 8px;
+}
+
+h3 {
+    max-width: 100%;
+    margin: 16px auto 0;
+//    width: 650px;
+    padding: 0 0 0 8px;
+    text-transform: uppercase;
+    text-align: left;
+    font-size: 22px;
+}
+
+p {
+    max-width: 100%;
+    width: 650px;
+    margin: auto;
+    padding: 8px;
+    text-align: left;
+    font-size: 18px;
+    line-height: 1.4;
+    @media(min-width: 768px) {
+        font-size: 22px;
+    }
+}
+
+p:hover {
+    background: white;
+}
+
+mark {
+    background: #FDF6E3;
+    padding: 0px 2px;
+    border-radius: 2px;
+    color: #586E75;
+}
+
+a {
+    color: #3A98C8;
+    text-decoration: none;
+    &:visited {
+    color: #3A98C8;
+    }
+
+    &:hover {
+        color: #D33682;
+    }
+
+    &:active {
+        color: #D33682;
+    }
+}
+
+
+@import '_aside';
+@import '_header';
+@import '_footer';
+@import '_semantics';
+@import '_intro';
+@import '_status';
+@import '_resources';
+@import '_index';
+@import '_om';
+@import '_exe';
+@import '_types';
+@import '_list';
+@import '_code';
+@import '_canvas';
+@import '_stack';
+

@@ -1,0 +1,1181 @@
+include ../../header
+
+html
+    head
+        meta(property='og:title'       content='INSTITUTE')
+        meta(property='og:description' content='Інститут Прикладної Математики')
+        meta(property='og:url'         content='https://groupoid.space/institute/')
+
+block title
+    title PRELUDE
+
+block content
+    +header('', 'Formal Mathematics', 'The Cubical Base Library')
+    article.main
+        .om
+            section
+                h1 Abstract
+            aside Максим Сохацький<br>
+                03-08-2018
+            p.
+                The cubical base library is dedicated to type checkers with cubical syntax, based on
+                interval $[0,1]$ with functional extensionality, higher equalities, and higher
+                inductive types on top of MLTT as a core.
+                Please refer to <a href="http://www.cse.chalmers.se/~coquand/cubicaltt.pdf">CCHM</a>
+                paper for more information. The base library is founded on top of cubical modules each
+                falling into one of 15 categories:
+            p.
+                (i) MLTT Types:
+                    <a href="https://raw.githubusercontent.com/groupoid/cubical/master/src/pi.ctt">pi</a>,
+                    <a href="https://raw.githubusercontent.com/groupoid/cubical/master/src/sigma.ctt">sigma</a>,
+                    <a href="https://raw.githubusercontent.com/groupoid/cubical/master/src/path.ctt">path</a>;
+                (ii) Set Theory:
+                    <a href="https://raw.githubusercontent.com/groupoid/cubical/master/src/prop.ctt">prop</a>,
+                    <a href="https://raw.githubusercontent.com/groupoid/cubical/master/src/set.ctt">set</a>,
+                    <a href="https://raw.githubusercontent.com/groupoid/cubical/master/src/ordinal.ctt">ordinal</a>,
+                    <a href="https://raw.githubusercontent.com/groupoid/cubical/master/src/hedberg.ctt">hedberg</a>;
+                (iii) Run-Time Inductive Types:
+                    <a href="https://raw.githubusercontent.com/groupoid/cubical/master/src/proto.ctt">proto</a>,
+                    <a href="https://raw.githubusercontent.com/groupoid/cubical/master/src/maybe.ctt">maybe</a>,
+                    <a href="https://raw.githubusercontent.com/groupoid/cubical/master/src/bool.ctt">bool</a>,
+                    <a href="https://raw.githubusercontent.com/groupoid/cubical/master/src/nat.ctt">nat</a>,
+                    <a href="https://raw.githubusercontent.com/groupoid/cubical/master/src/list.ctt">list</a>,
+                    <a href="https://raw.githubusercontent.com/groupoid/cubical/master/src/stream.ctt">stream</a>,
+                    <a href="https://raw.githubusercontent.com/groupoid/cubical/master/src/vector.ctt">vector</a>;
+                (iv) Abstract Algebra:
+                    <a href="https://raw.githubusercontent.com/groupoid/cubical/master/src/algebra.ctt">algebra</a>;
+                (v) Control Structures:
+                    <a href="https://raw.githubusercontent.com/groupoid/cubical/master/src/control.ctt">control</a>;
+                (vi) Recursion Schemes:
+                    <a href="https://raw.githubusercontent.com/groupoid/cubical/master/src/recursion.ctt">recursion</a>;
+                (vii) Univalent Foundations:
+                    <a href="https://raw.githubusercontent.com/groupoid/cubical/master/src/equiv.ctt">equiv</a>,
+                    <a href="https://raw.githubusercontent.com/groupoid/cubical/master/src/retract.ctt">retract</a>,
+                    <a href="https://raw.githubusercontent.com/groupoid/cubical/master/src/iso.ctt">iso</a>,
+                    <a href="https://raw.githubusercontent.com/groupoid/cubical/master/src/iso_pi.ctt">iso_pi</a>,
+                    <a href="https://raw.githubusercontent.com/groupoid/cubical/master/src/iso_sigma.ctt">iso_sigma</a>,
+                    <a href="https://raw.githubusercontent.com/groupoid/cubical/master/src/univ.ctt">univ</a>;
+                (viii) Higher Inductive Types:
+                    <a href="https://raw.githubusercontent.com/groupoid/cubical/master/src/interval.ctt">interval</a>,
+                    <a href="https://raw.githubusercontent.com/groupoid/cubical/master/src/real.ctt">interval</a>,
+                    <a href="https://raw.githubusercontent.com/groupoid/cubical/master/src/s1.ctt">s1</a>,
+                    <a href="https://raw.githubusercontent.com/groupoid/cubical/master/src/s2.ctt">s2</a>,
+                    <a href="https://raw.githubusercontent.com/groupoid/cubical/master/src/pullback.ctt">pullback</a>,
+                    <a href="https://raw.githubusercontent.com/groupoid/cubical/master/src/pushout.ctt">pushout</a>,
+                    <a href="https://raw.githubusercontent.com/groupoid/cubical/master/src/suspension.ctt">suspension</a>,
+                    <a href="https://raw.githubusercontent.com/groupoid/cubical/master/src/quotient.ctt">quotient</a>,
+                    <a href="https://raw.githubusercontent.com/groupoid/cubical/master/src/trunc.ctt">trunc</a>;
+                (ix) Process Calculus:
+                    <a href="https://raw.githubusercontent.com/groupoid/cubical/master/src/process.ctt">process</a>;
+                (x) Category Theory:
+                    <a href="https://raw.githubusercontent.com/groupoid/cubical/master/src/cat.ctt">cat</a>,
+                    <a href="https://raw.githubusercontent.com/groupoid/cubical/master/src/fun.ctt">fun</a>,
+                    <a href="https://raw.githubusercontent.com/groupoid/cubical/master/src/sip.ctt">sip</a>,
+                    <a href="https://raw.githubusercontent.com/groupoid/cubical/master/src/adj.ctt">adj</a>,
+                    <a href="https://raw.githubusercontent.com/groupoid/cubical/master/src/ump.ctt">ump</a>,
+                    <a href="https://raw.githubusercontent.com/groupoid/cubical/master/src/cones.ctt">cones</a>,
+                    <a href="https://raw.githubusercontent.com/groupoid/cubical/master/src/topos.ctt">topos</a>,
+                    <a href="https://raw.githubusercontent.com/groupoid/cubical/master/src/category.ctt">category</a>;
+                (xi) Contextual Categories:
+                    <a href="https://raw.githubusercontent.com/groupoid/cubical/master/src/cwf.ctt">cwf</a>,
+                    <a href="https://raw.githubusercontent.com/groupoid/cubical/master/src/csystem.ctt">csystem</a>;
+                (xii) Languages:
+                    <a href="https://raw.githubusercontent.com/groupoid/cubical/master/src/mltt.ctt">mltt</a>,
+                    <a href="https://raw.githubusercontent.com/groupoid/cubical/master/src/infinity.ctt">infinity</a>;
+                (xiii) Algebraic Geometry:
+                    <a href="https://raw.githubusercontent.com/groupoid/cubical/master/src/pointed.ctt">pointed</a>,
+                    <a href="https://raw.githubusercontent.com/groupoid/cubical/master/src/euler.ctt">euler</a>,
+                    <a href="https://raw.githubusercontent.com/groupoid/cubical/master/src/seq.ctt">seq</a>,
+                    <a href="https://raw.githubusercontent.com/groupoid/hopf/master/src/hopf.ctt">hopf</a>,
+                    <a href="https://raw.githubusercontent.com/groupoid/cubical/master/src/cw.ctt">cw</a>;
+                (xiv) Cartan Geometry in Cohesive Topos:
+                    <a href="https://raw.githubusercontent.com/groupoid/cubical/master/src/infinitesimal.ctt">infinitesimal</a>,
+                    <a href="https://raw.githubusercontent.com/groupoid/cubical/master/src/etale.ctt">etale</a>,
+                    <a href="https://raw.githubusercontent.com/groupoid/cubical/master/src/manifold.ctt">manifold</a>,
+                    <a href="https://raw.githubusercontent.com/groupoid/cubical/master/src/bundle.ctt">bundle</a>;
+                (xv) K-Theory:
+                    <a href="https://raw.githubusercontent.com/groupoid/cubical/master/src/k_theory.ctt">k_theory</a>,
+                    <a href="https://raw.githubusercontent.com/groupoid/cubical/master/src/swaptrans.ctt">swaptrans</a>,
+                    <a href="https://raw.githubusercontent.com/groupoid/cubical/master/src/bishop.ctt">bishop</a>,
+                    <a href="https://raw.githubusercontent.com/groupoid/cubical/master/src/subtype.ctt">subtype</a>;
+            p.
+                This library is best to read with <a href="http://5ht.co/hott.pdf">HoTT</a>
+                book and <a href="https://ncatlab.org/schreiber/show/thesis+Wellen">Felix Wellen</a> dissertation.
+            br
+        .om
+            section
+                h1 Martin-Löf Type Theory
+        section
+            p.
+                Martin-Löf Type Theory contains Pi, Sigma, Id, Nat, List types.
+                Id types were added in 1984 while original MLTT was introduced in 1972.
+                Now Id types are treated as heterogeneous Path interval types.
+
+            h2#pi <a name='pi'><a href='../core/pi/'>Pi</a></a>
+            p.
+                Pi is a space of sections $f: (x:A) \rightarrow B(x)$.
+            code.
+                Pi (A: U) (P: A -> U): U
+            br.
+            code.
+                id (A: U): U = A -> A
+                idfun (A: U) (a: A): A = a
+                const (A B: U): U = A
+                lam (A: U) (B: A -> U) (x: A) (b: B(x)): A -> B(x) = \(x: A) -> b
+                app (A: U) (B: A -> U) (x: A) (f: A -> B(x)): B(x) = f(x)
+                lambda (A B: U) (b: B): A -> B = \(_:A) -> b
+                apply (A B: U) (f: A -> B) (x: A): B = f(x)
+                O (F G: U -> U) (t: U): U = F (G t)
+                ot (A B C: U): U = (B -> C) -> (A -> B) -> (A -> C)
+                o (A B C: U): ot A B C = \(f:B->C)(g:A->B)(x:A) -> f(g x)
+            br.
+            p.
+                see <a href="http://5ht.co/hott.pdf">HoTT</a>:
+                    1.5 Product types; and
+                    2.9 Pi-types and the function extensionality axiom
+            code.
+                piExt  (A: U) (B: A -> U)
+                       (f g: (x:A) -> B x)
+                       (p: (x:A) -> Path (B x) (f x) (g x))
+                     : Path ((y:A) -> B y) f g
+                     = &lt;i&gt; \(a: A) -> (p a) @ i
+
+                funExt (A B: U) (f g: A -> B)
+                       (p: (x:A) -> Path B (f x) (g x))
+                     : Path (A -> B) f g
+                     = &lt;i&gt; \(a: A) -> p a @ i
+
+            h2#sigma <a name='exists'><a href='../core/sigma/'>Sigma</a></a>
+            p.
+                Sigma is a total space of fibration $p: (x:A) * B(x)$.
+            code.
+                Sigma (A: U) (B: A -> U): U
+            br.
+            code.
+                dpair (A: U) (B: A -> U) (a: A) (b: B a): Sigma A B
+                pi1 (A: U) (B: A -> U) (x: Sigma A B): A
+                pi2 (A: U) (B: A -> U) (x: Sigma A B): B (pi1 A B x)
+            br.
+            p.
+                see <a href="http://5ht.co/hott.pdf">HoTT</a>:
+                    1.6 Dependent pair types (Sigma-types); and
+                    2.7 Sigma-types.
+            code.
+                sigmaRec (A: U) (B: A -> U) (C: U)
+                         (g: (x:A) -> B(x) -> C)
+                         (p: Sigma A B): C = g p.1 p.2
+
+                sigmaInd (A: U) (B: A -> U) (C: Sigma A B -> U)
+                         (g: (a:A)(b:B(a)) -> C (a,b))
+                         (p: Sigma A B): C p = g p.1 p.2
+
+                axiomChoice (A B: U) (R: A->B -> U):
+                     (p: (x:A)->(y:B)*(R x y)) -> (f:A->B)*((x:A)->R(x)(f x))
+                  = \(g: (x:A)->(y:B)*(R x y)) -> (\(i:A)->(g i).1,\(j:A)->(g j).2)
+
+            h2#path <a name=id><a href='../core/path/'>Path</a></a>
+            p.
+                Path type is a $\mathbf{I}=[0,1]$ interval $Path_A(a,b)$
+                which elements are lambdas $i = \lambda (d: \mathbf{I}) \rightarrow A : Path_A(a,b)$
+                with values in $A$ such that $\{ i(0)=a$, $i(1)=b \}$.
+            code.
+                Path (A: U) (a b: A): U
+            br.
+            code.
+                sym (A: U) (a b: A) (p: Path A a b): Path A b a
+                refl (A: U) (a: A) : Path A a a
+                singl (A: U) (a: A) : U
+                trans (A B: U) (p: Path U A B) (a: A) : B
+                subst (A: U) (P: A -> U) (a b: A) (p: Path A a b) (e: P a): P b
+                cong (A B: U) (f: A -> B) (a b: A) (p: Path A a b): Path B (f a) (f b)
+                composition (A: U) (a b c: A) (p: Path A a b) (q: Path A b c): Path A a c
+                kan (A: U) (a b c d: A) (p: Path A a b) (q: Path A a c) (r: Path A b d): Path A c d
+            br.
+            code.
+                J (A: U) (a x: A)
+                  (C: (x: A) -> Path A a x -> U)
+                  (d: C a (refl A a))
+                  (p: Path A a x): C x p
+            br.
+            p.
+                see <a href="http://5ht.co/hott.pdf">HoTT</a>:
+                    1.12 Identity types;
+                    1.12.1 Path induction;
+                    2.1 Types are higher groupoids;
+                    2.11 Identity type;
+                    3.11 Contractibility;
+                    6.2 Induction principles and dependent paths.
+
+            h2#groupoid <font color="#7D8A96">Groupoid</font>
+            p.
+                <b>Definition</b> (n-Types). n-truncated objects in $(\infty,1)$-topos called n-types.
+                Two object $X$, $Y$ are of the same homotopy type if there is a zig-zag of morphisms
+                connecting them. That induced equality $\pi_k(X) = \pi_k(Y), 0 \le k \le n$.
+                Homotopy n-types are equivalence classes of an equivalence relation of objects
+                objects in $(\infty,1)$-topos. The internalized homotopical interpretation of
+                such classes is the <mark>n_grpd</mark> function that constructs the hierarchy
+                from ground up.
+            code.
+                data N = Z  | S (n: N)
+
+                n_grpd (A: U) (n: N): U = (a b: A) -> ((rec A a b) n) where
+                  rec (A: U) (a b: A): N -> U = split
+                    Z -> Path A a b
+                    S n -> n_grpd (Path A a b) n
+
+                isContr     (A: U): U = (x: A) * ((y: A) -> Path A x y)
+                isProp      (A: U): U = n_grpd A Z
+                isSet       (A: U): U = n_grpd A (S Z)
+                isGroupoid  (A: U): U = n_grpd A (S (S Z))
+                isGrp2      (A: U): U = n_grpd A (S (S (S Z)))
+                isGrp3      (A: U): U = n_grpd A (S (S (S (S Z))))
+            br.
+            code.
+                inf_grpd (A: U): U
+                  = (carrier: A)
+                  * (eq: (a b: A) -> Path A a b)
+                  * ((a b: A) -> inf_grpd (Path A a b))
+
+                isInfinityGroupoid (A: U): U = inf_grpd A
+            br.
+            code.
+                PROP         : U = (X:U) * isProp X
+                SET          : U = (X:U) * isSet X
+                GROUPOID     : U = (X:U) * isGroupoid X
+                INF_GROUPOID : U = (X:U) * isInfinityGroupoid X
+
+            h2#W <font color="#7D8A96">Well-Founded Trees</font>
+            p.
+                W types are generalisation of trees to encode Nat and List
+                which should be derivable in any MLTT theory.
+                W types here are encoded with Sigma.
+            code.
+                W (A:U) (B:A->U): U = (x:A) * (B(x) -> W A B)
+            br.
+            code.
+                Wrec (A:U) (B:A->U) (P:U)
+                     (alg: (a:A) (f:B(a)->W A B) (h:(b:B(a))->P) -> P)
+                   : (w: W A B) -> P
+                   = \(w:W A B) -> alg w.1 w.2 (\(b:B(w.1)) -> Wrec A B P alg (w.2 b))
+
+                Wind (A:U) (B:A->U) (P:W A B -> U)
+                     (alg: (a:A) (f:B(a)->W A B) (h:(b:B(a))->P (f b)) -> P (a,f))
+                   : (w: W A B) -> P w
+                   = \(w:W A B) -> alg w.1 w.2 (\(b:B(w.1)) -> Wind A B P alg (w.2 b))
+            br.
+            p.
+                see <a href="http://5ht.co/hott.pdf">HoTT</a>:
+                    5.3 W-types.
+
+            h2#setoid <font color="#7D8A96">Setoid</font>
+            p.
+                Setoid was a first modeling of equality by its properties:
+                reflexivity, symmetry and transitivity by Errett Bishop in 1967.
+
+            code.
+                Setoid (A: U): U
+                  = (Carrier: A)
+                  * (Equ: (a b: A) -> Path A a b)
+                  * (Refl: (x: A) -> Equ x x)
+                  * (Trans: (x₁,x₂,x₃: A) -> Equ x₁ x₂ -> Equ x₂ x₃ -> Equ x₁ x₃)
+                  * (Sym: (x₁,x₂: A) -> Equ x₁ x₂ -> Equ x₂ x₁)
+
+
+        .om
+            section
+                h1 Inductive Data Types
+        section
+            p.
+                Inductive Types represent polynomial functors
+                equiped with recursor and indunction principle.
+                Inductive types are used for specification of
+                evaluation protocol for particular computations.
+
+            h2#empty <font color="#7D8A96">Empty</font>
+            p.
+                <b>empty</b> type lacks both introduction rules and eliminators.
+                However, it has recursor and induction.
+            code.
+                data empty =
+            br.
+            code.
+                emptyRec (C: U): empty -> C = split {}
+                emptyInd (C: empty -> U): (z: empty) -> C z = split {}
+
+            h2#unit <font color="#7D8A96">Unit</font>
+            code.
+                data unit = star
+            br.
+            code.
+                unitRec (C: U) (x: C): unit -> C = split tt -> x
+                unitInd (C: unit -> U) (x: C tt): (z: unit) -> C z = split tt -> x
+            p.
+                see <a href="http://5ht.co/hott.pdf">HoTT</a>:
+                    2.8 The unit type
+
+            h2#either <font color="#7D8A96">Either</font>
+            p.
+                <b>either</b> is a representation for sum types or disjunction.
+            code.
+                data either (A B: U) = left (x: A) | right (y: B)
+            br.
+            code.
+                eitherRec (A B C: U) (b: A -> C) (c: B -> C): either A B -> C
+                        = split { inl x -> b(x) ; inr y -> c(y) }
+
+                eitherInd (A B: U) (C: either A B -> U)
+                          (x: (a: A) -> C (inl a))
+                          (y: (b: B) -> C (inr b))
+                        : (x: either A B) -> C x
+                        = split { inl i -> x i ; inr j -> y j }
+
+            p.
+                see <a href="http://5ht.co/hott.pdf">HoTT</a>:
+                    1.7 Coproduct types; and
+                    2.12 Coproducts.
+
+            h2#tuple <a name=prod><font color="#7D8A96">Tuple</font></a>
+            p.
+                <b>tuple</b> is a representation for non-dependent
+                product types or conjunction.
+            code.
+                data tuple (A B: U) = pair (x: A) (y: B)
+                prod (A B: U) (x: A) (y: B): (_: A) * B = (x,y)
+            br.
+            code.
+                tupleRec  (A B C: U) (c: (x:A) (y:B) -> C): (x: tuple A B) -> C
+                        = split pair a b -> c a b
+                tupleInd  (A B: U) (C: tuple A B -> U)
+                          (c: (x:A)(y:B) -> C (pair x y))
+                        : (x: tuple A B) -> C x
+                        = split pair a b -> c a b
+
+            p.
+                see <a href="http://5ht.co/hott.pdf">HoTT</a>:
+                    2.6 Cartesian product types.
+
+            h2#bool <a name='bool'><font color="#7D8A96">Bool</font></a>
+            p.
+                <b>bool</b> is a run-time version of the boolean logic you
+                may use in your general purpose applications. <b>bool</b>
+                is isomorphic to <b>1+1</b>: either unit unit.
+            code.
+                data bool = false | true
+            br.
+            code.
+                b1: U = bool -> bool
+                b2: U = bool -> bool -> bool
+            br.
+            code.
+                negation: b1 = split { false -> true ; true -> false }
+                or:  b2 = split { false -> idfun bool ; true -> lambda bool bool true  }
+                and: b2 = split { false -> lambda bool bool false ; true -> idfun bool }
+            br.
+            code.
+                boolEq: b2 = lambda bool (bool -> bool) negation
+                boolRec (C: U) (f t: C): bool -> C = split { false -> f ; true -> t }
+                boolInd (C: bool -> U) (f: A false) (t: A true): (n:bool) -> A n
+                      = split { false -> f ; true -> t }
+            p.
+                see <a href="http://5ht.co/hott.pdf">HoTT</a>:
+                    1.8 The type of booleans
+
+            h2#maybe <a href='../core/maybe/'>Maybe</a></a>
+            p.
+                Maybe has representing functor M<sub>A</sub>(X) = 1 + A.
+                It is used for wrapping values with optional nothing constructor.
+                In ML-family languages this type is called Option (Miranda, ML).
+                There is an <a href="https://raw.githubusercontent.com/groupoid/cubical/master/src/maybe_nat.ctt">isomorphims</a>
+                between <b>(fix maybe)</b> and <b>nat</b>.
+            code.
+                data maybe (A: U) = nothing | just (x: A)
+            br.
+            code.
+                maybeRec (A P: U) (n: P) (j: A -> P): maybe A -> P
+                       = split { nothing -> n; just a -> j a }
+
+                maybeInd (A: U) (P: maybe A -> U) (n: P nothing)
+                         (j: (a: A) -> P (just a)): (a: maybe A) -> P a
+                       = split { nothing -> n ; just x -> j x }
+
+            h2#nat <a name='nat'><a href='https://groupoid.space/foundations/mltt/nat/'>Nat</a></a>
+            p.
+                Pointed Unary System is a category nat with the terminal object
+                and a carrier <b>nat</b> having morphism <b>[zero:
+                1<sub>nat</sub> → nat, succ: nat → nat]</b>. The initial
+                object of nat is called Natural Number Object and models
+                Peano axiom set.
+            code.
+                data nat = zero | succ (n: nat)
+            br.
+            code.
+                natEq: nat -> nat -> bool
+                natCase (C:U) (a b: C): nat -> C
+                natRec  (C:U) (z: C) (s: nat->C->C): (n:nat) -> C
+                natElim (C:nat->U) (z: C zero) (s: (n:nat)->C(succ n)): (n:nat) -> C(n)
+                natInd  (C:nat->U) (z: C zero) (s: (n:nat)->C(n)->C(succ n)): (n:nat) -> C(n)
+
+            p.
+                see <a href="http://5ht.co/hott.pdf">HoTT</a>:
+                    1.9 The natural numbers; and
+                    2.13 Natural numbers.
+
+            h2#list <a name='list'><a href='../core/list/'>List</a></a>
+            p.
+                The data type of <b>list</b> over a given set A can
+                be represented as the initial algebra (&mu;&nbsp;L<sub>A</sub>,&nbsp;in)
+                of the functor L<sub>A</sub>(X) = 1 + (A &times; X).
+                Denote &mu; L<sub>A</sub> = List(A). The constructor
+                functions nil: 1 &rightarrow; List(A) and cons: A
+                &times; List(A) &rightarrow; List(A) are defined
+                by nil = in ◦ inl and cons = in ◦ inr, so
+                in = <b>[nil,cons]</b>.
+
+            code.
+                data list (A: U) = nil | cons (x:A) (xs: list A)
+            br.
+            code.
+                listCase (A C:U) (a b: C): list A -> C
+                listRec (A C:U) (z: C) (s: A->list A->C->C): (n:list A) -> C
+                listElim (A: U) (C:list A->U) (z: C nil) (s: (x:A)(xs:list A)->C(cons x xs)): (n:list A) -> C(n)
+                listInd (A: U) (C:list A->U) (z: C nil) (s: (x:A)(xs:list A)->C(xs)->C(cons x xs)): (n:list A) -> C(n)
+            br.
+            code.
+                null (A:U): list A −> bool
+                head (A:U): list A −> maybe A
+                tail (A:U): list A −> maybe (list A)
+                nth (A:U): nat −> list A −> maybeA
+                append (A: U): list A −> list A −> list A
+                reverse (A: U): list A −> list A
+                map (A B: U): (A −> B) −> list A −> list B
+                zip (AB: U): list A −> list B −> list (tuple A B)
+                foldr (AB: U): (A −> B −> B) −> B −> list A −> B
+                foldl (AB: U): (B −> A −> B) −> B −> list A −> B
+                switch (A: U): (Unit −> list A) −> bool −> list A
+                filter (A: U): (A −> bool) −> list A −> list A
+                length (A: U): list A −> nat
+                listEq (A: eq): list A.1 −> list A.1 −> bool
+
+            h2#stream <a name='stream'><a href='../core/stream/'>Stream</a></a>
+            p.
+                <b>stream</b> is a record form of the list's
+                <b>cons</b> constructor. It models the infinity
+                list that has no terminal element.
+            code.
+                data stream (A: U) = cons (x: A) (xs: stream A)
+
+            h2#fin <a name='fin'><font color="#7D8A96">Fin</font></a>
+            p.
+                <b>fin</b> is the inductive defintion of set with finite elements.
+            code.
+                data fin (n: nat)
+                   = fzero | fsucc (_: fin (pred n))
+
+                fz (n: nat): fin (succ n)          = fzero
+                fs (n: nat): fin n -> fin (succ n) = \(x: fin n) -> fsucc x
+
+            h2#vector <a name='vector'><font color="#7D8A96">Vector</font></a>
+            p.
+                <b>vector</b> is the inductive defintion of limited length list.
+            code.
+                data vector (A: U) (n: nat)
+                   = nil | cons (_: A) (_: vector A (pred n))
+
+            h2#seq <a name='seq'>Seq</a>
+            p.
+                <b>seq</b> &mdash; abstract compositional sequences.
+            code.
+                data seq (A: U) (B: A -> A -> U) (X Y: A)
+                   = seqNil (_: A)
+                   | seqCons (X Y Z: A) (_: B X Y) (_: Seq A B Y Z)
+
+        .om
+            section
+                h1 Abstract Algebra
+        section
+
+            h2#monoid <a name="monoid"><font color="#7D8A96">Monoid</font></a>
+            code.
+                isAssociative (M: U) (op: M -> M -> M) : U
+
+                hasIdentity (M : U) (op : M -> M -> M) (id : M) : U
+                  = (_ : hasLeftIdentity M op id)
+                  * (hasRightIdentity M op id)
+
+                isMonoid (M: SET): U
+                  = (op: M.1 -> M.1 -> M.1)
+                  * (_: isAssociative M.1 op)
+                  * (id: M.1)
+                  * (hasIdentity M.1 op id)
+
+            h2#cmonoid <font color="#7D8A96">Commutative Monoid</font>
+            code.
+                isCommutative (M: U) (op: M -> M -> M): U
+                  = (x y: M) -> Path M (op x y) (op y x)
+
+                isCMonoid (M: SET): U
+                  = (m: isMonoid M)
+                  * (isCommutative M.1 m.1)
+
+            h2#group <font color="#7D8A96">Group</font>
+            code.
+                isGroup (G: SET): U
+                  = (m: isMonoid G)
+                  * (inv: G.1 -> G.1)
+                  * (hasInverse G.1 m.1 m.2.2.1 inv)
+
+            h2#abgroup <font color="#7D8A96">Abelian Group</font>
+            code.
+                isAbGroup (G: SET): U
+                  = (g: isGroup G)
+                  * (isCommutative G.1 g.1.1)
+
+            h2 <font color="#7D8A96">Instances</font>
+            code.
+                monoid:  U = (X: SET) * isMonoid X
+                cmonoid: U = (X: SET) * isCMonoid X
+                group:   U = (X: SET) * isGroup X
+                abgroup: U = (X: SET) * isAbGroup X
+                ring:    U = (X: SET) * isRing X
+                abring:  U = (X: SET) * isAbRing X
+
+        .om
+            section
+                h1 Control Structures
+
+            h2 <font color="#7D8A96">Signatures</font>
+            code.
+                pure_sig       (F:U->U):U=   (A: U) ->           A  -> F A
+                extract_sig    (F:U->U):U=   (A: U) ->         F A  ->   A
+                extend_sig     (F:U->U):U= (A B: U) ->   (F A -> B) -> F A -> F B
+                appl_sig       (F:U->U):U= (A B: U) ->   F (A -> B) -> F A -> F B
+                fmap_sig       (F:U->U):U= (A B: U) ->     (A -> B) -> F A -> F B
+                unmap_sig      (F:U->U):U= (A B: U) -> (F A -> F B) ->  (A -> B)
+                contra_sig     (F:U->U):U= (A B: U) ->     (B -> A) -> F A -> F B
+                uncontra_sig   (F:U->U):U= (A B: U) -> (F A -> F B) ->  (B -> A)
+                cofmap_sig     (F:U->U):U= (A B: U) ->     (B -> A) -> F B -> F A
+                uncofmap_sig   (F:U->U):U= (A B: U) -> (F B -> F A) ->  (B -> A)
+                cocontra_sig   (F:U->U):U= (A B: U) ->     (A -> B) -> F B -> F A
+                uncocontra_sig (F:U->U):U= (A B: U) -> (F B -> F A) ->  (A -> B)
+                join_sig       (F:U->U):U=   (A: U) ->      F (F A) -> F A
+                dup_sig        (F:U->U):U=   (A: U) ->         F A  -> F (F A)
+                bind_sig       (F:U->U):U= (A B: U) ->    F A ->(A  -> F B)-> F B
+
+            h2 <font color="#7D8A96">Carriers</font>
+            code.
+
+                pure:        U = (F: U -> U) * pure_sig F
+                functor:     U = (F: U -> U) * fmap_sig F
+
+                applicative: U = (F: U -> U)
+                               * (_: pure_sig F)
+                               * (_: fmap_sig F)
+                               *     appl_sig F
+
+                monad:       U = (F: U -> U)
+                               * (_: pure_sig F)
+                               * (_: fmap_sig F)
+                               * (_: appl_sig F)
+                               *     bind_sig F
+
+            h2#functor <font color="#7D8A96">Functor</font>
+            code.
+                isFunctor (F: functor): U
+                  = (id: (A: U) -> (x: F.1 A) ->
+                     Path (F.1 A) (fmap F A A (idfun A) x) x)
+                  * (compose: (A B C: U) (f: B -> C) (g: A -> B) (x: F.1 A) ->
+                              Path (F.1 C) (F.2 A C (o A B C f g) x)
+                                   ((o (F.1 A) (F.1 B) (F.1 C)
+                                       (F.2 B C f) (F.2 A B g)) x)) * unit
+
+            h2#applicative <font color="#7D8A96">Applicative</font>
+            code.
+                isApplicative (F: applicative): U
+                    = (id:  (A:U) -> (x: F.1 A) ->
+                       Path (F.1 A) x (ap F A A (apure F (id A) (idfun A)) x))
+                    * (hom: (A B:U)(f:A->B)(x: A) ->
+                       Path (F.1 B) (apure F B (f x)) (ap F A B (apure F (A->B) f) (apure F A x)))
+                    * (cmp: (A B C:U)(v: F.1(A->B))(u:F.1(B->C))(w:F.1 A) ->
+                       Path (F.1 C) (ap F B C u (ap F A B v w))
+                                    (ap F A C (ap F (A->B) (A->C) (ap F(B->C)((A->B)->(A->C))
+                                    (apure F (ot A B C) (o A B C)) u) v) w))
+                    * (xchg: (A B:U)(x:A)(u:F.1(A->B))(f:A->B) ->
+                       Path (F.1 B) (ap F A B u ((apure F) A x))
+                                    (ap F (A->B) B (apure F ((A->B)->B) (\(f:A->B)->f(x))) u)) * unit
+
+            h2#monad <font color="#7D8A96">Monad</font>
+            code.
+                isMonad (F: monad): U
+                    = (one: (A B:U) (f:A->F.1 B)(x:A) -> Path (F.1 B) (bind F A B (mpure F A x) f) (f x))
+                    * (coone: (A:U) (m: F.1 A) -> Path (F.1 A) (bind F A A m (mpure F A)) m)
+                    * (assoc: (A B C: U) (f: A -> F.1 B) (g: B -> F.1 C) (m: F.1 A) ->
+                       Path (F.1 C) (bind F B C (bind F A B m f) g)
+                                    (bind F A C m (\(x: A) -> bind F B C (f x) g))) * unit
+            br.
+            code.
+                FUNCTOR:     U = (f: functor)
+                               * isFunctor f
+
+                APPLICATIVE: U = (f: applicative)
+                               * (_: isFunctor (f.1,f.2.2.1))
+                               * isApplicative f
+
+                MONAD:       U = (f: monad)
+                               * (_: isFunctor (f.1,f.2.2.1))
+                               * (_: isApplicative (f.1,f.2.1,f.2.2.1,f.2.2.2.1))
+                               * isMonad f
+
+        .om
+            section
+                h1 Recursion Schemes
+        section
+
+            h2#fix <font color="#7D8A96">Fix, Mu, Nu, Free, CoFree</font>
+            code.
+                data fix    (F: U -> U) = Fix (point: F (fix F))
+                data mu     (F: U -> U) (A B: U)  = Return (a: A) | Bind (f: F B)
+                data nu     (F: U -> U) (A B: U)  = CoBind (a: A)        (f: F B)
+                data free   (F: U -> U) (A: U)    = Free        (_: fix (mu F A))
+                data cofree (F: U -> U) (A: U)    = CoFree      (_: fix (nu F A))
+
+            h2 <font color="#7D8A96">Cata, Ana, Futu, Histo</font>
+            code.
+                cata (A: U) (F: functor) (alg: F.1 A -> A) (f: fix F.1): A
+                   = alg (F.2 (fix F.1) A (cata A F alg) (out_ F.1 f))
+            br.
+            code.
+                ana  (A: U) (F: functor) (coalg: A -> F.1 A) (a: A): fix F.1
+                   = Fix (F.2 A (fix F.1) (ana A F coalg) (coalg a))
+                                cat: U = (A: U) * (A -> A -> U)
+            br.
+            code.
+                futu (A: U) (F: functor)
+                     (f: A -> F.1 (free F.1 A)) (a: A): fix F.1
+                  = Fix (F.2 (free F.1 A) (fix F.1) (\(z: free F.1 A) -> w z) (f a)) where
+                  w: free F.1 A -> fix F.1 = split
+                    Free x -> unpack_fix x where
+                  unpack_free: mu F.1 A (fix (mu F.1 A)) -> fix F.1 = split
+                    Return x -> futu A F f x
+                    Bind g -> Fix (F.2 (fix (mu F.1 A)) (fix F.1)
+                                        (\(x: fix (mu F.1 A)) -> w (Free x)) g)
+                  unpack_fix: fix (mu F.1 A) -> fix F.1 = split
+                    Fix x -> unpack_free x
+            br.
+            code.
+                histo (A:U) (F: functor)
+                      (f: F.1 (cofree F.1 A) -> A) (z: fix F.1): A
+                  = extract A ((cata (cofree F.1 A) F (\(x: F.1 (cofree F.1 A)) ->
+                    CoFree (Fix (CoBind (f x) ((F.2 (cofree F.1 A)
+                    (fix (nu F.1 A)) (uncofree F.1 A) x)))))) z) where
+                  extract (A: U): cofree F.1 A -> A = split
+                    CoFree f -> unpack_fix f where
+                  unpack_fix: fix (nu F.1 A) -> A = split
+                    Fix f -> unpack_cofree f where
+                  unpack_cofree: nu F.1 A (fix (nu F.1 A)) -> A = split
+                    CoBind a -> a
+            br.
+            code.
+                chrono (A B: U) (F: functor)
+                       (f: F.1 (cofree F.1 B) -> B)
+                       (g: A -> F.1 (free F.1 A))
+                       (a: A): B = histo B F f (futu A F g a)
+                                cata (A: U) (F: functor) (alg: F.1 A -> A) (f: fix F.1): A
+                                   = alg (F.2 (fix F.1) A (cata A F alg) (out_ F.1 f))
+
+            h2#inductive <font color="#7D8A96">Inductive and CoInductive</font>
+            code.
+                ind   (F: U -> U) (A: U): U
+                    = (in_: F (fix F) -> fix F)
+                    * (in_rev: fix F -> F (fix F))
+                    * (fold_: (F A -> A) -> fix F -> A)
+                    * (roll_: (F (cofree F A) -> A) -> fix F -> A)
+                    * unit
+
+                coind (F: U -> U) (A: U): U
+                    = (out_: fix F -> F (fix F))
+                    * (out_rev: F (fix F) -> fix F)
+                    * (unfold_: (A -> F A) -> A -> fix F)
+                    * (unroll_: (A -> F (free F A)) -> A -> fix F)
+                    * unit
+            br.
+            code.
+                inductive (F: functor) (A: U): ind F.1 A
+                    = (in_ F.1,out_ F.1,cata A F,futu A F,tt)
+                coinductive (F: functor) (A: U): coind F.1 A
+                    = (out_ F.1,in_ F.1,ana A F,histo A F,tt)
+
+        .om
+            section
+                h1 Category Theory
+        section
+
+            h2#cat <a name="category"><a href='category/'>Cat</a></a>
+            code.
+                cat: U = (A: U) * (A -> A -> U)
+            br.
+            code.
+                isPrecategory (C: cat): U
+                  = (id: (x: C.1) -> C.2 x x)
+                  * (c: (x y z: C.1) -> C.2 x y -> C.2 y z -> C.2 x z)
+                  * (homSet: (x y: C.1) -> isSet (C.2 x y))
+                  * (left: (x y: C.1) -> (f: C.2 x y) -> Path (C.2 x y) (c x x y (id x) f) f)
+                  * (right: (x y: C.1) -> (f: C.2 x y) -> Path (C.2 x y) (c x y y f (id y)) f)
+                  * ( (x y z w: C.1) -> (f: C.2 x y) -> (g: C.2 y z) -> (h: C.2 z w) ->
+                  Path (C.2 x w) (c x z w (c x y z f g) h) (c x y w f (c y z w g h)))
+                precategory: U = (C: cat) * isPrecategory C
+            p.
+                see <a href="http://5ht.co/hott.pdf">HoTT</a>:
+                    9.1 Categories and precategories.
+
+            h2 <font color="#7D8A96">Functors</font>
+            code.
+                catfunctor (A B: precategory): U
+                  = (ob: carrier A -> carrier B)
+                  * (mor: (x y: carrier A) -> hom A x y -> hom B (ob x) (ob y))
+                  * (id: (x: carrier A) -> Path (hom B (ob x) (ob x)) (mor x x (path A x)) (path B (ob x)))
+                  * ((x y z: carrier A) -> (f: hom A x y) -> (g: hom A y z) ->
+                     Path (hom B (ob x) (ob z)) (mor x z (compose A x y z f g))
+                      (compose B (ob x) (ob y) (ob z) (mor x y f) (mor y z g)))
+            p.
+                see <a href="http://5ht.co/hott.pdf">HoTT</a>:
+                    9.2 Functors and transformations;
+                    9.4 Equivalences.
+
+            h2#coslise <font color="#7D8A96">Coslice Category</font>
+            code.
+                cosliceCat (C D: precategory)
+                           (a: carrier C)
+                           (F: catfunctor D C): precategory
+
+            h2 <font color="#7D8A96">Rezk Completion</font>
+            code.
+                iso (C: precategory) (A B: carrier C): U
+                  = (f: hom C A B)
+                  * (g: hom C B A)
+                  * (_: Path (hom C A A) (compose C A B A f g) (path C A))
+                  * (   Path (hom C B B) (compose C B A B g f) (path C B))
+
+                isCategory    (C: precategory): U
+                  = (A: carrier C) -> isContr ((B: carrier C) * iso C A B)
+                category: U = (C: precategory) * isCategory C
+
+            p.
+                see <a href="http://5ht.co/hott.pdf">HoTT</a>:
+                    9.9 The Rezk completion.
+
+            h2 <font color="#7D8A96">Initials and Terminals</font>
+            code.
+                isInitial     (C: precategory) (x: carrier C): U = (y: carrier C) -> isContr (hom C x y)
+                isTerminal    (C: precategory) (y: carrier C): U = (x: carrier C) -> isContr (hom C x y)
+                initial       (C: precategory): U = (x: carrier C) * isInitial  C x
+                terminal      (C: precategory): U = (y: carrier C) * isTerminal C y
+                initialProp   (C: precategory) (isC: isCategory C): isProp (initial  C) = undefined
+                terminalProp  (C: precategory) (isC: isCategory C): isProp (terminal C) = undefined
+                isCommutative (X: precategory)
+                              (A B C D: carrier X)
+                              (f: hom X A B) (g: hom X C D)
+                              (h: hom X A C) (i: hom X B D): U
+                            = Path (hom X A D) (compose X A C D h g)
+                                               (compose X A B D f i)
+
+            h2#univArr <font color="#7D8A96">Universal Arrow</font>
+            code.
+                univArr (C D: precategory)
+                        (a: carrier C) (F: catfunctor D C)
+                      : U = initial (cosliceCat C D a F)
+
+            h2#ntrans <font color="#7D8A96">Natural Transformations</font>
+            code.
+                isNaturalTrans (C D: precategory)
+                               (F G: catfunctor C D)
+                               (eta: (x: carrier C) -> hom D (F.1 x) (G.1 x)): U
+                  = (x y: carrier C) (h: hom C x y) ->
+                    Path (hom D (F.1 x) (G.1 y))
+                         (compose D (F.1 x) (F.1 y) (G.1 y) (F.2.1 x y h) (eta y))
+                         (compose D (F.1 x) (G.1 x) (G.1 y) (eta x) (G.2.1 x y h))
+
+                ntrans (C D: precategory)
+                       (F G: catfunctor C D): U
+                  = (eta: (x: carrier C) -> hom D (F.1 x) (G.1 x))
+                  * (isNaturalTrans C D F G eta)
+
+
+            h2#adj <font color="#7D8A96">Adjunctions</font>
+            code.
+                areAdjoint (C D: precategory)
+                           (F: catfunctor D C)
+                           (G: catfunctor C D)
+                           (unit: ntrans D D (idFunctor D) (compFunctor D C D F G))
+                           (counit: ntrans C C (compFunctor C D C G F) (idFunctor C)) : U
+
+                adjoint (C D: precategory) (F: catfunctor D C) (G: catfunctor C D) : U
+                  = (unit: ntrans D D (idFunctor D) (compFunctor D C D F G))
+                  * (counit: ntrans C C (compFunctor C D C G F) (idFunctor C))
+                  * areAdjoint C D F G unit counit
+
+            p.
+                see <a href="http://5ht.co/hott.pdf">HoTT</a>:
+                    9.3 Adjunctions.
+
+            h2#sip <font color="#7D8A96">Structure Identity Principle</font>
+            code.
+                structure (X: precategory): U
+                  = (P: carrier X -> U)
+                  * (H: (x y: carrier X) (a: P x) (b: P y) (f: hom X x y) -> U)
+                  * (propH: (x y: carrier X) (a: P x) (b: P y) (f: hom X x y) ->
+                    isProp (H x y a b f))
+                  * (Hid: (x: carrier X) (a: P x) -> H x x a a (path X x))
+                  * ((x y z : carrier X) (a: P x) (b: P y) (c: P z)
+                     (f: hom X x y) (g: hom X y z) -> H x y a b f ->
+                     H y z b c g -> H x z a c (compose X x y z f g))
+            br.
+            code.
+                isStandardStructure (X: precategory) (S: structure X): U
+                  = (x: carrier X) -> (a b: sP X S x) -> sH X S x x a b (path X x) ->
+                    sH X S x x b a (path X x) -> Path (sP X S x) a b
+            br.
+            code.
+                sip (X: precategory)
+                    (isC: isCategory X)
+                    (S: structure X)
+                    (isS: isStandardStructure X S)
+                  : isCategory (sipPrecategory X S)
+
+            p.
+                see <a href="http://5ht.co/hott.pdf">HoTT</a>:
+                    9.8 The structure identity principle.
+
+        .om
+            section
+                h1 Univalent Foundations
+        section
+
+            h2#equiv <a href="equiv/">Equiv</a>
+            code.
+                fiber   (A B: U) (f: A -> B) (y: B): U = (x: A) * Path B y (f x)
+                isEquiv (A B: U) (f: A -> B): U = (y: B) -> isContr (fiber A B f y)
+                equiv   (A B: U): U = (f: A -> B) * isEquiv A B f
+                equivElim (B: U) (P: (A: U) -> (A -> B) -> U)
+                          (d: P B (idfun B)) (A: U) (f: equiv A B): P A f.1
+
+            h2#retract <font color="#7D8A96">Retract</font>
+            code.
+                section (A B:U) (f:A->B) (g:B->A): U = (b:B) -> Path B (f(g(b))) b
+                retract (A B:U) (f:A->B) (g:B->A): U = (a:A) -> Path A (g(f(a))) a
+
+            h2#bundle <a name="bundle"><a href='bundle/'>Bundle</a></a>
+            code.
+                total   (B: U) (F: Family B): U = Sigma B F
+                trivial (B: U) (F: Family B): total B F -> B = \ (x: total B F) -> x.1
+                homeo (B E: U) (F: Family B) (p: E -> B) (y: B)
+                    : fiber E B p y -> total B F = \(x: fiber E B p y) -> (y,F)
+
+            h2#iso <a href="iso/">Iso</a>
+            code.
+                Square (A: U) (a0 a1 b0 b1: A)
+                       (u: Path A a0 a1) (v: Path A b0 b1)
+                       (r0: Path A a0 b0) (r1: Path A a1 b1): U
+
+                lemIso (A B: U) (f: A -> B) (g: B -> A)
+                       (s:  section A B f g)
+                       (t:  retract A B f g)
+                       (y:  B) (x0 x1: A)
+                       (p0: Path B y (f x0))
+                       (p1: Path B y (f x1)):
+                       Path (fiber A B f y) (x0,p0) (x1,p1)
+
+                isoToEquiv (A B: U) (f: A -> B) (g: B -> A)
+                           (s: section A B f g)
+                           (t: retract A B f g): isEquiv A B f
+
+                isoPath    (A B: U) (f: A -> B) (g: B -> A)
+                           (s: section A B f g)
+                           (t: retract A B f g): Path U A B
+
+                isoElim (B: U) (Q: (A: U) -> (A -> B) -> (B -> A) -> U)
+                        (h1: Q B (idfun B) (idfun B)) (A: U) (f: A -> B)
+                      : (g: B -> A) -> section A B f g -> retract A B f g -> Q A f g
+
+            h2#univ <font color="#7D8A96">Univ</font>
+            code.
+               univ (A B: U): Path U (Path U A B) (equiv A B)
+
+        .om
+            section
+                h1 Higher inductive types
+        section
+
+            h2#i <font color="#7D8A96">Interval</font>
+            code.
+                data I
+                   = i0
+                   | i1
+                   | seg &lt;i&gt; [ (i = 0) -> i0,
+                               (i = 1) -> i1 ]
+            br.
+            code.
+                data P (A B: U)
+                   = p0 (_:A)
+                   | p1 (_:B)
+                   | pseg (x:A) (y:B) &lt;i&gt; [ (i = 0) -> p0 x,
+                                            (i = 1) -> p1 y ]
+            br.
+            code.
+                homotopy  (X Y: U)
+                          (f g: X -> Y)
+                          (p: (x: X) -> Path Y (f x) (g x))
+                          (x: X)
+                        : I -> Y
+                        = split { i0 -> f(x) ;
+                                  i1 -> g(x) ;
+                                  seg @ i -> p(x) @ i }
+            br.
+            code.
+                fext (A B: U) (f g: A -> B)
+                     (p: (x: A) -> Path B (f x) (g x))
+                   : Path (A -> B) f g
+                   = <j> (\(x : A) -> homotopy A B f g p x (seg{I} @ j))
+
+            p.
+                see <a href="http://5ht.co/hott.pdf">HoTT</a>:
+                    6.3 The interval
+
+            h2#circle <font color="#7D8A96">Circle</font>
+            code.
+                data S1
+                   = base
+                   | loop &lt;i&gt; [ (i=0) -> base ,
+                                (i=1) -> base ]
+            p.
+                see <a href="http://5ht.co/hott.pdf">HoTT</a>:
+                    6.4 Circles and spheres
+
+            h2#suspension <font color="#7D8A96">Suspension</font>
+            code.
+                data susp (A: U)
+                   = north
+                   | south
+                   | merid (a: A) &lt;i&gt; [ (i = 0) -> north ,
+                                        (i = 1) -> south ]
+
+            p.
+                see <a href="http://5ht.co/hott.pdf">HoTT</a>:
+                    6.5 Suspensions.
+
+            h2#pullback <a name="pullback"><a href='pullback/'>Pullback</a></a>
+            code.
+                pullback (A B C:U) (f: A -> C) (g: B -> C)
+                       : U
+                       = (a: A)
+                       * (b: B)
+                       * Path C (f a) (g b)
+
+            p.
+                see <a href="http://5ht.co/hott.pdf">HoTT</a>:
+                    2.11 Exercise
+
+            h2#pushout <font color="#7D8A96">Pushout</font>
+            code.
+                data pushout (A B C: U) (f: C -> A) (g: C -> B)
+                   = po1 (_: A)
+                   | po2 (_: B)
+                   | po3 (c: C) &lt;i&gt; [ (i = 0) -> po1 (f c),
+                                      (i = 1) -> po2 (g c) ]
+            p.
+                see <a href="http://5ht.co/hott.pdf">HoTT</a>:
+                    6.8 Pushouts.
+
+            h2#trunc <font color="#7D8A96">Truncations</font>
+            code.
+                data pTrunc (A: U) -- (-1)-trunc, mere proposition truncation
+                     = pinc (a: A)
+                    | pline (x y: pTrunc A) &lt;i&gt;
+                          [ (i = 0) -> x,
+                            (i = 1) -> y ]
+
+                data sTrunc (A: U) -- (0)-trunc, set truncation
+                     = sinc (a: A)
+                    | sline (a b: sTrunc A)
+                            (p q: Path (sTrunc A) a b) &lt;i j&gt;
+                          [ (i = 0) -> p @ j,
+                            (i = 1) -> q @ j,
+                            (j = 0) -> a,
+                            (j = 1) -> b ]
+
+                data gTrunc (A: U) -- (1)-trunc, groupoid truncation
+                   = ginc   (a: A)
+                   | gline  (a b: gTrunc A)
+                            (p q: Path (gTrunc A) a b)
+                            (r s: Path (Path (gTrunc A) a b) p q) &lt;i j k&gt;
+                          [ (i = 0) -> r @ j @ k,
+                            (i = 1) -> s @ j @ k,
+                            (j = 0) -> p @ k,
+                            (j = 1) -> q @ k,
+                            (k = 0) -> a,
+                            (k = 1) -> b ]
+
+            p.
+                see <a href="http://5ht.co/hott.pdf">HoTT</a>:
+                    6.9 Truncations.
+
+            h2#quotient <font color="#7D8A96">Quotients</font>
+            code.
+                data quot (A: U) (R: A -> A -> U)
+                   = inj (a: A)
+                   | quoteq (a b: A) (r: R a b) &lt;i&gt;
+                          [ (i = 0) -> inj a,
+                            (i = 1) -> inj b ]
+
+                data setquot (A: U) (R: A -> A -> U)
+                   = quotient (a: A)
+                   | identification (a b: A) (r: R a b) &lt;i&gt;
+                                  [ (i = 0) -> quotient a,
+                                    (i = 1) -> quotient b ]
+                   | setTruncation  (a b: setquot A R)
+                                    (p q: Path (setquot A R) a b) &lt;i j&gt;
+                                  [ (i = 0) -> p @ j,
+                                    (i = 1) -> q @ j,
+                                    (j = 0) -> a,
+                                    (j = 1) -> b ]
+
+            h2 <a name="cw"><a href='cw/'>CW-complex</a></a>
+            p.
+
+        .om
+            section
+                h1 Cohesive Core
+        section
+
+            h2#infinitesimal <a name="infinitesimal"><a href='infinitesimal/'>Infinitesimal</a></a>
+            code.
+                Im : U -> U = undefined
+                ImUnit (A: U) : A -> Im A = undefined
+
+                isCoreduced (A:U): U = isEquiv A (Im A) (ImUnit A)
+                ImCoreduced (A:U): isCoreduced (Im A) = undefined
+                ImRecursion (A B: U) (c: isCoreduced B) (f: A -> B) : Im A -> B = undefined
+                ImInduction (A:U)(B:Im A->U)(x: (a: Im A)->isCoreduced(B a))
+                            (y:(a: A)->B(ImUnit A a)):(a:Im A)->B a = undefined
+
+            p.
+                <center><table cellspacing=20><tr><td><img src="https://n2o.space/img/pdf.jpg" width=50></td><td width=400>
+                <a href="https://github.com/groupoid/groupoid.space/blob/master/articles/types/types.pdf">
+                <h3>Mathematical Components for Cubical Syntax</h3></a>
+                </td></tr></table></center>
+
+            br
+            br
+            hr
+            br
+
+        .types
+            h2 Homotopy Core
+            br
+            -
+                var core = {
+                    'Pure': [ 'pi' ],
+                    'MLTT': [ 'pi', 'sigma', 'id', 'W' ],
+                    'Inductive': [ 'pi', 'sigma', 'id', 'fix', 'inductive' ],
+                    'Cubical': [ 'pi', 'sigma', 'path', 'Compose', 'Glue', 'higher inductive types' ],
+                }
+
+            .type
+                for v, k in core
+                    ol.type__col
+                        h3= k.toUpperCase()
+                        for i in v
+                            li: a(href='#'+i)= i.toUpperCase()
+            br
+        section
+            p.
+                Cubical with HITs has very lightweight core and syntax, and
+                is an internal language of $(\infty,1)$-topos.
+                Cubical with $[0,1]$ Path types but without HITs is an
+                internal language of $(\infty,1)$-categories, while MLTT
+                is an internal language of locally cartesian closed categories.
+            br
+            br
+            hr
+            br
+        .types
+            h2 Cohesive Core
+            br
+            -
+                var core = {
+                    'Cohesive': [ 'shape', 'flat', 'sharp' ],
+                    'Differential': [ 'reduction', 'infinitesimal', 'smooth' ],
+                }
+
+            .type
+                for v, k in core
+                    ol.type__col
+                        h3= k.toUpperCase()
+                        for i in v
+                            li: a(href='#'+i)= i.toUpperCase()
+            br
+        section
+            p.
+                Cohesive Type Theory is developed to satisfy needs of modeling modalities,
+                such as connectedness, compactness, infinitesimal shapes, etc. Differential
+                Cohesive Type Theory is an internal language of differential cohesive $(\infty,1)$-topoi, with
+                extra structure, just as $(\infty,1)$-categories add a globular path equality structure
+                to locally cartesian closed categories and their internal language &mdash; MLTT.
+                Please refer to <a href="https://hott-uf.github.io/2017/abstracts/cohesivett.pdf">cohesivett</a>
+                for more information.
+            p.
+                Cohesive types modeled in base library and undefined axioms.
+                Process Calculus is another example of modality types with special comonadic spawn
+                arrows hiding the underlying run-time implementation.
+            br
+            br
+            hr
+            br
+        .types
+            h2 Types Taxonomy
+            br
+            -
+                    var types1 = {
+                        'nr nd +': [ 'unit', 'bool', 'maybe', 'either', 'tuple' ],
+                        'r nd +': [ 'fix', 'nat', 'list' ],
+                        'nr d +': [ 'exists' ],
+                        'rd +': [ 'fin', 'vector', 'W', 'seq' ],
+                    }
+                    var types2 = {
+                        'nr nd *': [ 'prod', 'pure', 'functor', 'applicative', 'monad' ],
+                        'r nd *': [ 'stream' ],
+                        'nr d *': [ 'sigma', 'bundle', 'iso', 'equiv', 'fiber', 'pullback', 'category' ],
+                        'HIT': [ 'groupoid', 'infinity', 'pushout', 'S1', 'S2', 'hopf', 'cw' ],
+                    }
+
+                    var legend = {
+                        'n': 'Not a',
+                        'r': 'Recursive',
+                        'd': 'Dependent',
+                        '+': 'Coproducts (Positive)',
+                        '*': 'Products (Negative)',
+                    }
+
+            .type
+                for v, k in types1
+                    ol.type__col
+                        h3= k.toUpperCase()
+                        for i in v
+                            li: a(href='#'+i)= i.toUpperCase()
+            .type
+                for v, k in types2
+                    ol.type__col
+                        h3= k.toUpperCase()
+                        for i in v
+                            li: a(href='#'+i)= i.toUpperCase()
+            br
+        section
+            p.
+                Types taxonomy shows us the core types categorized by a several axis:
+                1) dependent (D) and non-dependent (ND) terms;
+                2) recursive trees (R) or non-recursive (NR) data types;
+                3) inductive (+, positive) or coinductive (*, negative) types.
+            br
+            br
+
+include ../../footer
+

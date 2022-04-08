@@ -1,0 +1,44 @@
+include ../../../header
+
+html
+    head
+        meta(property='og:title'       content='INSTITUTE')
+        meta(property='og:description' content='Інститут Прикладної Математики')
+        meta(property='og:url'         content='https://groupoid.space/institute/')
+
+block title
+    title КФ-033-01
+
+block content
+    +header('', 'Теорія категорій', 'Курс лекцій для студентів третього курсу кафедри формальної філософії КФ-033-01')
+    article.main
+        .om
+            aside <span>Автор</span>: <b>Стів Ауді</b><br>
+                <span>Код курсу</span>: <b><a href="../">КФ-033-01</a></b><br>
+                <span>Кількість кредитів</span>: <b>12</b><br>
+            section
+                h1 Теорія категорій
+            section
+                p.
+                    Теорія категорія &mdash; спеціальний розділ абстрактної
+                    алгебри (функцій) який вивчає універсальні властивості алгебраїчних систем.
+                    Основна ідея полягає в абстрагуванні об'єктів та зв'язків між ними (морфізмів),
+                    які можут бути наділені довільними структурами в уніфікований пакет,
+                    який містить властивості алгебраїчної системи, що пов'язані зі структурою
+                    композиції у цій системі.
+
+        .index
+            .index__col
+                ul
+                    li: a(href='https://www.andrew.cmu.edu/course/80-413-713/notes/chap01.pdf') 1. Категорії
+                    li: a(href='https://www.andrew.cmu.edu/course/80-413-713/notes/chap02.pdf') 2. Абстрактні структури
+                    li: a(href='https://www.andrew.cmu.edu/course/80-413-713/notes/chap03.pdf') 3. Дуальність
+                    li: a(href='https://www.andrew.cmu.edu/course/80-413-713/notes/chap04.pdf') 4. Групи та категорії
+                    li: a(href='https://www.andrew.cmu.edu/course/80-413-713/notes/chap05.pdf') 5. Ліміти та коліміти
+                    li: a(href='https://www.andrew.cmu.edu/course/80-413-713/notes/chap06.pdf') 6. Експоненціали
+                    li: a(href='https://www.andrew.cmu.edu/course/80-413-713/notes/chap07.pdf') 7. Функтори та природність
+                    li: a(href='https://www.andrew.cmu.edu/course/80-413-713/notes/chap08.pdf') 8. Категорії діаграм
+                    li: a(href='https://www.andrew.cmu.edu/course/80-413-713/notes/chap09.pdf') 9. Спряження
+                    li: a(href='https://www.andrew.cmu.edu/course/80-413-713/notes/chap10.pdf') 10. Монади та алгебри
+
+include ../../../footer

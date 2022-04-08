@@ -1,0 +1,6 @@
+@book{Bishop67,
+  title={Foundations of constructive analysis},
+  author={Bishop, Errett},
+  year={1967}
+}
+

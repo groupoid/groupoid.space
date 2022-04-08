@@ -1,0 +1,9 @@
+@inproceedings{Basold16,
+  title={Type theory based on dependent inductive and coinductive types},
+  author={Basold, Henning and Geuvers, Herman},
+  booktitle={Proceedings of the 31st Annual ACM/IEEE Symposium on Logic in Computer Science},
+  pages={327--336},
+  year={2016},
+  organization={ACM}
+}
+

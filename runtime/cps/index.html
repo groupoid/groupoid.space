@@ -1,0 +1,125 @@
+<!DOCTYPE html><html><head><meta charset="utf-8"><meta http-equiv="x-ua-compatible" content="ie=edge"><meta property="fb:app_id" content="118554188236439"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="author" content="Maxim Sokhatsky"><meta name="twitter:site" content="@5HT"><meta name="twitter:creator" content="@5HT"><meta property="og:type" content="website"><meta property="og:image" content="https://avatars.githubusercontent.com/u/17128096?s=400&amp;u=66a63d4cdd9625b2b4b37d724cc00fe6401e5bd8&amp;v=4"><meta name="msapplication-TileColor" content="#ffffff"><meta name="msapplication-TileImage" content="https://anders.groupoid.space/images/ms-icon-144x144.png"><meta name="theme-color" content="#ffffff"><link rel="stylesheet" href="https://anders.groupoid.space/main.css?v=1"><link rel="apple-touch-icon" sizes="57x57" href="https://anders.groupoid.space/images/apple-icon-57x57.png"><link rel="apple-touch-icon" sizes="60x60" href="https://anders.groupoid.space/images/apple-icon-60x60.png"><link rel="apple-touch-icon" sizes="72x72" href="https://anders.groupoid.space/images/apple-icon-72x72.png"><link rel="apple-touch-icon" sizes="76x76" href="https://anders.groupoid.space/images/apple-icon-76x76.png"><link rel="apple-touch-icon" sizes="114x114" href="https://anders.groupoid.space/images/apple-icon-114x114.png"><link rel="apple-touch-icon" sizes="120x120" href="https://anders.groupoid.space/images/apple-icon-120x120.png"><link rel="apple-touch-icon" sizes="144x144" href="https://anders.groupoid.space/images/apple-icon-144x144.png"><link rel="apple-touch-icon" sizes="152x152" href="https://anders.groupoid.space/images/apple-icon-152x152.png"><link rel="apple-touch-icon" sizes="180x180" href="https://anders.groupoid.space/images//apple-icon-180x180.png"><link rel="icon" type="image/png" sizes="192x192" href="https://anders.groupoid.space/images/android-icon-192x192.png"><link rel="icon" type="image/png" sizes="32x32" href="https://anders.groupoid.space/images/favicon-32x32.png"><link rel="icon" type="image/png" sizes="96x96" href="https://anders.groupoid.space/images/favicon-96x96.png"><link rel="icon" type="image/png" sizes="16x16" href="https://anders.groupoid.space/images/favicon-16x16.png"><link rel="manifest" href="https://anders.groupoid.space/images/manifest.json"><style>svg a{fill:blue;stroke:blue}
+[data-mml-node="merror"]>g{fill:red;stroke:red}
+[data-mml-node="merror"]>rect[data-background]{fill:yellow;stroke:none}
+[data-frame],[data-line]{stroke-width:70px;fill:none}
+.mjx-dashed{stroke-dasharray:140}
+.mjx-dotted{stroke-linecap:round;stroke-dasharray:0,140}
+use[data-c]{stroke-width:3px}
+</style></head><body class="content"></body></html><html><head><meta property="og:title" content="INSTITUTE"><meta property="og:description" content="Інститут Прикладної Математики"><meta property="og:url" content="https://groupoid.space/institute/"></head></html><title>CPS</title><header class="header"><div class="header__titles"><h1 class="header__title">Certified Interpreter</h1><h4 class="header__subtitle">The CPS interpeted language with general recursion</h4></div></header><article class="main"><div class="om"><section><h1>Article</h1></section><aside>Maxim Sokhatsky<time>31 DEC 16</time></aside><section><h2 id="nat">Designed for L1 caches</h2><p>The motivation for building an interpreter that can run
+on L1 cache sizes (limited to 64KB of code and data) is based on
+success of LuaJIT, V8, HotSpot, and vector lanaguages such as K and J.
+If we can build a really fast VM for such interpreter
+(compact aligned bytecode) and make it stick to L1 sizes
+with enabled AVX instruction set then it can outperform any reasonable alternative.
+</p><p>This approach was chosen for building O-CPS interpreter in Rust.
+Following results were achieved in factorial (5) and
+ackerman function (3,4) benchmarks, and that's even without bytecode VM implementation!
+Next step to improvement.
+</p><code>Rust    0
+Java    3
+PyPy    8
+O-CPS   291
+Python  537
+K       756
+Erlang  10699/1806/436/9
+LuaJIT  33856</code><br><code>akkerman_k     635 ns/iter (+/- 73)
+akkerman_rust  8,968 ns/iter (+/- 322)
+</code><p>The key challenge here was that O-CPS implementation was made in Rust's
+flavour of linear types. Thus lambda interpreter as an internal
+language of cartesian closed category was written in a language with
+linear types and lifetimes as an internal language of symmetric
+monoidal categories. Such an exercise will definitely increase
+your confidence in linear types.
+</p><h2 id="vec">Built-in Vectorization by Rust</h2><code>(&AST::Atom(Atom::Value(Value::$vec(ref l))),
+ &AST::Atom(Atom::Value(Value::$vec(ref r)))) => {
+    let a: Vec<$atype> = l.iter()
+        .zip(r)
+        .map(|(l,r)| dyad_map_expr!(l,$op,r,$atom))
+        .collect::<Vec<$atype>>();
+    Ok( AST::Atom(Atom::Value(Value::$r_vec(a))) )
+},</code><br><code>objdump ./target/release/o -d | grep mulpd
+   223f1:       c5 f5 59 0c d3          vmulpd (%rbx,%rdx,8),%ymm1,%ymm1
+   223f6:       c5 dd 59 64 d3 20       vmulpd 0x20(%rbx,%rdx,8),%ymm4,%ymm4
+   22416:       c5 f5 59 4c d3 40       vmulpd 0x40(%rbx,%rdx,8),%ymm1,%ymm1
+   2241c:       c5 dd 59 64 d3 60       vmulpd 0x60(%rbx,%rdx,8),%ymm4,%ymm4
+   2264d:       c5 f5 59 0c d3          vmulpd (%rbx,%rdx,8),%ymm1,%ymm1
+   22652:       c5 e5 59 5c d3 20       vmulpd 0x20(%rbx,%rdx,8),%ymm3,%ymm3
+</code><h2 id="ast">AST</h2><code>data Value   = Nil
+             | SymbolInt (a: u16)
+             | SequenceInt (a: u16)
+             | Number (a: i64)
+             | Float (a: f64)
+             | VecNumber (Vec i64)
+             | VecFloat (Vec f64)
+
+data Scalar  = Nil
+             | Any
+             | List (a: AST)
+             | Dict (a: AST)
+             | Call (a b: AST)
+             | Assign (a b: AST)
+             | Cond (a b c: AST)
+             | Lambda (otree: Option NodeId) (a b: AST)
+             | Yield (c: Context)
+             | Value (v: Value)
+             | Name (s: String)
+
+data AST     = Atom (a: Scalar)
+             | Vector (a: Vec AST)
+
+data Lazy    = Defer (otree: NodeId) (a: AST) (cont: Cont)
+             | Continuation (otree: NodeId) (a: AST) (cont: Cont)
+             | Return (a: AST)
+             | Start
+
+data Cont    = Expressions (ast: AST) Option (vec: Iter AST) (cont: Cont)
+             | Assign (ast: AST) (cont: Cont)
+             | Cond (c,d: AST) (cont: Cont)
+             | Func (a,b,c: AST) (cont: Cont)
+             | List (acc: Vec AST) (vec: Iter AST) (i: Nat) (cont: Cont)
+             | Call (a: AST) (i: Nat) (cont: Cont)
+             | Return
+             | Intercore (m: Message) (cont: Cont)
+             | Yield (cont: Cont)
+</code><h2 id="loop">O-CPS Interpreter</h2><code>E: V | A | C
+NC: ";" = [] | ";" m:NL = m
+FC: ";" = [] | ";" m:FL = m
+EC: ";" = [] | ";" m:EL = m
+NL: NAME | o:NAME m:NC = Cons o m
+FL: E | o:E | m:FC = Cons o m
+EL: E | EC  | o:E m:EC = Cons o m
+C: N | c:N a:C = Call c a
+N: NAME | S | HEX | L | F
+L: "(" ")" = [] | "([" c:NL "]" m:FL ")" = Table c m | "(" l:EL ")" = List l
+F: "{" "}" = Lambda [] [] [] | "{[" c:NL "]" m:EL "}" = Lambda [] c m
+                             | "{" m:EL "}" = Lambda [] [] m
+
+lazy n (Assign n b)               e k = D n b (ContAssign n k)
+     n (Cond v a l)               e k = D n v (ContCond l r k)
+     n (List l)                   e k = eve n l e k
+     n (Call c a)                 e k = D n a (ContCall c k)
+     n (Name s)                   e k = cont (lookup n s e) k
+     n (Lambda _ x y)             e k = cont ((Lambda n x y) n) k
+
+evf  n (Lambda c x y) a e k = cont (y (if (= c []) n c)) (ContFunc x a k)
+     n       (Name s) a e k = lookup n s e
+eve  n       (Cons a d) e k = D n a (ContExpr d k)
+     n              Nil e k = cont n Nil e k
+     n                a e k = D n a k
+emr            (Dict x) e k = R Dict (rev x)
+             (Cons x y) e k = R Dict (Cons (rev x) (rev x))
+                      a e k = R a
+run  D              n a e k = lazy n a e k
+     R                a     = a
+
+cont n (Dict v) e (ContCall c k)          = evf n c v e k
+     n x        e (ContCall c k)          = evf n c x e k
+     n x        e (ContFunc s a k)        = eve (e.define_args s (rev a)) v k
+     n False    e (ContCond l r k)        = D n r k
+     n True     e (ContCond l r k)        = D n l k
+     n x        e (ContCond l r k)        = D n x (ContCond l r k)
+     n x        e (ContAssign (Name s) k) = eve n (e.define s x) k
+     n x        e (ContExpr (Cons a d) k) = eve n (Cons a d) k
+     n x        e (ContExpr r k)          = cont n x k
+     n x        e  ContRet                = emr x e k
+</code></section></div></article><link rel="stylesheet" href="https://groupoid.space/main.css"><footer class="footer"><a href="https://5HT.co/license/"><img class="footer__logo" src="https://longchenpa.guru/seal.png" width="50"></a><span class="footer__copy">2016&mdash;2022 &copy; <a href="https://5ht.co/" style="color:Lavender;">Namdak Tönpa</a></span><script src="https://groupoid.space/highlight.js"></script><script src="https://groupoid.space/bundle.js"></script></footer>

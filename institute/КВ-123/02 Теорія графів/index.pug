@@ -1,0 +1,40 @@
+include ../../../header
+
+html
+    head
+        meta(property='og:title'       content='INSTITUTE')
+        meta(property='og:description' content='Інститут Прикладної Математики')
+        meta(property='og:url'         content='https://groupoid.space/institute/')
+
+block title
+    title КВ-123-02
+
+block content
+    +header('', 'Теорія графів', 'Курс лекцій для студентів першого курсу кафедри теоретичної інформатики КВ-123-02')
+    article.main
+        .om
+            aside <span>Автор</span>: <b>Ойстін Оре</b><br>
+                <span>Код курсу</span>: <b><a href="../">КВ-123-02</a></b><br>
+                <span>Кількість кредитів</span>: <b>12</b><br>
+            section
+                h1 Теорія графів
+            section
+                p.
+                    Теорія графів &mdash; базовий курс дискретної математики
+                    присвячений CW-комплексам першої розмірності (графам).
+        .index
+            .index__col
+                ul
+                    li: a(href='#') 1. Основні поняття
+                    li: a(href='#') 2. Зв'язність
+                    li: a(href='#') 3. Ланцюги
+                    li: a(href='#') 4. Дерева
+                    li: a(href='#') 5. Листи та блоки
+                    li: a(href='#') 6. Орієнтовані графи
+                    li: a(href='#') 7. Ациклічні графи
+                    li: a(href='#') 8. Часткова впорядкованість
+                    li: a(href='#') 9. Хроматичні графи
+                    li: a(href='#') 10. Спектральна теорія графів
+                    li: a(href='#') 11. Графи та групи
+
+include ../../../footer

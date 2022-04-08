@@ -1,0 +1,36 @@
+include ../../../header
+
+html
+    head
+        meta(property='og:title'       content='INSTITUTE')
+        meta(property='og:description' content='Інститут Прикладної Математики')
+        meta(property='og:url'         content='https://groupoid.space/institute/')
+
+block title
+    title КФ-033-03
+
+block content
+    +header('', 'Категоріальна логіка', 'Курс лекцій для студентів другого курсу кафедри формальної філософії КФ-033-03')
+    article.main
+        .om
+            aside <span>Автор</span>: <b>Стів Ауді</b><br>
+                <span>Код курсу</span>: <b><a href="../">КФ-033-03</a></b><br>
+                <span>Кількість кредитів</span>: <b>12</b><br>
+            section
+                h1 Категоріальна логіка
+            section
+                p.
+                    Категоріальна логіка &mdash; прикладне застосування теорії категорій до формальної логіки,
+                    що складає основу сучасного топосо-теоретичного бачення основ математики.
+
+        .index
+            .index__col
+                ul
+                    li: a(href='https://github.com/awodey/CatLogNotes/blob/master/catlog1.pdf') 1. Алгебраїчні теорії
+                    li: a(href='#') 2. Фібраційні категорії
+                    li: a(href='https://github.com/awodey/CatLogNotes/blob/master/catlog2.pdf') 3. Логіка предикатів першого порядку
+                    li: a(href='#') 4. Логіка вищих порядків
+                    li: a(href='#') 5. Залежна теорія першого порядку
+                    li: a(href='#') 6. Залежна теорія вищих порядків
+
+include ../../../footer

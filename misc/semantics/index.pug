@@ -1,0 +1,186 @@
+include ../../header
+
+html
+    head
+        meta(property='og:title'       content='SEMANTICS')
+        meta(property='og:description' content='Inference Rules')
+        meta(property='og:url'         content='https://groupoid.space/misc/semantics/')
+
+block title
+    title SEMANTICS
+
+block content
+    +header('', 'Logical Forms', 'Inference rules')
+
+    article.main
+        .om
+            section
+                h1 INFERENCE RULES
+            aside Maxim Sokhatsky
+            time DATE: 4 AUG 2016
+        .index
+            div
+                +tex2(true).
+                    \begin{equation}
+                    \tag{sorts}
+                    \dfrac
+                    {i : Nat}
+                    {Type_i}
+                    \end{equation}
+
+                +tex2(true).
+                    \begin{equation}
+                    \tag{axioms}
+                    \dfrac
+                    {i: Nat}
+                    {Type_i : Type_{i+1}}
+                    \end{equation}
+
+                +tex2(true).
+                    \begin{equation}
+                    \tag{rules}
+                    \dfrac
+                    {i : Nat,\ \ \ \ j : Nat}
+                    {Type_i \rightarrow Type_{j} : Type_{max(i,j)}}
+                    \end{equation}
+
+                +tex2(true).
+                    \begin{equation}
+                    \tag{subst}
+                    \dfrac
+                    {\pi_1 : A\ \ \ \ u:A ⊢ π_2 : B}
+                    {[π_1/u]\ π_2 : B}
+                    \end{equation}
+
+                +tex2(true).
+                    \begin{equation}
+                    \tag{$\Pi$-form}
+                    \dfrac
+                    {x:A \vdash B : Type}
+                    {\Pi\ (x:A) \rightarrow B : Type}
+                    \end{equation}
+
+                +tex2(true).
+                    \begin{equation}
+                    \tag{$\Pi$-intro}
+                    \dfrac
+                    {x:A \vdash b : B}
+                    {\lambda\ (x:A) \rightarrow b : \Pi\ (x: A) \rightarrow B }
+                    \end{equation}
+
+                +tex2(true).
+                    \begin{equation}
+                    \tag{$\Pi$-elim}
+                    \dfrac
+                    {f: (\Pi\ (x:A) \rightarrow B)\ \ \ a: A}
+                    {f\ a : B\ [a/x]}
+                    \end{equation}
+
+                +tex2(true).
+                    \begin{equation}
+                    \tag{$\Pi$-$\beta$}
+                    \dfrac
+                    {x:A \vdash b: B\ \ \ a:A}
+                    {(\lambda\ (x:A) \rightarrow b)\ a = b\ [a/x] : B\ [a/x]}
+                    \end{equation}
+
+                +tex2(true).
+                    \begin{equation}
+                    \tag{=-form}
+                    \dfrac
+                    {x:A\ \ \ \ b:A\ \ \ \ A:Type}
+                    {Id(A,a,b) : Type}
+                    \end{equation}
+
+                +tex2(true).
+                    \begin{equation}
+                    \tag{=-intro}
+                    \dfrac
+                    {a:A}
+                    {refl(A,a) : Id(A,a,a) }
+                    \end{equation}
+
+                +tex2(true).
+                    \begin{equation}
+                    \tag{=-elim}
+                    \dfrac{\begin{split}
+                             & p:Id(a,b)\ \ \ x,y:A \\
+                             & u:Id(x,y) \vdash E:Type \\
+                             & x:A \vdash d: E\ \ \ [x/y,\ refl(x)/u]
+                           \end{split}
+                          }
+                    {J(a,b,p,(x,y,u)\ d) : E\ [a/x,\ b/y,\ p/u]}
+                    \end{equation}
+
+                +tex2(true).
+                    \begin{equation}
+                    \tag{=-$\beta$}
+                    \dfrac{\begin{split}
+                              & a,x,y:A,\ \ \ u:Id(x,y) \vdash E:Type \\
+                              & x:A \vdash d:E\ \ \ [x/y,\ refl(x)/u]
+                            \end{split}
+                          }
+                    {\begin{split}
+                       & J(a,a,refl(a),(x,y,u)\ d) \\
+                       &= d\ [a/x] : E\ [a/y,\ refl(a)/u]
+                     \end{split}
+                    }
+                    \end{equation}
+
+                +tex2(true).
+                    \begin{equation}
+                    \tag{W-form}
+                    \dfrac
+                    {A:Type\ \ \ \ x:A\ \ \ \ B(x):Type}
+                    {W (x:A) \rightarrow B(x) : Type}
+                    \end{equation}
+
+                +tex2(true).
+                    \begin{equation}
+                    \tag{W-intro}
+                    \dfrac
+                    {a:A\ \ \ \ t: B(a) \rightarrow W}
+                    {sup(a,t) : W}
+                    \end{equation}
+
+                +tex2(true).
+                    \begin{equation}
+                    \tag{W-elim}
+                    \dfrac
+                    {\begin{split}
+                       & w: W \vdash C(w) : Type \\
+                       & x:A,\ u:B(x) \rightarrow W, \\
+                       & { \begin{split}
+                              & v:\Pi (y:B(x)) \rightarrow C(u(y)) \\
+                              & \vdash c(x,u,v):C(sup(x,u))
+                           \end{split}
+                         }
+                     \end{split}
+                    }
+                    {w:W \vdash wrec(w,c):C(w)}
+                    \end{equation}
+
+                +tex2(true).
+                    \begin{equation}
+                    \tag{W-$\beta$}
+                    \dfrac{
+                     \begin{split}
+                        & w: W \vdash C(w) : Type \\
+                        & x: A,\ u:B(x) \rightarrow W \\
+                        & { \begin{split}
+                              & v: \Pi (y:B(x)) \rightarrow C(u(y)) \\
+                              & \vdash c(x,u,v):C(sup(x,u))
+                            \end{split}
+                          }
+                     \end{split}}
+                    {\begin{split}
+                        & x:A,\ u:B(x) \rightarrow W \\
+                        & \vdash wrec(sup(x,u),c) \\
+                        & =\ c(x,u,\lambda (y:B(x)), wrec(u(y),c)) \\
+                        & : C(sup(x,u))
+                     \end{split}
+                    }
+                    \end{equation}
+
+hr
+include ../../footer

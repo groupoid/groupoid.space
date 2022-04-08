@@ -1,0 +1,7 @@
+@article{Angiuli162,
+  title={Computational higher type theory II: Dependent cubical realizability},
+  author={Angiuli, Carlo and Harper, Robert},
+  journal={arXiv preprint arXiv:1606.09638},
+  year={2016}
+}
+

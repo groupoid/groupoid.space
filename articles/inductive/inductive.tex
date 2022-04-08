@@ -1,0 +1,134 @@
+% copyright (c) 2018 Synrc Research Center
+
+\documentclass{article}
+\usepackage{listings}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{url}
+\usepackage{tikz-cd}
+\usepackage[utf8]{inputenc}
+\lstset{basicstyle=\small,inputencoding=utf8}
+
+\begin{document}
+
+\title{Issue II: Inductive Types and Encodings}
+\author{Maksym Sokhatskyi $^1$}
+\date{ $^1$ National Technical University of Ukraine \\
+       \small Igor Sikorsky Kyiv Polytechnical Institute \\
+       \today }
+
+\maketitle
+
+\begin{abstract}
+
+Impredicative Encoding of Inductive Types in HoTT.
+\\
+\\
+{\bf Keywords}: Formal Methods, Type Theory, Programming Languages,
+          Theoretical Computer Science, Applied Mathematics,
+          Cubical Type Theory, Martin-Löf Type Theory
+\end{abstract}
+
+\tableofcontents
+\newpage
+
+\section{Inductive Types}
+
+\subsection{Empty}
+
+\subsection{Unit}
+
+\subsection{Bool}
+
+\subsection{Maybe}
+
+\subsection{Either}
+
+\subsection{Nat}
+
+\subsection{List}
+
+\section{Inductive Encodings}
+
+\subsection{Church Encoding}
+
+You know Church encoding which also has its dependent alanolgue in CoC, however
+in Coq it is imposible to detive Inductive Principle as type system lacks fixpoint
+and functional extensionality. The example of working compiler of PTS languages are Om and Morte.
+Assume we have Church encoded NAT:
+
+\begin{lstlisting}[mathescape=true]
+nat = (X:U) -> (X -> X) -> X -> X
+\end{lstlisting}
+
+where first parameter $(X -> X)$ is a $succ$, the second parameter $X$ is $zero$,
+and the result of encoding is landed in X. Even if we encode the parameter
+
+\begin{lstlisting}[mathescape=true]
+list (A: U) = (X:U) -> X -> (A -> X) -> X
+\end{lstlisting}
+
+and paremeter A let's say live in 42 universe and X live in 2 universe, then by
+the signature of encoding the term will be landed in X, thus 2 universe. In other words
+such dependency is called impredicative displaying that landed term is not a predicate over parameters.
+This means that Church encoding is incompatible with predicative type checkers with predicative
+of predicative-cumulative hierarchies.
+
+\subsection{Impredicative Encoding}
+
+In HoTT n-types is encoded as n-groupoids, thus we need to add a predicate in which n-type
+we would like to land the encoding:
+
+\begin{lstlisting}[mathescape=true]
+NAT (A: U) = (X:U) -> isSet X -> X -> (A -> X) -> X
+\end{lstlisting}
+
+Here we added isSet predicate. With this motto we can implement propositional
+truncation by landing term in isProp or even HIT by langing in isGroupoid:
+
+\begin{lstlisting}[mathescape=true]
+TRUN (A:U) type = (X: U) -> isProp X -> (A -> X) -> X
+S1 = (X:U) -> isGroupoid X -> ((x:X) -> Path X x x) -> X
+MONOPLE (A:U) = (X:U) -> isSet X -> (A -> X) -> X
+NAT = (X:U) -> isSet X -> X -> (A -> X) -> X
+\end{lstlisting}
+
+The main publication on this topic could be found at \cite{Awodey17} and \cite{Speight17}.
+
+\subsection{The Unit Example}
+
+Here we have the implementation of Unit impredicative encoding in HoTT.
+
+\begin{lstlisting}[mathescape=true]
+upPath     (X Y:U)(f:X->Y)(a:X->X): X -> Y = o X X Y f a
+downPath   (X Y:U)(f:X->Y)(b:Y->Y): X -> Y = o X Y Y b f
+naturality (X Y:U)(f:X->Y)(a:X->X)(b:Y->Y): U
+  = Path (X->Y)(upPath X Y f a)(downPath X Y f b)
+
+unitEnc': U = (X: U) -> isSet X -> X -> X
+isUnitEnc (one: unitEnc'): U
+  = (X Y:U)(x:isSet X)(y:isSet Y)(f:X->Y) ->
+    naturality X Y f (one X x)(one Y y)
+
+unitEnc: U = (x: unitEnc') * isUnitEnc x
+unitEncStar: unitEnc = (\(X:U)(_:isSet X) ->
+  idfun X,\(X Y: U)(_:isSet X)(_:isSet Y)->refl(X->Y))
+unitEncRec  (C: U) (s: isSet C) (c: C): unitEnc -> C
+  = \(z: unitEnc) -> z.1 C s c
+unitEncBeta (C: U) (s: isSet C) (c: C)
+  : Path C (unitEncRec C s c unitEncStar) c = refl C c
+unitEncEta (z: unitEnc): Path unitEnc unitEncStar z = undefined
+unitEncInd (P: unitEnc -> U) (a: unitEnc): P unitEncStar -> P a
+  = subst unitEnc P unitEncStar a (unitEncEta a)
+unitEncCondition (n: unitEnc'): isProp (isUnitEnc n)
+  =  \ (f g: isUnitEnc n) ->
+     <h> \ (x y: U) -> \ (X: isSet x) -> \ (Y: isSet y)
+  -> \ (F: x -> y) -> <i> \ (R: x) -> Y (F (n x X R)) (n y Y (F R))
+       (<j> f x y X Y F @ j R) (<j> g x y X Y F @ j R) @ h @ i
+\end{lstlisting}
+
+\bibliographystyle{plain}
+\bibliography{inductive}
+
+\end{document}

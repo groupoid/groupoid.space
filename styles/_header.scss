@@ -1,0 +1,53 @@
+.header {
+    background: black;
+    color: white;
+    position: relative;
+    min-height: 450px;
+    padding: 16px 8px;
+    display: flex;
+    text-align: center;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    z-index: 5;
+
+    &__logo {
+        width: 130px;
+        position: relative;
+    }
+
+    &__titles {
+        position: relative;
+        max-width: 800px;
+        margin: 20px;
+        text-shadow: 1px 1px 7px #56CCF2;
+    }
+
+    &__title {
+        font-size: 48px;
+        line-height: 1.1;
+    }
+
+    &__subtitle {
+        font-size: 22px;
+    }
+
+    @media(min-width: 768px) {
+        flex-direction: row;
+    
+        &__logo {
+            width: 160px;
+            margin-right: 10px;
+        }
+
+        &__title {
+            font-size: 60px;
+        }
+
+        &__subtitle {
+            font-size: 30px;
+        }
+    }
+
+}
