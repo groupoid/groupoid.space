@@ -1,6 +1,6 @@
 {
   "name": "groupoid",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Groupoid Infinity Institute",
   "main": "",
   "scripts": {
@@ -12,7 +12,7 @@
     "url": "https://github.com/groupoid/groupoid.space"
   },
   "author": "Namdak Tonpa",
-  "license": "ISC",
+  "license": "DHARMA",
   "preinstall": "npm i -g node-sass && npm i -g pug-cli",
   "dependencies": {
     "mathjax-full": "^3.2.0",
