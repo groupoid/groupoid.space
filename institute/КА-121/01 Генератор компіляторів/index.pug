@@ -1,0 +1,34 @@
+include ../../../header
+
+html
+    head
+        meta(property='og:title'       content='INSTITUTE')
+        meta(property='og:description' content='Інститут Прикладної Математики')
+        meta(property='og:url'         content='https://groupoid.space/institute/')
+
+block title
+    title INSTITUTE
+
+block content
+    +header('', 'Генератор компіляторів', 'Курс лекцій для студентів першого курсу кафедри мовного забезпечення КА-121-01')
+    article.main
+        .om
+            aside <span>Автор</span>: <b>Ахо, Сеті, Ульман</b><br>
+                <span>Код курсу</span>: <b><a href="../">КА-121-01</a></b><br>
+                <span>Кількість кредитів</span>: <b>12</b><br>
+            section
+                h1 Генератор компіляторів
+            section
+                p.
+
+        .index
+            .index__col
+                ul
+                    li: a(href='#') 1. Синтаксичний аналіз
+                    li: a(href='#') 2. Семантичний аналіз
+                    li: a(href='#') 3. Алокація регістрів
+                    li: a(href='#') 4. Компіляція
+                    li: a(href='#') 5. Інтерпретація
+
+include ../../../footer
+
