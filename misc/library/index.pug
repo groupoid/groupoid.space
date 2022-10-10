@@ -17,7 +17,7 @@ block content
                 h1 Abstract
             aside Максим Сохацький<br>
                 03-08-2018
-            p.
+            +tex.
                 The cubical base library is dedicated to type checkers with cubical syntax, based on
                 interval $[0,1]$ with functional extensionality, higher equalities, and higher
                 inductive types on top of MLTT as a core.
@@ -112,7 +112,7 @@ block content
                 Now Id types are treated as heterogeneous Path interval types.
 
             h2#pi <a name='pi'><a href='../core/pi/'>Pi</a></a>
-            p.
+            +tex.
                 Pi is a space of sections $f: (x:A) \rightarrow B(x)$.
             code.
                 Pi (A: U) (P: A -> U): U
@@ -146,7 +146,7 @@ block content
                      = &lt;i&gt; \(a: A) -> p a @ i
 
             h2#sigma <a name='exists'><a href='../core/sigma/'>Sigma</a></a>
-            p.
+            +tex.
                 Sigma is a total space of fibration $p: (x:A) * B(x)$.
             code.
                 Sigma (A: U) (B: A -> U): U
@@ -174,7 +174,7 @@ block content
                   = \(g: (x:A)->(y:B)*(R x y)) -> (\(i:A)->(g i).1,\(j:A)->(g j).2)
 
             h2#path <a name=id><a href='../core/path/'>Path</a></a>
-            p.
+            +tex.
                 Path type is a $\mathbf{I}=[0,1]$ interval $Path_A(a,b)$
                 which elements are lambdas $i = \lambda (d: \mathbf{I}) \rightarrow A : Path_A(a,b)$
                 with values in $A$ such that $\{ i(0)=a$, $i(1)=b \}$.
@@ -207,7 +207,7 @@ block content
                     6.2 Induction principles and dependent paths.
 
             h2#groupoid <font color="#7D8A96">Groupoid</font>
-            p.
+            +tex.
                 <b>Definition</b> (n-Types). n-truncated objects in $(\infty,1)$-topos called n-types.
                 Two object $X$, $Y$ are of the same homotopy type if there is a zig-zag of morphisms
                 connecting them. That induced equality $\pi_k(X) = \pi_k(Y), 0 \le k \le n$.
@@ -1087,7 +1087,7 @@ block content
                             li: a(href='#'+i)= i.toUpperCase()
             br
         section
-            p.
+            +tex.
                 Cubical with HITs has very lightweight core and syntax, and
                 is an internal language of $(\infty,1)$-topos.
                 Cubical with $[0,1]$ Path types but without HITs is an
@@ -1114,12 +1114,12 @@ block content
                             li: a(href='#'+i)= i.toUpperCase()
             br
         section
-            p.
+            +tex.
                 Cohesive Type Theory is developed to satisfy needs of modeling modalities,
                 such as connectedness, compactness, infinitesimal shapes, etc. Differential
                 Cohesive Type Theory is an internal language of differential cohesive $(\infty,1)$-topoi, with
                 extra structure, just as $(\infty,1)$-categories add a globular path equality structure
-                to locally cartesian closed categories and their internal language &mdash; MLTT.
+                to locally cartesian closed categories and their internal language  MLTT.
                 Please refer to <a href="https://hott-uf.github.io/2017/abstracts/cohesivett.pdf">cohesivett</a>
                 for more information.
             p.
