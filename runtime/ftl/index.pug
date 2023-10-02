@@ -10,7 +10,7 @@ block title
     title Stream Calculus
 
 block content
-    +header('', 'Stream Calculus', 'Parallel Array Processing')
+    +header('', 'Formal Tensor Calculus', 'Linear types for linear algebra')
     article.main
         .exe
             section
@@ -36,26 +36,44 @@ block content
 
             section.langf
                 .langf__col
-                    h2#syntax Language Axioms
+                    h2#syntax Language AST
                     code.
 
-                        Inductive StreamCalculus :=
-                         | Map                | Fold
-                         | Scan               | Iota
-                         | SLoop              | Transpose
-                         | Rotate             | SSplit
-                         | Concat             | Zip
-                         | Reduce             | StreamMap          
-                         | StreamMapPer       | StreamRed
-                         | StreamSeq          | Partition
-                         | Reshape            | Shape
-                         | Rearrange          | Copy
-                         | For                | While.
+                        data Arith = Add | Sub | Mul | Div | Eq | Lt | Gt
+                        data Builtin
+                           = Intop (a: Arith) | Floatop (a: Arith)
+                           | Get | Set | Duplicate | Free
+                           | Transpose | Size
+                           | Asum | Axpy | Dotp | Rotm | Scal | Amax
+                           | Symm | Gemm | Syrk | Posv
+
+                        data Fraction = Z | S (_: Fraction)
+                        data Dimension = Vector | Matrix | Stream | Table
+                        data Linear
+                           = Empty | Unit | Bool
+                           | Int | Float
+                           | Tensor (a: Fraction) (x: Dimension)
+                           | Pair (a b: Linear) | Fun (a b: Linear)
+                           | Consume (a: Linear) | All (a: Var) (b: Linear)
+
+                        data Exp
+                           = Variable (_: Var)
+                           | Prim (_: Builtin)
+                           | Star | True | False
+                           | Int (_: nat) | Float (_: float)
+                           | Lambda (a: Var) (b: Linear) (c: Exp)
+                           | App (a b: Exp)
+                           | Pair (a b: Var) (c d: Exp)
+                           | Consume (a: Var) (b c: Exp)
+                           | Gen (a: Var) (b: Exp)
+                           | Spec (a: Exp) (b: Fraction)
+                           | Fix (a b: Var) (c d: Linear) (e: Exp)
+                           | If (a b c: Exp)
+                           | Let (a: Var) (b c: Exp)
 
 
             section
                 h1 Calculus
                 p.
-                code.
 
 include ../../footer

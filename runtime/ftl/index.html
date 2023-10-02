@@ -5,7 +5,7 @@
 .mjx-dashed{stroke-dasharray:140}
 .mjx-dotted{stroke-linecap:round;stroke-dasharray:0,140}
 use[data-c]{stroke-width:3px}
-</style></head><body class="content"></body></html><html><head><meta property="og:title" content="INSTITUTE"><meta property="og:description" content="Інститут Прикладної Математики"><meta property="og:url" content="https://groupoid.space/institute/"></head></html><title>Stream Calculus</title><header class="header"><div class="header__titles"><h1 class="header__title">Stream Calculus</h1><h4 class="header__subtitle">Parallel Array Processing</h4></div></header><article class="main"><div class="exe"><section><p>Pi calculus can be transformed from lambda
+</style></head><body class="content"></body></html><html><head><meta property="og:title" content="INSTITUTE"><meta property="og:description" content="Інститут Прикладної Математики"><meta property="og:url" content="https://groupoid.space/institute/"></head></html><title>Stream Calculus</title><header class="header"><div class="header__titles"><h1 class="header__title">Formal Tensor Calculus</h1><h4 class="header__subtitle">Linear types for linear algebra</h4></div></header><article class="main"><div class="exe"><section><p>Pi calculus can be transformed from lambda
 calculus by replacing a variable constructor with stream constructor.
 But the language and protocol for accessing this stream can vary
 for different backends with respect to design requirements.</p><p>Stream calculus provides different disciplines for accessing
@@ -19,17 +19,36 @@ stream calculus as memory representation with different access protocols.</p><p>
 lambda calculus where function arguments are channels or streams, stream calculus defines set
 of constructions over these streams. This calculus is needed to provide different forms
 of vectorization that can be used on GPU and AVX hardware.
-</p></section><section class="langf"><div class="langf__col"><h2 id="syntax">Language Axioms</h2><code>Inductive StreamCalculus :=
- | Map                | Fold
- | Scan               | Iota
- | SLoop              | Transpose
- | Rotate             | SSplit
- | Concat             | Zip
- | Reduce             | StreamMap          
- | StreamMapPer       | StreamRed
- | StreamSeq          | Partition
- | Reshape            | Shape
- | Rearrange          | Copy
- | For                | While.
+</p></section><section class="langf"><div class="langf__col"><h2 id="syntax">Language AST</h2><code>data Arith = Add | Sub | Mul | Div | Eq | Lt | Gt
+data Builtin
+   = Intop (a: Arith) | Floatop (a: Arith)
+   | Get | Set | Duplicate | Free
+   | Transpose | Size
+   | Asum | Axpy | Dotp | Rotm | Scal | Amax
+   | Symm | Gemm | Syrk | Posv
 
-</code></div></section><section><h1>Calculus</h1><p></p><code></code></section></div></article><link rel="stylesheet" href="https://groupoid.space/main.css"><footer class="footer"><a href="https://5HT.co/license/"><img class="footer__logo" src="https://longchenpa.guru/seal.png" width="50"></a><span class="footer__copy">2016&mdash;2022 &copy; <a rel="me" href="https://twiukraine.com/@5HT" style="color:Lavender;">Namdak Tönpa</a></span><script src="https://groupoid.space/highlight.js"></script><script src="https://groupoid.space/bundle.js"></script></footer>
+data Fraction = Z | S (_: Fraction)
+data Dimension = Vector | Matrix | Stream | Table
+data Linear
+   = Empty | Unit | Bool
+   | Int | Float
+   | Tensor (a: Fraction) (x: Dimension)
+   | Pair (a b: Linear) | Fun (a b: Linear)
+   | Consume (a: Linear) | All (a: Var) (b: Linear)
+
+data Exp
+   = Variable (_: Var)
+   | Prim (_: Builtin)
+   | Star | True | False
+   | Int (_: nat) | Float (_: float)
+   | Lambda (a: Var) (b: Linear) (c: Exp)
+   | App (a b: Exp)
+   | Pair (a b: Var) (c d: Exp)
+   | Consume (a: Var) (b c: Exp)
+   | Gen (a: Var) (b: Exp)
+   | Spec (a: Exp) (b: Fraction)
+   | Fix (a b: Var) (c d: Linear) (e: Exp)
+   | If (a b c: Exp)
+   | Let (a: Var) (b c: Exp)
+
+</code></div></section><section><h1>Calculus</h1><p></p></section></div></article><link rel="stylesheet" href="https://groupoid.space/main.css"><footer class="footer"><a href="https://5HT.co/license/"><img class="footer__logo" src="https://longchenpa.guru/seal.png" width="50"></a><span class="footer__copy">2016&mdash;2022 &copy; <a rel="me" href="https://twiukraine.com/@5HT" style="color:Lavender;">Namdak Tönpa</a></span><script src="https://groupoid.space/highlight.js"></script><script src="https://groupoid.space/bundle.js"></script></footer>
