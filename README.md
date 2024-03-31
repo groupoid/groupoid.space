@@ -2,15 +2,15 @@
 
 Groupoid Infinity is building integrated environment for mathematician:
 
-1) CAS — Computable and Symbolic Mathematics a la Wolfram Mathematica, GAP
-2) RT — Runtime Interpreter and Virtual Machines
+1) RT — Runtime Interpreters and Virtual Machines
+2) CAS — Computable and Symbolic Mathematics a la Wolfram Mathematica, GAP
 3) CERT — Theorem Prover a la Lean/Agda
 4) ANT — Publishing environment a la ТеХ
-5) NOTE — Notebook Interface a la Jupyter
+5) NOTE — Notebook Interface a la Jupyter, GUI
 
 ## CAS: Computer Algebra System
 
-* GAP — Certified Interpreter
+* GAP — Groups Algorithm Programming
 * FTL — Formal Tensor Language
 
 ## RT: Virtual Machines and Runtime Languages
