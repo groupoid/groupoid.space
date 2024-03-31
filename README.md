@@ -8,7 +8,7 @@ Groupoid Infinity is building integrated environment for mathematician:
 4) ANT — Publishing environment a la ТеХ
 5) NOTE — Notebook Interface a la Jupyter
 
-## CAS: Cumputer Algebra System
+## CAS: Computer Algebra System
 
 * GAP — Certified Interpreter
 * FTL — Formal Tensor Language
