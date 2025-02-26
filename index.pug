@@ -89,14 +89,14 @@ block content
                                              'Cohomology Operations' : '' } }; var foundations = {
 
                  'Categorical Models': { 'Homotopical Algebra' : '',
-                                             'Presheaf Type Theory' : 'https://anders.groupoid.space/mathematics/topoi/presheaf/',
+                                             'Presheaf Type Theory' : 'https://anders.groupoid.space/mathematics/categories/presheaf/',
                                              'Set Quillen model' : 'https://tonpa.guru/stream/2020/2020-05-03 Модельні категорії.htm',
                                              'Top Quillen model' : 'https://tonpa.guru/stream/2020/2020-05-03 Модельні категорії.htm',
                                              'sSet Quillen model' : 'https://tonpa.guru/stream/2020/2020-05-03 Модельні категорії.htm',
-                                             'Pi Presheaf' : 'https://anders.groupoid.space/mathematics/topoi/presheaf/',
-                                             'Sigma Presheaf' : 'https://anders.groupoid.space/mathematics/topoi/presheaf/',
-                                             'sSet Presheaf' : 'https://anders.groupoid.space/mathematics/topoi/presheaf/',
-                                             'I Presheaf' : 'https://anders.groupoid.space/mathematics/topoi/presheaf/' },
+                                             'Pi Presheaf' : 'https://anders.groupoid.space/mathematics/categories/presheaf/',
+                                             'Sigma Presheaf' : 'https://anders.groupoid.space/mathematics/categories/presheaf/',
+                                             'sSet Presheaf' : 'https://anders.groupoid.space/mathematics/categories/presheaf/',
+                                             'I Presheaf' : 'https://anders.groupoid.space/mathematics/categories/presheaf/' },
 
                            'Type Systems': { 'PTS/CoC/AUT68' : 'https://henk.groupoid.space/',
                                              'MLTT-80/CiC' : 'https://per.groupoid.space/',
@@ -187,6 +187,17 @@ block content
             section
                 .macro
                     .macro__col
+                        h3#categories <b>ANALYSIS</b>
+                        ol
+                            li: <a href='https://anders.groupoid.space/mathematics/analysis/topology/'>TOPOLOGY</a>
+                            li: <a href='https://anders.groupoid.space/mathematics/analysis/set/'>SET</a>
+                            li: <a href='https://anders.groupoid.space/mathematics/analysis/rational/'>ℚ</a>,
+                                <a href='https://anders.groupoid.space/mathematics/analysis/real/'>ℝ</a>
+                            li: <a href='https://anders.groupoid.space/mathematics/analysis/complex/'>ℂ</a>,
+                                <a href='https://anders.groupoid.space/mathematics/analysis/quatro/'>ℍ</a>,
+                                <a href='https://anders.groupoid.space/mathematics/analysis/octo/'>𝕆</a>
+
+                    .macro__col
                         h3#algebra <b>ALGEBRA</b>
                         ol
                             li: a(href='https://anders.groupoid.space/mathematics/algebra/group/') GROUP
@@ -209,6 +220,7 @@ block content
                             li: a(href='https://anders.groupoid.space/mathematics/homotopy/pullback/') PULLBACK
                             li: a(href='https://anders.groupoid.space/mathematics/homotopy/hopf/') HOPF
                             li: a(href='https://anders.groupoid.space/mathematics/homotopy/cw/') CW
+
             section
                 .macro
                     .macro__col
@@ -217,12 +229,8 @@ block content
                             li: a(href='https://anders.groupoid.space/mathematics/categories/category/') CATEGORY
                             li: a(href='https://anders.groupoid.space/mathematics/categories/functor/') FUNCTOR
                             li: a(href='https://anders.groupoid.space/mathematics/categories/groupoid/') GROUPOID
-
-                    .macro__col
-                        h3#categories <b>TOPOI</b>
-                        ol
-                            li: a(href='https://anders.groupoid.space/mathematics/topoi/topos/') TOPOS
-                            li: a(href='https://anders.groupoid.space/mathematics/topoi/presheaf/') PRESHEAF
+                            li: a(href='https://anders.groupoid.space/mathematics/categories/topos/') TOPOS
+                            li: a(href='https://anders.groupoid.space/mathematics/categories/presheaf/') PRESHEAF
             br.
             p.
                  The base library for <b>cubicaltt</b> is given on separate page:
