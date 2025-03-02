@@ -44,6 +44,8 @@ block content
                                              'Kan Extensions' : '',
                                              '(Co)limits': '',
                                              'Universal Properties' : '',
+                                             'Monoidal Categories' : '',
+                                             'Enriched Categories' : '',
                                              'Structure Identity Principle' : '' },
 
                            'Topos Theory': { 'Topology' : '',
@@ -51,6 +53,7 @@ block content
                                              'Grothendieck Topology' : 'https://anders.groupoid.space/mathematics/categories/topos/',
                                              'Grothendieck Topos' : '',
                                              'Geometric Morphisms': '',
+                                             'Higher Topos Theory': '',
                                              'Elementary Topos': '' },
 
                                'Geometry': { 'Nisnevich Site' : '',
@@ -60,17 +63,43 @@ block content
                                              'A¹-Homotopy Theory' : '',
                                              'Cohesive Topos' : '',
                                              'Etale Topos': '',
-                                             'Local Homotopy Theory': '' }}; var algebra = {
+                                             'Differential Geometry': '',
+                                             'Synthetic Geometry': '',
+                                             'Local Homotopy Theory': '' }}; var foundations = {
+
+                               'Analysis': { 'Real Analysis' : '',
+                                             'Funtional analysis' : '',
+                                             'Set Theory': '',
+                                             'Measure theory': '' },
+
+                                 'Logic': {  'Proof Theory': '',
+                                             'Schönfinkel': '',
+                                             'Łukasiewicz':'',
+                                             'Frege': '',
+                                             'Hilbert': '',
+                                             'Church': '',
+                                             'Tarski':'' },
+
+                           'Type Systems': { 'Julius Dedekind' : 'https://ernst.groupoid.space/',
+                                             'Ernst Zermelo' : 'https://ernst.groupoid.space/',
+                                             'Paul Cohen' : 'https://paul.groupoid.space/',
+                                             'Henk Barendregt': 'https://henk.groupoid.space/',
+                                             'Per Martin-Löf': 'https://per.groupoid.space/',
+                                             'Anders Mörtberg': 'https://anders.groupoid.space/',
+                                             'Dan Kan': 'https://dan.groupoid.space/',
+                                             'Jack Morava': 'https://jack.groupoid.space/',
+                                             'Urs Schreiber': 'https://urs.groupoid.space/',
+                                             'Fabien Morel': 'https://fabien.groupoid.space/' }}; var algebra = {
 
                    'Algebraic Systems':    { 'Algebraic structure' : 'https://anders.groupoid.space/mathematics/algebra/algebra/',
                                              'Group, Subgroup' : '',
                                              'Normal Group' : '',
                                              'Factorgroup' : '',
                                              'Abelian Group' : '',
-                                             'Ring' : '',
-                                             'Module' : '',
+                                             'Ring, Module' : '',
                                              'Field Theory' : '',
                                              'Linear Algebra' : '',
+                                             'Universal Algebra' : '',
                                              'Lie, Leibniz Algebra' : '',
                                            },
 
@@ -82,6 +111,7 @@ block content
                                              'H-(co)spaces' : '',
                                              'Eilenberg-MacLane Spaces' : '',
                                              'Cell Complexes' : '',
+                                             '∞-Groupoids' : '',
                                              '(Co)Homotopy' : '',
                                              'Hopf Invariant' : '' },
 
@@ -93,29 +123,8 @@ block content
                                              'Derived Cat, Fun' : '',
                                              'Tor, Ext and Local Cohomology' : '',
                                              'Homological Algebra' : '',
-                                             'Cohomology Operations' : '' } }; var foundations = {
-
-                 'Categorical Models': { 'Homotopical Algebra' : '',
-                                             'Presheaf Type Theory' : 'https://anders.groupoid.space/mathematics/categories/presheaf/',
-                                             'Set Quillen model' : 'https://tonpa.guru/stream/2020/2020-05-03 Модельні категорії.htm',
-                                             'Top Quillen model' : 'https://tonpa.guru/stream/2020/2020-05-03 Модельні категорії.htm',
-                                             'sSet Quillen model' : 'https://tonpa.guru/stream/2020/2020-05-03 Модельні категорії.htm',
-                                             'Pi Presheaf' : 'https://anders.groupoid.space/mathematics/categories/presheaf/',
-                                             'Sigma Presheaf' : 'https://anders.groupoid.space/mathematics/categories/presheaf/',
-                                             'sSet Presheaf' : 'https://anders.groupoid.space/mathematics/categories/presheaf/',
-                                             'I Presheaf' : 'https://anders.groupoid.space/mathematics/categories/presheaf/' },
-
-                           'Type Systems': { 'Julius Dedekind' : 'https://ernst.groupoid.space/',
-                                             'Ernst Zermelo' : 'https://ernst.groupoid.space/',
-                                             'Paul Cohen' : 'https://paul.groupoid.space/',
-                                             'Henk Barendregt': 'https://henk.groupoid.space/',
-                                             'Per Martin-Löf': 'https://per.groupoid.space/',
-                                             'Anders Mörtberg': 'https://anders.groupoid.space/',
-                                             'Dan Kan': 'https://dan.groupoid.space/',
-                                             'Jack Morava': 'https://jack.groupoid.space/',
-                                             'Urs Schreiber': 'https://urs.groupoid.space/',
-                                             'Fabien Morel': 'https://fabien.groupoid.space/'
-                                       } };
+                                             'Spectral Sequences' : '',
+                                             'Cohomology Operations' : '' } }; 
 
             br
             br
@@ -160,7 +169,7 @@ block content
                 theorem prover consists of two parts Foundations and Mathematics just
                 as <a href="https://homotopytypetheory.org/book/">HoTT Book</a>.
 
-            h2 Foundations
+            h2 FOUNDATIONS
             p.
                 MLTT, Modal and Univalent Foundations represent a basic
                 language primitives of <b>Anders</b> and its base library.
@@ -192,7 +201,7 @@ block content
                             li: a(href='https://anders.groupoid.space/foundations/univalent/funext/') FUNEXT
                             li: a(href='https://anders.groupoid.space/foundations/univalent/iso/') ISO
 
-            h2 Mathematics
+            h2 MATHEMATICS
             p.
                 The second part is dedicated to mathematical models and theories internalized in this language.
 
@@ -249,7 +258,7 @@ block content
                  The base library for <b>cubicaltt</b> is given on separate page:
                  <a href='https://groupoid.space/misc/library/'>Formal Mathematics: The Cubical Base Library</a><br>
 
-            h1 Lecture Notes
+            h1 LECTURES
             p.
                 The series of articles on foundation and mathematics of Homotopy Type Theory.
             p.
