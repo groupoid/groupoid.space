@@ -22,6 +22,6 @@
     "sass": "^1.52.2"
   },
   "devDependencies": {
-    "node-sass": "^7.0.1"
+    "node-sass": "^7.0.3"
   }
 }

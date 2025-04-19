@@ -11,78 +11,78 @@ inductive types on top of MLTT as a core.
 Please refer to <a href="http://www.cse.chalmers.se/~coquand/cubicaltt.pdf">CCHM</a>
 paper for more information. The base library is founded on top of cubical modules each
 falling into one of 15 categories:</p><p>(i) MLTT Types:
-    <a href="https://raw.githubusercontent.com/groupoid/cubical/master/src/pi.ctt">pi</a>,
-    <a href="https://raw.githubusercontent.com/groupoid/cubical/master/src/sigma.ctt">sigma</a>,
-    <a href="https://raw.githubusercontent.com/groupoid/cubical/master/src/path.ctt">path</a>;
+    <a href="https://raw.githubusercontent.com/groupoid/axio/master/CCHM/src/pi.ctt">pi</a>,
+    <a href="https://raw.githubusercontent.com/groupoid/axio/master/CCHM/src/sigma.ctt">sigma</a>,
+    <a href="https://raw.githubusercontent.com/groupoid/axio/master/CCHM/src/path.ctt">path</a>;
 (ii) Set Theory:
-    <a href="https://raw.githubusercontent.com/groupoid/cubical/master/src/prop.ctt">prop</a>,
-    <a href="https://raw.githubusercontent.com/groupoid/cubical/master/src/set.ctt">set</a>,
-    <a href="https://raw.githubusercontent.com/groupoid/cubical/master/src/ordinal.ctt">ordinal</a>,
-    <a href="https://raw.githubusercontent.com/groupoid/cubical/master/src/hedberg.ctt">hedberg</a>;
+    <a href="https://raw.githubusercontent.com/groupoid/axio/master/CCHM/src/prop.ctt">prop</a>,
+    <a href="https://raw.githubusercontent.com/groupoid/axio/master/CCHM/src/set.ctt">set</a>,
+    <a href="https://raw.githubusercontent.com/groupoid/axio/master/CCHM/src/ordinal.ctt">ordinal</a>,
+    <a href="https://raw.githubusercontent.com/groupoid/axio/master/CCHM/src/hedberg.ctt">hedberg</a>;
 (iii) Run-Time Inductive Types:
-    <a href="https://raw.githubusercontent.com/groupoid/cubical/master/src/proto.ctt">proto</a>,
-    <a href="https://raw.githubusercontent.com/groupoid/cubical/master/src/maybe.ctt">maybe</a>,
-    <a href="https://raw.githubusercontent.com/groupoid/cubical/master/src/bool.ctt">bool</a>,
-    <a href="https://raw.githubusercontent.com/groupoid/cubical/master/src/nat.ctt">nat</a>,
-    <a href="https://raw.githubusercontent.com/groupoid/cubical/master/src/list.ctt">list</a>,
-    <a href="https://raw.githubusercontent.com/groupoid/cubical/master/src/stream.ctt">stream</a>,
-    <a href="https://raw.githubusercontent.com/groupoid/cubical/master/src/vector.ctt">vector</a>;
+    <a href="https://raw.githubusercontent.com/groupoid/axio/master/CCHM/src/proto.ctt">proto</a>,
+    <a href="https://raw.githubusercontent.com/groupoid/axio/master/CCHM/src/maybe.ctt">maybe</a>,
+    <a href="https://raw.githubusercontent.com/groupoid/axio/master/CCHM/src/bool.ctt">bool</a>,
+    <a href="https://raw.githubusercontent.com/groupoid/axio/master/CCHM/src/nat.ctt">nat</a>,
+    <a href="https://raw.githubusercontent.com/groupoid/axio/master/CCHM/src/list.ctt">list</a>,
+    <a href="https://raw.githubusercontent.com/groupoid/axio/master/CCHM/src/stream.ctt">stream</a>,
+    <a href="https://raw.githubusercontent.com/groupoid/axio/master/CCHM/src/vector.ctt">vector</a>;
 (iv) Abstract Algebra:
-    <a href="https://raw.githubusercontent.com/groupoid/cubical/master/src/algebra.ctt">algebra</a>;
+    <a href="https://raw.githubusercontent.com/groupoid/axio/master/CCHM/src/algebra.ctt">algebra</a>;
 (v) Control Structures:
-    <a href="https://raw.githubusercontent.com/groupoid/cubical/master/src/control.ctt">control</a>;
+    <a href="https://raw.githubusercontent.com/groupoid/axio/master/CCHM/src/control.ctt">control</a>;
 (vi) Recursion Schemes:
-    <a href="https://raw.githubusercontent.com/groupoid/cubical/master/src/recursion.ctt">recursion</a>;
+    <a href="https://raw.githubusercontent.com/groupoid/axio/master/CCHM/src/recursion.ctt">recursion</a>;
 (vii) Univalent Foundations:
-    <a href="https://raw.githubusercontent.com/groupoid/cubical/master/src/equiv.ctt">equiv</a>,
-    <a href="https://raw.githubusercontent.com/groupoid/cubical/master/src/retract.ctt">retract</a>,
-    <a href="https://raw.githubusercontent.com/groupoid/cubical/master/src/iso.ctt">iso</a>,
-    <a href="https://raw.githubusercontent.com/groupoid/cubical/master/src/iso_pi.ctt">iso_pi</a>,
-    <a href="https://raw.githubusercontent.com/groupoid/cubical/master/src/iso_sigma.ctt">iso_sigma</a>,
-    <a href="https://raw.githubusercontent.com/groupoid/cubical/master/src/univ.ctt">univ</a>;
+    <a href="https://raw.githubusercontent.com/groupoid/axio/master/CCHM/src/equiv.ctt">equiv</a>,
+    <a href="https://raw.githubusercontent.com/groupoid/axio/master/CCHM/src/retract.ctt">retract</a>,
+    <a href="https://raw.githubusercontent.com/groupoid/axio/master/CCHM/src/iso.ctt">iso</a>,
+    <a href="https://raw.githubusercontent.com/groupoid/axio/master/CCHM/src/iso_pi.ctt">iso_pi</a>,
+    <a href="https://raw.githubusercontent.com/groupoid/axio/master/CCHM/src/iso_sigma.ctt">iso_sigma</a>,
+    <a href="https://raw.githubusercontent.com/groupoid/axio/master/CCHM/src/univ.ctt">univ</a>;
 (viii) Higher Inductive Types:
-    <a href="https://raw.githubusercontent.com/groupoid/cubical/master/src/interval.ctt">interval</a>,
-    <a href="https://raw.githubusercontent.com/groupoid/cubical/master/src/real.ctt">interval</a>,
-    <a href="https://raw.githubusercontent.com/groupoid/cubical/master/src/s1.ctt">s1</a>,
-    <a href="https://raw.githubusercontent.com/groupoid/cubical/master/src/s2.ctt">s2</a>,
-    <a href="https://raw.githubusercontent.com/groupoid/cubical/master/src/pullback.ctt">pullback</a>,
-    <a href="https://raw.githubusercontent.com/groupoid/cubical/master/src/pushout.ctt">pushout</a>,
-    <a href="https://raw.githubusercontent.com/groupoid/cubical/master/src/suspension.ctt">suspension</a>,
-    <a href="https://raw.githubusercontent.com/groupoid/cubical/master/src/quotient.ctt">quotient</a>,
-    <a href="https://raw.githubusercontent.com/groupoid/cubical/master/src/trunc.ctt">trunc</a>;
+    <a href="https://raw.githubusercontent.com/groupoid/axio/master/CCHM/src/interval.ctt">interval</a>,
+    <a href="https://raw.githubusercontent.com/groupoid/axio/master/CCHM/src/real.ctt">interval</a>,
+    <a href="https://raw.githubusercontent.com/groupoid/axio/master/CCHM/src/s1.ctt">s1</a>,
+    <a href="https://raw.githubusercontent.com/groupoid/axio/master/CCHM/src/s2.ctt">s2</a>,
+    <a href="https://raw.githubusercontent.com/groupoid/axio/master/CCHM/src/pullback.ctt">pullback</a>,
+    <a href="https://raw.githubusercontent.com/groupoid/axio/master/CCHM/src/pushout.ctt">pushout</a>,
+    <a href="https://raw.githubusercontent.com/groupoid/axio/master/CCHM/src/suspension.ctt">suspension</a>,
+    <a href="https://raw.githubusercontent.com/groupoid/axio/master/CCHM/src/quotient.ctt">quotient</a>,
+    <a href="https://raw.githubusercontent.com/groupoid/axio/master/CCHM/src/trunc.ctt">trunc</a>;
 (ix) Process Calculus:
-    <a href="https://raw.githubusercontent.com/groupoid/cubical/master/src/process.ctt">process</a>;
+    <a href="https://raw.githubusercontent.com/groupoid/axio/master/CCHM/src/process.ctt">process</a>;
 (x) Category Theory:
-    <a href="https://raw.githubusercontent.com/groupoid/cubical/master/src/cat.ctt">cat</a>,
-    <a href="https://raw.githubusercontent.com/groupoid/cubical/master/src/fun.ctt">fun</a>,
-    <a href="https://raw.githubusercontent.com/groupoid/cubical/master/src/sip.ctt">sip</a>,
-    <a href="https://raw.githubusercontent.com/groupoid/cubical/master/src/adj.ctt">adj</a>,
-    <a href="https://raw.githubusercontent.com/groupoid/cubical/master/src/ump.ctt">ump</a>,
-    <a href="https://raw.githubusercontent.com/groupoid/cubical/master/src/cones.ctt">cones</a>,
-    <a href="https://raw.githubusercontent.com/groupoid/cubical/master/src/topos.ctt">topos</a>,
-    <a href="https://raw.githubusercontent.com/groupoid/cubical/master/src/category.ctt">category</a>;
+    <a href="https://raw.githubusercontent.com/groupoid/axio/master/CCHM/src/cat.ctt">cat</a>,
+    <a href="https://raw.githubusercontent.com/groupoid/axio/master/CCHM/src/fun.ctt">fun</a>,
+    <a href="https://raw.githubusercontent.com/groupoid/axio/master/CCHM/src/sip.ctt">sip</a>,
+    <a href="https://raw.githubusercontent.com/groupoid/axio/master/CCHM/src/adj.ctt">adj</a>,
+    <a href="https://raw.githubusercontent.com/groupoid/axio/master/CCHM/src/ump.ctt">ump</a>,
+    <a href="https://raw.githubusercontent.com/groupoid/axio/master/CCHM/src/cones.ctt">cones</a>,
+    <a href="https://raw.githubusercontent.com/groupoid/axio/master/CCHM/src/topos.ctt">topos</a>,
+    <a href="https://raw.githubusercontent.com/groupoid/axio/master/CCHM/src/category.ctt">category</a>;
 (xi) Contextual Categories:
-    <a href="https://raw.githubusercontent.com/groupoid/cubical/master/src/cwf.ctt">cwf</a>,
-    <a href="https://raw.githubusercontent.com/groupoid/cubical/master/src/csystem.ctt">csystem</a>;
+    <a href="https://raw.githubusercontent.com/groupoid/axio/master/CCHM/src/cwf.ctt">cwf</a>,
+    <a href="https://raw.githubusercontent.com/groupoid/axio/master/CCHM/src/csystem.ctt">csystem</a>;
 (xii) Languages:
-    <a href="https://raw.githubusercontent.com/groupoid/cubical/master/src/mltt.ctt">mltt</a>,
-    <a href="https://raw.githubusercontent.com/groupoid/cubical/master/src/infinity.ctt">infinity</a>;
+    <a href="https://raw.githubusercontent.com/groupoid/axio/master/CCHM/src/mltt.ctt">mltt</a>,
+    <a href="https://raw.githubusercontent.com/groupoid/axio/master/CCHM/src/infinity.ctt">infinity</a>;
 (xiii) Algebraic Geometry:
-    <a href="https://raw.githubusercontent.com/groupoid/cubical/master/src/pointed.ctt">pointed</a>,
-    <a href="https://raw.githubusercontent.com/groupoid/cubical/master/src/euler.ctt">euler</a>,
-    <a href="https://raw.githubusercontent.com/groupoid/cubical/master/src/seq.ctt">seq</a>,
-    <a href="https://raw.githubusercontent.com/groupoid/hopf/master/src/hopf.ctt">hopf</a>,
-    <a href="https://raw.githubusercontent.com/groupoid/cubical/master/src/cw.ctt">cw</a>;
+    <a href="https://raw.githubusercontent.com/groupoid/axio/master/CCHM/src/pointed.ctt">pointed</a>,
+    <a href="https://raw.githubusercontent.com/groupoid/axio/master/CCHM/src/euler.ctt">euler</a>,
+    <a href="https://raw.githubusercontent.com/groupoid/axio/master/CCHM/src/seq.ctt">seq</a>,
+    <a href="https://raw.githubusercontent.com/groupoid/axio/master/CCHM/src/hopf.ctt">hopf</a>,
+    <a href="https://raw.githubusercontent.com/groupoid/axio/master/CCHM/src/cw.ctt">cw</a>;
 (xiv) Cartan Geometry in Cohesive Topos:
-    <a href="https://raw.githubusercontent.com/groupoid/cubical/master/src/infinitesimal.ctt">infinitesimal</a>,
-    <a href="https://raw.githubusercontent.com/groupoid/cubical/master/src/etale.ctt">etale</a>,
-    <a href="https://raw.githubusercontent.com/groupoid/cubical/master/src/manifold.ctt">manifold</a>,
-    <a href="https://raw.githubusercontent.com/groupoid/cubical/master/src/bundle.ctt">bundle</a>;
+    <a href="https://raw.githubusercontent.com/groupoid/axio/master/CCHM/src/infinitesimal.ctt">infinitesimal</a>,
+    <a href="https://raw.githubusercontent.com/groupoid/axio/master/CCHM/src/etale.ctt">etale</a>,
+    <a href="https://raw.githubusercontent.com/groupoid/axio/master/CCHM/src/manifold.ctt">manifold</a>,
+    <a href="https://raw.githubusercontent.com/groupoid/axio/master/CCHM/src/bundle.ctt">bundle</a>;
 (xv) K-Theory:
-    <a href="https://raw.githubusercontent.com/groupoid/cubical/master/src/k_theory.ctt">k_theory</a>,
-    <a href="https://raw.githubusercontent.com/groupoid/cubical/master/src/swaptrans.ctt">swaptrans</a>,
-    <a href="https://raw.githubusercontent.com/groupoid/cubical/master/src/bishop.ctt">bishop</a>,
-    <a href="https://raw.githubusercontent.com/groupoid/cubical/master/src/subtype.ctt">subtype</a>;</p><p>This library is best to read with <a href="http://5ht.co/hott.pdf">HoTT</a>
+    <a href="https://raw.githubusercontent.com/groupoid/axio/master/CCHM/src/k_theory.ctt">k_theory</a>,
+    <a href="https://raw.githubusercontent.com/groupoid/axio/master/CCHM/src/swaptrans.ctt">swaptrans</a>,
+    <a href="https://raw.githubusercontent.com/groupoid/axio/master/CCHM/src/bishop.ctt">bishop</a>,
+    <a href="https://raw.githubusercontent.com/groupoid/axio/master/CCHM/src/subtype.ctt">subtype</a>;</p><p>This library is best to read with <a href="http://5ht.co/hott.pdf">HoTT</a>
 book and <a href="https://ncatlab.org/schreiber/show/thesis+Wellen">Felix Wellen</a> dissertation.</p><br></div><div class="om"><section><h1>Martin-Löf Type Theory</h1></section></div><section><p>Martin-Löf Type Theory contains Pi, Sigma, Id, Nat, List types.
 Id types were added in 1984 while original MLTT was introduced in 1972.
 Now Id types are treated as heterogeneous Path interval types.
@@ -233,7 +233,7 @@ boolInd (C: bool -> U) (f: A false) (t: A true): (n:bool) -> A n
 </p><h2 id="maybe"><a href='../core/maybe/'>Maybe</a></a></h2><p>Maybe has representing functor M<sub>A</sub>(X) = 1 + A.
 It is used for wrapping values with optional nothing constructor.
 In ML-family languages this type is called Option (Miranda, ML).
-There is an <a href="https://raw.githubusercontent.com/groupoid/cubical/master/src/maybe_nat.ctt">isomorphims</a>
+There is an <a href="https://raw.githubusercontent.com/groupoid/axio/master/CCHM/src/maybe_nat.ctt">isomorphims</a>
 between <b>(fix maybe)</b> and <b>nat</b>.</p><code>data maybe (A: U) = nothing | just (x: A)</code><br><code>maybeRec (A P: U) (n: P) (j: A -> P): maybe A -> P
        = split { nothing -> n; just a -> j a }
 
@@ -676,4 +676,4 @@ Process Calculus is another example of modality types with special comonadic spa
 arrows hiding the underlying run-time implementation.</p><br><br><hr><br></section><div class="types"><h2>Types Taxonomy</h2><br><div class="type"><ol class="type__col"><h3>NR ND +</h3><li><a href="#unit">UNIT</a></li><li><a href="#bool">BOOL</a></li><li><a href="#maybe">MAYBE</a></li><li><a href="#either">EITHER</a></li><li><a href="#tuple">TUPLE</a></li></ol><ol class="type__col"><h3>R ND +</h3><li><a href="#fix">FIX</a></li><li><a href="#nat">NAT</a></li><li><a href="#list">LIST</a></li></ol><ol class="type__col"><h3>NR D +</h3><li><a href="#exists">EXISTS</a></li></ol><ol class="type__col"><h3>RD +</h3><li><a href="#fin">FIN</a></li><li><a href="#vector">VECTOR</a></li><li><a href="#W">W</a></li><li><a href="#seq">SEQ</a></li></ol></div><div class="type"><ol class="type__col"><h3>NR ND *</h3><li><a href="#prod">PROD</a></li><li><a href="#pure">PURE</a></li><li><a href="#functor">FUNCTOR</a></li><li><a href="#applicative">APPLICATIVE</a></li><li><a href="#monad">MONAD</a></li></ol><ol class="type__col"><h3>R ND *</h3><li><a href="#stream">STREAM</a></li></ol><ol class="type__col"><h3>NR D *</h3><li><a href="#sigma">SIGMA</a></li><li><a href="#bundle">BUNDLE</a></li><li><a href="#iso">ISO</a></li><li><a href="#equiv">EQUIV</a></li><li><a href="#fiber">FIBER</a></li><li><a href="#pullback">PULLBACK</a></li><li><a href="#category">CATEGORY</a></li></ol><ol class="type__col"><h3>HIT</h3><li><a href="#groupoid">GROUPOID</a></li><li><a href="#infinity">INFINITY</a></li><li><a href="#pushout">PUSHOUT</a></li><li><a href="#S1">S1</a></li><li><a href="#S2">S2</a></li><li><a href="#hopf">HOPF</a></li><li><a href="#cw">CW</a></li></ol></div><br></div><section><p>Types taxonomy shows us the core types categorized by a several axis:
 1) dependent (D) and non-dependent (ND) terms;
 2) recursive trees (R) or non-recursive (NR) data types;
-3) inductive (+, positive) or coinductive (*, negative) types.</p><br><br></section></article><link rel="stylesheet" href="https://groupoid.space/main.css"><footer class="footer"><a href="https://5HT.co/license/"><img class="footer__logo" src="https://longchenpa.guru/seal.png" width="50"></a><span class="footer__copy">2016&mdash;2022 &copy; <a rel="me" href="https://twiukraine.com/@5HT" style="color:Lavender;">Namdak Tönpa</a></span><script src="https://groupoid.space/highlight.js"></script><script src="https://groupoid.space/bundle.js"></script></footer>
+3) inductive (+, positive) or coinductive (*, negative) types.</p><br><br></section></article><link rel="stylesheet" href="https://groupoid.space/main.css"><footer class="footer"><a href="https://5HT.co/license/"><img class="footer__logo" src="https://longchenpa.guru/seal.png" width="50"></a><span class="footer__copy">2016&mdash;2025 &copy; <a rel="me" href="https://mathstodon.xyz/@5ht">Namdak Tönpa</a></span><script src="https://groupoid.space/highlight.js"></script><script src="https://groupoid.space/bundle.js"></script></footer>
