@@ -1,0 +1,26 @@
+% copyright (c) 2018 Groupoid Infinity
+
+\documentclass{article}
+\usepackage[english,ukrainian]{babel}
+\usepackage{listings}
+\usepackage[utf8]{inputenc}
+
+\addto\captionsukrainian{\renewcommand{\contentsname}{Зміст}}
+\addto\captionsukrainian{\renewcommand{\abstractname}{Аннотація}}
+
+\begin{document}
+
+\author { М.Е. Сохацький $^1$ }
+\title { Issue VII: Internal Language of CCC }
+\date{ \small $^1$ Національний технічний університет України \\
+       ім. Ігоря Сікорського \\
+       26 листопада 2017 }
+\maketitle
+
+\begin{abstract}
+Тут представлений APL-подібний інтерпретатор нетипизиваного лямбда-числення
+який векторизує роботу з масивами за допомогою AVX інструкцій та
+розміщується повністю в L1 кеші.
+
+\end{abstract}
+\end{document}

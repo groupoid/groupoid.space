@@ -15,7 +15,7 @@
 \lstset{basicstyle=\small,inputencoding=utf8}
 \begin{document}
 
-\title{Addendum I: Pure Type System for Erlang}
+\title{Issue III: Pure Type System}
 \author{Maxim Sokhatsky}
 \date{ $^1$ National Technical University of Ukraine \\
        \small Igor Sikorsky Kyiv Polytechnical Institute\\
@@ -24,20 +24,20 @@
 \maketitle
 
 \begin{abstract}
-This paper presents the design of the {\bf Om} language and an implementation of its type checker and bytecode extractor to Erlang.
-Om is an intermediate language based on a pure type system with the infinite number of universes, so it is known to be consistent in dependent type theory.
-This {\bf Om} language is a core part of the language family for verification purposes.
+This paper presents the design of the {\bf Henk} language and an implementation of its type checker and bytecode extractor to Erlang.
+{\bf Henk} is an intermediate language based on a pure type system with the infinite number of universes, so it is known to be consistent in dependent type theory.
+This {\bf Henk} language is a core part of the language family for verification purposes.
 The type checker is built upon MLTT principles and can be switched between predicative and impredicative hierarchies of universes.
 This system is expected to be usable as trusted core for certified applications which could be run inside Erlang virtual machines LING and BEAM.
 The syntax is compatible with Morte language and supports its base library, however, it extends the indexed universes.
 We show how to program in this environment and link with Erlang inductive and coinductive free structures.
 A very basic prelude library is shipped as a part of the work with infinite I/O operations which
-immediately enables {\bf Om} for long living runtime verified applications.
+immediately enables {\bf Henk} for long living runtime verified applications.
 We briefly describe the top-level language which compiles to pure type system (PTS) core as the further work.
 As the results, we will show lambda evaluation performance on BEAM virtual machine.
 PTS approach take its roots starting from AUTOMATH, MLTT, CoC,
 but extracting to performant untyped lambda interpreters is a novel way of cerifying applications.
-As a full vision we propose a stack of langauges, where {\bf Om} takes a central part.
+As a full vision we propose a stack of langauges, where {\bf Henk} takes a central part.
 \end{abstract}
 
 \newpage
@@ -51,7 +51,7 @@ The most advanced techniques involve mathematical languages and notations.
 The age of verified math was started by de Bruin's AUTOMATH prover and Martin-Löf\cite{Lof84}'s type theory. 
 Today we have Coq, Agda, Lean, Idris, F* languages which are based on Calculus of Inductive Constructions or CiC\cite{Mohring15}.
 The core of CiC is Calculus of Constructions or CoC\cite{Coq88}.
-Further development has lead to Lambda Cube\cite{Henk93} and Pure Type Systems by Henk\cite{Erik97} and Morte\footnote{Gabriel Gonzalez. Haskell Morte Library}.
+Further development has lead to Lambda Cube\cite{Henk93} and Pure Type Systems by Henk\cite{Erik97} and Morte\footnote{Gabriella Gonzalez. Haskell Morte Library}.
 Pure Type Systems are custom languages based on CoC with single Pi-type and possibly other extensions.
 Notable extensions are ECC, ECC with Inductive Types\cite{Ore92}, K-rules\cite{Barthe95}.
 The main motivation of Pure Type Systems is an easy reasoning about core, strong normalization and trusted external verification due to compact type checkers.
@@ -67,7 +67,7 @@ In this work, we present a simple code extraction to Erlang programming language
 However, we have also worked on C++ and Rust targets as well.
 
 \subsection{System Architecture}
-{\bf Om} as a programming language has a core type system, the {\bf PTS$^{\infty}$} --- the pure type system with the infinite number of universes.
+{\bf Henk} as a programming language has a core type system, the {\bf PTS$^{\infty}$} --- the pure type system with the infinite number of universes.
 This type system represents the core of the language.
 Higher languages form a set of front-ends to this core.
  Here is example of possible languages:
@@ -89,7 +89,7 @@ We will touch a bit this topic in the last section of this document.
 
 \subsection{Place among other languages}
 The product is a regular Erlang/OTP application, that provides dependent language services to the Erlang environment: 1) type checking; 2) normalization; 3) extraction.
-All parts of {\bf Om} compiler is written in Erlang language and target/runtime language is Erlang.
+All parts of {\bf Henk} compiler is written in Erlang language and target/runtime language is Erlang.
 
 \begin{itemize}
 \item Level 0 --- certified vectorized interpreter
@@ -113,7 +113,7 @@ GHC Core   & compiler/native      & Haskell & System D\\
 GHC Core   & compiler/native      & Morte   & CoC\\
 Haskell    & compiler/native      & Coq     & CiC\\
 OCaml      & compiler/native      & Coq     & CiC\\
-{\bf BEAM} & {\bf interpreter} & {\bf Om}   & {\bf PTS$^\infty$} \\
+{\bf BEAM} & {\bf interpreter} & {\bf Henk}   & {\bf PTS$^\infty$} \\
 O          & interpreter          & Om  & PTS$^\infty$ \\
 K          & interpreter          & Q   & Applicative \\
 PyPy       & interpreter/native   & N/A & ULC \\
@@ -125,7 +125,7 @@ JavaScript & interpreter/native & PureScript & System F\\
 \end{table}
 
 \section{Consistent PTS as Intermediate Language}
-The {\bf Om} language is a dependently typed lambda calculus {\bf PTS$^\infty$}, an extension of Coquand' Calculus of Constructions\cite{Coq88} with the predicative hierarchy of indexed universes.
+The {\bf Henk} language is a dependently typed lambda calculus {\bf PTS$^\infty$}, an extension of Coquand' Calculus of Constructions\cite{Coq88} with the predicative hierarchy of indexed universes.
 There is no fixpoint axiom, so there is no infinite term dependence, the theory is fully consistent and has strong normalization property.
 
 All terms respect ranking {\bf Axioms} inside the sequence of universes {\bf Sorts} and complexity of the dependent term is equal to the maximum complexity of term and its dependency {\bf Rules}.
@@ -139,7 +139,7 @@ Rules = Type.\{i\} \leadsto Type.\{j\} : Type.\{max\ i\ j\}\\
 \end{cases}
 $$
 
-The {\bf Om} language is based on Henk languages described first by Erik Meijer and Simon Peyton Jones in 1997\cite{Erik97}.
+The {\bf Henk} language is based on Henk languages described first by Erik Meijer and Simon Peyton Jones in 1997\cite{Erik97}.
 Later on in 2015 Morte implementation of Henk design appeared in Haskell, using the Boem-Berrarducci encoding of non-recursive lambda terms.
 It is based only on one type constructor {\bf $\Pi$}, its intro {\bf $\lambda$} and apply eliminator, infinite number of universes, and {\bf $\beta$}-reduction.
 The design of Om language resemble Henk and Morte both in design and in implementation.
@@ -147,7 +147,7 @@ This language intended to be small, concise, easy provable and able to produce t
 
 \subsection{BNF and AST}
 
-{\bf Om} syntax is compatible with CoC presented in Morte and Henk languages.
+{\bf Henk} syntax is compatible with CoC presented in Morte and Henk languages.
 However, it has extension in a part of specifying universe index as a {\bf Nat} number.
 Traditionally we present the language in Backus-Naur form.
 Equivalent AST tree encoding from the right side.
@@ -164,8 +164,8 @@ Equivalent AST tree encoding from the right side.
 
 \subsection{Universes}
 
-As {\bf Om} has infinite number of universes it should include metatheoretical {\bf Nat} inductive type in its core.
-{\bf Om} supports predicative and impredicative hierarchies.
+As {\bf Henk} has infinite number of universes it should include metatheoretical {\bf Nat} inductive type in its core.
+{\bf Henk} supports predicative and impredicative hierarchies.
 
 $$
 U_0 : U_1 : U_2 : U_3 : ...
@@ -327,7 +327,7 @@ record Pi (A: Type) :=
 The proofs intentionally left blank, as it proofs could be taken from various sources \cite{Henk93}.
 The equalities of computational semantics presented here as {\bf Path} types in the higher language.
 
-The {\bf Om} language is the extention of the {\bf PTS$^\infty$} with the remote AST node which means remote file loading from trusted storage, anyway this will be checked by the type checker.
+The {\bf Henk} language is the extention of the {\bf PTS$^\infty$} with the remote AST node which means remote file loading from trusted storage, anyway this will be checked by the type checker.
 We deny recursion over the remote node.
 We also add an index to var for simplified de Bruijn indexes, we allow overlapped names with tags, incremented on each new occurrence.
 
@@ -423,11 +423,11 @@ Definitional Equality simply checks the equality of Erlang terms.
 \end{lstlisting}
 
 \section{Language Usage}
-Here we will show some examples of {\bf Om} language usage.
+Here we will show some examples of {\bf Henk} language usage.
 In this section, we will show two examples.
 One is lifting PTS system to MLTT system by defining {\bf Sigma} and {\bf Equ} types using only {\bf Pi} type.
 We will use Bohm inductive dependent encoding\cite{Bohm85}.
-The second is to show how to write real world programs in {\bf Om} that performs input/output operations within Erlang environment.
+The second is to show how to write real world programs in {\bf Henk} that performs input/output operations within Erlang environment.
 We show both recursive (finite, routine) and corecursive (infinite, coroutine, process) effects.
 
 \begin{lstlisting}
@@ -865,7 +865,7 @@ nil = \lambda\ list \rightarrow \lambda\ cons \rightarrow \lambda\ nil \rightarr
 $$
 
 Here traditionally we show the {\bf List} definition in higher language and its
-desugared version in {\bf Om} language.
+desugared version in {\bf Henk} language.
 
 \begin{lstlisting}[mathescape=true]
   data List: (A: *) $\rightarrow$ * :=
@@ -939,7 +939,7 @@ $$
 The base library includes basic type-theoretical
 building blocks starting from {\bf Unit}, {\bf Bool}, {\bf Either}, {\bf Maybe}, {\bf Nat}, {\bf List} and {\bf IO}.
 Here some examples how it looks like. The full listing of Base Library folder
-is available at {\bf Om} GitHub repository\footnote{http://github.com/groupoid/om}.
+is available at {\bf Henk} GitHub repository\footnote{http://github.com/groupoid/om}.
 
 \begin{lstlisting}[mathescape=true]
 
@@ -970,8 +970,8 @@ is available at {\bf Om} GitHub repository\footnote{http://github.com/groupoid/o
 \end{lstlisting}
 
 \subsection{Measurements}
-The underlying {\bf Om} type checker and compiler is a target language for higher level languages.
-The overall size of {\bf Om} language with extractor to Erlang is 265 lines of code.
+The underlying {\bf Henk} type checker and compiler is a target language for higher level languages.
+The overall size of {\bf Henk} language with extractor to Erlang is 265 lines of code.
 
 \begin{table}[h]
 \begin{center}
@@ -1028,6 +1028,6 @@ We thank all contributors of Groupoid Infinity who helped us to avoid mistakes i
 We also thank our spouses for continuous support.
 
 \bibliographystyle{plain}
-\bibliography{pts}
+\bibliography{pts_ua}
 
 \end{document}

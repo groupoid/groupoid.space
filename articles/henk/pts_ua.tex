@@ -125,8 +125,8 @@ GHC Core   & компілятор/native      & Haskell & System D\\
 GHC Core   & компілятор/native      & Morte   & CoC\\
 Haskell    & компілятор/native      & Coq     & CiC\\
 OCaml      & компілятор/native      & Coq     & CiC\\
-{\bf BEAM} & {\bf інтерпретатор} & {\bf Om}   & {\bf PTS$^\infty$} \\
-O          & інтерпретатор          & Om  & PTS$^\infty$ \\
+{\bf BEAM} & {\bf інтерпретатор} & {\bf Henk}   & {\bf PTS$^\infty$} \\
+O          & інтерпретатор          & Henk  & PTS$^\infty$ \\
 K          & інтерпретатор          & Q   & Applicative \\
 PyPy       & інтерпретатор/native   & N/A & ULC \\
 LuaJIT     & інтерпретатор/native   & N/A & ULC \\
@@ -444,7 +444,7 @@ norm (:star,X)     $\rightarrow$ (:star,X)
 з вводом-виводом в середовищі виконання Ertlang. Ми покажемо формалізацію як індуктивних так і коіндуктивних процесів.
 
 \begin{lstlisting}
-$ ./om help me
+$ ./henk help me
 [{a,[expr],"to parse. Returns {_,_} or {error,_}."},
  {type,[term],"typechecks and returns type."},
  {erase,[term],"to untyped term. Returns {_,_}."},
@@ -458,7 +458,7 @@ $ ./om help me
  {mode,[name],"select metaverse folder."},
  {modes,[],"list all metaverses."}]
 
-$ ./om print fst erase norm a "#List/Cons"
+$ ./henk print fst erase norm a "#List/Cons"
    \ Head
 -> \ Tail
 -> \ Cons
@@ -1049,6 +1049,6 @@ om\_extract & 34 LOC & Екстракція Erlang байткоду\\
 Також подяка всім рідним, хто підтримує нас.
 
 \bibliographystyle{plain}
-\bibliography{pts_ua}
+\bibliography{pts}
 
 \end{document}
