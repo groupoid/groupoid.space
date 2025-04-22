@@ -702,18 +702,6 @@ contr (A: U) (a b: A) (p: Path A a b)
 \end{lstlisting}
 \end{theorem}
 
-\begin{theorem} (Path Elimination, Diagonal).
-\begin{lstlisting}
-D (A: U) : U = (x y: A) -> Path A x y -> U
-J (A: U) (x y: A) (C: D A)
-  (d: C x x (refl A x))
-  (p: Path A x y) : C x y p
-= subst (singl A x) T (eta A x) (y, p)
-        (contr A x y p) d where
-  T (z: singl A x) : U = C x (z.1) (z.2)
-\end{lstlisting}
-\end{theorem}
-
 \begin{theorem} (Path Elimination, Paulin-Mohring).
 J is formulated in a form of Paulin-Mohring and implemented using
 two facts that singleton are contractible and dependent function
@@ -756,12 +744,35 @@ J_comp (A: U) (a: A) (C: (x: A)
 
 Note that  Path type has no Eta rule due to groupoid interpretation.
 
-\subsubsection*{Groupoid interpretation}
+\subsubsection{Groupoid interpretation}
 
 The groupoid interpretation of type theory is well known article by Martin Hofmann and Thomas Streicher,
 more specific interpretation of identity type as infinity groupoid.
-The groupoid interpretation of Path equality will be given along with category theory library
-in {\bf Issue VII: Category Theory}.
+
+\subsection{Contexts}
+
+Speaking of type checker execution, we introduce context or dictionary with types and terms,
+from which we can derive typed variables. This chain could be implemented as
+nested sigma types (due to R.A.G.Seely) or list types (due to Voevodsky). Categorically
+dependent type theory is built upon categories of contexts.
+
+\begin{definition} (Empty Context).
+$$
+    \gamma_0 : \Gamma =_{def} \star.
+$$
+\end{definition}
+
+\begin{definition} (Context Comprehension).
+$$
+\Gamma\ ; A =_{def} \sum_{\gamma:\Gamma}A(\gamma).
+$$
+\end{definition}
+
+\begin{definition} (Context Derivability).
+$$
+\Gamma \vdash A =_{def} \prod_{\gamma:\Gamma}A(\gamma).
+$$
+\end{definition}
 
 \subsection{Universes}
 
@@ -828,31 +839,8 @@ $\mathrm{U_i} \rightarrow \mathrm{U_j} : \mathrm{U_{\lambda(i,j), i,j \in \mathr
     {\bf Addendum I: Pure Type System for Erlang} \cite{Tonpa18}.
 \end{example}
 
-\subsection{Contexts}
 
-Speaking of type checker execution, we introduce context or dictionary with types and terms,
-from which we can derive typed variables. This chain could be implemented as
-nested sigma types (due to R.A.G.Seely) or list types (due to Voevodsky). Categorically
-dependent type theory is built upon categories of contexts.
-
-\begin{definition} (Empty Context).
-$$
-    \gamma_0 : \Gamma =_{def} \star.
-$$
-\end{definition}
-
-\begin{definition} (Context Comprehension).
-$$
-\Gamma\ ; A =_{def} \sum_{\gamma:\Gamma}A(\gamma).
-$$
-\end{definition}
-
-\begin{definition} (Context Derivability).
-$$
-\Gamma \vdash A =_{def} \prod_{\gamma:\Gamma}A(\gamma).
-$$
-\end{definition}
-
+\newpage
 \subsection{MLTT-75}
 
 Here is given formal model of type-theoretical interpretation of Martin-Löf Type Theory.
