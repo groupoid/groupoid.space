@@ -47,19 +47,19 @@ As a full vision we propose a stack of langauges, where {\bf Henk} takes a centr
 \section{Introduction}
 IEEE\footnote{IEEE Std 1012-2016  --- V\&V Software verification and validation} standard
 and ESA\footnote{ESA PSS-05-10 1-1 1995 -- Guide to software verification and validation} regulatory documents define a number of tools and approaches for verification and validation processes. 
-The most advanced techniques involve mathematical languages and notations. 
-The age of verified math was started by de Bruin's AUTOMATH prover and Martin-Löf\cite{Lof84}'s type theory. 
-Today we have Coq, Agda, Lean, Idris, F* languages which are based on Calculus of Inductive Constructions or CiC\cite{Mohring15}.
-The core of CiC is Calculus of Constructions or CoC\cite{Coq88}.
-Further development has lead to Lambda Cube\cite{Henk93} and Pure Type Systems by Henk\cite{Erik97} and Morte\footnote{Gabriella Gonzalez. Haskell Morte Library}.
+The most advanced techniques involve mathematical languages and notations.
+The age of verified math was started by de Bruin's AUTOMATH prover and Martin-Löf \cite{Lof84}'s type theory.
+Today we have Coq, Agda, Lean, Idris, F* languages which are based on Calculus of Inductive Constructions or CIC \cite{Mohring15}.
+The core of CIC is Calculus of Constructions or CoC \cite{Coq88}.
+Further development has lead to Lambda Cube \cite{Henk93} and Pure Type Systems by Henk \cite{Erik97} and Morte\footnote{Gabriella Gonzalez. Haskell Morte Library}.
 Pure Type Systems are custom languages based on CoC with single Pi-type and possibly other extensions.
-Notable extensions are ECC, ECC with Inductive Types\cite{Ore92}, K-rules\cite{Barthe95}.
+Notable extensions are ECC, ECC with Inductive Types \cite{Ore92}, K-rules \cite{Barthe95}.
 The main motivation of Pure Type Systems is an easy reasoning about core, strong normalization and trusted external verification due to compact type checkers.
 A custom type checker can be implemented to run certified programs retrieved over untrusted channels.
 The applications of such minimal cores are 1) Blockchain smart-contract languages, 2) certified applications kernels, 3) payment processing, etc.
 
 \subsection{Generating Trusted Programs}
-According to Curry-Howard, a correspondence inside Martin-Löf Type Theory\cite{Lof84} proofs or certificates are lambda terms of particular types or specifications.
+According to Curry-Howard, a correspondence inside Martin-Löf Type Theory \cite{Lof84} proofs or certificates are lambda terms of particular types or specifications.
 As both specifications and implementations are done in a typed language with dependent types we can extract target implementation of a certified program just in any programming language.
 These languages could be so primitive as untyped lambda calculus and are usually implemented as untyped interpreters (JavaScript, Erlang, PyPy, LuaJIT, K).
 The most advanced approach is code generation to higher-level languages such as C++ and Rust (which is already language with trusted features on memory, variable accessing, linear types, etc.).
@@ -67,34 +67,20 @@ In this work, we present a simple code extraction to Erlang programming language
 However, we have also worked on C++ and Rust targets as well.
 
 \subsection{System Architecture}
-{\bf Henk} as a programming language has a core type system, the {\bf PTS$^{\infty}$} --- the pure type system with the infinite number of universes.
-This type system represents the core of the language.
-Higher languages form a set of front-ends to this core.
- Here is example of possible languages:
-1) Language for inductive reasoning, based on CiC with extensions;
-2) Homotopy Core with interval [0,1] for proving J and funExt;
-3) Stream Calculus for deep stream fusion (Futhark);
-3) Pi-calculus for linear types, coinductive reasoning and runtime modeling (Erlang, Ling, Rust).
-These languages desugar to {\bf PTS$^{\infty}$} as an intermediate language before extracting to target language\footnote{Note that extracting from [0,1] Homotopy Core is an open problem}.
-
-Not all terms from higher languages could be desugared to PTS.
-As was shown by Geuvers\cite{Geuvers01} we cannot build induction principle inside PTS, we need a fixpoint extension to PTS.
-And also we cannot build the J and funExt terms.
-But still PTS is very powerful, it's compatible with System F libraries.
-The properties of that libraries could be proven in higher languages with Induction and/or [0,1] Homotopy Core.
-Then runtime part could be refined to PTS, extracted to target and run in an environment.
-
-We see two levels of extensions to PTS core: 1) Inductive Types support; 2) Homotopy Core with [0,1] and its eliminators.
-We will touch a bit this topic in the last section of this document.
+{\bf Henk} is a foundational programming language --- the pure type system with the infinite number of universes.
+All other higher languages like $\mathbf{Per}$, $\mathbf{Christine}$ fully contains (subsumes) $\mathbf{Henk}$ in its core.
 
 \subsection{Place among other languages}
-The product is a regular Erlang/OTP application, that provides dependent language services to the Erlang environment: 1) type checking; 2) normalization; 3) extraction.
-All parts of {\bf Henk} compiler is written in Erlang language and target/runtime language is Erlang.
+The product is a regular Erlang/OTP application, that provides dependent language services to the Erlang environment:
+1) type checking;
+2) normalization;
+3) extraction.
+All parts of $\mathbf{Henk}$ compiler is written in Erlang language and target/runtime language is Erlang.
 
 \begin{itemize}
-\item Level 0 --- certified vectorized interpreter
-\item {\bf Level 1 --- consistent pure type system for type checking and normalization}
-\item Level 2 --- higher language for theorem proving and models property checking
+\item Level 0 --- certified vectorized interpreter $\mathbf{Joe}$;
+\item Level 1 --- consistent pure type system $\mathbf{Henk}$;
+\item Level 2 --- higher language $\mathbf{Per}$.
 \end{itemize}
 
 \begin{table}[h]
@@ -111,10 +97,10 @@ JVM        & interpreter/native   & Java    & F-sub\footnote{System F wit bounde
 JVM        & interpreter/native   & Scala   & System F-omega\\
 GHC Core   & compiler/native      & Haskell & System D\\
 GHC Core   & compiler/native      & Morte   & CoC\\
-Haskell    & compiler/native      & Coq     & CiC\\
-OCaml      & compiler/native      & Coq     & CiC\\
-{\bf BEAM} & {\bf interpreter} & {\bf Henk}   & {\bf PTS$^\infty$} \\
-O          & interpreter          & Om  & PTS$^\infty$ \\
+Haskell    & compiler/native      & Coq     & CIC\\
+OCaml      & compiler/native      & Coq     & CIC\\
+{\bf BEAM} & {\bf interpreter} & {\bf Henk}   & {\bf PTS} \\
+O          & interpreter          & Henk  & PTS \\
 K          & interpreter          & Q   & Applicative \\
 PyPy       & interpreter/native   & N/A & ULC \\
 LuaJIT     & interpreter/native   & N/A & ULC \\
@@ -125,11 +111,11 @@ JavaScript & interpreter/native & PureScript & System F\\
 \end{table}
 
 \section{Consistent PTS as Intermediate Language}
-The {\bf Henk} language is a dependently typed lambda calculus {\bf PTS$^\infty$}, an extension of Coquand' Calculus of Constructions\cite{Coq88} with the predicative hierarchy of indexed universes.
+The {\bf Henk} language is a dependently typed lambda calculus $\mathbf{Per}$, an extension of Coquand' Calculus of Constructions \cite{Coq88} with the predicative hierarchy of indexed universes.
 There is no fixpoint axiom, so there is no infinite term dependence, the theory is fully consistent and has strong normalization property.
 
 All terms respect ranking {\bf Axioms} inside the sequence of universes {\bf Sorts} and complexity of the dependent term is equal to the maximum complexity of term and its dependency {\bf Rules}.
-The universe system is completely described by the following PTS notation due to Barendregt\cite{Henk93}:
+The universe system is completely described by the following PTS notation due to Barendregt \cite{Henk93}:
 
 $$
 \begin{cases}
@@ -139,7 +125,7 @@ Rules = Type.\{i\} \leadsto Type.\{j\} : Type.\{max\ i\ j\}\\
 \end{cases}
 $$
 
-The {\bf Henk} language is based on Henk languages described first by Erik Meijer and Simon Peyton Jones in 1997\cite{Erik97}.
+The {\bf Henk} language is based on languages described first by Erik Meijer and Simon Peyton Jones in 1997 \cite{Erik97}.
 Later on in 2015 Morte implementation of Henk design appeared in Haskell, using the Boem-Berrarducci encoding of non-recursive lambda terms.
 It is based only on one type constructor {\bf $\Pi$}, its intro {\bf $\lambda$} and apply eliminator, infinite number of universes, and {\bf $\beta$}-reduction.
 The design of Om language resemble Henk and Morte both in design and in implementation.
@@ -153,13 +139,13 @@ Traditionally we present the language in Backus-Naur form.
 Equivalent AST tree encoding from the right side.
 
 \begin{lstlisting}[mathescape=true]
-   <> ::= #option                  data pts = star (n: nat)
-    V ::= #identifier                       | var (n: name)
-    S ::= * < #number >                     | app (f a: pts)
-    O ::= S | V | ( O )                     | lambda (x: name) (d c: pts)
-        | O O | O $\rightarrow$ O                        | pi (x: name) (d c: pts)
-        | $\lambda$ ( I : O ) $\rightarrow$ O
-        | $\forall$ ( I : O ) $\rightarrow$ O
+ <> ::= #option        data pts = star (n: nat)
+  V ::= #identifier             | var (n: name)
+  S ::= * < #number >           | app (f a: pts)
+  O ::= S | V | ( O )           | lambda (x: name) (d c: pts)
+      | O O | O $\rightarrow$ O              | pi (x: name) (d c: pts)
+      | $\lambda$ ( I : O ) $\rightarrow$ O
+      | $\forall$ ( I : O ) $\rightarrow$ O
 \end{lstlisting}
 
 \subsection{Universes}
@@ -327,9 +313,12 @@ record Pi (A: Type) :=
 The proofs intentionally left blank, as it proofs could be taken from various sources \cite{Henk93}.
 The equalities of computational semantics presented here as {\bf Path} types in the higher language.
 
-The {\bf Henk} language is the extention of the {\bf PTS$^\infty$} with the remote AST node which means remote file loading from trusted storage, anyway this will be checked by the type checker.
+The {\bf Henk} language is the extention of the $\mathbf{Henk}$ with the remote AST node which
+means remote file loading from trusted storage, anyway this will be checked by the type checker.
 We deny recursion over the remote node.
-We also add an index to var for simplified de Bruijn indexes, we allow overlapped names with tags, incremented on each new occurrence.
+
+We also add an index to var for simplified de Bruijn indexes, we allow overlapped names
+with tags, incremented on each new occurrence.
 
 \begin{lstlisting}[mathescape=true]
 data om = star             (n: nat)
@@ -340,7 +329,7 @@ data om = star             (n: nat)
         | app                       (f a: om)
 \end{lstlisting}
 
-Our typechecker differs from cannonical example of Coquand\cite{Coq96}. 
+Our typechecker differs from cannonical example of Coquand \cite{Coq96}. 
 We based our typechecker on variable {\bf Substitution}, variable {\bf Shifting}, term {\bf Normalization}, definitional {\bf Equality} anf {\bf Type Checker} itself.
 
 \subsection{Type Checker}
@@ -426,12 +415,12 @@ Definitional Equality simply checks the equality of Erlang terms.
 Here we will show some examples of {\bf Henk} language usage.
 In this section, we will show two examples.
 One is lifting PTS system to MLTT system by defining {\bf Sigma} and {\bf Equ} types using only {\bf Pi} type.
-We will use Bohm inductive dependent encoding\cite{Bohm85}.
+We will use Bohm inductive dependent encoding \cite{Bohm85}.
 The second is to show how to write real world programs in {\bf Henk} that performs input/output operations within Erlang environment.
 We show both recursive (finite, routine) and corecursive (infinite, coroutine, process) effects.
 
 \begin{lstlisting}
-$ ./om help me
+$ ./henk help me
 [{a,[expr],"to parse. Returns {_,_} or {error,_}."},
  {type,[term],"typechecks and returns type."},
  {erase,[term],"to untyped term. Returns {_,_}."},
@@ -445,7 +434,7 @@ $ ./om help me
  {mode,[name],"select metaverse folder."},
  {modes,[],"list all metaverses."}]
 
-$ ./om print fst erase norm a "#List/Cons"
+$ ./henk print fst erase norm a "#List/Cons"
    \ Head
 -> \ Tail
 -> \ Cons
@@ -466,7 +455,7 @@ data Sigma (A: Type) (P: A -> Type) (x: A): Type =
 \end{lstlisting}
 
 The {\bf Sigma-type} with its eliminators appears as example in Aaron Stump \cite{Stump17}.
-Here we will show desugaring to {\bf PTS$^\infty$}.
+Here we will show desugaring to $\mathbf{Henk}$.
 
 \begin{lstlisting}
 -- Sigma/@
@@ -743,18 +732,18 @@ Here is example of Erlang/OTP shell running recursive example.
 \end{lstlisting}
 
 \section{Higher Language with Inductive Types}
-As was shown by Herman Geuvers\cite{Geuvers01} the induction principle is not derivable in second-order dependent type theory.
+As was shown by Herman Geuvers \cite{Geuvers01} the induction principle is not derivable in second-order dependent type theory.
 However there a lot of ways doing this. For example, we can build in induction principal into the core for every defined inductive type.
-We even can allow recursive type check for only terms of induction principle, which have recursion base --- that approach was successfully established by Peng Fu and Aaron Stump\cite{Stump17}.
-In any case for derivable induction principle in PTS$^\infty$ we need to have fixpoint somehow in the core.
+We even can allow recursive type check for only terms of induction principle, which have recursion base --- that approach was successfully established by Peng Fu and Aaron Stump \cite{Stump17}.
+In any case for derivable induction principle in $\mathbf{Henk}$ we need to have fixpoint somehow in the core.
 
-So-called Calculus of Inductive Constructions\cite{Mohring15} is used as a top language on top of PTS to reason about inductive types.
+So-called Calculus of Inductive Constructions \cite{Mohring15} is used as a top language on top of PTS to reason about inductive types.
 Here we will show you a sketch of such inductive language model which intended to be a language extension to PTS system.
-CiC is allowing fixpoint for any terms, and base checking should be performed during type checking such terms.
+CIC is allowing fixpoint for any terms, and base checking should be performed during type checking such terms.
 
-Our future top language is a general-purpose functional language with $\Pi$ and $\Sigma$ types, recursive algebraic types, higher order functions, corecursion, and a free monad to encode effects.
+Our future top language $\mathbf{Christine}$ \footnote{\url{https://christine.groupoid.space}} is a general-purpose functional language with $\Pi$ and $\Sigma$ types, recursive algebraic types, higher order functions, corecursion, and a free monad to encode effects.
 It compiles to a small MLTT core of dependent type system with inductive types and equality.
-It also has an Id-type (with its recursor) for equality reasoning, Case analysis over inductive types.
+It also has an Id-type (with its recursor) for equality reasoning, case analysis over inductive types.
 
 \subsection{BNF}
 
@@ -780,7 +769,7 @@ It also has an Id-type (with its recursor) for equality reasoning, Case analysis
 
 \newpage
 \subsection{AST}
-The AST of higher language is formally defined using itself.
+The AST of higher language $\mathbf{Christine}$ is formally defined using itself.
 Here you can find telescopes (context lists), split and its branches, inductive data definitions.
 
 \begin{lstlisting}[mathescape=true]
@@ -807,7 +796,7 @@ Here you can find telescopes (context lists), split and its branches, inductive 
 \end{lstlisting}
 
 The Erlang version of parser encoded with OTP library {\bf yecc} which implements LALR-1 grammar generator.
-This version resembles the model and slightly based on cubical type checker by Mortberg\cite{Mortberg17} and could be reached at Github repository\footnote{http://github.com/groupoid/infinity/tree/master/priv}.
+This version resembles the model and slightly based on cubical type checker by Mortberg \cite{Mortberg17} and could be reached at Github repository\footnote{http://github.com/groupoid/infinity/tree/master/priv}.
 
 \subsection{Inductive Type Encoding}
 There are a number of inductive type encodings:
@@ -939,7 +928,7 @@ $$
 The base library includes basic type-theoretical
 building blocks starting from {\bf Unit}, {\bf Bool}, {\bf Either}, {\bf Maybe}, {\bf Nat}, {\bf List} and {\bf IO}.
 Here some examples how it looks like. The full listing of Base Library folder
-is available at {\bf Henk} GitHub repository\footnote{http://github.com/groupoid/om}.
+is available at {\bf Henk} GitHub repository\footnote{http://github.com/groupoid/henk}.
 
 \begin{lstlisting}[mathescape=true]
 
@@ -998,30 +987,32 @@ This system is known to be consistent, supports strong normalization and resembl
 {\bf Discoveries}.
  During this investigation were made following discoveries:
 1) baning recursion caused impossibility of encoding a class of theorems based on induction principle.
-As was shown by Peng Fu, Aaron Stump\cite{Fu14}, the only needed ingredient for induction in CoC is Self-Type, weak form of fixpoint recursion in the core.
+As was shown by Peng Fu, Aaron Stump \cite{Fu14}, the only needed ingredient for induction in CoC is
+Self-Type, weak form of fixpoint recursion in the core.
 2) however for running applications at runtime it is enough System F programs or Dependent Types without Fixpoint.
-So we can prove properties of these programs in higher languages with fixpoint (and thus induction) and then erase theorems from a specification and convert runtime parts of the specification into {\bf PTS$^\infty$} with later extraction to any functional language.
+So we can prove properties of these programs in higher languages with fixpoint (and thus induction) and then erase
+theorems from a specification and convert runtime parts of the specification into $\mathbf{Henk}$ with later
+extraction to any functional language.
 2) there are a lot of theorems, that could be expressed without fixpoint, such as theorems from higher order logic.
 3) this system could be naturally translated into untyped lambda interpreters.
 
 {\bf Advantages over existing pure languages}.
 1) refined version of type checker and the clean implementation in 265 LOC.
-This will make more trust to the core by external institutions.
-2) supporting both predicative and impredicative hierarchies of {\bf PTS$^\infty$} configuration.
-3) comparing to other languages, Om is much faster on big terms
-thanks to fast Erlang lambda evaluations and a cache layer.
-4) Om is a production language.
+2) supporting both predicative and impredicative hierarchies.
+3) comparing to other languages, $\mathbf{Henk}$ is much faster on big terms.
+4) $\mathbf{Henk}$ is a production language.
 
 {\bf Scientific and Production usage}.
 1) The language could be used as a trusted core for certification sensitive parts of applications, such as in finance, math or other domains with the requirement for totality.
 2) This work could be used as embeddable runtime library.
-3) In the academia {\bf PTS$^\infty$} could be used as teaching instrument for logic, type systems, lambda calculus, functional languages.
+3) In the academia $\mathbf{Henk}$ could be used as teaching instrument for logic, type systems, lambda calculus, functional languages.
 
 {\bf Further research perspective}.
-1) Extend the host languages from Erlang to Rust and prove the Om within Coq or Cubical.
-2) Build a theory of compilation and erasing from higher languages to {\bf PTS$^\infty$}.
+1) Extend the host languages from Erlang to other languages, like Rust and OCaml.
+2) Build a theory of compilation and erasing from higher languages to $\mathbf{Henk}$.
 3) Build a certified interpreter (replace Erlang) in future higher level language.
-4) Make Induction Principle switchable with {\bf PTS$^\infty$} in future.
+4) Add General Induction Principle to $\mathbf{Henk}$ in future language called $\mathbf{Frank}$.
+5) Add Sigma and Equality to $\mathbf{Frank}$ in future language called $\mathbf{Christine}$.
 
 \section{Acknowledgments}
 We thank all contributors of Groupoid Infinity who helped us to avoid mistakes in TeX and Erlang files.
