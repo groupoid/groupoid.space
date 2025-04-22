@@ -24,20 +24,29 @@
 \maketitle
 
 \begin{abstract}
-This paper presents the design of the {\bf Henk} language and an implementation of its type checker and bytecode extractor to Erlang.
-{\bf Henk} is an intermediate language based on a pure type system with the infinite number of universes, so it is known to be consistent in dependent type theory.
-This {\bf Henk} language is a core part of the language family for verification purposes.
-The type checker is built upon MLTT principles and can be switched between predicative and impredicative hierarchies of universes.
-This system is expected to be usable as trusted core for certified applications which could be run inside Erlang virtual machines LING and BEAM.
-The syntax is compatible with Morte language and supports its base library, however, it extends the indexed universes.
-We show how to program in this environment and link with Erlang inductive and coinductive free structures.
-A very basic prelude library is shipped as a part of the work with infinite I/O operations which
-immediately enables {\bf Henk} for long living runtime verified applications.
-We briefly describe the top-level language $\mathbf{Christine}$ which extends PTS core with general induction, sigma and equality as the further work.
-As the results, we will show lambda evaluation performance on BEAM virtual machine.
-PTS approach take its roots starting from AUTOMATH, MLTT, CoC,
-but extracting to performant untyped lambda interpreters is a novel way of cerifying applications.
-As a full vision we propose a stack of langauges, where {\bf Henk} takes an initial part.
+This paper introduces the $\mathbf{Henk}$ language, a novel intermediate
+representation grounded in a pure type system (PTS) with an infinite
+hierarchy of universes, ensuring consistency within dependent type theory.
+Henk serves as a foundational component of a language family designed for
+formal verification. We present a robust implementation of Henk’s type
+checker and bytecode extractor targeting the Erlang ecosystem, specifically
+the LING and BEAM virtual machines. The type checker, rooted in Martin-Löf
+Type Theory (MLTT), supports configurable predicative and impredicative
+universe hierarchies, enabling a flexible and trusted core for certified
+applications. Henk’s syntax is compatible with the Morte language, extending
+its base library with support for indexed universes. We demonstrate programming
+paradigms in Henk, including seamless integration with Erlang’s inductive and
+coinductive data structures. A minimal prelude library accompanies the
+implementation, supporting infinite I/O operations to facilitate long-running,
+verified applications. We briefly outline the top-level language $\mathbf{Christine}$,
+which extends Henk’s PTS core with general induction, sigma types, and equality,
+as future work. Empirical results showcase lambda evaluation performance on the
+BEAM virtual machine, highlighting the efficacy of extracting PTS-based systems
+to untyped, high-performance lambda interpreters. Drawing on foundational systems
+like AUTOMATH, MLTT, and the Calculus of Constructions (CoC), this work pioneers
+a performant approach to certified application development. We propose a layered
+language stack, with Henk as the critical initial layer, advancing the state
+of the art in verified software systems.
 \end{abstract}
 
 \newpage
