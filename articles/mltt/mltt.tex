@@ -221,8 +221,8 @@ Categorical interpretation \cite{Curien14} is a modeling through categories and 
 First category is defined as objects, morphisms and their properties, then
 we define functors, etc. In particular, as an example, according to categorical
 interpretation $\Pi$ and $\Sigma$ types of MLTT are presented as adjoint
-functors, and forms itself a locally closed cartesian category, which will be given a
-intermediate result in {\bf Issue VIII: Topos Theory}. In some sense we include here
+functors, and forms itself a locally closed cartesian category, which will be given an
+intermediate result in future issues. In some sense we include here
 topos-theoretical interpretations, with presheaf model of type theory as
 example (in this case fibrations are constructes as functors, categorically).
 
@@ -249,7 +249,8 @@ in type theory according to homotopical interpretation as n-type.
 
 MLTT-80 could be reduced to $\Pi$, $\Sigma$, Path types (MLTT-75) omitting polynomial
 functors W modeled by F-algebras and their terminators: 0, 1, 2 types.
-In this issue $\Pi$, $\Sigma$, Path are given as a core of MLTT-75.
+In this issue $\Pi$, $\Sigma$, Path are given as a core of MLTT-75. The inductive types
+will be disscussed in the upcoming $\textbf{Issue II: Inductive Types}$.
 
 \subsubsection{$\Pi$-type}
 
@@ -776,11 +777,6 @@ $$
 
 \subsection{Universes}
 
-This introduction is a bit wild strives to be simple yet precise.
-As we defined a language BNF we could define a language AST by
-using inductive types which is yet to be defined
-in {\bf Issue II: Inductive Types and Models}. This SAR notation is due Barendregt.
-
 \begin{definition} (Terms). Point in initial object of language AST
 inductive definition is called a term. If type theory or language is defined as
 an inductive type (AST) then the term is defined as its instance.
@@ -836,7 +832,7 @@ $\mathrm{U_i} \rightarrow \mathrm{U_j} : \mathrm{U_{\lambda(i,j), i,j \in \mathr
     \mathrm{U_i} \rightarrow \mathrm{U_j} : \mathrm{U_{\lambda(i,j); i,j \in \mathrm{N}}}
     \}$. Where $U_i$ is a universe of $i$-level or $i$-category in categorical interpretation.
     The working prototype of $\mathrm{PTS}^\infty$ is given in
-    {\bf Addendum I: Pure Type System for Erlang} \cite{Tonpa18}.
+    {\bf Issue XVI: Pure Type System} \cite{Tonpa18}.
 \end{example}
 
 
