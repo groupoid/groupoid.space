@@ -110,7 +110,7 @@ JavaScript & interpreter/native & PureScript & System F\\
 \end{center}
 \end{table}
 
-\section{Consistent PTS as Intermediate Language}
+\section{Pure Type System}
 The {\bf Henk} language is a dependently typed lambda calculus $\mathbf{Per}$, an extension of Coquand' Calculus of Constructions \cite{Coq88} with the predicative hierarchy of indexed universes.
 There is no fixpoint axiom, so there is no infinite term dependence, the theory is fully consistent and has strong normalization property.
 
@@ -731,7 +731,7 @@ Here is example of Erlang/OTP shell running recursive example.
 #Fun<List.28.113171260>
 \end{lstlisting}
 
-\section{Higher Language with Inductive Types}
+\section{Inductive Type System}
 As was shown by Herman Geuvers \cite{Geuvers01} the induction principle is not derivable in second-order dependent type theory.
 However there a lot of ways doing this. For example, we can build in induction principal into the core for every defined inductive type.
 We even can allow recursive type check for only terms of induction principle, which have recursion base --- that approach was successfully established by Peng Fu and Aaron Stump \cite{Stump17}.
