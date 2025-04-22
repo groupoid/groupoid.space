@@ -1,4 +1,5 @@
 \documentclass{article}
+\usepackage{indentfirst}
 \usepackage[english,ukrainian]{babel}
 \usepackage{hyphenat}
 \usepackage{hyperref}
@@ -14,6 +15,8 @@
 \usepackage{tikz-cd}
 \usepackage{url}
 \usepackage[utf8]{inputenc}
+
+\setlength{\parindent}{15pt}
 
 \theoremstyle{definition}
 \newtheorem{theorem}{Theorem}
@@ -72,11 +75,13 @@ introduction, elimination, computation, uniqueness), we construct aliases
 for host language primitives and use type checker to prove that it is MLTT-75.
 This could be seen as ultimate test sample for type checker as
 intro-elimination fusion resides in beta-eta rules, so by proving them
-we prove properties of the host type checker.\\
+we prove properties of the host type checker.
+
 Also this issue opens a series of articles dedicated to formalization in
 cubical type theory the foundations of mathematics. This issue is dedicated
 to MLTT modeling and its verification. Also as many may not be familiar with
-$\Pi$ and $\Sigma$ types, this issue presents different interpretation of MLTT types.\\
+$\Pi$ and $\Sigma$ types, this issue presents different interpretation of MLTT types.
+
 This test is fully made possible only after 2017 when new constructive HoTT \cite{HoTT13} prover cubicaltt\footnote{http://github.com/mortberg/cubicaltt}
 prover was presented \cite{Mortberg17}.
 
@@ -136,7 +141,7 @@ $\mathbf{data}$, $\mathbf{split}$, $\mathbf{where}$, $\mathbf{comp}$, $\mathbf{.
  and $,$ are terminals of type checker language. This language includes
 inductive types, higher inductive types and gluening operations needed for
 both, the constructive homotopy type theory and univalence. All these concepts as a part of the languages
-will be described in the upcoming Issues II---V.
+will be described in the upcoming {\bf Issues II --- V}.
 
 \section{Martin-Löf Type Theory}
 
@@ -849,45 +854,40 @@ The MLTT as a Type is defined by taking all rules
 for $\Pi$, $\Sigma$ and Path types into one $\Sigma$ telescope or context.
 \begin{lstlisting}[mathescape=true]
 MLTT (A: U): U
-  = (Pi_Former: (A -> U) -> U)
-  * (Pi_Intro: (B: A -> U) (a: A)
-    -> B a -> (A -> B a))
-  * (Pi_Elim: (B: A -> U) (a: A)
-    -> (A -> B a) -> B a)
-  * (Pi_Comp1: (B: A -> U) (a: A)
-    (f: A -> B a) -> Path (B a)
+  = (Pi_Former: (A $\rightarrow$ U) $\rightarrow$ U)
+  * (Pi_Intro: (B: A $\rightarrow$ U) (a: A) $\rightarrow$ B a $\rightarrow$ (A $\rightarrow$ B a))
+  * (Pi_Elim: (B: A $\rightarrow$ U) (a: A) $\rightarrow$ (A $\rightarrow$ B a) $\rightarrow$ B a)
+  * (Pi_Comp$_1$: (B: A $\rightarrow$ U) (a: A)
+    (f: A $\rightarrow$ B a) $\rightarrow$ Path (B a)
     (Pi_Elim B a(Pi_Intro B a(f a)))(f a))
-  * (Pi_Comp2: (B: A -> U) (a: A)
-    (f: A -> B a) ->
-    Path (A -> B a) f (\(x:A) -> f x))
-  * (Sigma_Former: (A -> U) -> U)
-  * (Sigma_Intro: (B: A -> U) (a: A)
-    -> (b: B a) -> Sigma A B)
-  * (Sigma_Elim1: (B: A -> U)
-    (_: Sigma A B) -> A)
-  * (Sigma_Elim2: (B: A -> U)
-    (x: Sigma A B) -> B (pr1 A B x))
-  * (Sigma_Comp1: (B: A -> U) (a: A)
-    (b: B a) -> Path A a (Sigma_Elim1 B
-                  (Sigma_Intro B a b)))
-  * (Sigma_Comp2: (B: A -> U) (a: A)
-    (b: B a) -> Path (B a) b
+  * (Pi_Comp$_2$: (B: A $\rightarrow$ U) (a: A)
+    (f: A $\rightarrow$ B a) $\rightarrow$ Path (A $\rightarrow$ B a) f (\(x:A) $\rightarrow$ f x))
+  * (Sigma_Former: (A $\rightarrow$ U) $\rightarrow$ U)
+  * (Sigma_Intro: (B: A $\rightarrow$ U) (a: A) (b: B a) $\rightarrow$ Sigma A B)
+  * (Sigma_Elim1: (B: A $\rightarrow$ U)
+    (_: Sigma A B) $\rightarrow$ A)
+  * (Sigma_Elim2: (B: A $\rightarrow$ U)
+    (x: Sigma A B) $\rightarrow$ B (pr1 A B x))
+  * (Sigma_Comp1: (B: A $\rightarrow$ U) (a: A)
+    (b: B a) $\rightarrow$ Path A a (Sigma_Elim1 B (Sigma_Intro B a b)))
+  * (Sigma_Comp2: (B: A $\rightarrow$ U) (a: A)
+    (b: B a) $\rightarrow$ Path (B a) b
     (Sigma_Elim2 B (a,b)))
-  * (Sigma_Comp3: (B: A -> U) (p: Sigma A B)
-    -> Path (Sigma A B) p
-            (pr1 A B p,pr2 A B p))
-  * (Id_Former: A -> A -> U)
-  * (Id_Intro: (a: A) -> Path A a a)
+  * (Sigma_Comp3: (B: A $\rightarrow$ U) (p: Sigma A B)
+         $\rightarrow$ Path (Sigma A B) p (pr1 A B p,pr2 A B p))
+  * (Id_Former: A $\rightarrow$ A $\rightarrow$ U)
+  * (Id_Intro: (a: A) $\rightarrow$ Path A a a)
   * (Id_Elim: (x: A) (C: D A)
     (d: C x x (Id_Intro x))
-    (y: A) (p: Path A x y) -> C x y p)
+    (y: A) (p: Path A x y) $\rightarrow$ C x y p)
   * (Id_Comp: (a:A)(C: D A)
-    (d: C a a (Id_Intro a)) ->
-    Path (C a a (Id_Intro a)) d
-         (Id_Elim a C d a (Id_Intro a))) * U
+    (d: C a a (Id_Intro a)) $\rightarrow$
+    Path (C a a (Id_Intro a))
+       d (Id_Elim a C d a (Id_Intro a))) * U
 \end{lstlisting}
 \end{definition}
 
+\newpage
 \begin{theorem} (Model Check).
 There is an instance of MLTT.
 \begin{lstlisting}
@@ -1004,11 +1004,13 @@ algebras) and diagonal coersions could be made on the way of building a minimal 
   \end{adjustbox}
 \end{table}
 
-The next language after PTS$^{\infty}$ and MLTT$^{\infty}$ will
-be HTS$^{\infty}$ with recursive higher inductive type system and infinite number of universes.
-Along with O-CPS interpreter this evaluators form a set of languages as a part of conceptual model of theorem
-proving system with formalized virtual machine as extraction target.
+The next language after $\mathbf{Henk}$ and $\mathbf{Per}$ will
+be $\mathbf{Anders}$ with homotopy type system and infinite number of universes.
+Along with $\mathbf{Joe}$ cartesian interpreter this evaluators form a set of
+languages as a part of conceptual model of theorem proving system with
+formalized virtual machine as extraction target.
 
+\newpage
 \subsection*{Further Research}
 
 This article opens the door to a series that will unvail the different topics of
@@ -1039,6 +1041,12 @@ of modal logics, differential geometry, cohomology.
 
 The main intention of Foundation volume is to show the internal language
 of working topos of CW-complexes, the construction of fibrational sheaf type theory.
+
+{\bf Issue XVI: Pure Type System}. Pure Type System named after $\mathbf{Henk}$ Barendregt.
+
+{\bf Issue XVII: Inductive Type System}. Inductive Type System named after $\mathbf{Per}$ Martin-L\"{o}f.
+
+{\bf Issue XIX: Modal Homotopy Type System}. Modal Homotopy Type System named after $\mathbf{Anders}$ M\"{o}rtberg.
 
 \newpage
 \bibliographystyle{plain}
