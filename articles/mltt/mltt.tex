@@ -1,40 +1,20 @@
-% copyright (c) 2018—2019 Groupoid Infinity
+% copyright (c) 2018 Groupoid Infinity
 
-\documentclass[twocolumn,10pt]{article}
-\usepackage[a4paper, top=4.45cm,bottom=2.25cm,left=2cm,right=2cm]{geometry}
-\usepackage{graphics}
+\documentclass{article}
+\usepackage[english,ukrainian]{babel}
+\usepackage{hyperref}
 \usepackage{adjustbox}
-\usepackage{setspace}
-\usepackage[utf8]{inputenc}
-\usepackage{titlesec}
-\usepackage{mathptmx}
-\usepackage{anyfontsize}
-\usepackage{t1enc}
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage{microtype}
+\usepackage{amscd}
 \usepackage{amsmath}
-\usepackage{cite}
-\usepackage{mathptmx}
-\usepackage{anyfontsize}
-\usepackage{t1enc}
-\usepackage{fontspec}
-\usepackage[english]{babel}
-\usepackage{multicol}
-\usepackage[strict=true,style=german]{csquotes}
-\setquotestyle{english}
 \usepackage{amssymb}
 \usepackage{amsthm}
-\usepackage{url}
 \usepackage{tikz}
 \usepackage{tikz-cd}
-\usetikzlibrary{matrix}
-\usetikzlibrary{babel}
-\usepackage{listings}
-\usepackage[tableposition=top]{caption}
-\usepackage[numbers]{natbib}
-
-
-%\newfontfamily{\cyrillicfont}{Times New Roman}
-\setmainfont{Times New Roman}
-
+\usepackage{url}
+\usepackage[utf8]{inputenc}
 
 \theoremstyle{definition}
 \newtheorem{theorem}{Theorem}
@@ -42,62 +22,61 @@
 \newtheorem{exercise}{Exercise}
 \newtheorem{example}{Example}
 
-\titleformat{\section}
-  {\normalfont\fontsize{10}{10}\bfseries}{\thesection}{1em}{}
-
-\titleformat{\subsection}
-  {\normalfont\fontsize{10}{10}\bfseries}{\thesection}{1em}{}
-
-\renewcommand*{\pagemark}{}
-
-\captionsetup[table]{labelformat=empty}
-\lstMakeShortInline[mathescape=true,columns=fixed]|
-
-\def\mapright#1{\xrightarrow{{#1}}}
-\def\mapleft#1{\xleftarrow{{#1}}}
-\def\mapup#1{\Big\uparrow\rlap{\raise2pt{\scriptstyle{#1}}}}
-\def\mapupl#1{\Big\uparrow\llap{\raise2pt{\scriptstyle{#1}}}}
-\def\mapdown#1{\Big\downarrow\rlap{\raise2pt{\scriptstyle{#1}}}}
-\def\mapdownl#1{\Big\downarrow\llap{\raise2pt{\scriptstyle{#1}}}}
-\def\mapdiagl#1{\vcenter{\searrow}\rlap{\raise2pt{\scriptstyle{#1}}}}
-\def\mapdiagr#1{\vcenter{\swarrow}\rlap{\raise2pt{\scriptstyle{#1}}}}
-\lstset{basicstyle=\small,inputencoding=utf8}
-
-\addto{\renewcommand{\bibname}{References}}
-
-\usepackage[absolute]{textpos}
-
-\setlength{\TPHorizModule}{4mm}
-\setlength{\TPVertModule}{\TPHorizModule}
-\textblockorigin{4mm}{4mm}
-\setlength{\parindent}{0.5cm}
-\titlespacing{\section}{0.5cm}{10pt}{10pt}
-\titlespacing{\subsection}{0.5cm}{10pt}{10pt}
-
-\pagenumbering{gobble}
-
 \begin{document}
+\title{Випуск I: Теорія типів}
+\author{Максим Сохацький $^1$}
+\date{ $^1$ Національний технічний університет України \\
+       \small Київський політехнічний інститут імені Ігоря Сікорського \\
+       \today }
 
+\maketitle
 
-\twocolumn[
-  \begin{@twocolumnfalse}
+\begin{abstract}
 
-  \textrf{DOI: }\\
-  \textrf{UDC: 510.2:510.6}\\
-  \vspace{0.01cm}
-  \begin{titlepage}
-   \begin{center}
-     \textbf{\fontsize{10}{0} M.E. Sokhatskyi^{*}}\\
-     \vspace{3pt}
-     \textrf{\fontsize{10}{0} Igor Sikorsky Kyiv Polytechnical Institute, Kyiv, Ukraine}\\
-     \vspace{3pt}\\
-     \textrf{$^*$corresponding author: maxim@synrc.com}\\
-     \vspace{12pt}
-     \textbf{\fontsize{10}{0} Issue IX: Internalization of MLTT}\\
-   \end{center}
-\end{titlepage}
+{\bf Проблематика.}
+Був пройдений довгий шлях від чистих типових систем AUTOMATH де Брейна до
+гомотопічних типових верифікаторів. Ця стаття стосується тільки формального ядра
+теорії типів Мартіна-Льофа: $\Pi$ и $\Sigma$ типів (які відповідають
+квантору загальності $\forall$ та квантору існування $\exists$ у класичній логіці)
+та типу-рівності.\\
+\indent {\bf Мета дослідження.}
+Визначити типову систему як частину моделі системи доведення теорем,
+у якій конструктивно виражається J елімінатор та його теореми, спираючись на більш абстрактні
+примітиви типа рівності. Це стало можливим завдяки кубічній теорії типів (2016) та типовому кубічному верифікатору
+{\bf cubicaltt}\footnote{http://github.com/mortberg/cubicaltt} (2017).
+Ціль статті --- продемонструвати формальне вбудовування теорії типів Мартіна-Льофа
+в виконуючу авторську кубічну типову систему MLTT$^{\infty}$ з повним набором правил виводу.\\
+\indent {\bf Методика реалізації.}
+Так як всі типи в теорії формулюються за допомогою п'яти
+правил: формації, інтро, елімінації, обчисленя, рівності) що в сутності
+є кодуванням ізоморфізмами ініальних об'єктів в категорія F-алгебр, ми зконструювали
+номінальні типи-синоніми для виконуючого верифікатора та довели, що це є реалізацією MLTT.
+Так як не всі можуть бути знайомі з теорією типів,
+це випуск також містить їх інтерпретації з точки зору різних розділів математики.\\
+\indent {\bf Результати дослідження.}
+Ця робота веде до декількох результатів:
+1) MLTT$^{\infty}$ --- спеціальна версія теорії типів Мартіна-Льофа зі зліченною кількістю всесвітів та Path типом без eta-правила для HoTT застосування у яку ми будем вбудовувати класичну MLTT;
+2) Власе сама інтерналізація MLTT в MLTT$^{\infty}$ з синтаксисом який дозволяє виводити поліморфні всесвіти;
+3) Класифіковані різні інтерпретації цієї системи типів: теоретико-типова, категорна або топосо-теоретична, гомотопічна або кубічна;
+4) Як результат цей випуск відкриває серію статей по формалізації різних розділів математики,
+   та присвячений формалізації основам математики в кубічній теорії типів, MLTT моделюванню та кубічній верифікації;
+5) Це може розглядатися як універсальний тест для імплементації типового верифікатора,
+позаяк компенсаця інтро правила та правила елімінатора пов'язані в правилі
+обчислення та рівності (бета та ета редукціях). Таким чином, доводжучи реалізацію MLTT,
+ми доводимо властивості самого виконуючого верифікатора;
+6) Завдяки позитивним результатм кубічна теорія була вибрана як геометричне розширення системи індуктивних типів
+для математичної верифікації як частина концептуальної системи доведення теорем, яка включатимиме серію мов
+як середовище верифікації.\\
+\indent {\bf Висновки.}
+Додамо, що це тільки вхід в техніку прямого вбудовування і після MLTT моделювання,
+ми можем піднятися вище — до вбудовування в систему індуктивних типів, і далі,
+до вбудовування CW-комплексів як зклейок вищих індуктивних типів, та далі до модальних логік.
+Це означає широкий спектр математичних теорії всередині HoTT аж до алегбраїчної топології.
+Подальша рефлексія веде до комбінації різних типових підсистем в спектральних категорія мовних рівнів
+з модулями-плагінами для синтаксичних розширень та алгоритмів нормалізації програм в цих синтаксисах. \\
+\indent {\bf Ключові слова:} Теорія типів Мартіна-Льофа, Кубічна теорія типів.
+\vspace{1cm}
 
-\fontsize{9}{11}\selectfont
 
 {\bf Background.} The long road from pure type systems of AUTOMATH by de Bruijn to type
 checkers with homotopical core was made. This article touches only
@@ -135,8 +114,9 @@ abstract syntax (HOAS) for pluggable initial objects, normalization modules, and
 {\bf Keywords}: Martin-Löf Type Theory, Cubical Type Theory
 \vspace{1cm}
 
-  \end{@twocolumnfalse}
-]
+\end{abstract}
+
+\tableofcontents
 
 \section*{Introduction}
 
@@ -431,7 +411,7 @@ piIsContr (A: U) (B: A -> U) (u: isContr A)
 
 \begin{definition} (Section).
 A section of morphism $f: A \rightarrow B$ in some category is the morphism $g: B \rightarrow A$
-such that $f \circ g: B \mapright{g} A \mapright{f} B$ equals the identity morphism on B.
+such that $f \circ g: B \xrightarrow{g} A \xrightarrow{f} B$ equals the identity morphism on B.
 \end{definition}
 
 \subsubsection*{Homotopical interpretation}
@@ -445,7 +425,7 @@ The fiber of the map $p: E \rightarrow B$ in a point $y: B$ is all points $x: E$
 \end{definition}
 
 \begin{definition} (Fiber Bundle).
-The fiber bundle $ F \rightarrow E \mapright{p} B$ on a total space $E$ with fiber layer $F$ and base $B$ is a
+The fiber bundle $ F \rightarrow E \xrightarrow{p} B$ on a total space $E$ with fiber layer $F$ and base $B$ is a
 structure $(F,E,p,B)$ where $p: E \rightarrow B$ is a surjective map with following property:
 for any point $y: B$ exists a neighborhood $U_b$ for which a homeomorphism $f: p^{-1}(U_b) \rightarrow U_b \times F$
 making the following diagram commute.
@@ -466,7 +446,7 @@ making the following diagram commute.
 \begin{definition} (Cartesian Product of Family over B).
 Is a set $F$ of sections of the bundle with elimination map $app : F \times B \rightarrow E$ such that
 \begin{equation}
-F \times B \mapright{app} E \mapright{pr_1} B
+F \times B \xrightarrow{app} E \xrightarrow{pr_1} B
 \end{equation}
 $pr_1$ is a product projection, so $pr_1$, $app$ are morphisms
 of slice category $Set_{/B}$. The universal mapping property of $F$:
@@ -1038,16 +1018,16 @@ Infinity\footnote{https://groupoid.space/mltt/types/} base library.
   \begin{adjustbox}{width=\columnwidth,center}
   \begin{tabular}{lccccccc}
     \hline
-       Lang          & Pi & Sigma & Eq & Path & U^{\infty} & Co/Fix & Lazy\\
+       Lang          & $\Pi$ & $\Sigma$ & $\equiv$ & $\text{Path}$ & $U^{\infty}$ & Co/Fix & Lazy\\
     \hline
-       PTS           & x\\
-       Cedile, MLTT  & x & x & x\\
-       PTS^{\infty}  & x &   &   &   & x\\
-       \textbf{MLTT^{$\infty$}} & x & x &   & x & x\\
-       \textbf{Lean, Agda}    & x &   & x & x & x\\
-       NuPRL         & x & x & x &   &   & x\\
+       PTS           & x \\
+       Cedile, MLTT  & x & x & x \\
+       Henk          & x &   &   &   & x \\
+       Per           & x & x &   & x & x \\
+       Lean, Agda    & x &   & x & x & x  \\
+       NuPRL         & x & x & x &   &   & x \\
        System-D      & x & x &   &   &   & x & x\\
-       \textbf{cubical}       & x & x & x & x &   & x\\
+       cubicaltt     & x & x & x & x &   & x \\
   \end{tabular}
   \end{adjustbox}
 \end{table}
@@ -1167,72 +1147,6 @@ includes followin areas: Homotopy Theory, Homological Algebra, Complexes,
 {\bf Issue X: Differential Geometry}. This branch of study includes
 infinitesimal constructions and Cartan geometry, the chapter is
 slightly base on Felix Wellen dissertation.
-
-\twocolumn[
-
-  \begin{@twocolumnfalse}
-
-
-   \renewcommand{\bibname}{\fontsize{10pt}{12pt}\selectfont References}
-   \bibliographystyle{ieeetr}
-   \def\bibfont{\fontsize{8}{10}\selectfont}
-    \bibliography{mltt}
-   \vspace{1cm}
-
-  \setmainfont{Arial}
-  \parindent=2em
-
-  \fontsize{8pt}{10pt}\selectfont \textrf{М.Е.Сохацький}\\
-  \vspace{0.1cm}
-  \fontsize{9pt}{11pt}\selectfont \indent ВИПУСК 1: ВБУДОВУВАННЯ ТЕОРІЇ ТИПІВ МАРТІНА-ЛЬОФА
-
-{\bf Проблематика.}
-Був пройдений довгий шлях від чистих типових систем AUTOMATH де Брейна до
-гомотопічних типових верифікаторів. Ця стаття стосується тільки формального ядра
-теорії типів Мартіна-Льофа: $\Pi$ и $\Sigma$ типів (які відповідають
-квантору загальності $\forall$ та квантору існування $\exists$ у класичній логіці)
-та типу-рівності.\\
-\indent {\bf Мета дослідження.}
-Визначити типову систему як частину концептуальної моделі системи доведення теорем,
-у якій конструктивно виражається J елімінатор та його теореми, спираючись на більш абстрактні
-примітиви типа рівності. Це стало можливим завдяки кубічній теорії типів (2016) та типовому кубічному верифікатору
-{\bf cubicaltt}\footnote{http://github.com/mortberg/cubicaltt} (2017).
-Ціль статті --- продемонструвати формальне вбудовування теорії типів Мартіна-Льофа
-в виконуючу авторську кубічну типову систему MLTT$^{\infty}$ з повним набором правил виводу.\\
-\indent {\bf Методика реалізації.}
-Так як всі типи в теорії формулюються за допомогою п'яти
-правил: формації, інтро, елімінації, обчисленя, рівності) що в сутності
-є кодуванням ізоморфізмами ініальних об'єктів в категорія F-алгебр, ми зконструювали
-номінальні типи-синоніми для виконуючого верифікатора та довели, що це є реалізацією MLTT.
-Так як не всі можуть бути знайомі з теорією типів,
-це випуск також містить їх інтерпретації з точки зору різних розділів математики.\\
-\indent {\bf Результати дослідження.}
-Ця робота веде до декількох результатів:
-1) MLTT$^{\infty}$ --- спеціальна версія теорії типів Мартіна-Льофа зі зліченною кількістю всесвітів та Path типом без eta-правила для HoTT застосування у яку ми будем вбудовувати класичну MLTT;
-2) Власе сама інтерналізація MLTT в MLTT$^{\infty}$ з синтаксисом який дозволяє виводити поліморфні всесвіти;
-3) Класифіковані різні інтерпретації цієї системи типів: теоретико-типова, категорна або топосо-теоретична, гомотопічна або кубічна;
-4) Як результат цей випуск відкриває серію статей по формалізації різних розділів математики,
-   та присвячений формалізації основам математики в кубічній теорії типів, MLTT моделюванню та кубічній верифікації;
-5) Це може розглядатися як універсальний тест для імплементації типового верифікатора,
-позаяк компенсаця інтро правила та правила елімінатора пов'язані в правилі
-обчислення та рівності (бета та ета редукціях). Таким чином, доводжучи реалізацію MLTT,
-ми доводимо властивості самого виконуючого верифікатора;
-6) Завдяки позитивним результатм кубічна теорія була вибрана як геометричне розширення системи індуктивних типів
-для математичної верифікації як частина концептуальної системи доведення теорем, яка включатимиме серію мов
-як середовище верифікації.
-\indent {\bf Висновки.}
-Додамо, що це тільки вхід в техніку прямого вбудовування і після MLTT моделювання,
-ми можем піднятися вище — до вбудовування в систему індуктивних типів, і далі,
-до вбудовування CW-комплексів як зклейок вищих індуктивних типів, та далі до модальних логік.
-Це означає широкий спектр математичних теорії всередині HoTT аж до алегбраїчної топології.
-Подальша рефлексія веде до комбінації різних типових підсистем в спектральних категорія мовних рівнів
-з модулями-плагінами для синтаксичних розширень та алгоритмів нормалізації програм в цих синтаксисах. \\
-\indent {\bf Ключові слова:} Теорія типів Мартіна-Льофа, Кубічна теорія типів.
-\vspace{1cm}
-
- \end{@twocolumnfalse}
-
-]
 
 \end{document}
 
