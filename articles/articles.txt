@@ -1,0 +1,39 @@
+- Volume I:     Introduction
+	— Issue I:      Internalizing MLTT
+	— Issue II:     Inductive Types
+	— Issue III:    Homotopy Type Theory
+	— Issue IV:     Higher Inductive Types
+	— Issue V:      Modalities
+- Volume II:    Runtime
+	— Issue VI:     Multicore Runtime
+	— Issue VII:    Cartesian Interpreter
+	— Issue VIII:   Linear Interpreter
+	— Issue IX:     Quantum Interpreter
+	— Issue X:      Verified Interpreter
+	— Issue XI:     Distributed Protocols
+	— Issue XII:    Process Library
+	— Issue XIII:   Storage Library
+	— Issue XIV:    Control Library
+	— Issue XV:     Form Library
+- Volume III:   Foundations
+	— Issue XVI:    Henk
+	— Issue XVII:   Christine
+	— Issue XVIII:  Laurent
+	— Issue XIX:    Anders
+	— Issue XX:     Urs
+	— Issue XXI:    Frank
+	— Issue XXII:   Leslie
+	— Issue XXIII:  Fabien
+	— Issue XXIV:   Dan
+	— Issue XXV:    Jack
+- Volume IV:    Mathematics
+	— Issue XXVI:   Set Theory
+	— Issue XXVII:  Topos Theory
+	— Issue XXVIII: Categories with Families
+	— Issue XXIX:   Heterogeneous Equality
+	— Issue XXX:    Type Theory
+	— Issue XXXI:   Abelian Categories
+	— Issue XXXII:  Abelian Groups
+	— Issue XXXII:  Supergeometry
+	— Issue XXXIV:  C-Systems
+	— Issue XXXV:   Grothendieck Group
