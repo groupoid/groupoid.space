@@ -796,7 +796,8 @@ Here you can find telescopes (context lists), split and its branches, inductive 
 \end{lstlisting}
 
 The Erlang version of parser encoded with OTP library {\bf yecc} which implements LALR-1 grammar generator.
-This version resembles the model and slightly based on cubical type checker by Mortberg \cite{Mortberg17} and could be reached at Github repository\footnote{http://github.com/groupoid/infinity/tree/master/priv}.
+This version resembles the model and slightly based on BNF from $\mathbf{Per}$
+repository \footnote{https://github.com/groupoid/per/tree/main/src/erlang/src}.
 
 \subsection{Inductive Type Encoding}
 There are a number of inductive type encodings:
@@ -856,6 +857,7 @@ $$
 Here traditionally we show the {\bf List} definition in higher language and its
 desugared version in {\bf Henk} language.
 
+\newpage
 \begin{lstlisting}[mathescape=true]
   data List: (A: *) $\rightarrow$ * :=
        (Cons: A $\rightarrow$ list A $\rightarrow$ list A)
