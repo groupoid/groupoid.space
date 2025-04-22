@@ -143,10 +143,7 @@ will be described in the upcoming Issues II---V.
 
 \section{Martin-Löf Type Theory}
 
-Martin-Löf Type Theory contains $\Pi$, $\Sigma$, Id, W, Nat, List types.
-For simplicity we wouldn't take into account W, Nat, List types as
-W type could be encoded through $\Sigma$ and Nat/List through W.
-Despite $\Sigma$ types could be encoded through $\Pi$ we include $\Sigma$ type into the MLTT model.
+Martin-Löf Type Theory MLTT-80 contains $\Pi$, $\Sigma$, Id, W, 0, 1, 2 types.
 
 Any new type in MLTT presented with set of 5 rules: i) formation rules, the signature of type;
 ii) the set of constructors which produce the elements of formation rule signature;
@@ -155,11 +152,13 @@ iv) the beta-equality or computational rule;
 v) the eta-equality or uniquness principle. $\Pi$, $\Sigma$, and Path
 types will be given shortly. This interpretation or rather way of modeling is MLTT specific.
 
-The most interesting are Id types. Id types were added in \cite{Lof84} while original MLTT was introduced in \cite{Lof72}.
+The most interesting are Id types. Id types were added in MLTT-75 \cite{Lof84} while original MLTT-72
+with only $\Pi$ and $\Sigma$ was introduced in \cite{Lof72}.
 Predicative Universe Hierarchy was added in \cite{Lof75}.
-While original MLTT contains Id types that preserve uniquness of identity
+While original MLTT-75 contains Id types that preserve uniquness of identity
 proofs (UIP) or eta-rule of Id type, HoTT refutes UIP (eta rule desn't hold)
 and introduces univalent heterogeneous Path equality \cite{Hofmann96}.
+
 Path types are essential to prove computation and uniquness rules for all types
 (needed for building signature and terms), so we will be able to prove all
 the MLTT rules as a whole.
