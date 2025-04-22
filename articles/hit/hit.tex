@@ -28,17 +28,28 @@
 \maketitle
 
 \begin{abstract}
-CW-complexes are fundamental objects in homotopy type theory (HoTT) and are encoded in cubical type checkers as higher inductive types (HITs). Just as regular (co)inductive types can be described as recursive terminating or non-terminating trees, HITs can be viewed as CW-complexes. Defining an HIT involves specifying a CW-complex directly using cubical homogeneous composition structures as elements of an initial algebra in a cubical model. This article explores the motivation for HITs, their role in encoding topological spaces, and their implementation in libraries like Agda Cubical, with a focus on handling infinity constructors. \\
-\\
-{\bf Keywords}: Cellular Piecewise Topology, Cubical Type Theory, Higher Inductive Types
+CW-complexes are key in homotopy type theory (HoTT) and are
+encoded in cubical type checkers as higher inductive types
+(HITs). Like recursive trees for (co)inductive types, HITs
+represent CW-complexes. An HIT defines a CW-complex using
+cubical composition as an initial algebra element in a cubical
+model. We explore HIT motivation, their topological role, and
+implementation in Agda Cubical, focusing on infinity
+constructors. \\
+{\bf Keywords}: Cellular Topology, Cubical Type Theory, HITs
 \end{abstract}
 \tableofcontents
 
 \newpage
 \section{Higher Inductive Types}
-CW-complexes are fundamental in homotopy type theory and are implemented in cubical type checkers as higher inductive types (HITs). Unlike regular inductive types, which can be seen as recursive trees (terminating for inductive types, non-terminating for coinductive types), HITs generalize this to encode CW-complexes, capturing both points (0-cells) and higher-dimensional paths or homotopies (n-cells). Defining an HIT means specifying a CW-complex using cubical homogeneous composition structures, which serve as elements of an initial algebra in a cubical model.
+CW-complexes are central in HoTT and appear in cubical type
+checkers as HITs. Unlike inductive types (recursive trees),
+HITs encode CW-complexes, capturing points (0-cells) and
+higher paths (n-cells). Defining an HIT specifies a CW-complex
+via cubical composition, an initial algebra in a cubical model.
 
-\begin{definition} (Pushout). Pushouts are a key example of HITs, used to formally define cell attachments and other cofibrant objects.
+\begin{definition} (Pushout). Pushouts are key HITs for cell
+attachments and cofibrant objects.
 \begin{lstlisting}
 data pushout (A B C: U) (f: C -> A) (g: C -> B)
    = po1 (_: A)
@@ -48,7 +59,8 @@ data pushout (A B C: U) (f: C -> A) (g: C -> B)
 \end{lstlisting}
 \end{definition}
 
-\begin{definition} (Spheres and Disks). Spheres are classic examples of HITs, defined using paths in higher dimensions.
+\begin{definition} (Spheres and Disks). Spheres are HITs with
+higher-dimensional paths.
 \begin{lstlisting}
 data S1
    = base
@@ -64,43 +76,62 @@ data S2
 \end{definition}
 
 \section{CW-Complexes}
-In homotopy theory, CW-complexes are spaces constructed by iteratively attaching cells of increasing dimension. In HoTT, these are naturally encoded as higher inductive types, where cells correspond to constructors for points, paths, and higher homotopies.
+CW-complexes are spaces built by attaching cells of increasing
+dimension. In HoTT, they are encoded as HITs, with cells as
+constructors for points and paths.
 
-\begin{definition} (Cell Attachment). Attaching an \( n \)-cell to a space \( X \) along a map \( f : S^{n-1} \to X \) is defined as a pushout in the category of spaces:
+\begin{definition} (Cell Attachment). Attaching an \( n \)-cell
+to a space \( X \) along \( f : S^{n-1} \to X \) is a pushout:
 \[
 \begin{tikzcd}
 S^{n-1} \arrow[r, "f"] \arrow[d, "\iota"] & X \arrow[d, "j"] \\
 D^n \arrow[r, "g"] & X \cup_f D^n
 \end{tikzcd}
 \]
-where \( \iota : S^{n-1} \incmap D^n \) is the inclusion of the \((n-1)\)-sphere as the boundary of the \( n \)-disk, and \( X \cup_f D^n \) is the pushout, representing the space obtained by gluing an \( n \)-cell to \( X \) via \( f \). The homotopy type of \( X \cup_f D^n \) depends on the homotopy class of \( f \).
+Here, \( \iota : S^{n-1} \incmap D^n \) is the boundary
+inclusion, and \( X \cup_f D^n \) is the pushout, gluing an
+\( n \)-cell to \( X \) via \( f \). The result depends on the
+homotopy class of \( f \).
 \end{definition}
 
-\begin{definition} (CW-Complex). A CW-complex is a space \( X \) constructed inductively by attaching cells of increasing dimension, equipped with a skeletal filtration. Formally:
+\begin{definition} (CW-Complex). A CW-complex is a space \( X \)
+built inductively by attaching cells, with a skeletal
+filtration:
 \begin{itemize}
-    \item The \((-1)\)-skeleton is the empty space, \( X_{-1} = \varnothing \).
-    \item For each \( n \geq 0 \), the \( n \)-skeleton \( X_n \) is a space obtained by attaching a (possibly infinite) collection of \( n \)-cells to the \((n-1)\)-skeleton \( X_{n-1} \). For a set of indices \( J_n \) and attaching maps \( \{ f_j : S^{n-1} \to X_{n-1} \}_{j \in J_n} \), the \( n \)-skeleton is the pushout:
+    \item The \((-1)\)-skeleton is \( X_{-1} = \varnothing \).
+    \item For \( n \geq 0 \), the \( n \)-skeleton \( X_n \) is
+      obtained by attaching \( n \)-cells to \( X_{n-1} \). For
+      indices \( J_n \) and maps \( \{ f_j : S^{n-1} \to X_{n-1}
+      \}_{j \in J_n} \), \( X_n \) is the pushout:
     \[
     \begin{tikzcd}
     \coprod_{j \in J_n} S^{n-1} \arrow[r, "\coprod f_j"] \arrow[d, "\coprod \iota_j"] & X_{n-1} \arrow[d, "i_n"] \\
     \coprod_{j \in J_n} D^n \arrow[r, "\coprod g_j"] & X_n
     \end{tikzcd}
     \]
-    where \( \coprod_{j \in J_n} S^{n-1} \) and \( \coprod_{j \in J_n} D^n \) denote disjoint unions over the index set \( J_n \), and \( i_n : X_{n-1} \incmap X_n \) is the inclusion of the \((n-1)\)-skeleton into the \( n \)-skeleton.
-    \item A CW-complex \( X \) is the colimit of the sequence of inclusions:
+    where \( \coprod_{j \in J_n} S^{n-1} \), \( \coprod_{j \in
+    J_n} D^n \) are disjoint unions, and \( i_n : X_{n-1}
+    \incmap X_n \) is the inclusion.
+    \item \( X \) is the colimit of:
     \[
-    \varnothing = X_{-1} \incmap X_0 \incmap X_1 \incmap X_2 \incmap \dots \incmap X,
+    \varnothing = X_{-1} \incmap X_0 \incmap X_1 \incmap \dots
+    \incmap X,
     \]
-    where each \( X_n \) is the \( n \)-skeleton, and \( X = \text{colim}_{n \to \infty} X_n \). The sequence \( \{ X_n \}_{n \geq -1} \) is called the skeletal filtration of \( X \).
+    with \( X_n \) the \( n \)-skeleton, and \( X = \text{colim}_{n
+    \to \infty} X_n \). The sequence is the skeletal filtration.
 \end{itemize}
-In HoTT, this construction is encoded as a higher inductive type, where constructors correspond to cells and their boundaries, with path constructors specifying the gluing via attaching maps.
+In HoTT, CW-complexes are HITs, with constructors for cells and
+path constructors for gluing.
 \end{definition}
 
-\begin{example} (Sphere as a CW-Complex). The \( n \)-sphere \( S^n \) can be defined as a CW-complex with one 0-cell and one \( n \)-cell:
+\begin{example} (Sphere as a CW-Complex). The \( n \)-sphere
+\( S^n \) is a CW-complex with one 0-cell and one \( n \)-cell:
 \begin{itemize}
-    \item \( X_0 = \{ \text{base} \} \), a single point.
-    \item \( X_k = X_0 \) for \( 0 < k < n \), as no cells are attached in dimensions 1 to \( n-1 \).
-    \item \( X_n \) is obtained by attaching an \( n \)-cell to \( X_{n-1} = \{ \text{base} \} \) along the constant map \( f : S^{n-1} \to \{ \text{base} \} \). In cubical syntax:
+    \item \( X_0 = \{ \text{base} \} \), a point.
+    \item \( X_k = X_0 \) for \( 0 < k < n \), no cells added.
+    \item \( X_n \): Attach an \( n \)-cell to \( X_{n-1} =
+      \{ \text{base} \} \) along \( f : S^{n-1} \to
+      \{ \text{base} \} \):
     \begin{lstlisting}
 data Sn (n: Nat)
    = base
@@ -108,104 +139,154 @@ data Sn (n: Nat)
                         ...,
                         (in = 0) -> base, (in = 1) -> base ]
     \end{lstlisting}
-    Here, \( \text{cell} \) is an \( n \)-dimensional constructor gluing the boundaries to \( \text{base} \), yielding \( S^n \).
+    The \( \text{cell} \) constructor glues boundaries to
+    \( \text{base} \), yielding \( S^n \).
 \end{itemize}
 \end{example}
 
 \section{Motivation for Higher Inductive Types}
-The motivation for HITs in HoTT stems from the need to represent topological spaces, such as CW-complexes, directly within type theory. In classical homotopy theory, spaces are constructed by gluing cells (points, paths, surfaces, etc.) via attaching maps. HoTT interprets types as spaces, elements as points, and equalities as paths, making it natural to encode spaces as types. However, standard inductive types are insufficient for higher-dimensional structures, as they cannot represent paths between paths (homotopies) or higher homotopies.
+HITs in HoTT enable direct encoding of topological spaces like
+CW-complexes. In homotopy theory, spaces are built by gluing
+cells via attaching maps. HoTT views types as spaces, elements
+as points, and equalities as paths, making HITs a natural fit.
+Standard inductive types cannot capture higher homotopies, but
+HITs allow constructors for points and paths.
 
-HITs extend inductive types by allowing constructors for both points and higher-dimensional paths. For example, the circle \( S^1 \) (Definition 1) is defined not only by a base point but also by a loop connecting the base point to itself, capturing its fundamental group \( \mathbb{Z} \). This direct encoding avoids the need for set-level constructions or quotient types, preserving the synthetic nature of HoTT.
+For example, the circle \( S^1 \) (Definition 2) has a base
+point and a loop, encoding its fundamental group
+\( \mathbb{Z} \). HITs avoid set-level quotients, preserving
+HoTT’s synthetic nature. In cubical type theory, paths are
+intervals (e.g., \( <i> \)) with computational content, unlike
+propositional equalities, enabling efficient type checking in
+tools like Agda Cubical.
 
-HITs also enable computational tractability in cubical type theory. Unlike Martin-Löf Type Theory, where path equality is propositional, cubical type theory treats paths as intervals (e.g., \( <i> \)) with computational content, allowing type checkers to verify equalities in HITs efficiently. This makes HITs practical for formalizing algebraic topology in proof assistants like Agda Cubical.
+\subsection{Key Entities}
+HITs encode complex spaces via cell-like constructors. Below
+are key examples:
 
-\subsection{Examples of Higher Inductive Types}
-Beyond spheres, HITs can encode more complex spaces:
+\subsubsection{Sphere}
+The \( n \)-sphere \( S^n \) is a CW-complex with one 0-cell
+and one \( n \)-cell, as in the CW-complex example. In HIT
+form, for \( n=1 \):
+\begin{lstlisting}
+data S1
+   = base
+   | loop <i> [ (i = 0) -> base, (i = 1) -> base ]
+\end{lstlisting}
+This captures the loop structure of \( S^1 \), with higher
+spheres (e.g., \( S^2 \)) adding multi-dimensional paths.
 
-\begin{itemize}
-    \item \textbf{Torus}: The torus \( T^2 \) is a 2-dimensional CW-complex with one 0-cell, two 1-cells (loops), and one 2-cell gluing them.
-    \begin{lstlisting}
+\subsubsection{Torus}
+The torus \( T^2 \) is a 2D CW-complex with one 0-cell, two
+1-cells, and one 2-cell:
+\begin{lstlisting}
 data Torus
    = point
    | loop1 <i> [ (i = 0) -> point, (i = 1) -> point ]
    | loop2 <i> [ (i = 0) -> point, (i = 1) -> point ]
    | square <i j> [ (i = 0) -> loop1 @ j, (i = 1) -> loop1 @ j,
                     (j = 0) -> loop2 @ i, (j = 1) -> loop2 @ i ]
-    \end{lstlisting}
-    Here, \( \text{square} \) ensures the two loops commute, encoding the torus’s fundamental group \( \mathbb{Z} \times \mathbb{Z} \).
+\end{lstlisting}
+The \( \text{square} \) ensures loops commute, encoding
+\( \pi_1(T^2) = \mathbb{Z} \times \mathbb{Z} \).
 
-    \item \textbf{Suspension}: The suspension \( \Sigma A \) of a type \( A \) adds two points (north and south poles) and paths from each point of \( A \) to both poles.
-    \begin{lstlisting}
+\subsubsection{Suspension}
+The suspension \( \Sigma A \) of a type \( A \) adds two points
+and paths from \( A \) to them:
+\begin{lstlisting}
 data Suspension (A: U)
    = north
    | south
    | merid (a: A) <i> [ (i = 0) -> north, (i = 1) -> south ]
-    \end{lstlisting}
-    For \( A = S^0 \), this yields \( S^1 \), illustrating how HITs build higher spheres.
+\end{lstlisting}
+For \( A = S^0 \), this yields \( S^1 \), showing how HITs
+build higher spheres.
 
-    \item \textbf{Truncation}: The n-truncation \( \| A \|_n \) of a type \( A \) collapses higher homotopies above dimension \( n \).
+\subsection{Other Examples}
+Additional HITs demonstrate versatility:
+
+\begin{itemize}
+    \item \textbf{Truncation}: The n-truncation
+      \( \| A \|_n \) collapses homotopies above dimension
+      \( n \):
     \begin{lstlisting}
 data Trunc (n: Nat) (A: U)
    = hub (a: A)
    | spoke (p: Path A a b) <i> [ (i = 0) -> hub a, (i = 1) -> hub b ]
     \end{lstlisting}
-    This is an HIT with paths ensuring connectivity up to dimension \( n \).
+    This ensures connectivity up to dimension \( n \).
 \end{itemize}
 
-These examples highlight how HITs encode topological spaces by specifying points, paths, and higher homotopies, mirroring the cell structure of CW-complexes.
-
 \section{HITs with Infinity Constructors}
-Some HITs require infinitely many constructors to encode spaces with infinite cell structures, such as Eilenberg-MacLane spaces \( K(G, n) \) or infinite-dimensional spheres. For instance, consider an infinite-dimensional type like the infinite sphere \( S^\infty \), which can be approximated as a colimit of finite spheres:
-
+Some HITs need infinite constructors for spaces like
+Eilenberg-MacLane spaces or the infinite sphere \( S^\infty \):
 \begin{lstlisting}
 data SInf
    = base
    | loopn (n: Nat) <i> [ (i = 0) -> base, (i = 1) -> base ]
 \end{lstlisting}
+Here, \( \text{loopn} \) adds a path per natural number,
+forming an infinite 1-cell family. Challenges include:
 
-Here, \( \text{loopn} \) introduces a path for each natural number \( n \), representing an infinite family of 1-cells. Such HITs pose challenges:
-
-1. **Type Checking**: Infinite constructors complicate termination and coverage checking in type checkers, as the induction principle must account for all constructors.
-2. **Computation**: Cubical type theory must ensure that compositions involving infinite paths are well-defined and computable.
-3. **Expressivity**: Infinity constructors are needed for spaces with non-trivial higher homotopy groups, but they risk making definitions non-constructive.
+1. \textbf{Type Checking}: Infinite constructors complicate
+   termination and coverage.
+2. \textbf{Computation}: Cubical type theory must ensure
+   compositions are computable.
+3. \textbf{Expressivity}: Needed for higher homotopy groups,
+   but risks non-constructivity.
 
 \subsection{Agda Cubical and Infinity Constructors}
-The Agda Cubical library, built on cubical type theory, addresses these challenges by leveraging cubical primitives and HITs. Agda Cubical provides:
+Agda Cubical uses cubical primitives to handle HITs:
 
-- **Cubical Primitives**: Intervals \( I = [0,1] \), path types \( \text{PathP} \), and composition operations (\( \text{hcomp} \), \( \text{glue} \)) allow HITs to be defined with computational content. For example, the \( S^1 \) definition in Agda Cubical uses:
+- \textbf{Cubical Primitives}: Intervals \( I = [0,1] \),
+  \( \text{PathP} \), and operations (\( \text{hcomp} \),
+  \( \text{glue} \)) give computational content. For \( S^1 \):
   \begin{lstlisting}
 data S1 : Type where
   base : S1
   loop : PathP (\lambda i -> S1) base base
   \end{lstlisting}
-  This extends to higher dimensions and infinite constructors by parameterizing over indices (e.g., \( \text{Nat} \)).
+  This extends to infinite constructors via indices.
 
-- **HIT Support**: Agda Cubical supports HITs natively via cubical syntax, allowing definitions like the torus or suspension. For infinite constructors, Agda uses indexed HITs, where constructors are parameterized by a type (e.g., \( \text{Nat} \)) to emulate infinite families:
+- \textbf{HIT Support}: Indexed HITs emulate infinite families:
   \begin{lstlisting}
 data InfHIT (A: Type) : Type where
   point : InfHIT A
   pathn : (n: Nat) -> PathP (\lambda i -> InfHIT A) point point
   \end{lstlisting}
 
-- **Normalization**: Agda Cubical ensures that HITs with infinite constructors normalize correctly by reducing compositions to canonical forms, leveraging the cubical model’s coherence properties.
+- \textbf{Normalization}: Reduces compositions to canonical
+  forms using cubical coherence.
 
-- **Limitations**: Infinite constructors can lead to performance issues in type checking, as Agda must verify coverage for all cases. Agda Cubical mitigates this by using strict evaluation for indices and optimizing composition algorithms.
+- \textbf{Limitations}: Infinite constructors slow type
+  checking; Agda Cubical optimizes with strict evaluation.
 
-For example, the Eilenberg-MacLane space \( K(\mathbb{Z}, 1) \), which is homotopy equivalent to \( S^1 \), can be defined with an infinite family of paths to capture its loop structure, but Agda Cubical often uses finite approximations or coinductive techniques to manage complexity.
+For \( K(\mathbb{Z}, 1) \), finite approximations manage
+complexity.
 
 \section{Conclusion}
-Higher inductive types provide a powerful framework for encoding CW-complexes in HoTT, bridging topology and type theory. By allowing constructors for points, paths, and higher homotopies, HITs capture the iterative cell attachment process of CW-complexes, as seen in the formal definition of skeletal filtrations and pushout constructions. Examples like spheres, tori, and suspensions illustrate how HITs mirror topological constructions, while infinity constructors extend this to infinite-dimensional spaces. Agda Cubical’s cubical primitives and indexed HITs make these constructions computationally tractable, despite challenges with infinite constructors. As cubical type theory advances, HITs will continue to enable synthetic homotopy theory, formalizing complex topological structures within proof assistants.
+HITs encode CW-complexes in HoTT, bridging topology and type
+theory. They capture cell attachments, as seen in the
+CW-complex definition, with examples like spheres and tori.
+Infinity constructors extend HITs to infinite spaces, handled
+by Agda Cubical’s primitives and indexed HITs. As cubical type
+theory grows, HITs will advance synthetic homotopy theory in
+proof assistants.
 
 \bibliographystyle{plain}
 \begin{thebibliography}{9}
 \bibitem{univalent}
-The Univalent Foundations Program, \emph{Homotopy Type Theory: Univalent Foundations of Mathematics}, Institute for Advanced Study, 2013.
+The Univalent Foundations Program, \emph{Homotopy Type Theory:
+Univalent Foundations of Mathematics}, IAS, 2013.
 \bibitem{cubicaltt}
-Cyril Cohen, Thierry Coquand, Simon Huber, and Anders Mörtberg, \emph{Cubical Type Theory: A Constructive Interpretation of the Univalent Foundations}, Journal of Automated Reasoning, 2018.
+C. Cohen, T. Coquand, S. Huber, A. Mörtberg, \emph{Cubical
+Type Theory}, Journal of Automated Reasoning, 2018.
 \bibitem{agda-cubical}
-Anders Mörtberg et al., \emph{Agda Cubical Library}, \url{https://github.com/agda/cubical}, 2023.
+A. Mörtberg et al., \emph{Agda Cubical Library},
+\url{https://github.com/agda/cubical}, 2023.
 \bibitem{hott-book}
-Michael Shulman, \emph{Higher Inductive Types in Homotopy Type Theory}, \url{https://arxiv.org/abs/1705.07088}, 2017.
+M. Shulman, \emph{Higher Inductive Types in HoTT},
+\url{https://arxiv.org/abs/1705.07088}, 2017.
 \end{thebibliography}
 
 \end{document}
