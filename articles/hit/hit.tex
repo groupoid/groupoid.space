@@ -927,8 +927,8 @@ def colimit (A : nat -> U) (f : (n : nat) -> A n -> A (succ n)) : U
 
 \begin{definition} (Конструктори).
 Коеквалайзер генерується такою вищою індуктивною композиційною структурою:
-Coeq :=
 \[
+\text{Coeq} :=
 \begin{cases}
 \text{inC} : B \to \text{Coeq}(A,B,f,g) \\
 \text{glueC} : (a : A) \to \text{Path}_{\text{coeq } A B f g} (\text{inC } (f a), \text{inC } (g a))
@@ -1000,7 +1000,7 @@ coequRec (A B C : U) (f g : A -> B) (h: B -> C) (y: (x : A) -> Path C (h (f x)) 
 \begin{definition} (Конструктори).
 Коеквалайзер шляхів генерується такою вищою індуктивною композиційною структурою:
 \[
-Coequ_\equiv :=
+\text{Coequ}_\equiv :=
 \begin{cases}
 \text{inP} : B \to \text{Coeq}_\equiv(A,B,p) \\
 \text{glueP} : (a : A) \to \text{inP}(p(a).2.2.1 @ 0) \equiv \text{inP}(p(a).2.2.2 @ 1)
@@ -1050,14 +1050,6 @@ def Ind-Coequ$_\equiv$ (A B C : U)
 і \( h_1(\text{glueP } a) = h_2(\text{glueP } a) \) для всіх \( a : A \).
 \end{theorem}
 
-\begin{example} (Шляховий Коеквалайзер для гомотопії)
-Шляховий Коеквалайзер може моделювати простори, де елементи \( A \) задають
-пари шляхів між точками в \( B \). Наприклад, якщо \( p(a) \) надає
-два шляхи від \( b_1 \) до \( b_2 \) у \( B \), \( \text{coeqP} \) конструює тип,
-що з’єднує початкові та кінцеві точки цих шляхів,
-корисний для вивчення гомотопічних класів.
-\end{example}
-
 \newpage
 \subsection{K(G,n)}
 Простори Ейленберга-МакЛейна \( K(G,n) \) мають єдину нетривіальну
@@ -1066,17 +1058,17 @@ def Ind-Coequ$_\equiv$ (A B C : U)
 \begin{definition} (K(G,n))
 Для абелевої групи \( G : \text{abgroup} \), тип \( KGn G : \text{nat} \to \mathcal{U} \).
 \[
+K(G,n) :=
 \begin{cases}
 n = 0: \text{discreteTopology}(G) \\
-n \geq 1: \text{succ}(n) = \text{nTrunc}(\text{suspension}(K1' (G.1, G.2.1)) n) (\text{succ} n)
+n \geq 1: \|\Sigma^{n-1}(K1'(G.1,G.2.1))\|_{n}
 \end{cases}
 \]
-\begin{lstlisting}
-KGn (G: abgroup)
-  : nat -> U
-  = split
-    zero -> discreteTopology G
-    succ n -> nTrunc (suspension (K1' (G.1,G.2.1)) n) (succ n)
+\begin{lstlisting}[mathescape=true]
+def KGn (G: abgroup) : $\mathbf{N}$ -> U
+ := split { zero -> discreteTopology G
+          | succ n -> nTrunc ($\Sigma$ (K1' (G.1,G.2.1)) n) (succ n)
+          }
 \end{lstlisting}
 \end{definition}
 
