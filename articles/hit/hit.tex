@@ -499,7 +499,7 @@ def $\odot$ (S A: U) : U
               | spoke (f: S -> $\odot$ S A) (s:S) : hub f $\equiv$ f s
               | hubEq (x y: A) (p: S -> x $\equiv$ y) : base x $\equiv$ base y
               | spokeEq (x y: A) (p: S -> x $\equiv$ y) (s: S)
-              : hubEq x y p $\equiv$ base (p s)
+              : hubEq x y p $\equiv$ cong base (p s)
               }
 \end{lstlisting}
 \end{definition}
@@ -931,7 +931,7 @@ def colimit (A : nat -> U) (f : (n : nat) -> A n -> A (succ n)) : U
 \text{Coeq} :=
 \begin{cases}
 \text{inC} : B \to \text{Coeq}(A,B,f,g) \\
-\text{glueC} : (a : A) \to \text{Path}_{\text{coeq } A B f g} (\text{inC } (f a), \text{inC } (g a))
+\text{glueC} : (a : A) \to \text{inC}(f(a)) \equiv \text{inC}(g(a))
 \end{cases}
 \]
 \begin{lstlisting}[mathescape=true]
@@ -946,16 +946,15 @@ def Coeq (A B: U) (f g: A -> B) : U
 Для типу \( C : \mathcal{U} \), відображення \( h : B \to C \), і сімейства шляхів \( y : (x : A) \to \text{Path}_C (h (f x), h (g x)) \), існує відображення \( \text{coequRec} : \text{coeq } A B f g \to C \), таке що:
 \[
 \begin{cases}
-\text{coequRec}(\text{inC } x) = h(x) \\
-\text{coequRec}(\text{glueC } x \, @ \, i) = y(x) \, @ \, i
+\text{coequRec}(\text{inC}(x)) = h(x) \\
+\text{coequRec}(\text{glueC}(x,i)) = y(x,i)
 \end{cases}
 \]
 \begin{lstlisting}
-coequRec (A B C : U) (f g : A -> B) (h: B -> C) (y: (x : A) -> Path C (h (f x)) (h (g x)))
-   : (z : coeq A B f g) -> C
-   = split
-     inC x -> h x
-     glueC x @ i -> y x @ i
+def coequRec (A B C : U) (f g : A -> B) (h: B -> C)
+    (y: (x : A) -> Path C (h (f x)) (h (g x)))
+  : (z : coeq A B f g) -> C
+ := split { inC x -> h x | glueC x @ i -> y x @ i }
 \end{lstlisting}
 \end{theorem}
 
@@ -1056,12 +1055,12 @@ def Ind-Coequ$_\equiv$ (A B C : U)
 гомотопічну групу \( \pi_n(K(G,n)) = G \). Вони визначаються за допомогою відсікань і суспензій.
 
 \begin{definition} (K(G,n))
-Для абелевої групи \( G : \text{abgroup} \), тип \( KGn G : \text{nat} \to \mathcal{U} \).
+Для абелевої групи \( G : \text{abgroup} \), тип \( KGn(G) : \text{nat} \to \mathcal{U} \).
 \[
 K(G,n) :=
 \begin{cases}
-n = 0: \text{discreteTopology}(G) \\
-n \geq 1: \|\Sigma^{n-1}(K1'(G.1,G.2.1))\|_{n}
+n = 0 \leadsto \text{discreteTopology}(G) \\
+n \geq 1 \leadsto \|\Sigma^{n-1}(K1'(G.1,G.2.1))\|_{n}
 \end{cases}
 \]
 \begin{lstlisting}[mathescape=true]
