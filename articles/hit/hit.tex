@@ -8,10 +8,31 @@
 \usepackage{mathtools}
 \usepackage{url}
 \usepackage{tikz-cd}
+\usepackage{newunicodechar}
 \usepackage[utf8]{inputenc}
 
 \hyphenpenalty=100
 \tolerance=20000
+
+\newunicodechar{λ}{$\lambda$}
+\newunicodechar{≔}{≔}
+\newunicodechar{₁}{₁}
+\newunicodechar{₂}{₂}
+\newunicodechar{₃}{₃}
+\newunicodechar{₄}{₄}
+\newunicodechar{₅}{₅}
+\newunicodechar{₆}{₆}
+\newunicodechar{₇}{₇}
+\newunicodechar{₈}{₈}
+\newunicodechar{₉}{₉}
+\newunicodechar{₀}{₀}
+\newunicodechar{Π}{$\Pi$}
+\newunicodechar{Σ}{$\Sigma$}
+
+\definecolor{keywordcolor}{rgb}{0.0, 0.1, 0.6}
+\definecolor{commentcolor}{rgb}{0.4, 0.4, 0.4}   % grey
+\definecolor{symbolcolor}{rgb}{0.0, 0.1, 0.6}    % blue
+\definecolor{sortcolor}{rgb}{0.1, 0.5, 0.1}      % green
 
 \theoremstyle{definition}
 \newtheorem{theorem}{Теорема}
@@ -19,7 +40,136 @@
 \newtheorem{example}{Приклад}
 \newcommand*{\incmap}{\hookrightarrow}
 \newcommand*{\thead}[1]{\multicolumn{1}{c}{\bfseries #1}}
-\lstset{basicstyle=\footnotesize,inputencoding=utf8}
+\lstset{basicstyle=\footnotesize,inputencoding=utf8,
+literate=
+{≔}{{\ensuremath{\mathrm{:=}}}}1
+{α}{{\ensuremath{\mathrm{\alpha}}}}1
+{β}{{\ensuremath{\mathrm{\beta}}}}1
+{γ}{{\ensuremath{\mathrm{\gamma}}}}1
+{δ}{{\ensuremath{\mathrm{\delta}}}}1
+{ε}{{\ensuremath{\mathrm{\varepsilon}}}}1
+{ζ}{{\ensuremath{\mathrm{\zeta}}}}1
+{η}{{\ensuremath{\mathrm{\eta}}}}1
+{θ}{{\ensuremath{\mathrm{\theta}}}}1
+{ι}{{\ensuremath{\mathrm{\iota}}}}1
+{κ}{{\ensuremath{\mathrm{\kappa}}}}1
+{μ}{{\ensuremath{\mathrm{\mu}}}}1
+{ν}{{\ensuremath{\mathrm{\nu}}}}1
+{ξ}{{\ensuremath{\mathrm{\xi}}}}1
+{π}{{\ensuremath{\mathrm{\mathnormal{\pi}}}}}1
+{ρ}{{\ensuremath{\mathrm{\rho}}}}1
+{σ}{{\ensuremath{\mathrm{\sigma}}}}1
+{τ}{{\ensuremath{\mathrm{\tau}}}}1
+{φ}{{\ensuremath{\mathrm{\varphi}}}}1
+{χ}{{\ensuremath{\mathrm{\chi}}}}1
+{ψ}{{\ensuremath{\mathrm{\psi}}}}1
+{ω}{{\ensuremath{\mathrm{\omega}}}}1
+{Π}{{\ensuremath{\mathrm{\Pi}}}}1
+{Γ}{{\ensuremath{\mathrm{\Gamma}}}}1
+{Δ}{{\ensuremath{\mathrm{\Delta}}}}1
+{Θ}{{\ensuremath{\mathrm{\Theta}}}}1
+{Λ}{{\ensuremath{\mathrm{\Lambda}}}}1
+{Σ}{{\ensuremath{\mathrm{\Sigma}}}}1
+{Φ}{{\ensuremath{\mathrm{\Phi}}}}1
+{Ξ}{{\ensuremath{\mathrm{\Xi}}}}1
+{Ψ}{{\ensuremath{\mathrm{\Psi}}}}1
+{Ω}{{\ensuremath{\mathrm{\Omega}}}}1
+{ℵ}{{\ensuremath{\aleph}}}1
+{≤}{{\ensuremath{\leq}}}1
+{≥}{{\ensuremath{\geq}}}1
+{≠}{{\ensuremath{\neq}}}1
+{≈}{{\ensuremath{\approx}}}1
+{≡}{{\ensuremath{\equiv}}}1
+{≃}{{\ensuremath{\simeq}}}1
+{≤}{{\ensuremath{\leq}}}1
+{≥}{{\ensuremath{\geq}}}1
+{∂}{{\ensuremath{\partial}}}1
+{∆}{{\ensuremath{\triangle}}}1 % or \laplace?
+{∫}{{\ensuremath{\int}}}1
+{∑}{{\ensuremath{\mathrm{\Sigma}}}}1
+{→}{{\ensuremath{\rightarrow}}}1
+{⊥}{{\ensuremath{\perp}}}1
+{∞}{{\ensuremath{\infty}}}1
+{∂}{{\ensuremath{\partial}}}1
+{∓}{{\ensuremath{\mp}}}1
+{±}{{\ensuremath{\pm}}}1
+{×}{{\ensuremath{\times}}}1
+{⊕}{{\ensuremath{\oplus}}}1
+{⊗}{{\ensuremath{\otimes}}}1
+{⊞}{{\ensuremath{\boxplus}}}1
+{∇}{{\ensuremath{\nabla}}}1
+{√}{{\ensuremath{\sqrt}}}1
+{⬝}{{\ensuremath{\cdot}}}1
+{•}{{\ensuremath{\cdot}}}1
+{∘}{{\ensuremath{\circ}}}1
+{⁻}{{\ensuremath{^{-}}}}1
+{▸}{{\ensuremath{\blacktriangleright}}}1
+{∧}{{\ensuremath{\wedge}}}1
+{∨}{{\ensuremath{\vee}}}1
+{¬}{{\ensuremath{\neg}}}1
+{⊢}{{\ensuremath{\vdash}}}1
+{⟨}{{\ensuremath{\langle}}}1
+{⟩}{{\ensuremath{\rangle}}}1
+{↦}{{\ensuremath{\mapsto}}}1
+{→}{{\ensuremath{\rightarrow}}}1
+{↔}{{\ensuremath{\leftrightarrow}}}1
+{⇒}{{\ensuremath{\Rightarrow}}}1
+{⟹}{{\ensuremath{\Longrightarrow}}}1
+{⇐}{{\ensuremath{\Leftarrow}}}1
+{⟸}{{\ensuremath{\Longleftarrow}}}1
+{∩}{{\ensuremath{\cap}}}1
+{∪}{{\ensuremath{\cup}}}1
+{⊂}{{\ensuremath{\subseteq}}}1
+{⊆}{{\ensuremath{\subseteq}}}1
+{⊄}{{\ensuremath{\nsubseteq}}}1
+{⊈}{{\ensuremath{\nsubseteq}}}1
+{⊃}{{\ensuremath{\supseteq}}}1
+{⊇}{{\ensuremath{\supseteq}}}1
+{⊅}{{\ensuremath{\nsupseteq}}}1
+{⊉}{{\ensuremath{\nsupseteq}}}1
+{∈}{{\ensuremath{\in}}}1
+{∉}{{\ensuremath{\notin}}}1
+{∋}{{\ensuremath{\ni}}}1
+{∌}{{\ensuremath{\notni}}}1
+{∅}{{\ensuremath{\emptyset}}}1
+{∖}{{\ensuremath{\setminus}}}1
+{†}{{\ensuremath{\dag}}}1
+{ℕ}{{\ensuremath{\mathbb{N}}}}1
+{ℤ}{{\ensuremath{\mathbb{Z}}}}1
+{ℝ}{{\ensuremath{\mathbb{R}}}}1
+{ℚ}{{\ensuremath{\mathbb{Q}}}}1
+{ℂ}{{\ensuremath{\mathbb{C}}}}1
+{⌞}{{\ensuremath{\llcorner}}}1
+{⌟}{{\ensuremath{\lrcorner}}}1
+{⦃}{{\ensuremath{ \{\!| }}}1
+{⦄}{{\ensuremath{ |\!\} }}}1
+{₁}{{\ensuremath{_1}}}1
+{₂}{{\ensuremath{_2}}}1
+{₃}{{\ensuremath{_3}}}1
+{₄}{{\ensuremath{_4}}}1
+{₅}{{\ensuremath{_5}}}1
+{₆}{{\ensuremath{_6}}}1
+{₇}{{\ensuremath{_7}}}1
+{₈}{{\ensuremath{_8}}}1
+{₉}{{\ensuremath{_9}}}1
+{₀}{{\ensuremath{_0}}}1
+{¹}{{\ensuremath{^1}}}1
+{ₙ}{{\ensuremath{_n}}}1
+{ₘ}{{\ensuremath{_m}}}1
+{↑}{{\ensuremath{\uparrow}}}1
+{↓}{{\ensuremath{\downarrow}}}1
+{▸}{{\ensuremath{\triangleright}}}1
+{∀}{{\ensuremath{\forall}}}1
+{∃}{{\ensuremath{\exists}}}1
+{λ}{{\ensuremath{\mathrm{\lambda}}}}1
+{=}{{=}}1
+{<}{{<}}1
+{(}{(}1
+{(}{(}1
+{‖}{‖}1
+{+}{{+}}1
+{*}{{*}}1,
+}
 
 \begin{document}
 
@@ -131,6 +281,10 @@ CW-комплекси є центральними в HoTT і з’являють
 яка часто використовується для зсуву гомотопічних груп, наприклад, для отримання \( S^{n+1} \) з \( S^n \).
 
 \begin{definition} (Формація)
+Для будь якого типу \( A : \mathcal{U} \), існує тип суспензія \( \Sigma A : \mathcal{U} \).
+\end{definition}
+
+\begin{definition} (Конструктори)
 Для типу \( A : \mathcal{U} \), суспензія \( \Sigma A : \mathcal{U} \)
 генерується такою вищою індуктивною композиційною структурою:
 \[
@@ -140,9 +294,6 @@ CW-комплекси є центральними в HoTT і з’являють
 \text{merid} : (a : A) \rightarrow north \equiv south \\
 \end{cases}
 \]
-\end{definition}
-
-\begin{definition} (Конструктори)
 \begin{lstlisting}[mathescape=true]
 def $\Sigma$ (A: U) : U
  := inductive { north
@@ -202,7 +353,7 @@ def $\Sigma$-$\beta$ (A: U) (B: $\Sigma A$ -> U) (n: B north) (s: B south)
 
 \begin{definition} (Формація)
 Для типів \( A, B, C : \mathcal{U} \) і відображень \( f : C \to A \), \( g : C \to B \),
-існує розшарована суса \( \sqcup(A,B,C,f,g) : \mathcal{U} \).
+існує розшарована сума \( \sqcup(A,B,C,f,g) : \mathcal{U} \).
 \end{definition}
 
 \begin{definition} (Конструктори)
@@ -216,8 +367,8 @@ def $\Sigma$-$\beta$ (A: U) (B: $\Sigma A$ -> U) (n: B north) (s: B south)
 \]
 \begin{lstlisting}[mathescape=true]
 def $\sqcup$ (A B C: U) (f: C -> A) (g: C -> B) : U
- := inductive { po$_1$ (_: A)
-              | po$_2$ (_: B)
+ := inductive { po$_1$ (a: A)
+              | po$_2$ (b: B)
               | po$_3$ (c: C) : po$_1$(f(c)) $\equiv$ po$_2$(g(c))
               }
 \end{lstlisting}
@@ -286,7 +437,7 @@ D^n \arrow[r] & X \cup_f D^n
 Сфери — це вищі індуктивні типи із шляхами вищої розмірності,
 що представляють фундаментальні топологічні простори.
 
-\begin{definition} (Точкові n-сфери)
+\begin{definition} (Одноточкові n-Сфери)
 \( n \)-сфера \( S^n \) визначається рекурсивно як тип у
 всесвіті \( \mathcal{U} \) за допомогою загальної рекурсії за розмірностями:
 \[
@@ -299,7 +450,7 @@ D^n \arrow[r] & X \cup_f D^n
 \]
 \end{definition}
 
-\begin{definition} (Суспендовані n-сфери)
+\begin{definition} (n-Сфери з суспензій)
 \( n \)-сфера \( S^n \) визначається рекурсивно як тип у
 всесвіті \( \mathcal{U} \) за допомогою загальної рекурсії над натуральними
 числами \( \mathbb{N} \). Для кожного \( n \in \mathbb{N} \),
@@ -341,8 +492,12 @@ X_n: \text{Приєднання } n\text{-клітини до } X_{n-1} = \{ \te
 розмірності \( n \). Вона моделює тип як CW-комплекс із
 хабом (центральною точкою) і спицями (шляхами до точок).
 
-\begin{definition} (Хаб і шпиці)
-Для типів \( S, A : \mathcal{U} \), тип хаб і шпиці \( \odot(S,A) : \mathcal{U} \).
+\begin{definition} (Формація)
+Для типів \( S, A : \mathcal{U} \), існує тип Хаб і шпиці \( \odot\ (S,A) : \mathcal{U} \).
+\end{definition}
+
+\begin{definition} (Конструктори)
+Хаб і шпиці вільно генерується такою вищою індуктивною композиційною структурою:
 \[
 \begin{cases}
 \text{base} : A \to \odot\ (S,A) \\
@@ -364,113 +519,134 @@ def $\odot$ (S A: U) : U
 \end{lstlisting}
 \end{definition}
 
-\begin{theorem} (Елімінація \( \text{hubSpokes} \))
+\begin{theorem} (Елімінація)
 Для типу \( B : \mathcal{U} \), відображення \( g : A \to B \),
-точки \( h : (S \to \text{hubSpokes } S A) \to B \),
-і відображень шляхів, що забезпечують когерентність, існує
-\( \text{rec}_{\text{hubSpokes}} : \text{hubSpokes } S A \to B \),
-таке що \( \text{rec}_{\text{hubSpokes}}(\text{base } x) = g(x) \)
-і \( \text{rec}_{\text{hubSpokes}}(\text{hub } f) = h(f) \).
+точки \( h : (S \to \odot\ S A) \to B \), і відображень шляхів,
+що забезпечують когерентність, існує
+\( \text{Ind}_{\odot} : \odot\ S A \to B \),
+таке що \( \text{Ind}_\odot(\text{base}(x)) = g(x) \)
+і \( \text{Ind}_\odot(\text{hub}(f)) = h(f) \).
 \end{theorem}
 
 \newpage
 \subsection{Відсікання}
 \subsubsection*{Відсікання множин}
+\begin{definition} (Формація)
 Відсікання множин (0-відсікання), позначене \( \| A \|_0 \),
 гарантує, що тип є множиною, з гомотопічними групами, що зникають вище розмірності 0.
+\end{definition}
 
-\begin{definition} (Відсікання множин)
-Для \( A : \mathcal{U} \), \( \| A \|_0 : \mathcal{U} \).
+\begin{definition} (Конструктори)
+Для \( A : \mathcal{U} \), \( \| A \|_0 : \mathcal{U} \) визначається наступною вищою
+індуктивною композиційною структурою:
 \[
+\| \_ \|_0 :=
 \begin{cases}
 \text{inc} : A \to \| A \|_0 \\
 \text{squash} : (a, b : \| A \|_0) \to (p, q : a \equiv b) \to p \equiv q
 \end{cases}
 \]
-\begin{lstlisting}
-data setTrunc (A: U)
-   = inc (a: A)
-   | squash (a b: setTrunc A) (p q: Path (setTrunc A) a b)
-     <i j> [ (i = 0) -> p @ j, (i = 1) -> q @ j,
-             (j = 0) -> a,     (j = 1) -> b ]
+\begin{lstlisting}[mathescape=true]
+def $\|$_$\|_0$ (A: U) : U
+ := inductive { inc (a: A)
+              | squash (a b: $\|$A$\|_0$) (p q: Path ($\|$A$\|_0$) a b)
+                <i j> [ (i = 0) -> p @ j, (i = 1) -> q @ j,
+                        (j = 0) -> a,     (j = 1) -> b ]
+              }
 \end{lstlisting}
 \end{definition}
 
 \begin{theorem} (Елімінація \( \| A \|_0 \))
 Для множини \( B : \mathcal{U} \) (тобто \( \text{isSet}(B) \)), відображення \( f : A \to B \),
-існує \( \text{setTruncRec} : \| A \|_0 \to B \), таке що \( \text{setTruncRec}(\text{inc}(a)) = f(a) \).
+існує \( \text{setTruncRec} : \| A \|_0 \to B \), таке що \( \text{Ind}_{\|A\|_0}(\text{inc}(a)) = f(a) \).
 \end{theorem}
 
 \subsubsection*{Відсікання групоїдів}
+\begin{definition} (Формація)
 Відсікання групоїдів (1-відсікання), позначене \( \| A \|_1 \), гарантує, що
 тип є 1-групоїдом, з гомотопічними групами, що зникають вище розмірності 1.
+\end{definition}
 
-\begin{definition} (Відсікання групоїдів)
-Для \( A : \mathcal{U} \), \( \| A \|_1 : \mathcal{U} \).
+\begin{definition} (Конструктори)
+Для \( A : \mathcal{U} \), \( \| A \|_1 : \mathcal{U} \) визначається наступною вищою
+індуктивною композиційною структурою:
 \[
+\| \_ \|_1 :=
 \begin{cases}
 \text{inc} : A \to \| A \|_1 \\
 \text{squash} : (a, b : \| A \|_1) \to (p, q : a \equiv b) \to (r, s : p \equiv q) \to r \equiv s
 \end{cases}
 \]
-\begin{lstlisting}
-data grpdTrunc (A: U)
-   = inc (a: A)
-   | squash (a b: grpdTrunc A)
-            (p q: Path (grpdTrunc A) a b)
-            (r s: Path (Path (grpdTrunc A) a b) p q)
-     <i j k> [ (i = 0) -> r @ j @ k, (i = 1) -> s @ j @ k,
-               (j = 0) -> p @ k,     (j = 1) -> q @ k,
-               (k = 0) -> a,         (k = 1) -> b ]
+\begin{lstlisting}[mathescape=true]
+def $\|$_$\|_1$ (A: U) : U
+ := inductive { inc (a: A)
+              | squash (a b: $\|$A$\|_1$) (p q: Path ($\|$A$\|_1$) a b)
+                (r s: Path (Path ($\|$A$\|_1$) a b) p q) <i j k>
+                [ (i = 0) -> r @ j @ k, (i = 1) -> s @ j @ k,
+                  (j = 0) -> p @ k,     (j = 1) -> q @ k,
+                  (k = 0) -> a,         (k = 1) -> b ]
+              }
 \end{lstlisting}
 \end{definition}
 
 \begin{theorem} (Елімінація \( \| A \|_1 \))
 Для 1-групоїда \( B : \mathcal{U} \) (тобто \( \text{isGroupoid}(B) \)),
-відображення \( f : A \to B \), існує \( \text{grpdTruncRec} : \| A \|_1 \to B \),
-таке що \( \text{grpdTruncRec}(\text{inc}(a)) = f(a) \).
+відображення \( f : A \to B \), існує \( \text{Ind}_{\|A\|_1} : \|A\|_1 \to B \),
+таке що \( \text{Ind}_{\|A\|_1}(\text{inc}(a)) = f(a) \).
 \end{theorem}
 
 \newpage
 \subsection{Фактор-простори}
 \subsubsection*{Фактор-простори множин}
+Фактор-простори є потужним обчислювальним інструментом теорії типів який
+вбудовано в ядро Lean.
+\begin{definition} (Формація)
 Фактор-простори множин конструюють тип \( A \), факторизований за
 відношенням \( R : A \to A \to \mathcal{U} \), гарантуючи, що результат є множиною.
+\end{definition}
 
-\begin{definition} (Фактор-простір множин)
+\begin{definition} (Конструктори)
 Для типу \( A : \mathcal{U} \) і відношення \( R : A \to A \to \mathcal{U} \),
-факстор-простір множин \( \text{setQuot } A R : \mathcal{U} \) визначається конструкторами:
+факстор-простір множин \( A / R : \mathcal{U} \) вільно генерується наступною
+вищою індуктивною композиційною структурою:
 \[
+A / R :=
 \begin{cases}
-\text{quotient} : A \to \text{setQuot}(A,R) \\
-\text{identification} : (a, b : A) \to R a b \to \text{quotient}(a) \equiv \text{quotient}(b) \\
-\text{trunc} : (a, b : \text{setQuot}(A,R)) \to (p, q : a \equiv b) \to p \equiv q
+\text{quot} : A \to A / R \\
+\text{ident} : (a, b : A) \to R a b \to \text{quot}(a) \equiv \text{quot}(b) \\
+\text{trunc} : (a, b : A / R) \to (p, q : a \equiv b) \to p \equiv q
 \end{cases}
 \]
-\begin{lstlisting}
-data setQuot (A: U) (R: A -> A -> U)
-   = quotient (a: A)
-   | identification (a b: A) (r: R a b)
-     <i> [ (i=0) -> quotient a, (i=1) -> quotient b ]
-   | trunc (a b : setQuot A R) (p q : Path (setQuot A R) a b)
-     <i j> [ (i = 0) -> p @ j , (i = 1) -> q @ j ,
-             (j = 0) -> a ,     (j = 1) -> b ]
+\begin{lstlisting}[mathescape=true]
+def / (A: U) (R: A -> A -> U) : U
+  := inductive { quot (a: A)
+               | ident (a b: A) (r: R a b) : quot(a) $\equiv$ quot(b)
+               | trunc (a b : / A R) (p q : Path (/ A R) a b)
+                 <i j> [ (i = 0) -> p @ j , (i = 1) -> q @ j ,
+                         (j = 0) -> a ,     (j = 1) -> b ]
+               }
 \end{lstlisting}
 \end{definition}
 
-\begin{theorem} (Елімінація \( \text{setQuot} \))
-Для сімейства типів \( B : \text{setQuot } A R \to \mathcal{U} \) з \( \text{isSet}(B x) \),
-і відображень \( f : (x : A) \to B(\text{quotient } x) \),
-\( g : (a, b : A) \to (r : R a b) \to \text{PathP} (<i> B(\text{idq } a b r @ i)) (f a) (f b) \),
-існує \( \text{setQuotElim} : \Pi_{x:\text{setQuot } A R} B(x) \), таке що \( \text{setQuotElim}(\text{quotient } a) = f a \).
+\begin{theorem} (Елімінація)
+Для сімейства типів \( B : A/R \to \mathcal{U} \) з \( \text{isSet}(B x) \),
+і відображень \( f : (x : A) \to B(\text{quot}(x)) \),
+\( g : (a, b : A) \to (r : R(a,b)) \to \text{PathP} (<i> B(\text{idq}(a,b,r)\ @\ i)) (f(a)) (f(b)) \),
+існує \( \text{Ind}_{A/R} : \Pi (x: A/R), B(x) \), таке що \( \text{Ind}_{A/R}(\text{quot}(a)) = f(a) \).
 \end{theorem}
 
 \subsubsection*{Фактор-простори групоїдів}
+\begin{definition} (Формація)
 Фактор-простори групоїдів розширюють фактор-простори множин для створення 1-групоїда,
-включаючи конструктори вищих шляхів.
+включаючи конструктори вищих шляхів. Фактор-простори групоїдів
+конструюють тип \( A \), факторизований за відношенням \( R : A \to A \to \mathcal{U} \),
+гарантуючи, що результат є групоїдом.
+\end{definition}
 
-\begin{definition} (Фактор-простір групоїдів)
-Для типу \( A : \mathcal{U} \) і відношення \( R : A \to A \to \mathcal{U} \), Фактор-простір групоїдів \( \text{grpdQuot } A R : \mathcal{U} \) включає конструктори для точок, шляхів і вищих шляхів, що забезпечують структуру 1-групоїда. (Примітка: Повне означення потребує додаткової структури, частково опущено для стислості.)
+\begin{definition} (Конструктори)
+Для типу \( A : \mathcal{U} \) і відношення \( R : A \to A \to \mathcal{U} \),
+Фактор-простір групоїдів \(  A // R : \mathcal{U} \) включає
+конструктори для точок, шляхів і вищих шляхів, що забезпечують структуру 1-групоїда.
 \end{definition}
 
 \newpage
@@ -726,18 +902,19 @@ def colimit (A : nat -> U) (f : (n : nat) -> A n -> A (succ n)) : U
 \end{definition}
 
 \begin{definition} (Конструктори)
-Коеквалайзер генерується такою вищою
-індуктивною композиційною структурою:
+Коеквалайзер генерується такою вищою індуктивною композиційною структурою:
+Coeq(A,B,f,g) :=
 \[
 \begin{cases}
-\text{inC} : B \to \text{coeq } A B f g \\
+\text{inC} : B \to \text{Coeq}(A,B,f,g) \\
 \text{glueC} : (a : A) \to \text{Path}_{\text{coeq } A B f g} (\text{inC } (f a), \text{inC } (g a))
 \end{cases}
 \]
-\begin{lstlisting}
-data coeq (A B: U) (f g: A -> B)
-   = inC (_: B)
-   | glueC (a: A) <i> [(i=0) -> inC (f a), (i=1) -> inC (g a) ]
+\begin{lstlisting}[mathescape=true]
+def Coeq (A B: U) (f g: A -> B) : U
+ := inductive { inC (b: B)
+              | glueC (a: A) : inC (f a) $\equiv$ inC (g a)
+              }
 \end{lstlisting}
 \end{definition}
 
@@ -824,7 +1001,7 @@ data Coeq-$\equiv$ (A B: U) (p : A -> $\Sigma$ (b1 b2: B), b1 $\equiv$ b2 $\time
 \]
 \begin{lstlisting}[mathescape=true]
 def Ind-Coequ$_\equiv$ (A B C : U)
-    (p : A -> $\Sigma$ (b1 b2: B) (_: Path B b1 b2), Path B b1 b2)
+    (p : A -> $\Sigma$ (b1 b2: B) (x: Path B b1 b2), Path B b1 b2)
     (h: B -> C) (y: (a : A) -> Path C (h (((p a).2.2.1) @ 0)) (h (((p a).2.2.2) @ 1)))
   : (z : coeqP A B p) -> C
  := split { inP b -> h b | glueP a @ i -> y a @ i }
