@@ -715,7 +715,7 @@ A \wedge B :=
 \begin{cases}
 \text{basel} : A \wedge B \\
 \text{baser} : A \wedge B \\
-\text{proj} : (x : A.2) \to (y : A.2) \to A \wedge B \\
+\text{proj} : \Pi (x : A.1) (y : B.1), A \wedge B \\
 \text{smashpt} : \text{Path}_{\text{Smash } A B} (\text{smash } A.2 \, B.2, \text{spair } A.2 \, B.2)
 \end{cases}
 \]

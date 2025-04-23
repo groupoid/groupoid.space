@@ -1,6 +1,6 @@
 {-# OPTIONS --cubical --safe #-}
 
-module Vee where
+module SmashProduct where
 
 open import Cubical.Foundations.Prelude
 open import Cubical.Foundations.Path
