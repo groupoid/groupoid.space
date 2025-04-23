@@ -732,40 +732,67 @@ def $\wedge$ (A : pointed) (B : pointed) : U
 \end{definition}
 
 \begin{theorem} (Елімінація).
-Для типу \( C : \mathcal{U} \), відображення \( f : A.1 \to B.1 \to C \),
-шляхів \( g : (a : A.1) \to (b : B.1) \to \text{Path}_C (f a \, B.2, f A.2 \, b) \),
-і 2-шляху \( h : \text{Path}_{\text{Path}_{\text{Smash } A B} (f A.2 \, B.2, f A.2 \, B.2)} (g A.2 \, B.2, \text{idp } (f A.2 \, B.2)) \),
-існує відображення \( \text{SmashRec} : \text{Smash } A B \to C \), таке що:
+Для сімейств типів \( P : \text{Smash } A \, B \to \mathcal{U} \),
+їх точок \( \text{pbasel} : P(\text{basel}) \),
+         \( \text{pbaser} : P(\text{baser}) \), відображєнь
+\( \text{pproj} : (x : A.1) \to (y : B.1) \to P \, (\text{proj} \, x \, y) \),
+і сімейства шляхів
+\( \text{pgluel} : (a : A.1) \to \text{pproj}(a,B.2) \equiv \text{pbasel} \),
+\( \text{pgluer} : (b : B.1) \to \text{pproj}(A.2,b) \equiv \text{pbaser} \),
+існує відображення \( \text{Ind}_\wedge : (z : A \wedge B) \to P(z) \), таке що:
 \[
 \begin{cases}
-\text{SmashRec}(\text{spair } a \, b) = f(a, b) \\
-\text{SmashRec}(\text{smash } a \, b \, @ \, x) = g(a, b) \, @ \, x \\
-\text{SmashRec}(\text{smashpt } @ \, x \, @ \, y) = h \, @ \, x \, @ \, y
+\text{Ind}_\wedge \, (\text{basel}) = \text{pbasel} \\
+\text{Ind}_\wedge \, (\text{baser}) = \text{pbaser} \\
+\text{Ind}_\wedge \, (\text{proj} \, x \, y) = \text{pproj} \, x \, y \\
+\text{Ind}_\wedge \, (\text{gluel} \, a \, @ \, i) = \text{pgluel} \, a \, @ \, i \\
+\text{Ind}_\wedge \, (\text{gluer} \, b \, @ \, i) = \text{pgluer} \, b \, @ \, i \\
 \end{cases}
 \]
+\begin{lstlisting}[mathescape=true]
+def Ind$_\wedge$ (A B : pointed) (P : A $\wedge$ B -> U)
+    (pbasel : P basel) (pbaser : P baser)
+    (pproj : (x : A.1) -> (y : B.1) -> P (proj x y))
+    (pgluel : (a : A.1) -> PathP (<i> P (gluel a @ i)) (pproj a B.2) pbasel)
+    (pgluer : (b : B.1) -> PathP (<i> P (gluer b @ i)) (pproj A.2 b) pbaser)
+  : (z : A $\wedge$ B) -> P z
+ := split { basel -> pbasel | baser -> pbaser | proj x y -> pproj x y
+          | gluel a @ i -> pgluel a @ i | gluer b @ i -> pgluer b @ i }
+\end{lstlisting}
 \end{theorem}
 
 \begin{theorem} (Обчислення).
-Для \( z : \text{Smash } A B \),
+Для сімейства типів \( P : A \wedge B \to \mathcal{U} \),
+точок \( \text{pbasel} : P(\text{basel}) \),
+\( \text{pbaser} : P(\text{baser}) \),
+відображення \( \text{pproj} : (x : A.1) \to (y : B.1) \to P(\text{proj} \, x \, y) \),
+і сімейства шляхів
+\( \text{pgluel} : (a : A.1) \to \text{PathP} \, (<i> P(\text{gluel} \, a \, @ \, i)) \, (\text{pproj} \, a \, B.2) \, \text{pbasel} \),
+\( \text{pgluer} : (b : B.1) \to \text{PathP} \, (<i> P(\text{gluer} \, b \, @ \, i)) \, (\text{pproj} \, A.2 \, b) \, \text{pbaser} \),
+відображення \( \text{Ind}_\wedge : (z : A \wedge B) \to P(z) \), задовольняє всі рівняння для всіх варіантів
+параметрів предиката $P$:
 \[
 \begin{cases}
-\text{SmashRec}(\text{spair } a \, b) \equiv f(a, b) \\
-\text{SmashRec}(\text{smash } a \, b \, @ \, x) \equiv g(a, b) \, @ \, x \\
-\text{SmashRec}(\text{smashpt } @ \, x \, @ \, y) \equiv h \, @ \, x \, @ \, y
-\end{cases}
+\text{Ind}_\wedge \, (\text{basel}) \equiv \text{pbasel} \\
+\text{Ind}_\wedge \, (\text{baser}) \equiv \text{pbaser} \\
+\text{Ind}_\wedge \, (\text{proj} \, x \, y) \equiv \text{pproj} \, x \, y \\
+\text{Ind}_\wedge \, (\text{gluel} \, a \, @ \, i) \equiv \text{pgluel} \, a \, @ \, i \\
+\text{Ind}_\wedge \, (\text{gluer} \, b \, @ \, i) \equiv \text{pgluer} \, b \, @ \, i
+\end{cases}.
 \]
 \end{theorem}
 
 \begin{theorem} (Унікальність).
-Будь-які два відображення \( h_1, h_2 : \text{Smash } A B \to C \) є гомотопними,
-якщо вони збігаються на \( \text{spair} \), \( \text{smash} \) і \( \text{smashpt} \).
+Для сімейства типів \( P : A \wedge B \to \mathcal{U} \),
+і відображень \( h_1, h_2 : (z : A \wedge B) \to P(z) \),
+якщо існують шляхи
+\( e_{\text{basel}} : h_1(\text{basel}) \equiv h_2(\text{basel}) \),
+\( e_{\text{baser}} : h_1(\text{baser}) \equiv h_2(\text{baser}) \),
+\( e_{\text{proj}} : (x : A.1) \to (y : B.1) \to h_1(\text{proj} \, x \, y) \equiv h_2(\text{proj} \, x \, y) \),
+\( e_{\text{gluel}} : (a : A.1) \to \text{PathP} \, (<i> h_1(\text{gluel} \, a \, @ \, i) \equiv h_2(\text{gluel} \, a \, @ \, i)) \, (e_{\text{proj}} \, a \, B.2) \, e_{\text{basel}} \),
+\( e_{\text{gluer}} : (b : B.1) \to \text{PathP} \, (<i> h_1(\text{gluer} \, b \, @ \, i) \equiv h_2(\text{gluer} \, b \, @ \, i)) \, (e_{\text{proj}} \, A.2 \, b) \, e_{\text{baser}} \),
+то \( h_1 \equiv h_2 \), тобто існує шлях \( (z : A \wedge B) \to h_1(z) \equiv h_2(z) \).
 \end{theorem}
-
-\begin{example} (Смеш-добуток сфер)
-Смеш-добуток \( S^1 \wedge S^1 \) є гомотопічно еквівалентним \( S^2 \),
-оскільки він факторизує тор \( S^1 \times S^1 \) за клин \( S^1 \vee S^1 \),
-зводячи базові точки та їхні волокна.
-\end{example}
 
 \newpage
 \subsection{З’єднання}
@@ -776,57 +803,49 @@ def $\wedge$ (A : pointed) (B : pointed) : U
 простір, що інтерполює між \( A \) і \( B \).
 
 \begin{definition} (Формація).
-Для типів \( A, B : \mathcal{U} \), з’єднання \( \text{Join } A B : \mathcal{U} \).
+Для типів \( A, B : \mathcal{U} \), з’єднання \( A * B : \mathcal{U} \).
 \end{definition}
 
 \begin{definition} (Конструктори).
 З’єднання генерується такою вищою індуктивною композиційною структурою:
 \[
+A * B :=
 \begin{cases}
-\text{joinl} : A \to \text{Join } A B \\
-\text{joinr} : B \to \text{Join } A B \\
-\text{join} : (a : A) \to (b : B) \to \text{Path}_{\text{Join } A B} (\text{joinl } a, \text{joinr } b)
+\text{joinl} : A \to A * B \\
+\text{joinr} : B \to A * B \\
+\text{join} (a : A) (b : B) : \text{joinl}(a) \equiv \text{joinr}(b)
 \end{cases}
 \]
 \begin{lstlisting}
-data Join (A : U) (B : U)
-   = joinl (a : A)
-   | joinr (b : B)
-   | join (a:A) (b:B) <i> [(i=0) -> joinl a, (i=1) -> joinr b]
+def * (A : U) (B : U) : U
+ := inductive { joinl (a: A)
+              | joinr (b: B)
+              | join (a: A) (b: B) : joinl(a) $\equiv$ joinr(b)
+              }
 \end{lstlisting}
 \end{definition}
 
 \begin{theorem} (Елімінація).
 Для типу \( C : \mathcal{U} \), відображень \( f : A \to C \), \( g : B \to C \),
 і сімейства шляхів \( h : (a : A) \to (b : B) \to \text{Path}_C (f a, g b) \),
-існує відображення \( \text{JoinRec} : \text{Join } A B \to C \), таке що:
+існує відображення \( \text{Ind}_* : A * B \to C \), таке що:
 \[
 \begin{cases}
-\text{JoinRec}(\text{joinl } a) = f(a) \\
-\text{JoinRec}(\text{joinr } b) = g(b) \\
-\text{JoinRec}(\text{join } a \, b \, @ \, i) = h(a, b) \, @ \, i
+\text{Ind}_*(\text{joinl}(a)) = f(a) \\
+\text{Ind}_*(\text{joinr}(b)) = g(b) \\
+\text{Ind}_*(\text{join}(a,b,i)) = h(a,b,i) \\
 \end{cases}
 \]
 \begin{lstlisting}
-JoinRec (A B C : U) (f : A -> C) (g : B -> C)
-        (h : (a : A) -> (b : B) -> Path C (f a) (g b))
-   : Join A B -> C
-   = split
-     joinl a -> f a
-     joinr b -> g b
-     join a b @ i -> h a b @ i
+def Ind_* (A B C : U) (f : A -> C) (g : B -> C)
+    (h : (a : A) -> (b : B) -> Path C (f a) (g b))
+  : A * B -> C
+ := split { joinl a -> f a | joinr b -> g b | join a b @ i -> h a b @ i }
 \end{lstlisting}
 \end{theorem}
 
 \begin{theorem} (Обчислення).
-Для \( z : \text{Join } A B \),
-\[
-\begin{cases}
-\text{JoinRec}(\text{joinl } a) \equiv f(a) \\
-\text{JoinRec}(\text{joinr } b) \equiv g(b) \\
-\text{JoinRec}(\text{join } a \, b \, @ \, i) \equiv h(a, b) \, @ \, i
-\end{cases}
-\]
+Для всіх $z : A * B$, і предиката $P$ виконуються правила $\text{Ind}_*$ для всіх параметрів предиката $P$.
 \end{theorem}
 
 \begin{theorem} (Унікальність).
@@ -834,11 +853,7 @@ JoinRec (A B C : U) (f : A -> C) (g : B -> C)
 якщо вони збігаються на \( \text{joinl} \), \( \text{joinr} \) і \( \text{join} \).
 \end{theorem}
 
-\begin{example} (З’єднання сфер)
-З’єднання \( S^0 * S^0 \) є гомотопічно еквівалентним \( S^1 \), оскільки воно з’єднує
-дві точки (з кожної \( S^0 \)) шляхами, формуючи структуру, подібну до кола.
-\end{example}
-
+\newpage
 \subsection{Кограниця}
 Кограниці конструюють границю послідовності типів, з’єднаних відображеннями,
 наприклад, пропозіційні відсікання.
