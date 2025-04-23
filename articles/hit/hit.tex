@@ -593,7 +593,7 @@ def $\|$_$\|_1$ (A: U) : U
 A / R :=
 \begin{cases}
 \text{quot} : A \to A / R \\
-\text{ident} : (a, b : A) \to R a b \to \text{quot}(a) \equiv \text{quot}(b) \\
+\text{ident} : (a, b : A) \to R(a,b) \to \text{quot}(a) \equiv \text{quot}(b) \\
 \text{trunc} : (a, b : A / R) \to (p, q : a \equiv b) \to p \equiv q
 \end{cases}
 \]
@@ -715,18 +715,19 @@ A \wedge B :=
 \begin{cases}
 \text{basel} : A \wedge B \\
 \text{baser} : A \wedge B \\
-\text{proj} : \Pi (x : A.1) (y : B.1), A \wedge B \\
-\text{smashpt} : \text{Path}_{\text{Smash } A B} (\text{smash } A.2 \, B.2, \text{spair } A.2 \, B.2)
+\text{proj} (x: A.1) (y: B.1) : A \wedge B \\
+\text{gluel} (a: A.2) : proj(a,B.2) \equiv basel \\
+\text{gluer} (b: B.2) : proj(A.2,b) \equiv baser \\
 \end{cases}
 \]
-\begin{lstlisting}
-data Smash (A : pointed) (B : pointed)
-   = spair (a : A.1) (b : B.1)
-   | smash (a : A.1) (b : B.1) <x> [(x=0) -> spair a B.2, (x=1) -> spair A.2 b]
-   | smashpt <x y> [(x=0) -> smash A.2 B.2 @ y,
-                    (x=1) -> spair A.2 B.2,
-                    (y=0) -> spair A.2 B.2,
-                    (y=1) -> spair A.2 B.2]
+\begin{lstlisting}[mathescape=true]
+def $\wedge$ (A : pointed) (B : pointed) : U
+ := inductive { basel
+              | baser
+              | proj (a : A.1) (b : B.1)
+              | gluel (a : A.2) : proj(a,B.2) $\equiv$ basel
+              | gluer (a : B.2) : proj(A.2,b) $\equiv$ baser
+              }
 \end{lstlisting}
 \end{definition}
 
@@ -1053,12 +1054,17 @@ KGn (G: abgroup)
 Для сімейства відображень \( F_A : S(a) \to T(a) \),
 \( F \)-локалізація \( L^{AST}_F(X) : \mathcal{U} \).
 \[
+L^{A}_F(X) :=
 \begin{cases}
 \text{center} : X \to L_{F_A}(X) \\
-\text{ext} : (a : A) \to (S(a) \to L_{F_A}(X)) \to T(a) \to L_{F_A}(X) \\
-\text{isExt} : (a : A) \to (f : S(a) \to L_{F_A}(X)) \to (s : S(a)) \to \text{Path}_{L_{F_A}(X)} (\text{ext } a f (F a s), f s) \\
-\text{extEq} : (a : A) \to (g, h : T(a) \to L_{F_A}(X)) \to (p : (s : S(a)) \to \text{Path}_{L_{F_A}(X)} (g (F a s), h (F a s))) \to (t : T(a)) \to \text{Path}_{L_{F_A}(X)} (g t, h t) \\
-\text{isExtEq} : (a : A) \to (g, h : T(a) \to L_{F_A}(X)) \to (p : (s : S(a)) \to \text{Path}_{L_{F_A}(X)} (g (F a s), h (F a s))) \to (s : S(a)) \to \text{Path}_{L_{F_A}(X)} (\text{extEq } a g h p (F a s), p s)
+\text{ext} (a : A) \to (S(a) \to L_{F_A}(X)) : T(a) \to L_{F_A}(X) \\
+\text{isExt} (a : A) (f : S(a) \to L_{F_A}(X)) \to (s : S(a)) : \text{ext}(a,f,F(a,s)) \equiv f(s) \\
+\text{extEq} (a : A) (g, h : T(a) \to L_{F_A}(X)) \\
+\indent (p : (s : S(a)) \to g(F(a,s)) \equiv h(F(a,s))) \\
+\indent (t : T(a)) : g(t) \equiv h(t) \\
+\text{isExtEq} : (a : A) (g, h : T(a) \to L_{F_A}(X)) \\
+\indent  (p : (s : S(a)) \to g(F(a,s)) \equiv h(F(a,s))) \\
+\indent (s : S(a)) : \text{extEq}(a,g,h,p,F(a,s) \equiv p(s)
 \end{cases}
 \]
 \begin{lstlisting}
