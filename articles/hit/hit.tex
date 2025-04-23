@@ -259,27 +259,27 @@ def Ind$_\sqcup$ : (A B C : U) (f : C $\rightarrow$ A) (g : C $\rightarrow$ B)
 
 \newpage
 \begin{theorem} (Computation)
-For $x : \text{pushout } A B C f g$,
+For $x : \sqcup(A,B,C,f,g)$,
 \[
 \begin{cases}
-\text{pushoutRec}(\text{po1 } a) \equiv h_A(a) \\
-\text{pushoutRec}(\text{po2 } b) \equiv h_B(b) \\
-\text{pushoutRec}(\text{po3 } c \, @ \, i) \equiv h_C(c) \, @ \, i
+\text{Ind$_\sqcup$}(\text{po$_1$}(a)) \equiv u(a) \\
+\text{Ind$_\sqcup$}(\text{po$_2$}(b)) \equiv v(b) \\
+\text{Ind$_\sqcup$}(\text{po$_3$}(c,i)) \equiv p(c,i)
 \end{cases}
 \]
 \end{theorem}
 
 \begin{theorem} (Uniqueness)
-Any two maps $h_1, h_2 : \text{pushout } A B C f g \to D$ are homotopic
-if they agree on $\text{po1}$, $\text{po2}$, and $\text{po3}$, i.e.,
-if $h_1(\text{po1 } a) = h_2(\text{po1 } a)$ for all $a : A$, $h_1(\text{po2 } b) = h_2(\text{po2 } b)$
-for all $b : B$, and $h_1(\text{po3 } c) = h_2(\text{po3 } c)$ for all $c : C$.
+Any two maps $u, v : \sqcup(A,B,C,f,g) \to D$ are homotopic
+if they agree on $\text{po}_1$, $\text{po}_2$, and $\text{po}_3$, i.e.,
+if $u(\text{po}_1(a)) = v(\text{po}_1(a))$ for all $a : A$, $u(\text{po}_2(b)) = v(\text{po}_2(b))$
+for all $b : B$, and $u(\text{po}_3(c)) = v(\text{po}_3(c))$ for all $c : C$.
 \end{theorem}
 
 \begin{example} (Cell Attachment)
 The pushout models attaching an $n$-cell to a space $X$.
 Given $f : S^{n-1} \to X$ and the inclusion $g : S^{n-1} \to D^n$,
-the pushout $\text{pushout } X D^n S^{n-1} f g$ is the
+the pushout $\sqcup(X,D^n,S^{n-1},f,g)$ is the
 space $X \cup_f D^n$, gluing the $n$-disk to $X$ along $f$.
 \[
 \begin{tikzcd}
