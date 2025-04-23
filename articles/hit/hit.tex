@@ -1,4 +1,3 @@
-% copyright (c) 2018 Groupoid Infinity
 \documentclass{article}
 \usepackage[english]{babel}
 \usepackage{hyphenat}
@@ -43,8 +42,8 @@ topological role, and implementation in Agda Cubical, focusing on infinity const
 \section{CW-Complexes}
 CW-complexes are spaces built by attaching cells of increasing
 dimension. In HoTT, they are encoded as HITs, with cells as
-constructors for points and paths.\begin{definition} (Cell Attachment). Attaching an \( n \)-cell
-to a space \( X \) along \( f : S^{n-1} \to X \) is a pushout:
+constructors for points and paths.\begin{definition} (Cell Attachment).
+Attaching an \( n \)-cell to a space \( X \) along \( f : S^{n-1} \to X \) is a pushout:
 \[
 \begin{tikzcd}
 S^{n-1} \arrow[r, "f"] \arrow[d, "\iota"] & X \arrow[d, "j"] \\
@@ -120,7 +119,9 @@ def S$^\infty$ : U
 \end{lstlisting}
 Challenges include type checking, computation, and expressivity.
 
-Agda Cubical uses cubical primitives to handle HITs, supporting infinite constructors via indexed HITs.
+Agda Cubical uses cubical primitives to handle HITs, supporting
+infinite constructors via indexed HITs.
+
 \begin{lstlisting}[mathescape=true]
 def HIT-$\infty$ (A: U) : U
  := inductive { point : HIT-$\infty$ A
@@ -129,12 +130,18 @@ def HIT-$\infty$ (A: U) : U
 \end{lstlisting}
 
 \section{Higher Inductive Types}
-CW-complexes are central in HoTT and appear in cubical type checkers as HITs. Unlike inductive types (recursive trees), HITs encode CW-complexes, capturing points (0-cells) and higher paths (n-cells). Defining an HIT specifies a CW-complex via cubical composition, an initial algebra in a cubical model.
+CW-complexes are central in HoTT and appear in cubical type checkers as HITs.
+Unlike inductive types (recursive trees), HITs encode CW-complexes, capturing
+points (0-cells) and higher paths (n-cells). Defining an HIT specifies a CW-complex
+via cubical composition, an initial algebra in a cubical model.
 
 \newpage
 
 \subsection{Suspension}
-The suspension $\Sigma A$ of a type $A$ is a higher inductive type (HIT) that constructs a new type by adding two points, called poles, and paths connecting each point of $A$ to these poles. It is a fundamental construction in homotopy type theory, often used to shift homotopy groups, e.g., producing $S^{n+1}$ from $S^n$.
+The suspension $\Sigma A$ of a type $A$ is a higher inductive type (HIT) that
+constructs a new type by adding two points, called poles, and paths connecting
+each point of $A$ to these poles. It is a fundamental construction in homotopy
+type theory, often used to shift homotopy groups, e.g., producing $S^{n+1}$ from $S^n$.
 
 \begin{definition} (Formation)
 For a type $A : \mathcal{U}$, the suspension $\Sigma A : \mathcal{U}$.
@@ -212,10 +219,15 @@ $\text{merid}(\text{base}_1)$, resembling the loop structure of $S^1$.
 
 
 \subsection{Pushout}
-The pushout is a higher inductive type (HIT) that constructs a type by gluing two types $A$ and $B$ along a common type $C$ via maps $f : C \to A$ and $g : C \to B$. It is a fundamental construction in homotopy type theory, used to model cell attachments and cofibrant objects, generalizing the topological notion of pushouts.
+The pushout is a higher inductive type (HIT) that constructs a type by
+gluing two types $A$ and $B$ along a common type $C$ via maps $f : C \to A$
+and $g : C \to B$. It is a fundamental construction in homotopy type theory,
+used to model cell attachments and cofibrant objects, generalizing the
+topological notion of pushouts.
 
 \begin{definition} (Formation)
-For types $A, B, C : \mathcal{U}$ and maps $f : C \to A$, $g : C \to B$, the pushout $\text{pushout } A B C f g : \mathcal{U}$.
+For types $A, B, C : \mathcal{U}$ and maps $f : C \to A$, $g : C \to B$,
+the pushout $\text{pushout } A B C f g : \mathcal{U}$.
 \end{definition}
 
 \begin{definition} (Introduction)
@@ -270,11 +282,17 @@ For $x : \text{pushout } A B C f g$,
 \end{theorem}
 
 \begin{theorem} (Uniqueness)
-Any two maps $h_1, h_2 : \text{pushout } A B C f g \to D$ are homotopic if they agree on $\text{po1}$, $\text{po2}$, and $\text{po3}$, i.e., if $h_1(\text{po1 } a) = h_2(\text{po1 } a)$ for all $a : A$, $h_1(\text{po2 } b) = h_2(\text{po2 } b)$ for all $b : B$, and $h_1(\text{po3 } c) = h_2(\text{po3 } c)$ for all $c : C$.
+Any two maps $h_1, h_2 : \text{pushout } A B C f g \to D$ are homotopic
+if they agree on $\text{po1}$, $\text{po2}$, and $\text{po3}$, i.e.,
+if $h_1(\text{po1 } a) = h_2(\text{po1 } a)$ for all $a : A$, $h_1(\text{po2 } b) = h_2(\text{po2 } b)$
+for all $b : B$, and $h_1(\text{po3 } c) = h_2(\text{po3 } c)$ for all $c : C$.
 \end{theorem}
 
 \begin{example} (Cell Attachment)
-The pushout models attaching an $n$-cell to a space $X$. Given $f : S^{n-1} \to X$ and the inclusion $g : S^{n-1} \to D^n$, the pushout $\text{pushout } X D^n S^{n-1} f g$ is the space $X \cup_f D^n$, gluing the $n$-disk to $X$ along $f$.
+The pushout models attaching an $n$-cell to a space $X$.
+Given $f : S^{n-1} \to X$ and the inclusion $g : S^{n-1} \to D^n$,
+the pushout $\text{pushout } X D^n S^{n-1} f g$ is the
+space $X \cup_f D^n$, gluing the $n$-disk to $X$ along $f$.
 \[
 \begin{tikzcd}
 S^{n-1} \arrow[r, "f"] \arrow[d, "g"] & X \arrow[d] \\
@@ -285,34 +303,44 @@ D^n \arrow[r] & X \cup_f D^n
 
 \newpage
 \subsection{Spheres}
-Spheres are higher inductive types (HITs) with higher-dimensional paths, representing fundamental topological spaces.
+Spheres are higher inductive types (HITs) with higher-dimensional
+paths, representing fundamental topological spaces.
 
-\begin{definition} (n-Spheres)
+\begin{definition} (Pointed n-Spheres)
+The $n$-sphere $S^n$ is defined recursively as a type in the
+universe $\mathcal{U}$ using general recursion over the dimensions:
+\[
+\mathbb{S}^n :=
+\begin{cases}
+\text{point} : \mathbb{S}^n, \\
+\text{surface} :\ <i_1,...i_n> [\ (i_1=0) \rightarrow point, (i_1=1) \rightarrow point,\ ... \\
+\hspace{3.47cm} (i_n=0) \rightarrow point, (i_n=1) \rightarrow point\ ]
+\end{cases}
+\]
+\end{definition}
+
+\begin{definition} (Suspended n-Spheres)
 The $n$-sphere $S^n$ is defined recursively as a type in the
 universe $\mathcal{U}$ using general recursion over the natural
 numbers $\mathbb{N}$. For each $n \in \mathbb{N}$,
 the type $S^n : \mathcal{U}$ is defined as follows:
-
 \[
+\mathbb{S}^n :=
 \begin{cases}
 S^0 = \mathbf{2}, \\
 S^{n+1} = \Sigma(S^n).
 \end{cases}
 \]
-\end{definition}
-
-\begin{definition} (n-Spheres)
-Alternatively, the sphere can be defined iteratively as:
-
 \begin{lstlisting}[mathescape=true]
 def sphere : $\mathbb{N}$ $\to$ U := $\mathbb{N}\text{-iter}$ U $\mathbf{2}$ $\Sigma$
 \end{lstlisting}
-
-This iterative definition applies the suspension functor $\Sigma$ to the base type $\mathbf{2}$ (the 0-sphere) $n$ times to obtain $S^n$.
+This iterative definition applies the suspension functor $\Sigma$
+to the base type $\mathbf{2}$ (the 0-sphere) $n$ times to obtain $S^n$.
 \end{definition}
 
 \begin{example} (Sphere as a CW-Complex)
-The $n$-sphere $S^n$ can be constructed as a CW-complex with one 0-cell and one $n$-cell:
+The $n$-sphere $S^n$ can be constructed as a CW-complex with
+one 0-cell and one $n$-cell:
 
 \[
 \begin{cases}
@@ -322,13 +350,16 @@ X_n: \text{Attach an } n\text{-cell to } X_{n-1} = \{ \text{base} \} \text{ alon
 \end{cases}
 \]
 
-The $\text{cell}$ constructor glues the boundary of the $n$-cell to the base point, resulting in the type $S^n$.
+The $\text{cell}$ constructor glues the boundary of the $n$-cell
+to the base point, resulting in the type $S^n$.
 \end{example}
-
 
 \newpage
 \subsection{Hub and Spoke}
-The Hub and Spoke construction defines $n$-truncations, ensuring a type has no non-trivial homotopy groups above dimension $n$. It models a type as a CW-complex with a hub (central point) and spokes (paths to points).
+The Hub and Spoke construction defines $n$-truncations,
+ensuring a type has no non-trivial homotopy groups above
+dimension $n$. It models a type as a CW-complex with a
+hub (central point) and spokes (paths to points).
 
 \begin{definition} (Hub and Spokes)
 For types $S, A : \mathcal{U}$, the Hub and Spokes type $\text{hubSpokes } S A : \mathcal{U}$.
@@ -355,12 +386,18 @@ data hubSpokes (S A: U)
 \end{definition}
 
 \begin{theorem} (Elimination $\text{hubSpokes}$)
-For a type $B : \mathcal{U}$, a map $g : A \to B$, a point $h : (S \to \text{hubSpokes } S A) \to B$, and path maps ensuring coherence, there exists $\text{rec}_{\text{hubSpokes}} : \text{hubSpokes } S A \to B$, such that $\text{rec}_{\text{hubSpokes}}(\text{base } x) = g(x)$ and $\text{rec}_{\text{hubSpokes}}(\text{hub } f) = h(f)$.
+For a type $B : \mathcal{U}$, a map $g : A \to B$,
+a point $h : (S \to \text{hubSpokes } S A) \to B$,
+and path maps ensuring coherence, there exists
+$\text{rec}_{\text{hubSpokes}} : \text{hubSpokes } S A \to B$,
+such that $\text{rec}_{\text{hubSpokes}}(\text{base } x) = g(x)$
+and $\text{rec}_{\text{hubSpokes}}(\text{hub } f) = h(f)$.
 \end{theorem}
 
 \newpage
 \subsection{Set-Truncations}
-Set truncation (0-truncation), denoted $\| A \|_0$, ensures a type is a set, with homotopy groups vanishing above dimension 0.
+Set truncation (0-truncation), denoted $\| A \|_0$,
+ensures a type is a set, with homotopy groups vanishing above dimension 0.
 
 \begin{definition} (Set Truncation)
 For $A : \mathcal{U}$, $\| A \|_0 : \mathcal{U}$.
@@ -380,11 +417,13 @@ data setTrunc (A: U)
 \end{definition}
 
 \begin{theorem} (Elimination $\| A \|_0$)
-For a set $B : \mathcal{U}$ (i.e., $\text{isSet}(B)$), a map $f : A \to B$, there exists $\text{setTruncRec} : \| A \|_0 \to B$, such that $\text{setTruncRec}(\text{inc}(a)) = f(a)$.
+For a set $B : \mathcal{U}$ (i.e., $\text{isSet}(B)$), a map $f : A \to B$,
+there exists $\text{setTruncRec} : \| A \|_0 \to B$, such that $\text{setTruncRec}(\text{inc}(a)) = f(a)$.
 \end{theorem}
 
 \subsection{Groupoid-Truncations}
-Groupoid truncation (1-truncation), denoted $\| A \|_1$, ensures a type is a 1-groupoid, with homotopy groups vanishing above dimension 1.
+Groupoid truncation (1-truncation), denoted $\| A \|_1$, ensures a
+type is a 1-groupoid, with homotopy groups vanishing above dimension 1.
 
 \begin{definition} (Groupoid Truncation)
 For $A : \mathcal{U}$, $\| A \|_1 : \mathcal{U}$.
@@ -407,16 +446,20 @@ data grpdTrunc (A: U)
 \end{definition}
 
 \begin{theorem} (Elimination $\| A \|_1$)
-For a 1-groupoid $B : \mathcal{U}$ (i.e., $\text{isGroupoid}(B)$), a map $f : A \to B$, there exists $\text{grpdTruncRec} : \| A \|_1 \to B$, such that $\text{grpdTruncRec}(\text{inc}(a)) = f(a)$.
+For a 1-groupoid $B : \mathcal{U}$ (i.e., $\text{isGroupoid}(B)$),
+a map $f : A \to B$, there exists $\text{grpdTruncRec} : \| A \|_1 \to B$,
+such that $\text{grpdTruncRec}(\text{inc}(a)) = f(a)$.
 \end{theorem}
 
 \newpage
 
 \subsection{Set-Quotients}
-Set quotients construct a type $A$ quotiented by a relation $R : A \to A \to \mathcal{U}$, ensuring the result is a set.
+Set quotients construct a type $A$ quotiented by a
+relation $R : A \to A \to \mathcal{U}$, ensuring the result is a set.
 
 \begin{definition} (Set Quotient)
-For a type $A : \mathcal{U}$ and a relation $R : A \to A \to \mathcal{U}$, the set quotient $\text{setQuot } A R : \mathcal{U}$.
+For a type $A : \mathcal{U}$ and a relation $R : A \to A \to \mathcal{U}$,
+the set quotient $\text{setQuot } A R : \mathcal{U}$.
 \[
 \begin{cases}
 \text{quotient} : A \to \text{setQuot}(A,R) \\
@@ -443,7 +486,8 @@ there exists $\text{setQuotElim} : \Pi_{x:\text{setQuot } A R} B(x)$, such that 
 \end{theorem}
 
 \subsection{Groupoid-Quotients}
-Groupoid quotients extend set quotients to produce a 1-groupoid, incorporating higher path constructors.
+Groupoid quotients extend set quotients to produce a 1-groupoid,
+incorporating higher path constructors.
 
 \begin{definition} (Groupoid Quotient)
 For a type $A : \mathcal{U}$ and a relation $R : A \to A \to \mathcal{U}$, the groupoid quotient $\text{grpdQuot } A R : \mathcal{U}$ includes constructors for points, paths, and higher paths ensuring 1-groupoid structure. (Note: Full definition requires additional structure, partially omitted for brevity.)
@@ -452,7 +496,11 @@ For a type $A : \mathcal{U}$ and a relation $R : A \to A \to \mathcal{U}$, the g
 \newpage
 
 \subsection{Wedge Sum}
-The wedge sum of two pointed types $A$ and $B$, denoted $A \vee B$, is a higher inductive type (HIT) that represents the union of $A$ and $B$ with their base points identified. Topologically, it corresponds to $A \times \{ y_0 \} \cup \{ x_0 \} \times B$, where $x_0$ and $y_0$ are the base points of $A$ and $B$, respectively.
+The wedge sum of two pointed types $A$ and $B$, denoted $A \vee B$,
+is a higher inductive type (HIT) that represents the union of $A$
+and $B$ with their base points identified. Topologically,
+it corresponds to $A \times \{ y_0 \} \cup \{ x_0 \} \times B$,
+where $x_0$ and $y_0$ are the base points of $A$ and $B$, respectively.
 
 \begin{definition} (Formation)
 For pointed types $A, B : \text{pointed}$, the wedge sum $\text{Wedge } A B : \mathcal{U}$.
@@ -507,12 +555,19 @@ For $z : \text{Wedge } A B$,
 \end{theorem}
 
 \begin{theorem} (Uniqueness)
-Any two maps $h_1, h_2 : \text{Wedge } A B \to C$ are homotopic if they agree on $\text{winl}$, $\text{winr}$, and $\text{wglue}$, i.e., if $h_1(\text{winl } a) = h_2(\text{winl } a)$ for all $a : A.1$, $h_1(\text{winr } b) = h_2(\text{winr } b)$ for all $b : B.1$, and $h_1(\text{wglue}) = h_2(\text{wglue})$.
+Any two maps $h_1, h_2 : \text{Wedge } A B \to C$ are homotopic if
+they agree on $\text{winl}$, $\text{winr}$, and $\text{wglue}$,
+i.e., if $h_1(\text{winl } a) = h_2(\text{winl } a)$ for
+all $a : A.1$, $h_1(\text{winr } b) = h_2(\text{winr } b)$ for
+all $b : B.1$, and $h_1(\text{wglue}) = h_2(\text{wglue})$.
 \end{theorem}
 
 \newpage
 \subsection{Smash Product}
-The smash product of two pointed types $A$ and $B$, denoted $A \wedge B$, is a higher inductive type that quotients the product $A \times B$ by the wedge sum $A \vee B$. It represents the space $A \times B / (A \times \{ y_0 \} \cup \{ x_0 \} \times B)$, collapsing the wedge to a single point.
+The smash product of two pointed types $A$ and $B$, denoted $A \wedge B$,
+is a higher inductive type that quotients the product $A \times B$ by the
+wedge sum $A \vee B$. It represents the space $A \times B / (A \times \{ y_0 \} \cup \{ x_0 \} \times B)$,
+collapsing the wedge to a single point.
 
 \begin{definition} (Formation)
 For pointed types $A, B : \text{pointed}$, the smash product $\text{Smash } A B : \mathcal{U}$.
@@ -539,7 +594,10 @@ data Smash (A : pointed) (B : pointed)
 \end{definition}
 
 \begin{theorem} (Elimination)
-For a type $C : \mathcal{U}$, a map $f : A.1 \to B.1 \to C$, paths $g : (a : A.1) \to (b : B.1) \to \text{Path}_C (f a \, B.2, f A.2 \, b)$, and a 2-path $h : \text{Path}_{\text{Path}_{\text{Smash } A B} (f A.2 \, B.2, f A.2 \, B.2)} (g A.2 \, B.2, \text{idp } (f A.2 \, B.2))$, there exists a map $\text{SmashRec} : \text{Smash } A B \to C$ such that:
+For a type $C : \mathcal{U}$, a map $f : A.1 \to B.1 \to C$,
+paths $g : (a : A.1) \to (b : B.1) \to \text{Path}_C (f a \, B.2, f A.2 \, b)$,
+and a 2-path $h : \text{Path}_{\text{Path}_{\text{Smash } A B} (f A.2 \, B.2, f A.2 \, B.2)} (g A.2 \, B.2, \text{idp } (f A.2 \, B.2))$,
+there exists a map $\text{SmashRec} : \text{Smash } A B \to C$ such that:
 \[
 \begin{cases}
 \text{SmashRec}(\text{spair } a \, b) = f(a, b) \\
@@ -561,16 +619,23 @@ For $z : \text{Smash } A B$,
 \end{theorem}
 
 \begin{theorem} (Uniqueness)
-Any two maps $h_1, h_2 : \text{Smash } A B \to C$ are homotopic if they agree on $\text{spair}$, $\text{smash}$, and $\text{smashpt}$.
+Any two maps $h_1, h_2 : \text{Smash } A B \to C$ are homotopic
+if they agree on $\text{spair}$, $\text{smash}$, and $\text{smashpt}$.
 \end{theorem}
 
 \begin{example} (Smash of Spheres)
-The smash product $S^1 \wedge S^1$ is homotopy equivalent to $S^2$, as it quotients the torus $S^1 \times S^1$ by the wedge $S^1 \vee S^1$, collapsing the base points and their fibers.
+The smash product $S^1 \wedge S^1$ is homotopy equivalent to $S^2$,
+as it quotients the torus $S^1 \times S^1$ by the wedge $S^1 \vee S^1$,
+collapsing the base points and their fibers.
 \end{example}
 
 \newpage
 \subsection{Join}
-The join of two types $A$ and $B$, denoted $A * B$, is a higher inductive type that constructs a type by connecting every point of $A$ to every point of $B$ with a path. Topologically, it corresponds to the join of spaces, forming a space that interpolates between $A$ and $B$.
+The join of two types $A$ and $B$, denoted $A * B$,
+is a higher inductive type that constructs a type by
+connecting every point of $A$ to every point of $B$ with a path.
+Topologically, it corresponds to the join of spaces, forming a
+space that interpolates between $A$ and $B$.
 
 \begin{definition} (Formation)
 For types $A, B : \mathcal{U}$, the join $\text{Join } A B : \mathcal{U}$.
@@ -594,7 +659,9 @@ data Join (A : U) (B : U)
 \end{definition}
 
 \begin{theorem} (Elimination)
-For a type $C : \mathcal{U}$, maps $f : A \to C$, $g : B \to C$, and a family of paths $h : (a : A) \to (b : B) \to \text{Path}_C (f a, g b)$, there exists a map $\text{JoinRec} : \text{Join } A B \to C$ such that:
+For a type $C : \mathcal{U}$, maps $f : A \to C$, $g : B \to C$,
+and a family of paths $h : (a : A) \to (b : B) \to \text{Path}_C (f a, g b)$,
+there exists a map $\text{JoinRec} : \text{Join } A B \to C$ such that:
 \[
 \begin{cases}
 \text{JoinRec}(\text{joinl } a) = f(a) \\
@@ -625,51 +692,66 @@ For $z : \text{Join } A B$,
 \end{theorem}
 
 \begin{theorem} (Uniqueness)
-Any two maps $h_1, h_2 : \text{Join } A B \to C$ are homotopic if they agree on $\text{joinl}$, $\text{joinr}$, and $\text{join}$.
+Any two maps $h_1, h_2 : \text{Join } A B \to C$ are homotopic
+if they agree on $\text{joinl}$, $\text{joinr}$, and $\text{join}$.
 \end{theorem}
 
 \begin{example} (Join of Spheres)
-The join $S^0 * S^0$ is homotopy equivalent to $S^1$, as it connects two points (from each $S^0$) with paths, forming a circle-like structure.
+The join $S^0 * S^0$ is homotopy equivalent to $S^1$, as it connects
+two points (from each $S^0$) with paths, forming a circle-like structure.
 \end{example}
 
 
 \newpage
 
 \subsection{Colimits}
-Colimits construct the limit of a sequence of types connected by maps, such as propositional truncations.
+Colimits construct the limit of a sequence of types connected by maps,
+such as propositional truncations.
 
 \begin{definition} (Colimit)
-For a sequence of types $A : \text{nat} \to \mathcal{U}$ and maps $f : (n : \text{nat}) \to A n \to A (\text{succ } n)$, the colimit type $\text{colimit } A f : \mathcal{U}$.
+For a sequence of types $A : \text{nat} \to \mathcal{U}$ and
+maps $f : (n : \mathbb{N}) \to A n \to A(\text{succ}(n))$,
+the colimit type $\text{colimit}(A,f) : \mathcal{U}$.
 \[
 \begin{cases}
-\text{ix} : (n : \text{nat}) \to A n \to \text{colimit } A f \\
-\text{gx} : (n : \text{nat}) \to (a : A n) \to \text{Path}_{\text{colimit } A f} (\text{ix} (\text{succ } n) (f n a), \text{ix} n a)
+\text{ix} : (n : \text{nat}) \to A n \to \text{colimit}(A,f) \\
+\text{gx} : (n : \text{nat}) \to (a : A(n)) \to \text{ix} (\text{succ}(n),f(n,a)) \equiv \text{ix}(n,a)
 \end{cases}
 \]
 \begin{lstlisting}
-data colimit (A : nat -> U)
-             (f : (n : nat) -> A n -> A (succ n))
-   = ix (n : nat) (x: A n)
-   | gx (n : nat) (a: A n) <i> [ (i=0) -> ix (succ n) (f n a)
-                               , (i=1) -> ix n a]
+def colimit (A : nat -> U) (f : (n : nat) -> A n -> A (succ n)) : U
+ := inductive { ix (n : nat) (x: A n)
+              | gx (n : nat) (a: A n)
+                <i> [ (i=0) -> ix (succ n) (f n a),
+                      (i=1) -> ix n a ]
+              }
 \end{lstlisting}
 \end{definition}
 
 \begin{theorem} (Elimination $\text{colimit}$)
-For a type $P : \text{colimit } A f \to \mathcal{U}$, with $p : (n : \text{nat}) \to (x : A n) \to P(\text{ix}(n, x))$ and $q : (n : \text{nat}) \to (a : A n) \to \text{PathP} (\langle i \rangle P(\text{gx}(n, a) @ i)) (p (\text{succ } n) (f n a)) (p n a)$, there exists $i : \Pi_{x:\text{colimit } A f} P(x)$, such that $i(\text{ix}(n, x)) = p n x$.
+For a type $P : \text{colimit } A f \to \mathcal{U}$,
+with $p : (n : \text{nat}) \to (x : A n) \to P(\text{ix}(n, x))$
+and $q : (n : \text{nat}) \to (a : A n) \to \text{PathP} (\langle i \rangle P(\text{gx}(n, a) @ i)) (p (\text{succ } n) (f n a)) (p n a)$,
+there exists $i : \Pi_{x:\text{colimit } A f} P(x)$, such that $i(\text{ix}(n, x)) = p n x$.
 \end{theorem}
 
 \newpage
 
 \subsection{Equalizer}
-The equalizer of two maps $f, g : A \to B$ is a higher inductive type (HIT) that constructs a type consisting of elements in $B$ where $f$ and $g$ agree, along with paths enforcing this equality. It is a fundamental construction in homotopy type theory, capturing the subspace of $B$ where $f(a) = g(a)$ for $a : A$.
+The equalizer of two maps $f, g : A \to B$ is a higher inductive
+type (HIT) that constructs a type consisting of elements in $B$
+where $f$ and $g$ agree, along with paths enforcing this equality.
+It is a fundamental construction in homotopy type theory,
+capturing the subspace of $B$ where $f(a) = g(a)$ for $a : A$.
 
 \begin{definition} (Formation)
-For types $A, B : \mathcal{U}$ and maps $f, g : A \to B$, the equalizer $\text{coeq } A B f g : \mathcal{U}$.
+For types $A, B : \mathcal{U}$ and maps $f, g : A \to B$,
+the equalizer $\text{coeq } A B f g : \mathcal{U}$.
 \end{definition}
 
 \begin{definition} (Introduction)
-The equalizer is generated by the following higher inductive composition structure:
+The equalizer is generated by the following higher
+inductive composition structure:
 \[
 \begin{cases}
 \text{inC} : B \to \text{coeq } A B f g \\
@@ -711,15 +793,26 @@ For $z : \text{coeq } A B f g$,
 \end{theorem}
 
 \begin{theorem} (Uniqueness)
-Any two maps $h_1, h_2 : \text{coeq } A B f g \to C$ are homotopic if they agree on $\text{inC}$ and $\text{glueC}$, i.e., if $h_1(\text{inC } x) = h_2(\text{inC } x)$ for all $x : B$ and $h_1(\text{glueC } a) = h_2(\text{glueC } a)$ for all $a : A$.
+Any two maps $h_1, h_2 : \text{coeq } A B f g \to C$ are homotopic
+if they agree on $\text{inC}$ and $\text{glueC}$, i.e.,
+if $h_1(\text{inC } x) = h_2(\text{inC } x)$ for
+all $x : B$ and $h_1(\text{glueC } a) = h_2(\text{glueC } a)$ for all $a : A$.
 \end{theorem}
 
 \begin{example} (Equalizer as Subspace)
-The equalizer $\text{coeq } A B f g$ represents the subspace of $B$ where $f(a) = g(a)$. For example, if $A = B = \mathbb{R}$ and $f(x) = x^2$, $g(x) = x$, the equalizer captures points where $x^2 = x$, i.e., $\{0, 1\}$.
+The equalizer $\text{coeq } A B f g$ represents the subspace
+of $B$ where $f(a) = g(a)$. For example, if $A = B = \mathbb{R}$
+and $f(x) = x^2$, $g(x) = x$, the equalizer captures points
+where $x^2 = x$, i.e., $\{0, 1\}$.
 \end{example}
 
 \subsection{Path-Equalizer}
-The path-equalizer is a higher inductive type that generalizes the equalizer to handle pairs of paths in $B$. Given a map $p : A \to (b_1, b_2 : B) \times (\text{Path}_B (b_1, b_2)) \times (\text{Path}_B (b_1, b_2))$, it constructs a type where elements of $A$ induce pairs of paths between points in $B$, with paths connecting the endpoints of these paths.
+The path-equalizer is a higher inductive type that generalizes
+the equalizer to handle pairs of paths in $B$. Given a
+map $p : A \to (b_1, b_2 : B) \times (\text{Path}_B (b_1, b_2)) \times (\text{Path}_B (b_1, b_2))$,
+it constructs a type where elements of $A$ induce pairs
+of paths between points in $B$, with paths connecting
+the endpoints of these paths.
 
 \begin{definition} (Formation)
 For types $A, B : \mathcal{U}$ and a map $p : A \to (b_1, b_2 : B) \times (\text{Path}_B (b_1, b_2)) \times (\text{Path}_B (b_1, b_2))$, the path-equalizer $\text{coeqP } A B p : \mathcal{U}$.
@@ -769,17 +862,25 @@ For $z : \text{coeqP } A B p$,
 \end{theorem}
 
 \begin{theorem} (Uniqueness)
-Any two maps $h_1, h_2 : \text{coeqP } A B p \to C$ are homotopic if they agree on $\text{inP}$ and $\text{glueP}$, i.e., if $h_1(\text{inP } b) = h_2(\text{inP } b)$ for all $b : B$ and $h_1(\text{glueP } a) = h_2(\text{glueP } a)$ for all $a : A$.
+Any two maps $h_1, h_2 : \text{coeqP } A B p \to C$ are homotopic
+if they agree on $\text{inP}$ and $\text{glueP}$, i.e.,
+if $h_1(\text{inP } b) = h_2(\text{inP } b)$ for all $b : B$
+and $h_1(\text{glueP } a) = h_2(\text{glueP } a)$ for all $a : A$.
 \end{theorem}
 
 \begin{example} (Path-Equalizer for Homotopy)
-The path-equalizer can model spaces where elements of $A$ specify pairs of paths between points in $B$. For instance, if $p(a)$ provides two paths from $b_1$ to $b_2$ in $B$, $\text{coeqP}$ constructs a type connecting the starting and ending points of these paths, useful in studying homotopy classes.
+The path-equalizer can model spaces where elements of $A$ specify
+pairs of paths between points in $B$. For instance, if $p(a)$ provides
+two paths from $b_1$ to $b_2$ in $B$, $\text{coeqP}$ constructs a type
+connecting the starting and ending points of these paths,
+useful in studying homotopy classes.
 \end{example}
 
 \newpage
 
 \subsection{K(G,n)}
-Eilenberg-MacLane spaces $K(G,n)$ have a single non-trivial homotopy group $\pi_n(K(G,n)) = G$. They are defined using truncations and suspensions.
+Eilenberg-MacLane spaces $K(G,n)$ have a single non-trivial
+homotopy group $\pi_n(K(G,n)) = G$. They are defined using truncations and suspensions.
 
 \begin{definition} (K(G,n))
 For an abelian group $G : \text{abgroup}$, the type $KGn G : \text{nat} \to \mathcal{U}$.
@@ -799,16 +900,21 @@ KGn (G: abgroup)
 \end{definition}
 
 \begin{theorem} (Elimination $KGn$)
-For $n \geq 1$, a type $B : \mathcal{U}$ with $\text{isNGroupoid}(B, \text{succ } n)$, and a map $f : \text{suspension}(K1' G) \to B$, there exists $\text{rec}_{KGn} : KGn G (\text{succ } n) \to B$, defined via $\text{nTruncRec}$.
+For $n \geq 1$, a type $B : \mathcal{U}$ with $\text{isNGroupoid}(B, \text{succ } n)$,
+and a map $f : \text{suspension}(K1' G) \to B$, there
+exists $\text{rec}_{KGn} : KGn G (\text{succ } n) \to B$,
+defined via $\text{nTruncRec}$.
 \end{theorem}
 
 \newpage
 
 \subsection{Localization}
-Localization constructs an $F$-local type from a type $X$, with respect to a family of maps $F_A : S(a) \to T(a)$.
+Localization constructs an $F$-local type from a type $X$,
+with respect to a family of maps $F_A : S(a) \to T(a)$.
 
 \begin{definition} (Localization Modality)
-For a family of maps $F_A : S(a) \to T(a)$, the $F$-localization $L^{AST}_F(X) : \mathcal{U}$.
+For a family of maps $F_A : S(a) \to T(a)$,
+the $F$-localization $L^{AST}_F(X) : \mathcal{U}$.
 \[
 \begin{cases}
 \text{center} : X \to L_{F_A}(X) \\
@@ -834,12 +940,15 @@ data Localize (A X: U) (S T: A -> U) (F : (x:A) -> S x -> T x)
 \end{definition}
 
 \begin{theorem} (Localization Induction)
-For any $P : \Pi_{X:U} L_{F_A}(X) \to U$ with $\{n, r, s\}$ satisfying coherence conditions, there exists $i : \Pi_{x:L_{F_A}(X)} P(x)$ such that $i \cdot \text{center}_X = n$.
+For any $P : \Pi_{X:U} L_{F_A}(X) \to U$ with $\{n, r, s\}$ satisfying coherence conditions,
+there exists $i : \Pi_{x:L_{F_A}(X)} P(x)$ such that $i \cdot \text{center}_X = n$.
 \end{theorem}
 
 
 \section{Conclusion}
-HITs encode CW-complexes in HoTT, bridging topology and type theory. They capture cell attachments, with examples like spheres, tori, and truncations. Infinity constructors extend HITs to infinite spaces, handled by Agda Cubical’s primitives and indexed HITs.
+HITs encode CW-complexes in HoTT, bridging topology and type theory.
+They capture cell attachments, with examples like spheres, tori, and truncations.
+Infinity constructors extend HITs to infinite spaces, handled by Agda Cubical’s primitives and indexed HITs.
 
 \bibliographystyle{plain}
 \begin{thebibliography}{9}
