@@ -701,19 +701,21 @@ WedgeRec (A B : pointed) (C : U) (f : A.1 -> C) (g : B.1 -> C)
 \subsection{Смеш-добуток}
 Смеш-добуток двох точкових типів \( A \) і \( B \), позначений \( A \wedge B \),
 є вищим індуктивним типом, який факторизує добуток \( A \times B \) за
-розшарованою сумою \( A \vee B \). Він представляє простір \( A \times B / (A \times \{ y_0 \} \cup \{ x_0 \} \times B) \),
+розшарованою сумою \( A \sqcup B \). Він представляє простір \( A \times B / (A \times \{ y_0 \} \cup \{ x_0 \} \times B) \),
 зводячи букет до однієї точки.
 
 \begin{definition} (Формація).
-Для точкових типів \( A, B : \text{pointed} \), Смеш-добуток \( \text{Smash } A B : \mathcal{U} \).
+Для точкових типів \( A, B : \text{pointed} \), Смеш-добуток \( A \wedge B : \mathcal{U} \).
 \end{definition}
 
 \begin{definition} (Конструктори).
 Смеш-добуток генерується такою вищою індуктивною композиційною структурою:
 \[
+A \wedge B :=
 \begin{cases}
-\text{spair} : A.1 \to B.1 \to \text{Smash } A B \\
-\text{smash} : (a : A.1) \to (b : B.1) \to \text{Path}_{\text{Smash } A B} (\text{spair } a \, B.2, \text{spair } A.2 \, b) \\
+\text{basel} : A \wedge B \\
+\text{baser} : A \wedge B \\
+\text{proj} : (x : A.2) \to (y : A.2) \to A \wedge B \\
 \text{smashpt} : \text{Path}_{\text{Smash } A B} (\text{smash } A.2 \, B.2, \text{spair } A.2 \, B.2)
 \end{cases}
 \]
