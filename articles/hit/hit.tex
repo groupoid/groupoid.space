@@ -12,27 +12,7 @@
 \usepackage[utf8]{inputenc}
 
 \hyphenpenalty=100
-\tolerance=20000
-
-\newunicodechar{λ}{$\lambda$}
-\newunicodechar{≔}{≔}
-\newunicodechar{₁}{₁}
-\newunicodechar{₂}{₂}
-\newunicodechar{₃}{₃}
-\newunicodechar{₄}{₄}
-\newunicodechar{₅}{₅}
-\newunicodechar{₆}{₆}
-\newunicodechar{₇}{₇}
-\newunicodechar{₈}{₈}
-\newunicodechar{₉}{₉}
-\newunicodechar{₀}{₀}
-\newunicodechar{Π}{$\Pi$}
-\newunicodechar{Σ}{$\Sigma$}
-
-\definecolor{keywordcolor}{rgb}{0.0, 0.1, 0.6}
-\definecolor{commentcolor}{rgb}{0.4, 0.4, 0.4}   % grey
-\definecolor{symbolcolor}{rgb}{0.0, 0.1, 0.6}    % blue
-\definecolor{sortcolor}{rgb}{0.1, 0.5, 0.1}      % green
+\tolerance=5000
 
 \theoremstyle{definition}
 \newtheorem{theorem}{Теорема}
@@ -280,11 +260,11 @@ CW-комплекси є центральними в HoTT і з’являють
 кожну точку \( A \) з цими полюсами. Це фундаментальна конструкція в теорії гомотопій,
 яка часто використовується для зсуву гомотопічних груп, наприклад, для отримання \( S^{n+1} \) з \( S^n \).
 
-\begin{definition} (Формація)
+\begin{definition} (Формація).
 Для будь якого типу \( A : \mathcal{U} \), існує тип суспензія \( \Sigma A : \mathcal{U} \).
 \end{definition}
 
-\begin{definition} (Конструктори)
+\begin{definition} (Конструктори).
 Для типу \( A : \mathcal{U} \), суспензія \( \Sigma A : \mathcal{U} \)
 генерується такою вищою індуктивною композиційною структурою:
 \[
@@ -303,7 +283,7 @@ def $\Sigma$ (A: U) : U
 \end{lstlisting}
 \end{definition}
 
-\begin{theorem} (Елімінація)
+\begin{theorem} (Елімінація).
 Для сімейства типів \( B : \Sigma A \to \mathcal{U} \), точок \( n : B(\text{north}) \), \( s : B(\text{south}) \), і сімейства
 залежних шляхів
 \[
@@ -327,7 +307,7 @@ def Ind$_\Sigma A$ (A: U) (B: $\Sigma$ A -> U) (n: B north) (s: B south)
 \end{lstlisting}
 \end{theorem}
 
-\begin{theorem} (Обчислення)
+\begin{theorem} (Обчислення).
 \begin{lstlisting}[mathescape=true]
 def $\Sigma$-$\beta$ (A: U) (B: $\Sigma A$ -> U) (n: B north) (s: B south)
     (m: (a: A) -> PathOver B (merid a) n s) (x: $\Sigma$ A)
@@ -337,7 +317,7 @@ def $\Sigma$-$\beta$ (A: U) (B: $\Sigma A$ -> U) (n: B north) (s: B south)
 \end{lstlisting}
 \end{theorem}
 
-\begin{theorem} (Унікальність)
+\begin{theorem} (Унікальність).
 Будь-які два відображення \( h_1, h_2 : (x : \Sigma A) \to B(x) \) є гомотопними, якщо вони збігаються
 на \( \text{north} \), \( \text{south} \) і \( \text{merid} \), тобто,
 якщо \( h_1(\text{north}) = h_2(\text{north}) \), \( h_1(\text{south}) = h_2(\text{south}) \),
@@ -351,12 +331,12 @@ def $\Sigma$-$\beta$ (A: U) (B: $\Sigma A$ -> U) (n: B north) (s: B south)
 використовується для моделювання приєднання клітин і кофібрантних об’єктів, узагальнюючи
 топологічне поняття розшарованої суми.
 
-\begin{definition} (Формація)
+\begin{definition} (Формація).
 Для типів \( A, B, C : \mathcal{U} \) і відображень \( f : C \to A \), \( g : C \to B \),
 існує розшарована сума \( \sqcup(A,B,C,f,g) : \mathcal{U} \).
 \end{definition}
 
-\begin{definition} (Конструктори)
+\begin{definition} (Конструктори).
 Розшарована сума генерується такою вищою індуктивною композиційною структурою:
 \[
 \begin{cases}
@@ -374,7 +354,7 @@ def $\sqcup$ (A B C: U) (f: C -> A) (g: C -> B) : U
 \end{lstlisting}
 \end{definition}
 
-\begin{theorem} (Елімінація)
+\begin{theorem} (Елімінація).
 Для типу \( D : \mathcal{U} \), відображень \( u : A \to D \), \( v : B \to D \),
 і сімейства шляхів \( p : (c : C) \to u(f(c)) \equiv v(g(c)) \),
 існує відображення \( \text{Ind}_\sqcup : \sqcup(A,B,C,f,g) \to D \), таке що:
@@ -401,7 +381,7 @@ def Ind$_\sqcup$ : (A B C : U) (f : C $\rightarrow$ A) (g : C $\rightarrow$ B)
 \end{lstlisting}
 \end{theorem}
 
-\begin{theorem} (Обчислення)
+\begin{theorem} (Обчислення).
 Для \( x : \sqcup(A,B,C,f,g) \),
 \[
 \begin{cases}
@@ -412,7 +392,7 @@ def Ind$_\sqcup$ : (A B C : U) (f : C $\rightarrow$ A) (g : C $\rightarrow$ B)
 \]
 \end{theorem}
 
-\begin{theorem} (Унікальність)
+\begin{theorem} (Унікальність).
 Будь-які два відображення \( u, v : \sqcup(A,B,C,f,g) \to D \) є гомотопними,
 якщо вони збігаються на \( \text{po}_1 \), \( \text{po}_2 \) і \( \text{po}_3 \), тобто,
 якщо \( u(\text{po}_1(a)) = v(\text{po}_1(a)) \) для всіх \( a : A \), \( u(\text{po}_2(b)) = v(\text{po}_2(b)) \)
@@ -492,11 +472,11 @@ X_n: \text{Приєднання } n\text{-клітини до } X_{n-1} = \{ \te
 розмірності \( n \). Вона моделює тип як CW-комплекс із
 хабом (центральною точкою) і спицями (шляхами до точок).
 
-\begin{definition} (Формація)
+\begin{definition} (Формація).
 Для типів \( S, A : \mathcal{U} \), існує тип Хаб і шпиці \( \odot\ (S,A) : \mathcal{U} \).
 \end{definition}
 
-\begin{definition} (Конструктори)
+\begin{definition} (Конструктори).
 Хаб і шпиці вільно генерується такою вищою індуктивною композиційною структурою:
 \[
 \begin{cases}
@@ -519,7 +499,7 @@ def $\odot$ (S A: U) : U
 \end{lstlisting}
 \end{definition}
 
-\begin{theorem} (Елімінація)
+\begin{theorem} (Елімінація).
 Для типу \( B : \mathcal{U} \), відображення \( g : A \to B \),
 точки \( h : (S \to \odot\ S A) \to B \), і відображень шляхів,
 що забезпечують когерентність, існує
@@ -531,12 +511,12 @@ def $\odot$ (S A: U) : U
 \newpage
 \subsection{Відсікання}
 \subsubsection*{Відсікання множин}
-\begin{definition} (Формація)
+\begin{definition} (Формація).
 Відсікання множин (0-відсікання), позначене \( \| A \|_0 \),
 гарантує, що тип є множиною, з гомотопічними групами, що зникають вище розмірності 0.
 \end{definition}
 
-\begin{definition} (Конструктори)
+\begin{definition} (Конструктори).
 Для \( A : \mathcal{U} \), \( \| A \|_0 : \mathcal{U} \) визначається наступною вищою
 індуктивною композиційною структурою:
 \[
@@ -562,12 +542,12 @@ def $\|$_$\|_0$ (A: U) : U
 \end{theorem}
 
 \subsubsection*{Відсікання групоїдів}
-\begin{definition} (Формація)
+\begin{definition} (Формація).
 Відсікання групоїдів (1-відсікання), позначене \( \| A \|_1 \), гарантує, що
 тип є 1-групоїдом, з гомотопічними групами, що зникають вище розмірності 1.
 \end{definition}
 
-\begin{definition} (Конструктори)
+\begin{definition} (Конструктори).
 Для \( A : \mathcal{U} \), \( \| A \|_1 : \mathcal{U} \) визначається наступною вищою
 індуктивною композиційною структурою:
 \[
@@ -600,12 +580,12 @@ def $\|$_$\|_1$ (A: U) : U
 \subsubsection*{Фактор-простори множин}
 Фактор-простори є потужним обчислювальним інструментом теорії типів який
 вбудовано в ядро Lean.
-\begin{definition} (Формація)
+\begin{definition} (Формація).
 Фактор-простори множин конструюють тип \( A \), факторизований за
 відношенням \( R : A \to A \to \mathcal{U} \), гарантуючи, що результат є множиною.
 \end{definition}
 
-\begin{definition} (Конструктори)
+\begin{definition} (Конструктори).
 Для типу \( A : \mathcal{U} \) і відношення \( R : A \to A \to \mathcal{U} \),
 факстор-простір множин \( A / R : \mathcal{U} \) вільно генерується наступною
 вищою індуктивною композиційною структурою:
@@ -628,22 +608,22 @@ def / (A: U) (R: A -> A -> U) : U
 \end{lstlisting}
 \end{definition}
 
-\begin{theorem} (Елімінація)
+\begin{theorem} (Елімінація).
 Для сімейства типів \( B : A/R \to \mathcal{U} \) з \( \text{isSet}(B x) \),
 і відображень \( f : (x : A) \to B(\text{quot}(x)) \),
-\( g : (a, b : A) \to (r : R(a,b)) \to \text{PathP} (<i> B(\text{idq}(a,b,r)\ @\ i)) (f(a)) (f(b)) \),
+\( g : (a, b : A) \to (r : R(a,b)) \to \text{PathP} (<i> B(\text{ident}(a,b,r)\ @\ i)) (f(a)) (f(b)) \),
 існує \( \text{Ind}_{A/R} : \Pi (x: A/R), B(x) \), таке що \( \text{Ind}_{A/R}(\text{quot}(a)) = f(a) \).
 \end{theorem}
 
 \subsubsection*{Фактор-простори групоїдів}
-\begin{definition} (Формація)
+\begin{definition} (Формація).
 Фактор-простори групоїдів розширюють фактор-простори множин для створення 1-групоїда,
 включаючи конструктори вищих шляхів. Фактор-простори групоїдів
 конструюють тип \( A \), факторизований за відношенням \( R : A \to A \to \mathcal{U} \),
 гарантуючи, що результат є групоїдом.
 \end{definition}
 
-\begin{definition} (Конструктори)
+\begin{definition} (Конструктори)..
 Для типу \( A : \mathcal{U} \) і відношення \( R : A \to A \to \mathcal{U} \),
 Фактор-простір групоїдів \(  A // R : \mathcal{U} \) включає
 конструктори для точок, шляхів і вищих шляхів, що забезпечують структуру 1-групоїда.
@@ -657,11 +637,11 @@ def / (A: U) (R: A -> A -> U) : U
 вона відповідає \( A \times \{ y_0 \} \cup \{ x_0 \} \times B \),
 де \( x_0 \) і \( y_0 \) — базові точки \( A \) і \( B \), відповідно.
 
-\begin{definition} (Формація)
+\begin{definition} (Формація).
 Для точкових типів \( A, B : \text{pointed} \), Букет \( \text{Wedge } A B : \mathcal{U} \).
 \end{definition}
 
-\begin{definition} (Конструктори)
+\begin{definition} (Конструктори).
 Букет генерується такою вищою індуктивною композиційною структурою:
 \[
 \begin{cases}
@@ -678,7 +658,7 @@ data Wedge (A : pointed) (B : pointed)
 \end{lstlisting}
 \end{definition}
 
-\begin{theorem} (Елімінація)
+\begin{theorem} (Елімінація).
 Для типу \( C : \mathcal{U} \), відображень \( f : A.1 \to C \), \( g : B.1 \to C \), і шляху \( p : \text{Path}_C (f (A.2), g (B.2)) \), існує відображення \( \text{WedgeRec} : \text{Wedge } A B \to C \), таке що:
 \[
 \begin{cases}
@@ -698,7 +678,7 @@ WedgeRec (A B : pointed) (C : U) (f : A.1 -> C) (g : B.1 -> C)
 \end{lstlisting}
 \end{theorem}
 
-\begin{theorem} (Обчислення)
+\begin{theorem} (Обчислення).
 Для \( z : \text{Wedge } A B \),
 \[
 \begin{cases}
@@ -709,7 +689,7 @@ WedgeRec (A B : pointed) (C : U) (f : A.1 -> C) (g : B.1 -> C)
 \]
 \end{theorem}
 
-\begin{theorem} (Унікальність)
+\begin{theorem} (Унікальність).
 Будь-які два відображення \( h_1, h_2 : \text{Wedge } A B \to C \) є гомотопними, якщо
 вони збігаються на \( \text{winl} \), \( \text{winr} \) і \( \text{wglue} \),
 тобто, якщо \( h_1(\text{winl } a) = h_2(\text{winl } a) \) для
@@ -724,11 +704,11 @@ WedgeRec (A B : pointed) (C : U) (f : A.1 -> C) (g : B.1 -> C)
 розшарованою сумою \( A \vee B \). Він представляє простір \( A \times B / (A \times \{ y_0 \} \cup \{ x_0 \} \times B) \),
 зводячи букет до однієї точки.
 
-\begin{definition} (Формація)
+\begin{definition} (Формація).
 Для точкових типів \( A, B : \text{pointed} \), Смеш-добуток \( \text{Smash } A B : \mathcal{U} \).
 \end{definition}
 
-\begin{definition} (Конструктори)
+\begin{definition} (Конструктори).
 Смеш-добуток генерується такою вищою індуктивною композиційною структурою:
 \[
 \begin{cases}
@@ -748,7 +728,7 @@ data Smash (A : pointed) (B : pointed)
 \end{lstlisting}
 \end{definition}
 
-\begin{theorem} (Елімінація)
+\begin{theorem} (Елімінація).
 Для типу \( C : \mathcal{U} \), відображення \( f : A.1 \to B.1 \to C \),
 шляхів \( g : (a : A.1) \to (b : B.1) \to \text{Path}_C (f a \, B.2, f A.2 \, b) \),
 і 2-шляху \( h : \text{Path}_{\text{Path}_{\text{Smash } A B} (f A.2 \, B.2, f A.2 \, B.2)} (g A.2 \, B.2, \text{idp } (f A.2 \, B.2)) \),
@@ -762,7 +742,7 @@ data Smash (A : pointed) (B : pointed)
 \]
 \end{theorem}
 
-\begin{theorem} (Обчислення)
+\begin{theorem} (Обчислення).
 Для \( z : \text{Smash } A B \),
 \[
 \begin{cases}
@@ -773,7 +753,7 @@ data Smash (A : pointed) (B : pointed)
 \]
 \end{theorem}
 
-\begin{theorem} (Унікальність)
+\begin{theorem} (Унікальність).
 Будь-які два відображення \( h_1, h_2 : \text{Smash } A B \to C \) є гомотопними,
 якщо вони збігаються на \( \text{spair} \), \( \text{smash} \) і \( \text{smashpt} \).
 \end{theorem}
@@ -792,11 +772,11 @@ data Smash (A : pointed) (B : pointed)
 Топологічно воно відповідає з’єднанню просторів, формуючи
 простір, що інтерполює між \( A \) і \( B \).
 
-\begin{definition} (Формація)
+\begin{definition} (Формація).
 Для типів \( A, B : \mathcal{U} \), з’єднання \( \text{Join } A B : \mathcal{U} \).
 \end{definition}
 
-\begin{definition} (Конструктори)
+\begin{definition} (Конструктори).
 З’єднання генерується такою вищою індуктивною композиційною структурою:
 \[
 \begin{cases}
@@ -813,7 +793,7 @@ data Join (A : U) (B : U)
 \end{lstlisting}
 \end{definition}
 
-\begin{theorem} (Елімінація)
+\begin{theorem} (Елімінація).
 Для типу \( C : \mathcal{U} \), відображень \( f : A \to C \), \( g : B \to C \),
 і сімейства шляхів \( h : (a : A) \to (b : B) \to \text{Path}_C (f a, g b) \),
 існує відображення \( \text{JoinRec} : \text{Join } A B \to C \), таке що:
@@ -835,7 +815,7 @@ JoinRec (A B C : U) (f : A -> C) (g : B -> C)
 \end{lstlisting}
 \end{theorem}
 
-\begin{theorem} (Обчислення)
+\begin{theorem} (Обчислення).
 Для \( z : \text{Join } A B \),
 \[
 \begin{cases}
@@ -846,7 +826,7 @@ JoinRec (A B C : U) (f : A -> C) (g : B -> C)
 \]
 \end{theorem}
 
-\begin{theorem} (Унікальність)
+\begin{theorem} (Унікальність).
 Будь-які два відображення \( h_1, h_2 : \text{Join } A B \to C \) є гомотопними,
 якщо вони збігаються на \( \text{joinl} \), \( \text{joinr} \) і \( \text{join} \).
 \end{theorem}
@@ -896,12 +876,12 @@ def colimit (A : nat -> U) (f : (n : nat) -> A n -> A (succ n)) : U
 Це фундаментальна конструкція в теорії гомотопій,
 яка захоплює підпростір \( B \), де \( f(a) = g(a) \) для \( a : A \).
 
-\begin{definition} (Формація)
+\begin{definition} (Формація).
 Для типів \( A, B : \mathcal{U} \) і відображень \( f, g : A \to B \),
 Коеквалайзер \( \text{coeq } A B f g : \mathcal{U} \).
 \end{definition}
 
-\begin{definition} (Конструктори)
+\begin{definition} (Конструктори).
 Коеквалайзер генерується такою вищою індуктивною композиційною структурою:
 Coeq(A,B,f,g) :=
 \[
@@ -918,7 +898,7 @@ def Coeq (A B: U) (f g: A -> B) : U
 \end{lstlisting}
 \end{definition}
 
-\begin{theorem} (Елімінація)
+\begin{theorem} (Елімінація).
 Для типу \( C : \mathcal{U} \), відображення \( h : B \to C \), і сімейства шляхів \( y : (x : A) \to \text{Path}_C (h (f x), h (g x)) \), існує відображення \( \text{coequRec} : \text{coeq } A B f g \to C \), таке що:
 \[
 \begin{cases}
@@ -935,7 +915,7 @@ coequRec (A B C : U) (f g : A -> B) (h: B -> C) (y: (x : A) -> Path C (h (f x)) 
 \end{lstlisting}
 \end{theorem}
 
-\begin{theorem} (Обчислення)
+\begin{theorem} (Обчислення).
 Для \( z : \text{coeq } A B f g \),
 \[
 \begin{cases}
@@ -945,7 +925,7 @@ coequRec (A B C : U) (f g : A -> B) (h: B -> C) (y: (x : A) -> Path C (h (f x)) 
 \]
 \end{theorem}
 
-\begin{theorem} (Унікальність)
+\begin{theorem} (Унікальність).
 Будь-які два відображення \( h_1, h_2 : \text{coeq } A B f g \to C \) є гомотопними,
 якщо вони збігаються на \( \text{inC} \) і \( \text{glueC} \), тобто,
 якщо \( h_1(\text{inC } x) = h_2(\text{inC } x) \) для
@@ -968,12 +948,12 @@ coequRec (A B C : U) (f g : A -> B) (h: B -> C) (y: (x : A) -> Path C (h (f x)) 
 шляхів між точками в \( B \), із шляхами, що з’єднують
 кінцеві точки цих шляхів.
 
-\begin{definition} (Формація)
+\begin{definition} (Формація).
 Для типів \( A, B : \mathcal{U} \) і відображення \( p : A \to (b_1, b_2 : B) \times (b_1 \equiv b_2) \times (b_1 \equiv b_2) \),
 існує rоеквалайзер шляхів \( \text{Coeq}_\equiv(A,B,p) : \mathcal{U} \).
 \end{definition}
 
-\begin{definition} (Конструктори)
+\begin{definition} (Конструктори).
 Коеквалайзер шляхів генерується такою вищою індуктивною композиційною структурою:
 \[
 \begin{cases}
@@ -989,7 +969,7 @@ data Coeq-$\equiv$ (A B: U) (p : A -> $\Sigma$ (b1 b2: B), b1 $\equiv$ b2 $\time
 \end{lstlisting}
 \end{definition}
 
-\begin{theorem} (Елімінація)
+\begin{theorem} (Елімінація).
 Для типу \( C : \mathcal{U} \), відображення \( h : B \to C \),
 і сімейства шляхів \( y : (a : A) \to h(p(a).2.2.1  @ 0) \equiv h(p(a).2.2.2 @ 1) \),
 існує відображення \( \text{Ind-Coequ}_\equiv : \text{Coeq}_\equiv(A,B,p) \to C \), таке що:
@@ -1008,7 +988,7 @@ def Ind-Coequ$_\equiv$ (A B C : U)
 \end{lstlisting}
 \end{theorem}
 
-\begin{theorem} (Обчислення)
+\begin{theorem} (Обчислення).
 Для \( z : \text{coeqP } A B p \),
 \[
 \begin{cases}
@@ -1018,7 +998,7 @@ def Ind-Coequ$_\equiv$ (A B C : U)
 \]
 \end{theorem}
 
-\begin{theorem} (Унікальність)
+\begin{theorem} (Унікальність).
 Будь-які два відображення \( h_1, h_2 : \text{coeqP } A B p \to C \) є гомотопними,
 якщо вони збігаються на \( \text{inP} \) і \( \text{glueP} \), тобто,
 якщо \( h_1(\text{inP } b) = h_2(\text{inP } b) \) для всіх \( b : B \)
