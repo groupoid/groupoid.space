@@ -500,12 +500,24 @@ def $\odot$ (S A: U) : U
 \end{definition}
 
 \begin{theorem} (Елімінація).
-Для типу \( B : \mathcal{U} \), відображення \( g : A \to B \),
-точки \( h : (S \to \odot\ S A) \to B \), і відображень шляхів,
-що забезпечують когерентність, існує
-\( \text{Ind}_{\odot} : \odot\ S A \to B \),
-таке що \( \text{Ind}_\odot(\text{base}(x)) = g(x) \)
-і \( \text{Ind}_\odot(\text{hub}(f)) = h(f) \).
+Для сімейства типів \( P : \text{HubSpokes} \, S \, A \to \mathcal{U} \),
+відображень \( \text{pbase} : (x : A) \to P(\text{base} \, x) \),
+\( \text{phub} : (f : S \to \text{HubSpokes} \, S \, A) \to P(\text{hub} \, f) \),
+і сімейства шляхів
+\( \text{pspoke} : (f : S \to \text{HubSpokes} \, S \, A) \to (s : S) \to \text{PathP} \, (<i> P(\text{spoke} \, f \, s \, @ \, i)) \, (\text{phub} \, f) \, (P(f \, s)) \),
+\( \text{phubEq} : (x, y : A) \to (p : S \to \text{Path} \, A \, x \, y) \to \text{PathP} \, (<i> P(\text{hubEq} \, x \, y \, p \, @ \, i)) \, (\text{pbase} \, x) \, (\text{pbase} \, y) \),
+\( \text{pspokeEq} : (x, y : A) \to (p : S \to \text{Path} \, A \, x \, y) \to (s : S) \to \text{PathP} \, (<i> P(\text{spokeEq} \, x \, y \, p \, s \, @ \, i)) \, (P(\text{hubEq} \, x \, y \, p)) \, (\text{pbase} \, (p \, s)) \),
+існує відображення \( \text{hubSpokesInd} : (z : \text{HubSpokes} \, S \, A) \to P(z) \), таке що:
+\[
+\begin{cases}
+\text{Ind}_\odot \, (\text{base} \, x) = \text{pbase} \, x \\
+\text{Ind}_\odot \, (\text{hub} \, f) = \text{phub} \, f \\
+\text{Ind}_\odot \, (\text{spoke} \, f \, s \, @ \, i) = \text{pspoke} \, f \, s \, @ \, i \\
+\text{ind}_\odot \, (\text{hubEq} \, x \, y \, p \, @ \, i) = \text{phubEq} \, x \, y \, p \, @ \, i \\
+\text{Ind}_\odot \, (\text{spokeEq} \, x \, y \, p \, s \, @ \, i) = \text{pspokeEq} \, x \, y \, p \, s \, @ \, i \\
+\end{cases}
+.
+\]
 \end{theorem}
 
 \newpage
