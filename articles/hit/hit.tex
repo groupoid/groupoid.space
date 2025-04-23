@@ -663,8 +663,8 @@ def / (A: U) (R: A -> A -> U) : U
 \[
 \vee :=
 \begin{cases}
-\text{winl} : A.1 \to \text{Wedge } A B \\
-\text{winr} : B.1 \to \text{Wedge } A B \\
+\text{winl} : A.1 \to A \vee B \\
+\text{winr} : B.1 \to A \vee B \\
 \text{wglue} : \text{winl} (A.2) \equiv \text{winr}(B.2)
 \end{cases}
 \]
