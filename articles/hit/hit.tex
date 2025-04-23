@@ -1,4 +1,5 @@
 \documentclass{article}
+\usepackage{newlfont}
 \usepackage[english,ukrainian]{babel}
 \usepackage{hyphenat}
 \usepackage{listings}
@@ -268,6 +269,7 @@ CW-комплекси є центральними в HoTT і з’являють
 Для типу \( A : \mathcal{U} \), суспензія \( \Sigma A : \mathcal{U} \)
 генерується такою вищою індуктивною композиційною структурою:
 \[
+\Sigma :=
 \begin{cases}
 \text{north} \\
 \text{south} \\
@@ -339,6 +341,7 @@ def $\Sigma$-$\beta$ (A: U) (B: $\Sigma A$ -> U) (n: B north) (s: B south)
 \begin{definition} (Конструктори).
 Розшарована сума генерується такою вищою індуктивною композиційною структурою:
 \[
+\sqcup :=
 \begin{cases}
 \text{po$_1$} : A \to \sqcup(A,B,C,f,g) \\
 \text{po$_2$} : B \to \sqcup(A,B,C,f,g) \\
@@ -479,12 +482,14 @@ X_n: \text{Приєднання } n\text{-клітини до } X_{n-1} = \{ \te
 \begin{definition} (Конструктори).
 Хаб і шпиці вільно генерується такою вищою індуктивною композиційною структурою:
 \[
+\odot :=
 \begin{cases}
 \text{base} : A \to \odot\ (S,A) \\
 \text{hub} : (S \to \odot\ (S,A)) \to \odot\ (S,A) \\
 \text{spoke} : (f : S \to \odot\ (S,A)) \to (s : S) \to \text{hub}(f) \equiv f(s) \\
 \text{hubEq} : (x, y : A) \to (p : S \to x \equiv y) \to \text{base}(x) \equiv \text{base}(y) \\
-\text{spokeEq} : (x, y : A) \to (p : S \to x \equiv y) \to (s : S) \to \text{hubEq}(x,y,p) \equiv \text{base}(p(s))
+\text{spokeEq} : (x, y : A) \to (p : S \to x \equiv y) \to (s : S) \\
+\indent \to \text{hubEq}(x,y,p) \equiv \text{cong}(\text{base}(p(s)))
 \end{cases}
 \]
 \begin{lstlisting}[mathescape=true]
@@ -644,49 +649,54 @@ def / (A: U) (R: A -> A -> U) : U
 \newpage
 \subsection{Букет}
 Букет двох точкових типів \( A \) і \( B \), позначена \( A \vee B \),
-є вищим індуктивним типом (HIT), який представляє об’єднання \( A \)
+є вищим індуктивним типом, який представляє об’єднання \( A \)
 і \( B \) з ідентифікованими базовими точками. Топологічно
 вона відповідає \( A \times \{ y_0 \} \cup \{ x_0 \} \times B \),
 де \( x_0 \) і \( y_0 \) — базові точки \( A \) і \( B \), відповідно.
 
 \begin{definition} (Формація).
-Для точкових типів \( A, B : \text{pointed} \), Букет \( \text{Wedge } A B : \mathcal{U} \).
+Для точкових типів \( A, B : \text{pointed} \), Букет \( A \vee B : \mathcal{U} \).
 \end{definition}
 
 \begin{definition} (Конструктори).
-Букет генерується такою вищою індуктивною композиційною структурою:
+Букет генерується наступною вищою індуктивною композиційною структурою:
 \[
+\vee :=
 \begin{cases}
 \text{winl} : A.1 \to \text{Wedge } A B \\
 \text{winr} : B.1 \to \text{Wedge } A B \\
-\text{wglue} : \text{Path}_{\text{Wedge } A B} (\text{winl } A.2, \text{winr } B.2)
+\text{wglue} : \text{winl} (A.2) \equiv \text{winr}(B.2)
 \end{cases}
 \]
-\begin{lstlisting}
-data Wedge (A : pointed) (B : pointed)
-   = winl (a : A.1)
-   | winr (b : B.1)
-   | wglue <x> [ (x = 0) -> winl A.2 , (x = 1) -> winr B.2 ]
+\begin{lstlisting}[mathescape=true]
+def $\vee$ (A : pointed) (B : pointed) : U
+ := inductive { winl (a : A.1)
+              | winr (b : B.1)
+              | wglue : winl(A.2) $\equiv$ winr(B.2)
+              }
 \end{lstlisting}
 \end{definition}
 
 \begin{theorem} (Елімінація).
-Для типу \( C : \mathcal{U} \), відображень \( f : A.1 \to C \), \( g : B.1 \to C \), і шляху \( p : \text{Path}_C (f (A.2), g (B.2)) \), існує відображення \( \text{WedgeRec} : \text{Wedge } A B \to C \), таке що:
+Для типу \( P : A \vee B \mathcal{U} \), відображень \( f : A.1 \to C \),
+\( g : B.1 \to C \), і шляху \( p : \text{PathOverlue}(P,f(A.2),g (B.2)) \),
+існує відображення \( \text{Ind}_\vee : A \vee B \to C \), таке що:
 \[
 \begin{cases}
-\text{WedgeRec}(\text{winl } a) = f(a) \\
-\text{WedgeRec}(\text{winr } b) = g(b) \\
-\text{WedgeRec}(\text{wglue } @ \, x) = p \, @ \, x
+\text{Ind}(\text{winl}(a)) = f(a) \\
+\text{Ind}(\text{winr}(b)) = g(b) \\
+\text{Ind}(\text{wglue}(x)) = p(x)
 \end{cases}
 \]
-\begin{lstlisting}
-WedgeRec (A B : pointed) (C : U) (f : A.1 -> C) (g : B.1 -> C)
-         (p : Path C (f A.2) (g B.2))
-   : Wedge A B -> C
-   = split
-     winl a -> f a
-     winr b -> g b
-     wglue @ x -> p @ x
+\begin{lstlisting}[mathescape=true]
+def PathOverGlue : (P : A $\vee$ B → U)
+    (p : P (inl (A.2))) (q : P (inr (B.2))) : U
+ := PathP (λ i → P (wglue i)) p q
+
+def Ind$_\vee$ (A B : pointed) (C : U) (f : A.1 -> C) (g : B.1 -> C)
+    (p : Path C (f A.2) (g B.2))
+  : A $\vee$ B -> C
+ := split { winl a -> f a | winr b -> g b | wglue @ x -> p @ x }
 \end{lstlisting}
 \end{theorem}
 
@@ -694,9 +704,9 @@ WedgeRec (A B : pointed) (C : U) (f : A.1 -> C) (g : B.1 -> C)
 Для \( z : \text{Wedge } A B \),
 \[
 \begin{cases}
-\text{WedgeRec}(\text{winl } a) \equiv f(a) \\
-\text{WedgeRec}(\text{winr } b) \equiv g(b) \\
-\text{WedgeRec}(\text{wglue } @ \, x) \equiv p \, @ \, x
+\text{Ind}_\vee(\text{winl } a) \equiv f(a) \\
+\text{Ind}_\vee(\text{winr } b) \equiv g(b) \\
+\text{Ind}_\vee(\text{wglue } @ \, x) \equiv p \, @ \, x
 \end{cases}
 \]
 \end{theorem}
@@ -808,7 +818,7 @@ def Ind$_\wedge$ (A B : pointed) (P : A $\wedge$ B -> U)
 
 \newpage
 \subsection{З’єднання}
-З’єднання двох типів \( A \) і \( B \), позначене \( A * B \),
+З’єднання двох типів \( A \) і \( B \), позначене \( A \Join B \),
 є вищим індуктивним типом, який конструює тип шляхом
 з’єднання кожної точки \( A \) з кожною точкою \( B \) через шлях.
 Топологічно воно відповідає з’єднанню просторів, формуючи
@@ -821,15 +831,15 @@ def Ind$_\wedge$ (A B : pointed) (P : A $\wedge$ B -> U)
 \begin{definition} (Конструктори).
 З’єднання генерується такою вищою індуктивною композиційною структурою:
 \[
-A * B :=
+A \Join B :=
 \begin{cases}
-\text{joinl} : A \to A * B \\
-\text{joinr} : B \to A * B \\
+\text{joinl} : A \to A \Join B \\
+\text{joinr} : B \to A \Join B \\
 \text{join} (a : A) (b : B) : \text{joinl}(a) \equiv \text{joinr}(b)
 \end{cases}
 \]
-\begin{lstlisting}
-def * (A : U) (B : U) : U
+\begin{lstlisting}[mathescape=true]
+def $\Join$ (A : U) (B : U) : U
  := inductive { joinl (a: A)
               | joinr (b: B)
               | join (a: A) (b: B) : joinl(a) $\equiv$ joinr(b)
@@ -839,29 +849,32 @@ def * (A : U) (B : U) : U
 
 \begin{theorem} (Елімінація).
 Для типу \( C : \mathcal{U} \), відображень \( f : A \to C \), \( g : B \to C \),
-і сімейства шляхів \( h : (a : A) \to (b : B) \to \text{Path}_C (f a, g b) \),
-існує відображення \( \text{Ind}_* : A * B \to C \), таке що:
+і сімейства шляхів \( h : (a : A) \to (b : B) \to f(a) \equiv g(b) \)
+існує відображення \( \text{Ind}_\Join : A \Join B \to C \), таке що:
 \[
 \begin{cases}
-\text{Ind}_*(\text{joinl}(a)) = f(a) \\
-\text{Ind}_*(\text{joinr}(b)) = g(b) \\
-\text{Ind}_*(\text{join}(a,b,i)) = h(a,b,i) \\
+\text{Ind}_\Join(\text{joinl}(a)) = f(a) \\
+\text{Ind}_\Join(\text{joinr}(b)) = g(b) \\
+\text{Ind}_\Join(\text{join}(a,b,i)) = h(a,b,i) \\
 \end{cases}
 \]
-\begin{lstlisting}
-def Ind_* (A B C : U) (f : A -> C) (g : B -> C)
+\begin{lstlisting}[mathescape=true]
+def Ind$_\Join$ (A B C : U) (f : A -> C) (g : B -> C)
     (h : (a : A) -> (b : B) -> Path C (f a) (g b))
-  : A * B -> C
- := split { joinl a -> f a | joinr b -> g b | join a b @ i -> h a b @ i }
+  : A $\Join$ B -> C
+ := split { joinl a -> f a
+          | joinr b -> g b
+          | join a b @ i -> h a b @ i
+          }
 \end{lstlisting}
 \end{theorem}
 
 \begin{theorem} (Обчислення).
-Для всіх $z : A * B$, і предиката $P$ виконуються правила $\text{Ind}_*$ для всіх параметрів предиката $P$.
+Для всіх $z : A \Join B$, і предиката $P$ виконуються правила $\text{Ind}_\Join$ для всіх параметрів предиката $P$.
 \end{theorem}
 
 \begin{theorem} (Унікальність).
-Будь-які два відображення \( h_1, h_2 : \text{Join } A B \to C \) є гомотопними,
+Будь-які два відображення \( h_1, h_2 : A \Join B \to C \) є гомотопними,
 якщо вони збігаються на \( \text{joinl} \), \( \text{joinr} \) і \( \text{join} \).
 \end{theorem}
 
@@ -875,6 +888,7 @@ def Ind_* (A B C : U) (f : A -> C) (g : B -> C)
 відображень \( f : (n : \mathbb{N}) \to A n \to A(\text{succ}(n)) \),
 тип кограниця \( \text{colimit}(A,f) : \mathcal{U} \).
 \[
+\text{colim} :=
 \begin{cases}
 \text{ix} : (n : \text{nat}) \to A n \to \text{colimit}(A,f) \\
 \text{gx} : (n : \text{nat}) \to (a : A(n)) \to \text{ix} (\text{succ}(n),f(n,a)) \equiv \text{ix}(n,a)
@@ -913,7 +927,7 @@ def colimit (A : nat -> U) (f : (n : nat) -> A n -> A (succ n)) : U
 
 \begin{definition} (Конструктори).
 Коеквалайзер генерується такою вищою індуктивною композиційною структурою:
-Coeq(A,B,f,g) :=
+Coeq :=
 \[
 \begin{cases}
 \text{inC} : B \to \text{Coeq}(A,B,f,g) \\
@@ -986,6 +1000,7 @@ coequRec (A B C : U) (f g : A -> B) (h: B -> C) (y: (x : A) -> Path C (h (f x)) 
 \begin{definition} (Конструктори).
 Коеквалайзер шляхів генерується такою вищою індуктивною композиційною структурою:
 \[
+Coequ_\equiv :=
 \begin{cases}
 \text{inP} : B \to \text{Coeq}_\equiv(A,B,p) \\
 \text{glueP} : (a : A) \to \text{inP}(p(a).2.2.1 @ 0) \equiv \text{inP}(p(a).2.2.2 @ 1)
