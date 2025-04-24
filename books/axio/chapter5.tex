@@ -1,0 +1,811 @@
+\addtocontents{toc}{\protect\newpage}
+
+\chapter{Система вищих мов}
+\epigraph{Присвячується автору MLTT}{Перу Мартіну-Льофу}
+
+П'ятий розділ описує розвиток концептуальної моделі системи доведення теорем як сукупності:
+послідовності формальних мов програмування, кожна наступна з яких, складніша за попередню,
+має свою операційну семантику, та наслідує усі властивості попередніх мов послідовності.
+
+\section*{Вступне слово}
+Батьком всіх сучасних теорій типів, зокрема HoTT, в яких працюють сучасні формальні
+математики можна вважати Пера Мартіна-Льофа. В його теорії мова ділиться на типи,
+кожен з яких визначається 4 правилами: конструктори та деконструктори,
+та рівняння які визначають як відбуваються обчислення та гарантують унікальність.
+Таке кодування природнім чином відповідає кодуванню ізоморфізмів та відображає
+глибинну категорну семантику типових систем. Ця робота цілком відповідає
+моделі типів Мартіна-Льофа та показує те тільки конфігурацію конкретного спектра мов,
+але і визначає модель для опису цього спектру.
+
+\section{Чиста система типів PTS}
+IEEE\footnote{IEEE Std 1012-2016  --- V\&V Software verification and validation} стандарт
+та регуляторні документи ESA\footnote{ESA PSS-05-10 1-1 1995 -- Guide to software verification and validation}
+визначають інтрументи та підходи до виробничого процесу верифікації та валідації.
+Найбільш розвинені та потужні засоби вимагають застосування математичних мов та нотацій.
+Ера верифікованої математики була започаткована верифікатором AUTOMATH\cite{deBruijn83} (де Брейн) розробленого
+під керівництвом де Брейна, а також розвиток теорії типів Мартіна-Льофа\cite{Lof84}.
+Сьогодні ми маємо Lean, Coq, F*, Agda мови які використовують числення
+конструкцій, Calculus of Constructions\cite{Coq88} (CoC)
+та числення індуктивних типів (Calculus of Inductive Constructions\cite{Pfenning89} (CiC).
+Пізніше учень де Брейна, Хенк Барендрегт класифікував послаблені чисті
+системи типів по трьом осям та візуазізував це за допомогою лямбда-куба\cite{Henk93}.
+Чисті мови програмування вже були імплементовані раніше
+(Morte\footnote{Gabriel Gonzalez. Haskell Morte Library \url{https://github.com/Gabriel439/Haskell-Morte-Library}} Габріеля Гонзалеза, Henk\cite{Erik97} Еріка Мейера).
+Чисті системи типів це системи з однм $\Pi$-типом (або ще і $\Sigma$ як в ECC\cite{Ore92}, Оре),
+з можливими розширеннями, такими як PTS$^\infty$ зі зліченою кількістю всесвітів\cite{Tonpa18} (Сохацький),
+Cedile з self-типами\cite{Fu14}\cite{Stump17} (Стамп, Фу), система з К-правилами\cite{Barthe95} (Барте).
+
+Чисті системи типів називаються $\textcolor{magenta}{PTS}$, $\textcolor{magenta}{CoC}$
+$\textcolor{magenta}{Henk}$. Нефібраційна чиста система просто-типизованого лямбда числення
+називається $\textcolor{magenta}{Alonzo}$.
+
+Головна мотивація чистих систем --- це простота аналізу ядра верифікатора,
+можливість застосування сильної нормалізації та довірена зовнішня верифікація
+та сертифікація завдяки простоті верифікатора (type checker), це означає, що
+алгоритм верифікації повинен бути настільки простим, аби можна було
+просто імплементувати його на будь-якій мові програмування. Приклади застовування
+тут можуть бути:
+1) формальна мова блокчейн контрактів (Pluto
+   \footnote{Rebecca Valentine. Formal Specification of the Plutus Core Language. 2017.
+             \url{https://iohk.io/research/papers/\#JT5XKNBP}});
+2) сертифіковані обчислення для інтерпретаторів;
+3) платіжні системи.
+
+\subsection{Генерація сертифікованих програм}
+Згідно ізоморфізму Каррі-Говарда-Ламбека або інтерпретації Брауера-Гейтінга-Колмогорова
+існує взаємноознозначна відповідність між доведеннями теорем (або пруфтермами)
+та лямбда функціями в теорії типів Мартіна-Льофа\cite{Lof84}.
+Так як специфікація та доведення її відоповідності для певної програми
+відбувається за допомогою мови з залежними типами, ми можемо екстрагувати
+цільову імплементацію (зі стертою інформацією про типи) сертифікованої программи
+в довільну мову програмування. У якості такої цільової мови підходять
+майже усі інтерпретатор безтипового лямбда числення, такі як JavaScript,
+Erlang, PyPy, LuaJIT, K.
+
+Більш розвинені практики та підходи до кодогенерації та екстрагуванню
+сертифікованих програм полягає у генерації С++ чи Rust програм, або програм
+для нижчих систем лямюда-кубу, таких як System F або System F$_\omega$.
+У цій роботі представлений екстракт в мову Erlang у якості цільового інтерпретатору.
+
+\textbf{PTS синтаксиси}. Мінімальне ядро з однією аксіомою
+сприймає декілька лямбда ситаксисів.
+Перший синтаксис сумісний з системою програмування
+$\textcolor{magenta}{Morte}$\footnote{http://github.com/Gabriel439/Haskell-Morte-Library}, та походить від неї.
+Інший синтаксис сумісний з синтаксисом $\textcolor{magenta}{cubicaltt}$\footnote{http://github.com/mortberg/cubicaltt}.
+
+\begin{equation}
+\begin{cases}
+Sorts = U.\{i\},\ i : Nat\\
+Axioms = U.\{i\} : U.\{inc\ i\}\\
+Rules = U.\{i\} \leadsto U.\{j\} : U.\{max\ i\ j\}\\
+\end{cases}
+\end{equation}
+
+Мова програмування $\textcolor{magenta}{Henk}$ --- це мова з залежними типами, яка є розширенням
+числення конструкцій (CoC) Тері Кокана. Саме з числення
+конструкцій починається сучасна обчислювальна математика. В додаток до CoC,
+наша мова $\textcolor{magenta}{Henk}$ має предикативну ієрархію індексованих всесвітів. В цій мові немає
+аксіоми рекурсії для безпосереднього визначення рекурсивних типів. Однак в цій мові
+вцілому, рекурсивні дерева та корекурсія може бути визначена, або як кажуть, закодована.
+Така система аксіом називається системою з однією аксіомою (або чистою системою), тому що в ній
+існує тільки Пі-тип, а для кожного типу в теорії типів Мартіна Льофа існує п'ять
+конструкцій: формація, інтро, елімінатор, бета та ета правила.
+
+Усі терми підчиняються системі аксіом $\textbf{Axioms}$ всередині
+послідовності всесвітів $\textbf{Sorts}$ та складність залежного
+терму відповідає максимальній складності домена та кодомена
+(правила $\textbf{Rules}$). Таким чином визначається простір всесвітів,
+та його конфігурація може бути записана згідно нотації
+Барендрегта для систем з чистими типами:
+
+Проміжна мова чистої системи типів $\textcolor{magenta}{Henk}$ базується на мові
+Henk\cite{Erik97}, вперше описаній Еріком Мейером та Саймоном Пейтоном Джонсом в 1997 році.
+Пізніше Габріель Гонзалез імплементував на мові Haskell
+верифікатор з посиланням на Henk, та використував кодування Бома для нерекурсивного
+кодування рекурсивних індуктивних типів. Ця мова базується лише на $\Pi$-типі,
+$\lambda$-функції, її елімінатора аплікації, $\beta$-редукції та $\eta$-експансії.
+Дизайн мови $\textcolor{magenta}{Henk}$ нагадує дизайн мов Henk та Morte.
+Ця мова призначена бути максимально простою (повна імплементація займає 300 рядків),
+формально верифікованою, здатною продукувати сертифіковані програми та
+розповсюджувати їх за межі комп'ютера по мережах та недовірених каналах зв'язку,
+та компілювати (верифікувати та екстрагувати) на цільових платформах за допомогою
+тієї ж мови Henk, можливо імплементовоної на іншій мові програмування та вбудованої
+в основну систему.
+
+\begin{table}[ht]
+\begin{center}
+\caption{Перелік мов, інтерпретаторів та платформ для цільової компіляції}
+\tabcolsep7pt\begin{tabular}{lcccc}
+\hline
+\rowcolor{ZimaBlue}
+\textbf{Ціль} & \textbf{Джерело} & \textbf{Система типів} & \textbf{Застосування}\\
+\hline
+\rowcolor{LightGray}
+CPS        & Per      & $\pi$+$\lambda$+$\mu$ calculi & середовище виконання \\
+\rowcolor{LightGray}
+BEAM       & Hamler     & System F            & системна бібліотека N2O.DEV \\
+\rowcolor{LightGray}
+BEAM       & PTS        & CoC$^\infty$        & фундаментальна мова \\
+\rowcolor{LightGray}
+BEAM       & HTS        & HoTT                & гомотопічна система \\
+\hline
+JavaScript & PureScript & System F & дитячі розваги \\
+JVM        & Java       & F-sub\footnote{System F wit bounded quantification} & реліктова історія \\
+JVM        & Scala      & System F$_\omega$   & маргінальна промисловість \\
+CLR        & F\#        & System F$_\omega$   & маргінальна промисловість \\
+GHC        & Haskell    & System F$_\omega$   & avoid success at all costs \\
+GHC        & Morte      & CoC                 & фундаментальна мова Кокана \\
+JavaScript & Kind       & Self-Types + IntNet & сучасна фундаментальна мова \\
+GHC,OCaml  & Coq        & CiC                 & промисловий прувер \\
+\hline
+\end{tabular}
+\end{center}
+\end{table}
+
+\subsection{Синтаксис}
+Синтаксис PTS сумісний з численням конструкцій (CoC) Тері Кокана,
+та такими мовами як Morte та Henk.
+Однак в системі PTS присутній індекс для всесвітів який
+представлений натуральними числами. Тут наведений синтаксис у BNF нотації
+
+\begin{lstlisting}[mathescape=true]
+     I := list nat
+     U := U + U$_{nat}$
+     O := U + I + ( O ) + O O + O $\rightarrow$ O
+        + $\lambda$ ( I : O ) $\rightarrow$ O
+        + $\forall$ ( I : O ) $\rightarrow$ O
+\end{lstlisting}
+
+Тут + --- сумма виразів, '.' --- конкатенація терміналів без пробілу,
+:= --- оператор визначення BNF-правила, \#empty, \#nat, \#list --- вбудовані типи BNF-нотації
+--- синтаксичні елементи BNF нотації,
+а *,:, $\rightarrow$, (, ), $\lambda$, $\forall$ -- термінали або синтаксичні елементи мови програмування.
+Еквівалентне визначення як ініціальний об'єкт категорій $O_{PTS}$ або $O_\Pi$
+який може вмістити цей синтаксис містить всі правила виводу
+внутрішньої мови категорії.
+
+\begin{lstlisting}[mathescape=true]
+def PTS (lang: U) : U
+ := inductive { star             (n: nat)
+              | var    (x: name) (l: nat)
+              | pi     (x: name) (l: nat) (d c: lang)
+              | lambda (x: name) (l: nat) (d c: lang)
+              | app                       (f a: lang)
+              }
+\end{lstlisting}
+
+\subsection*{Всесвіти}
+Мова PTS$^\infty$ -- це лямбда числення з залежними типами вищого порядку,
+розширення числення конструкцій Кокана, або системи P$_\omega$ Барендрегта,
+з предикативною (імпредикативною) ієрархією індексованих всесвітів.
+Це розширення мотивоване консистентністю\cite{Lof75} в залежній теорії типів та
+неможливістю кодування парадоксів Жирара-Хуркенса-Рассела\footnote{Так званий парадокс голяра який виникає в системах $U : U$}. Також для
+забезпечення консистентності в мові PTS відсутня аксіома \lstinline{Fixpoint}.
+
+$$
+    \mathrm{U_0} : \mathrm{U}_1 : \mathrm{U}_2 : \mathrm{U}_3 : ...
+$$
+
+Де $\mathrm{U_0}$ --- імпредикативний всесвіт,
+   $\mathrm{U_1}$ --- перший предикативний всесвіт,
+   $\mathrm{U_2}$ --- другий предикативний всесвіт,
+   $\mathrm{U_3}$ --- третій предикативний всесвіт і т.д.
+
+\begin{equation}
+\tag{S}
+\dfrac
+{o : Nat}
+{U_o}
+\end{equation}
+
+\subsubsection*{Предикативні всесвіти}
+Всі терми підпорядковуються системі аксіом А для послідовності всесвітів S.
+Складність R залежності термів дорівнює максимальнії складної термів з
+яких складаєтсья формула (або вираз мови). Система всесвітів описується
+згідно SAR-нотації Барендрегта. Зауважте, що предикативні всесвіти
+несумісні в Бом кодуванням, але ви можете переключати предикативність.
+
+
+\begin{equation}
+\tag{$A_1$}
+\dfrac{i: Nat, j: Nat, i < j}{U_i : U_j}
+\end{equation}
+
+\begin{equation}
+\tag{$R_1$}
+\dfrac{i : Nat, j : Nat}{U_i \rightarrow U_j : U_{max(i,j)} }
+\end{equation}
+
+\subsubsection*{Імпредикативні всесвіти}
+Стягуваний імпредикативний простір внизу ієрархії є єдиним можливим розширенням
+предикативної ієрархії для того аби вона залишалась консистентною. Однак
+в чистій системі типів PTS підтримується ієрархія бескінечних імпредикативних всесвітів.
+
+\begin{equation}
+\tag{$A_2$}
+\dfrac
+{i: Nat}
+{U_i : U_{i+1}}
+\end{equation}
+
+\begin{equation}
+\tag{$R_2$}
+\dfrac
+{i : Nat,\ \ \ \ j : Nat}
+{U_i \rightarrow U_{j} : U_{j}}
+\end{equation}
+
+\subsection*{Контексти}
+
+Контексти моделюються словником з іменами змінних в верифікаторі.
+Він може бути типизований як \lstinline{list Sigma}.
+Правило елімінації тут не дається, після використання функції верифікації,
+словник вивільняється з пам'яті.
+
+\begin{equation}
+\tag{Ctx-formation}
+\dfrac
+{}
+{\Gamma : Ctx}
+\end{equation}
+
+\begin{equation}
+\tag{Ctx-intro$_1$}
+\dfrac
+{\Gamma : Ctx}
+{\emptyset : \Gamma}
+\end{equation}
+
+\begin{equation}
+\tag{Ctx-intro$_2$}
+\dfrac
+{A : U_i,\ \ \ \ x : A,\ \ \ \ \Gamma : Ctx}
+{(x : A)\ \vdash\ \Gamma : Ctx}
+\end{equation}
+
+\subsection{Операційна семантика}
+Операційна семантика --- це правила обчислення, або $\beta$-, $\eta$-правила
+фьюжену інтро-правила та елімінаторів. для визначення яких необхідно визначити:
+1) інтро-правила, їх тип (правило формації), та класс (тип правила формації);
+2) правило елімінації та залежної елімінації (індукції).
+Таким чином будемо вважати, що операційна семантика системи типів $O_{PTS}$
+буде складатися з 5 правил: формації, інтро-правило,
+залежний елімінатор (індукція), $\beta$-редукція або правило обчислення,
+$\eta$-експансія або правило унікальності.
+
+\begin{equation}
+\tag{$\Pi$-formation}
+\dfrac
+{A:U_i\ ,\ x:A \vdash B : U_j}
+{\Pi\ (x:A) \rightarrow B : U_{p(i,j)}}
+\end{equation}
+
+\begin{equation}
+\tag{$\lambda$-intro}
+\dfrac
+{x:A \vdash b : B}
+{\lambda\ (x:A) \rightarrow b : \Pi\ (x: A) \rightarrow B }
+\end{equation}
+
+\begin{equation}
+\tag{$App$-elimination}
+\dfrac
+{f: (\Pi\ (x:A) \rightarrow B)\ \ \ a: A}
+{f\ a : B\ [a/x]}
+\end{equation}
+
+\begin{equation}
+\tag{$\beta$-computation}
+\dfrac
+{x:A \vdash b: B\ \ \ a:A}
+{(\lambda\ (x:A) \rightarrow b)\ a = b\ [a/x] : B\ [a/x]}
+\end{equation}
+
+\begin{equation}
+\tag{subst}
+\dfrac
+{\pi_1 : A\ \ \ \ u:A \vdash \pi_2 : B}
+{[\pi_1/u]\ \pi_2 : B}
+\end{equation}
+
+Перелік теорем (специфікації) для чистої системи типів можуть бути
+прямо вбудовані в теорію типів, таким чином ми отримуємо логічний фреймворк
+для перевірки імплементації залежної теорії.
+
+Доведення цих теорем дано в модулі базової бібліотеки розділу 3.
+Також можна повитися на інші доведення \cite{Henk93}.
+Рівняння обсислювальної семантики (бета та ета правила) визначаються
+за допомогою Path-типів, які визначаються $O_=$ або $O_I$ мовним синтаксисом.
+
+Ці рівняння обчислювальної семантики представлені тут як Path-тип в вищій мові.
+В чисту систему типів PTS (з бескінечною кількістю всесвітів)
+для завантаження файлів з локального довіреного сховища додається
+remote конструктор в синтаксичне дерево. Рекурсія по цьому конструктору заборонена.
+
+Індекси де Брейна діють локально в межах одного імені.
+При додаванні існуючого імені в контекст збільшується індекс цього імені.
+Таким чином PTS верифікатор чистої системи типів відрізняється від
+канонічного приклада алгоритма верифікації CoC\cite{Coq88}. Він включає
+наступні функції мовної категорії: підстановка,
+зсув імені, нормалізація термів, рівність
+за визначенням та верифікація.
+
+\subsection*{Перевірка типів}
+Для перевірки типів застосовується наступний алгоритм верифікації, який є основаю
+усіх залежних систем. В чистих системах потрібно бути обережним з \lstinline{remote}
+конструктором. Він використовуються для завантаження типів з локального довіреного сховища.
+При дозволі рекурсії по \lstinline{remote} конструктору можливо реалізувати
+self-типи\cite{Stump17}\cite{Fu14}.
+
+\begin{lstlisting}[mathescape=true]
+type (:star,N)     D $\rightarrow$ (:star,N+1)
+     (:var,N,I)    D $\rightarrow$ :true = proplists:is_defined N B, om:keyget N D I
+     (:pi,N,0,I,O) D $\rightarrow$ (:star,h(star(type I D)),star(type O [(N,norm I)|D]))
+     (:fn,N,0,I,O) D $\rightarrow$ let star (type I D), NI = norm I
+                         in (:pi,N,0,NI,type(O,[(N,NI)|D]))
+     (:app,F,A)    D $\rightarrow$ let T = type(F,D),
+                            (:pi,N,0,I,O) = T, :true = eq I (type A D)
+                         in norm (subst O N A)
+\end{lstlisting}
+
+\subsection*{Індекси де Брейна}
+Зсув переіменовує змінну N в контексті P, тобто додає одиницю для лічильника цієї змінної.
+
+\begin{lstlisting}[mathescape=true]
+  sh (:star,X)     N P $\rightarrow$ (:star,X)
+     (:var,N,I)    N P $\rightarrow$ (:var,N,I+1) when I >= P
+                       $\rightarrow$ (:var,N,I)
+     (:pi,N,0,I,O) N P $\rightarrow$ (:pi,N,0,sh I N P,sh O N P+1)
+     (:fn,N,0,I,O) N P $\rightarrow$ (:fn,N,0,sh I N P,sh O N P+1)
+     (:app,L,R)    N P $\rightarrow$ (:app,L,R)
+\end{lstlisting}
+
+\newpage
+\subsection*{Підстановка, нормалізація, рівність}
+Підстановка заміняє змінну у виразі на певний терм.
+
+\begin{lstlisting}[mathescape=true]
+ sub (:star,X)     N V L $\rightarrow$ (:star,X)
+     (:var,N,L)    N V L $\rightarrow$ V
+     (:var,N,I)    N V L $\rightarrow$ (:var,N,I-1) when I > L
+     (:pi,N,0,I,O) N V L $\rightarrow$ (:pi,N,0,sub I N V L,sub O N (sh V N 0) L+1)
+     (:pi,F,X,I,O) N V L $\rightarrow$ (:pi,F,X,sub I N V L,sub O N (sh V F 0) L)
+     (:fn,N,0,I,O) N V L $\rightarrow$ (:fn,N,0,sub I N V L,sub O N (sh V N 0) L+1)
+     (:fn,F,X,I,O) N V L $\rightarrow$ (:fn,F,X,sub I N V L,sub O N (sh V F 0) L)
+     (:app,F,A)    N V L $\rightarrow$ (:app,   sub F N V L,sub A N V L)
+\end{lstlisting}
+
+Нормалізація виконує підстановку при аплікаціях до функцій (бета-редукція)
+за допомогою рекурсивного спуску по конструкторам синтаксичного дерева.
+
+\begin{lstlisting}[mathescape=true]
+norm (:star,X)     $\rightarrow$ (:star,X)
+     (:var,X)      $\rightarrow$ (:var,X)
+     (:pi,N,0,I,O) $\rightarrow$ (:pi,N,0,norm I,norm O)
+     (:fn,N,0,I,O) $\rightarrow$ (:fn,N,0,norm I,norm O)
+     (:app,F,A)    $\rightarrow$ case norm F of
+                         (:fn,N,0,I,O) $\rightarrow$ norm (subst O N A)
+                                    NF $\rightarrow$ (:app,NF,norm A) end
+\end{lstlisting}
+
+Рівність за визначенням перевіряє рівність Erlang термів.
+
+\begin{lstlisting}[mathescape=true]
+  eq (:star,N)        (:star,N)        $\rightarrow$ true
+     (:var,N,I)       (:var,(N,I))     $\rightarrow$ true
+     (:pi,N1,0,I1,O1) (:pi,N2,0,I2,O2) $\rightarrow$
+          let :true = eq I1 I2
+           in eq O1 (subst (shift O2 N1 0) N2 (:var,N1,0) 0)
+     (:fn,N1,0,I1,O1) (:fn,N2,0,I2,O2) $\rightarrow$
+          let :true = eq I1 I2
+           in eq O1 (subst (shift O2 N1 0) N2 (:var,N1,0) 0)
+     (:app,F1,A1)       (:app,F2,A2)   $\rightarrow$ let :true = eq F1 F2 in eq A1 A2
+     (A,B)                             $\rightarrow$ (:error,(:eq,A,B))
+\end{lstlisting}
+
+\subsection*{Обмеження}
+Обмеження:
+1) неможливість визначити рекурсію та індукцію без fixpoint аксіоми;
+2) кодування Бома повинно бути позитивно-рекурсивним;
+3) неможливість побудови великого елімінатора, вивести тип з даних;
+4) неефективність сім'ї лямбда кодувань вцілому (Парігот, Скотт, Бом).
+
+\newpage
+\subsection{Використання мови}
+Тут буде показано використання мови PTS.
+
+\begin{lstlisting}
+> ./om help me
+[{a,[expr],"to parse. Returns {_,_} or {error,_}."},
+ {type,[term],"typechecks and returns type."},
+ {erase,[term],"to untyped term. Returns {_,_}."},
+ {norm,[term],"normalize term. Returns term's normal form."},
+ {file,[name],"load file as binary."},
+ {str,[binary],"lexical tokenizer."},
+ {parse,[tokens],"parse given tokens into {_,_} term."},
+ {fst,[{x,y}],"returns first element of a pair."},
+ {snd,[{x,y}],"returns second element of a pair."},
+ {debug,[bool],"enable/disable debug output."},
+ {mode,[name],"select metaverse folder."},
+ {modes,[],"list all metaverses."}]
+
+> ./om print fst erase norm a "#List/Cons"
+   \ Head
+-> \ Tail
+-> \ Cons
+-> \ Nil
+-> Cons Head (Tail Cons Nil)
+ok
+\end{lstlisting}
+
+\newpage
+\subsection{Кодування Бома}
+Тип даних List над даним типом А, може бути представлений як ініціальні алгебра
+$(\mu L_A, in)$ функтору $L_A(X) = 1 + (A \times X)$. Позначається $\mu L_A = List(A)$.
+Функції-конструктори $nil: 1 \rightarrow List(A)$ та
+$cons: A \times List(A) \rightarrow List(A)$ визначені як
+$nil = in \circ inl$ та $cons = in \circ inr$, таким чином $in = [nil,cons]$.
+Для кожних двох функцій $c: 1 \rightarrow C$ та $h: A \times C \rightarrow C$,
+катаморфізм $f = \llparenthesis [c,h] \rrparenthesis : List(A) \rightarrow C$
+є унікальним розв'язком системи рівнянь:
+
+$$
+\begin{cases}
+  f \circ nil  = c \\
+  f \circ cons = h \circ (id \times f)
+\end{cases}
+$$
+
+де $f = foldr(c,h)$. Маючи це, ініціальна алгебра представлена функтором
+$\mu (1 + A \times X)$ та сумою морфізмів
+$[1 \rightarrow List(A), A \times List(A) \rightarrow List(A)]$
+як катаморфізму. Використовуючи це кодування, List-тип в базовій бібліотеці мови $O_{PTS}$
+буде мати наступну форму:
+
+$$
+\begin{cases}
+ foldr = \llparenthesis [ f \circ nil , h] \rrparenthesis, f \circ cons = h \circ (id \times f)\\
+ len = \llparenthesis [ zero, \lambda\ a\ n \rightarrow succ\ n ] \rrparenthesis \\
+ (++) = \lambda\ xs\ ys \rightarrow \llparenthesis [ \lambda (x) \rightarrow ys, cons ] \rrparenthesis (xs) \\
+ map = \lambda\ f \rightarrow \llparenthesis [ nil, cons \circ (f \times id)] \rrparenthesis
+\end{cases}
+$$
+
+\begin{lstlisting}[mathescape=true]
+def list (A: U) : U
+ := inductive { cons (x: A) (cs: list A)
+              | nil
+              }
+\end{lstlisting}
+
+$$
+\begin{cases}
+list = \lambda\ ctor \rightarrow \lambda\ cons \rightarrow \lambda\ nil \rightarrow ctor\\
+cons = \lambda\ x\ \rightarrow \lambda\ xs \rightarrow \lambda\ list \rightarrow \lambda\ cons \rightarrow\ \lambda\ nil \rightarrow cons\ x\ (xs\ list\ cons\ nil)\\
+nil = \lambda\ list \rightarrow \lambda\ cons \rightarrow \lambda\ nil \rightarrow nil\\
+\end{cases}
+$$
+
+\begin{lstlisting}[mathescape=true]
+axiom map (A B: U) (f: A -> B) : list A -> list B
+axiom length (A: U): list A -> nat
+axiom append (A: U): list A -> list A -> list A
+axiom foldl (A B: U) (f: B -> A -> B) (Z: B): list A -> B
+axiom filter (A: U) (p: A -> bool) : list A -> list A
+\end{lstlisting}
+
+$$
+\begin{cases}
+len = foldr\ (\lambda\ x\ n \rightarrow succ\ n)\ 0\\
+(++) = \lambda\ ys \rightarrow foldr\ cons\ ys\\
+map = \lambda\ f \rightarrow foldr\ (\lambda x\ xs \rightarrow cons\ (f\ x)\ xs)\ nil\\
+filter = \lambda\ p \rightarrow foldr\ (\lambda x\ xs \rightarrow if\ p\ x\ then\ cons\ x\ xs\ else\ xs)\ nil\\
+foldl = \lambda\ f\ v\ xs = foldr\ (\lambda\ xg\rightarrow\ (\lambda \rightarrow g\ (f\ a\ x)))\ id\ xs\ v\\
+\end{cases}
+$$
+
+\newpage
+\subsection{Поліноміальні функтори}
+Існує два види формальної рекурсії: 1) перша з найменшою нерухомою точкою
+(як $F_A(X) = 1 + A \times X$ або $F_A(X) = A + X \times X$), іншими словами
+рекурсія з базою (термінується $1$ або $A$). Списки та дерева є
+прикладами таких рекурсивних структур з nil та leaf термінальними
+конструкторами (або рекурсивні суми).
+2) друга з найбільшою нерухомою точкою, або рекурсія без бази
+(як $F_A(X) = A \times X$) --- така рекурсія не термінована на рівні типів,
+та моделює нетерміновані послідовності, процеси тощо (або рекурсивні добутки).
+Кодування найменшою нерухомою точкою ще називається кодуванням
+добре-визначиними деревами або кодування поліноміальними функторами.
+\\
+\\
+\noindent Натуральні числа: $\mu\ X \rightarrow 1 + X$\\
+Списки елементів A: $\mu\ X \rightarrow 1 + A \times X$\\
+Лямбда числення: $\mu\ X \rightarrow 1 + X \times X + X$\\
+Потоки: $\nu\ X \rightarrow A \times X$\\
+Потенційно нескінченний список елементів A: $\nu\ X \rightarrow 1 + A \times X$\\
+Скінченне дерево: $\mu\ X \rightarrow \mu\ Y \rightarrow 1 + X \times Y = \mu\ X = List\ X$\\
+
+Для цих кодувань існує аналог кодування Чорча, який розповсюджує
+кодування чистими функціями з нетипизованого лямбда числення до $\Pi$-типу.
+Таке кодування називається кодуванням Бома-Беррардуччі, а просто кодування Бома.
+Воно дозволяє кодувати індуктивні типи даних $\Pi$-типами чистими функціями.
+Проте як було показано Жеверсом\cite{Geuvers01} неможливо побудувати принцип
+індукції в чистих системх без використання в явному чи прихованому
+вигляді \lstinline{Fixpoint} аксіоми. Також неможливо побудувати
+J елімінатор Id типу закодованого в Бом кодуванні, а також
+елімінатори гомотопічних примітивів, наприклад елімінатори гомотопічного
+візрізка як \lstinline{funExt}, \lstinline{homotopy}.
+
+
+\newpage
+\subsection*{Екстракти}
+Мова $\textcolor{magenta}{Henk}$ передбачає автоматичну генерацію сертифікованих програм в цільові платформи.
+Сертифікація полягає у візуальному доведенню одніє стрілки ізоморфізма
+$\lambda$-функції в залежній теорії типів та $\lambda$-фунції в нетипизованому лямбда численні.
+
+\begin{lstlisting}[mathescape=true]
+ext (:var,X,N,F)      $\rightarrow$ (:var,X)
+    (:app,A,B,N,F)    $\rightarrow$ (:call,N,ext(F,A,N),[ext(F,B,N)])
+    (:fn,S,_,I,O,N,F) $\rightarrow$ (:fun,N,(:clauses,[{:clause,N,
+                                [(:var,N,S)],[],[ext(F,O,N)]}]))
+                    _ $\rightarrow$ []
+\end{lstlisting}
+
+Так працює функція екстракту в Erlang з системи типів PTS$^\infty$.
+Erlang-версія $\textcolor{magenta}{Henk}$ повинна бути зручна для використання для
+віртуальних машин LING та BEAM. Оскільки цей екстракт генерує
+AST дерево Erlang (подідбно до Elixir), результуючий код
+подається повністью на весь стек оптимізаційного компілятора
+Erlang. включаючи Erlang Core, тому весь модуль екстракта займає 30 рядків.
+
+\newpage
+\subsubsection{Інтерпретатори}
+З практичної точки зору мова $\textcolor{magenta}{Henk}$ є способом використання залежних типів
+та специфікації, побудовані за їх допомоги на мові Erlang.
+Завдяки глибокій інтеграції з Erlang вдалося мімізувати імплементацію системи до 300 рядків.
+Екстракт в інтерпретатор $O_{PTS}$ (чи інші) є альтернативною опцією для $\textcolor{magenta}{Henk}$.
+Також, мова $\textcolor{magenta}{Henk}$ може бути легко портована на інші мови.
+
+\subsubsection{LLVM}
+Більш складна опція генерації сертифікованих програм --- це генерація машинного коду,
+з використанням або без використання допоміжних проміжних мов таких як LLVM та MIR.
+Тому що для цього потрібно верифікувати модель асемблера та процесора а також
+його оптимізатора, так як зі складністю синтаксичного дерева росте складність
+та велична терму-доведення будь-яких властивостей.
+
+\subsubsection{FPGA}
+Інша, не менш складна, або ще більш складна опція є безпосередня генерація
+VHDL моделей (наприклад, clash).
+
+\newpage
+\section{Система типів для W-індукції MLTT-80}
+Традиційно індуктивні типи входять в операційну семантику систем побудованих
+та основі MLTT-80 (таких як кубічні системи, або система HTS).
+Оригінально Мартін-Льоф виразив індуктивні дерева через $W$-типи, для яких
+також потрібно $0$-тип, $1$-тип, та $2$-тип. Така система є менш потужною ніж система типів Крістін Полен,
+оскільки не дозволяє виразити загальні схеми індукції та взаємну рекурсію. Хоча з іншого
+боку не потребує термінейшин чекера, стріктлі позітів чекера, та взаємної рекурсивності,
+що дозволяє доводити семантику такого мовного ядра значно простіше.
+
+\begin{equation}
+\tag{$W$-formation}
+\dfrac
+{A:Type\ \ \ \ x:A\ \ \ \ B(x):Type}
+{W (x:A) \rightarrow B(x) : Type}
+\end{equation}
+
+\begin{equation}
+\tag{$W$-intro}
+\dfrac
+{a:A\ \ \ \ t: B(a) \rightarrow W}
+{sup(a,t) : W}
+\end{equation}
+
+\begin{equation}
+\tag{$W$-elim}
+\dfrac
+  {\begin{aligned}
+   & w: W \vdash C(w) : Type \\
+   & x:A,\ u:B(x) \rightarrow W, \\
+   & \begin{aligned}
+     & v:\Pi (y:B(x)) \rightarrow C(u(y)) \vdash c(x,u,v):C(sup(x,u))
+     \end{aligned}
+   \end{aligned}}
+  {w:W \vdash wrec(w,c):C(w)}
+\end{equation}
+
+\begin{equation}
+\tag{$W$-$\beta$}
+\dfrac{
+  \begin{aligned}
+    & w: W \vdash C(w) : \text{Type} \\
+    & x: A,\ u: B(x) \rightarrow W, \\
+    & \begin{aligned}
+      & v: \Pi (y: B(x)) \rightarrow C(u(y)) \vdash c(x, u, v) : C(sup(x, u))
+    \end{aligned}
+  \end{aligned}
+}{
+  \begin{aligned}
+    & x: A,\ u: B(x) \rightarrow W \vdash wrec(sup(x, u), c) \\
+    & = c(x, u, \lambda (y: B(x)), wrec(u(y), c)) : C(sup(x, u))
+  \end{aligned}
+}
+\end{equation}
+\\
+\\
+\indent Система типів з $W$-індукцією називається $\textcolor{magenta}{MLTT}$ або $\textcolor{magenta}{Per}$.
+
+\newpage
+\section{Система індуктивних схем CIC}
+Індуктивні синтаксиси та кодування можуть підтримуватися за допомогою системи модулів.
+Кожна система модулів може самостійно (у вигляді ефектів), або за допомогою лямбда кодувань
+попередньої мови PTS рівня, зберігати та оперувати індуктивними типами даних.
+Системи типів з загальною індукцією називаються $\textcolor{magenta}{CIC}$,
+$\textcolor{magenta}{Frank}$ або $\textcolor{magenta}{Christine}$.
+
+\subsection*{Синтаксис}
+\begin{lstlisting}[mathescape=true]
+file -> 'module' id 'do' content : {module,'2','4'} .
+content -> 'empty' : [] .
+content -> line content : ['1'|'2'] .
+line -> 'import' id : {import,'2'} .
+line -> 'def' id tele ':' exp ':=' exp : {def,'2','5','3','7'} .
+tele -> 'empty' : [] .
+tele -> optic tele: ['1'|'2'] .
+optic -> '(' vars ':' exp ')' : {'()','2','4'} .
+vars -> id : '1' .
+vars -> id vars : ['1'|'2'] .
+exp -> id : '1' .
+exp -> id '.' exp : {'.','1','3'} .
+exp -> exp exp : {app,'1','2'} .
+exp -> '(' exp ')' : '2' .
+exp -> forall tele ',' exp : {'Π','2','4'} .
+exp -> sigma tele ',' exp : {'Σ','2','4'} .
+exp -> exp arrow exp : {'→','1','3'} .
+exp -> lam tele ',' exp : {'λ','2','4'} .
+exp -> '?' : {hole} .
+exp -> U : {'U'} .
+exp -> app : '1' .
+exp -> 'inductive' '{' sum '}' : {inductive,lists:flatten(uncons('3'))} .
+constructor -> id tele : {element,'1','2'} .
+constructor -> id tele ':' exp : {interval,'1','2','4'} .
+sum -> 'empty' : [] .
+sum -> constructor : '1' .
+sum -> constructor '|' sum : ['3'|'1'] .
+app -> exp exp : {app,'1','2'} .
+\end{lstlisting}
+
+Індуктивні синтаксиси будуються на телескопах Диб'єра,
+конструкторах сум, та їх елімінаторах.
+
+
+\newpage
+\section{Гомотопічна система типів HTS}
+Гомотопічна система типів, принаймі без вищих індуктивних типів, які є функтором на інших мовних категорій,
+формально моделюється досніповою (предпучковою) семантикою на категорії де Моргана $I: \square_n^{op} \rightarrow Set$.
+Так як тут теж є своя аплікація та лямбда, то можна сказати, що це ще
+одна лямбда система, але для безпосередньох маніпуляції багатовимірними кубами,
+використовуючи при цьому логіку де Моргана.
+Система типів з гомотопічним інтервалом називається $\textcolor{magenta}{CCHM}$,
+$\textcolor{magenta}{HTS}$ або $\textcolor{magenta}{Anders}$.
+
+\subsection*{Синтаксис}
+Тут подано повний синтаксис разом з вищими індуктивними типами.
+
+\begin{lstlisting}
+start <Module.file> file
+start <Module.command> repl
+repl : COLON IDENT exp1 EOF | COLON IDENT EOF | exp0 EOF | EOF
+file : MODULE IDENT WHERE line* EOF
+path : IDENT
+line : IMPORT path+ | OPTION IDENT IDENT | declarations
+ident : IRREF | IDENT
+lense : LPARENS ident+ COLON exp1 RPARENS
+telescope : lense telescope
+params : telescope | []
+declarations :
+  | DEF IDENT params DEFEQ exp1
+  | DEF IDENT params COLON exp1 DEFEQ exp1
+  | AXIOM IDENT params COLON exp1
+face : LPARENS IDENT IDENT IDENT RPARENS
+part : face+ ARROW exp1
+exp0 : exp1 COMMA exp0 | exp1
+exp1 : LSQ separated(COMMA, part) RSQ
+  | LAM telescope COMMA exp1    | PI telescope COMMA exp1
+  | SIGMA telescope COMMA exp1  | LSQ IRREF ARROW exp1 RSQ
+  | LT ident+ GT exp1           | exp2 ARROW exp1
+  | exp2 PROD exp1              | exp2
+exp2 : exp2 exp3 | exp2 APPFORMULA exp3 | exp3
+exp3 : LPARENS exp0 RPARENS LSQ exp0 MAP exp0 RSQ
+  | HOLE               | PRE           | KAN           | IDJ exp3
+  | exp3 FST           | exp3 SND      | NEGATE exp3   | INC exp3
+  | exp3 AND exp3      | exp3 OR exp3  | ID exp3       | REF exp3
+  | OUC exp3           | PATHP exp3    | PARTIAL exp3  | IDENT
+  | IDENT LSQ exp0 MAP exp0 RSQ        | HCOMP exp3
+  | LPARENS exp0 RPARENS               | TRANSP exp3 exp3
+\end{lstlisting}
+
+Тут термінали := (визначенния), + (сума типів), \#empty (пустий тип), \#nat (тип натуральних чисел),
+\#list (тип списків) --- є частинами BNF мови. Термінали
+$\rvert$, :, *, $\langle$, $\rangle$, (, ), =, $\backslash$, /, -, $\rightarrow$, 0, 1, @, [, ],
+$\mathbf{module}$, $\mathbf{import}$,
+$\mathbf{data}$, $\mathbf{split}$, $\mathbf{where}$, $\mathbf{comp}$, $\mathbf{fill}$,
+$\mathbf{Glue}$, $\mathbf{glue}$, $\mathbf{unglue}$,
+$\mathbf{.1}$, $\mathbf{.2}$,
+а також термінал $,$ є терміналами мови верифікатора гомотопічної системи типів.
+Ця мова включає в себе: індуктивні типи, вищі індуктивні типи, оператори склеювання
+для всесвітів та типів з відповідними елімінаторами. Усі ці концепції, та їх
+моделі більш формально та детально описані у наступному розділі 3.
+
+Система не повинна бути обмежена мовами та синтаксисами, ми покажемо як приклад,
+підтримку гомотопічної мови з інтервалом [0,1] сумісної з $cubical$ та з пітримкою індуктивних
+синтаксисів та кодувань попереднього рівня.
+
+\section{Структура верифікатора}
+
+На відміну від одноаксіоматичного верифікатора $\textcolor{magenta}{Per}$,
+який містить тільки один індексований всесвіт $U_i$, рівність
+за визначенням для примітивів єдиного $\Pi$-типу, та функцію
+верифікації $\tau = \mathbf{type}$, верифікатори $\textcolor{magenta}{Per}$
+і $\textcolor{magenta}{Anders}$ містять додатково $\Sigma$-тип для контекстів
+та телескопів, більш деталізовану функцію типізації $\tau$,
+та багато інших досніпових модулів, крім $\Pi$-типу, але які
+теж підпорядковуються системі типів Мартіна-Льофа.
+
+\subsection*{Космос $\mathbb{N}$-індексованих всесвітів $\omega$ }
+
+В теорії типів всі сигнатури всіх типів живуть в ієрархіях
+всесвітів індексованих натуральними числами. Множина таких
+ієрархій називається космосом. В імплементаціях $\mathbb{N}$
+завжди реалізовано як Big Integer. Верифікатор $\mathbf{Anders}$ має
+космос, що складається з двох ієрархій всесвітів $\omega = \{ \mathbf{V}_i, \mathbf{U}_i \}$.
+
+\subsection*{Рівність $\defequ$ з точністю до $\alpha$-$\beta$ конверсій}
+
+Рівність за визначенням (інтенсіональна) двох термів означає, що за допомогою серії альфа та бета
+перетворень можна довести що терми дорівнюють посимвольно (бінарно). Саме ця функція повинна бути
+імплементована для всіх типів у верифікаторі. Програми, які доводять рівність двох термів
+в теорії самого верифікатора за допомогою конструкторів рефлексивності називаються екстенсіональними рівностями.
+Якшо це відбувається для $=$-типу у всесвітах $V_i$ --- це називаються пропрозиційними рівностями,
+а якшо в інших ідентифікаційних системах у всесвітах $U_i$ -- називаються типовими рівностями.
+Інтерналізація інтенсіональної рівності за визначенням всередині теорії за
+допомогою $\Pi$-типів називається рівністю Лейбніца і є виводимою у всіх фібраційних верифікаторах.
+
+\newpage
+\subsection*{Функція верифікації $\tau$}
+
+Головна функція верифікації  розпадається на систему взаємозалежних функцій
+$\tau = \{ \mathbf{infer},\mathbf{app}, \mathbf{check}, \mathbf{act}, \mathbf{conv}, \mathbf{eval} \}$,
+які повинні бути імплементовані для кожного типу, вбудованого в верифікатор.
+
+\subsection*{Контексти та телескопи $\Sigma$ }
+
+В теорії типів контексти, як алгебраїчні послідовності які містять сигнатури, які теж у свою
+чергу складаються з послідовністей пар, що складаються з імені змінної та її типу, визначаються
+$\Sigma$-типами.
+
+\subsection*{Досніпові модулі $\presheaf$ вбудованих типів}
+
+Кожен досніповий модуль повинен бути представлений у вигляді п'яти
+синтаксичних примітивів: 1) формації; 2) конструкції; 3) елімінації;
+4) обчислювальності; 5) унікальності. Ці примітиви повинні бути узгоджені
+в сенсі Мартіна-Льофа та представлені у цій статті,
+як документація на бібліотеку верифікатора, як у тому числі дає формальне визначення
+примітивам в конкретній теорії $\mathrm{\int} = \{ \Pi, \Sigma, =, \mathbf{W},
+\mathbf{0}, \mathbf{1}, \mathbf{2}, \mathbf{Path}, \mathbf{Glue} \}$.
+
+\section{Висновки}
+Як апогей, система HTS є фінальною категорією,
+куди сходяться всі стрілки категорії мов. Кожна мова та її категорія
+мають певний набір стрілок ендоморфізмів, які обчислюють, верифікують,
+нормалізують, оптимізують програми своїх мов.
+Стрілки виду $e_i: O_{n+1} \rightarrow O_n$ є екстракторами, які понижають систему типів,
+при чому $O_{CPS} = O_0$.
+
+Базова бібліотека мови Ерланг у яку проводиться основний
+естракт, поставляється з дистрибутивом Erlang/OTP. Базова бібліотека
+$O_{PTS}$ наведена в репозиторії Github\footnote{\url{https://github.com/groupoid/henk}}.
+Гомотопічна базова бібліотека відповідає термінальній мові $O_{CCHM}$, та теж відкрита
+на Github\footnote{\url{https://github.com/groupoid/anders}}.
+Останні два розділи присвячені математичному моделюванню математики на цій мові.
+

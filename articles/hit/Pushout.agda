@@ -14,7 +14,8 @@ data Pushout {ℓ} (A B C : Type ℓ) (f : C → A) (g : C → B) : Type ℓ whe
 
 PathOver : {ℓ : ℓ} {A B C : Type ℓ} {f : C → A} {g : C → B}
   (D : Pushout A B C f g → Type ℓ) (c : C)
-  (u : D (inl (f c))) (v : D (inr (g c))) → Type ℓ
+  (u : D (inl (f c)))
+  (v : D (inr (g c))) → Type ℓ
 PathOver D c u v = PathP (λ i → D (glue c i)) u v
 
 pushoutInd : {ℓ : ℓ} {A B C : Type ℓ} {f : C → A} {g : C → B}

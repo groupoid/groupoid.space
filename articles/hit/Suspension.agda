@@ -12,8 +12,7 @@ data Susp {ℓ} (A : Type ℓ) : Type ℓ where
   south : Susp A
   merid : (a : A) → north ≡ south
 
-PathOver : {ℓ : ℓ} {A : Type ℓ}
-  (B : Susp A → Type ℓ) (a : A) (n : B north) (s : B south) → Type ℓ
+PathOver : {ℓ : ℓ} {A : Type ℓ} (B : Susp A → Type ℓ) (a : A) (n : B north) (s : B south) → Type ℓ
 PathOver B a n s = PathP (λ i → B (merid a i)) n s
 
 suspInd : {ℓ : ℓ} {A : Type ℓ}
