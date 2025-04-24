@@ -53,25 +53,23 @@ This property allows to identify isomorphic structures in terms of type theory.
 Homotopy type theory to classical homotopy theory is like Euclidian
 syntethic geometry (points, lines, axioms and deduction rules) to
 analytical geometry with cartesian coordinates on $\mathbb{R}^n$ (geometric and algebraic)
-\footnote{We will denote geometric, type theoretical and homotopy constants bold font ${\bf R}$ while
-analitical will be denoted with double lined letters $\mathbb{R}$.}
+\footnote{We will denote geometric, type theoretical and homotopy constants
+bold font $\mathbf{R}$ while analitical will be denoted with double lined letters $\mathbb{R}$.}
 
 In the same way as inductive types extends MLTT for inductive programming,
 the higher inductive types (HIT) extend homotopy type theory for geometry programming.
 You can directly encode CW-complexes by using HIT. The definition of HIT syntax will
 be given in the next {\bf Issue IV: Higher Inductive Types}.
 
+\newpage
 \subsection{Homotopies}
 The first higher equality we meet in homotopy theory is a notion of homotopy,
 where we compare two functions or two path spaces (which is sort of dependent families).
 The homotopy interval $\mathrm{I}=[0,1]$ is the perfect foundation for definition of homotopy.
 
 \begin{definition} (Interval). Compact interval.
-\begin{lstlisting}
-data I = i0
-       | i1
-       | seg <i> [(i=0) -> i0,
-                  (i=1) -> i1]
+\begin{lstlisting}[mathescape=true]
+def I : U := inductive { i0 | i1 | seg : i0 $\equiv$ i1 }
 \end{lstlisting}
 \end{definition}
 
@@ -84,9 +82,9 @@ The convertion function from $\mathrm{I}$ to a type of comparison
 is a direct eliminator of interval. The interval is also known as one of
 primitive higher inductive types which will be given in the next
 {\bf Issue IV: Higher Inductive Types}.
-\begin{lstlisting}
-pathToHtpy (A: U) (x y: A) (p: Path A x y): I -> A
-   = split { i0 -> x; i1 -> y; seg @ i -> p @ i }
+\begin{lstlisting}[mathescape=true]
+def pathToHtpy (A: U) (x y: A) (p: Path A x y) : I $\rightarrow$ A
+ := split { i0 $\rightarrow$ x | i1 $\rightarrow$ y | seg @ i $\rightarrow$ p @ i }
 \end{lstlisting}
 \end{definition}
 
@@ -105,6 +103,7 @@ homotopy (X Y: U) (f g: X -> Y)
 \end{lstlisting}
 \end{definition}
 
+\newpage
 \subsection{Groupoid Interpretation}
 The first text about groupoid interpretation of type theory can be found in Francois Lamarche:
 A proposal about Foundations\footnote{\url{http://www.cse.chalmers.se/~coquand/Proposal.pdf}}.
@@ -156,7 +155,6 @@ isCatGroupoid (C: cat): U
                    (c x y w f (c y z w g h)))
 \end{lstlisting}
 
-\newpage
 \begin{lstlisting}
 PathGrpd (X: U)
   : groupoid
@@ -171,6 +169,7 @@ From here should be clear what it meant to be groupoid interpretation
 of path type in type theory. In the same way we can construct categories of $\prod$ and $\sum$ types.
 In {\bf Issue VIII: Topos Theory} such categories will be given.
 
+\newpage
 \subsection{Functional Extensionality}
 
 \begin{definition} (funExt-Formation)
@@ -212,8 +211,7 @@ funext_Eta (A B: U) (f g: A -> B) (p: Path (A -> B) f g)
 \end{lstlisting}
 \end{definition}
 
-\subsection{Pullbacks}
-
+\newpage
 \subsection{Fibrations}
 
 \begin{definition} (Fibration-1) Dependent fiber bundle derived from Path contractability.
@@ -258,6 +256,7 @@ isFBundle4 (E B: U) (p: E -> B) (F: U): U
 \end{lstlisting}
 \end{definition}
 
+\newpage
 \subsection{Equivalence}
 
 \begin{definition} (Equivalence).
@@ -316,6 +315,7 @@ hae (A B: U): U
 \end{lstlisting}
 \end{definition}
 
+\newpage
 \subsection{Isomorphism}
 
 \begin{definition} (iso-Formation)
@@ -350,6 +350,7 @@ iso_Uniq (A B : U) (p: isIso A B)
 \end{lstlisting}
 \end{definition}
 
+\newpage
 \subsection{Univalence}
 
 \begin{definition} (uni-Formation)
@@ -392,6 +393,7 @@ transPathFun (A B : U) (w: equiv A B)
 \end{lstlisting}
 \end{definition}
 
+\newpage
 \subsection{Loop Spaces}
 
 \begin{definition} (Pointed Space). A pointed type $(A,a)$ is a type $A:U$
@@ -425,6 +427,7 @@ omega : nat -> pointed -> pointed = split
 \end{lstlisting}
 \end{definition}
 
+\newpage
 \subsection{Homotopy Groups}
 
 \begin{definition} (n-th Homotopy Group of m-Sphere).

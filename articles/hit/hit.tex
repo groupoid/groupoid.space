@@ -486,10 +486,7 @@ X_n: \text{Приєднання } n\text{-клітини до } X_{n-1} = \{ \te
 \begin{cases}
 \text{base} : A \to \odot\ (S,A) \\
 \text{hub} : (S \to \odot\ (S,A)) \to \odot\ (S,A) \\
-\text{spoke} : (f : S \to \odot\ (S,A)) \to (s : S) \to \text{hub}(f) \equiv f(s) \\
-\text{hubEq} : (x, y : A) \to (p : S \to x \equiv y) \to \text{base}(x) \equiv \text{base}(y) \\
-\text{spokeEq} : (x, y : A) \to (p : S \to x \equiv y) \to (s : S) \\
-\indent \to \text{hubEq}(x,y,p) \equiv \text{cong}(\text{base}(p(s)))
+\text{spoke} : (f : S \to \odot\ (S,A)) \to (s : S) \to \text{hub}(f) \equiv f(s)
 \end{cases}
 \]
 \begin{lstlisting}[mathescape=true]
@@ -497,9 +494,6 @@ def $\odot$ (S A: U) : U
  := inductive { base (x: A)
               | hub (f: S -> $\odot$ S A)
               | spoke (f: S -> $\odot$ S A) (s:S) : hub f $\equiv$ f s
-              | hubEq (x y: A) (p: S -> x $\equiv$ y) : base x $\equiv$ base y
-              | spokeEq (x y: A) (p: S -> x $\equiv$ y) (s: S)
-              : hubEq x y p $\equiv$ cong base (p s)
               }
 \end{lstlisting}
 \end{definition}
@@ -510,16 +504,12 @@ def $\odot$ (S A: U) : U
 \( \text{phub} : (f : S \to \text{HubSpokes} \, S \, A) \to P(\text{hub} \, f) \),
 і сімейства шляхів
 \( \text{pspoke} : (f : S \to \text{HubSpokes} \, S \, A) \to (s : S) \to \text{PathP} \, (<i> P(\text{spoke} \, f \, s \, @ \, i)) \, (\text{phub} \, f) \, (P(f \, s)) \),
-\( \text{phubEq} : (x, y : A) \to (p : S \to \text{Path} \, A \, x \, y) \to \text{PathP} \, (<i> P(\text{hubEq} \, x \, y \, p \, @ \, i)) \, (\text{pbase} \, x) \, (\text{pbase} \, y) \),
-\( \text{pspokeEq} : (x, y : A) \to (p : S \to \text{Path} \, A \, x \, y) \to (s : S) \to \text{PathP} \, (<i> P(\text{spokeEq} \, x \, y \, p \, s \, @ \, i)) \, (P(\text{hubEq} \, x \, y \, p)) \, (\text{pbase} \, (p \, s)) \),
 існує відображення \( \text{hubSpokesInd} : (z : \text{HubSpokes} \, S \, A) \to P(z) \), таке що:
 \[
 \begin{cases}
 \text{Ind}_\odot \, (\text{base} \, x) = \text{pbase} \, x \\
 \text{Ind}_\odot \, (\text{hub} \, f) = \text{phub} \, f \\
 \text{Ind}_\odot \, (\text{spoke} \, f \, s \, @ \, i) = \text{pspoke} \, f \, s \, @ \, i \\
-\text{ind}_\odot \, (\text{hubEq} \, x \, y \, p \, @ \, i) = \text{phubEq} \, x \, y \, p \, @ \, i \\
-\text{Ind}_\odot \, (\text{spokeEq} \, x \, y \, p \, s \, @ \, i) = \text{pspokeEq} \, x \, y \, p \, s \, @ \, i \\
 \end{cases}
 .
 \]
