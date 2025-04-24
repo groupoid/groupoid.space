@@ -16,6 +16,7 @@
 \lstset{basicstyle=\footnotesize,inputencoding=utf8,
 literate=
 {𝟎}{{\ensuremath{\mathbf{0}}}}1
+{𝟏}{{\ensuremath{\mathbf{1}}}}1
 {≔}{{\ensuremath{\mathrm{:=}}}}1
 {α}{{\ensuremath{\mathrm{\alpha}}}}1
 {ᵂ}{{\ensuremath{^W}}}1
@@ -138,8 +139,9 @@ literate=
 {∀}{{\ensuremath{\forall}}}1
 {∃}{{\ensuremath{\exists}}}1
 {λ}{{\ensuremath{\mathrm{\lambda}}}}1
-{=}{{=}}1
-{<}{{<}}1
+{=}{{\ensuremath{=}}}1
+{<}{{\ensuremath{\langle}}}1
+{>}{{\ensuremath{\rangle}}}1
 {(}{(}1
 {(}{(}1
 {‖}{‖}1
@@ -281,7 +283,9 @@ applicable only to decidable types with $\neg A + A$ property.
 
 \newpage
 \subsection{Unit}
+Unit type is the simplest type equipped with full set of MLTT inference rules. It contains single inhabitant $\star$ (star).
 
+\newpage
 \subsection{Bool}
 
 \subsection{Maybe}

@@ -1,21 +1,154 @@
-% copyright (c) 2018 Groupoid Infinity
-
 \documentclass{article}
 \usepackage{listings}
 \usepackage{amsmath}
 \usepackage{amssymb}
 \usepackage{float}
-\usepackage{amsthm}
 \usepackage{url}
 \usepackage{tikz-cd}
 \usepackage[utf8]{inputenc}
 
-\theoremstyle{definition}
 \newtheorem{definition}{Definition}
 \newtheorem{theorem}{Theorem}
+\newtheorem{example}{Example}
 \newcommand*{\incmap}{\hookrightarrow}
 \newcommand*{\thead}[1]{\multicolumn{1}{c}{\bfseries #1}}
-\lstset{basicstyle=\small,inputencoding=utf8}
+
+\lstset{basicstyle=\footnotesize,inputencoding=utf8,
+literate=
+{𝟎}{{\ensuremath{\mathbf{0}}}}1
+{𝟏}{{\ensuremath{\mathbf{1}}}}1
+{≔}{{\ensuremath{\mathrm{:=}}}}1
+{α}{{\ensuremath{\mathrm{\alpha}}}}1
+{ᵂ}{{\ensuremath{^W}}}1
+{β}{{\ensuremath{\mathrm{\beta}}}}1
+{γ}{{\ensuremath{\mathrm{\gamma}}}}1
+{δ}{{\ensuremath{\mathrm{\delta}}}}1
+{ε}{{\ensuremath{\mathrm{\varepsilon}}}}1
+{ζ}{{\ensuremath{\mathrm{\zeta}}}}1
+{η}{{\ensuremath{\mathrm{\eta}}}}1
+{θ}{{\ensuremath{\mathrm{\theta}}}}1
+{ι}{{\ensuremath{\mathrm{\iota}}}}1
+{κ}{{\ensuremath{\mathrm{\kappa}}}}1
+{λ}{{\ensuremath{\mathrm{\lambda}}}}1
+{μ}{{\ensuremath{\mathrm{\mu}}}}1
+{ν}{{\ensuremath{\mathrm{\nu}}}}1
+{ξ}{{\ensuremath{\mathrm{\xi}}}}1
+{π}{{\ensuremath{\mathrm{\mathnormal{\pi}}}}}1
+{ρ}{{\ensuremath{\mathrm{\rho}}}}1
+{σ}{{\ensuremath{\mathrm{\sigma}}}}1
+{τ}{{\ensuremath{\mathrm{\tau}}}}1
+{φ}{{\ensuremath{\mathrm{\varphi}}}}1
+{χ}{{\ensuremath{\mathrm{\chi}}}}1
+{ψ}{{\ensuremath{\mathrm{\psi}}}}1
+{ω}{{\ensuremath{\mathrm{\omega}}}}1
+{Π}{{\ensuremath{\mathrm{\Pi}}}}1
+{Γ}{{\ensuremath{\mathrm{\Gamma}}}}1
+{Δ}{{\ensuremath{\mathrm{\Delta}}}}1
+{Θ}{{\ensuremath{\mathrm{\Theta}}}}1
+{Λ}{{\ensuremath{\mathrm{\Lambda}}}}1
+{Σ}{{\ensuremath{\mathrm{\Sigma}}}}1
+{Φ}{{\ensuremath{\mathrm{\Phi}}}}1
+{Ξ}{{\ensuremath{\mathrm{\Xi}}}}1
+{Ψ}{{\ensuremath{\mathrm{\Psi}}}}1
+{Ω}{{\ensuremath{\mathrm{\Omega}}}}1
+{ℵ}{{\ensuremath{\aleph}}}1
+{≤}{{\ensuremath{\leq}}}1
+{≥}{{\ensuremath{\geq}}}1
+{≠}{{\ensuremath{\neq}}}1
+{≈}{{\ensuremath{\approx}}}1
+{≡}{{\ensuremath{\equiv}}}1
+{≃}{{\ensuremath{\simeq}}}1
+{≤}{{\ensuremath{\leq}}}1
+{≥}{{\ensuremath{\geq}}}1
+{∂}{{\ensuremath{\partial}}}1
+{∆}{{\ensuremath{\triangle}}}1 % or \laplace?
+{∫}{{\ensuremath{\int}}}1
+{∑}{{\ensuremath{\mathrm{\Sigma}}}}1
+{→}{{\ensuremath{\rightarrow}}}1
+{⊥}{{\ensuremath{\perp}}}1
+{∞}{{\ensuremath{\infty}}}1
+{∂}{{\ensuremath{\partial}}}1
+{∓}{{\ensuremath{\mp}}}1
+{±}{{\ensuremath{\pm}}}1
+{×}{{\ensuremath{\times}}}1
+{⊕}{{\ensuremath{\oplus}}}1
+{⊗}{{\ensuremath{\otimes}}}1
+{⊞}{{\ensuremath{\boxplus}}}1
+{∇}{{\ensuremath{\nabla}}}1
+{√}{{\ensuremath{\sqrt}}}1
+{⬝}{{\ensuremath{\cdot}}}1
+{•}{{\ensuremath{\cdot}}}1
+{∘}{{\ensuremath{\circ}}}1
+{⁻}{{\ensuremath{^{-}}}}1
+{▸}{{\ensuremath{\blacktriangleright}}}1
+{★}{{\ensuremath{\star}}}1
+{∧}{{\ensuremath{\wedge}}}1
+{∨}{{\ensuremath{\vee}}}1
+{¬}{{\ensuremath{\neg}}}1
+{⊢}{{\ensuremath{\vdash}}}1
+{⟨}{{\ensuremath{\langle}}}1
+{⟩}{{\ensuremath{\rangle}}}1
+{↦}{{\ensuremath{\mapsto}}}1
+{→}{{\ensuremath{\rightarrow}}}1
+{↔}{{\ensuremath{\leftrightarrow}}}1
+{⇒}{{\ensuremath{\Rightarrow}}}1
+{⟹}{{\ensuremath{\Longrightarrow}}}1
+{⇐}{{\ensuremath{\Leftarrow}}}1
+{⟸}{{\ensuremath{\Longleftarrow}}}1
+{∩}{{\ensuremath{\cap}}}1
+{∪}{{\ensuremath{\cup}}}1
+{⊂}{{\ensuremath{\subseteq}}}1
+{⊆}{{\ensuremath{\subseteq}}}1
+{⊄}{{\ensuremath{\nsubseteq}}}1
+{⊈}{{\ensuremath{\nsubseteq}}}1
+{⊃}{{\ensuremath{\supseteq}}}1
+{⊇}{{\ensuremath{\supseteq}}}1
+{⊅}{{\ensuremath{\nsupseteq}}}1
+{⊉}{{\ensuremath{\nsupseteq}}}1
+{∈}{{\ensuremath{\in}}}1
+{∉}{{\ensuremath{\notin}}}1
+{∋}{{\ensuremath{\ni}}}1
+{∌}{{\ensuremath{\notni}}}1
+{∅}{{\ensuremath{\emptyset}}}1
+{∖}{{\ensuremath{\setminus}}}1
+{†}{{\ensuremath{\dag}}}1
+{ℕ}{{\ensuremath{\mathbb{N}}}}1
+{ℤ}{{\ensuremath{\mathbb{Z}}}}1
+{ℝ}{{\ensuremath{\mathbb{R}}}}1
+{ℚ}{{\ensuremath{\mathbb{Q}}}}1
+{ℂ}{{\ensuremath{\mathbb{C}}}}1
+{⌞}{{\ensuremath{\llcorner}}}1
+{⌟}{{\ensuremath{\lrcorner}}}1
+{⦃}{{\ensuremath{ \{\!| }}}1
+{⦄}{{\ensuremath{ |\!\} }}}1
+{₁}{{\ensuremath{_1}}}1
+{₂}{{\ensuremath{_2}}}1
+{₃}{{\ensuremath{_3}}}1
+{₄}{{\ensuremath{_4}}}1
+{₅}{{\ensuremath{_5}}}1
+{₆}{{\ensuremath{_6}}}1
+{₇}{{\ensuremath{_7}}}1
+{₈}{{\ensuremath{_8}}}1
+{₉}{{\ensuremath{_9}}}1
+{₀}{{\ensuremath{_0}}}1
+{¹}{{\ensuremath{^1}}}1
+{ₙ}{{\ensuremath{_n}}}1
+{ₘ}{{\ensuremath{_m}}}1
+{↑}{{\ensuremath{\uparrow}}}1
+{↓}{{\ensuremath{\downarrow}}}1
+{▸}{{\ensuremath{\triangleright}}}1
+{∀}{{\ensuremath{\forall}}}1
+{∃}{{\ensuremath{\exists}}}1
+{λ}{{\ensuremath{\mathrm{\lambda}}}}1
+{=}{{\ensuremath{=}}}1
+{<}{{\ensuremath{\textless}}}1
+{>}{{\ensuremath{\textgreater}}}1
+{(}{(}1
+{(}{(}1
+{‖}{‖}1
+{+}{{+}}1
+{*}{{*}}1,
+}
 
 \begin{document}
 
@@ -37,13 +170,176 @@ is presented as categories of spaces and paths between them as invertible morphi
 At last constructive proof $\Omega(S^1)=\mathbb{Z}$ is given through helix.
 \\
 \\
-{\bf Keywords}: Homotopy Type Theory
+{\bf Keywords}: Homotopy Theory, Type Theory
 \end{abstract}
+
+\newpage
 \tableofcontents
 
 \newpage
-\section{Homotypy Type Theory}
+\section{Introduction}
+\subsection{Introduction: Type Theory}
+Type theory is a universal programming language for pure mathematics,
+designed for theorem proving. It supports an arbitrary number of consistent
+axioms, structured as pseudo-isomorphisms consisting of \textit{encode}
+functions (methods for constructing type elements), \textit{decode}
+functions (dependent eliminators of the universal induction principle),
+and their equations---beta and eta rules governing computability and
+uniqueness. As a programming language, type theory includes basic
+primitives (axioms as built-in types) and accompanying documentation,
+such as lecture notes or textbooks, explaining their applications, including:
 
+\begin{itemize}
+\item \text{Functions} ($\mathbf{\Pi}$)
+\item \text{Contexts} ($\mathbf{\Sigma}$)
+\item \text{Identifications} ($\mathbf{=}$)
+\item \text{Polynomials} ($\mathbf{W}$)
+\item \text{Paths} ($\Xi$)
+\item \text{Gluings} ($\mathbf{Glue}$)
+\item \text{Infinitesimals} ($\Im$)
+\item \text{Complexes} ($\mathbf{HIT}$)
+\end{itemize}
+
+Students (10) are tasked with applying type theory to prove an initial
+but non-trivial result addressing an open problem in one of the following
+areas offered by the Department of Pure Mathematics (KM-111):
+
+\[
+\begin{cases}
+\text{Homotopy Theory} \\
+\text{Homological Algebra} \\
+\text{Category Theory} \\
+\text{Functional Analysis} \\
+\text{Differential Geometry}
+\end{cases}
+\]
+
+The course is divided into four parts, each exploring type-axioms and their meta-theoretical adjunctions.
+
+\newpage
+\subsection{Motivation: Homotopy Type Theory}
+The primary motivation of homotopy type theory is to provide computational
+semantics for homotopic types and CW-complexes. The central idea, as
+described in, is to combine function spaces (\(\Pi\)),
+context spaces (\(\Sigma\)), and path spaces (\(\Xi\)) to form a fibrational
+equality, proven within the theory to coincide with the path space.
+
+Key definitions include:
+
+\begin{lstlisting}
+def isContr (A: U) : U
+ := Σ (x: A), Π (y: A), Path A x y
+
+def fiber (A B: U) (f: A → B) (y: B): U
+ := Σ (x: A), Path B y (f x)
+
+def isEquiv (A B: U) (f: A → B): U
+ := Π (y: B), isContr (fiber A B f y)
+
+def equiv (X Y: U): U
+ := Σ (f: X → Y), isEquiv X Y f
+
+def ua (A B : U) (p : Path U A B) : equiv A B
+ := transp (<i> equiv A (p @ i)) 0 (idEquiv A)
+\end{lstlisting}
+
+The absence of an eta-rule for equality implies that not all proofs of the
+same path space are equal, resulting in a multidimensional \(\infty\)-groupoid
+structure for path spaces. Further definitions include:
+
+\begin{lstlisting}
+def isProp (A : U) : U
+ := Π (a b : A), Path A a b
+
+def isSet (A : U) : U
+ := Π (a b : A) (a0 b0 : Path A a b),
+    Path (Path A a b) a0 b0
+
+def isGroupoid (A : U) : U
+ := Π (a b : A) (x y : Path A a b)
+    (i j : Path (Path A a b) x y),
+    Path (Path (Path A a b) x y) i j
+\end{lstlisting}
+
+The groupoid interpretation raises questions about the existence of a language for
+mechanically proving all properties of the categorical definition of a groupoid:
+
+\begin{lstlisting}
+def CatGroupoid (X : U) (G : isGroupoid X)
+  : isCatGroupoid (PathCat X)
+ := ( idp X,
+      comp-Path X,
+      G,
+      sym X,
+      comp-inv-Path⁻¹ X,
+      comp-inv-Path X,
+      comp-Path-left X,
+      comp-Path-right X,
+      comp-Path-assoc X,
+      ★
+    )
+\end{lstlisting}
+
+\newpage
+\subsection{Fibrational Proofs}
+\[
+\Sigma \dashv f_\star \dashv \Pi
+\]
+Fibrational proofs are modeled by primitive axioms, which are type-theoretic
+representations of categorical meta-theoretical models of adjunctions of three
+Cockett-Reit functors, giving rise to function spaces (\(\Pi\)) and pair
+spaces (\(\Sigma\)). These proof methods enable direct analysis of fibrations.
+
+\subsection{Equality Proofs}
+\[
+\mathrm{Q} \dashv \Xi \dashv \mathrm{C}
+\]
+In intensional type theory, the equality type is embedded as type-theoretic
+primitives of categorical meta-theoretical models of adjunctions of three
+Jacobs-Lambek functors: quotient space (\(\mathrm{Q}\)), identification
+system (\(\Xi\)), and contractible space (\(\mathrm{C}\)). These methods allow
+direct manipulation of identification systems, strict for set theory and
+homotopic for homotopy theory.
+
+\subsection{Inductive Proofs}
+\[
+\mathrm{W} \dashv \odot \dashv \mathrm{M}
+\]
+Inductive types in type theory can be embedded as polynomial
+functors (\(\mathrm{W}\), \(\mathrm{M}\)) or general inductive type
+schemes (Calculus of Inductive Constructions), with properties including:
+1) Verification of program finiteness;
+2) Verification of strict positivity of parameters;
+3) Verification of mutual recursion.
+
+In this course, induction and coinduction are introduced as type-theoretic
+primitives of categorical meta-theoretical models of adjunctions of
+polynomial functors (Lambek-Bohm), enabling manipulation of initial
+and terminal algebras, algebraic recursive data types, and infinite
+processes. Higher inductive proofs, where constructors include path
+spaces, are modeled by polynomial functors using monad-algebras and
+comonad-coalgebras (Lumsdaine-Shulman-Voevodsky).
+
+\subsection{Geometric Proofs}
+\[
+\Re \dashv \Im \dashv \&
+\]
+For differential geometry, type theory incorporates primitive axioms of categorical meta-theoretical models of three Schreiber-Shulman functors: infinitesimal neighborhood (\(\Im\)), reduced modality (\(\Re\)), and infinitesimal discrete neighborhood (\(\&\)).
+
+\subsection{Linear Proofs}
+\[
+\otimes \dashv x \dashv \multimap
+\]
+For engineering applications (e.g., Milner's \(\pi\)-calculus, quantum computing) and linear type theory, type theory embeds linear proofs based on the adjunction of the tensor and linear function spaces:
+\[
+(A \otimes B) \multimap A \simeq A \multimap (B \multimap C),
+\]
+represented in a symmetric monoidal category \(\mathbf{D}\) for a functor \([A,B]\) as:
+\[
+\mathbf{D}(A \otimes B, C) \simeq \mathbf{D}(A, [B,C]).
+\]
+
+\subsection{Historical Notes}
 Homotypy Type Theory takes its origins in 1996 from groupoid interpretation by
 Hofmann and Streicher's, and later (in 10 years) was formalized by Awodey,
 Warren and Voevodsky. Voevodsky constrtucted Kan simplicial sets interpretation
@@ -62,6 +358,7 @@ You can directly encode CW-complexes by using HIT. The definition of HIT syntax 
 be given in the next {\bf Issue IV: Higher Inductive Types}.
 
 \newpage
+\section{Homotopy Type Theory}
 \subsection{Homotopies}
 The first higher equality we meet in homotopy theory is a notion of homotopy,
 where we compare two functions or two path spaces (which is sort of dependent families).
@@ -138,36 +435,112 @@ PathCat (X: U): cat = (X,\(x y:X)->Path X x y)
 \end{lstlisting}
 
 \begin{lstlisting}
-isCatGroupoid (C: cat): U
-  = (id: (x: C.1) -> C.2 x x)
-  * (c: (x y z:C.1) -> C.2 x y -> C.2 y z -> C.2 x z)
-  * (inv: (x y: C.1) -> C.2 x y -> C.2 y x)
-  * (inv_left:  (x y: C.1) (p: C.2 x y) ->
-    Path (C.2 x x) (c x y x p (inv x y p)) (id x))
-  * (inv_right: (x y: C.1) (p: C.2 x y) ->
-    Path (C.2 y y) (c y x y (inv x y p) p) (id y))
-  * (left: (x y: C.1) (f: C.2 x y) ->
-    Path (C.2 x y) (c x x y (id x) f) f)
-  * (right: (x y: C.1) (f: C.2 x y) ->
-    Path (C.2 x y) (c x y y f (id y)) f)
-  * ((x y z w:C.1)(f:C.2 x y)(g:C.2 y z)(h:C.2 z w)->
-    Path (C.2 x w) (c x z w (c x y z f g) h)
-                   (c x y w f (c y z w g h)))
+def isCatGroupoid (C: cat): U := Σ
+    (id:        Π (x: C.ob), C.hom x x)
+    (c:         Π (x y z:C.ob), C.hom x y -> C.hom y z -> C.hom x z)
+    (HomSet:    Π (x y: C.ob), isSet (C.hom x y))
+    (inv:       Π (x y: C.ob), C.hom x y -> C.hom y x)
+    (inv-left:  Π (x y: C.ob) (p: C.hom x y),
+                Ξ (C.hom x x) (c x y x p (inv x y p)) (id x))
+    (inv-right: Π (x y: C.ob) (p: C.hom x y),
+                Ξ (C.hom y y) (c y x y (inv x y p) p) (id y))
+    (left:      Π (x y: C.ob) (f: C.hom x y),
+                Ξ (C.hom x y) f (c x x y (id x) f))
+    (right:     Π (x y: C.ob) (f: C.hom x y),
+                Ξ (C.hom x y) f (c x y y f (id y)))
+    (assoc:     Π (x y z w: C.ob) (f: C.hom x y)
+                  (g: C.hom y z) (h: C.hom z w),
+                Ξ (C.hom x w) (c x z w (c x y z f g) h)
+                              (c x y w f (c y z w g h))), ★
+\end{lstlisting}
+
+\newpage
+\begin{lstlisting}
+def isProp (A : U) : U
+ := Π (a b : A), Path A a b
+
+def isSet (A : U) : U
+ := Π (a b : A) (a0 b0 : Path A a b),
+    Path (Path A a b) a0 b0
+
+def isGroupoid (A : U) : U
+ := Π (a b : A) (x y : Path A a b)
+    (i j : Path (Path A a b) x y),
+    Path (Path (Path A a b) x y) i j
 \end{lstlisting}
 
 \begin{lstlisting}
-PathGrpd (X: U)
-  : groupoid
-  = ((Ob,Hom),id,c,sym X,compPathInv X,compInvPath X,L,R,Q) where
-    Ob: U = X
-    Hom (A B: Ob): U = Path X A B
-    id (A: Ob): Path X A A = refl X A
-    c (A B C: Ob) (f: Hom A B) (g: Hom B C): Hom A C
-      = comp (<i> Path X A (g@i)) f []
+def CatGroupoid (X : U) (G : isGroupoid X)
+  : isCatGroupoid (PathCat X)
+ := ( idp X,
+      comp-Path X,
+      G,
+      sym X,
+      comp-inv-Path⁻¹ X,
+      comp-inv-Path X,
+      comp-Path-left X,
+      comp-Path-right X,
+      comp-Path-assoc X,
+      ★
+    )
 \end{lstlisting}
-From here should be clear what it meant to be groupoid interpretation
-of path type in type theory. In the same way we can construct categories of $\prod$ and $\sum$ types.
-In {\bf Issue VIII: Topos Theory} such categories will be given.
+
+\newpage
+\subsection{Identity Systems}
+\begin{definition} (Identity System).
+An identity system over type $A$ in universe $X_i$ is a
+family $R : A \rightarrow A \rightarrow X_i$ with a function
+$r_0: \Pi_{a:A}R(a,a)$ such that any type family
+$D : \Pi_{a,b:A}R(a,b) \rightarrow X_i$ and
+$d: \Pi_{a:A}D(a,a,r_0(a))$, there exists a function
+$f: \Pi_{a,b:A}\Pi_{r:R(a,b)}D(a,b,r)$ such that
+$f(a,a,r_0(a))=d(a)$ for all $a:A$.
+\begin{lstlisting}
+def IdentitySystem (A : U) : U
+ := Σ (=-form : A → A → U)
+      (=-ctor : Π (a : A), =-form a a)
+      (=-elim : Π (a : A) (C: Π (x y : A)
+                  (p : =-form x y), U)
+                  (d : C a a (=-ctor a)) (y : A)
+                  (p : =-form a y), C a y p)
+      (=-comp : Π (a : A) (C: Π (x y : A)
+                  (p : =-form x y), U)
+                  (d : C a a (=-ctor a)),
+                  Path (C a a (=-ctor a)) d
+                       (=-elim a C d a (=-ctor a))), 𝟏
+\end{lstlisting}
+\end{definition}
+
+\begin{example}
+There are number of equality signs used in this tutorial,
+all of them listed in the following table of identity systems:
+$$
+\begin{array}{ll} \mathrm{Sign} & \mathrm{Meaning} \\
+                         \hline
+                        =_{def} & \mathrm{Definition} \\
+                              = & \mathrm{Id} \\
+                         \equiv & \mathrm{Path} \\
+                         \simeq & \mathrm{Equivalence} \\
+                          \cong & \mathrm{Isomorphism} \\
+                           \sim & \mathrm{Homotopy} \\
+                        \approx & \mathrm{Bisimulation} \\
+                      \end{array}
+$$
+\end{example}
+
+\begin{theorem} (Fundamental Theorem of Identity System).
+\end{theorem}
+
+\begin{definition} (Strict Identity System).
+An identity system over type $A$ and universe
+of pretypes $V_i$ is called strict identity system ($=$), which respects UIP.
+\end{definition}
+
+\begin{definition} (Homotopy Identity System).
+An identity system over type $A$ and universe of homotopy
+types $U_i$ is called homotopy identity system ($\equiv$),
+which models discrete infinity groupoid.
+\end{definition}
 
 \newpage
 \subsection{Functional Extensionality}
