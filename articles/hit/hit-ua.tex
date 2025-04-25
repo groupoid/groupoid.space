@@ -1,0 +1,1136 @@
+\documentclass{article}
+\usepackage{newlfont}
+\usepackage[english,ukrainian]{babel}
+\usepackage{hyphenat}
+\usepackage{listings}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{mathtools}
+\usepackage{url}
+\usepackage{tikz-cd}
+\usepackage{newunicodechar}
+\usepackage[utf8]{inputenc}
+
+\hyphenpenalty=100
+\tolerance=5000
+
+\theoremstyle{definition}
+\newtheorem{theorem}{Теорема}
+\newtheorem{definition}{Означення}
+\newtheorem{example}{Приклад}
+\newcommand*{\incmap}{\hookrightarrow}
+\newcommand*{\thead}[1]{\multicolumn{1}{c}{\bfseries #1}}
+\lstset{basicstyle=\footnotesize,inputencoding=utf8,
+literate=
+{≔}{{\ensuremath{\mathrm{:=}}}}1
+{α}{{\ensuremath{\mathrm{\alpha}}}}1
+{β}{{\ensuremath{\mathrm{\beta}}}}1
+{γ}{{\ensuremath{\mathrm{\gamma}}}}1
+{δ}{{\ensuremath{\mathrm{\delta}}}}1
+{ε}{{\ensuremath{\mathrm{\varepsilon}}}}1
+{ζ}{{\ensuremath{\mathrm{\zeta}}}}1
+{η}{{\ensuremath{\mathrm{\eta}}}}1
+{θ}{{\ensuremath{\mathrm{\theta}}}}1
+{ι}{{\ensuremath{\mathrm{\iota}}}}1
+{κ}{{\ensuremath{\mathrm{\kappa}}}}1
+{μ}{{\ensuremath{\mathrm{\mu}}}}1
+{ν}{{\ensuremath{\mathrm{\nu}}}}1
+{ξ}{{\ensuremath{\mathrm{\xi}}}}1
+{π}{{\ensuremath{\mathrm{\mathnormal{\pi}}}}}1
+{ρ}{{\ensuremath{\mathrm{\rho}}}}1
+{σ}{{\ensuremath{\mathrm{\sigma}}}}1
+{τ}{{\ensuremath{\mathrm{\tau}}}}1
+{φ}{{\ensuremath{\mathrm{\varphi}}}}1
+{χ}{{\ensuremath{\mathrm{\chi}}}}1
+{ψ}{{\ensuremath{\mathrm{\psi}}}}1
+{ω}{{\ensuremath{\mathrm{\omega}}}}1
+{Π}{{\ensuremath{\mathrm{\Pi}}}}1
+{Γ}{{\ensuremath{\mathrm{\Gamma}}}}1
+{Δ}{{\ensuremath{\mathrm{\Delta}}}}1
+{Θ}{{\ensuremath{\mathrm{\Theta}}}}1
+{Λ}{{\ensuremath{\mathrm{\Lambda}}}}1
+{Σ}{{\ensuremath{\mathrm{\Sigma}}}}1
+{Φ}{{\ensuremath{\mathrm{\Phi}}}}1
+{Ξ}{{\ensuremath{\mathrm{\Xi}}}}1
+{Ψ}{{\ensuremath{\mathrm{\Psi}}}}1
+{Ω}{{\ensuremath{\mathrm{\Omega}}}}1
+{ℵ}{{\ensuremath{\aleph}}}1
+{≤}{{\ensuremath{\leq}}}1
+{≥}{{\ensuremath{\geq}}}1
+{≠}{{\ensuremath{\neq}}}1
+{≈}{{\ensuremath{\approx}}}1
+{≡}{{\ensuremath{\equiv}}}1
+{≃}{{\ensuremath{\simeq}}}1
+{≤}{{\ensuremath{\leq}}}1
+{≥}{{\ensuremath{\geq}}}1
+{∂}{{\ensuremath{\partial}}}1
+{∆}{{\ensuremath{\triangle}}}1 % or \laplace?
+{∫}{{\ensuremath{\int}}}1
+{∑}{{\ensuremath{\mathrm{\Sigma}}}}1
+{→}{{\ensuremath{\rightarrow}}}1
+{⊥}{{\ensuremath{\perp}}}1
+{∞}{{\ensuremath{\infty}}}1
+{∂}{{\ensuremath{\partial}}}1
+{∓}{{\ensuremath{\mp}}}1
+{±}{{\ensuremath{\pm}}}1
+{×}{{\ensuremath{\times}}}1
+{⊕}{{\ensuremath{\oplus}}}1
+{⊗}{{\ensuremath{\otimes}}}1
+{⊞}{{\ensuremath{\boxplus}}}1
+{∇}{{\ensuremath{\nabla}}}1
+{√}{{\ensuremath{\sqrt}}}1
+{⬝}{{\ensuremath{\cdot}}}1
+{•}{{\ensuremath{\cdot}}}1
+{∘}{{\ensuremath{\circ}}}1
+{⁻}{{\ensuremath{^{-}}}}1
+{▸}{{\ensuremath{\blacktriangleright}}}1
+{∧}{{\ensuremath{\wedge}}}1
+{∨}{{\ensuremath{\vee}}}1
+{¬}{{\ensuremath{\neg}}}1
+{⊢}{{\ensuremath{\vdash}}}1
+{⟨}{{\ensuremath{\langle}}}1
+{⟩}{{\ensuremath{\rangle}}}1
+{↦}{{\ensuremath{\mapsto}}}1
+{→}{{\ensuremath{\rightarrow}}}1
+{↔}{{\ensuremath{\leftrightarrow}}}1
+{⇒}{{\ensuremath{\Rightarrow}}}1
+{⟹}{{\ensuremath{\Longrightarrow}}}1
+{⇐}{{\ensuremath{\Leftarrow}}}1
+{⟸}{{\ensuremath{\Longleftarrow}}}1
+{∩}{{\ensuremath{\cap}}}1
+{∪}{{\ensuremath{\cup}}}1
+{⊂}{{\ensuremath{\subseteq}}}1
+{⊆}{{\ensuremath{\subseteq}}}1
+{⊄}{{\ensuremath{\nsubseteq}}}1
+{⊈}{{\ensuremath{\nsubseteq}}}1
+{⊃}{{\ensuremath{\supseteq}}}1
+{⊇}{{\ensuremath{\supseteq}}}1
+{⊅}{{\ensuremath{\nsupseteq}}}1
+{⊉}{{\ensuremath{\nsupseteq}}}1
+{∈}{{\ensuremath{\in}}}1
+{∉}{{\ensuremath{\notin}}}1
+{∋}{{\ensuremath{\ni}}}1
+{∌}{{\ensuremath{\notni}}}1
+{∅}{{\ensuremath{\emptyset}}}1
+{∖}{{\ensuremath{\setminus}}}1
+{†}{{\ensuremath{\dag}}}1
+{ℕ}{{\ensuremath{\mathbb{N}}}}1
+{ℤ}{{\ensuremath{\mathbb{Z}}}}1
+{ℝ}{{\ensuremath{\mathbb{R}}}}1
+{ℚ}{{\ensuremath{\mathbb{Q}}}}1
+{ℂ}{{\ensuremath{\mathbb{C}}}}1
+{⌞}{{\ensuremath{\llcorner}}}1
+{⌟}{{\ensuremath{\lrcorner}}}1
+{⦃}{{\ensuremath{ \{\!| }}}1
+{⦄}{{\ensuremath{ |\!\} }}}1
+{₁}{{\ensuremath{_1}}}1
+{₂}{{\ensuremath{_2}}}1
+{₃}{{\ensuremath{_3}}}1
+{₄}{{\ensuremath{_4}}}1
+{₅}{{\ensuremath{_5}}}1
+{₆}{{\ensuremath{_6}}}1
+{₇}{{\ensuremath{_7}}}1
+{₈}{{\ensuremath{_8}}}1
+{₉}{{\ensuremath{_9}}}1
+{₀}{{\ensuremath{_0}}}1
+{¹}{{\ensuremath{^1}}}1
+{ₙ}{{\ensuremath{_n}}}1
+{ₘ}{{\ensuremath{_m}}}1
+{↑}{{\ensuremath{\uparrow}}}1
+{↓}{{\ensuremath{\downarrow}}}1
+{▸}{{\ensuremath{\triangleright}}}1
+{∀}{{\ensuremath{\forall}}}1
+{∃}{{\ensuremath{\exists}}}1
+{λ}{{\ensuremath{\mathrm{\lambda}}}}1
+{=}{{=}}1
+{<}{{<}}1
+{(}{(}1
+{(}{(}1
+{‖}{‖}1
+{+}{{+}}1
+{*}{{*}}1,
+}
+
+\begin{document}
+
+\title{Випуск IV: Вищі індуктивні типи}
+\author{Максим Сохацький $^1$}
+\date{ $^1$ Національний технічний університет України \\
+       \small Київський політехнічний інститут імені Ігоря Сікорського \\
+       4 травня 2019 }
+\maketitle
+
+\begin{abstract}
+CW-комплекси є ключовими як в теорії гомотопій так і в теорії гомотопічних типів (HoTT) і кодуються
+в кубічних системах доведення теорем як вищі індуктивні типи (HIT) подібно до рекурсивних
+дерев для (ко)індуктивних типів. Ми досліджуємо базові приміти гомотопічної теорії,
+які розглядаються як фундаційний базис в системах доведення теорем. \\
+\indent {\bf Ключові слова}: Теорія гомотопій, Теорія типів
+\end{abstract}
+
+\tableofcontents
+
+\section{CW-комплекси}
+CW-комплекси — це простори, побудовані шляхом приєднання клітин різних
+розмірностей. У HoTT вони кодуються як вищі індуктівні типи (HIT),
+де клітини є конструкторами для точок і шляхів.
+
+\begin{definition} (Приєднання клітини).
+Приєднання $n$-клітини до простору \( X \)
+вздовж \( f : S^{n-1} \to X \) є розшарованою сумою:
+\[
+\shorthandoff{"}
+\begin{tikzcd}
+S^{n-1} \arrow[r, "f"] \arrow[d, "\iota"] & X \arrow[d, "j"] \\
+D^n \arrow[r, "g"]                        & X \cup_f D^n \\
+\end{tikzcd}
+\]
+Тут \( \iota : S^{n-1} \incmap D^n \) — включення межі,
+а \( X \cup_f D^n \) — розшарована сума, що приклеює \( n \)-клітину до \( X \) через \( f \). Результат залежить від
+гомотопічного класу \( f \).
+\end{definition}
+
+\begin{definition} (CW-комплекс).
+CW-комплекс — це простір \( X \), побудований індуктивно шляхом приєднання клітин, із скелетною фільтрацією:
+\begin{itemize}
+    \item \((-1)\)-скелет: \( X_{-1} = \varnothing \).
+    \item Для \( n \geq 0 \), \( n \)-скелет \( X_n \) отримується приєднанням \( n \)-клітин до \( X_{n-1} \). Для
+      індексів \( J_n \) та відображень \( \{ f_j : S^{n-1} \to X_{n-1}
+      \}_{j \in J_n} \), \( X_n \) є розшарованою сумою:
+    \[
+    \shorthandoff{"}
+    \begin{tikzcd}
+    \coprod_{j \in J_n} S^{n-1} \arrow[r, "\coprod f_j"] \arrow[d, "\coprod \iota_j"] & X_{n-1} \arrow[d, "i_n"] \\
+    \coprod_{j \in J_n} D^n \arrow[r, "\coprod g_j"] & X_n
+    \end{tikzcd}
+    \]
+    де \( \coprod_{j \in J_n} S^{n-1} \), \( \coprod_{j \in
+    J_n} D^n \) — диз’юнктні об’єднання, а \( i_n : X_{n-1}
+    \incmap X_n \) — включення.
+    \item \( X \) — кограниця:
+    \[
+    \varnothing = X_{-1} \incmap X_0 \incmap X_1 \incmap \dots
+    \incmap X,
+    \]
+    де \( X_n \) — \( n \)-скелет, а \( X = \text{colim}_{n
+    \to \infty} X_n \). Послідовність є скелетною фільтрацією.
+\end{itemize}
+У HoTT CW-комплекси є вищими індуктивними типами (HIT)
+із конструкторами для клітин і шляхів для приклеювання.
+\end{definition}
+
+\newpage
+\subsection{Мотивація вищих індуктивних типів}
+HIT у HoTT дозволяють безпосередньо кодувати топологічні простори, такі як
+CW-комплекси. У теорії гомотопій простори будуються шляхом приклеювання
+клітин через відображення приєднання. HoTT розглядає типи як простори, елементи
+як точки, а рівності як шляхи, що робить HIT природним вибором.
+Стандартні індуктивні типи не можуть захопити вищі гомотопії, але
+HIT дозволяють конструктори для точок і шляхів. Наприклад, коло \( S^1 \) (Означення 2) має базову точку і петлю, кодуючи його
+фундаментальну групу \( \mathbb{Z} \). HIT уникають використання множинних
+фактор-просторів, зберігаючи синтетичну природу HoTT. У кубічній теорії типів шляхи є
+інтервалами (наприклад, \( <i> \)) з обчислювальним змістом, на відміну від
+пропозиційних рівностей, що забезпечує ефективну перевірку типів у таких
+інструментах, як Agda Cubical.
+
+\subsection{HIT зі зліченними конструкторами}
+Деякі HIT потребують нескінченої кількості конструкторів для просторів,
+таких як простори Ейленберга-МакЛейна або нескінченна сфера \( S^\infty \).
+\begin{lstlisting}[mathescape=true]
+def S$^\infty$ : U
+ := inductive { base
+              | loop (n: $\mathbb{N}$) : base $\equiv$ base
+              }
+\end{lstlisting}
+Виклики включають перевірку типів, обчислення та виразність.
+
+Agda Cubical використовує кубічні примітиви для роботи з HIT, підтримуючи
+нескінченні конструктори через HIT індексовані натуральними числами, як кограниці.
+
+\section{Вищі індуктивні типи}
+CW-комплекси є центральними в HoTT і з’являються в кубічних перевіряльниках типів як HIT.
+На відміну від індуктивних типів (рекурсивних дерев), HIT кодують CW-комплекси, захоплюючи
+точки (0-клітини) та вищі шляхи (n-клітини). Означення HIT визначає CW-комплекс
+через кубічну композицію, початкову алгебру в кубічній моделі.
+
+\newpage
+\subsection{Суспензія}
+Суспензія \(\Sigma A\) типу \( A \) — це вищий індуктивний тип, який
+конструює новий тип, додаючи дві точки, звані полюсами, і шляхи, що з’єднують
+кожну точку \( A \) з цими полюсами. Це фундаментальна конструкція в теорії гомотопій,
+яка часто використовується для зсуву гомотопічних груп, наприклад, для отримання \( S^{n+1} \) з \( S^n \).
+
+\begin{definition} (Формація).
+Для будь якого типу \( A : \mathcal{U} \), існує тип суспензія \( \Sigma A : \mathcal{U} \).
+\end{definition}
+
+\begin{definition} (Конструктори).
+Для типу \( A : \mathcal{U} \), суспензія \( \Sigma A : \mathcal{U} \)
+генерується такою вищою індуктивною композиційною структурою:
+\[
+\Sigma :=
+\begin{cases}
+\text{north} \\
+\text{south} \\
+\text{merid} : (a : A) \rightarrow north \equiv south \\
+\end{cases}
+\]
+\begin{lstlisting}[mathescape=true]
+def $\Sigma$ (A: U) : U
+ := inductive { north
+              | south
+              | merid (a: A) : north $\equiv$ south
+              }
+\end{lstlisting}
+\end{definition}
+
+\begin{theorem} (Елімінація).
+Для сімейства типів \( B : \Sigma A \to \mathcal{U} \), точок \( n : B(\text{north}) \), \( s : B(\text{south}) \), і сімейства
+залежних шляхів
+\[
+  m : \Pi (a : A), \text{PathOver}(B,\text{merid}(a),n,s),
+\]
+існує залежне відображення \( \text{Ind}_{\Sigma A} : (x : \Sigma A) \to B(x) \), таке що:
+\[
+\begin{cases}
+\text{Ind}_{\Sigma A}(\text{north}) = n \\
+\text{Ind}_{\Sigma A}(\text{south}) = s \\
+\text{Ind}_{\Sigma A}(\text{merid}(a,i)) = m(a,i)
+\end{cases}
+\]
+\begin{lstlisting}[mathescape=true]
+def PathOver (B: $\Sigma$ A -> U) (a: A) (n: B north) (s: B south) : U
+  := PathP ($\lambda$ i , B (merid a @ i)) n s
+
+def Ind$_\Sigma A$ (A: U) (B: $\Sigma$ A -> U) (n: B north) (s: B south)
+    (m: (a: A) -> PathOver B (merid a) n s) : (x: $\Sigma$ A) -> B x
+ := split { north -> n | south -> s | merid a @ i -> m a @ i }
+\end{lstlisting}
+\end{theorem}
+
+\begin{theorem} (Обчислення).
+\begin{lstlisting}[mathescape=true]
+def $\Sigma$-$\beta$ (A: U) (B: $\Sigma A$ -> U) (n: B north) (s: B south)
+    (m: (a: A) -> PathOver B (merid a) n s) (x: $\Sigma$ A)
+  : Path (B x) ($\Sigma$-I A B n s m x)
+    split { north -> n | south -> s | merid a @ i -> m a @ i } x
+  = idp (B x) (Ind$_{\Sigma A}$ A B n s m x)
+\end{lstlisting}
+\end{theorem}
+
+\begin{theorem} (Унікальність).
+Будь-які два відображення \( h_1, h_2 : (x : \Sigma A) \to B(x) \) є гомотопними, якщо вони збігаються
+на \( \text{north} \), \( \text{south} \) і \( \text{merid} \), тобто,
+якщо \( h_1(\text{north}) = h_2(\text{north}) \), \( h_1(\text{south}) = h_2(\text{south}) \),
+і \( h_1(\text{merid } a) = h_2(\text{merid } a) \) для всіх \( a : A \).
+\end{theorem}
+
+\subsection{Розшарована сума}
+Розшарована сума (амальгама) — це вищий індуктивний тип, що конструює тип шляхом
+склеювання двох типів \( A \) і \( B \) вздовж спільного типу \( C \) через відображення \( f : C \to A \)
+і \( g : C \to B \). Це фундаментальна конструкція в теорії гомотопій,
+використовується для моделювання приєднання клітин і кофібрантних об’єктів, узагальнюючи
+топологічне поняття розшарованої суми.
+
+\begin{definition} (Формація).
+Для типів \( A, B, C : \mathcal{U} \) і відображень \( f : C \to A \), \( g : C \to B \),
+існує розшарована сума \( \sqcup(A,B,C,f,g) : \mathcal{U} \).
+\end{definition}
+
+\begin{definition} (Конструктори).
+Розшарована сума генерується такою вищою індуктивною композиційною структурою:
+\[
+\sqcup :=
+\begin{cases}
+\text{po$_1$} : A \to \sqcup(A,B,C,f,g) \\
+\text{po$_2$} : B \to \sqcup(A,B,C,f,g) \\
+\text{po$_3$} : (c : C) \to \text{po$_1$}(f(c)) \equiv \text{po$_2$}(g(c))
+\end{cases}
+\]
+\begin{lstlisting}[mathescape=true]
+def $\sqcup$ (A B C: U) (f: C -> A) (g: C -> B) : U
+ := inductive { po$_1$ (a: A)
+              | po$_2$ (b: B)
+              | po$_3$ (c: C) : po$_1$(f(c)) $\equiv$ po$_2$(g(c))
+              }
+\end{lstlisting}
+\end{definition}
+
+\begin{theorem} (Елімінація).
+Для типу \( D : \mathcal{U} \), відображень \( u : A \to D \), \( v : B \to D \),
+і сімейства шляхів \( p : (c : C) \to u(f(c)) \equiv v(g(c)) \),
+існує відображення \( \text{Ind}_\sqcup : \sqcup(A,B,C,f,g) \to D \), таке що:
+\[
+\begin{cases}
+\text{Ind}_\sqcup(\text{po$_1$}(a)) = u(a) \\
+\text{Ind}_\sqcup(\text{po$_2$}(b)) = v(b) \\
+\text{Ind}_\sqcup(\text{po$_3$}(c,i)) = p(c,i)
+\end{cases}
+\]
+\begin{lstlisting}[mathescape=true]
+def PathOver (A B C : U) (f : C $\rightarrow$ A) (g : C $\rightarrow$ B)
+    (D : $\sqcup$ A B C f g $\rightarrow$ U)
+    (c : C) (u : D (po$_1$ (f c))) (v : D (po$_2$ (g c))) : U
+ := PathP ($\lambda$ i, D (po$_3$ c i)) u v
+
+def Ind$_\sqcup$ : (A B C : U) (f : C $\rightarrow$ A) (g : C $\rightarrow$ B)
+    (D : $\sqcup$ A B C f g $\rightarrow$ U)
+    (u : (a : A) $\rightarrow$ D (po$_1$ a))
+    (v : (b : B) $\rightarrow$ D (po$_2$ b))
+    (p : (c : C) $\rightarrow$ PathOver D c (u (f c)) (v (g c)))
+  : (x : $\sqcup$ A B C f g) $\rightarrow$ D x
+ := split { po$_1$ a $\rightarrow$ u a | po$_2$ b $\rightarrow$ v b | po$_3$ c @ i $\rightarrow$ p c @ i }
+\end{lstlisting}
+\end{theorem}
+
+\begin{theorem} (Обчислення).
+Для \( x : \sqcup(A,B,C,f,g) \),
+\[
+\begin{cases}
+\text{Ind$_\sqcup$}(\text{po$_1$}(a)) \equiv u(a) \\
+\text{Ind$_\sqcup$}(\text{po$_2$}(b)) \equiv v(b) \\
+\text{Ind$_\sqcup$}(\text{po$_3$}(c,i)) \equiv p(c,i)
+\end{cases}
+\]
+\end{theorem}
+
+\begin{theorem} (Унікальність).
+Будь-які два відображення \( u, v : \sqcup(A,B,C,f,g) \to D \) є гомотопними,
+якщо вони збігаються на \( \text{po}_1 \), \( \text{po}_2 \) і \( \text{po}_3 \), тобто,
+якщо \( u(\text{po}_1(a)) = v(\text{po}_1(a)) \) для всіх \( a : A \), \( u(\text{po}_2(b)) = v(\text{po}_2(b)) \)
+для всіх \( b : B \), і \( u(\text{po}_3(c)) = v(\text{po}_3(c)) \) для всіх \( c : C \).
+\end{theorem}
+
+\begin{example} (Приєднання клітини)
+Розшарована сума моделює приєднання \( n \)-клітини до простору \( X \).
+Дано \( f : S^{n-1} \to X \) і включення \( g : S^{n-1} \to D^n \),
+розшарована сума \( \sqcup(X,D^n,S^{n-1},f,g) \) є
+простором \( X \cup_f D^n \), що приклеює \( n \)-диск до \( X \) вздовж \( f \).
+\[
+\shorthandoff{"}
+\begin{tikzcd}
+S^{n-1} \arrow[r, "f"] \arrow[d, "g"] & X \arrow[d] \\
+D^n \arrow[r] & X \cup_f D^n
+\end{tikzcd}
+\]
+\end{example}
+
+\subsection{Сфери}
+Сфери — це вищі індуктивні типи із шляхами вищої розмірності,
+що представляють фундаментальні топологічні простори.
+
+\begin{definition} (Одноточкові n-Сфери)
+\( n \)-сфера \( S^n \) визначається рекурсивно як тип у
+всесвіті \( \mathcal{U} \) за допомогою загальної рекурсії за розмірностями:
+\[
+\mathbb{S}^n :=
+\begin{cases}
+\text{point} : \mathbb{S}^n, \\
+\text{surface} :\ <i_1,...i_n> [\ (i_1=0) \rightarrow point, (i_1=1) \rightarrow point,\ ... \\
+\hspace{3.47cm} (i_n=0) \rightarrow point, (i_n=1) \rightarrow point\ ]
+\end{cases}
+\]
+\end{definition}
+
+\begin{definition} (n-Сфери з суспензій)
+\( n \)-сфера \( S^n \) визначається рекурсивно як тип у
+всесвіті \( \mathcal{U} \) за допомогою загальної рекурсії над натуральними
+числами \( \mathbb{N} \). Для кожного \( n \in \mathbb{N} \),
+тип \( S^n : \mathcal{U} \) визначається так:
+\[
+\mathbb{S}^n :=
+\begin{cases}
+S^0 = \mathbf{2}, \\
+S^{n+1} = \Sigma(S^n).
+\end{cases}
+\]
+\begin{lstlisting}[mathescape=true]
+def sphere : $\mathbb{N}$ $\to$ U := $\mathbb{N}\text{-iter}$ U $\mathbf{2}$ $\Sigma$
+\end{lstlisting}
+Ця ітеративна означення застосовує функтор суспензії \( \Sigma \)
+до базового типу \( \mathbf{2} \) (0-сфера) \( n \) разів, щоб отримати \( S^n \).
+\end{definition}
+
+\begin{example} (Сфера як CW-комплекс)
+\( n \)-сфера \( S^n \) може бути побудована як CW-комплекс з
+однією 0-клітиною та однією \( n \)-клітиною:
+
+\[
+\begin{cases}
+X_0 = \{ \text{base} \}, \text{ одна точка} \\
+X_k = X_0 \text{ для } 0 < k < n, \text{ без додаткових клітин} \\
+X_n: \text{Приєднання } n\text{-клітини до } X_{n-1} = \{ \text{base} \} \text{ вздовж } f : S^{n-1} \to \{ \text{base} \}
+\end{cases}
+\]
+
+Конструктор \( \text{cell} \) приклеює межу \( n \)-клітини
+до базової точки, отримуючи тип \( S^n \).
+\end{example}
+
+\newpage
+\subsection{Хаб і шпиці}
+Конструкція хаб і шпиці \( \odot \) визначає \( n \)-відсікання,
+гарантуючи, що тип не має нетривіальних гомотопічних груп вище
+розмірності \( n \). Вона моделює тип як CW-комплекс із
+хабом (центральною точкою) і спицями (шляхами до точок).
+
+\begin{definition} (Формація).
+Для типів \( S, A : \mathcal{U} \), існує тип Хаб і шпиці \( \odot\ (S,A) : \mathcal{U} \).
+\end{definition}
+
+\begin{definition} (Конструктори).
+Хаб і шпиці вільно генерується такою вищою індуктивною композиційною структурою:
+\[
+\odot :=
+\begin{cases}
+\text{base} : A \to \odot\ (S,A) \\
+\text{hub} : (S \to \odot\ (S,A)) \to \odot\ (S,A) \\
+\text{spoke} : (f : S \to \odot\ (S,A)) \to (s : S) \to \text{hub}(f) \equiv f(s)
+\end{cases}
+\]
+\begin{lstlisting}[mathescape=true]
+def $\odot$ (S A: U) : U
+ := inductive { base (x: A)
+              | hub (f: S -> $\odot$ S A)
+              | spoke (f: S -> $\odot$ S A) (s:S) : hub f $\equiv$ f s
+              }
+\end{lstlisting}
+\end{definition}
+
+\begin{theorem} (Елімінація).
+Для сімейства типів \( P : \text{HubSpokes} \, S \, A \to \mathcal{U} \),
+відображень \( \text{pbase} : (x : A) \to P(\text{base} \, x) \),
+\( \text{phub} : (f : S \to \text{HubSpokes} \, S \, A) \to P(\text{hub} \, f) \),
+і сімейства шляхів
+\( \text{pspoke} : (f : S \to \text{HubSpokes} \, S \, A) \to (s : S) \to \text{PathP} \, (<i> P(\text{spoke} \, f \, s \, @ \, i)) \, (\text{phub} \, f) \, (P(f \, s)) \),
+існує відображення \( \text{hubSpokesInd} : (z : \text{HubSpokes} \, S \, A) \to P(z) \), таке що:
+\[
+\begin{cases}
+\text{Ind}_\odot \, (\text{base} \, x) = \text{pbase} \, x \\
+\text{Ind}_\odot \, (\text{hub} \, f) = \text{phub} \, f \\
+\text{Ind}_\odot \, (\text{spoke} \, f \, s \, @ \, i) = \text{pspoke} \, f \, s \, @ \, i \\
+\end{cases}
+.
+\]
+\end{theorem}
+
+\newpage
+\subsection{Відсікання}
+\subsubsection*{Відсікання множин}
+\begin{definition} (Формація).
+Відсікання множин (0-відсікання), позначене \( \| A \|_0 \),
+гарантує, що тип є множиною, з гомотопічними групами, що зникають вище розмірності 0.
+\end{definition}
+
+\begin{definition} (Конструктори).
+Для \( A : \mathcal{U} \), \( \| A \|_0 : \mathcal{U} \) визначається наступною вищою
+індуктивною композиційною структурою:
+\[
+\| \_ \|_0 :=
+\begin{cases}
+\text{inc} : A \to \| A \|_0 \\
+\text{squash} : (a, b : \| A \|_0) \to (p, q : a \equiv b) \to p \equiv q
+\end{cases}
+\]
+\begin{lstlisting}[mathescape=true]
+def $\|$_$\|_0$ (A: U) : U
+ := inductive { inc (a: A)
+              | squash (a b: $\|$A$\|_0$) (p q: Path ($\|$A$\|_0$) a b)
+                <i j> [ (i = 0) -> p @ j, (i = 1) -> q @ j,
+                        (j = 0) -> a,     (j = 1) -> b ]
+              }
+\end{lstlisting}
+\end{definition}
+
+\begin{theorem} (Елімінація \( \| A \|_0 \))
+Для множини \( B : \mathcal{U} \) (тобто \( \text{isSet}(B) \)), відображення \( f : A \to B \),
+існує \( \text{setTruncRec} : \| A \|_0 \to B \), таке що \( \text{Ind}_{\|A\|_0}(\text{inc}(a)) = f(a) \).
+\end{theorem}
+
+\subsubsection*{Відсікання групоїдів}
+\begin{definition} (Формація).
+Відсікання групоїдів (1-відсікання), позначене \( \| A \|_1 \), гарантує, що
+тип є 1-групоїдом, з гомотопічними групами, що зникають вище розмірності 1.
+\end{definition}
+
+\begin{definition} (Конструктори).
+Для \( A : \mathcal{U} \), \( \| A \|_1 : \mathcal{U} \) визначається наступною вищою
+індуктивною композиційною структурою:
+\[
+\| \_ \|_1 :=
+\begin{cases}
+\text{inc} : A \to \| A \|_1 \\
+\text{squash} : (a, b : \| A \|_1) \to (p, q : a \equiv b) \to (r, s : p \equiv q) \to r \equiv s
+\end{cases}
+\]
+\begin{lstlisting}[mathescape=true]
+def $\|$_$\|_1$ (A: U) : U
+ := inductive { inc (a: A)
+              | squash (a b: $\|$A$\|_1$) (p q: Path ($\|$A$\|_1$) a b)
+                (r s: Path (Path ($\|$A$\|_1$) a b) p q) <i j k>
+                [ (i = 0) -> r @ j @ k, (i = 1) -> s @ j @ k,
+                  (j = 0) -> p @ k,     (j = 1) -> q @ k,
+                  (k = 0) -> a,         (k = 1) -> b ]
+              }
+\end{lstlisting}
+\end{definition}
+
+\begin{theorem} (Елімінація \( \| A \|_1 \))
+Для 1-групоїда \( B : \mathcal{U} \) (тобто \( \text{isGroupoid}(B) \)),
+відображення \( f : A \to B \), існує \( \text{Ind}_{\|A\|_1} : \|A\|_1 \to B \),
+таке що \( \text{Ind}_{\|A\|_1}(\text{inc}(a)) = f(a) \).
+\end{theorem}
+
+\newpage
+\subsection{Фактор-простори}
+\subsubsection*{Фактор-простори множин}
+Фактор-простори є потужним обчислювальним інструментом теорії типів який
+вбудовано в ядро Lean.
+\begin{definition} (Формація).
+Фактор-простори множин конструюють тип \( A \), факторизований за
+відношенням \( R : A \to A \to \mathcal{U} \), гарантуючи, що результат є множиною.
+\end{definition}
+
+\begin{definition} (Конструктори).
+Для типу \( A : \mathcal{U} \) і відношення \( R : A \to A \to \mathcal{U} \),
+факстор-простір множин \( A / R : \mathcal{U} \) вільно генерується наступною
+вищою індуктивною композиційною структурою:
+\[
+A / R :=
+\begin{cases}
+\text{quot} : A \to A / R \\
+\text{ident} : (a, b : A) \to R(a,b) \to \text{quot}(a) \equiv \text{quot}(b) \\
+\text{trunc} : (a, b : A / R) \to (p, q : a \equiv b) \to p \equiv q
+\end{cases}
+\]
+\begin{lstlisting}[mathescape=true]
+def / (A: U) (R: A -> A -> U) : U
+  := inductive { quot (a: A)
+               | ident (a b: A) (r: R a b) : quot(a) $\equiv$ quot(b)
+               | trunc (a b : / A R) (p q : Path (/ A R) a b)
+                 <i j> [ (i = 0) -> p @ j , (i = 1) -> q @ j ,
+                         (j = 0) -> a ,     (j = 1) -> b ]
+               }
+\end{lstlisting}
+\end{definition}
+
+\begin{theorem} (Елімінація).
+Для сімейства типів \( B : A/R \to \mathcal{U} \) з \( \text{isSet}(B x) \),
+і відображень \( f : (x : A) \to B(\text{quot}(x)) \),
+\( g : (a, b : A) \to (r : R(a,b)) \to \text{PathP} (<i> B(\text{ident}(a,b,r)\ @\ i)) (f(a)) (f(b)) \),
+існує \( \text{Ind}_{A/R} : \Pi (x: A/R), B(x) \), таке що \( \text{Ind}_{A/R}(\text{quot}(a)) = f(a) \).
+\end{theorem}
+
+\subsubsection*{Фактор-простори групоїдів}
+\begin{definition} (Формація).
+Фактор-простори групоїдів розширюють фактор-простори множин для створення 1-групоїда,
+включаючи конструктори вищих шляхів. Фактор-простори групоїдів
+конструюють тип \( A \), факторизований за відношенням \( R : A \to A \to \mathcal{U} \),
+гарантуючи, що результат є групоїдом.
+\end{definition}
+
+\begin{definition} (Конструктори)..
+Для типу \( A : \mathcal{U} \) і відношення \( R : A \to A \to \mathcal{U} \),
+Фактор-простір групоїдів \(  A // R : \mathcal{U} \) включає
+конструктори для точок, шляхів і вищих шляхів, що забезпечують структуру 1-групоїда.
+\end{definition}
+
+\newpage
+\subsection{Букет}
+Букет двох точкових типів \( A \) і \( B \), позначена \( A \vee B \),
+є вищим індуктивним типом, який представляє об’єднання \( A \)
+і \( B \) з ідентифікованими базовими точками. Топологічно
+вона відповідає \( A \times \{ y_0 \} \cup \{ x_0 \} \times B \),
+де \( x_0 \) і \( y_0 \) — базові точки \( A \) і \( B \), відповідно.
+
+\begin{definition} (Формація).
+Для точкових типів \( A, B : \text{pointed} \), Букет \( A \vee B : \mathcal{U} \).
+\end{definition}
+
+\begin{definition} (Конструктори).
+Букет генерується наступною вищою індуктивною композиційною структурою:
+\[
+\vee :=
+\begin{cases}
+\text{winl} : A.1 \to A \vee B \\
+\text{winr} : B.1 \to A \vee B \\
+\text{wglue} : \text{winl} (A.2) \equiv \text{winr}(B.2)
+\end{cases}
+\]
+\begin{lstlisting}[mathescape=true]
+def $\vee$ (A : pointed) (B : pointed) : U
+ := inductive { winl (a : A.1)
+              | winr (b : B.1)
+              | wglue : winl(A.2) $\equiv$ winr(B.2)
+              }
+\end{lstlisting}
+\end{definition}
+
+\begin{theorem} (Елімінація).
+Для типу \( P : A \vee B \mathcal{U} \), відображень \( f : A.1 \to C \),
+\( g : B.1 \to C \), і шляху \( p : \text{PathOverlue}(P,f(A.2),g (B.2)) \),
+існує відображення \( \text{Ind}_\vee : A \vee B \to C \), таке що:
+\[
+\begin{cases}
+\text{Ind}(\text{winl}(a)) = f(a) \\
+\text{Ind}(\text{winr}(b)) = g(b) \\
+\text{Ind}(\text{wglue}(x)) = p(x)
+\end{cases}
+\]
+\begin{lstlisting}[mathescape=true]
+def PathOverGlue : (P : A $\vee$ B → U)
+    (p : P (inl (A.2))) (q : P (inr (B.2))) : U
+ := PathP (λ i → P (wglue i)) p q
+
+def Ind$_\vee$ (A B : pointed) (C : U) (f : A.1 -> C) (g : B.1 -> C)
+    (p : Path C (f A.2) (g B.2))
+  : A $\vee$ B -> C
+ := split { winl a -> f a | winr b -> g b | wglue @ x -> p @ x }
+\end{lstlisting}
+\end{theorem}
+
+\begin{theorem} (Обчислення).
+Для \( z : \text{Wedge } A B \),
+\[
+\begin{cases}
+\text{Ind}_\vee(\text{winl } a) \equiv f(a) \\
+\text{Ind}_\vee(\text{winr } b) \equiv g(b) \\
+\text{Ind}_\vee(\text{wglue } @ \, x) \equiv p \, @ \, x
+\end{cases}
+\]
+\end{theorem}
+
+\begin{theorem} (Унікальність).
+Будь-які два відображення \( h_1, h_2 : \text{Wedge } A B \to C \) є гомотопними, якщо
+вони збігаються на \( \text{winl} \), \( \text{winr} \) і \( \text{wglue} \),
+тобто, якщо \( h_1(\text{winl } a) = h_2(\text{winl } a) \) для
+всіх \( a : A.1 \), \( h_1(\text{winr } b) = h_2(\text{winr } b) \) для
+всіх \( b : B.1 \), і \( h_1(\text{wglue}) = h_2(\text{wglue}) \).
+\end{theorem}
+
+\newpage
+\subsection{Смеш-добуток}
+Смеш-добуток двох точкових типів \( A \) і \( B \), позначений \( A \wedge B \),
+є вищим індуктивним типом, який факторизує добуток \( A \times B \) за
+розшарованою сумою \( A \sqcup B \). Він представляє простір \( A \times B / (A \times \{ y_0 \} \cup \{ x_0 \} \times B) \),
+зводячи букет до однієї точки.
+
+\begin{definition} (Формація).
+Для точкових типів \( A, B : \text{pointed} \), Смеш-добуток \( A \wedge B : \mathcal{U} \).
+\end{definition}
+
+\begin{definition} (Конструктори).
+Смеш-добуток генерується такою вищою індуктивною композиційною структурою:
+\[
+A \wedge B :=
+\begin{cases}
+\text{basel} : A \wedge B \\
+\text{baser} : A \wedge B \\
+\text{proj} (x: A.1) (y: B.1) : A \wedge B \\
+\text{gluel} (a: A.2) : proj(a,B.2) \equiv basel \\
+\text{gluer} (b: B.2) : proj(A.2,b) \equiv baser \\
+\end{cases}
+\]
+\begin{lstlisting}[mathescape=true]
+def $\wedge$ (A : pointed) (B : pointed) : U
+ := inductive { basel
+              | baser
+              | proj (a : A.1) (b : B.1)
+              | gluel (a : A.2) : proj(a,B.2) $\equiv$ basel
+              | gluer (a : B.2) : proj(A.2,b) $\equiv$ baser
+              }
+\end{lstlisting}
+\end{definition}
+
+\begin{theorem} (Елімінація).
+Для сімейств типів \( P : \text{Smash } A \, B \to \mathcal{U} \),
+їх точок \( \text{pbasel} : P(\text{basel}) \),
+         \( \text{pbaser} : P(\text{baser}) \), відображєнь
+\( \text{pproj} : (x : A.1) \to (y : B.1) \to P \, (\text{proj} \, x \, y) \),
+і сімейства шляхів
+\( \text{pgluel} : (a : A.1) \to \text{pproj}(a,B.2) \equiv \text{pbasel} \),
+\( \text{pgluer} : (b : B.1) \to \text{pproj}(A.2,b) \equiv \text{pbaser} \),
+існує відображення \( \text{Ind}_\wedge : (z : A \wedge B) \to P(z) \), таке що:
+\[
+\begin{cases}
+\text{Ind}_\wedge \, (\text{basel}) = \text{pbasel} \\
+\text{Ind}_\wedge \, (\text{baser}) = \text{pbaser} \\
+\text{Ind}_\wedge \, (\text{proj} \, x \, y) = \text{pproj} \, x \, y \\
+\text{Ind}_\wedge \, (\text{gluel} \, a \, @ \, i) = \text{pgluel} \, a \, @ \, i \\
+\text{Ind}_\wedge \, (\text{gluer} \, b \, @ \, i) = \text{pgluer} \, b \, @ \, i \\
+\end{cases}
+\]
+\begin{lstlisting}[mathescape=true]
+def Ind$_\wedge$ (A B : pointed) (P : A $\wedge$ B -> U)
+    (pbasel : P basel) (pbaser : P baser)
+    (pproj : (x : A.1) -> (y : B.1) -> P (proj x y))
+    (pgluel : (a : A.1) -> PathP (<i> P (gluel a @ i)) (pproj a B.2) pbasel)
+    (pgluer : (b : B.1) -> PathP (<i> P (gluer b @ i)) (pproj A.2 b) pbaser)
+  : (z : A $\wedge$ B) -> P z
+ := split { basel -> pbasel | baser -> pbaser | proj x y -> pproj x y
+          | gluel a @ i -> pgluel a @ i | gluer b @ i -> pgluer b @ i }
+\end{lstlisting}
+\end{theorem}
+
+\begin{theorem} (Обчислення).
+Для сімейства типів \( P : A \wedge B \to \mathcal{U} \),
+точок \( \text{pbasel} : P(\text{basel}) \),
+\( \text{pbaser} : P(\text{baser}) \),
+відображення \( \text{pproj} : (x : A.1) \to (y : B.1) \to P(\text{proj} \, x \, y) \),
+і сімейства шляхів
+\( \text{pgluel} : (a : A.1) \to \text{PathP} \, (<i> P(\text{gluel} \, a \, @ \, i)) \, (\text{pproj} \, a \, B.2) \, \text{pbasel} \),
+\( \text{pgluer} : (b : B.1) \to \text{PathP} \, (<i> P(\text{gluer} \, b \, @ \, i)) \, (\text{pproj} \, A.2 \, b) \, \text{pbaser} \),
+відображення \( \text{Ind}_\wedge : (z : A \wedge B) \to P(z) \), задовольняє всі рівняння для всіх варіантів
+параметрів предиката $P$:
+\[
+\begin{cases}
+\text{Ind}_\wedge \, (\text{basel}) \equiv \text{pbasel} \\
+\text{Ind}_\wedge \, (\text{baser}) \equiv \text{pbaser} \\
+\text{Ind}_\wedge \, (\text{proj} \, x \, y) \equiv \text{pproj} \, x \, y \\
+\text{Ind}_\wedge \, (\text{gluel} \, a \, @ \, i) \equiv \text{pgluel} \, a \, @ \, i \\
+\text{Ind}_\wedge \, (\text{gluer} \, b \, @ \, i) \equiv \text{pgluer} \, b \, @ \, i
+\end{cases}.
+\]
+\end{theorem}
+
+\begin{theorem} (Унікальність).
+Для сімейства типів \( P : A \wedge B \to \mathcal{U} \),
+і відображень \( h_1, h_2 : (z : A \wedge B) \to P(z) \),
+якщо існують шляхи
+\( e_{\text{basel}} : h_1(\text{basel}) \equiv h_2(\text{basel}) \),
+\( e_{\text{baser}} : h_1(\text{baser}) \equiv h_2(\text{baser}) \),
+\( e_{\text{proj}} : (x : A.1) \to (y : B.1) \to h_1(\text{proj} \, x \, y) \equiv h_2(\text{proj} \, x \, y) \),
+\( e_{\text{gluel}} : (a : A.1) \to \text{PathP} \, (<i> h_1(\text{gluel} \, a \, @ \, i) \equiv h_2(\text{gluel} \, a \, @ \, i)) \, (e_{\text{proj}} \, a \, B.2) \, e_{\text{basel}} \),
+\( e_{\text{gluer}} : (b : B.1) \to \text{PathP} \, (<i> h_1(\text{gluer} \, b \, @ \, i) \equiv h_2(\text{gluer} \, b \, @ \, i)) \, (e_{\text{proj}} \, A.2 \, b) \, e_{\text{baser}} \),
+то \( h_1 \equiv h_2 \), тобто існує шлях \( (z : A \wedge B) \to h_1(z) \equiv h_2(z) \).
+\end{theorem}
+
+\newpage
+\subsection{З’єднання}
+З’єднання двох типів \( A \) і \( B \), позначене \( A \Join B \),
+є вищим індуктивним типом, який конструює тип шляхом
+з’єднання кожної точки \( A \) з кожною точкою \( B \) через шлях.
+Топологічно воно відповідає з’єднанню просторів, формуючи
+простір, що інтерполює між \( A \) і \( B \).
+
+\begin{definition} (Формація).
+Для типів \( A, B : \mathcal{U} \), з’єднання \( A * B : \mathcal{U} \).
+\end{definition}
+
+\begin{definition} (Конструктори).
+З’єднання генерується такою вищою індуктивною композиційною структурою:
+\[
+A \Join B :=
+\begin{cases}
+\text{joinl} : A \to A \Join B \\
+\text{joinr} : B \to A \Join B \\
+\text{join} (a : A) (b : B) : \text{joinl}(a) \equiv \text{joinr}(b)
+\end{cases}
+\]
+\begin{lstlisting}[mathescape=true]
+def $\Join$ (A : U) (B : U) : U
+ := inductive { joinl (a: A)
+              | joinr (b: B)
+              | join (a: A) (b: B) : joinl(a) $\equiv$ joinr(b)
+              }
+\end{lstlisting}
+\end{definition}
+
+\begin{theorem} (Елімінація).
+Для типу \( C : \mathcal{U} \), відображень \( f : A \to C \), \( g : B \to C \),
+і сімейства шляхів \( h : (a : A) \to (b : B) \to f(a) \equiv g(b) \)
+існує відображення \( \text{Ind}_\Join : A \Join B \to C \), таке що:
+\[
+\begin{cases}
+\text{Ind}_\Join(\text{joinl}(a)) = f(a) \\
+\text{Ind}_\Join(\text{joinr}(b)) = g(b) \\
+\text{Ind}_\Join(\text{join}(a,b,i)) = h(a,b,i) \\
+\end{cases}
+\]
+\begin{lstlisting}[mathescape=true]
+def Ind$_\Join$ (A B C : U) (f : A -> C) (g : B -> C)
+    (h : (a : A) -> (b : B) -> Path C (f a) (g b))
+  : A $\Join$ B -> C
+ := split { joinl a -> f a
+          | joinr b -> g b
+          | join a b @ i -> h a b @ i
+          }
+\end{lstlisting}
+\end{theorem}
+
+\begin{theorem} (Обчислення).
+Для всіх $z : A \Join B$, і предиката $P$ виконуються правила $\text{Ind}_\Join$ для всіх параметрів предиката $P$.
+\end{theorem}
+
+\begin{theorem} (Унікальність).
+Будь-які два відображення \( h_1, h_2 : A \Join B \to C \) є гомотопними,
+якщо вони збігаються на \( \text{joinl} \), \( \text{joinr} \) і \( \text{join} \).
+\end{theorem}
+
+\newpage
+\subsection{Кограниця}
+Кограниці конструюють границю послідовності типів, з’єднаних відображеннями,
+наприклад, пропозіційні відсікання.
+
+\begin{definition} (Кограниця)
+Для послідовності типів \( A : \text{nat} \to \mathcal{U} \) і
+відображень \( f : (n : \mathbb{N}) \to A n \to A(\text{succ}(n)) \),
+тип кограниця \( \text{colimit}(A,f) : \mathcal{U} \).
+\[
+\text{colim} :=
+\begin{cases}
+\text{ix} : (n : \text{nat}) \to A n \to \text{colimit}(A,f) \\
+\text{gx} : (n : \text{nat}) \to (a : A(n)) \to \text{ix} (\text{succ}(n),f(n,a)) \equiv \text{ix}(n,a)
+\end{cases}
+\]
+\begin{lstlisting}
+def colimit (A : nat -> U) (f : (n : nat) -> A n -> A (succ n)) : U
+ := inductive { ix (n : nat) (x: A n)
+              | gx (n : nat) (a: A n)
+                <i> [ (i=0) -> ix (succ n) (f n a),
+                      (i=1) -> ix n a ]
+              }
+\end{lstlisting}
+\end{definition}
+
+\begin{theorem} (Елімінація \( \text{colimit} \))
+Для типу \( P : \text{colimit } A f \to \mathcal{U} \),
+з \( p : (n : \text{nat}) \to (x : A n) \to P(\text{ix}(n, x)) \)
+і \( q : (n : \text{nat}) \to (a : A n) \to \text{PathP} (\langle i \rangle P(\text{gx}(n, a) @ i)) (p (\text{succ } n) (f n a)) (p n a) \),
+існує \( i : \Pi_{x:\text{colimit } A f} P(x) \), таке що \( i(\text{ix}(n, x)) = p n x \).
+\end{theorem}
+
+\newpage
+\subsection{Коеквалайзери}
+\subsubsection*{Коеквалайзер}
+Коеквалайзер двох відображень \( f, g : A \to B \) — це вищий індуктивний
+тип (HIT), який конструює тип, що складається з елементів у \( B \),
+де \( f \) і \( g \) збігаються, разом із шляхами, що забезпечують цю рівність.
+Це фундаментальна конструкція в теорії гомотопій,
+яка захоплює підпростір \( B \), де \( f(a) = g(a) \) для \( a : A \).
+
+\begin{definition} (Формація).
+Для типів \( A, B : \mathcal{U} \) і відображень \( f, g : A \to B \),
+Коеквалайзер \( \text{coeq } A B f g : \mathcal{U} \).
+\end{definition}
+
+\begin{definition} (Конструктори).
+Коеквалайзер генерується такою вищою індуктивною композиційною структурою:
+\[
+\text{Coeq} :=
+\begin{cases}
+\text{inC} : B \to \text{Coeq}(A,B,f,g) \\
+\text{glueC} : (a : A) \to \text{inC}(f(a)) \equiv \text{inC}(g(a))
+\end{cases}
+\]
+\begin{lstlisting}[mathescape=true]
+def Coeq (A B: U) (f g: A -> B) : U
+ := inductive { inC (b: B)
+              | glueC (a: A) : inC (f a) $\equiv$ inC (g a)
+              }
+\end{lstlisting}
+\end{definition}
+
+\begin{theorem} (Елімінація).
+Для типу \( C : \mathcal{U} \), відображення \( h : B \to C \), і сімейства шляхів \( y : (x : A) \to \text{Path}_C (h (f x), h (g x)) \), існує відображення \( \text{coequRec} : \text{coeq } A B f g \to C \), таке що:
+\[
+\begin{cases}
+\text{coequRec}(\text{inC}(x)) = h(x) \\
+\text{coequRec}(\text{glueC}(x,i)) = y(x,i)
+\end{cases}
+\]
+\begin{lstlisting}
+def coequRec (A B C : U) (f g : A -> B) (h: B -> C)
+    (y: (x : A) -> Path C (h (f x)) (h (g x)))
+  : (z : coeq A B f g) -> C
+ := split { inC x -> h x | glueC x @ i -> y x @ i }
+\end{lstlisting}
+\end{theorem}
+
+\begin{theorem} (Обчислення).
+Для \( z : \text{coeq } A B f g \),
+\[
+\begin{cases}
+\text{coequRec}(\text{inC } x) \equiv h(x) \\
+\text{coequRec}(\text{glueC } x \, @ \, i) \equiv y(x) \, @ \, i
+\end{cases}
+\]
+\end{theorem}
+
+\begin{theorem} (Унікальність).
+Будь-які два відображення \( h_1, h_2 : \text{coeq } A B f g \to C \) є гомотопними,
+якщо вони збігаються на \( \text{inC} \) і \( \text{glueC} \), тобто,
+якщо \( h_1(\text{inC } x) = h_2(\text{inC } x) \) для
+всіх \( x : B \) і \( h_1(\text{glueC } a) = h_2(\text{glueC } a) \) для всіх \( a : A \).
+\end{theorem}
+
+\begin{example} (Коеквалайзер як підпростір)
+Коеквалайзер \( \text{coeq } A B f g \) представляє підпростір
+\( B \), де \( f(a) = g(a) \). Наприклад, якщо \( A = B = \mathbb{R} \)
+і \( f(x) = x^2 \), \( g(x) = x \), Коеквалайзер захоплює точки,
+де \( x^2 = x \), тобто \( \{0, 1\} \).
+\end{example}
+
+\newpage
+\subsubsection*{Коеквалайзер шляхів}
+Коеквалайзер шляхів — це вищий індуктивний тип, який узагальнює
+Коеквалайзер для роботи з парами шляхів у \( B \). Дано
+відображення \( p : A \to (b_1, b_2 : B) \times (\text{Path}_B (b_1, b_2)) \times (\text{Path}_B (b_1, b_2)) \),
+він конструює тип, де елементи \( A \) породжують пари
+шляхів між точками в \( B \), із шляхами, що з’єднують
+кінцеві точки цих шляхів.
+
+\begin{definition} (Формація).
+Для типів \( A, B : \mathcal{U} \) і відображення \( p : A \to (b_1, b_2 : B) \times (b_1 \equiv b_2) \times (b_1 \equiv b_2) \),
+існує rоеквалайзер шляхів \( \text{Coeq}_\equiv(A,B,p) : \mathcal{U} \).
+\end{definition}
+
+\begin{definition} (Конструктори).
+Коеквалайзер шляхів генерується такою вищою індуктивною композиційною структурою:
+\[
+\text{Coequ}_\equiv :=
+\begin{cases}
+\text{inP} : B \to \text{Coeq}_\equiv(A,B,p) \\
+\text{glueP} : (a : A) \to \text{inP}(p(a).2.2.1 @ 0) \equiv \text{inP}(p(a).2.2.2 @ 1)
+\end{cases}
+\]
+\begin{lstlisting}[mathescape=true]
+data Coeq-$\equiv$ (A B: U) (p : A -> $\Sigma$ (b1 b2: B), b1 $\equiv$ b2 $\times$ b1 $\equiv$ b2)
+   = inP (b: B)
+   | glueP (a:A) <i> [(i=0) -> inP ((p a).2.2.1 @ 0),
+                      (i=1) -> inP ((p a).2.2.2 @ 1) ]
+\end{lstlisting}
+\end{definition}
+
+\begin{theorem} (Елімінація).
+Для типу \( C : \mathcal{U} \), відображення \( h : B \to C \),
+і сімейства шляхів \( y : (a : A) \to h(p(a).2.2.1  @ 0) \equiv h(p(a).2.2.2 @ 1) \),
+існує відображення \( \text{Ind-Coequ}_\equiv : \text{Coeq}_\equiv(A,B,p) \to C \), таке що:
+\[
+\begin{cases}
+\text{coequPRec}(\text{inP}(b)) = h(b) \\
+\text{coequPRec}(\text{glueP}(a,i)) = y(a,i)
+\end{cases}
+\]
+\begin{lstlisting}[mathescape=true]
+def Ind-Coequ$_\equiv$ (A B C : U)
+    (p : A -> $\Sigma$ (b1 b2: B) (x: Path B b1 b2), Path B b1 b2)
+    (h: B -> C) (y: (a : A) -> Path C (h (((p a).2.2.1) @ 0)) (h (((p a).2.2.2) @ 1)))
+  : (z : coeqP A B p) -> C
+ := split { inP b -> h b | glueP a @ i -> y a @ i }
+\end{lstlisting}
+\end{theorem}
+
+\begin{theorem} (Обчислення).
+Для \( z : \text{coeqP } A B p \),
+\[
+\begin{cases}
+\text{coequPRec}(\text{inP } b) \equiv h(b) \\
+\text{coequPRec}(\text{glueP } a \, @ \, i) \equiv y(a) \, @ \, i
+\end{cases}
+\]
+\end{theorem}
+
+\begin{theorem} (Унікальність).
+Будь-які два відображення \( h_1, h_2 : \text{coeqP } A B p \to C \) є гомотопними,
+якщо вони збігаються на \( \text{inP} \) і \( \text{glueP} \), тобто,
+якщо \( h_1(\text{inP } b) = h_2(\text{inP } b) \) для всіх \( b : B \)
+і \( h_1(\text{glueP } a) = h_2(\text{glueP } a) \) для всіх \( a : A \).
+\end{theorem}
+
+\newpage
+\subsection{K(G,n)}
+Простори Ейленберга-МакЛейна \( K(G,n) \) мають єдину нетривіальну
+гомотопічну групу \( \pi_n(K(G,n)) = G \). Вони визначаються за допомогою відсікань і суспензій.
+
+\begin{definition} (K(G,n))
+Для абелевої групи \( G : \text{abgroup} \), тип \( KGn(G) : \text{nat} \to \mathcal{U} \).
+\[
+K(G,n) :=
+\begin{cases}
+n = 0 \leadsto \text{discreteTopology}(G) \\
+n \geq 1 \leadsto \|\Sigma^{n-1}(K1'(G.1,G.2.1))\|_{n}
+\end{cases}
+\]
+\begin{lstlisting}[mathescape=true]
+def KGn (G: abgroup) : $\mathbf{N}$ -> U
+ := split { zero -> discreteTopology G
+          | succ n -> nTrunc ($\Sigma$ (K1' (G.1,G.2.1)) n) (succ n)
+          }
+\end{lstlisting}
+\end{definition}
+
+\begin{theorem} (Елімінація \( KGn \))
+Для \( n \geq 1 \), типу \( B : \mathcal{U} \) з \( \text{isNGroupoid}(B, \text{succ } n) \),
+і відображення \( f : \text{suspension}(K1' G) \to B \), існує
+\( \text{rec}_{KGn} : KGn G (\text{succ } n) \to B \),
+визначене через \( \text{nTruncRec} \).
+\end{theorem}
+
+\newpage
+\subsection{Локалізація}
+Локалізація конструює \( F \)-локальний тип із типу \( X \),
+щодо сімейства відображень \( F_A : S(a) \to T(a) \).
+
+\begin{definition} (Модальність локалізації)
+Для сімейства відображень \( F_A : S(a) \to T(a) \),
+\( F \)-локалізація \( L^{AST}_F(X) : \mathcal{U} \).
+\[
+L^{A}_F(X) :=
+\begin{cases}
+\text{center} : X \to L_{F_A}(X) \\
+\text{ext} (a : A) \to (S(a) \to L_{F_A}(X)) : T(a) \to L_{F_A}(X) \\
+\text{isExt} (a : A) (f : S(a) \to L_{F_A}(X)) \to (s : S(a)) : \text{ext}(a,f,F(a,s)) \equiv f(s) \\
+\text{extEq} (a : A) (g, h : T(a) \to L_{F_A}(X)) \\
+\indent (p : (s : S(a)) \to g(F(a,s)) \equiv h(F(a,s))) \\
+\indent (t : T(a)) : g(t) \equiv h(t) \\
+\text{isExtEq} : (a : A) (g, h : T(a) \to L_{F_A}(X)) \\
+\indent  (p : (s : S(a)) \to g(F(a,s)) \equiv h(F(a,s))) \\
+\indent (s : S(a)) : \text{extEq}(a,g,h,p,F(a,s) \equiv p(s)
+\end{cases}
+\]
+\begin{lstlisting}
+data Localize (A X: U) (S T: A -> U) (F : (x:A) -> S x -> T x)
+   = center (x: X)
+   | ext (a: A) (f: S a -> Localize A X S T F) (t: T a)
+   | isExt (a: A) (f: S a -> Localize A X S T F) (s: S a) <i>
+     [ (i=0) -> ext a f (F a s) , (i=1) -> f s ]
+   | extEq (a: A) (g h: T a -> Localize A X S T F)
+     (p: (s : S a) -> Path (Localize A X S T F) (g (F a s)) (h (F a s)))
+     (t : T a) <i> [ (i=0) -> g t , (i=1) -> h t ]
+   | isExtEq (a: A) (g h : T a -> Localize A X S T F)
+     (p: (s : S a) -> Path (T a -> Localize A X S T F) (g (F a s)) (h (F a s)))
+     (s : S a) <i> [ (i=0) -> extEq a g h p (F a s) , (i=1) -> p s ]
+\end{lstlisting}
+\end{definition}
+
+\begin{theorem} (Індукція локалізації)
+Для будь-якого \( P : \Pi_{X:U} L_{F_A}(X) \to U \) з \( \{n, r, s\} \), що задовольняють умови когерентності,
+існує \( i : \Pi_{x:L_{F_A}(X)} P(x) \), таке що \( i \cdot \text{center}_X = n \).
+\end{theorem}
+
+\section{Висновок}
+HIT безпосередньо кодують CW-комплекси в HoTT, поєднуючи топологію і теорію типів.
+За допомогою них відбувається аналіз і робота з гомотопічними типами.
+
+\newpage
+\bibliographystyle{plain}
+\begin{thebibliography}{9}
+\bibitem{univalent}
+The Univalent Foundations Program, \emph{Homotopy Type Theory: Univalent Foundations of Mathematics}, IAS, 2013.
+\bibitem{cubicaltt}
+C. Cohen, T. Coquand, S. Huber, A. Mörtberg, \emph{Cubical Type Theory}, Journal of Automated Reasoning, 2018.
+\bibitem{agda-cubical}
+A. Mörtberg et al., \emph{Agda Cubical Library}, \url{https://github.com/agda/cubical}, 2023.
+\bibitem{hott-book}
+M. Shulman, \emph{Higher Inductive Types in HoTT}, \url{https://arxiv.org/abs/1705.07088}, 2017.
+\bibitem{localization}
+J. D. Christensen, M. Opie, E. Rijke, L. Scoccola, \emph{Localization in Homotopy Type Theory}, \url{https://arxiv.org/pdf/1807.04155.pdf}, 2018.
+\bibitem{modalities}
+E. Rijke, M. Shulman, B. Spitters, \emph{Modalities in Homotopy Type Theory}, \url{https://arxiv.org/pdf/1706.07526v6.pdf}, 2017.
+\bibitem{synthetic-spectra}
+M. Riley, E. Finster, D. R. Licata, \emph{Synthetic Spectra via a Monadic and Comonadic Modality}, \url{https://arxiv.org/pdf/2102.04099.pdf}, 2021.
+\end{thebibliography}
+
+\end{document}

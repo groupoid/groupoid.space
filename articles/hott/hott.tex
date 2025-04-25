@@ -5,6 +5,8 @@
 \usepackage{amssymb}
 \usepackage{float}
 \usepackage{url}
+\usepackage{graphicx}
+\usepackage{tikz}
 \usepackage{tikz-cd}
 \usepackage[utf8]{inputenc}
 
@@ -844,6 +846,81 @@ loopS1eqZ : Path U Z loopS1
     sectionZ retractZ
 \end{lstlisting}
 \end{theorem}
+
+\newpage
+\subsection{Hopf Fibrations}
+\begin{example} ($S^3$ Hopf Fiber).
+$S^3$ Fibration was peeoneered by Guillaume Brunerie.
+\begin{lstlisting}
+rot: (x : S1) -> Path S1 x x = split
+    base -> loop1
+    loop @ i -> constSquare S1 base loop1 @ i
+
+mu : S1 -> equiv S1 S1 = split
+    base -> idEquiv S1
+    loop @ i -> equivPath S1 S1 (idEquiv S1)
+                (idEquiv S1) (<j> \(x : S1) -> rot x @ j) @ i
+
+H : S2 -> U = split
+    north -> S1
+    south -> S1
+    merid x @ i -> ua S1 S1 (mu x) @ i
+
+total : U = (c : S2) * H c
+\end{lstlisting}
+\end{example}
+
+\begin{tikzpicture}
+  % Include the image in a node with a white background and 20pt inner margin
+  \node[inner sep=20mm, fill=white, draw=black, line width=0.2mm] (img) at (0,0) {\includegraphics[scale=0.50,page=1]{hopf.pdf}};
+\end{tikzpicture}
+
+\begin{definition} (H-space).
+H-space over a carrier $A$ is a tuple
+$$
+H_A=
+\begin{cases}
+A : U\\
+e : A\\
+\mu : A \rightarrow A \rightarrow A\\
+\beta : (a:A) \rightarrow \Sigma (\mu(e,a)=a) (\mu(a,e)=a)
+\end{cases}
+$$.
+\end{definition}
+
+\newpage
+\begin{theorem} (Hopf Invariant).
+Let $\phi: S^{2n-1} \rightarrow S^{n}$ a continuous map.
+Then homotopy pushout (cofiber) of $\phi$ is
+$cofib(\phi) = S^{n} \bigcup_\phi \mathbb{D}^{2n}$ has
+ordinary cohomology
+$$
+H^{k}(cofib(\phi),\mathbb{Z})=
+\begin{cases}
+\mathbb{Z}\ for\ k=n,2n \\[2ex]
+0\ otherwise
+\end{cases}
+$$
+\end{theorem}
+
+\begin{theorem} (Four).
+There are fiber bundles:
+$(S^0,S^1,p,S^1)$,
+$(S^1,S^3,p,S^2)$,
+$(S^3,S^7,p,S^4)$,
+$(S^7,S^{15},p,S^8)$.
+\end{theorem}
+
+Hence for $\alpha,\beta$ generators of the cohomology groups in
+degree $n$ and $2n$, respectively, there exists an integer $h(\phi)$
+that expresses the {\textbf{cup product}} square of $\alpha$
+as a multiple of $\beta$ --- $\alpha\sqcup\alpha=h(\phi)\cdot\beta$.
+This integer $h(\phi)$ is called Hopf invariant of $\phi$.
+
+\begin{theorem} (Adams, Atiyah).
+Hopf Fibrations are only maps that have Hopf invariant $1$.
+\end{theorem}
+
 
 \bibliographystyle{plain}
 \bibliography{hott}
