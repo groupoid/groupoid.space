@@ -17,6 +17,15 @@
 \newcommand*{\incmap}{\hookrightarrow}
 \newcommand*{\thead}[1]{\multicolumn{1}{c}{\bfseries #1}}
 
+\def\mapright#1{\xrightarrow{{#1}}}
+\def\mapleft#1{\xleftarrow{{#1}}}
+\def\mapup#1{\Big\uparrow\rlap{\raise2pt{\scriptstyle{#1}}}}
+\def\mapupl#1{\Big\uparrow\llap{\raise2pt{\scriptstyle{#1}}}}
+\def\mapdown#1{\Big\downarrow\rlap{\raise2pt{\scriptstyle{#1}}}}
+\def\mapdownl#1{\Big\downarrow\llap{\raise2pt{\scriptstyle{#1}}}}
+\def\mapdiagl#1{\vcenter{\searrow}\rlap{\raise2pt{\scriptstyle{#1}}}}
+\def\mapdiagr#1{\vcenter{\swarrow}\rlap{\raise2pt{\scriptstyle{#1}}}}
+
 \lstset{
   basicstyle=\footnotesize,
   inputencoding=utf8,
@@ -128,6 +137,7 @@
 {⌟}{{\ensuremath{\lrcorner}}}1
 {⦃}{{\ensuremath{ \{\!| }}}1
 {⦄}{{\ensuremath{ |\!\} }}}1
+{ᵁ}{{\ensuremath{^U}}}1
 {₁}{{\ensuremath{_1}}}1
 {₂}{{\ensuremath{_2}}}1
 {₃}{{\ensuremath{_3}}}1
@@ -335,7 +345,7 @@ One additional part recently was dropped.
 \subsubsection{Linear Proofs}
 
 $$
-\otimes \dashv x \dashv \multimap
+\otimes \dashv x \dashv\ \multimap
 $$
 
 For engineering applications (e.g., Milner's $\pi$-calculus, quantum computing)
@@ -368,53 +378,12 @@ internal language of $(\infty,1)$-categories, while MLTT
 is an internal language of locally cartesian closed categories.
 
 \subsection{Acknowledgement}
-This article is dedicated to Ihor Horobets and written on
+This article is dedicated to Ihor Horobets and written on his
 request for clarification and direct intoduction to HoTT.
 
 \newpage
 \section{Homotopy Type Theory}
-\subsection{Homotopies}
-The first higher equality we meet in homotopy theory is a notion of homotopy,
-where we compare two functions or two path spaces (which is sort of dependent families).
-The homotopy interval $\mathrm{I}=[0,1]$ is the perfect foundation for definition of homotopy.
 
-\begin{definition} (Interval). Compact interval.
-\begin{lstlisting}[mathescape=true]
-def I : U := inductive { i0 | i1 | seg : i0 $\equiv$ i1 }
-\end{lstlisting}
-\end{definition}
-
-You can think of ${\bf I}$ as isomorphism of equality type,
-disregarding carriers on the edges. By mapping $i0,i1:{\bf I}$ to $x,y:A$ one can
-obtain identity or equality type from classic type theory.
-
-\begin{definition} (Interval Split).
-The convertion function from $\mathrm{I}$ to a type of comparison
-is a direct eliminator of interval. The interval is also known as one of
-primitive higher inductive types which will be given in the next
-{\bf Issue IV: Higher Inductive Types}.
-\begin{lstlisting}[mathescape=true]
-def pathToHtpy (A: U) (x y: A) (p: Path A x y) : I $\rightarrow$ A
- := split { i0 $\rightarrow$ x | i1 $\rightarrow$ y | seg @ i $\rightarrow$ p @ i }
-\end{lstlisting}
-\end{definition}
-
-\begin{definition} (Homotopy). The homotopy between two function $f,g: X \rightarrow Y$
-is a continuous map of cylinder $H : X \times {\bf I} \rightarrow Y$ such that
-$$
-\begin{cases}
-H(x,0)=f(x), \\
-H(x,1)=g(x).
-\end{cases}
-$$
-\begin{lstlisting}
-homotopy (X Y: U) (f g: X -> Y)
-         (p: (x: X) -> Path Y (f x) (g x))
-         (x: X): I -> Y = pathToHtpy Y (f x) (g x) (p x)
-\end{lstlisting}
-\end{definition}
-
-\newpage
 \subsection{Groupoid Interpretation}
 The first text about groupoid interpretation of type theory can be found in Francois Lamarche:
 A proposal about Foundations\footnote{\url{http://www.cse.chalmers.se/~coquand/Proposal.pdf}}.
@@ -499,6 +468,67 @@ def CatGroupoid (X : U) (G : isGroupoid X)
     )
 \end{lstlisting}
 
+\begin{lstlisting}
+def comp-Ξ (A : U) (a b c : A) (p : Ξ A a b) (q : Ξ A b c) : Ξ A a c
+ := <i> hcomp A (∂ i)
+    (λ (j : I), [(i = 0) → a,
+                 (i = 1) → q @ j]) (p @ i)
+\end{lstlisting}
+
+\begin{lstlisting}
+def comp-inv-Ξ⁻¹ (A : U) (a b : A) (p : Ξ A a b)
+  : Ξ (Ξ A a a) (comp-Ξ A a b a p (<i> p @ -i)) (<_> a)
+ := <k j> hcomp A (∂ j ∨ k)
+    (λ (i : I), [(j = 0) → a,
+                 (j = 1) → p @ -i ∧ -k,
+                 (k = 1) → a]) (p @ j ∧ -k)
+\end{lstlisting}
+
+\begin{lstlisting}
+def comp-inv-Ξ (A : U) (a b : A) (p : Ξ A a b)
+  : Ξ (Ξ A b b) (comp-Ξ A b a b (<i> p @ -i) p) (<_> b)
+ := <j i> hcomp A (∂ i ∨ j)
+    (λ (k : I), [(i = 0) → b,
+                 (j = 1) → b,
+                 (i = 1) → p @ j \/ k]) (p @ -i ∨ j)
+\end{lstlisting}
+
+\begin{lstlisting}
+def comp-Ξ-left (A : U) (a b : A) (p: Ξ A a b)
+  : Ξ (Ξ A a b) p (comp-Ξ A a a b (<_> a) p)
+ := <j i> hcomp A (∂ i ∨ -j)
+    (λ (k : I), [(i = 0) → a,
+                 (i = 1) → p @ k,
+                 (j = 0) → p @ i /\ k]) a
+\end{lstlisting}
+
+\begin{lstlisting}
+def comp-Ξ-right (A : U) (a b : A) (p: Ξ A a b)
+  : Ξ (Ξ A a b) p (comp-Ξ A a b b p (<_> b))
+ := <j i> hcomp A (∂ i ∨ -j)
+    (λ (k : I), [(i = 0) → a,
+                 (i = 1) → b,
+                 (j = 0) → p @ i]) (p @ i)
+\end{lstlisting}
+
+\begin{lstlisting}
+def comp-Ξ-assoc (A : U) (a b c d : A)
+    (f : Ξ A a b) (g : Ξ A b c) (h : Ξ A c d)
+  : Ξ (Ξ A a d) (comp-Ξ A a c d (comp-Ξ A a b c f g) h)
+                (comp-Ξ A a b d f (comp-Ξ A b c d g h))
+ := J A a (λ (a : A) (b : A) (f : Ξ A a b),
+    Π (c d : A) (g : Ξ A b c) (h : Ξ A c d),
+    Ξ (Ξ A a d) (comp-Ξ A a c d (comp-Ξ A a b c f g) h)
+                (comp-Ξ A a b d f (comp-Ξ A b c d g h)))
+      (λ (c d : A) (g : Ξ A a c) (h : Ξ A c d),
+      comp-Ξ (Ξ A a d)
+         (comp-Ξ A a c d (comp-Ξ A a a c (<_> a) g) h)
+         (comp-Ξ A a c d g h)
+         (comp-Ξ A a a d (<_> a) (comp-Ξ A a c d g h))
+         (<i> comp-Ξ A a c d (comp-Ξ-left A a c g @ -i) h)
+         (comp-Ξ-left A a d (comp-Ξ A a c d g h))) b f c d g h
+\end{lstlisting}
+
 \newpage
 \subsection{Identity Systems}
 \begin{definition} (Identity System).
@@ -520,7 +550,7 @@ def IdentitySystem (A : U) : U
       (=-comp : Π (a : A) (C: Π (x y : A)
                   (p : =-form x y), U)
                   (d : C a a (=-ctor a)),
-                  Path (C a a (=-ctor a)) d
+                  Ξ (C a a (=-ctor a)) d
                        (=-elim a C d a (=-ctor a))), 𝟏
 \end{lstlisting}
 \end{definition}
@@ -557,54 +587,400 @@ which models discrete infinity groupoid.
 \end{definition}
 
 \newpage
-\subsection{Functional Extensionality}
+\subsection{Path ($\Xi$)}
+The homotopy identity system defines a $\mathbf{Path}$
+space indexed over type $A$
+with elements as functions from interval $[0,1]$ to values
+of that path space $[0,1] \rightarrow A$. HoTT book
+defines two induction principles for identity types:
+path induction and based path induction.
 
-\begin{definition} (funExt-Formation)
-\begin{lstlisting}
-funext_form (A B: U) (f g: A -> B): U
-  = Path (A -> B) f g
+\begin{definition} (Path Formation).
+$$
+  \equiv\hspace{0.4em}: U =_{def} \prod_{A:U}\prod_{x,y:A} \mathbf{Path}_A(x,y).
+$$
+\begin{lstlisting}[mathescape=true]
+def Ξ (A : U) (x y : A) : U
+ := PathP (<_> A) x y
+
+def $\Xi'$ (A : U) (x y : A)
+ := Π (i : I),
+    A [∂ i |-> [(i = 0) → x ,
+                (i = 1) → y ]]
 \end{lstlisting}
 \end{definition}
 
-\begin{definition} (funExt-Introduction)
-\begin{lstlisting}
-funext (A B: U) (f g: A -> B) (p: (x:A) -> Path B (f x) (g x))
-  : funext_form A B f g
-  = <i> \(a: A) -> p a @ i
+\begin{definition} (Path Introduction).
+Returns a reflexivity path space for a given value of the type.
+The inhabitant of that path space is the lambda on the homotopy
+interval $[0,1]$ that returns a constant value $x$. Written in
+syntax as $[i]x$.
+$$
+  \mathrm{id_\equiv} : x \equiv_A x =_{def} \prod_{A:U}\prod_{x:A} [i] x
+$$
+\begin{lstlisting}[mathescape=true]
+def idp (A: U) (x: A)
+  : Ξ A x x := <_> x
 \end{lstlisting}
 \end{definition}
 
-\begin{definition} (funExt-Elimination)
-\begin{lstlisting}
-happly (A B: U) (f g: A -> B) (p: funext_form A B f g) (x: A)
-  : Path B (f x) (g x)
-  = cong (A -> B) B (\(h: A -> B) -> apply A B h x) f g p
-\end{lstlisting}
-\end{definition}
+\begin{definition} (Path Application).
+\begin{lstlisting}[mathescape=true]
+def at0 (A: U) (a b: A)
+    (p: Path A a b) : A := p @ 0
 
-\begin{definition} (funExt-Computation)
-\begin{lstlisting}
-funext_Beta (A B: U) (f g: A -> B) (p: (x:A) -> Path B (f x) (g x))
-  : (x:A) -> Path B (f x) (g x)
-  = \(x:A) -> happly A B f g (funext A B f g p) x
-\end{lstlisting}
-\end{definition}
-
-\begin{definition} (funExt-Uniqueness)
-\begin{lstlisting}
-funext_Eta (A B: U) (f g: A -> B) (p: Path (A -> B) f g)
-  : Path (Path (A -> B) f g) (funext A B f g (happly A B f g p)) p
-  = refl (Path (A -> B) f g) p
+def at1 (A: U) (a b: A)
+    (p: Path A a b): A := p @ 1
 \end{lstlisting}
 \end{definition}
 
 \newpage
-\subsection{Fibrations}
+
+\begin{definition} (Path Connections).
+Connections allow you to build a square
+with only one element of path: i) $[i,j] p\ @\ min(i,j)$;
+ii) $[i,j] p\ @\ max(i,j)$.
+
+\[
+\begin{array}{ccc}
+    a & \xrightarrow{\text{pcomp}} & c \\
+    \uparrow^{\text{[i] a}} & & \uparrow^{q} \\
+    a & \xrightarrow{p @ i} & b \\
+\end{array}
+\]
+
+$$
+\begin{array}{ccc}
+    a & \xrightarrow{\text{p}} & b \\
+    \uparrow^{\text{[i] a}} & & \uparrow^{q} \\
+    a & \xrightarrow{\text{[i] a}} & a \\
+\end{array}
+$$
+\begin{lstlisting}[mathescape=true]
+def join (A: U) (a b: A) (p: Path A a b)
+  : PathP (<x> Path A (p@x) b) p (<i> b)
+ := <y x> p @ (x \/ y)
+
+def meet (A: U) (a b: A) (p: Path A a b)
+  : PathP (<x> Path A a (p@x)) (<i> a) p
+ := <x y> p @ (x /\ y)
+\end{lstlisting}
+\end{definition}
+
+\begin{definition} (Path Inversion).
+\end{definition}
+
+\begin{theorem} (Congruence).
+$$
+\mathrm{ap} : f(a)\equiv f(b) =_{def}
+$$
+$$
+  \prod_{A:U}\prod_{a,x:A}\prod_{B:A\rightarrow U}\prod_{f: \Pi(A,B)}\prod_{p:a\equiv_A x}[i] f(p@i).
+$$
+\begin{lstlisting}[mathescape=true]
+def ap (A B: U) (f: A -> B)
+    (a b: A) (p: Path A a b)
+  : Path B (f a) (f b)
+
+def apd (A: U) (a x: A) (B: A -> U)
+    (f: A -> B a) (b: B a) (p: Path A a x)
+  : Path (B a) (f a) (f x)
+\end{lstlisting}
+\end{theorem}
+
+Maps a given path space between values of one type
+to path space of another type using an encode function between types.
+Implemented as a lambda defined on $[0,1]$ that returns
+application of encode function to path application of
+the given path to lamda argument $[i]f (p @ i)$
+in both cases.
+
+\newpage
+
+\begin{definition} (Generalized Transport Kan Operation).
+Transports a value of the left type to the value of the right type
+by a given path element of the path space between left and right types.
+$$
+  \mathrm{transport} : A(0) \rightarrow A(1) =_{def}
+$$
+$$
+  \prod_{A:I\rightarrow U}\prod_{r:I}
+$$
+$$
+  \lambda x,\mathbf{transp}([i]A(i),0,x).
+$$
+\begin{lstlisting}[mathescape=true]
+def transp' (A: U) (x y: A) (p : PathP (&lt;_>A) x y) (i: I)
+ := transp (&lt;i> (\(_:A),A) (p @ i)) i x
+
+def transpᵁ (A B: U) (p : PathP (&lt;_>U) A B) (i: I)
+ := transp (&lt;i> (\(_:U),U) (p @ i)) i A
+\end{lstlisting}
+\end{definition}
+
+\begin{definition} (Partial Elements).
+$$
+  \mathrm{Partial} : V =_{def} \prod_{A:U}\prod_{i:I}\mathbf{Partial}(A,i).
+$$
+\begin{lstlisting}[mathescape=true]
+def Partial' (A : U) (i : I)
+  : V := Partial A i
+\end{lstlisting}
+\end{definition}
+
+\begin{definition} (Cubical Subtypes).
+$$
+  \mathrm{Subtype} : V =_{def}
+$$
+$$
+  \prod_{A:U}\prod_{i:I}\prod_{u:\mathbf{Partial}(A,i)}A[i \mapsto u].
+$$
+\begin{lstlisting}[mathescape=true]
+def sub (A : U) (i : I) (u : Partial A i)
+  : V := A [i ↦ u]
+\end{lstlisting}
+\end{definition}
+
+\begin{definition} (Cubical Elements).
+$$
+  \mathrm{inS} :  A\ [(i=1) \mapsto a ] =_{def}
+$$
+$$
+  \prod_{A:U}\prod_{i:I}\prod_{a:A}\mathbf{inc}(A,i,a).
+$$
+$$
+  \mathrm{outS} : A\ [i \mapsto u] \rightarrow A =_{def}
+$$
+$$
+  \prod_{A:U}\prod_{i:I}\prod_{u:\mathbf{Partial}(A,i)}
+  \mathbf{ouc}(a).
+$$
+\begin{lstlisting}[mathescape=true]
+def inS (A : U) (i : I) (a : A)
+  : sub A i [(i = 1) → a] := inc A i a
+
+def outS (A : U) (i : I) (u : Partial A i)
+  : A [i ↦ u] -> A := λ (a: A[i ↦ u]), ouc a
+\end{lstlisting}
+\end{definition}
+
+\begin{theorem} (Heterogeneous Composition Kan Operation).
+$$
+  \mathrm{comp}_{\mathrm{CCHM}} : A(0)\ [r \mapsto u(0)] \rightarrow A(1) =_{def}
+$$
+$$
+  \prod_{A:U}\prod_{r:I} \prod_{u: \Pi_{i:I}\mathbf{Partial}(A(i),r)}
+$$
+$$
+  \lambda u_0, \mathbf{hcomp}(A(1),r,\lambda i.
+$$
+$$
+  [(r\hspace{0.1em}\mbox{=}1)\hspace{-0.2em}\rightarrow\hspace{-0.2em}\mathbf{transp}([j]A(i /\\ j),i,u(i,1\hspace{0em}\mbox{=}1)) ],
+$$
+$$
+  \mathbf{transp}([i]A(i),0,\mathbf{ouc}(u_0))).
+$$
+\begin{lstlisting}[mathescape=true]
+def compCCHM (A : I → U) (r : I)
+    (u : Π (i : I), Partial (A i) r)
+    (u₀ : (A 0)[r ↦ u 0]) : A 1
+ := hcomp (A 1) r (λ (i : I),
+    [ (r = 1) → transp (<j> A (i ∨ j)) i (u i 1=1)])
+                (transp (<i> A i) 0 (ouc u₀))
+\end{lstlisting}
+\end{theorem}
+
+\begin{theorem} (Homogeneous Composition Kan Operation).
+$$
+  \mathrm{comp}_{\mathrm{CHM}} : A\ [r \mapsto u(0)] \rightarrow A =_{def}
+$$
+$$
+  \prod_{A:U}\prod_{r:I} \prod_{u:I\rightarrow \mathbf{Partial}(A,r)}
+$$
+$$
+  \lambda u_0, \mathbf{hcomp}(A,r,u,\mathbf{ouc}(u_0)).
+$$
+\begin{lstlisting}[mathescape=true]
+def compCHM (A : U) (r : I)
+    (u : I → Partial A r) (u₀ : A[r ↦ u 0]) : A
+ := hcomp A r u (ouc u₀)
+\end{lstlisting}
+\end{theorem}
+
+\begin{theorem} (Substitution).
+$$
+  \mathrm{subst} : P(x) \rightarrow P(y) =_{def}
+$$
+$$
+  \prod_{A:U}\prod_{P:A\rightarrow U}\prod_{x,y:A}\prod_{p:x=y}
+$$
+$$
+  \lambda e.\mathbf{transp}([i] P (p @ i),0,e).
+$$
+\begin{lstlisting}[mathescape=true]
+def subst (A: U) (P: A -> U) (x y: A) (p: Path A x y)
+  : P x -> P y
+ := λ (e: P x), transp (<i> P (p @ i)) 0 e
+\end{lstlisting}
+\end{theorem}
+
+Other synonyms are $\mathrm{mapOnPath}$ and $\mathrm{cong}$.
+
+\newpage
+\begin{theorem} (Path Composition).
+$$
+\begin{array}{ccc}
+  a & \xrightarrow{\text{pcomp}} & c \\
+    \uparrow^{\text{[i] a}} & & \uparrow^{q} \\
+  a & \xrightarrow{p @ i} & b \\
+\end{array}
+$$
+\begin{lstlisting}[mathescape=true]
+def pcomp (A: U) (a b c: A)
+    (p: Path A a b) (q: Path A b c)
+  : Path A a c := subst A (Path A a) b c q p
+\end{lstlisting}
+\end{theorem}
+
+Composition operation allows building a new path from two given paths
+in a connected point. The proofterm is
+$\mathbf{comp}([i] \mathbf{Path}_A(a,q@i),p,[])$.
+
+\begin{theorem} (J by Paulin-Mohring).
+\begin{lstlisting}[mathescape=true]
+def J (A: U) (a b: A)
+    (P: singl A a -> U)
+    (u: P (a,refl A a))
+  : $\Pi$ (p: Path A a b), P (b,p)
+\end{lstlisting}
+\end{theorem}
+
+J is formulated in a form of Paulin-Mohring and implemented using
+two facts that singletons are contractible and dependent function
+transport.
+
+\begin{theorem} (Contractability of Singleton).
+\begin{lstlisting}[mathescape=true]
+def singl (A: U) (a: A) : U
+ := Σ (x: A), Path A a x
+
+def contr (A: U) (a b: A) (p: Path A a b)
+  : Path (singl A a) (a,<_>a) (b,p)
+\end{lstlisting}
+\end{theorem}
+
+Proof that singleton is contractible space. Implemented as $[i] (p @ i, [j] p @ (i \land j))$.
+
+\begin{theorem} (HoTT Dependent Eliminator).
+\begin{lstlisting}[mathescape=true]
+def J (A: U) (a: A)
+    (C: (x: A) -> Path A a x -> U)
+    (d: C a (refl A a)) (x: A)
+  : $\Pi$ (p: Path A a x) : C x p
+\end{lstlisting}
+\end{theorem}
+
+\begin{theorem} (Diagonal Path Induction).
+\begin{lstlisting}[mathescape=true]
+def D (A: U) : U
+ := $\Pi$ (x y: A), Path A x y -> U
+
+def J (A: U) (x: A) (C: D A)
+    (d: C x x (refl A x))
+    (y: A)
+  : $\Pi$ (p: Path A x y), C x y p
+\end{lstlisting}
+\end{theorem}
+
+\newpage
+\begin{theorem} (Path Computation).
+\begin{lstlisting}[mathescape=true]
+def trans_comp (A: U) (a: A)
+  : Path A a (trans A A (<_> A) a)
+
+def subst_comp (A: U) (P: A -> U) (a: A) (e: P a)
+  : Path (P a) e (subst A P a a (refl A a) e)
+
+def J_comp (A: U) (a: A)
+    (C: (x: A) -> Path A a x -> U)
+    (d: C a (refl A a))
+  : Path (C a (refl A a)) d
+    (J A a C d a (refl A a))
+\end{lstlisting}
+\end{theorem}
+
+Note that in HoTT there is no Eta rule, otherwise
+Path between element would requested to be unique applying
+UIP at any Path level which is prohibited. UIP in HoTT
+is defined only as instance of n-groupoid, see the PROP type.
+
+
+\newpage
+\subsection{Glue}
+
+$\mathbf{Glue}$ types defines composition structure for fibrant
+universes that allows partial elements to be extended
+to fibrant types. In other words it turns equivalences
+in the multidensional cubes to path spaces.
+Unlike ABCHFL, CCHM needn't another universe for that purpose.
+
+\begin{definition} (Glue Formation).
+The Glue types take a partial family of types A that are equivalent
+to the base type B. These types are then “glued” onto B and the
+equivalence data gets packaged up into a new type.
+$$
+  \mathbf{Glue}(A,\varphi,e) : U.
+$$
+\begin{lstlisting}[mathescape=true]
+def Glue' (A : U) (φ : I)
+    (e : Partial (Σ (T : U), equiv T A) φ) : U
+ := Glue A φ e
+\end{lstlisting}
+\end{definition}
+
+\begin{definition} (Glue Introduction).
+$$
+  \mathbf{glue}\ \varphi\ u\ (\mathbf{ouc}\ a) : \mathbf{Glue}\ A\ [\varphi\mbox{=}1 \mapsto (T,f)].
+$$
+\begin{lstlisting}[mathescape=true]
+def glue' (A : U) (φ : I)
+    (u : Partial (Σ (T : U), equiv T A × T) φ)
+    (a : A [φ ↦ [(φ = 1) → (u 1=1).2.1.1 (u 1=1).2.2]])
+ := glue φ u (ouc a)
+\end{lstlisting}
+\end{definition}
+
+\begin{definition} (Glue Elimination).
+$$
+  \mathbf{unglue}(b) : A\ [\varphi \mapsto f(b) ].
+$$
+\begin{lstlisting}[mathescape=true]
+def unglue$'$ (A : U) (φ : I)
+    (e : Partial (Σ (T : U), equiv T A) φ)
+    (a : Glue A φ e) : A
+ := unglue φ e a
+\end{lstlisting}
+\end{definition}
+
+\begin{theorem} (Glue Computation).
+$$
+  b = \mathbf{glue}\ [\varphi \mapsto b]\ (\mathbf{unglue}\ b).
+$$
+\end{theorem}
+
+\begin{theorem} (Glue Uniqueness).
+$$
+  \mathbf{unglue}\ (\mathbf{glue}\ [\varphi \mapsto t]\ a) = a : A.
+$$
+\end{theorem}
+
+\newpage
+\subsection{Fibration}
 
 \begin{definition} (Fibration-1) Dependent fiber bundle derived from Path contractability.
 \begin{lstlisting}
 isFBundle1 (B: U) (p: B -> U) (F: U): U
-  = (_: (b: B) -> isContr (Path U (p b) F))
+  = (_: (b: B) -> isContr (Ξ U (p b) F))
   * ((x: Sigma B p) -> B)
 \end{lstlisting}
 \end{definition}
@@ -614,13 +990,13 @@ isFBundle1 (B: U) (p: B -> U) (F: U): U
 isFBundle2 (B: U) (p: B -> U) (F: U): U
   = (V: U)
   * (v: surjective V B)
-  * ((x: V) -> Path U (p (v.1 x)) F)
+  * ((x: V) -> Ξ U (p (v.1 x)) F)
 \end{lstlisting}
 \end{definition}
 
 \begin{definition} (Fibration-3). Non-dependent fiber bundle derived from fiber truncation.
 \begin{lstlisting}
-im1 (A B: U) (f: A -> B): U = (b: B) * pTrunc ((a:A) * Path B (f a) b)
+im1 (A B: U) (f: A -> B): U = (b: B) * pTrunc ((a:A) * Ξ B (f a) b)
 BAut (F: U): U = im1 unit U (\(x: unit) -> F)
 unitIm1 (A B: U) (f: A -> B): im1 A B f -> B = \(x: im1 A B f) -> x.1
 unitBAut (F: U): BAut F -> U = unitIm1 unit U (\(x: unit) -> F)
@@ -629,7 +1005,7 @@ isFBundle3 (E B: U) (p: E -> B) (F: U): U
   = (X: B -> BAut F)
   * (classify B (BAut F) (\(b: B) -> fiber E B p b) (unitBAut F) X) where
   classify (A' A: U) (E': A' -> U) (E: A -> U) (f: A' -> A): U
-    = (x: A') -> Path U (E'(x)) (E(f(x)))
+    = (x: A') -> Ξ U (E'(x)) (E(f(x)))
 \end{lstlisting}
 \end{definition}
 
@@ -642,6 +1018,90 @@ isFBundle4 (E B: U) (p: E -> B) (F: U): U
   * pullbackSq (prod V F) E V B p v.1 v' (\(x: prod V F) -> x.1)
 \end{lstlisting}
 \end{definition}
+
+\newpage
+\subsection{Homotopy}
+
+The first higher equality we meet in homotopy theory is a notion of homotopy,
+where we compare two functions or two path spaces (which is sort of dependent families).
+The homotopy interval $\mathrm{I}=[0,1]$ is the perfect foundation for definition of homotopy.
+
+\begin{definition} (Interval). Compact interval.
+\begin{lstlisting}[mathescape=true]
+def I : U := inductive { i0 | i1 | seg : i0 $\equiv$ i1 }
+\end{lstlisting}
+\end{definition}
+
+You can think of ${\bf I}$ as isomorphism of equality type,
+disregarding carriers on the edges. By mapping $i0,i1:{\bf I}$ to $x,y:A$ one can
+obtain identity or equality type from classic type theory.
+
+\begin{definition} (Interval Split).
+The convertion function from $\mathrm{I}$ to a type of comparison
+is a direct eliminator of interval. The interval is also known as one of
+primitive higher inductive types which will be given in the next
+{\bf Issue IV: Higher Inductive Types}.
+\begin{lstlisting}[mathescape=true]
+def pathToHtpy (A: U) (x y: A) (p: Path A x y) : I $\rightarrow$ A
+ := split { i0 $\rightarrow$ x | i1 $\rightarrow$ y | seg @ i $\rightarrow$ p @ i }
+\end{lstlisting}
+\end{definition}
+
+\begin{definition} (Homotopy). The homotopy between two function $f,g: X \rightarrow Y$
+is a continuous map of cylinder $H : X \times {\bf I} \rightarrow Y$ such that
+$$
+\begin{cases}
+H(x,0)=f(x), \\
+H(x,1)=g(x).
+\end{cases}
+$$
+\begin{lstlisting}
+homotopy (X Y: U) (f g: X -> Y)
+         (p: (x: X) -> Path Y (f x) (g x))
+         (x: X): I -> Y = pathToHtpy Y (f x) (g x) (p x)
+\end{lstlisting}
+\end{definition}
+
+\newpage
+\begin{definition} (funExt-Formation)
+\begin{lstlisting}
+funext_form (A B: U) (f g: A -> B): U
+  = Ξ (A -> B) f g
+\end{lstlisting}
+\end{definition}
+
+\begin{definition} (funExt-Introduction)
+\begin{lstlisting}
+funext (A B: U) (f g: A -> B) (p: (x:A) -> Ξ B (f x) (g x))
+  : funext_form A B f g
+  = <i> \(a: A) -> p a @ i
+\end{lstlisting}
+\end{definition}
+
+\begin{definition} (funExt-Elimination)
+\begin{lstlisting}
+happly (A B: U) (f g: A -> B) (p: funext_form A B f g) (x: A)
+  : Ξ B (f x) (g x)
+  = cong (A -> B) B (\(h: A -> B) -> apply A B h x) f g p
+\end{lstlisting}
+\end{definition}
+
+\begin{definition} (funExt-Computation)
+\begin{lstlisting}
+funext_Beta (A B: U) (f g: A -> B) (p: (x:A) -> Ξ B (f x) (g x))
+  : (x:A) -> Ξ B (f x) (g x)
+  = \(x:A) -> happly A B f g (funext A B f g p) x
+\end{lstlisting}
+\end{definition}
+
+\begin{definition} (funExt-Uniqueness)
+\begin{lstlisting}
+funext_Eta (A B: U) (f g: A -> B) (p: Ξ (A -> B) f g)
+  : Ξ (Ξ (A -> B) f g) (funext A B f g (happly A B f g p)) p
+  = refl (Ξ (A -> B) f g) p
+\end{lstlisting}
+\end{definition}
+
 
 \newpage
 \subsection{Equivalence}
@@ -669,7 +1129,7 @@ def isContr (A: U) : U
  := Σ (x: A), Π (y: A), Ξ A x y
 
 def fiber (A B : U) (f: A → B) (y : B): U
- := Σ (x : A), Path B y (f x)
+ := Σ (x : A), Ξ B y (f x)
 
 def isEquiv (A B : U) (f : A → B) : U
  := Π (y : B), isContr (fiber A B f y)
@@ -756,7 +1216,7 @@ injective (A B: U): U
 \begin{definition} (Embedding).
 \begin{lstlisting}
 isEmbedding (A B: U) (f: A -> B) : U
-  = (x y: A) -> isEquiv (Path A x y) (Path B (f x) (f y)) (cong A B f x y)
+  = (x y: A) -> isEquiv (Ξ A x y) (Ξ B (f x) (f y)) (cong A B f x y)
 
 embedding (A B: U): U
   = (f: A -> B)
@@ -768,9 +1228,9 @@ embedding (A B: U): U
 \begin{lstlisting}
 isHae (A B: U) (f: A -> B): U
   = (g: B -> A)
-  * (eta_: Path (id A) (o A B A g f) (idfun A))
-  * (eps_: Path (id B) (o B A B f g) (idfun B))
-  * ((x: A) -> Path B (f ((eta_ @ 0) x)) ((eps_ @ 0) (f x)))
+  * (eta_: Ξ (id A) (o A B A g f) (idfun A))
+  * (eps_: Ξ (id B) (o B A B f g) (idfun B))
+  * ((x: A) -> Ξ B (f ((eta_ @ 0) x)) ((eps_ @ 0) (f x)))
 
 hae (A B: U): U
   = (f: A -> B)
@@ -783,7 +1243,7 @@ hae (A B: U): U
 
 \begin{definition} (iso-Formation)
 \begin{lstlisting}
-iso_Form (A B: U): U = isIso A B -> Path U A B
+iso_Form (A B: U): U = isIso A B -> Ξ U A B
 \end{lstlisting}
 \end{definition}
 
@@ -795,21 +1255,21 @@ iso_Intro (A B: U): iso_Form A B
 
 \begin{definition} (iso-Elimination)
 \begin{lstlisting}
-iso_Elim (A B: U): Path U A B -> isIso A B
+iso_Elim (A B: U): Ξ U A B -> isIso A B
 \end{lstlisting}
 \end{definition}
 
 \begin{definition} (iso-Computation)
 \begin{lstlisting}
-iso_Comp (A B : U) (p : Path U A B)
-  : Path (Path U A B) (iso_Intro A B (iso_Elim A B p)) p
+iso_Comp (A B : U) (p : Ξ U A B)
+  : Ξ (Ξ U A B) (iso_Intro A B (iso_Elim A B p)) p
 \end{lstlisting}
 \end{definition}
 
 \begin{definition} (iso-Uniqueness)
 \begin{lstlisting}
 iso_Uniq (A B : U) (p: isIso A B)
-  : Path (isIso A B) (iso_Elim A B (iso_Intro A B p)) p
+  : Ξ (isIso A B) (iso_Elim A B (iso_Intro A B p)) p
 \end{lstlisting}
 \end{definition}
 
@@ -818,13 +1278,13 @@ iso_Uniq (A B : U) (p: isIso A B)
 
 \begin{definition} (uni-Formation)
 \begin{lstlisting}
-univ_Formation (A B: U): U = equiv A B -> Path U A B
+univ_Formation (A B: U): U = equiv A B -> Ξ U A B
 \end{lstlisting}
 \end{definition}
 
 \begin{definition} (uni-Introduction)
 \begin{lstlisting}
-equivToPath (A B: U): univ_Formation A B
+equivToΞ (A B: U): univ_Formation A B
   = \(p: equiv A B) -> <i> Glue B [(i=0) -> (A,p),
     (i=1) -> (B, subst U (equiv B) B B (<_>B) (idEquiv B)) ]
 \end{lstlisting}
@@ -832,15 +1292,15 @@ equivToPath (A B: U): univ_Formation A B
 
 \begin{definition} (uni-Elimination)
 \begin{lstlisting}
-pathToEquiv (A B: U) (p: Path U A B) : equiv A B
+pathToEquiv (A B: U) (p: Ξ U A B) : equiv A B
   = subst U (equiv A) A B p (idEquiv A)
 \end{lstlisting}
 \end{definition}
 
 \begin{definition} (uni-Computation)
 \begin{lstlisting}
-eqToEq (A B : U) (p : Path U A B)
-  : Path (Path U A B) (equivToPath A B (pathToEquiv A B p)) p
+eqToEq (A B : U) (p : Ξ U A B)
+  : Ξ (Ξ U A B) (equivToPath A B (pathToEquiv A B p)) p
   = <j i> let Ai: U = p@i in Glue B
     [ (i=0) -> (A,pathToEquiv A B p),
       (i=1) -> (B,pathToEquiv B B (<k> B)),
@@ -852,7 +1312,7 @@ eqToEq (A B : U) (p : Path U A B)
 \begin{definition} (uni-Uniqueness)
 \begin{lstlisting}
 transPathFun (A B : U) (w: equiv A B)
-  : Path (A -> B) w.1 (pathToEquiv A B (equivToPath A B w)).1
+  : Ξ (A -> B) w.1 (pathToEquiv A B (equivToPath A B w)).1
 \end{lstlisting}
 \end{definition}
 
@@ -872,7 +1332,7 @@ space (A: pointed): U = A.1
 $$\Omega(A,a) =_{def} ((a =_A a), refl_A(a)).$$
 \begin{lstlisting}
 omega1 (A: pointed) : pointed
-  = (Path (space A) (point A) (point A), refl A.1 (point A))
+  = (Ξ (space A) (point A) (point A), refl A.1 (point A))
 \end{lstlisting}
 \end{definition}
 
@@ -908,26 +1368,26 @@ data S1 = base
         | loop <i> [ (i=0) -> base ,
                      (i=1) -> base ]
 
-loopS1 : U = Path S1 base base
+loopS1 : U = Ξ S1 base base
 
-encode (x:S1) (p:Path S1 base x)
+encode (x:S1) (p:Ξ S1 base x)
   : helix x
   = subst S1 helix base x p zeroZ
 
-decode : (x:S1) -> helix x -> Path S1 base x = split
+decode : (x:S1) -> helix x -> Ξ S1 base x = split
   base -> loopIt
   loop @ i -> rem @ i where
-    p : Path U (Z -> loopS1) (Z -> loopS1)
-      = <j> helix (loop1@j) -> Path S1 base (loop1@j)
+    p : Ξ U (Z -> loopS1) (Z -> loopS1)
+      = <j> helix (loop1@j) -> Ξ S1 base (loop1@j)
     rem : PathP p loopIt loopIt
-      = corFib1 S1 helix (\(x:S1)->Path S1 base x) base
+      = corFib1 S1 helix (\(x:S1)->Ξ S1 base x) base
         loopIt loopIt loop1 (\(n:Z) ->
-        comp (<i> Path loopS1 (oneTurn (loopIt n))
+        comp (<i> Ξ loopS1 (oneTurn (loopIt n))
              (loopIt (testIsoPath Z Z sucZ predZ
                       sucpredZ predsucZ n @ i)))
              (<i>(lem1It n)@-i) [])
 
-loopS1eqZ : Path U Z loopS1
+loopS1eqZ : Ξ U Z loopS1
   = isoPath Z loopS1 (decode base) (encode base)
     sectionZ retractZ
 \end{lstlisting}
@@ -944,7 +1404,7 @@ data bool = false | true
 negBool : bool -> bool
   = split { false -> true ; true -> false }
 
-negBoolK : (b : bool) -> Path bool (negBool (negBool b)) b
+negBoolK : (b : bool) -> Ξ bool (negBool (negBool b)) b
   = split { false-><i>false;true-><i>true }
 
 negBoolEquiv : equiv bool bool
@@ -953,7 +1413,7 @@ negBoolEquiv : equiv bool bool
 S2 : U = susp S1
 S3 : U = susp S2
 
-ua (A B : U) (e : equiv A B) : Path U A B =
+ua (A B : U) (e : equiv A B) : Ξ U A B =
   <i> Glue B [ (i = 0) -> (A,e),
                (i = 1) -> (B,idEquiv B) ]
 
@@ -974,7 +1434,7 @@ TH0 : U = (c : S1) * moebius c
 \begin{example} ($S^3$ $\mathbb{C}$  Hopf Fiber).
 $S^3$ Fibration was peeoneered by Guillaume Brunerie.
 \begin{lstlisting}
-rot: (x : S1) -> Path S1 x x = split
+rot: (x : S1) -> Ξ S1 x x = split
     base -> loop1
     loop @ i -> constSquare S1 base loop1 @ i
 
