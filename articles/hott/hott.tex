@@ -353,15 +353,22 @@ This property allows to identify isomorphic structures in terms of type theory.
 
 Homotopy type theory to classical homotopy theory is like Euclidian
 syntethic geometry (points, lines, axioms and deduction rules) to
-analytical geometry with cartesian coordinates on $\mathbb{R}^n$ (geometric and algebraic)
-
-\footnote{We will denote geometric, type theoretical and homotopy constants
-bold font $\mathbf{R}$ while analitical will be denoted with double lined letters $\mathbb{R}$.}
+analytical geometry with cartesian coordinates on $\mathbb{R}^n$ (geometric and algebraic)\footnote{We will denote geometric, type theoretical and homotopy constants
+bold font $\mathbf{R}$ while analitical will be denoted with double lined letters $\mathbb{R}$.}.
 
 In the same way as inductive types extends MLTT for inductive programming,
 the higher inductive types (HIT) extend homotopy type theory for geometry programming.
 You can directly encode CW-complexes by using HIT. The definition of HIT syntax will
 be given in the next {\bf Issue IV: Higher Inductive Types}.
+
+Cubical with HITs has very lightweight core and syntax, and
+is an internal language of $(\infty,1)$-topos.
+Cubical with $[0,1]$ Path types but without HITs is an
+internal language of $(\infty,1)$-categories, while MLTT
+is an internal language of locally cartesian closed categories.
+
+\subsection{Acknowledgement}
+This article is dedicated to Ihor Horobets for clarification and direct intoduction to HoTT.
 
 \newpage
 \section{Homotopy Type Theory}
