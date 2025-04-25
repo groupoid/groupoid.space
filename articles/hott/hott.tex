@@ -190,19 +190,21 @@ axioms, structured as pseudo-isomorphisms consisting of \textit{encode}
 functions (methods for constructing type elements), \textit{decode}
 functions (dependent eliminators of the universal induction principle),
 and their equations---beta and eta rules governing computability and
-uniqueness. As a programming language, type theory includes basic
+uniqueness.
+
+As a programming language, type theory includes basic
 primitives (axioms as built-in types) and accompanying documentation,
 such as lecture notes or textbooks, explaining their applications, including:
 
 \begin{itemize}
-\item \text{Functions} ($\mathbf{\Pi}$)
-\item \text{Contexts} ($\mathbf{\Sigma}$)
-\item \text{Identifications} ($\mathbf{=}$)
-\item \text{Polynomials} ($\mathbf{W}$)
-\item \text{Paths} ($\Xi$)
-\item \text{Gluings} ($\mathbf{Glue}$)
-\item \text{Infinitesimals} ($\Im$)
-\item \text{Complexes} ($\mathbf{HIT}$)
+\item \text{Function} ($\mathbf{\Pi}$)
+\item \text{Context} ($\mathbf{\Sigma}$)
+\item \text{Identification} ($\mathbf{=}$)
+\item \text{Polynomial} ($\mathbf{W}$)
+\item \text{Path} ($\Xi$)
+\item \text{Gluing} ($\mathbf{Glue}$)
+\item \text{Infinitesimal} ($\Im$)
+\item \text{Complex} ($\mathbf{HIT}$)
 \end{itemize}
 
 Students (10) are tasked with applying type theory to prove an initial
@@ -461,16 +463,16 @@ def isCatGroupoid (C: cat): U := Σ
 \newpage
 \begin{lstlisting}
 def isProp (A : U) : U
- := Π (a b : A), Path A a b
+ := Π (a b : A), Ξ A a b
 
 def isSet (A : U) : U
- := Π (a b : A) (a0 b0 : Path A a b),
-    Path (Path A a b) a0 b0
+ := Π (a b : A) (x y : Ξ A a b),
+    Ξ (Ξ A a b) x y
 
 def isGroupoid (A : U) : U
- := Π (a b : A) (x y : Path A a b)
-    (i j : Path (Path A a b) x y),
-    Path (Path (Path A a b) x y) i j
+ := Π (a b : A) (x y : Ξ A a b)
+    (i j : Ξ (Ξ A a b) x y),
+    Ξ (Ξ (Ξ A a b) x y) i j
 \end{lstlisting}
 
 \begin{lstlisting}
@@ -636,14 +638,90 @@ isFBundle4 (E B: U) (p: E -> B) (F: U): U
 \newpage
 \subsection{Equivalence}
 
-\begin{definition} (Equivalence).
+\begin{definition} (Fiberwise Equivalence).
+Fiberwise equivalence $\simeq$ or $\mathrm{Equiv}$
+of function $f: A \rightarrow B$
+represents internal equality of types $A$ and $B$
+in the universe $U$ as contractible fibers of $f$
+over base $B$.
+$$
+A\simeq B : U\hspace{.4em}=_{def}\mathbf{Equiv}(A,B) : U =_{def}
+$$
+$$
+\sum_{f: A \rightarrow B}
+\prod_{y:B}
+\sum_{x: \Sigma_{x:A} y =_B f(x)}
+\sum_{w: \Sigma_{x:A} y =_B f(x)}
+$$
+$$
+  x =_{\Sigma_{x:A} y =_B f(x)} w.
+$$
 \begin{lstlisting}
-fiber (A B: U) (f: A -> B) (y: B): U = (x: A) * Path B y (f x)
-isSingleton (X:U): U = (c:X) * ((x:X) -> Path X c x)
-isEquiv (A B: U) (f: A -> B): U = (y: B) -> isContr (fiber A B f y)
-equiv (A B: U): U = (f: A -> B) * isEquiv A B f
+def isContr (A: U) : U
+ := Σ (x: A), Π (y: A), Ξ A x y
+
+def fiber (A B : U) (f: A → B) (y : B): U
+ := Σ (x : A), Path B y (f x)
+
+def isEquiv (A B : U) (f : A → B) : U
+ := Π (y : B), isContr (fiber A B f y)
+
+def equiv (A B : U) : U
+ := Σ (f : A → B), isEquiv A B f
 \end{lstlisting}
 \end{definition}
+
+\begin{definition} (Fiberwise Reflection).
+There is a fiberwise instance $\mathrm{id_\simeq}$
+of $A\simeq A$ that is derived
+as $(\mathrm{id}(A),\mathrm{isContrSingl}(A))$:
+$$
+  \mathrm{id}_\simeq : \mathbf{Equiv}(A,A).
+$$
+\begin{lstlisting}
+def singl (A: U) (a: A): U
+ := Σ (x: A), Ξ A a x
+
+def contr (A : U) (a b : A) (p : Ξ A a b)
+  : Ξ (singl A a) (eta A a) (b, p)
+ := <i> (p @ i, &lt;j> p @ i /\ j)
+
+def isContrSingl (A : U) (a : A) : isContr (singl A a)
+ := ((a,idp A a),(\(z:singl A a),contr A a z.1 z.2))
+
+def idEquiv (A : U) : equiv A A
+ := (\(a:A) -> a, isContrSingl A)
+\end{lstlisting}
+\end{definition}
+
+\begin{theorem} (Fiberwise Induction Principle).
+For any $P : A \rightarrow B \rightarrow A \simeq B \rightarrow U$
+and it's evidence $d$ at $(B,B,\mathrm{id_\simeq}(B))$
+there is a function $\mathbf{Ind}_\simeq$. HoTT 5.8.5
+$$
+  \mathbf{Ind}_\simeq(P,d) : (p: A\simeq B) \rightarrow P(A,B,p).
+$$
+\begin{lstlisting}
+def J-equiv (A B: U)
+    (P: Π (A B: U), equiv A B → U)
+    (d: P B B (idEquiv B))
+  : Π (e: equiv A B), P A B e
+ := λ (e: equiv A B),
+    subst (single B) (\ (z: single B), P z.1 B z.2)
+                     (B,idEquiv B) (A,e)
+                     (contrSinglEquiv A B e) d
+\end{lstlisting}
+\end{theorem}
+
+\begin{theorem} (Fiberwise Computation of Induction Principle).
+\begin{lstlisting}
+def compute-Equiv (A : U)
+    (C : Π (A B: U), equiv A B → U)
+    (d: C A A (idEquiv A))
+  : Ξ (C A A (idEquiv A)) d
+    (ind-Equiv A A C d (idEquiv A))
+\end{lstlisting}
+\end{theorem}
 
 \begin{definition} (Surjective).
 \begin{lstlisting}
@@ -918,7 +996,7 @@ H_A=
 A : U\\
 e : A\\
 \mu : A \rightarrow A \rightarrow A\\
-\beta : (a:A) \rightarrow \Sigma (\mu(e,a)=a) (\mu(a,e)=a)
+\beta : \Pi (a:A), \mu(e,a)=a \times \mu(a,e)=a
 \end{cases}
 $$.
 \end{definition}
