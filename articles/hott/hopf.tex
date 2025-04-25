@@ -8,10 +8,13 @@
 \foreach \eta in {30,60,90,120} {
   \foreach \phi in {90,135,180,225,270} {
     \draw[very thin, black] plot[smooth, samples=100, domain=0:360, variable=\theta]
-      (%
-        {sqrt((1 - sin(\phi - \theta) * cos(\eta/2))/(1 + sin(\phi - \theta) * cos(\eta/2))) * cos(\phi + \theta) * sin(\eta/2) / sqrt((cos(\phi + \theta) * sin(\eta/2))^2 + (sin(\phi + \theta) * sin(\eta/2))^2 + (cos(\phi - \theta) * cos(\eta/2))^2)},%
-        {sqrt((1 - sin(\phi - \theta) * cos(\eta/2))/(1 + sin(\phi - \theta) * cos(\eta/2))) * sin(\phi + \theta) * sin(\eta/2) / sqrt((cos(\phi + \theta) * sin(\eta/2))^2 + (sin(\phi + \theta) * sin(\eta/2))^2 + (cos(\phi - \theta) * cos(\eta/2))^2)},%
-        {sqrt((1 - sin(\phi - \theta) * cos(\eta/2))/(1 + sin(\phi - \theta) * cos(\eta/2))) * cos(\phi - \theta) * cos(\eta/2) / sqrt((cos(\phi + \theta) * sin(\eta/2))^2 + (sin(\phi + \theta) * sin(\eta/2))^2 + (cos(\phi - \theta) * cos(\eta/2))^2)}%
+      (
+        { sqrt((1 - sin(\phi - \theta) * cos(\eta/2))/(1 + sin(\phi - \theta) * cos(\eta/2))) * cos(\phi + \theta) * sin(\eta/2) /
+          sqrt((cos(\phi + \theta) * sin(\eta/2))^2 + (sin(\phi + \theta) * sin(\eta/2))^2 + (cos(\phi - \theta) * cos(\eta/2))^2)},
+        { sqrt((1 - sin(\phi - \theta) * cos(\eta/2))/(1 + sin(\phi - \theta) * cos(\eta/2))) * sin(\phi + \theta) * sin(\eta/2) /
+          sqrt((cos(\phi + \theta) * sin(\eta/2))^2 + (sin(\phi + \theta) * sin(\eta/2))^2 + (cos(\phi - \theta) * cos(\eta/2))^2)},
+        { sqrt((1 - sin(\phi - \theta) * cos(\eta/2))/(1 + sin(\phi - \theta) * cos(\eta/2))) * cos(\phi - \theta) * cos(\eta/2) /
+          sqrt((cos(\phi + \theta) * sin(\eta/2))^2 + (sin(\phi + \theta) * sin(\eta/2))^2 + (cos(\phi - \theta) * cos(\eta/2))^2)}
       );
   }
 }
