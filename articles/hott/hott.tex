@@ -849,7 +849,43 @@ loopS1eqZ : Path U Z loopS1
 
 \newpage
 \subsection{Hopf Fibrations}
-\begin{example} ($S^3$ Hopf Fiber).
+
+\begin{example} ($S^1$ $\mathbb{R}$ Hopf Fiber).
+\begin{lstlisting}
+
+data bool = false | true
+
+negBool : bool -> bool
+  = split { false -> true ; true -> false }
+
+negBoolK : (b : bool) -> Path bool (negBool (negBool b)) b
+  = split { false-><i>false;true-><i>true }
+
+negBoolEquiv : equiv bool bool
+  = (negBool,gradLemma bool bool negBool negBool negBoolK negBoolK)
+
+S2 : U = susp S1
+S3 : U = susp S2
+
+ua (A B : U) (e : equiv A B) : Path U A B =
+  <i> Glue B [ (i = 0) -> (A,e),
+               (i = 1) -> (B,idEquiv B) ]
+
+moebius : S1 -> U = split
+  base -> bool
+  loop @ i -> ua bool bool negBoolEquiv @ i
+
+TH0 : U = (c : S1) * moebius c
+\end{lstlisting}
+\end{example}
+
+\begin{tikzpicture}
+  \node[inner sep=10mm, fill=white, draw=black, line width=0.2mm] (img) at (0,0)
+   { \scalebox{1}[-1]{ \includegraphics[scale=1,page=1]{mebius.pdf}} };
+\end{tikzpicture}
+
+\newpage
+\begin{example} ($S^3$ $\mathbb{C}$  Hopf Fiber).
 $S^3$ Fibration was peeoneered by Guillaume Brunerie.
 \begin{lstlisting}
 rot: (x : S1) -> Path S1 x x = split
@@ -871,7 +907,6 @@ total : U = (c : S2) * H c
 \end{example}
 
 \begin{tikzpicture}
-  % Include the image in a node with a white background and 20pt inner margin
   \node[inner sep=20mm, fill=white, draw=black, line width=0.2mm] (img) at (0,0) {\includegraphics[scale=0.50,page=1]{hopf.pdf}};
 \end{tikzpicture}
 
@@ -902,6 +937,7 @@ H^{k}(cofib(\phi),\mathbb{Z})=
 \end{cases}
 $$
 \end{theorem}
+
 
 \begin{theorem} (Four).
 There are fiber bundles:
