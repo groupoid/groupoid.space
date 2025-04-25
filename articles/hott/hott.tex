@@ -1,5 +1,6 @@
 \documentclass{article}
 \usepackage{listings}
+\usepackage{amsthm}
 \usepackage{amsmath}
 \usepackage{amssymb}
 \usepackage{float}
@@ -7,14 +8,18 @@
 \usepackage{tikz-cd}
 \usepackage[utf8]{inputenc}
 
+\theoremstyle{definition}
 \newtheorem{definition}{Definition}
 \newtheorem{theorem}{Theorem}
 \newtheorem{example}{Example}
 \newcommand*{\incmap}{\hookrightarrow}
 \newcommand*{\thead}[1]{\multicolumn{1}{c}{\bfseries #1}}
 
-\lstset{basicstyle=\footnotesize,inputencoding=utf8,
-literate=
+\lstset{
+  basicstyle=\footnotesize,
+  inputencoding=utf8,
+  identifierstyle=,
+  literate=
 {𝟎}{{\ensuremath{\mathbf{0}}}}1
 {𝟏}{{\ensuremath{\mathbf{1}}}}1
 {≔}{{\ensuremath{\mathrm{:=}}}}1
@@ -153,7 +158,7 @@ literate=
 \begin{document}
 
 \title{Issue III: Homotopy Type Theory}
-\author{Maxim Sokhatsky $^1$}
+\author{Maksym Sokhatskyi $^1$}
 \date{ $^1$ National Technical University of Ukraine \\
        \small Igor Sikorsky Kyiv Polytechnical Institute \\
        \today }
@@ -163,10 +168,8 @@ literate=
 \begin{abstract}
 Here is presented destinctive points of Homotopy Type Theory
 as an extension of Martin-Löf Type Theory but without higher inductive types
-which will be given in the next issue. The fibrational (geometric) interpretation
-of equivalence type is introduced with following univalence releation
-between equivalence and Path equality. Groupoid (categorical) interpretation
-is presented as categories of spaces and paths between them as invertible morphisms.
+which will be given in the next issue. The study of identity system is given.
+Groupoid (categorical) interpretation is presented as categories of spaces and paths between them as invertible morphisms.
 At last constructive proof $\Omega(S^1)=\mathbb{Z}$ is given through helix.
 \\
 \\
@@ -205,41 +208,32 @@ but non-trivial result addressing an open problem in one of the following
 areas offered by the Department of Pure Mathematics (KM-111):
 
 \[
+\text{Mathematics} :=
 \begin{cases}
 \text{Homotopy Theory} \\
 \text{Homological Algebra} \\
 \text{Category Theory} \\
 \text{Functional Analysis} \\
 \text{Differential Geometry}
-\end{cases}
+\end{cases} .
 \]
 
-The course is divided into four parts, each exploring type-axioms and their meta-theoretical adjunctions.
 
 \newpage
 \subsection{Motivation: Homotopy Type Theory}
 The primary motivation of homotopy type theory is to provide computational
 semantics for homotopic types and CW-complexes. The central idea, as
 described in, is to combine function spaces (\(\Pi\)),
-context spaces (\(\Sigma\)), and path spaces (\(\Xi\)) to form a fibrational
-equality, proven within the theory to coincide with the path space.
+context spaces (\(\Sigma\)), and path spaces (\(\Xi\)) to form a fiber bundle, proven within HoTT to coincide with the $\Pi$ type itself.
 
 Key definitions include:
 
 \begin{lstlisting}
-def isContr (A: U) : U
- := Σ (x: A), Π (y: A), Path A x y
-
-def fiber (A B: U) (f: A → B) (y: B): U
- := Σ (x: A), Path B y (f x)
-
-def isEquiv (A B: U) (f: A → B): U
- := Π (y: B), isContr (fiber A B f y)
-
-def equiv (X Y: U): U
- := Σ (f: X → Y), isEquiv X Y f
-
-def ua (A B : U) (p : Path U A B) : equiv A B
+def contr (A: U) : U := Σ (x: A), Π (y: A), Ξ A x y
+def fiber (A B: U) (f: A → B) (y: B): U := Σ (x: A), Path B y (f x)
+def isEquiv (A B: U) (f: A → B): U := Π (y: B), contr(fiber A B f y)
+def equiv (X Y: U): U := Σ (f: X → Y), isEquiv X Y f
+def ua (A B : U) (p : Ξ U A B) : equiv A B
  := transp (<i> equiv A (p @ i)) 0 (idEquiv A)
 \end{lstlisting}
 
@@ -249,16 +243,14 @@ structure for path spaces. Further definitions include:
 
 \begin{lstlisting}
 def isProp (A : U) : U
- := Π (a b : A), Path A a b
+ := Π (a b : A), Ξ A a b
 
 def isSet (A : U) : U
- := Π (a b : A) (a0 b0 : Path A a b),
-    Path (Path A a b) a0 b0
+ := Π (a b : A) (x y : Ξ A a b), Ξ (Ξ A a b) x y
 
 def isGroupoid (A : U) : U
- := Π (a b : A) (x y : Path A a b)
-    (i j : Path (Path A a b) x y),
-    Path (Path (Path A a b) x y) i j
+ := Π (a b : A) (x y : Ξ A a b) (i j : Ξ (Ξ A a b) x y),
+    Ξ (Ξ (Ξ A a b) x y) i j
 \end{lstlisting}
 
 The groupoid interpretation raises questions about the existence of a language for
@@ -281,7 +273,10 @@ def CatGroupoid (X : U) (G : isGroupoid X)
 \end{lstlisting}
 
 \newpage
-\subsection{Fibrational Proofs}
+\subsection{Metatheory: Adjunction Triples}
+The course is divided into four parts, each exploring type-axioms and their meta-theoretical adjunctions.
+
+\subsubsection{Fibrational Proofs}
 \[
 \Sigma \dashv f_\star \dashv \Pi
 \]
@@ -290,7 +285,7 @@ representations of categorical meta-theoretical models of adjunctions of three
 Cockett-Reit functors, giving rise to function spaces (\(\Pi\)) and pair
 spaces (\(\Sigma\)). These proof methods enable direct analysis of fibrations.
 
-\subsection{Equality Proofs}
+\subsubsection{Equality Proofs}
 \[
 \mathrm{Q} \dashv \Xi \dashv \mathrm{C}
 \]
@@ -301,12 +296,13 @@ system (\(\Xi\)), and contractible space (\(\mathrm{C}\)). These methods allow
 direct manipulation of identification systems, strict for set theory and
 homotopic for homotopy theory.
 
-\subsection{Inductive Proofs}
-\[
+\subsubsection{Inductive Proofs}
+$$
 \mathrm{W} \dashv \odot \dashv \mathrm{M}
-\]
+$$
+
 Inductive types in type theory can be embedded as polynomial
-functors (\(\mathrm{W}\), \(\mathrm{M}\)) or general inductive type
+functors ($\mathrm{W}$, $\mathrm{M}$) or general inductive type
 schemes (Calculus of Inductive Constructions), with properties including:
 1) Verification of program finiteness;
 2) Verification of strict positivity of parameters;
@@ -318,26 +314,31 @@ polynomial functors (Lambek-Bohm), enabling manipulation of initial
 and terminal algebras, algebraic recursive data types, and infinite
 processes. Higher inductive proofs, where constructors include path
 spaces, are modeled by polynomial functors using monad-algebras and
-comonad-coalgebras (Lumsdaine-Shulman-Voevodsky).
+comonad-coalgebras (Lumsdaine-Shulman).
 
-\subsection{Geometric Proofs}
-\[
+\subsubsection{Geometric Proofs}
+$$
 \Re \dashv \Im \dashv \&
-\]
-For differential geometry, type theory incorporates primitive axioms of categorical meta-theoretical models of three Schreiber-Shulman functors: infinitesimal neighborhood (\(\Im\)), reduced modality (\(\Re\)), and infinitesimal discrete neighborhood (\(\&\)).
+$$
+For differential geometry, type theory incorporates primitive axioms of
+categorical meta-theoretical models of three Schreiber-Shulman functors:
+infinitesimal neighborhood (\(\Im\)), reduced modality (\(\Re\)), and
+infinitesimal discrete neighborhood (\(\&\)).
 
-\subsection{Linear Proofs}
-\[
+\newpage
+One additional part recently was dropped.
+
+\subsubsection{Linear Proofs}
+
+$$
 \otimes \dashv x \dashv \multimap
-\]
-For engineering applications (e.g., Milner's \(\pi\)-calculus, quantum computing) and linear type theory, type theory embeds linear proofs based on the adjunction of the tensor and linear function spaces:
-\[
-(A \otimes B) \multimap A \simeq A \multimap (B \multimap C),
-\]
-represented in a symmetric monoidal category \(\mathbf{D}\) for a functor \([A,B]\) as:
-\[
-\mathbf{D}(A \otimes B, C) \simeq \mathbf{D}(A, [B,C]).
-\]
+$$
+
+For engineering applications (e.g., Milner's $\pi$-calculus, quantum computing)
+and linear type theory, type theory embeds linear proofs based on the adjunction
+of the tensor and linear function spaces: $(A \otimes B) \multimap A \simeq A \multimap (B \multimap C)$,
+represented in a symmetric monoidal category $\mathbf{D}$ for a functor $[A,B]$ as:
+$\mathbf{D}(A \otimes B, C) \simeq \mathbf{D}(A, [B,C])$.
 
 \subsection{Historical Notes}
 Homotypy Type Theory takes its origins in 1996 from groupoid interpretation by
@@ -349,6 +350,7 @@ This property allows to identify isomorphic structures in terms of type theory.
 Homotopy type theory to classical homotopy theory is like Euclidian
 syntethic geometry (points, lines, axioms and deduction rules) to
 analytical geometry with cartesian coordinates on $\mathbb{R}^n$ (geometric and algebraic)
+
 \footnote{We will denote geometric, type theoretical and homotopy constants
 bold font $\mathbf{R}$ while analitical will be denoted with double lined letters $\mathbb{R}$.}
 
