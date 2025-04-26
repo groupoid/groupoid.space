@@ -1,4 +1,5 @@
 \documentclass{article}
+\usepackage{indentfirst}
 \usepackage{listings}
 \usepackage{amsthm}
 \usepackage{amsmath}
@@ -9,6 +10,8 @@
 \usepackage{tikz}
 \usepackage{tikz-cd}
 \usepackage[utf8]{inputenc}
+
+\setlength{\parindent}{15pt}
 
 \theoremstyle{definition}
 \newtheorem{definition}{Definition}
@@ -343,21 +346,6 @@ For differential geometry, type theory incorporates primitive axioms of
 categorical meta-theoretical models of three Schreiber-Shulman functors:
 infinitesimal neighborhood (\(\Im\)), reduced modality (\(\Re\)), and
 infinitesimal discrete neighborhood (\(\&\)).
-
-\newpage
-One additional part recently was dropped.
-
-\subsubsection{Linear Proofs}
-
-$$
-\otimes \dashv x \dashv\ \multimap
-$$
-
-For engineering applications (e.g., Milner's $\pi$-calculus, quantum computing)
-and linear type theory, type theory embeds linear proofs based on the adjunction
-of the tensor and linear function spaces: $(A \otimes B) \multimap A \simeq A \multimap (B \multimap C)$,
-represented in a symmetric monoidal category $\mathbf{D}$ for a functor $[A,B]$ as:
-$\mathbf{D}(A \otimes B, C) \simeq \mathbf{D}(A, [B,C])$.
 
 \subsection*{Historical Notes}
 Homotypy Type Theory takes its origins in 1996 from groupoid interpretation by
@@ -1264,7 +1252,7 @@ transPathFun (A B : U) (w: equiv A B)
 \end{definition}
 
 \newpage
-\subsection{Loop Spaces}
+\subsection{Loop}
 
 \begin{definition} (Pointed Space). A pointed type $(A,a)$ is a type $A:U$
 together with a point $a:A$, called its basepoint.

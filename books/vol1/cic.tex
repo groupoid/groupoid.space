@@ -1,5 +1,5 @@
-% copyright (c) 2018 Synrc Research Center
 \documentclass{article}
+\usepackage{indentfirst}
 \usepackage{listings}
 \usepackage{amsmath}
 \usepackage{amssymb}
@@ -7,6 +7,8 @@
 \usepackage{url}
 \usepackage{tikz-cd}
 \usepackage[utf8]{inputenc}
+
+\setlength{\parindent}{15pt}
 
 \theoremstyle{definition}
 \newtheorem{theorem}{Theorem}
@@ -173,137 +175,6 @@ Impredicative Encoding of Inductive Types in HoTT.
 \fi
 
 \newpage
-\section{Inductive Types}
-
-\subsection{W}
-
-Well-founded trees without mutual recursion represented as $\mathrm{W}$-types.
-
-\begin{definition} ($\mathrm{W}$-Formation).
-For $A : \mathcal{U}$ and $B : A \rightarrow \mathcal{U}$, type $\mathrm{W}$
-is defined as $\mathrm{W}(A,B) : \mathcal{U}$ or
-$$
-   \mathrm{W}_{(x : A)} B(x) : \mathcal{U}.
-$$
-\begin{lstlisting}[mathescape=true]
-def W$'$ (A : U) (B : A → U) : U := W (x : A), B x
-\end{lstlisting}
-\end{definition}
-
-\begin{definition} ($\mathrm{W}$-Introduction).
-Elements of $\mathrm{W}_{(x : A)} B(x)$ are called
-well-founded trees and created with single $\mathrm{sup}$ constructor:
-$$
-  \mathrm{sup} : \mathrm{W}_{(x: A)} B(x).
-$$
-\begin{lstlisting}
-def sup$'$ (A: U) (B: A → U) (x: A) (f: B x → W' A B)
-  : W' A B
- := sup A B x f
-\end{lstlisting}
-\end{definition}
-
-\begin{theorem} (Induction Principle $\mathrm{ind_W}$).
-The induction principle states that for any types $A: \mathcal{U}$
-and $B: A \rightarrow \mathcal{U}$ and type family $C$ over $\mathrm{W}(A,B)$
-and the function $g : G$, where
-$$
-  G = \prod_{x: A}\prod_{f: B(x) → \mathrm{W}(A,B)}\prod_{b: B(x)} C(f(b)) → C(\mathrm{sup}(x,f))
-$$
-there is a dependent function:
-$$
-   \mathrm{ind_W} : \prod_{C: \mathrm{W}(A,B) → \mathcal{U}}\prod_{g:G}\prod_{a: A}\prod_{f: B(a) → \mathrm{W}(A,B)}\prod_{b: B(a)}C(f(b)).
-$$
-\begin{lstlisting}
-def W-ind (A : U) (B : A → U)
-    (C : (W (x : A), B x) → U)
-    (g : Π (x : A) (f : B x → (W (x : A), B x)),
-           (Π (b : B x), C (f b)) → C (sup A B x f))
-    (a : A) (f : B a → (W (x : A), B x)) (b : B a)
-  : C (f b) := indᵂ A B C g (f b)
-\end{lstlisting}
-\end{theorem}
-
-\begin{theorem}($\mathrm{ind_W}$ Computes).
-The induction principle $\mathrm{ind^W}$ satisfies the equation:
-$$
-\mathrm{ind_W}\mbox{-}\beta : g(a,f,\lambda b.\mathrm{ind^W}(g,f(b))) 
-$$
-$$
-  =_{def} \mathrm{ind_W}(g,\mathrm{sup}(a,f)).
-$$
-\begin{lstlisting}
-def indᵂ-β (A : U) (B : A → U)
-    (C : (W (x : A), B x) → U) (g : Π (x : A)
-    (f : B x → (W (x : A), B x)), (Π (b : B x), C (f b)) → C (sup A B x f))
-    (a : A) (f : B a → (W (x : A), B x))
-   : PathP (<_> C (sup A B a f))
-     (indᵂ A B C g (sup A B a f))
-     (g a f (λ (b : B a), indᵂ A B C g (f b)))
-  := <_> g a f (λ (b : B a), indᵂ A B C g (f b))
-\end{lstlisting}
-\end{theorem}
-
-\newpage
-\subsection{Empty}
-
-The Empty type represents False-type logical $\mathbf{0}$, type without inhabitants, void or $\bot$ (Bottom).
-As it has not inhabitants it lacks both constructors and eliminators, however, it has induction.
-
-\begin{definition} (Formation).
-Empty-type is defined as built-in $\mathbf{0}$-type:
-$$
- \mathbf{0} : \mathcal{U}.
-$$
-\end{definition}
-
-\begin{theorem} (Induction Principle $\mathrm{ind_0}$).
-$\mathbf{0}$-type is satisfying the induction principle:
-$$
-  \mathrm{ind_0} : \prod_{C\ :\ \mathbf{0}\ \rightarrow\ \mathcal{U}} \prod_{z\ :\ \mathbf{0}} C(z).
-$$
-\begin{lstlisting}
-def Empty-ind (C: 𝟎 → U) (z: 𝟎) : C z := ind₀ (C z) z
-\end{lstlisting}
-\end{theorem}
-
-\begin{definition} (Negation or isEmpty).
-For any type A negation of A is defined as arrow from A to $\mathbf{0}$:
-$$
-  \neg A := A \rightarrow \mathbf{0}.
-$$
-\begin{lstlisting}
-def isEmpty (A: U): U := A → 𝟎
-\end{lstlisting}
-\end{definition}
-
-The witness of $\neg A$ is obtained by assuming A and deriving a contradiction.
-This techniques is called proof of negation and is applicable to any types in constrast
-to proof by contradiction which implies $\neg\neg A \rightarrow A$ (double negation elimination) and is
-applicable only to decidable types with $\neg A + A$ property.
-
-\newpage
-\subsection{Unit}
-Unit type is the simplest type equipped with full set of MLTT inference rules. It contains single inhabitant $\star$ (star).
-
-\newpage
-\subsection{Bool}
-
-\subsection{Maybe}
-
-\subsection{Either}
-
-\subsection{Nat}
-
-\subsection{List}
-
-\subsection{Vector}
-
-\subsection{Interpreter}
-
-\subsection{Sequence}
-
-\newpage
 \section{Inductive Encodings}
 
 \subsection{Church Encoding}
@@ -391,6 +262,141 @@ unitEncCondition (n: unitEnc'): isProp (isUnitEnc n)
   -> \ (F: x -> y) -> <i> \ (R: x) -> Y (F (n x X R)) (n y Y (F R))
        (<j> f x y X Y F @ j R) (<j> g x y X Y F @ j R) @ h @ i
 \end{lstlisting}
+
+\subsection{Lambek Encoding: Homotopy Initial Algebras}
+
+\newpage
+\section{Inductive Types}
+
+\subsection{W}
+
+Well-founded trees without mutual recursion represented as $\mathrm{W}$-types.
+
+\begin{definition} ($\mathrm{W}$-Formation).
+For $A : \mathcal{U}$ and $B : A \rightarrow \mathcal{U}$, type $\mathrm{W}$
+is defined as $\mathrm{W}(A,B) : \mathcal{U}$ or
+$$
+   \mathrm{W}_{(x : A)} B(x) : \mathcal{U}.
+$$
+\begin{lstlisting}[mathescape=true]
+def W$'$ (A : U) (B : A → U) : U := W (x : A), B x
+\end{lstlisting}
+\end{definition}
+
+\begin{definition} ($\mathrm{W}$-Introduction).
+Elements of $\mathrm{W}_{(x : A)} B(x)$ are called
+well-founded trees and created with single $\mathrm{sup}$ constructor:
+$$
+  \mathrm{sup} : \mathrm{W}_{(x: A)} B(x).
+$$
+\begin{lstlisting}
+def sup$'$ (A: U) (B: A → U) (x: A) (f: B x → W' A B)
+  : W' A B
+ := sup A B x f
+\end{lstlisting}
+\end{definition}
+
+\begin{theorem} (Induction Principle $\mathrm{ind_W}$).
+The induction principle states that for any types $A: \mathcal{U}$
+and $B: A \rightarrow \mathcal{U}$ and type family $C$ over $\mathrm{W}(A,B)$
+and the function $g : G$, where
+$$
+  G = \prod_{x: A}\prod_{f: B(x) → \mathrm{W}(A,B)}\prod_{b: B(x)} C(f(b)) → C(\mathrm{sup}(x,f))
+$$
+there is a dependent function:
+$$
+   \mathrm{ind_W} : \prod_{C: \mathrm{W}(A,B) → \mathcal{U}}\prod_{g:G}\prod_{a: A}\prod_{f: B(a) → \mathrm{W}(A,B)}\prod_{b: B(a)}C(f(b)).
+$$
+\begin{lstlisting}
+def W-ind (A : U) (B : A → U)
+    (C : (W (x : A), B x) → U)
+    (g : Π (x : A) (f : B x → (W (x : A), B x)),
+           (Π (b : B x), C (f b)) → C (sup A B x f))
+    (a : A) (f : B a → (W (x : A), B x)) (b : B a)
+  : C (f b) := indᵂ A B C g (f b)
+\end{lstlisting}
+\end{theorem}
+
+\begin{theorem}($\mathrm{ind_W}$ Computes).
+The induction principle $\mathrm{ind^W}$ satisfies the equation:
+$$
+\mathrm{ind_W}\mbox{-}\beta : g(a,f,\lambda b.\mathrm{ind^W}(g,f(b))) 
+$$
+$$
+  =_{def} \mathrm{ind_W}(g,\mathrm{sup}(a,f)).
+$$
+\begin{lstlisting}
+def indᵂ-β (A : U) (B : A → U)
+    (C : (W (x : A), B x) → U) (g : Π (x : A)
+    (f : B x → (W (x : A), B x)), (Π (b : B x), C (f b)) → C (sup A B x f))
+    (a : A) (f : B a → (W (x : A), B x))
+   : PathP (<_> C (sup A B a f))
+     (indᵂ A B C g (sup A B a f))
+     (g a f (λ (b : B a), indᵂ A B C g (f b)))
+  := <_> g a f (λ (b : B a), indᵂ A B C g (f b))
+\end{lstlisting}
+\end{theorem}
+
+\subsection{M}
+
+\newpage
+\subsection{Empty}
+
+The Empty type represents False-type logical $\mathbf{0}$, type without inhabitants, void or $\bot$ (Bottom).
+As it has not inhabitants it lacks both constructors and eliminators, however, it has induction.
+
+\begin{definition} (Formation).
+Empty-type is defined as built-in $\mathbf{0}$-type:
+$$
+ \mathbf{0} : \mathcal{U}.
+$$
+\end{definition}
+
+\begin{theorem} (Induction Principle $\mathrm{ind_0}$).
+$\mathbf{0}$-type is satisfying the induction principle:
+$$
+  \mathrm{ind_0} : \prod_{C\ :\ \mathbf{0}\ \rightarrow\ \mathcal{U}} \prod_{z\ :\ \mathbf{0}} C(z).
+$$
+\begin{lstlisting}
+def Empty-ind (C: 𝟎 → U) (z: 𝟎) : C z := ind₀ (C z) z
+\end{lstlisting}
+\end{theorem}
+
+\begin{definition} (Negation or isEmpty).
+For any type A negation of A is defined as arrow from A to $\mathbf{0}$:
+$$
+  \neg A := A \rightarrow \mathbf{0}.
+$$
+\begin{lstlisting}
+def isEmpty (A: U): U := A → 𝟎
+\end{lstlisting}
+\end{definition}
+
+The witness of $\neg A$ is obtained by assuming A and deriving a contradiction.
+This techniques is called proof of negation and is applicable to any types in constrast
+to proof by contradiction which implies $\neg\neg A \rightarrow A$ (double negation elimination) and is
+applicable only to decidable types with $\neg A + A$ property.
+
+\newpage
+\subsection{Unit}
+Unit type is the simplest type equipped with full set of MLTT inference rules. It contains single inhabitant $\star$ (star).
+
+\newpage
+\subsection{Bool}
+
+\subsection{Maybe}
+
+\subsection{Either}
+
+\subsection{Nat}
+
+\subsection{List}
+
+\subsection{Vector}
+
+\subsection{Stream}
+
+\subsection{Interpreter}
 
 \begin{thebibliography}{99}
 
