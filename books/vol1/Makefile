@@ -9,3 +9,6 @@ clean:
 	rm -f *.aux
 	rm -f *.log
 	rm -f *.out
+	rm -f *.maf
+	rm -f *.mtc
+	rm -f *.mtc0

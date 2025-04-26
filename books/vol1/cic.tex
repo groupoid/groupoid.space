@@ -299,6 +299,8 @@ Unit type is the simplest type equipped with full set of MLTT inference rules. I
 
 \subsection{Vector}
 
+\subsection{Interpreter}
+
 \subsection{Sequence}
 
 \newpage
@@ -328,6 +330,15 @@ such dependency is called impredicative displaying that landed term is not a pre
 This means that Church encoding is incompatible with predicative type checkers with predicative
 of predicative-cumulative hierarchies.
 
+
+\subsection{Scott Encoding}
+
+\subsection{Parigot Encoding}
+
+\subsection{CPS Encoding}
+
+\subsection{Interaction Networks Encoding}
+
 \subsection{Impredicative Encoding}
 
 In HoTT n-types is encoded as n-groupoids, thus we need to add a predicate in which n-type
@@ -349,7 +360,7 @@ NAT = (X:U) -> isSet X -> X -> (A -> X) -> X
 
 The main publication on this topic could be found at \cite{Awodey17} and \cite{Speight17}.
 
-\subsection{The Unit Example}
+\subsubsection*{The Unit Example}
 
 Here we have the implementation of Unit impredicative encoding in HoTT.
 
