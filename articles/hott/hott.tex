@@ -138,6 +138,7 @@
 {⦃}{{\ensuremath{ \{\!| }}}1
 {⦄}{{\ensuremath{ |\!\} }}}1
 {ᵁ}{{\ensuremath{^U}}}1
+{₋}{{\ensuremath{_{-}}}}1
 {₁}{{\ensuremath{_1}}}1
 {₂}{{\ensuremath{_2}}}1
 {₃}{{\ensuremath{_3}}}1
@@ -160,9 +161,10 @@
 {=}{{\ensuremath{=}}}1
 {<}{{\ensuremath{\textless}}}1
 {>}{{\ensuremath{\textgreater}}}1
+{_}{{$\_$}}1
 {(}{(}1
 {(}{(}1
-{‖}{‖}1
+{‖}{{\ensuremath{\Vert}}}1
 {+}{{+}}1
 {*}{{*}}1,
 }
@@ -642,20 +644,18 @@ with only one element of path: i) $[i,j] p\ @\ min(i,j)$;
 ii) $[i,j] p\ @\ max(i,j)$.
 
 \[
-\begin{array}{ccc}
-    a & \xrightarrow{\text{pcomp}} & c \\
-    \uparrow^{\text{[i] a}} & & \uparrow^{q} \\
-    a & \xrightarrow{p @ i} & b \\
+\begin{array}{cc}
+  \begin{tikzcd}
+    b \arrow[r, "{[i]b}"] & b \\
+    a \arrow[u, "p"] \arrow[r, "p"] & b \arrow[u, "{[i]b}"]
+  \end{tikzcd}
+  \begin{tikzcd}
+    a \arrow[r, "p"] & b \\
+    a \arrow[u, "{[i]a}"] \arrow[r, "{[i]a}"] & a \arrow[u, "p"]
+  \end{tikzcd}
 \end{array}
 \]
 
-$$
-\begin{array}{ccc}
-    a & \xrightarrow{\text{p}} & b \\
-    \uparrow^{\text{[i] a}} & & \uparrow^{q} \\
-    a & \xrightarrow{\text{[i] a}} & a \\
-\end{array}
-$$
 \begin{lstlisting}[mathescape=true]
 def join (A: U) (a b: A) (p: Path A a b)
   : PathP (<x> Path A (p@x) b) p (<i> b)
@@ -829,11 +829,10 @@ Other synonyms are $\mathrm{mapOnPath}$ and $\mathrm{cong}$.
 \newpage
 \begin{theorem} (Path Composition).
 $$
-\begin{array}{ccc}
-  a & \xrightarrow{\text{pcomp}} & c \\
-    \uparrow^{\text{[i] a}} & & \uparrow^{q} \\
-  a & \xrightarrow{p @ i} & b \\
-\end{array}
+\begin{tikzcd}
+  a \arrow[r, "pcomp"] & c \\
+  a \arrow[u, "{[i]a}"] \arrow[r, "p\ @\ i"'] & b \arrow[u, "q"]
+\end{tikzcd}
 $$
 \begin{lstlisting}[mathescape=true]
 def pcomp (A: U) (a b c: A)
@@ -977,130 +976,138 @@ $$
 \newpage
 \subsection{Fibration}
 
-\begin{definition} (Fibration-1) Dependent fiber bundle derived from Path contractability.
+\begin{definition}[Fiber]
+The fiber of the map \( p: E \rightarrow B \) at a point \( y: B \)
+is the set of all points \( x: E \) such that \( p(x) = y \).
+
+\begin{lstlisting}[mathescape=true]
+fiber (E B: U) (p: E -> B) (y: B): U
+    = (x: E) * Ξ B y (p x)
+\end{lstlisting}
+\end{definition}
+
+\begin{definition}[Fiber Bundle]
+The fiber bundle \( F \rightarrow E \xrightarrow{p} B \) on a
+total space \( E \) with fiber layer \( F \) and base \( B \) is a structure \( (F,E,p,B) \),
+where \( p: E \rightarrow B \) is a surjective map with the following property:
+for any point \( y: B \) there exists a neighborhood \( U_b \)
+for which there is a homeomorphism
+\[
+f: p^{-1}(U_b) \rightarrow U_b \times F
+\]
+making the following diagram commute:
+\[
+\begin{tikzcd}
+p^{-1}(U_b) \arrow[r, "f"] \arrow[d, "p"'] & U_b \times F \arrow[dl, "pr_1"] \\
+U_b &
+\end{tikzcd}
+\]
+\end{definition}
+
+\begin{definition}[Trivial Fiber Bundle]
+When the total space \( E \) is the cartesian product \( \Sigma(B,F) \)
+and \( p = pr_1 \), then such a bundle is called trivial: \( (F,\Sigma(B,F),pr_1,B) \).
+
+\begin{lstlisting}[mathescape=true]
+Family (B: U): U = B -> U
+
+total (B: U) (F: Family B): U = Sigma B F
+trivial (B: U) (F: Family B): total B F -> B = \(x: total B F) -> x.1
+homeo (B E: U) (F: Family B) (p: E -> B) (y: B):
+    fiber E B p y -> total B F
+\end{lstlisting}
+\end{definition}
+
+\newpage
+\begin{theorem}[Fiber Bundle $\equiv$ $\Pi$]
+The inverse image (fiber) of the trivial bundle \( (F, B \times F, pr_1, B) \) at a point \( y: B \)
+equals \( F(y) \). Proof sketch:
+\begin{lstlisting}[mathescape=true]
+F y = (_: isContr B) * (F y)
+    = (x y: B) * (_: Ξ B x y) * (F y)
+    = (z: B) * (k: F z) * Ξ B z y
+    = (z: E) * Ξ B z.1 y
+    = fiber (total B F) B (trivial B F) y
+\end{lstlisting}
+The equality is shown using the $isoPath$ lemma and $encode/decode$ functions.
+\begin{lstlisting}[mathescape=true]
+def Family (B : U) : U₁ := B → U
+def Fibration (B : U) : U₁ := Σ (X : U), X → B
+
+def encode-Pi (B : U) (F : B → U) (y : B)
+  : fiber (Sigma B F) B (pr₁ B F) y → F y
+ := \ (x : fiber (Sigma B F) B (pr₁ B F) y),
+      subst B F x.1.1 y (<i> x.2 @ -i) x.1.2
+
+def decode-Pi (B : U) (F : B → U) (y : B)
+  : F y → fiber (Sigma B F) B (pr₁ B F) y
+ := \ (x : F y), ((y, x), idp B y)
+
+def decode-encode-Pi (B : U) (F : B → U) (y : B) (x : F y)
+  : Ξ (F y) (transp (<i> F (idp B y @ i)) 0 x) x
+ := <j> transp (<i> F y) j x
+
+def encode-decode-Pi (B : U) (F : B → U) (y : B)
+    (x : fiber (Sigma B F) B (pr₁ B F) y)
+  : Ξ (fiber (Sigma B F) B (pr₁ B F) y)
+         ((y, encode-Pi B F y x), idp B y) x
+ := <i> ( (x.2 @ i, transp (<j> F (x.2 @ i ∨ -j)) i x.1.2),
+          <j> x.2 @ i ∧ j )
+
+def Bundle=Pi (B : U) (F : B → U) (y : B)
+  : PathP (<_> U) (fiber (Sigma B F) B (pr₁ B F) y) (F y)
+ := iso→Path (fiber (Sigma B F) B (pr₁ B F) y) (F y)
+    (encode-Pi B F y) (decode-Pi B F y)
+    (decode-encode-Pi B F y) (encode-decode-Pi B F y)
+\end{lstlisting}
+\end{theorem}
+
+\newpage
+\begin{definition} (Fibration-1) Dependent fiber bundle derived from $\Xi$ contractability.
 \begin{lstlisting}
-isFBundle1 (B: U) (p: B -> U) (F: U): U
-  = (_: (b: B) -> isContr (Ξ U (p b) F))
-  * ((x: Sigma B p) -> B)
+def isFBundle1 (B: U) (p: B → U) (F: U): U₁
+ := Σ (_: Π (b: B), isContr (PathP (<_>U) (p b) F)), (Π (x: Sigma B p), B)
 \end{lstlisting}
 \end{definition}
 
 \begin{definition} (Fibration-2). Dependent fiber bundle derived from surjective function.
 \begin{lstlisting}
-isFBundle2 (B: U) (p: B -> U) (F: U): U
-  = (V: U)
-  * (v: surjective V B)
-  * ((x: V) -> Ξ U (p (v.1 x)) F)
+def isFBundle2 (B: U) (p: B → U) (F: U): U
+ := Σ (v: U) (w: surjective v B), (Π (x: v), PathP (<_>U) (p (w.1 x)) F)
 \end{lstlisting}
 \end{definition}
 
 \begin{definition} (Fibration-3). Non-dependent fiber bundle derived from fiber truncation.
-\begin{lstlisting}
-im1 (A B: U) (f: A -> B): U = (b: B) * pTrunc ((a:A) * Ξ B (f a) b)
-BAut (F: U): U = im1 unit U (\(x: unit) -> F)
-unitIm1 (A B: U) (f: A -> B): im1 A B f -> B = \(x: im1 A B f) -> x.1
-unitBAut (F: U): BAut F -> U = unitIm1 unit U (\(x: unit) -> F)
+\begin{lstlisting}[mathescape=true]
+def im₁ (A B: U) (f: A → B): U
+ := Σ (b: B), ‖_‖₋₁ (Π (a : A), Path B (f a) b)
 
-isFBundle3 (E B: U) (p: E -> B) (F: U): U
-  = (X: B -> BAut F)
-  * (classify B (BAut F) (\(b: B) -> fiber E B p b) (unitBAut F) X) where
-  classify (A' A: U) (E': A' -> U) (E: A -> U) (f: A' -> A): U
-    = (x: A') -> Ξ U (E'(x)) (E(f(x)))
+def BAut (F: U): U := im₁ 𝟏 U (λ (x: 𝟏), F)
+
+def 𝟏-Im₁ (A B: U) (f: A → B): im₁ A B f → B
+ := λ (x : im₁ A B f), x.1
+
+def 𝟏-BAut (F: U): BAut F → U := 𝟏-Im₁ 𝟏 U (λ (x: 𝟏), F)
+
+def classify (E: U) (A' A: U) (E': A' → U) (E: A → U)
+    (f: A' → A): U := Π(x: A'), Ξ U (E'(x)) (E(f(x)))
+
+def isFBundle3 (E B: U) (p: E → B) (F: U): U₁
+ := Σ (X: B → BAut F),
+      classify E B (BAut F) (λ (b: B), fiber E B p b)
+               (𝟏-BAut F) X
 \end{lstlisting}
 \end{definition}
 
 \begin{definition} (Fibration-4). Non-dependen fiber bundle derived as pullback square.
 \begin{lstlisting}
-isFBundle4 (E B: U) (p: E -> B) (F: U): U
-  = (V: U)
-  * (v: surjective V B)
-  * (v': prod V F -> E)
-  * pullbackSq (prod V F) E V B p v.1 v' (\(x: prod V F) -> x.1)
+def isFBundle4 (E B: U) (p: E → B) (F: U): U₁
+ := Σ (X: U) (v: surjective X B)
+      (v': prod X F → E),
+      pullbackSq (prod X F) E X B p v.1 v' (λ (x: prod X F), x.1)
 \end{lstlisting}
 \end{definition}
 
-\newpage
-\subsection{Homotopy}
-
-The first higher equality we meet in homotopy theory is a notion of homotopy,
-where we compare two functions or two path spaces (which is sort of dependent families).
-The homotopy interval $\mathrm{I}=[0,1]$ is the perfect foundation for definition of homotopy.
-
-\begin{definition} (Interval). Compact interval.
-\begin{lstlisting}[mathescape=true]
-def I : U := inductive { i0 | i1 | seg : i0 $\equiv$ i1 }
-\end{lstlisting}
-\end{definition}
-
-You can think of ${\bf I}$ as isomorphism of equality type,
-disregarding carriers on the edges. By mapping $i0,i1:{\bf I}$ to $x,y:A$ one can
-obtain identity or equality type from classic type theory.
-
-\begin{definition} (Interval Split).
-The convertion function from $\mathrm{I}$ to a type of comparison
-is a direct eliminator of interval. The interval is also known as one of
-primitive higher inductive types which will be given in the next
-{\bf Issue IV: Higher Inductive Types}.
-\begin{lstlisting}[mathescape=true]
-def pathToHtpy (A: U) (x y: A) (p: Path A x y) : I $\rightarrow$ A
- := split { i0 $\rightarrow$ x | i1 $\rightarrow$ y | seg @ i $\rightarrow$ p @ i }
-\end{lstlisting}
-\end{definition}
-
-\begin{definition} (Homotopy). The homotopy between two function $f,g: X \rightarrow Y$
-is a continuous map of cylinder $H : X \times {\bf I} \rightarrow Y$ such that
-$$
-\begin{cases}
-H(x,0)=f(x), \\
-H(x,1)=g(x).
-\end{cases}
-$$
-\begin{lstlisting}
-homotopy (X Y: U) (f g: X -> Y)
-         (p: (x: X) -> Path Y (f x) (g x))
-         (x: X): I -> Y = pathToHtpy Y (f x) (g x) (p x)
-\end{lstlisting}
-\end{definition}
-
-\newpage
-\begin{definition} (funExt-Formation)
-\begin{lstlisting}
-funext_form (A B: U) (f g: A -> B): U
-  = Ξ (A -> B) f g
-\end{lstlisting}
-\end{definition}
-
-\begin{definition} (funExt-Introduction)
-\begin{lstlisting}
-funext (A B: U) (f g: A -> B) (p: (x:A) -> Ξ B (f x) (g x))
-  : funext_form A B f g
-  = <i> \(a: A) -> p a @ i
-\end{lstlisting}
-\end{definition}
-
-\begin{definition} (funExt-Elimination)
-\begin{lstlisting}
-happly (A B: U) (f g: A -> B) (p: funext_form A B f g) (x: A)
-  : Ξ B (f x) (g x)
-  = cong (A -> B) B (\(h: A -> B) -> apply A B h x) f g p
-\end{lstlisting}
-\end{definition}
-
-\begin{definition} (funExt-Computation)
-\begin{lstlisting}
-funext_Beta (A B: U) (f g: A -> B) (p: (x:A) -> Ξ B (f x) (g x))
-  : (x:A) -> Ξ B (f x) (g x)
-  = \(x:A) -> happly A B f g (funext A B f g p) x
-\end{lstlisting}
-\end{definition}
-
-\begin{definition} (funExt-Uniqueness)
-\begin{lstlisting}
-funext_Eta (A B: U) (f g: A -> B) (p: Ξ (A -> B) f g)
-  : Ξ (Ξ (A -> B) f g) (funext A B f g (happly A B f g p)) p
-  = refl (Ξ (A -> B) f g) p
-\end{lstlisting}
-\end{definition}
 
 
 \newpage
@@ -1235,6 +1242,89 @@ isHae (A B: U) (f: A -> B): U
 hae (A B: U): U
   = (f: A -> B)
   * isHae A B f
+\end{lstlisting}
+\end{definition}
+
+\newpage
+\subsection{Homotopy}
+
+The first higher equality we meet in homotopy theory is a notion of homotopy,
+where we compare two functions or two path spaces (which is sort of dependent families).
+The homotopy interval $\mathrm{I}=[0,1]$ is the perfect foundation for definition of homotopy.
+
+\begin{definition} (Interval). Compact interval.
+\begin{lstlisting}[mathescape=true]
+def I : U := inductive { i0 | i1 | seg : i0 $\equiv$ i1 }
+\end{lstlisting}
+\end{definition}
+
+You can think of ${\bf I}$ as isomorphism of equality type,
+disregarding carriers on the edges. By mapping $i0,i1:{\bf I}$ to $x,y:A$ one can
+obtain identity or equality type from classic type theory.
+
+\begin{definition} (Interval Split).
+The convertion function from $\mathrm{I}$ to a type of comparison
+is a direct eliminator of interval. The interval is also known as one of
+primitive higher inductive types which will be given in the next
+{\bf Issue IV: Higher Inductive Types}.
+\begin{lstlisting}[mathescape=true]
+def pathToHtpy (A: U) (x y: A) (p: Ξ A x y) : I $\rightarrow$ A
+ := split { i0 $\rightarrow$ x | i1 $\rightarrow$ y | seg @ i $\rightarrow$ p @ i }
+\end{lstlisting}
+\end{definition}
+
+\begin{definition} (Homotopy). The homotopy between two function $f,g: X \rightarrow Y$
+is a continuous map of cylinder $H : X \times {\bf I} \rightarrow Y$ such that
+$$
+\begin{cases}
+H(x,0)=f(x), \\
+H(x,1)=g(x).
+\end{cases}
+$$
+\begin{lstlisting}
+homotopy (X Y: U) (f g: X -> Y)
+         (p: (x: X) -> Ξ Y (f x) (g x))
+         (x: X): I -> Y = pathToHtpy Y (f x) (g x) (p x)
+\end{lstlisting}
+\end{definition}
+
+\newpage
+\begin{definition} (funExt-Formation)
+\begin{lstlisting}
+funext_form (A B: U) (f g: A -> B): U
+  = Ξ (A -> B) f g
+\end{lstlisting}
+\end{definition}
+
+\begin{definition} (funExt-Introduction)
+\begin{lstlisting}
+funext (A B: U) (f g: A -> B) (p: (x:A) -> Ξ B (f x) (g x))
+  : funext_form A B f g
+  = <i> \(a: A) -> p a @ i
+\end{lstlisting}
+\end{definition}
+
+\begin{definition} (funExt-Elimination)
+\begin{lstlisting}
+happly (A B: U) (f g: A -> B) (p: funext_form A B f g) (x: A)
+  : Ξ B (f x) (g x)
+  = cong (A -> B) B (\(h: A -> B) -> apply A B h x) f g p
+\end{lstlisting}
+\end{definition}
+
+\begin{definition} (funExt-Computation)
+\begin{lstlisting}
+funext_Beta (A B: U) (f g: A -> B) (p: (x:A) -> Ξ B (f x) (g x))
+  : (x:A) -> Ξ B (f x) (g x)
+  = \(x:A) -> happly A B f g (funext A B f g p) x
+\end{lstlisting}
+\end{definition}
+
+\begin{definition} (funExt-Uniqueness)
+\begin{lstlisting}
+funext_Eta (A B: U) (f g: A -> B) (p: Ξ (A -> B) f g)
+  : Ξ (Ξ (A -> B) f g) (funext A B f g (happly A B f g p)) p
+  = refl (Ξ (A -> B) f g) p
 \end{lstlisting}
 \end{definition}
 
