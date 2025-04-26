@@ -1,6 +1,4 @@
 \ProvidesPackage{journal}
-% Essential packages for journal formatting
-
 \usepackage{graphicx}
 \usepackage{mathtools}
 \usepackage{hyphenat}
@@ -15,7 +13,6 @@
 \usepackage{amssymb}
 \usepackage{amsthm}
 \usepackage{tikz}
-\usetikzlibrary{babel}
 \usepackage{tikz-cd}
 \usepackage{url}
 \usepackage[utf8]{inputenc}
@@ -25,7 +22,6 @@
 \usepackage{tikz}
 \usepackage{tikz-cd}
 \usepackage[utf8]{inputenc}
-\usepackage[a4paper,margin=1in]{geometry}
 \usepackage{graphicx}
 \usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}
@@ -36,10 +32,7 @@
 \usepackage{xcolor}
 \usepackage{subfiles}
 
-% Journal-specific formatting
-\setlength{\parindent}{0pt}
-\setlength{\parskip}{1ex}
-\renewcommand{\baselinestretch}{1.1}
+\usetikzlibrary{babel}
 
 \newcommand*{\incmap}{\hookrightarrow}
 \newcommand*{\thead}[1]{\multicolumn{1}{c}{\bfseries #1}}
@@ -188,16 +181,9 @@
 {*}{{*}}1,
 }
 
-
-% Define theorem-like environments
 \theoremstyle{definition}
-\newtheorem{definition}{Definition}[section] % Definitions numbered within sections
-\theoremstyle{plain}
-\newtheorem{theorem}{Theorem}[section] % Optional: for theorems
-\newtheorem{lemma}{Lemma}[section] % Optional: for lemmas
-\newtheorem{example}{Example}[section] % Examples numbered within sections
-
-\newenvironment{abstract}
-  {\par\vspace{\baselineskip}\noindent{\bfseries Abstract:}\ }
-  {\par\vspace{\baselineskip}}
+\newtheorem{definition}{Definition}
+\newtheorem{theorem}{Theorem}
+\newtheorem{lemma}{Lemma}
+\newtheorem{example}{Example}
 
