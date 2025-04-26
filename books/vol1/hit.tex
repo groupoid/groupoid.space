@@ -1,0 +1,1137 @@
+\documentclass{article}
+\usepackage{newlfont}
+\usepackage[ukrainian,english]{babel}
+\usepackage{hyphenat}
+\usepackage{listings}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{mathtools}
+\usepackage{url}
+\usepackage{tikz-cd}
+\usepackage{newunicodechar}
+\usepackage[utf8]{inputenc}
+
+\hyphenpenalty=100
+\tolerance=5000
+
+\theoremstyle{definition}
+\newtheorem{theorem}{Theorem}
+\newtheorem{definition}{Definition}
+\newtheorem{example}{Example}
+\newcommand*{\incmap}{\hookrightarrow}
+\newcommand*{\thead}[1]{\multicolumn{1}{c}{\bfseries #1}}
+\lstset{basicstyle=\footnotesize,inputencoding=utf8,
+literate=
+{≔}{{\ensuremath{\mathrm{:=}}}}1
+{α}{{\ensuremath{\mathrm{\alpha}}}}1
+{β}{{\ensuremath{\mathrm{\beta}}}}1
+{γ}{{\ensuremath{\mathrm{\gamma}}}}1
+{δ}{{\ensuremath{\mathrm{\delta}}}}1
+{ε}{{\ensuremath{\mathrm{\varepsilon}}}}1
+{ζ}{{\ensuremath{\mathrm{\zeta}}}}1
+{η}{{\ensuremath{\mathrm{\eta}}}}1
+{θ}{{\ensuremath{\mathrm{\theta}}}}1
+{ι}{{\ensuremath{\mathrm{\iota}}}}1
+{κ}{{\ensuremath{\mathrm{\kappa}}}}1
+{μ}{{\ensuremath{\mathrm{\mu}}}}1
+{ν}{{\ensuremath{\mathrm{\nu}}}}1
+{ξ}{{\ensuremath{\mathrm{\xi}}}}1
+{π}{{\ensuremath{\mathrm{\mathnormal{\pi}}}}}1
+{ρ}{{\ensuremath{\mathrm{\rho}}}}1
+{σ}{{\ensuremath{\mathrm{\sigma}}}}1
+{τ}{{\ensuremath{\mathrm{\tau}}}}1
+{φ}{{\ensuremath{\mathrm{\varphi}}}}1
+{χ}{{\ensuremath{\mathrm{\chi}}}}1
+{ψ}{{\ensuremath{\mathrm{\psi}}}}1
+{ω}{{\ensuremath{\mathrm{\omega}}}}1
+{Π}{{\ensuremath{\mathrm{\Pi}}}}1
+{Γ}{{\ensuremath{\mathrm{\Gamma}}}}1
+{Δ}{{\ensuremath{\mathrm{\Delta}}}}1
+{Θ}{{\ensuremath{\mathrm{\Theta}}}}1
+{Λ}{{\ensuremath{\mathrm{\Lambda}}}}1
+{Σ}{{\ensuremath{\mathrm{\Sigma}}}}1
+{Φ}{{\ensuremath{\mathrm{\Phi}}}}1
+{Ξ}{{\ensuremath{\mathrm{\Xi}}}}1
+{Ψ}{{\ensuremath{\mathrm{\Psi}}}}1
+{Ω}{{\ensuremath{\mathrm{\Omega}}}}1
+{ℵ}{{\ensuremath{\aleph}}}1
+{≤}{{\ensuremath{\leq}}}1
+{≥}{{\ensuremath{\geq}}}1
+{≠}{{\ensuremath{\neq}}}1
+{≈}{{\ensuremath{\approx}}}1
+{≡}{{\ensuremath{\equiv}}}1
+{≃}{{\ensuremath{\simeq}}}1
+{≤}{{\ensuremath{\leq}}}1
+{≥}{{\ensuremath{\geq}}}1
+{∂}{{\ensuremath{\partial}}}1
+{∆}{{\ensuremath{\triangle}}}1 % or \laplace?
+{∫}{{\ensuremath{\int}}}1
+{∑}{{\ensuremath{\mathrm{\Sigma}}}}1
+{→}{{\ensuremath{\rightarrow}}}1
+{⊥}{{\ensuremath{\perp}}}1
+{∞}{{\ensuremath{\infty}}}1
+{∂}{{\ensuremath{\partial}}}1
+{∓}{{\ensuremath{\mp}}}1
+{±}{{\ensuremath{\pm}}}1
+{×}{{\ensuremath{\times}}}1
+{⊕}{{\ensuremath{\oplus}}}1
+{⊗}{{\ensuremath{\otimes}}}1
+{⊞}{{\ensuremath{\boxplus}}}1
+{∇}{{\ensuremath{\nabla}}}1
+{√}{{\ensuremath{\sqrt}}}1
+{⬝}{{\ensuremath{\cdot}}}1
+{•}{{\ensuremath{\cdot}}}1
+{∘}{{\ensuremath{\circ}}}1
+{⁻}{{\ensuremath{^{-}}}}1
+{▸}{{\ensuremath{\blacktriangleright}}}1
+{∧}{{\ensuremath{\wedge}}}1
+{∨}{{\ensuremath{\vee}}}1
+{¬}{{\ensuremath{\neg}}}1
+{⊢}{{\ensuremath{\vdash}}}1
+{⟨}{{\ensuremath{\langle}}}1
+{⟩}{{\ensuremath{\rangle}}}1
+{↦}{{\ensuremath{\mapsto}}}1
+{→}{{\ensuremath{\rightarrow}}}1
+{↔}{{\ensuremath{\leftrightarrow}}}1
+{⇒}{{\ensuremath{\Rightarrow}}}1
+{⟹}{{\ensuremath{\Longrightarrow}}}1
+{⇐}{{\ensuremath{\Leftarrow}}}1
+{⟸}{{\ensuremath{\Longleftarrow}}}1
+{∩}{{\ensuremath{\cap}}}1
+{∪}{{\ensuremath{\cup}}}1
+{⊂}{{\ensuremath{\subseteq}}}1
+{⊆}{{\ensuremath{\subseteq}}}1
+{⊄}{{\ensuremath{\nsubseteq}}}1
+{⊈}{{\ensuremath{\nsubseteq}}}1
+{⊃}{{\ensuremath{\supseteq}}}1
+{⊇}{{\ensuremath{\supseteq}}}1
+{⊅}{{\ensuremath{\nsupseteq}}}1
+{⊉}{{\ensuremath{\nsupseteq}}}1
+{∈}{{\ensuremath{\in}}}1
+{∉}{{\ensuremath{\notin}}}1
+{∋}{{\ensuremath{\ni}}}1
+{∌}{{\ensuremath{\notni}}}1
+{∅}{{\ensuremath{\emptyset}}}1
+{∖}{{\ensuremath{\setminus}}}1
+{†}{{\ensuremath{\dag}}}1
+{ℕ}{{\ensuremath{\mathbb{N}}}}1
+{ℤ}{{\ensuremath{\mathbb{Z}}}}1
+{ℝ}{{\ensuremath{\mathbb{R}}}}1
+{ℚ}{{\ensuremath{\mathbb{Q}}}}1
+{ℂ}{{\ensuremath{\mathbb{C}}}}1
+{⌞}{{\ensuremath{\llcorner}}}1
+{⌟}{{\ensuremath{\lrcorner}}}1
+{⦃}{{\ensuremath{ \{\!| }}}1
+{⦄}{{\ensuremath{ |\!\} }}}1
+{₁}{{\ensuremath{_1}}}1
+{₂}{{\ensuremath{_2}}}1
+{₃}{{\ensuremath{_3}}}1
+{₄}{{\ensuremath{_4}}}1
+{₅}{{\ensuremath{_5}}}1
+{₆}{{\ensuremath{_6}}}1
+{₇}{{\ensuremath{_7}}}1
+{₈}{{\ensuremath{_8}}}1
+{₉}{{\ensuremath{_9}}}1
+{₀}{{\ensuremath{_0}}}1
+{¹}{{\ensuremath{^1}}}1
+{ₙ}{{\ensuremath{_n}}}1
+{ₘ}{{\ensuremath{_m}}}1
+{↑}{{\ensuremath{\uparrow}}}1
+{↓}{{\ensuremath{\downarrow}}}1
+{▸}{{\ensuremath{\triangleright}}}1
+{∀}{{\ensuremath{\forall}}}1
+{∃}{{\ensuremath{\exists}}}1
+{λ}{{\ensuremath{\mathrm{\lambda}}}}1
+{=}{{=}}1
+{<}{{<}}1
+{(}{(}1
+{(}{(}1
+{‖}{‖}1
+{+}{{+}}1
+{*}{{*}}1,
+}
+
+\begin{document}
+
+\title{Issue IV: Higher Inductive Types}
+\author{Maksym Sokhatskyi $^1$}
+\date{ $^1$ National Technical University of Ukraine \\
+       \small Igor Sikorsky Kyiv Polytechnic Institute \\
+       May 4, 2019 }
+\maketitle
+
+\begin{abstract}
+CW-complexes are central to both homotopy theory and homotopy type theory (HoTT) and are encoded
+in cubical theorem-proving systems as higher inductive types (HIT), similar to recursive
+trees for (co)inductive types. We explore the basic primitives of homotopy theory,
+which are considered as a foundational basis in theorem-proving systems. \\
+\indent {\bf Keywords}: Homotopy Theory, Type Theory
+\end{abstract}
+
+\tableofcontents
+
+\section{CW-Complexes}
+CW-complexes are spaces constructed by attaching cells of various
+dimensions. In HoTT, they are encoded as higher inductive types (HIT),
+where cells are constructors for points and paths.
+
+\begin{definition} (Cell Attachment).
+The attachment of an $n$-cell to a space \( X \)
+along \( f : S^{n-1} \to X \) is a pushout:
+\[
+\shorthandoff{"}
+\begin{tikzcd}
+S^{n-1} \arrow[r, "f"] \arrow[d, "\iota"] & X \arrow[d, "j"] \\
+D^n \arrow[r, "g"]                        & X \cup_f D^n \\
+\end{tikzcd}
+\]
+Here, \( \iota : S^{n-1} \incmap D^n \) is the boundary inclusion,
+and \( X \cup_f D^n \) is the pushout that attaches an $n$-cell to \( X \) via \( f \). The result depends on
+the homotopy class of \( f \).
+\end{definition}
+
+\begin{definition} (CW-Complex).
+A CW-complex is a space \( X \), constructed inductively by attaching cells, with a skeletal filtration:
+\begin{itemize}
+    \item \((-1)\)-skeleton: \( X_{-1} = \varnothing \).
+    \item For \( n \geq 0 \), the $n$-skeleton \( X_n \) is obtained by attaching $n$-cells to \( X_{n-1} \). For
+      indices \( J_n \) and maps \( \{ f_j : S^{n-1} \to X_{n-1}
+      \}_{j \in J_n} \), \( X_n \) is the pushout:
+    \[
+    \shorthandoff{"}
+    \begin{tikzcd}
+    \coprod_{j \in J_n} S^{n-1} \arrow[r, "\coprod f_j"] \arrow[d, "\coprod \iota_j"] & X_{n-1} \arrow[d, "i_n"] \\
+    \coprod_{j \in J_n} D^n \arrow[r, "\coprod g_j"] & X_n
+    \end{tikzcd}
+    \]
+    where \( \coprod_{j \in J_n} S^{n-1} \), \( \coprod_{j \in
+    J_n} D^n \) are disjoint unions, and \( i_n : X_{n-1}
+    \incmap X_n \) is the inclusion.
+    \item \( X \) is the colimit:
+    \[
+    \varnothing = X_{-1} \incmap X_0 \incmap X_1 \incmap \dots
+    \incmap X,
+    \]
+    where \( X_n \) is the $n$-skeleton, and \( X = \text{colim}_{n
+    \to \infty} X_n \). The sequence is the skeletal filtration.
+\end{itemize}
+In HoTT, CW-complexes are higher inductive types (HIT)
+with constructors for cells and paths for attachment.
+\end{definition}
+
+\newpage
+\subsection{Motivation for Higher Inductive Types}
+HITs in HoTT enable direct encoding of topological spaces, such as
+CW-complexes. In homotopy theory, spaces are constructed by attaching
+cells via attaching maps. HoTT views types as spaces, elements
+as points, and equalities as paths, making HITs a natural choice.
+Standard inductive types cannot capture higher homotopies, but
+HITs allow constructors for points and paths. For example, the circle \( S^1 \) (Definition 2) has a base point and a loop, encoding its
+fundamental group \( \mathbb{Z} \). HITs avoid the use of multiple
+quotient spaces, preserving the synthetic nature of HoTT. In cubical type theory, paths are
+intervals (e.g., \( <i> \)) with computational content, unlike
+propositional equalities, enabling efficient type checking in tools
+such as Agda Cubical.
+
+\subsection{HITs with Countable Constructors}
+Some HITs require an infinite number of constructors for spaces,
+such as Eilenberg-MacLane spaces or the infinite sphere \( S^\infty \).
+\begin{lstlisting}[mathescape=true]
+def S$^\infty$ : U
+ := inductive { base
+              | loop (n: $\mathbb{N}$) : base $\equiv$ base
+              }
+\end{lstlisting}
+Challenges include type checking, computation, and expressiveness.
+
+Agda Cubical uses cubical primitives to handle HITs, supporting
+infinite constructors via HITs indexed by natural numbers, as colimits.
+
+\section{Higher Inductive Types}
+CW-complexes are central to HoTT and appear in cubical type checkers as HITs.
+Unlike inductive types (recursive trees), HITs encode CW-complexes, capturing
+points (0-cells) and higher paths (n-cells). The definition of an HIT specifies a CW-complex
+through cubical composition, an initial algebra in the cubical model.
+
+\newpage
+\subsection{Suspension}
+The suspension \(\Sigma A\) of a type \( A \) is a higher inductive type that
+constructs a new type by adding two points, called poles, and paths connecting
+each point of \( A \) to these poles. It is a fundamental construction in homotopy theory,
+often used to shift homotopy groups, e.g., obtaining \( S^{n+1} \) from \( S^n \).
+
+\begin{definition} (Formation).
+For any type \( A : \mathcal{U} \), there exists a suspension type \( \Sigma A : \mathcal{U} \).
+\end{definition}
+
+\begin{definition} (Constructors).
+For a type \( A : \mathcal{U} \), the suspension \( \Sigma A : \mathcal{U} \)
+is generated by the following higher inductive compositional structure:
+\[
+\Sigma :=
+\begin{cases}
+\text{north} \\
+\text{south} \\
+\text{merid} : (a : A) \rightarrow \text{north} \equiv \text{south} \\
+\end{cases}
+\]
+\begin{lstlisting}[mathescape=true]
+def $\Sigma$ (A: U) : U
+ := inductive { north
+              | south
+              | merid (a: A) : north $\equiv$ south
+              }
+\end{lstlisting}
+\end{definition}
+
+\begin{theorem} (Elimination).
+For a family of types \( B : \Sigma A \to \mathcal{U} \), points \( n : B(\text{north}) \), \( s : B(\text{south}) \), and a family
+of dependent paths
+\[
+  m : \Pi (a : A), \text{PathOver}(B,\text{merid}(a),n,s),
+\]
+there exists a dependent map \( \text{Ind}_{\Sigma A} : (x : \Sigma A) \to B(x) \), such that:
+\[
+\begin{cases}
+\text{Ind}_{\Sigma A}(\text{north}) = n \\
+\text{Ind}_{\Sigma A}(\text{south}) = s \\
+\text{Ind}_{\Sigma A}(\text{merid}(a,i)) = m(a,i)
+\end{cases}
+\]
+\begin{lstlisting}[mathescape=true]
+def PathOver (B: $\Sigma$ A -> U) (a: A) (n: B north) (s: B south) : U
+  := PathP ($\lambda$ i , B (merid a @ i)) n s
+
+def Ind$_\Sigma A$ (A: U) (B: $\Sigma$ A -> U) (n: B north) (s: B south)
+    (m: (a: A) -> PathOver B (merid a) n s) : (x: $\Sigma$ A) -> B x
+ := split { north -> n | south -> s | merid a @ i -> m a @ i }
+\end{lstlisting}
+\end{theorem}
+
+\begin{theorem} (Computation).
+\[
+    \text{Ind}_\Sigma A(\text{north}) = n \\
+    \text{Ind}_\Sigma A(\text{south}) = s \\
+    \text{Ind}_\Sigma A(\text{merid}(a,i)) = m(a,i)
+\]
+\begin{lstlisting}[mathescape=true]
+def $\Sigma$-$\beta$ (A: U) (B: $\Sigma A$ -> U) (n: B north) (s: B south)
+    (m: (a: A) -> PathOver B (merid a) n s) (x: $\Sigma$ A)
+  : Path (B x) ($\Sigma$-I A B n s m x)
+    split { north -> n | south -> s | merid a @ i -> m a @ i }
+\end{lstlisting}
+\end{theorem}
+
+\begin{theorem} (Uniqueness).
+Any two maps \( h_1, h_2 : (x : \Sigma A) \to B(x) \) are homotopic if they agree
+on \( \text{north} \), \( \text{south} \), and \( \text{merid} \), i.e.,
+if \( h_1(\text{north}) = h_2(\text{north}) \), \( h_1(\text{south}) = h_2(\text{south}) \),
+and \( h_1(\text{merid } a) = h_2(\text{merid } a) \) for all \( a : A \).
+\end{theorem}
+
+\subsection{Pushout}
+The pushout (amalgamation) is a higher inductive type that constructs a type by
+gluing two types \( A \) and \( B \) along a common type \( C \) via maps \( f : C \to A \)
+and \( g : C \to B \). It is a fundamental construction in homotopy theory,
+used to model cell attachment and cofibrant objects, generalizing
+the topological notion of a pushout.
+
+\begin{definition} (Formation).
+For types \( A, B, C : \mathcal{U} \) and maps \( f : C \to A \), \( g : C \to B \),
+there exists a pushout \( \sqcup(A,B,C,f,g) : \mathcal{U} \).
+\end{definition}
+
+\begin{definition} (Constructors).
+The pushout is generated by the following higher inductive compositional structure:
+\[
+\sqcup :=
+\begin{cases}
+\text{po$_1$} : A \to \sqcup(A,B,C,f,g) \\
+\text{po$_2$} : B \to \sqcup(A,B,C,f,g) \\
+\text{po$_3$} : (c : C) \to \text{po$_1$}(f(c)) \equiv \text{po$_2$}(g(c))
+\end{cases}
+\]
+\begin{lstlisting}[mathescape=true]
+def $\sqcup$ (A B C: U) (f: C -> A) (g: C -> B) : U
+ := inductive { po$_1$ (a: A)
+              | po$_2$ (b: B)
+              | po$_3$ (c: C) : po$_1$(f(c)) $\equiv$ po$_2$(g(c))
+              }
+\end{lstlisting}
+\end{definition}
+
+\begin{theorem} (Elimination).
+For a type \( D : \mathcal{U} \), maps \( u : A \to D \), \( v : B \to D \),
+and a family of paths \( p : (c : C) \to u(f(c)) \equiv v(g(c)) \),
+there exists a map \( \text{Ind}_\sqcup : \sqcup(A,B,C,f,g) \to D \), such that:
+\[
+\begin{cases}
+\text{Ind}_\sqcup(\text{po$_1$}(a)) = u(a) \\
+\text{Ind}_\sqcup(\text{po$_2$}(b)) = v(b) \\
+\text{Ind}_\sqcup(\text{po$_3$}(c,i)) = p(c,i)
+\end{cases}
+\]
+\begin{lstlisting}[mathescape=true]
+def PathOver (A B C : U) (f : C $\rightarrow$ A) (g : C $\rightarrow$ B)
+    (D : $\sqcup$ A B C f g $\rightarrow$ U)
+    (c : C) (u : D (po$_1$ (f c))) (v : D (po$_2$ (g c))) : U
+ := PathP ($\lambda$ i, D (po$_3$ c i)) u v
+
+def Ind$_\sqcup$ : (A B C : U) (f : C $\rightarrow$ A) (g : C $\rightarrow$ B)
+    (D : $\sqcup$ A B C f g $\rightarrow$ U)
+    (u : (a : A) $\rightarrow$ D (po$_1$ a))
+    (v : (b : B) $\rightarrow$ D (po$_2$ b))
+    (p : (c : C) $\rightarrow$ PathOver D c (u (f c)) (v (g c)))
+  : (x : $\sqcup$ A B C f g) $\rightarrow$ D x
+ := split { po$_1$ a $\rightarrow$ u a | po$_2$ b $\rightarrow$ v b | po$_3$ c @ i $\rightarrow$ p c @ i }
+\end{lstlisting}
+\end{theorem}
+
+\begin{theorem} (Computation).
+For \( x : \sqcup(A,B,C,f,g) \),
+\[
+\begin{cases}
+\text{Ind$_\sqcup$}(\text{po$_1$}(a)) \equiv u(a) \\
+\text{Ind$_\sqcup$}(\text{po$_2$}(b)) \equiv v(b) \\
+\text{Ind$_\sqcup$}(\text{po$_3$}(c,i)) \equiv p(c,i)
+\end{cases}
+\]
+\end{theorem}
+
+\begin{theorem} (Uniqueness).
+Any two maps \( u, v : \sqcup(A,B,C,f,g) \to D \) are homotopic
+if they agree on \( \text{po}_1 \), \( \text{po}_2 \), and \( \text{po}_3 \), i.e.,
+if \( u(\text{po}_1(a)) = v(\text{po}_1(a)) \) for all \( a : A \), \( u(\text{po}_2(b)) = v(\text{po}_2(b)) \)
+for all \( b : B \), and \( u(\text{po}_3(c)) = v(\text{po}_3(c)) \) for all \( c : C \).
+\end{theorem}
+
+\begin{example} (Cell Attachment)
+The pushout models the attachment of an \( n \)-cell to a space \( X \).
+Given \( f : S^{n-1} \to X \) and inclusion \( g : S^{n-1} \to D^n \),
+the pushout \( \sqcup(X,D^n,S^{n-1},f,g) \) is
+the space \( X \cup_f D^n \), attaching an \( n \)-disk to \( X \) along \( f \).
+\[
+\shorthandoff{"}
+\begin{tikzcd}
+S^{n-1} \arrow[r, "f"] \arrow[d, "g"] & X \arrow[d] \\
+D^n \arrow[r] & X \cup_f D^n
+\end{tikzcd}
+\]
+\end{example}
+
+\subsection{Spheres}
+Spheres are higher inductive types with higher-dimensional paths,
+representing fundamental topological spaces.
+
+\begin{definition} (Pointed n-Spheres)
+The \( n \)-sphere \( S^n \) is defined recursively as a type in
+the universe \( \mathcal{U} \) using general recursion over dimensions:
+\[
+\mathbb{S}^n :=
+\begin{cases}
+\text{point} : \mathbb{S}^n, \\
+\text{surface} :\ <i_1,...i_n> [\ (i_1=0) \rightarrow \text{point}, (i_1=1) \rightarrow \text{point},\ ... \\
+\hspace{3.47cm} (i_n=0) \rightarrow \text{point}, (i_n=1) \rightarrow \text{point}\ ]
+\end{cases}
+\]
+\end{definition}
+
+\begin{definition} (n-Spheres via Suspension)
+The \( n \)-sphere \( S^n \) is defined recursively as a type in
+the universe \( \mathcal{U} \) using general recursion over natural
+numbers \( \mathbb{N} \). For each \( n \in \mathbb{N} \),
+the type \( S^n : \mathcal{U} \) is defined as:
+\[
+\mathbb{S}^n :=
+\begin{cases}
+S^0 = \mathbf{2}, \\
+S^{n+1} = \Sigma(S^n).
+\end{cases}
+\]
+\begin{lstlisting}[mathescape=true]
+def sphere : $\mathbb{N}$ $\to$ U := $\mathbb{N}\text{-iter}$ U $\mathbf{2}$ $\Sigma$
+\end{lstlisting}
+This iterative definition applies the suspension functor \( \Sigma \)
+to the base type \( \mathbf{2} \) (0-sphere) \( n \) times to obtain \( S^n \).
+\end{definition}
+
+\begin{example} (Sphere as CW-Complex)
+The \( n \)-sphere \( S^n \) can be constructed as a CW-complex with
+one 0-cell and one \( n \)-cell:
+\[
+\begin{cases}
+X_0 = \{ \text{base} \}, \text{ one point} \\
+X_k = X_0 \text{ for } 0 < k < n, \text{ no additional cells} \\
+X_n: \text{Attachment of an } n\text{-cell to } X_{n-1} = \{ \text{base} \} \text{ along } f : S^{n-1} \to \{ \text{base} \}
+\end{cases}
+\]
+The constructor \( \text{cell} \) attaches the boundary of the \( n \)-cell
+to the base point, yielding the type \( S^n \).
+\end{example}
+
+\newpage
+\subsection{Hub and Spokes}
+The hub and spokes construction \( \odot \) defines an \( n \)-truncation,
+ensuring that the type has no non-trivial homotopy groups above
+dimension \( n \). It models the type as a CW-complex with
+a hub (central point) and spokes (paths to points).
+
+\begin{definition} (Formation).
+For types \( S, A : \mathcal{U} \), there exists a hub and spokes type \( \odot\ (S,A) : \mathcal{U} \).
+\end{definition}
+
+\begin{definition} (Constructors).
+The hub and spokes type is freely generated by the following higher inductive compositional structure:
+\[
+\odot :=
+\begin{cases}
+\text{base} : A \to \odot\ (S,A) \\
+\text{hub} : (S \to \odot\ (S,A)) \to \odot\ (S,A) \\
+\text{spoke} : (f : S \to \odot\ (S,A)) \to (s : S) \to \text{hub}(f) \equiv f(s)
+\end{cases}
+\]
+\begin{lstlisting}[mathescape=true]
+def $\odot$ (S A: U) : U
+ := inductive { base (x: A)
+              | hub (f: S -> $\odot$ S A)
+              | spoke (f: S -> $\odot$ S A) (s:S) : hub f $\equiv$ f s
+              }
+\end{lstlisting}
+\end{definition}
+
+\begin{theorem} (Elimination).
+For a family of types \( P : \text{HubSpokes} \, S \, A \to \mathcal{U} \),
+maps \( \text{pbase} : (x : A) \to P(\text{base} \, x) \),
+\( \text{phub} : (f : S \to \text{HubSpokes} \, S \, A) \to P(\text{hub} \, f) \),
+and a family of paths
+\( \text{pspoke} : (f : S \to \text{HubSpokes} \, S \, A) \to (s : S) \to \text{PathP} \, (<i> P(\text{spoke} \, f \, s \, @ \, i)) \, (\text{phub} \, f) \, (P(f \, s)) \),
+there exists a map \( \text{hubSpokesInd} : (z : \text{HubSpokes} \, S \, A) \to P(z) \), such that:
+\[
+\begin{cases}
+\text{Ind}_\odot \, (\text{base} \, x) = \text{pbase} \, x \\
+\text{Ind}_\odot \, (\text{hub} \, f) = \text{phub} \, f \\
+\text{Ind}_\odot \, (\text{spoke} \, f \, s \, @ \, i) = \text{pspoke} \, f \, s \, @ \, i \\
+\end{cases}
+\]
+\end{theorem}
+
+\newpage
+\subsection{Truncation}
+\subsubsection*{Set Truncation}
+\begin{definition} (Formation).
+Set truncation (0-truncation), denoted \( \| A \|_0 \),
+ensures that the type is a set, with homotopy groups vanishing above dimension 0.
+\end{definition}
+
+\begin{definition} (Constructors).
+For \( A : \mathcal{U} \), \( \| A \|_0 : \mathcal{U} \) is defined by the following higher
+inductive compositional structure:
+\[
+\| \_ \|_0 :=
+\begin{cases}
+\text{inc} : A \to \| A \|_0 \\
+\text{squash} : (a, b : \| A \|_0) \to (p, q : a \equiv b) \to p \equiv q
+\end{cases}
+\]
+\begin{lstlisting}[mathescape=true]
+def $\|$_$\|_0$ (A: U) : U
+ := inductive { inc (a: A)
+              | squash (a b: $\|$A$\|_0$) (p q: Path ($\|$A$\|_0$) a b)
+                <i j> [ (i = 0) -> p @ j, (i = 1) -> q @ j,
+                        (j = 0) -> a,     (j = 1) -> b ]
+              }
+\end{lstlisting}
+\end{definition}
+
+\begin{theorem} (Elimination \( \| A \|_0 \))
+For a set \( B : \mathcal{U} \) (i.e., \( \text{isSet}(B) \)), and a map \( f : A \to B \),
+there exists \( \text{setTruncRec} : \| A \|_0 \to B \), such that \( \text{Ind}_{\|A\|_0}(\text{inc}(a)) = f(a) \).
+\end{theorem}
+
+\subsubsection*{Groupoid Truncation}
+\begin{definition} (Formation).
+Groupoid truncation (1-truncation), denoted \( \| A \|_1 \), ensures that
+the type is a 1-groupoid, with homotopy groups vanishing above dimension 1.
+\end{definition}
+
+\begin{definition} (Constructors).
+For \( A : \mathcal{U} \), \( \| A \|_1 : \mathcal{U} \) is defined by the following higher
+inductive compositional structure:
+\[
+\| \_ \|_1 :=
+\begin{cases}
+\text{inc} : A \to \| A \|_1 \\
+\text{squash} : (a, b : \| A \|_1) \to (p, q : a \equiv b) \to (r, s : p \equiv q) \to r \equiv s
+\end{cases}
+\]
+\begin{lstlisting}[mathescape=true]
+def $\|$_$\|_1$ (A: U) : U
+ := inductive { inc (a: A)
+              | squash (a b: $\|$A$\|_1$) (p q: Path ($\|$A$\|_1$) a b)
+                (r s: Path (Path ($\|$A$\|_1$) a b) p q) <i j k>
+                [ (i = 0) -> r @ j @ k, (i = 1) -> s @ j @ k,
+                  (j = 0) -> p @ k,     (j = 1) -> q @ k,
+                  (k = 0) -> a,         (k = 1) -> b ]
+              }
+\end{lstlisting}
+\end{definition}
+
+\begin{theorem} (Elimination \( \| A \|_1 \))
+For a 1-groupoid \( B : \mathcal{U} \) (i.e., \( \text{isGroupoid}(B) \)),
+and a map \( f : A \to B \), there exists \( \text{Ind}_{\|A\|_1} : \|A\|_1 \to B \),
+such that \( \text{Ind}_{\|A\|_1}(\text{inc}(a)) = f(a) \).
+\end{theorem}
+
+\newpage
+\subsection{Quotient Spaces}
+\subsubsection*{Set Quotient Spaces}
+Quotient spaces are a powerful computational tool in type theory, embedded
+in the core of Lean.
+\begin{definition} (Formation).
+Set quotient spaces construct a type \( A \), quotiented by
+a relation \( R : A \to A \to \mathcal{U} \), ensuring that the result is a set.
+\end{definition}
+
+\begin{definition} (Constructors).
+For a type \( A : \mathcal{U} \) and a relation \( R : A \to A \to \mathcal{U} \),
+the set quotient space \( A / R : \mathcal{U} \) is freely generated by the following
+higher inductive compositional structure:
+\[
+A / R :=
+\begin{cases}
+\text{quot} : A \to A / R \\
+\text{ident} : (a, b : A) \to R(a,b) \to \text{quot}(a) \equiv \text{quot}(b) \\
+\text{trunc} : (a, b : A / R) \to (p, q : a \equiv b) \to p \equiv q
+\end{cases}
+\]
+\begin{lstlisting}[mathescape=true]
+def / (A: U) (R: A -> A -> U) : U
+  := inductive { quot (a: A)
+               | ident (a b: A) (r: R a b) : quot(a) $\equiv$ quot(b)
+               | trunc (a b : / A R) (p q : Path (/ A R) a b)
+                 <i j> [ (i = 0) -> p @ j , (i = 1) -> q @ j ,
+                         (j = 0) -> a ,     (j = 1) -> b ]
+               }
+\end{lstlisting}
+\end{definition}
+
+\begin{theorem} (Elimination).
+For a family of types \( B : A/R \to \mathcal{U} \) with \( \text{isSet}(B x) \),
+and maps \( f : (x : A) \to B(\text{quot}(x)) \),
+\( g : (a, b : A) \to (r : R(a,b)) \to \text{PathP} (<i> B(\text{ident}(a,b,r)\ @\ i)) (f(a)) (f(b)) \),
+there exists \( \text{Ind}_{A/R} : \Pi (x: A/R), B(x) \), such that \( \text{Ind}_{A/R}(\text{quot}(a)) = f(a) \).
+\end{theorem}
+
+\subsubsection*{Groupoid Quotient Spaces}
+\begin{definition} (Formation).
+Groupoid quotient spaces extend set quotient spaces to produce a 1-groupoid,
+including constructors for higher paths. Groupoid quotient spaces
+construct a type \( A \), quotiented by a relation \( R : A \to A \to \mathcal{U} \),
+ensuring that the result is a groupoid.
+\end{definition}
+
+\begin{definition} (Constructors).
+For a type \( A : \mathcal{U} \) and a relation \( R : A \to A \to \mathcal{U} \),
+the groupoid quotient space \( A // R : \mathcal{U} \) includes
+constructors for points, paths, and higher paths, ensuring a 1-groupoid structure.
+\end{definition}
+
+\newpage
+\subsection{Wedge}
+The wedge of two pointed types \( A \) and \( B \), denoted \( A \vee B \),
+is a higher inductive type representing the union of \( A \)
+and \( B \) with identified base points. Topologically,
+it corresponds to \( A \times \{ y_0 \} \cup \{ x_0 \} \times B \),
+where \( x_0 \) and \( y_0 \) are the base points of \( A \) and \( B \), respectively.
+
+\begin{definition} (Formation).
+For pointed types \( A, B : \text{pointed} \), the wedge \( A \vee B : \mathcal{U} \).
+\end{definition}
+
+\begin{definition} (Constructors).
+The wedge is generated by the following higher inductive compositional structure:
+\[
+\vee :=
+\begin{cases}
+\text{winl} : A.1 \to A \vee B \\
+\text{winr} : B.1 \to A \vee B \\
+\text{wglue} : \text{winl} (A.2) \equiv \text{winr}(B.2)
+\end{cases}
+\]
+\begin{lstlisting}[mathescape=true]
+def $\vee$ (A : pointed) (B : pointed) : U
+ := inductive { winl (a : A.1)
+              | winr (b : B.1)
+              | wglue : winl(A.2) $\equiv$ winr(B.2)
+              }
+\end{lstlisting}
+\end{definition}
+
+\begin{theorem} (Elimination).
+For a type \( P : A \vee B \mathcal{U} \), maps \( f : A.1 \to C \),
+\( g : B.1 \to C \), and a path \( p : \text{PathOverlue}(P,f(A.2),g (B.2)) \),
+there exists a map \( \text{Ind}_\vee : A \vee B \to C \), such that:
+\[
+\begin{cases}
+\text{Ind}(\text{winl}(a)) = f(a) \\
+\text{Ind}(\text{winr}(b)) = g(b) \\
+\text{Ind}(\text{wglue}(x)) = p(x)
+\end{cases}
+\]
+\begin{lstlisting}[mathescape=true]
+def PathOverGlue : (P : A $\vee$ B → U)
+    (p : P (inl (A.2))) (q : P (inr (B.2))) : U
+ := PathP (λ i → P (wglue i)) p q
+
+def Ind$_\vee$ (A B : pointed) (C : U) (f : A.1 -> C) (g : B.1 -> C)
+    (p : Path C (f A.2) (g B.2))
+  : A $\vee$ B -> C
+ := split { winl a -> f a | winr b -> g b | wglue @ x -> p @ x }
+\end{lstlisting}
+\end{theorem}
+
+\begin{theorem} (Computation).
+For \( z : \text{Wedge } A B \),
+\[
+\begin{cases}
+\text{Ind}_\vee(\text{winl } a) \equiv f(a) \\
+\text{Ind}_\vee(\text{winr } b) \equiv g(b) \\
+\text{Ind}_\vee(\text{wglue } @ \, x) \equiv p \, @ \, x
+\end{cases}
+\]
+\end{theorem}
+
+\begin{theorem} (Uniqueness).
+Any two maps \( h_1, h_2 : \text{Wedge } A B \to C \) are homotopic if
+they agree on \( \text{winl} \), \( \text{winr} \), and \( \text{wglue} \),
+i.e., if \( h_1(\text{winl } a) = h_2(\text{winl } a) \) for
+all \( a : A.1 \), \( h_1(\text{winr } b) = h_2(\text{winr } b) \) for
+all \( b : B.1 \), and \( h_1(\text{wglue}) = h_2(\text{wglue}) \).
+\end{theorem}
+
+\newpage
+\subsection{Smash Product}
+The smash product of two pointed types \( A \) and \( B \), denoted \( A \wedge B \),
+is a higher inductive type that quotients the product \( A \times B \) by
+the pushout \( A \sqcup B \). It represents the space \( A \times B / (A \times \{ y_0 \} \cup \{ x_0 \} \times B) \),
+collapsing the wedge to a single point.
+
+\begin{definition} (Formation).
+For pointed types \( A, B : \text{pointed} \), the smash product \( A \wedge B : \mathcal{U} \).
+\end{definition}
+
+\begin{definition} (Constructors).
+The smash product is generated by the following higher inductive compositional structure:
+\[
+A \wedge B :=
+\begin{cases}
+\text{basel} : A \wedge B \\
+\text{baser} : A \wedge B \\
+\text{proj} (x: A.1) (y: B.1) : A \wedge B \\
+\text{gluel} (a: A.2) : \text{proj}(a,B.2) \equiv \text{basel} \\
+\text{gluer} (b: B.2) : \text{proj}(A.2,b) \equiv \text{baser} \\
+\end{cases}
+\]
+\begin{lstlisting}[mathescape=true]
+def $\wedge$ (A : pointed) (B : pointed) : U
+ := inductive { basel
+              | baser
+              | proj (a : A.1) (b : B.1)
+              | gluel (a : A.2) : proj(a,B.2) $\equiv$ basel
+              | gluer (a : B.2) : proj(A.2,b) $\equiv$ baser
+              }
+\end{lstlisting}
+\end{definition}
+
+\begin{theorem} (Elimination).
+For a family of types \( P : \text{Smash } A \, B \to \mathcal{U} \),
+points \( \text{pbasel} : P(\text{basel}) \),
+         \( \text{pbaser} : P(\text{baser}) \), maps
+\( \text{pproj} : (x : A.1) \to (y : B.1) \to P \, (\text{proj} \, x \, y) \),
+and a family of paths
+\( \text{pgluel} : (a : A.1) \to \text{pproj}(a,B.2) \equiv \text{pbasel} \),
+\( \text{pgluer} : (b : B.1) \to \text{pproj}(A.2,b) \equiv \text{pbaser} \),
+there exists a map \( \text{Ind}_\wedge : (z : A \wedge B) \to P(z) \), such that:
+\[
+\begin{cases}
+\text{Ind}_\wedge \, (\text{basel}) = \text{pbasel} \\
+\text{Ind}_\wedge \, (\text{baser}) = \text{pbaser} \\
+\text{Ind}_\wedge \, (\text{proj} \, x \, y) = \text{pproj} \, x \, y \\
+\text{Ind}_\wedge \, (\text{gluel} \, a \, @ \, i) = \text{pgluel} \, a \, @ \, i \\
+\text{Ind}_\wedge \, (\text{gluer} \, b \, @ \, i) = \text{pgluer} \, b \, @ \, i \\
+\end{cases}
+\]
+\begin{lstlisting}[mathescape=true]
+def Ind$_\wedge$ (A B : pointed) (P : A $\wedge$ B -> U)
+    (pbasel : P basel) (pbaser : P baser)
+    (pproj : (x : A.1) -> (y : B.1) -> P (proj x y))
+    (pgluel : (a : A.1) -> PathP (<i> P (gluel a @ i)) (pproj a B.2) pbasel)
+    (pgluer : (b : B.1) -> PathP (<i> P (gluer b @ i)) (pproj A.2 b) pbaser)
+  : (z : A $\wedge$ B) -> P z
+ := split { basel -> pbasel | baser -> pbaser | proj x y -> pproj x y
+          | gluel a @ i -> pgluel a @ i | gluer b @ i -> pgluer b @ i }
+\end{lstlisting}
+\end{theorem}
+
+\begin{theorem} (Computation).
+For a family of types \( P : A \wedge B \to \mathcal{U} \),
+points \( \text{pbasel} : P(\text{basel}) \),
+\( \text{pbaser} : P(\text{baser}) \),
+map \( \text{pproj} : (x : A.1) \to (y : B.1) \to P(\text{proj} \, x \, y) \),
+and families of paths
+\( \text{pgluel} : (a : A.1) \to \text{PathP} \, (<i> P(\text{gluel} \, a \, @ \, i)) \, (\text{pproj} \, a \, B.2) \, \text{pbasel} \),
+\( \text{pgluer} : (b : B.1) \to \text{PathP} \, (<i> P(\text{gluer} \, b \, @ \, i)) \, (\text{pproj} \, A.2 \, b) \, \text{pbaser} \),
+the map \( \text{Ind}_\wedge : (z : A \wedge B) \to P(z) \) satisfies all equations for all variants
+of the predicate \( P \):
+\[
+\begin{cases}
+\text{Ind}_\wedge \, (\text{basel}) \equiv \text{pbasel} \\
+\text{Ind}_\wedge \, (\text{baser}) \equiv \text{pbaser} \\
+\text{Ind}_\wedge \, (\text{proj} \, x \, y) \equiv \text{pproj} \, x \, y \\
+\text{Ind}_\wedge \, (\text{gluel} \, a \, @ \, i) \equiv \text{pgluel} \, a \, @ \, i \\
+\text{Ind}_\wedge \, (\text{gluer} \, b \, @ \, i) \equiv \text{pgluer} \, b \, @ \, i
+\end{cases}
+\]
+\end{theorem}
+
+\begin{theorem} (Uniqueness).
+For a family of types \( P : A \wedge B \to \mathcal{U} \),
+and maps \( h_1, h_2 : (z : A \wedge B) \to P(z) \),
+if there exist paths
+\( e_{\text{basel}} : h_1(\text{basel}) \equiv h_2(\text{basel}) \),
+\( e_{\text{baser}} : h_1(\text{baser}) \equiv h_2(\text{baser}) \),
+\( e_{\text{proj}} : (x : A.1) \to (y : B.1) \to h_1(\text{proj} \, x \, y) \equiv h_2(\text{proj} \, x \, y) \),
+\( e_{\text{gluel}} : (a : A.1) \to \text{PathP} \, (<i> h_1(\text{gluel} \, a \, @ \, i) \equiv h_2(\text{gluel} \, a \, @ \, i)) \, (e_{\text{proj}} \, a \, B.2) \, e_{\text{basel}} \),
+\( e_{\text{gluer}} : (b : B.1) \to \text{PathP} \, (<i> h_1(\text{gluer} \, b \, @ \, i) \equiv h_2(\text{gluer} \, b \, @ \, i)) \, (e_{\text{proj}} \, A.2 \, b) \, e_{\text{baser}} \),
+then \( h_1 \equiv h_2 \), i.e., there exists a path \( (z : A \wedge B) \to h_1(z) \equiv h_2(z) \).
+\end{theorem}
+
+\newpage
+\subsection{Join}
+The join of two types \( A \) and \( B \), denoted \( A \Join B \),
+is a higher inductive type that constructs a type by
+joining each point of \( A \) to each point of \( B \) via a path.
+Topologically, it corresponds to the join of spaces, forming
+a space that interpolates between \( A \) and \( B \).
+
+\begin{definition} (Formation).
+For types \( A, B : \mathcal{U} \), the join \( A * B : \mathcal{U} \).
+\end{definition}
+
+\begin{definition} (Constructors).
+The join is generated by the following higher inductive compositional structure:
+\[
+A \Join B :=
+\begin{cases}
+\text{joinl} : A \to A \Join B \\
+\text{joinr} : B \to A \Join B \\
+\text{join} (a : A) (b : B) : \text{joinl}(a) \equiv \text{joinr}(b)
+\end{cases}
+\]
+\begin{lstlisting}[mathescape=true]
+def $\Join$ (A : U) (B : U) : U
+ := inductive { joinl (a: A)
+              | joinr (b: B)
+              | join (a: A) (b: B) : joinl(a) $\equiv$ joinr(b)
+              }
+\end{lstlisting}
+\end{definition}
+
+\begin{theorem} (Elimination).
+For a type \( C : \mathcal{U} \), maps \( f : A \to C \), \( g : B \to C \),
+and a family of paths \( h : (a : A) \to (b : B) \to f(a) \equiv g(b) \),
+there exists a map \( \text{Ind}_\Join : A \Join B \to C \), such that:
+\[
+\begin{cases}
+\text{Ind}_\Join(\text{joinl}(a)) = f(a) \\
+\text{Ind}_\Join(\text{joinr}(b)) = g(b) \\
+\text{Ind}_\Join(\text{join}(a,b,i)) = h(a,b,i) \\
+\end{cases}
+\]
+\begin{lstlisting}[mathescape=true]
+def Ind$_\Join$ (A B C : U) (f : A -> C) (g : B -> C)
+    (h : (a : A) -> (b : B) -> Path C (f a) (g b))
+  : A $\Join$ B -> C
+ := split { joinl a -> f a
+          | joinr b -> g b
+          | join a b @ i -> h a b @ i
+          }
+\end{lstlisting}
+\end{theorem}
+
+\begin{theorem} (Computation).
+For all \( z : A \Join B \), and predicate \( P \), the rules of \( \text{Ind}_\Join \) hold for all parameters of the predicate \( P \).
+\end{theorem}
+
+\begin{theorem} (Uniqueness).
+Any two maps \( h_1, h_2 : A \Join B \to C \) are homotopic
+if they agree on \( \text{joinl} \), \( \text{joinr} \), and \( \text{join} \).
+\end{theorem}
+
+\newpage
+\subsection{Colimit}
+Colimits construct the limit of a sequence of types, connected by maps,
+e.g., propositional truncations.
+
+\begin{definition} (Colimit)
+For a sequence of types \( A : \text{nat} \to \mathcal{U} \) and
+maps \( f : (n : \mathbb{N}) \to A n \to A(\text{succ}(n)) \),
+the colimit type \( \text{colimit}(A,f) : \mathcal{U} \).
+\[
+\text{colim} :=
+\begin{cases}
+\text{ix} : (n : \text{nat}) \to A n \to \text{colimit}(A,f) \\
+\text{gx} : (n : \text{nat}) \to (a : A(n)) \to \text{ix} (\text{succ}(n),f(n,a)) \equiv \text{ix}(n,a)
+\end{cases}
+\]
+\begin{lstlisting}
+def colimit (A : nat -> U) (f : (n : nat) -> A n -> A (succ n)) : U
+ := inductive { ix (n : nat) (x: A n)
+              | gx (n : nat) (a: A n)
+                <i> [ (i=0) -> ix (succ n) (f n a),
+                      (i=1) -> ix n a ]
+              }
+\end{lstlisting}
+\end{definition}
+
+\begin{theorem} (Elimination \( \text{colimit} \))
+For a type \( P : \text{colimit } A f \to \mathcal{U} \),
+with \( p : (n : \text{nat}) \to (x : A n) \to P(\text{ix}(n, x)) \)
+and \( q : (n : \text{nat}) \to (a : A n) \to \text{PathP} (\langle i \rangle P(\text{gx}(n, a) @ i)) (p (\text{succ } n) (f n a)) (p n a) \),
+there exists \( i : \Pi_{x:\text{colimit } A f} P(x) \), such that \( i(\text{ix}(n, x)) = p n x \).
+\end{theorem}
+
+\newpage
+\subsection{Coequalizers}
+\subsubsection*{Coequalizer}
+The coequalizer of two maps \( f, g : A \to B \) is a higher inductive
+type (HIT) that constructs a type consisting of elements in \( B \),
+where \( f \) and \( g \) agree, along with paths ensuring this equality.
+It is a fundamental construction in homotopy theory,
+capturing the subspace of \( B \) where \( f(a) = g(a) \) for \( a : A \).
+
+\begin{definition} (Formation).
+For types \( A, B : \mathcal{U} \) and maps \( f, g : A \to B \),
+the coequalizer \( \text{coeq } A B f g : \mathcal{U} \).
+\end{definition}
+
+\begin{definition} (Constructors).
+The coequalizer is generated by the following higher inductive compositional structure:
+\[
+\text{Coeq} :=
+\begin{cases}
+\text{inC} : B \to \text{Coeq}(A,B,f,g) \\
+\text{glueC} : (a : A) \to \text{inC}(f(a)) \equiv \text{inC}(g(a))
+\end{cases}
+\]
+\begin{lstlisting}[mathescape=true]
+def Coeq (A B: U) (f g: A -> B) : U
+ := inductive { inC (b: B)
+              | glueC (a: A) : inC (f a) $\equiv$ inC (g a)
+              }
+\end{lstlisting}
+\end{definition}
+
+\begin{theorem} (Elimination).
+For a type \( C : \mathcal{U} \), map \( h : B \to C \), and a family of paths \( y : (x : A) \to \text{Path}_C (h (f x), h (g x)) \), there exists a map \( \text{coequRec} : \text{coeq } A B f g \to C \), such that:
+\[
+\begin{cases}
+\text{coequRec}(\text{inC}(x)) = h(x) \\
+\text{coequRec}(\text{glueC}(x,i)) = y(x,i)
+\end{cases}
+\]
+\begin{lstlisting}
+def coequRec (A B C : U) (f g : A -> B) (h: B -> C)
+    (y: (x : A) -> Path C (h (f x)) (h (g x)))
+  : (z : coeq A B f g) -> C
+ := split { inC x -> h x | glueC x @ i -> y x @ i }
+\end{lstlisting}
+\end{theorem}
+
+\begin{theorem} (Computation).
+For \( z : \text{coeq } A B f g \),
+\[
+\begin{cases}
+\text{coequRec}(\text{inC } x) \equiv h(x) \\
+\text{coequRec}(\text{glueC } x \, @ \, i) \equiv y(x) \, @ \, i
+\end{cases}
+\]
+\end{theorem}
+
+\begin{theorem} (Uniqueness).
+Any two maps \( h_1, h_2 : \text{coeq } A B f g \to C \) are homotopic
+if they agree on \( \text{inC} \) and \( \text{glueC} \), i.e.,
+if \( h_1(\text{inC } x) = h_2(\text{inC } x) \) for
+all \( x : B \) and \( h_1(\text{glueC } a) = h_2(\text{glueC } a) \) for all \( a : A \).
+\end{theorem}
+
+\begin{example} (Coequalizer as Subspace)
+The coequalizer \( \text{coeq } A B f g \) represents the subspace
+of \( B \), where \( f(a) = g(a) \). For example, if \( A = B = \mathbb{R} \)
+and \( f(x) = x^2 \), \( g(x) = x \), the coequalizer captures the points
+where \( x^2 = x \), i.e., \( \{0, 1\} \).
+\end{example}
+
+\newpage
+\subsubsection*{Path Coequalizer}
+The path coequalizer is a higher inductive type that generalizes
+the coequalizer to handle pairs of paths in \( B \). Given
+a map \( p : A \to (b_1, b_2 : B) \times (\text{Path}_B (b_1, b_2)) \times (\text{Path}_B (b_1, b_2)) \),
+it constructs a type where elements of \( A \) generate pairs
+of paths between points in \( B \), with paths connecting
+the endpoints of these paths.
+
+\begin{definition} (Formation).
+For types \( A, B : \mathcal{U} \) and a map \( p : A \to (b_1, b_2 : B) \times (b_1 \equiv b_2) \times (b_1 \equiv b_2) \),
+there exists a path coequalizer \( \text{Coeq}_\equiv(A,B,p) : \mathcal{U} \).
+\end{definition}
+
+\begin{definition} (Constructors).
+The path coequalizer is generated by the following higher inductive compositional structure:
+\[
+\text{Coequ}_\equiv :=
+\begin{cases}
+\text{inP} : B \to \text{Coeq}_\equiv(A,B,p) \\
+\text{glueP} : (a : A) \to \text{inP}(p(a).2.2.1 @ 0) \equiv \text{inP}(p(a).2.2.2 @ 1)
+\end{cases}
+\]
+\begin{lstlisting}[mathescape=true]
+data Coeq-$\equiv$ (A B: U) (p : A -> $\Sigma$ (b1 b2: B), b1 $\equiv$ b2 $\times$ b1 $\equiv$ b2)
+   = inP (b: B)
+   | glueP (a:A) <i> [(i=0) -> inP ((p a).2.2.1 @ 0),
+                      (i=1) -> inP ((p a).2.2.2 @ 1) ]
+\end{lstlisting}
+\end{definition}
+
+\begin{theorem} (Elimination).
+For a type \( C : \mathcal{U} \), map \( h : B \to C \),
+and a family of paths \( y : (a : A) \to h(p(a).2.2.1  @ 0) \equiv h(p(a).2.2.2 @ 1) \),
+there exists a map \( \text{Ind-Coequ}_\equiv : \text{Coeq}_\equiv(A,B,p) \to C \), such that:
+\[
+\begin{cases}
+\text{coequPRec}(\text{inP}(b)) = h(b) \\
+\text{coequPRec}(\text{glueP}(a,i)) = y(a,i)
+\end{cases}
+\]
+\begin{lstlisting}[mathescape=true]
+def Ind-Coequ$_\equiv$ (A B C : U)
+    (p : A -> $\Sigma$ (b1 b2: B) (x: Path B b1 b2), Path B b1 b2)
+    (h: B -> C) (y: (a : A) -> Path C (h (((p a).2.2.1) @ 0)) (h (((p a).2.2.2) @ 1)))
+  : (z : coeqP A B p) -> C
+ := split { inP b -> h b | glueP a @ i -> y a @ i }
+\end{lstlisting}
+\end{theorem}
+
+\begin{theorem} (Computation).
+For \( z : \text{coeqP } A B p \),
+\[
+\begin{cases}
+\text{coequPRec}(\text{inP } b) \equiv h(b) \\
+\text{coequPRec}(\text{glueP } a \, @ \, i) \equiv y(a) \, @ \, i
+\end{cases}
+\]
+\end{theorem}
+
+\begin{theorem} (Uniqueness).
+Any two maps \( h_1, h_2 : \text{coeqP } A B p \to C \) are homotopic
+if they agree on \( \text{inP} \) and \( \text{glueP} \), i.e.,
+if \( h_1(\text{inP } b) = h_2(\text{inP } b) \) for all \( b : B \)
+and \( h_1(\text{glueP } a) = h_2(\text{glueP } a) \) for all \( a : A \).
+\end{theorem}
+
+\newpage
+\subsection{K(G,n)}
+Eilenberg-MacLane spaces \( K(G,n) \) have a single non-trivial
+homotopy group \( \pi_n(K(G,n)) = G \). They are defined using truncations and suspensions.
+
+\begin{definition} (K(G,n))
+For an abelian group \( G : \text{abgroup} \), the type \( KGn(G) : \text{nat} \to \mathcal{U} \).
+\[
+K(G,n) :=
+\begin{cases}
+n = 0 \leadsto \text{discreteTopology}(G) \\
+n \geq 1 \leadsto \|\Sigma^{n-1}(K1'(G.1,G.2.1))\|_{n}
+\end{cases}
+\]
+\begin{lstlisting}[mathescape=true]
+def KGn (G: abgroup) : $\mathbf{N}$ -> U
+ := split { zero -> discreteTopology G
+          | succ n -> nTrunc ($\Sigma$ (K1' (G.1,G.2.1)) n) (succ n)
+          }
+\end{lstlisting}
+\end{definition}
+
+\begin{theorem} (Elimination \( KGn \))
+For \( n \geq 1 \), a type \( B : \mathcal{U} \) with \( \text{isNGroupoid}(B, \text{succ } n) \),
+and a map \( f : \text{suspension}(K1' G) \to B \), there exists
+\( \text{rec}_{KGn} : KGn G (\text{succ } n) \to B \),
+defined via \( \text{nTruncRec} \).
+\end{theorem}
+
+\newpage
+\subsection{Localization}
+Localization constructs an \( F \)-local type from a type \( X \),
+with respect to a family of maps \( F_A : S(a) \to T(a) \).
+
+\begin{definition} (Localization Modality)
+For a family of maps \( F_A : S(a) \to T(a) \),
+the \( F \)-localization \( L^{AST}_F(X) : \mathcal{U} \).
+\[
+L^A_F(X) :=
+\begin{cases}
+\text{center} : X \to L_{F_A}(X) \\
+\text{ext} (a : A) \to (S(a) \to L_{F_A}(X)) : T(a) \to L_{F_A}(X) \\
+\text{isExt} (a : A) (f : S(a) \to L_{F_A}(X)) \to (s : S(a)) : \text{ext}(a,f,F(a,s)) \equiv f(s) \\
+\text{extEq} (a : A) (g, h : T(a) \to L_{F_A}(X)) \\
+\indent (p : (s : S(a)) \to g(F(a,s)) \equiv h(F(a,s))) \\
+\indent (t : T(a)) : g(t) \equiv h(t) \\
+\text{isExtEq} : (a : A) (g, h : T(a) \to L_{F_A}(X)) \\
+\indent  (p : (s : S(a)) \to g(F(a,s)) \equiv h(F(a,s))) \\
+\indent (s : S(a)) : \text{extEq}(a,g,h,p,F(a,s) \equiv p(s)
+\end{cases}
+\]
+\begin{lstlisting}
+data Localize (A X: U) (S T: A -> U) (F : (x:A) -> S x -> T x)
+   = center (x: X)
+   | ext (a: A) (f: S a -> Localize A X S T F) (t: T a)
+   | isExt (a: A) (f: S a -> Localize A X S T F) (s: S a) <i>
+     [ (i=0) -> ext a f (F a s) , (i=1) -> f s ]
+   | extEq (a: A) (g h: T a -> Localize A X S T F)
+     (p: (s : S a) -> Path (Localize A X S T F) (g (F a s)) (h (F a s)))
+     (t : T a) <i> [ (i=0) -> g t , (i=1) -> h t ]
+   | isExtEq (a: A) (g h : T a -> Localize A X S T F)
+     (p: (s : S a) -> Path (T a -> Localize A X S T F) (g (F a s)) (h (F a s)))
+     (s : S a) <i> [ (i=0) -> extEq a g h p (F a s) , (i=1) -> p s ]
+\end{lstlisting}
+\end{definition}
+
+\begin{theorem} (Localization Induction)
+For any \( P : \Pi_{X:U} L_{F_A}(X) \to U \) with \( \{n, r, s\} \), satisfying coherence conditions,
+there exists \( i : \Pi_{x:L_{F_A}(X)} P(x) \), such that \( i \cdot \text{center}_X = n \).
+\end{theorem}
+
+\section{Conclusion}
+HITs directly encode CW-complexes in HoTT, bridging topology and type theory.
+They enable the analysis and manipulation of homotopical types.
+
+\newpage
+\bibliographystyle{plain}
+\begin{thebibliography}{9}
+\bibitem{univalent}
+The Univalent Foundations Program, \emph{Homotopy Type Theory: Univalent Foundations of Mathematics}, IAS, 2013.
+\bibitem{cubicaltt}
+C. Cohen, T. Coquand, S. Huber, A. Mörtberg, \emph{Cubical Type Theory}, Journal of Automated Reasoning, 2018.
+\bibitem{agda-cubical}
+A. Mörtberg et al., \emph{Agda Cubical Library}, \url{https://github.com/agda/cubical}, 2023.
+\bibitem{hott-book}
+M. Shulman, \emph{Higher Inductive Types in HoTT}, \url{https://arxiv.org/abs/1705.07088}, 2017.
+\bibitem{localization}
+J. D. Christensen, M. Opie, E. Rijke, L. Scoccola, \emph{Localization in Homotopy Type Theory}, \url{https://arxiv.org/pdf/1807.04155.pdf}, 2018.
+\bibitem{modalities}
+E. Rijke, M. Shulman, B. Spitters, \emph{Modalities in Homotopy Type Theory}, \url{https://arxiv.org/pdf/1706.07526v6.pdf}, 2017.
+\bibitem{synthetic-spectra}
+M. Riley, E. Finster, D. R. Licata, \emph{Synthetic Spectra via a Monadic and Comonadic Modality}, \url{https://arxiv.org/pdf/2102.04099.pdf}, 2021.
+\end{thebibliography}
+
+\end{document}
