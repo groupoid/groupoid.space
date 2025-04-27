@@ -1,4 +1,5 @@
 \documentclass{article}
+\usepackage{indentfirst}
 \usepackage{newlfont}
 \usepackage[ukrainian,english]{babel}
 \usepackage{hyphenat}
@@ -12,8 +13,7 @@
 \usepackage{newunicodechar}
 \usepackage[utf8]{inputenc}
 
-\hyphenpenalty=100
-\tolerance=5000
+\setlength{\parindent}{15pt}
 
 \theoremstyle{definition}
 \newtheorem{theorem}{Theorem}
@@ -221,20 +221,7 @@ with constructors for cells and paths for attachment.
 \end{definition}
 
 \newpage
-\subsection{Motivation for Higher Inductive Types}
-HITs in HoTT enable direct encoding of topological spaces, such as
-CW-complexes. In homotopy theory, spaces are constructed by attaching
-cells via attaching maps. HoTT views types as spaces, elements
-as points, and equalities as paths, making HITs a natural choice.
-Standard inductive types cannot capture higher homotopies, but
-HITs allow constructors for points and paths. For example, the circle \( S^1 \) (Definition 2) has a base point and a loop, encoding its
-fundamental group \( \mathbb{Z} \). HITs avoid the use of multiple
-quotient spaces, preserving the synthetic nature of HoTT. In cubical type theory, paths are
-intervals (e.g., \( <i> \)) with computational content, unlike
-propositional equalities, enabling efficient type checking in tools
-such as Agda Cubical.
-
-\subsection{HITs with Countable Constructors}
+\subsection{Introduction: Countable Constructors}
 Some HITs require an infinite number of constructors for spaces,
 such as Eilenberg-MacLane spaces or the infinite sphere \( S^\infty \).
 \begin{lstlisting}[mathescape=true]
@@ -247,6 +234,46 @@ Challenges include type checking, computation, and expressiveness.
 
 Agda Cubical uses cubical primitives to handle HITs, supporting
 infinite constructors via HITs indexed by natural numbers, as colimits.
+
+\subsection{Motivation: Higher Inductive Types}
+HITs in HoTT enable direct encoding of topological spaces, such as
+CW-complexes. In homotopy theory, spaces are constructed by attaching
+cells via attaching maps. HoTT views types as spaces, elements
+as points, and equalities as paths, making HITs a natural choice.
+Standard inductive types cannot capture higher homotopies, but
+HITs allow constructors for points and paths. For example, the circle \( S^1 \) (Definition 2) has a base point and a loop, encoding its
+fundamental group \( \mathbb{Z} \). HITs avoid the use of multiple
+quotient spaces, preserving the synthetic nature of HoTT. In cubical type theory, paths are
+intervals (e.g., \( <i> \)) with computational content, unlike
+propositional equalities, enabling efficient type checking in tools
+such as Agda Cubical.
+
+\subsection{Metatheory: Cohesive Topoi}
+
+\subsubsection{Geometric Proofs}
+$$
+\Re \dashv \Im \dashv \&
+$$
+For differential geometry, type theory incorporates primitive axioms of
+categorical meta-theoretical models of three Schreiber-Shulman functors:
+infinitesimal neighborhood (\(\Im\)), reduced modality (\(\Re\)), and
+infinitesimal discrete neighborhood (\(\&\)).
+
+\subsubsection{Flat Proofs}
+\subsubsection{Sharp Proofs}
+\subsubsection{Bose Proofs}
+\subsubsection{Fermi Proofs}
+\subsubsection{Linear Proofs}
+
+$$
+\otimes \dashv x \dashv\ \multimap
+$$
+
+For engineering applications (e.g., Milner's $\pi$-calculus, quantum computing)
+and linear type theory, type theory embeds linear proofs based on the adjunction
+of the tensor and linear function spaces: $(A \otimes B) \multimap A \simeq A \multimap (B \multimap C)$,
+represented in a symmetric monoidal category $\mathbf{D}$ for a functor $[A,B]$ as:
+$\mathbf{D}(A \otimes B, C) \simeq \mathbf{D}(A, [B,C])$.
 
 \section{Higher Inductive Types}
 CW-complexes are central to HoTT and appear in cubical type checkers as HITs.
@@ -584,7 +611,7 @@ such that \( \text{Ind}_{\|A\|_1}(\text{inc}(a)) = f(a) \).
 \end{theorem}
 
 \newpage
-\subsection{Quotient Spaces}
+\subsection{Quotients}
 \subsubsection*{Set Quotient Spaces}
 Quotient spaces are a powerful computational tool in type theory, embedded
 in the core of Lean.
@@ -1111,7 +1138,7 @@ For any \( P : \Pi_{X:U} L_{F_A}(X) \to U \) with \( \{n, r, s\} \), satisfying 
 there exists \( i : \Pi_{x:L_{F_A}(X)} P(x) \), such that \( i \cdot \text{center}_X = n \).
 \end{theorem}
 
-\section{Conclusion}
+\subsection*{Conclusion}
 HITs directly encode CW-complexes in HoTT, bridging topology and type theory.
 They enable the analysis and manipulation of homotopical types.
 

@@ -1,4 +1,5 @@
 \documentclass{article}
+\usepackage{indentfirst}
 \usepackage{listings}
 \usepackage{amsthm}
 \usepackage{amsmath}
@@ -9,6 +10,8 @@
 \usepackage{tikz}
 \usepackage{tikz-cd}
 \usepackage[utf8]{inputenc}
+
+\setlength{\parindent}{15pt}
 
 \theoremstyle{definition}
 \newtheorem{definition}{Definition}
@@ -191,10 +194,11 @@ At last constructive proof $\Omega(S^1)=\mathbb{Z}$ is given through helix.
 \end{abstract}
 
 \newpage
+
 \tableofcontents
 
 \newpage
-\section{Introduction}
+\section{Groupoid Interpretation}
 \subsection{Introduction: Type Theory}
 Type theory is a universal programming language for pure mathematics,
 designed for theorem proving. It supports an arbitrary number of consistent
@@ -332,31 +336,7 @@ processes. Higher inductive proofs, where constructors include path
 spaces, are modeled by polynomial functors using monad-algebras and
 comonad-coalgebras (Lumsdaine-Shulman).
 
-\subsubsection{Geometric Proofs}
-$$
-\Re \dashv \Im \dashv \&
-$$
-For differential geometry, type theory incorporates primitive axioms of
-categorical meta-theoretical models of three Schreiber-Shulman functors:
-infinitesimal neighborhood (\(\Im\)), reduced modality (\(\Re\)), and
-infinitesimal discrete neighborhood (\(\&\)).
-
-\newpage
-One additional part recently was dropped.
-
-\subsubsection{Linear Proofs}
-
-$$
-\otimes \dashv x \dashv\ \multimap
-$$
-
-For engineering applications (e.g., Milner's $\pi$-calculus, quantum computing)
-and linear type theory, type theory embeds linear proofs based on the adjunction
-of the tensor and linear function spaces: $(A \otimes B) \multimap A \simeq A \multimap (B \multimap C)$,
-represented in a symmetric monoidal category $\mathbf{D}$ for a functor $[A,B]$ as:
-$\mathbf{D}(A \otimes B, C) \simeq \mathbf{D}(A, [B,C])$.
-
-\subsection{Historical Notes}
+\subsection*{Historical Notes}
 Homotypy Type Theory takes its origins in 1996 from groupoid interpretation by
 Hofmann and Streicher's, and later (in 10 years) was formalized by Awodey,
 Warren and Voevodsky. Voevodsky constrtucted Kan simplicial sets interpretation
@@ -379,159 +359,13 @@ Cubical with $[0,1]$ Path types but without HITs is an
 internal language of $(\infty,1)$-categories, while MLTT
 is an internal language of locally cartesian closed categories.
 
-\subsection{Acknowledgement}
+\subsection*{Acknowledgement}
 This article is dedicated to Ihor Horobets and written on his
 request for clarification and direct intoduction to HoTT.
 
 \newpage
 \section{Homotopy Type Theory}
 
-\subsection{Groupoid Interpretation}
-The first text about groupoid interpretation of type theory can be found in Francois Lamarche:
-A proposal about Foundations\footnote{\url{http://www.cse.chalmers.se/~coquand/Proposal.pdf}}.
-Then Martin Hofmann and Thomas Streicher wrote the initial
-document on groupoid interpretation of type
-theory\footnote{Martin Hofmann and Thomas Streicher. The Groupoid Interpretation of Type Theory. 1996.}.
-
-\begin{table}[H]
-\begin{center}
-\begin{tabular}{lccc}
-\hline
-{\bf Equality} & {\bf Homotopy} & {\bf $\infty$-Groupoid} \\
-\hline
-reflexivity  & constant path & identity morphism \\
-symmetry     & inversion of path & inverse morphism \\
-transitivity & concatenation of paths & composition of mopphisms \\
-\hline
-\end{tabular}
-\end{center}
-\end{table}
-
-There is a deep connection between higher-dimentinal groupoids in category theory and
-spaces in homotopy theory, equipped with some topology. The category or groupoid could
-be built where the objects are particular spaces or types, and morphisms are path types
-between these types, composition operation is a path concatenation. We can write this
-groupoid here recalling that it should be category with inverted morphisms.
-
-\begin{lstlisting}
-cat: U = (A: U) * (A -> A -> U)
-groupoid: U = (X: cat) * isCatGroupoid X
-PathCat (X: U): cat = (X,\(x y:X)->Path X x y)
-\end{lstlisting}
-
-\begin{lstlisting}
-def isCatGroupoid (C: cat): U := Σ
-    (id:        Π (x: C.ob), C.hom x x)
-    (c:         Π (x y z:C.ob), C.hom x y -> C.hom y z -> C.hom x z)
-    (HomSet:    Π (x y: C.ob), isSet (C.hom x y))
-    (inv:       Π (x y: C.ob), C.hom x y -> C.hom y x)
-    (inv-left:  Π (x y: C.ob) (p: C.hom x y),
-                Ξ (C.hom x x) (c x y x p (inv x y p)) (id x))
-    (inv-right: Π (x y: C.ob) (p: C.hom x y),
-                Ξ (C.hom y y) (c y x y (inv x y p) p) (id y))
-    (left:      Π (x y: C.ob) (f: C.hom x y),
-                Ξ (C.hom x y) f (c x x y (id x) f))
-    (right:     Π (x y: C.ob) (f: C.hom x y),
-                Ξ (C.hom x y) f (c x y y f (id y)))
-    (assoc:     Π (x y z w: C.ob) (f: C.hom x y)
-                  (g: C.hom y z) (h: C.hom z w),
-                Ξ (C.hom x w) (c x z w (c x y z f g) h)
-                              (c x y w f (c y z w g h))), ★
-\end{lstlisting}
-
-\newpage
-\begin{lstlisting}
-def isProp (A : U) : U
- := Π (a b : A), Ξ A a b
-
-def isSet (A : U) : U
- := Π (a b : A) (x y : Ξ A a b),
-    Ξ (Ξ A a b) x y
-
-def isGroupoid (A : U) : U
- := Π (a b : A) (x y : Ξ A a b)
-    (i j : Ξ (Ξ A a b) x y),
-    Ξ (Ξ (Ξ A a b) x y) i j
-\end{lstlisting}
-
-\begin{lstlisting}
-def CatGroupoid (X : U) (G : isGroupoid X)
-  : isCatGroupoid (PathCat X)
- := ( idp X,
-      comp-Path X,
-      G,
-      sym X,
-      comp-inv-Path⁻¹ X,
-      comp-inv-Path X,
-      comp-Path-left X,
-      comp-Path-right X,
-      comp-Path-assoc X,
-      ★
-    )
-\end{lstlisting}
-
-\begin{lstlisting}
-def comp-Ξ (A : U) (a b c : A) (p : Ξ A a b) (q : Ξ A b c) : Ξ A a c
- := <i> hcomp A (∂ i)
-    (λ (j : I), [(i = 0) → a,
-                 (i = 1) → q @ j]) (p @ i)
-\end{lstlisting}
-
-\begin{lstlisting}
-def comp-inv-Ξ⁻¹ (A : U) (a b : A) (p : Ξ A a b)
-  : Ξ (Ξ A a a) (comp-Ξ A a b a p (<i> p @ -i)) (<_> a)
- := <k j> hcomp A (∂ j ∨ k)
-    (λ (i : I), [(j = 0) → a,
-                 (j = 1) → p @ -i ∧ -k,
-                 (k = 1) → a]) (p @ j ∧ -k)
-\end{lstlisting}
-
-\begin{lstlisting}
-def comp-inv-Ξ (A : U) (a b : A) (p : Ξ A a b)
-  : Ξ (Ξ A b b) (comp-Ξ A b a b (<i> p @ -i) p) (<_> b)
- := <j i> hcomp A (∂ i ∨ j)
-    (λ (k : I), [(i = 0) → b,
-                 (j = 1) → b,
-                 (i = 1) → p @ j \/ k]) (p @ -i ∨ j)
-\end{lstlisting}
-
-\begin{lstlisting}
-def comp-Ξ-left (A : U) (a b : A) (p: Ξ A a b)
-  : Ξ (Ξ A a b) p (comp-Ξ A a a b (<_> a) p)
- := <j i> hcomp A (∂ i ∨ -j)
-    (λ (k : I), [(i = 0) → a,
-                 (i = 1) → p @ k,
-                 (j = 0) → p @ i /\ k]) a
-\end{lstlisting}
-
-\begin{lstlisting}
-def comp-Ξ-right (A : U) (a b : A) (p: Ξ A a b)
-  : Ξ (Ξ A a b) p (comp-Ξ A a b b p (<_> b))
- := <j i> hcomp A (∂ i ∨ -j)
-    (λ (k : I), [(i = 0) → a,
-                 (i = 1) → b,
-                 (j = 0) → p @ i]) (p @ i)
-\end{lstlisting}
-
-\begin{lstlisting}
-def comp-Ξ-assoc (A : U) (a b c d : A)
-    (f : Ξ A a b) (g : Ξ A b c) (h : Ξ A c d)
-  : Ξ (Ξ A a d) (comp-Ξ A a c d (comp-Ξ A a b c f g) h)
-                (comp-Ξ A a b d f (comp-Ξ A b c d g h))
- := J A a (λ (a : A) (b : A) (f : Ξ A a b),
-    Π (c d : A) (g : Ξ A b c) (h : Ξ A c d),
-    Ξ (Ξ A a d) (comp-Ξ A a c d (comp-Ξ A a b c f g) h)
-                (comp-Ξ A a b d f (comp-Ξ A b c d g h)))
-      (λ (c d : A) (g : Ξ A a c) (h : Ξ A c d),
-      comp-Ξ (Ξ A a d)
-         (comp-Ξ A a c d (comp-Ξ A a a c (<_> a) g) h)
-         (comp-Ξ A a c d g h)
-         (comp-Ξ A a a d (<_> a) (comp-Ξ A a c d g h))
-         (<i> comp-Ξ A a c d (comp-Ξ-left A a c g @ -i) h)
-         (comp-Ξ-left A a d (comp-Ξ A a c d g h))) b f c d g h
-\end{lstlisting}
-
-\newpage
 \subsection{Identity Systems}
 \begin{definition} (Identity System).
 An identity system over type $A$ in universe $X_i$ is a
@@ -1407,7 +1241,7 @@ transPathFun (A B : U) (w: equiv A B)
 \end{definition}
 
 \newpage
-\subsection{Loop Spaces}
+\subsection{Loop}
 
 \begin{definition} (Pointed Space). A pointed type $(A,a)$ is a type $A:U$
 together with a point $a:A$, called its basepoint.
@@ -1439,6 +1273,152 @@ omega : nat -> pointed -> pointed = split
   succ n -> \(A: pointed) -> omega n (omega1 A)
 \end{lstlisting}
 \end{definition}
+
+\newpage
+\subsection{Groupoid}
+The first text about groupoid interpretation of type theory can be found in Francois Lamarche:
+A proposal about Foundations\footnote{\url{http://www.cse.chalmers.se/~coquand/Proposal.pdf}}.
+Then Martin Hofmann and Thomas Streicher wrote the initial
+document on groupoid interpretation of type
+theory\footnote{Martin Hofmann and Thomas Streicher. The Groupoid Interpretation of Type Theory. 1996.}.
+
+\begin{table}[H]
+\begin{center}
+\begin{tabular}{lccc}
+\hline
+{\bf Equality} & {\bf Homotopy} & {\bf $\infty$-Groupoid} \\
+\hline
+reflexivity  & constant path & identity morphism \\
+symmetry     & inversion of path & inverse morphism \\
+transitivity & concatenation of paths & composition of mopphisms \\
+\hline
+\end{tabular}
+\end{center}
+\end{table}
+
+There is a deep connection between higher-dimentinal groupoids in category theory and
+spaces in homotopy theory, equipped with some topology. The category or groupoid could
+be built where the objects are particular spaces or types, and morphisms are path types
+between these types, composition operation is a path concatenation. We can write this
+groupoid here recalling that it should be category with inverted morphisms.
+
+\begin{lstlisting}
+cat: U = (A: U) * (A -> A -> U)
+groupoid: U = (X: cat) * isCatGroupoid X
+PathCat (X: U): cat = (X,\(x y:X)->Path X x y)
+\end{lstlisting}
+
+\begin{lstlisting}
+def isCatGroupoid (C: cat): U := Σ
+    (id:        Π (x: C.ob), C.hom x x)
+    (c:         Π (x y z:C.ob), C.hom x y -> C.hom y z -> C.hom x z)
+    (HomSet:    Π (x y: C.ob), isSet (C.hom x y))
+    (inv:       Π (x y: C.ob), C.hom x y -> C.hom y x)
+    (inv-left:  Π (x y: C.ob) (p: C.hom x y),
+                Ξ (C.hom x x) (c x y x p (inv x y p)) (id x))
+    (inv-right: Π (x y: C.ob) (p: C.hom x y),
+                Ξ (C.hom y y) (c y x y (inv x y p) p) (id y))
+    (left:      Π (x y: C.ob) (f: C.hom x y),
+                Ξ (C.hom x y) f (c x x y (id x) f))
+    (right:     Π (x y: C.ob) (f: C.hom x y),
+                Ξ (C.hom x y) f (c x y y f (id y)))
+    (assoc:     Π (x y z w: C.ob) (f: C.hom x y)
+                  (g: C.hom y z) (h: C.hom z w),
+                Ξ (C.hom x w) (c x z w (c x y z f g) h)
+                              (c x y w f (c y z w g h))), ★
+\end{lstlisting}
+
+\newpage
+\begin{lstlisting}
+def isProp (A : U) : U
+ := Π (a b : A), Ξ A a b
+
+def isSet (A : U) : U
+ := Π (a b : A) (x y : Ξ A a b),
+    Ξ (Ξ A a b) x y
+
+def isGroupoid (A : U) : U
+ := Π (a b : A) (x y : Ξ A a b)
+    (i j : Ξ (Ξ A a b) x y),
+    Ξ (Ξ (Ξ A a b) x y) i j
+\end{lstlisting}
+
+\begin{lstlisting}
+def CatGroupoid (X : U) (G : isGroupoid X)
+  : isCatGroupoid (PathCat X)
+ := ( idp X,
+      comp-Path X,
+      G,
+      sym X,
+      comp-inv-Path⁻¹ X,
+      comp-inv-Path X,
+      comp-Path-left X,
+      comp-Path-right X,
+      comp-Path-assoc X,
+      ★
+    )
+\end{lstlisting}
+
+\begin{lstlisting}
+def comp-Ξ (A : U) (a b c : A) (p : Ξ A a b) (q : Ξ A b c) : Ξ A a c
+ := <i> hcomp A (∂ i)
+    (λ (j : I), [(i = 0) → a,
+                 (i = 1) → q @ j]) (p @ i)
+\end{lstlisting}
+
+\begin{lstlisting}
+def comp-inv-Ξ⁻¹ (A : U) (a b : A) (p : Ξ A a b)
+  : Ξ (Ξ A a a) (comp-Ξ A a b a p (<i> p @ -i)) (<_> a)
+ := <k j> hcomp A (∂ j ∨ k)
+    (λ (i : I), [(j = 0) → a,
+                 (j = 1) → p @ -i ∧ -k,
+                 (k = 1) → a]) (p @ j ∧ -k)
+\end{lstlisting}
+
+\begin{lstlisting}
+def comp-inv-Ξ (A : U) (a b : A) (p : Ξ A a b)
+  : Ξ (Ξ A b b) (comp-Ξ A b a b (<i> p @ -i) p) (<_> b)
+ := <j i> hcomp A (∂ i ∨ j)
+    (λ (k : I), [(i = 0) → b,
+                 (j = 1) → b,
+                 (i = 1) → p @ j \/ k]) (p @ -i ∨ j)
+\end{lstlisting}
+
+\begin{lstlisting}
+def comp-Ξ-left (A : U) (a b : A) (p: Ξ A a b)
+  : Ξ (Ξ A a b) p (comp-Ξ A a a b (<_> a) p)
+ := <j i> hcomp A (∂ i ∨ -j)
+    (λ (k : I), [(i = 0) → a,
+                 (i = 1) → p @ k,
+                 (j = 0) → p @ i /\ k]) a
+\end{lstlisting}
+
+\begin{lstlisting}
+def comp-Ξ-right (A : U) (a b : A) (p: Ξ A a b)
+  : Ξ (Ξ A a b) p (comp-Ξ A a b b p (<_> b))
+ := <j i> hcomp A (∂ i ∨ -j)
+    (λ (k : I), [(i = 0) → a,
+                 (i = 1) → b,
+                 (j = 0) → p @ i]) (p @ i)
+\end{lstlisting}
+
+\begin{lstlisting}
+def comp-Ξ-assoc (A : U) (a b c d : A)
+    (f : Ξ A a b) (g : Ξ A b c) (h : Ξ A c d)
+  : Ξ (Ξ A a d) (comp-Ξ A a c d (comp-Ξ A a b c f g) h)
+                (comp-Ξ A a b d f (comp-Ξ A b c d g h))
+ := J A a (λ (a : A) (b : A) (f : Ξ A a b),
+    Π (c d : A) (g : Ξ A b c) (h : Ξ A c d),
+    Ξ (Ξ A a d) (comp-Ξ A a c d (comp-Ξ A a b c f g) h)
+                (comp-Ξ A a b d f (comp-Ξ A b c d g h)))
+      (λ (c d : A) (g : Ξ A a c) (h : Ξ A c d),
+      comp-Ξ (Ξ A a d)
+         (comp-Ξ A a c d (comp-Ξ A a a c (<_> a) g) h)
+         (comp-Ξ A a c d g h)
+         (comp-Ξ A a a d (<_> a) (comp-Ξ A a c d g h))
+         (<i> comp-Ξ A a c d (comp-Ξ-left A a c g @ -i) h)
+         (comp-Ξ-left A a d (comp-Ξ A a c d g h))) b f c d g h
+\end{lstlisting}
 
 \newpage
 \subsection{Homotopy Groups}
