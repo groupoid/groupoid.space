@@ -1,6 +1,5 @@
-% copyright (c) 2018 Synrc Research Center
-
 \documentclass{article}
+\usepackage{indentfirst}
 \usepackage{listings}
 \usepackage{amsmath}
 \usepackage{amssymb}
@@ -8,6 +7,8 @@
 \usepackage{url}
 \usepackage{tikz-cd}
 \usepackage[utf8]{inputenc}
+
+\setlength{\parindent}{15pt}
 
 \theoremstyle{definition}
 \newtheorem{theorem}{Theorem}
@@ -169,9 +170,100 @@ Impredicative Encoding of Inductive Types in HoTT.
           Cubical Type Theory, Martin-Löf Type Theory
 \end{abstract}
 
-\tableofcontents
-\newpage
+  \tableofcontents
 
+\newpage
+\section{Inductive Encodings}
+
+\subsection{Church Encoding}
+
+You know Church encoding which also has its dependent alanolgue in CoC, however
+in Coq it is imposible to detive Inductive Principle as type system lacks fixpoint
+and functional extensionality. The example of working compiler of PTS languages are Om and Morte.
+Assume we have Church encoded NAT:
+
+\begin{lstlisting}[mathescape=true]
+nat = (X:U) -> (X -> X) -> X -> X
+\end{lstlisting}
+
+where first parameter $(X -> X)$ is a $succ$, the second parameter $X$ is $zero$,
+and the result of encoding is landed in X. Even if we encode the parameter
+
+\begin{lstlisting}[mathescape=true]
+list (A: U) = (X:U) -> X -> (A -> X) -> X
+\end{lstlisting}
+
+and paremeter A let's say live in 42 universe and X live in 2 universe, then by
+the signature of encoding the term will be landed in X, thus 2 universe. In other words
+such dependency is called impredicative displaying that landed term is not a predicate over parameters.
+This means that Church encoding is incompatible with predicative type checkers with predicative
+of predicative-cumulative hierarchies.
+
+
+\subsection{Scott Encoding}
+
+\subsection{Parigot Encoding}
+
+\subsection{CPS Encoding}
+
+\subsection{Interaction Networks Encoding}
+
+\subsection{Impredicative Encoding}
+
+In HoTT n-types is encoded as n-groupoids, thus we need to add a predicate in which n-type
+we would like to land the encoding:
+
+\begin{lstlisting}[mathescape=true]
+NAT (A: U) = (X:U) -> isSet X -> X -> (A -> X) -> X
+\end{lstlisting}
+
+Here we added isSet predicate. With this motto we can implement propositional
+truncation by landing term in isProp or even HIT by langing in isGroupoid:
+
+\begin{lstlisting}[mathescape=true]
+TRUN (A:U) type = (X: U) -> isProp X -> (A -> X) -> X
+S1 = (X:U) -> isGroupoid X -> ((x:X) -> Path X x x) -> X
+MONOPLE (A:U) = (X:U) -> isSet X -> (A -> X) -> X
+NAT = (X:U) -> isSet X -> X -> (A -> X) -> X
+\end{lstlisting}
+
+The main publication on this topic could be found at \cite{Awodey17} and \cite{Speight17}.
+
+\subsubsection*{The Unit Example}
+
+Here we have the implementation of Unit impredicative encoding in HoTT.
+
+\begin{lstlisting}[mathescape=true]
+upPath     (X Y:U)(f:X->Y)(a:X->X): X -> Y = o X X Y f a
+downPath   (X Y:U)(f:X->Y)(b:Y->Y): X -> Y = o X Y Y b f
+naturality (X Y:U)(f:X->Y)(a:X->X)(b:Y->Y): U
+  = Path (X->Y)(upPath X Y f a)(downPath X Y f b)
+
+unitEnc': U = (X: U) -> isSet X -> X -> X
+isUnitEnc (one: unitEnc'): U
+  = (X Y:U)(x:isSet X)(y:isSet Y)(f:X->Y) ->
+    naturality X Y f (one X x)(one Y y)
+
+unitEnc: U = (x: unitEnc') * isUnitEnc x
+unitEncStar: unitEnc = (\(X:U)(_:isSet X) ->
+  idfun X,\(X Y: U)(_:isSet X)(_:isSet Y)->refl(X->Y))
+unitEncRec  (C: U) (s: isSet C) (c: C): unitEnc -> C
+  = \(z: unitEnc) -> z.1 C s c
+unitEncBeta (C: U) (s: isSet C) (c: C)
+  : Path C (unitEncRec C s c unitEncStar) c = refl C c
+unitEncEta (z: unitEnc): Path unitEnc unitEncStar z = undefined
+unitEncInd (P: unitEnc -> U) (a: unitEnc): P unitEncStar -> P a
+  = subst unitEnc P unitEncStar a (unitEncEta a)
+unitEncCondition (n: unitEnc'): isProp (isUnitEnc n)
+  =  \ (f g: isUnitEnc n) ->
+     <h> \ (x y: U) -> \ (X: isSet x) -> \ (Y: isSet y)
+  -> \ (F: x -> y) -> <i> \ (R: x) -> Y (F (n x X R)) (n y Y (F R))
+       (<j> f x y X Y F @ j R) (<j> g x y X Y F @ j R) @ h @ i
+\end{lstlisting}
+
+\subsection{Lambek Encoding: Homotopy Initial Algebras}
+
+\newpage
 \section{Inductive Types}
 
 \subsection{W}
@@ -184,8 +276,8 @@ is defined as $\mathrm{W}(A,B) : \mathcal{U}$ or
 $$
    \mathrm{W}_{(x : A)} B(x) : \mathcal{U}.
 $$
-\begin{lstlisting}
-def W' (A : U) (B : A → U) : U := W (x : A), B x
+\begin{lstlisting}[mathescape=true]
+def W$'$ (A : U) (B : A → U) : U := W (x : A), B x
 \end{lstlisting}
 \end{definition}
 
@@ -196,7 +288,7 @@ $$
   \mathrm{sup} : \mathrm{W}_{(x: A)} B(x).
 $$
 \begin{lstlisting}
-def sup' (A: U) (B: A → U) (x: A) (f: B x → W' A B)
+def sup$'$ (A: U) (B: A → U) (x: A) (f: B x → W' A B)
   : W' A B
  := sup A B x f
 \end{lstlisting}
@@ -242,6 +334,8 @@ def indᵂ-β (A : U) (B : A → U)
   := <_> g a f (λ (b : B a), indᵂ A B C g (f b))
 \end{lstlisting}
 \end{theorem}
+
+\subsection{M}
 
 \newpage
 \subsection{Empty}
@@ -296,87 +390,40 @@ Unit type is the simplest type equipped with full set of MLTT inference rules. I
 
 \subsection{List}
 
-\newpage
-\section{Inductive Encodings}
+\subsection{Vector}
 
-\subsection{Church Encoding}
+\subsection{Stream}
 
-You know Church encoding which also has its dependent alanolgue in CoC, however
-in Coq it is imposible to detive Inductive Principle as type system lacks fixpoint
-and functional extensionality. The example of working compiler of PTS languages are Om and Morte.
-Assume we have Church encoded NAT:
+\subsection{Interpreter}
 
-\begin{lstlisting}[mathescape=true]
-nat = (X:U) -> (X -> X) -> X -> X
-\end{lstlisting}
+\begin{thebibliography}{99}
 
-where first parameter $(X -> X)$ is a $succ$, the second parameter $X$ is $zero$,
-and the result of encoding is landed in X. Even if we encode the parameter
+\bibitem{Speight17}
+Sam Speight,
+\textit{Impredicative Encoding of Inductive Types in HoTT},
+2017.
+\url{https://github.com/sspeight93/Papers/}
 
-\begin{lstlisting}[mathescape=true]
-list (A: U) = (X:U) -> X -> (A -> X) -> X
-\end{lstlisting}
+\bibitem{Awodey17}
+Steve Awodey,
+\textit{Impredicative Encodings in HoTT},
+2017.
+\url{https://www.newton.ac.uk/files/seminar/20170711090010001-1009680.pdf}
 
-and paremeter A let's say live in 42 universe and X live in 2 universe, then by
-the signature of encoding the term will be landed in X, thus 2 universe. In other words
-such dependency is called impredicative displaying that landed term is not a predicate over parameters.
-This means that Church encoding is incompatible with predicative type checkers with predicative
-of predicative-cumulative hierarchies.
+\bibitem{Pfenning89}
+Frank Pfenning and Christine Paulin-Mohring,
+\textit{Inductively Defined Types in the Calculus of Constructions},
+in \textit{Proc. 5th Int. Conf. Mathematical Foundations of Programming Semantics}, 1989, pp. 209–228.
+\texttt{doi:10.1007/BFb0040259}
 
-\subsection{Impredicative Encoding}
+\bibitem{Dybjer94}
+Peter Dybjer,
+\textit{Inductive Families},
+in \textit{Formal Aspects of Computing},
+pp. 440–465, 1994.
+\texttt{doi:10.1016/S0049-237X(08)71945-1}
 
-In HoTT n-types is encoded as n-groupoids, thus we need to add a predicate in which n-type
-we would like to land the encoding:
+\end{thebibliography}
 
-\begin{lstlisting}[mathescape=true]
-NAT (A: U) = (X:U) -> isSet X -> X -> (A -> X) -> X
-\end{lstlisting}
-
-Here we added isSet predicate. With this motto we can implement propositional
-truncation by landing term in isProp or even HIT by langing in isGroupoid:
-
-\begin{lstlisting}[mathescape=true]
-TRUN (A:U) type = (X: U) -> isProp X -> (A -> X) -> X
-S1 = (X:U) -> isGroupoid X -> ((x:X) -> Path X x x) -> X
-MONOPLE (A:U) = (X:U) -> isSet X -> (A -> X) -> X
-NAT = (X:U) -> isSet X -> X -> (A -> X) -> X
-\end{lstlisting}
-
-The main publication on this topic could be found at \cite{Awodey17} and \cite{Speight17}.
-
-\subsection{The Unit Example}
-
-Here we have the implementation of Unit impredicative encoding in HoTT.
-
-\begin{lstlisting}[mathescape=true]
-upPath     (X Y:U)(f:X->Y)(a:X->X): X -> Y = o X X Y f a
-downPath   (X Y:U)(f:X->Y)(b:Y->Y): X -> Y = o X Y Y b f
-naturality (X Y:U)(f:X->Y)(a:X->X)(b:Y->Y): U
-  = Path (X->Y)(upPath X Y f a)(downPath X Y f b)
-
-unitEnc': U = (X: U) -> isSet X -> X -> X
-isUnitEnc (one: unitEnc'): U
-  = (X Y:U)(x:isSet X)(y:isSet Y)(f:X->Y) ->
-    naturality X Y f (one X x)(one Y y)
-
-unitEnc: U = (x: unitEnc') * isUnitEnc x
-unitEncStar: unitEnc = (\(X:U)(_:isSet X) ->
-  idfun X,\(X Y: U)(_:isSet X)(_:isSet Y)->refl(X->Y))
-unitEncRec  (C: U) (s: isSet C) (c: C): unitEnc -> C
-  = \(z: unitEnc) -> z.1 C s c
-unitEncBeta (C: U) (s: isSet C) (c: C)
-  : Path C (unitEncRec C s c unitEncStar) c = refl C c
-unitEncEta (z: unitEnc): Path unitEnc unitEncStar z = undefined
-unitEncInd (P: unitEnc -> U) (a: unitEnc): P unitEncStar -> P a
-  = subst unitEnc P unitEncStar a (unitEncEta a)
-unitEncCondition (n: unitEnc'): isProp (isUnitEnc n)
-  =  \ (f g: isUnitEnc n) ->
-     <h> \ (x y: U) -> \ (X: isSet x) -> \ (Y: isSet y)
-  -> \ (F: x -> y) -> <i> \ (R: x) -> Y (F (n x X R)) (n y Y (F R))
-       (<j> f x y X Y F @ j R) (<j> g x y X Y F @ j R) @ h @ i
-\end{lstlisting}
-
-\bibliographystyle{plain}
-\bibliography{cic}
 
 \end{document}
