@@ -140,9 +140,9 @@ block content
                         h3= k
                         for j, i in v
                             if j === ""
-                                li: b()= i
+                                li(style="font-size:14px;"): b()= i
                             else
-                                li: a(href= j)= i
+                                li(style="font-size:14px;"): a(href= j)= i
             br
             br
             .type
@@ -151,9 +151,9 @@ block content
                         h3= k
                         for j, i in v
                             if j === ""
-                                li: b()= i
+                                li(style="font-size:14px;"): b()= i
                             else
-                                li: a(href= j)= i
+                                li(style="font-size:14px;"): a(href= j)= i
             br
             br
             .type
@@ -162,9 +162,9 @@ block content
                         h3= k
                         for j, i in v
                             if j === ""
-                                li: b()= i
+                                li(style="font-size:14px;"): b()= i
                             else
-                                li: a(href= j)= i
+                                li(style="font-size:14px;"): a(href= j)= i
 
         .exe
             section
@@ -173,52 +173,55 @@ block content
             h1 ARTICLES
             p.
                 The series of articles on foundation and mathematics of Homotopy Type Theory.
-            h2 FOUNDATIONS
-            p.
-                &mdash; <a href='articles/mltt/mltt.pdf'>Issue I: Type Theory</a><br>
-                &mdash; <a href='articles/cic/cic.pdf'>Issue II: Inductive Types</a><br>
-                &mdash; <a href='articles/hott/hott.pdf'>Issue III: Homotopy Type Theory</a><br>
-                &mdash; <a href='articles/hit/hit.pdf'>Issue IV: Higher Inductive Types</a><br>
-                &mdash; Issue V: Modalities<br>
 
-            h2 SYSTEMS
-            p.
-                &mdash; Issue VI:     Multicore Runtime<br>
-                &mdash; <a href='articles/joe/joe.pdf'>Issue VII:    Cartesian Interpreter</a><br>
-                &mdash; <a href='articles/bob/bob.pdf'>Issue VIII: Linear Interpreter</a><br>
-                &mdash; <a href='articles/quantum/quantum.pdf'>Issue IX: Quantum Interpreter</a><br>
-                &mdash; Issue X:      Verified Interpreter<br>
-                &mdash; Issue XI:     Distributed Protocols<br>
-                &mdash; Issue XII:    Process Library<br>
-                &mdash; Issue XIII:   Storage Library<br>
-                &mdash; Issue XIV:    Control Library<br>
-                &mdash; Issue XV:     Form Library<br>
+        .types
+            -
+                   var logic = {
 
-            h2 LANGUAGES
-            p.
-                &mdash; <a href='articles/henk/henk.pdf'>Issue XVI: Henk</a><br>
-                &mdash; Issue XVII:    Frank<br>
-                &mdash; Issue XVIII:   Christine<br>
-                &mdash; <a href='articles/laurent/laurent.pdf'>Issue XIX: Laurent</a><br>
-                &mdash; <a href='articles/anders/anders.pdf'>Issue XX: Anders</a><br>
-                &mdash; <a href='articles/urs/urs.pdf'>Issue XXI: Urs</a><br>
-                &mdash; Issue XXII:    Fabien<br>
-                &mdash; Issue XXIII:   Dan<br>
-                &mdash; Issue XXIV:    Jack<br>
+                    'Foundations': {  'Type Theory': 'https://groupoid.space/articles/mltt/mltt.pdf',
+                                      'Inductive Types': 'https://groupoid.space/articles/cic/cic.pdf',
+                                      'Homotopy Type Theory': 'https://groupoid.space/articles/hott/hott.pdf',
+                                      'Higher Inductive Types':'https://groupoid.space/articles/hit/hit.pdf',
+                                      'Modalities': '' },
 
-            h2 MATHEMATICS
-            p.
-                &mdash; <a href='articles/set/set.pdf'>Issue XXVI: Set Theory</a><br>
-                &mdash; <a href='articles/topos/topos.pdf'>Issue XXVII: Topos Theory</a><br>
-                &mdash; <a href='articles/cwf/cwf.pdf'>Issue XXVIII: Categories with Families</a><br>
-                &mdash; <a href='articles/equ/equ.pdf'>Issue XXIX: Heterogeneous Equality</a><br>
-                &mdash; Issue XXX:    Type Theory<br>
-                &mdash; Issue XXXI:   Abelian Categories<br>
-                &mdash; Issue XXXII:  Abelian Groups<br>
-                &mdash; Issue XXXII:  Supergeometry<br>
-                &mdash; Issue XXXIV:  C-Systems<br>
-                &mdash; Issue XXXV:   Grothendieck Group<br>
-                &mdash; <a href='articles/holib/holib.pdf'>Issue XXXVI: Homotopy Library</a><br>
+                      'Languages': { 'Laurent Schwartz' : 'https://laurent.groupoid.space/',
+                                             'Ernst Zermelo' : '',
+                                             'Paul Cohen' : '',
+                                             'Henk Barendregt': 'https://henk.groupoid.space/',
+                                             'Per Martin-Löf': 'https://per.groupoid.space/',
+                                             'Christine Paulin-Mohring': 'https://christine.groupoid.space/',
+                                             'Anders Mörtberg': 'https://anders.groupoid.space/',
+                                             'Dan Kan': 'https://dan.groupoid.space/',
+                                             'Jack Morava': 'https://jack.groupoid.space/',
+                                             'Urs Schreiber': 'https://urs.groupoid.space/',
+                                             'Fabien Morel': 'https://fabien.groupoid.space/' },
+
+                    'Mathematics': { 'Set Theory': '',
+                                     'Topos Theory': '',
+                                     'Simple Finite Groups': '',
+                                     'Categories with Families': '',
+                                     'Heterogeneous Equality': '',
+                                     'Abelian Groups': '',
+                                     'Abelian Categories': '',
+                                     'Supergeometry': '',
+                                     'C-Systems': '',
+                                     'Grothendieck Group': '' }
+                                 };
+
+
+            .type
+                for v, k in logic
+                    ol.type__col
+                        h3= k
+                        for j, i in v
+                            if j === ""
+                                li(style="font-size:14px;"): b()= i
+                            else
+                                li(style="font-size:14px;"): a(href= j)= i
+            br
+            br
+
+        .exe
 
             h1 LIBRARY
             p.
