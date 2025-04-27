@@ -144,7 +144,7 @@ inductive types, higher inductive types and gluening operations needed for
 both, the constructive homotopy type theory and univalence. All these concepts as a part of the languages
 will be described in the upcoming {\bf Issues II --- V}.
 
-\section{Martin-Löf Type Theory}
+\section{Interpretations}
 
 Martin-Löf Type Theory MLTT-80 contains $\Pi$, $\Sigma$, Id, W, 0, 1, 2 types.
 
@@ -166,8 +166,6 @@ Path types are essential to prove computation and uniquness rules for all types
 (needed for building signature and terms), so we will be able to prove all
 the MLTT rules as a whole.
 
-\subsection{Interpretations}
-
 In contexts you can bind to variables (through de Brujin indexes or string names):
 i) indexed universes; ii) built-in types; iii) user constructed types, and ask
 questions about type derivability, type checking and code extraction. This system
@@ -177,19 +175,6 @@ By using this languages it is possible to encode different interpretations of
 type theory itself and its syntax by construction. Usually the issues will refer to
 following interpretations: i) type-theoretical; ii) categorical;
 iii) set-theoretical; iv) homotopical; v) fibrational or geometrical.
-
-\subsubsection{Logical or Type-theoretical interpretation}
-
-According to type theoretical interpretation of MLTT for any type should be provided 5 formal
-inference rules: i) formation; ii) introduction; iii) dependent elimination principle;
-iv) beta rule or computational rule; v) eta rule or uniqueness rule. The last one could
-be exceptional for Path types. The formal representation of all rules of MLTT
-are given according to type-theoretical interpretation as a final result in this Issue I.
-It was proven that classical Logic could be embedded into
-intuitionistic propositional logic (IPL) which is directly embedded into MLTT.
-
-Logical and type-theoretical interpretations could be distincted. Also
-set-theoretical interpretation is not presented in the Table.
 
 \begin{table}[!ht]
   \centering
@@ -221,7 +206,21 @@ set-theoretical interpretation is not presented in the Table.
   \end{adjustbox}
 \end{table}
 
-\subsubsection{Categorical or Topos-theoretical interpretation}
+\subsection{Logical Interpretation}
+
+According to type theoretical interpretation of MLTT for any type should be provided 5 formal
+inference rules: i) formation; ii) introduction; iii) dependent elimination principle;
+iv) beta rule or computational rule; v) eta rule or uniqueness rule. The last one could
+be exceptional for Path types. The formal representation of all rules of MLTT
+are given according to type-theoretical interpretation as a final result in this Issue I.
+It was proven that classical Logic could be embedded into
+intuitionistic propositional logic (IPL) which is directly embedded into MLTT.
+
+Logical and type-theoretical interpretations could be distincted. Also
+set-theoretical interpretation is not presented in the Table.
+
+
+\subsection{Categorical Interpretation}
 
 Categorical interpretation \cite{Curien14} is a modeling through categories and functors.
 First category is defined as objects, morphisms and their properties, then
@@ -232,7 +231,7 @@ intermediate result in future issues. In some sense we include here
 topos-theoretical interpretations, with presheaf model of type theory as
 example (in this case fibrations are constructes as functors, categorically).
 
-\subsubsection{Homotopical interpretation}
+\subsection{Homotopical Interpretation}
 
 In classical MLTT uniquness rule of Id type do holds strictly. In Homotopical
 interpretation of MLTT we need to allow a path space as Path type where uniqueness
@@ -245,20 +244,20 @@ of fiber bundles and trivial fiber bindle as direct isomorphisms of $\Pi$ types 
 given here as theorem. As fibrations study in homotopical interpretation, geometric
 interpretation could be treated as homotopical.
 
-\subsubsection{Set-theoretical interpretation}
+\subsection{Set Interpretation}
 
 Set-theoretical interpretations could replace first-order logic, but could not allow
 higher equalities, as long as inductive types to be embedded directly. Set is modelled
 in type theory according to homotopical interpretation as n-type.
-
-\subsection{Types}
 
 MLTT-80 could be reduced to $\Pi$, $\Sigma$, Path types (MLTT-75) omitting polynomial
 functors W modeled by F-algebras and their terminators: 0, 1, 2 types.
 In this issue $\Pi$, $\Sigma$, Path are given as a core of MLTT-75. The inductive types
 will be disscussed in the upcoming $\textbf{Issue II: Inductive Types}$.
 
-\subsubsection{$\Pi$-type}
+\section{Martin-Löf Type Theory}
+
+\subsection{Function ($\Pi$)}
 
 $\Pi$ is a dependent product type, the generalization of functions.
 As a function it can serve the wide range of mathematical constructions as its domain and codomain,
@@ -438,7 +437,7 @@ Note that we will not be able to prove this theorem
 until {\bf Issue III: Homotopy Type Theory} because
 bi-invertible iso type will be announced there.
 
-\subsubsection{$\Sigma$-type}
+\subsection{Context ($\Sigma$)}
 
 $\Sigma$ is a dependent sum type, the generalization of products.
 $\Sigma$ type is a total space of fibration. Element of total
@@ -544,7 +543,7 @@ pathSig (A:U) (B : A -> U) (t u : Sigma A B)
 \end{lstlisting}
 \end{theorem}
 
-\subsubsection{$\Xi$-type}
+\subsection{Path ($\Xi$)}
 
 The Path identity type or $\Xi$ defines a Path space with elements and values.
 Elements of that space are functions from interval $[0,1]$ to a values of that path space.
@@ -751,7 +750,7 @@ J_comp (A: U) (a: A) (C: (x: A)
 
 Note that  Path type has no Eta rule due to groupoid interpretation.
 
-\subsubsection{Groupoid interpretation}
+\subsubsection*{Groupoid interpretation}
 
 The groupoid interpretation of type theory is well known article by Martin Hofmann and Thomas Streicher,
 more specific interpretation of identity type as infinity groupoid.
@@ -1165,61 +1164,6 @@ in \textit{Proc. 4th Int. Conf. Mathematical Models and Computational Techniques
 2018.
 \texttt{doi:10.1063/1.5045439}
 \end{thebibliography}
-
-\bibitem{Pfenning89}
-Frank Pfenning and Christine Paulin-Mohring,
-\textit{Inductively Defined Types in the Calculus of Constructions},
-in \textit{Proc. 5th Int. Conf. Mathematical Foundations of Programming Semantics}, 1989, pp. 209–228.
-\texttt{doi:10.1007/BFb0040259}
-
-\bibitem{Dybjer94}
-Peter Dybjer,
-\textit{Inductive Families},
-in \textit{Formal Aspects of Computing},
-pp. 440–465, 1994.
-\texttt{doi:10.1016/S0049-237X(08)71945-1}
-
-\newpage
-
-{\bf Проблематика.}
-Був пройдений довгий шлях від чистих типових систем AUTOMATH де Брейна до
-гомотопічних типових верифікаторів. Ця стаття стосується тільки формального ядра
-теорії типів Мартіна-Льофа: $\Pi$, $\Sigma$ і $\Xi$ типів (які відповідають
-квантору загальності $\forall$ та квантору існування $\exists$ у класичній логіці)
-та типу-рівності.\\
-\indent {\bf Мета дослідження.}
-Визначити типову систему як частину моделі системи доведення теорем,
-у якій конструктивно виражається J елімінатор та його теореми, спираючись на більш абстрактні
-примітиви типа рівності. Це стало можливим завдяки кубічній теорії типів (2016) та типовому кубічному верифікатору
-{\bf cubicaltt}\footnote{http://github.com/mortberg/cubicaltt} (2017).
-Ціль статті --- продемонструвати формальне вбудовування теорії типів Мартіна-Льофа
-в виконуючу авторську кубічну типову систему $\mathbf{Per}$ з повним набором правил виводу.\\
-\indent {\bf Методика реалізації.}
-Так як всі типи в теорії формулюються за допомогою п'яти
-правил: формації, інтро, елімінації, обчисленя, рівності) що в сутності
-є кодуванням ізоморфізмами ініальних об'єктів в категорія F-алгебр, ми зконструювали
-номінальні типи-синоніми для виконуючого верифікатора та довели, що це є реалізацією MLTT.
-Так як не всі можуть бути знайомі з теорією типів,
-це випуск також містить їх інтерпретації з точки зору різних розділів математики.\\
-\indent {\bf Результати дослідження.}
-Ця робота веде до декількох результатів:
-1) $\mathbf{Per}$ --- спеціальна версія теорії типів Мартіна-Льофа зі зліченною кількістю всесвітів та Path типом без eta-правила для HoTT застосування у яку ми будем вбудовувати класичну MLTT;
-2) Інтерналізація MLTT в $\mathbf{Per}$ з синтаксисом який дозволяє виводити поліморфні всесвіти;
-3) Класифіковані різні інтерпретації цієї системи типів: теоретико-типова, категорна або топосо-теоретична, гомотопічна або кубічна;
-4) Це може розглядатися як універсальний тест для імплементації типового верифікатора,
-позаяк компенсаця інтро правила та правила елімінатора пов'язані в правилі
-обчислення та рівності (бета та ета редукціях). Таким чином, доводжучи реалізацію MLTT,
-ми доводимо властивості виконуючого верифікатора;
-6) Завдяки позитивним результатм кубічна теорія була вибрана як геометричне розширення системи індуктивних типів
-для математичної верифікації як частина концептуальної системи доведення теорем, яка включатимиме серію мов
-як середовище верифікації.\\
-\indent {\bf Висновки.}
-Додамо, що це тільки вхід в техніку прямого вбудовування і після MLTT моделювання,
-ми можем піднятися вище — до вбудовування в систему індуктивних типів, і далі,
-до вбудовування CW-комплексів як зклейок вищих індуктивних типів, та далі до модальних логік.
-Це означає широкий спектр математичних теорії всередині HoTT аж до алегбраїчної топології. \\
-\indent {\bf Ключові слова:} Теорія типів Мартіна-Льофа, Кубічна теорія типів.
-\vspace{1cm}
 
 \end{document}
 
