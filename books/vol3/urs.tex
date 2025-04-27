@@ -1,0 +1,393 @@
+\documentclass{article}
+\usepackage{newunicodechar}
+\usepackage{verbatim}
+\usepackage[english,ukrainian]{babel}
+\usepackage{listings}
+\usepackage[utf8]{inputenc}
+\usepackage{hyphenat}
+\usepackage{hyperref}
+\usepackage{adjustbox}
+\usepackage{xcolor}
+\usepackage{microtype}
+\usepackage{amscd}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{tikz}
+\usepackage{tikz-cd}
+\usepackage{url}
+
+\makeatletter
+\renewcommand{\lstlisting@font}{\ttfamily\small}
+\makeatother
+
+\newunicodechar{λ}{$\lambda$}
+\newunicodechar{Π}{$\Pi$}
+\newunicodechar{Σ}{$\Sigma$}
+\newunicodechar{ε}{$\epsilon$}
+\renewcommand{\quotesinglbase}{,}
+
+
+\addto\captionsukrainian{\renewcommand{\contentsname}{Зміст}}
+\addto\captionsukrainian{\renewcommand{\abstractname}{Аннотація}}
+
+\begin{document}
+
+\author { М.Е. Сохацький $^1$ }
+\title { Issue XXI: Super Type System }
+\date{ \small $^1$ Національний технічний університет України \\
+       ім. Ігоря Сікорського \\
+       26 листопада 2025 }
+\maketitle
+
+\begin{abstract}
+
+\end{abstract}
+
+\ifincludeTOC
+  \tableofcontents
+\fi
+
+\addtocontents{toc}{\protect\newpage}
+
+\newpage
+
+\section{Introduction to Urs}
+
+\section{Super Type System}
+
+\section{Bosonic Modality}
+
+The $\bigcirc$ modality in cohesive type theory projects a type to bosonic parity ($g = 0$).
+For a type $A : \mathbf{U}_{i,g}$, $\bigcirc A$ forces the type to be bosonic,
+aligning with supergeometry and quantum physics.
+
+In Urs, $\bigcirc$ operates on types in graded universes from $\mathbf{Graded}$,
+with applications in bosonic quantum fields $\mathbf{qubit}$ and supergeometry
+$\mathbf{SmthSet}$.
+
+\subsection{Bose}
+
+\begin{definition}[Bosonic Modality Formation]\label{def:bosonic-formation}
+The $\bigcirc$ modality is a type operator on graded universes, mapping to bosonic parity:
+\[
+    \bigcirc : \prod_{i : \mathbb{N}} \prod_{g : \mathbf{Grade}}
+    \mathbf{U}_{i,g} \to \mathbf{U}_{i,0}.
+\]
+\begin{lstlisting}[mathescape=true]
+def bosonic (i : Nat) (g : Grade) (A : U i g) : U i 0
+\end{lstlisting}
+\end{definition}
+
+\begin{definition}[Bosonic Modality Introduction]\label{def:bosonic-intro}
+Applying $\bigcirc$ to a type $A$ produces $\bigcirc A$ with bosonic parity:
+\[
+    \Gamma \vdash A : \mathbf{U}_{i,g}
+    \quad \to \quad
+    \Gamma \vdash \bigcirc A : \mathbf{U}_{i,0}.
+\]
+\end{definition}
+
+\begin{definition}[Bosonic Modality Elimination]\label{def:bosonic-elim}
+The eliminator for $\bigcirc A$ maps bosonic types to properties in $\mathbf{U_0}$:
+\[
+\mathbf{Ind_{\bigcirc}} :
+\prod_{i : \mathbb{N}} \prod_{g : \mathbf{Grade}}
+\prod_{A : \mathbf{U}_{i,g}} \prod_{\phi : (\bigcirc A) \to \mathbf{U_0}}
+\left( \prod_{a : \bigcirc A} \phi\ a \right) \to \prod_{a : \bigcirc A} \phi\ a.
+\]
+\begin{lstlisting}[mathescape=true]
+def bosonic_ind (i : Nat) (g : Grade) (A : U i g)
+    (phi : (bosonic i g A) -> U_0)
+    (h : Π (a : bosonic i g A), phi a)
+  : Π (a : bosonic i g A), phi a
+\end{lstlisting}
+\end{definition}
+
+\begin{theorem}[Idempotence of Bosonic]\label{thm:bosonic-idempotence}
+The $\bigcirc$ modality is idempotent, as it always projects to bosonic parity:
+\[
+    \mathbf{\bigcirc\text{-}idem} :
+    \prod_{i : \mathbb{N}} \prod_{g : \mathbf{Grade}}
+    \prod_{A : \mathbf{U}_{i,g}}
+    (\bigcirc (\bigcirc A)) = (\bigcirc A).
+\]
+\begin{lstlisting}[mathescape=true]
+def bosonic_idem (i : Nat) (g : Grade) (A : U i g)
+  : (bosonic i 0 (bosonic i g A)) = (bosonic i g A)
+\end{lstlisting}
+\end{theorem}
+
+\begin{theorem}[Bosonic Qubits]\label{thm:bosonic-qubit}
+For $C, H : \mathbf{U_0}$, the type $\bigcirc \mathbf{Qubit}(C, H)$ models bosonic quantum states:
+\[
+    \mathbf{\bigcirc\text{-}qubit} :
+    \prod_{i : \mathbb{N}} \prod_{g : \mathbf{Grade}}
+    \prod_{C, H : \mathbf{U_0}}
+    (\bigcirc \mathbf{Qubit}(C, H)) : \mathbf{U}_{i,0}.
+\]
+\begin{lstlisting}[mathescape=true]
+def bosonic_qubit (i : Nat) (g : Grade) (C H : U_0) : U i 0
+ := bosonic i g (Qubit C H)
+
+\end{lstlisting}
+\end{theorem}
+
+\subsection{Braid}
+
+The $\mathbf{Braid}_n(X)$ type models the braid group $B_n(X)$ on $n$ strands over
+a smooth set $X : \mathbf{SmthSet}$, the fundamental group of the configuration
+space $\mathbf{Conf}^n(X)$, used in knot theory, quantum computing, and smooth geometry.
+
+In Urs, $\mathbf{Braid}_n(X)$ is a type in $\mathbf{U_0}$, parameterized by
+$n : \mathbf{Nat}$ and $X : \mathbf{SmthSet}$, supporting braid generators
+$\sigma_i$ and relations, with applications to anyonic quantum gates and knot invariants.
+
+\begin{definition}[Braid Formation]
+The type $\mathbf{Braid}_n(X)$ is formed for each $n : \mathbf{Nat}$ and $X : \mathbf{SmthSet}$:
+\[
+    \mathbf{Braid} : \prod_{n : \mathbf{Nat}} \prod_{X : \mathbf{SmthSet}} \mathbf{U_0}.
+\]
+\begin{lstlisting}[mathescape=true]
+def Braid (n : Nat) (X : SmthSet) : U_0
+(* Braid group type *)
+\end{lstlisting}
+\end{definition}
+
+\begin{definition}[Braid Introduction]\label{def:braid-intro}
+Terms of type $\mathbf{Braid}_n(X)$ are introduced via the $\mathbf{braid}$ constructor,
+representing generators $\sigma_i$ for $i : \mathbf{Fin}\ (n-1)$:
+\[
+    \mathbf{braid} : \prod_{n : \mathbf{Nat}} \prod_{X : \mathbf{SmthSet}} \prod_{i : \mathbf{Fin}\ (n-1)} \mathbf{Braid}_n(X).
+\]
+\begin{lstlisting}[mathescape=true]
+def braid (n : Nat) (X : SmthSet) (i : Fin (n-1)) : Braid n X
+(* Braid generator sigma_i *)
+\end{lstlisting}
+\end{definition}
+
+\begin{definition}[Braid Elimination]\label{def:braid-elim}
+The eliminator for $\mathbf{Braid}_n(X)$ maps braid elements to properties in $\mathbf{U_0}$:
+\[
+\mathbf{BraidInd} :
+\prod_{n : \mathbf{Nat}} \prod_{X : \mathbf{SmthSet}}
+\prod_{\beta : \mathbf{Braid}_n(X) \to \mathbf{U_0}}
+\left( \prod_{b : \mathbf{Braid}_n(X)} \beta\ b \right) \to
+\prod_{b : \mathbf{Braid}_n(X)} \beta\ b.
+\]
+\begin{lstlisting}[mathescape=true]
+def braid_ind (n : Nat) (X : SmthSet)
+    (beta : Braid n X -> U_0)
+    (h : Π (b : Braid n X), beta b)
+  : Π (b : Braid n X), beta b
+\end{lstlisting}
+\end{definition}
+
+\begin{theorem}[Braid Relations]\label{thm:braid-relations}
+For $n : \mathbf{Nat}$, $X : \mathbf{SmthSet}$, $\mathbf{Braid}_n(X)$
+satisfies the braid group relations (Commutation and Yang-Baxter):
+\[
+\prod_{n : \mathbf{Nat}} \prod_{X : \mathbf{SmthSet}}
+\prod_{i, j : \mathbf{Fin}\ (n-1),\ |i-j|\geq 2}
+\sigma_i \cdot \sigma_j = \sigma_j \cdot \sigma_i,
+\]
+\[
+\prod_{n : \mathbf{Nat}} \prod_{X : \mathbf{SmthSet}}
+\prod_{i : \mathbf{Fin}\ (n-2)}
+\sigma_i \cdot \sigma_{i+1} \cdot \sigma_i = \sigma_{i+1} \cdot \sigma_i \cdot \sigma_{i+1}.
+\]
+\begin{lstlisting}[mathescape=true]
+def braid_rel_comm (n : Nat) (X : SmthSet) (i j : Fin (n-1))
+  : Path (braid i · braid j) (braid j · braid i)
+
+def braid_rel_yang (n : Nat) (X : SmthSet) (i : Fin (n-2))
+  : Path (braid i · braid (i+1) · braid i) (braid (i+1) · braid i · braid (i+1))
+\end{lstlisting}
+\end{theorem}
+
+\begin{theorem}[Configuration Space Link]\label{thm:braid-conf}
+For $n : \mathbf{Nat}$, $X : \mathbf{SmthSet}$, $\mathbf{Braid}_n(X)$ is the fundamental groupoid of $\mathbf{Conf}^n(X)$:
+\[
+\prod_{n : \mathbf{Nat}} \prod_{X : \mathbf{SmthSet}}
+\mathbf{Braid}_n(X) \cong \pi_1(\mathbf{Conf}^n(X)).
+\]
+\begin{lstlisting}[mathescape=true]
+def braid_conf (n : Nat) (X : SmthSet)
+  : Path (Braid n X) (pi_1 (Conf n X))
+\end{lstlisting}
+\end{theorem}
+
+\begin{theorem}[Quantum Braiding]\label{thm:braid-qubit}
+For $C, H : \mathbf{U_0}$, $\mathbf{Braid}_n(X)$ acts on $\mathbf{Qubit}(C, H)^{\otimes n}$ as braiding operators:
+\[
+\mathbf{braid\_qubit} :
+\prod_{n : \mathbf{Nat}} \prod_{C, H : \mathbf{U_0}} \prod_{X : \mathbf{SmthSet}}
+\mathbf{Braid}_n(X) \to
+\left( \mathbf{Qubit}(C, H)^{\otimes n} \to \mathbf{Qubit}(C, H)^{\otimes n} \right).
+\]
+\begin{lstlisting}[mathescape=true]
+def braid_qubit (n : Nat) (C H : U_0) (X : SmthSet)
+  : Braid n X -> (Qubit C H)^n -> (Qubit C H)^n
+\end{lstlisting}
+\end{theorem}
+
+\begin{theorem}[Braid Group Delooping]\label{thm:braid-delooping}
+For $n : \mathbf{Nat}$, the delooping $\mathbf{BB}_n$ of the braid group $B_n$ is a 1-groupoid:
+\[
+\mathbf{BB}_n : \mathbf{Grpd}\ 1 \equiv \Im(\mathbf{Conf}^n(\mathbb{R}^2)).
+\]
+\begin{lstlisting}[mathescape=true]
+def BB_n (n : Nat) : Grpd 1 := $\Im$ (Conf n $\mathbb{R}^2$)
+\end{lstlisting}
+\end{theorem}
+
+\newpage
+\subsection{Graded Universes}
+
+\textbf{Graded Universes.}
+The $\mathbf{U}_\alpha$ type represents a graded universe indexed by a monoid
+$\mathcal{G} = \mathbb{N} \times \mathbb{Z}/2\mathbb{Z}$, where $\alpha \in \mathcal{G}$
+encodes a level ($\mathbb{N}$) and parity ($\mathbb{Z}/2\mathbb{Z}$: $0$ = bosonic, $1$ = fermionic).
+Graded universes support type hierarchies with cumulativity, graded tensor products,
+and coherence rules, used in supergeometry (e.g., bosonic/fermionic types),
+quantum systems (e.g., graded qubits), and cohesive type theory.
+
+In Urs, $\mathbf{U}_\alpha$ is a type indexed by $\alpha : \mathcal{G}$, with operations
+like lifting, product formation, and graded tensor products, extending standard
+universe hierarchies to include parity, building on $\mathbf{Tensor}$.
+
+\begin{definition}[Grading Monoid]
+The grading monoid $\mathcal{G}$ is defined as $\mathbb{N} \times \mathbb{Z}/2\mathbb{Z}$,
+with operation $\oplus$ and neutral element $\mathbf{0}$, encoding level and parity.
+\[
+\begin{aligned}
+\mathcal{G} & : \mathbf{Type} \equiv \mathbb{N} \times \mathbb{Z}/2\mathbb{Z}, \\
+\oplus & : \mathcal{G} \to \mathcal{G} \to \mathcal{G}, \\
+(\alpha, \beta) & \mapsto (\text{fst}\ \alpha + \text{fst}\ \beta,\ (\text{snd}\ \alpha + \text{snd}\ \beta) \mod 2), \\
+\mathbf{0} & : \mathcal{G} \equiv (0, 0).
+\end{aligned}
+\]
+\begin{lstlisting}[mathescape=true]
+def 𝒢 : Type := ℕ × ℤ/2ℤ
+def ⊕ (α β : 𝒢) : 𝒢 := (fst α + fst β, (snd α + snd β) mod 2)
+def 𝟘 : 𝒢 := (0, 0)
+\end{lstlisting}
+\end{definition}
+
+\begin{definition}[Graded Universe Formation]
+The universe $\mathbf{U}_\alpha$ is a type indexed by $\alpha : \mathcal{G}$,
+containing types of grade $\alpha$. A shorthand notation $\mathbf{U}_{i,g}$
+is used for $\mathbf{U}\ (i, g)$.
+\[
+\begin{aligned}
+\mathbf{U} & : \mathcal{G} \to \mathbf{Type}, \\
+\mathbf{Grade} & : \mathbf{Set} \equiv \{0, 1\}, \\
+\mathbf{U}_{i,g} & : \mathbf{Type} \equiv \mathbf{U}(i, g) : \mathbf{U}_{i+1}.
+\end{aligned}
+\]
+\begin{lstlisting}[mathescape=true]
+def U (α : 𝒢) : Type := Universe α
+def Grade : Set := {0, 1}
+def U (i : Nat) (g : Grade) : Type := U (i, g)
+def U₀ (g : Grade) : U (1, g) := U (0, g)
+def U₀₀ : Type := U (0, 0)
+def U₁₀ : Type := U (1, 0)
+def U₀₁ : Type := U (0, 1)
+\end{lstlisting}
+\end{definition}
+
+\begin{definition}[Graded Universe Coherence Rules]
+Graded universes support coherence rules for lifting, product formation, and substitution,
+ensuring type-theoretic consistency.
+\[
+\begin{aligned}
+\mathbf{lift} & : \prod_{\alpha, \beta : \mathcal{G}} \prod_{\delta : \mathcal{G}}
+\mathbf{U}\ \alpha \to (\beta = \alpha \oplus \delta) \to \mathbf{U}\ \beta, \\
+\mathbf{univ} & : \prod_{\alpha : \mathcal{G}} \mathbf{U}\ (\alpha \oplus (1, 0)), \\
+\mathbf{cumul} & : \prod_{\alpha, \beta : \mathcal{G}} \prod_{A : \mathbf{U}\ \alpha}
+\prod_{\delta : \mathcal{G}} (\beta = \alpha \oplus \delta) \to \mathbf{U}\ \beta, \\
+\mathbf{prod} & : \prod_{\alpha, \beta : \mathcal{G}} \prod_{A : \mathbf{U}\ \alpha}
+\prod_{B : A \to \mathbf{U}\ \beta} \mathbf{U}\ (\alpha \oplus \beta), \\
+\mathbf{subst} & : \prod_{\alpha, \beta : \mathcal{G}} \prod_{A : \mathbf{U}\ \alpha}
+\prod_{B : A \to \mathbf{U}\ \beta} \prod_{t : A} \mathbf{U}\ \beta, \\
+\mathbf{shift} & : \prod_{\alpha, \delta : \mathcal{G}} \prod_{A : \mathbf{U}\ \alpha}
+\mathbf{U}\ (\alpha \oplus \delta).
+\end{aligned}
+\]
+\begin{lstlisting}[mathescape=true]
+def lift (α β : 𝒢) (δ : 𝒢) (e : U α) : β = α ⊕ δ → U β :=
+  λ eq : β = α ⊕ δ, transport (λ x : 𝒢, U x) eq e
+
+def univ-type (α : 𝒢) : U (α ⊕ (1, 0)) :=
+  lift α (α ⊕ (1, 0)) (1, 0) (U α) refl
+
+def cumul (α β : 𝒢) (A : U α) (δ : 𝒢) : β = α ⊕ δ → U β :=
+  lift α β δ A
+
+def prod-rule (α β : 𝒢) (A : U α) (B : A → U β) : U (α ⊕ β) :=
+  Π (x : A), B x
+
+def subst-rule (α β : 𝒢) (A : U α) (B : A → U β) (t : A) : U β :=
+  B t
+
+def shift (α δ : 𝒢) (A : U α) : U (α ⊕ δ) :=
+  lift α (α ⊕ δ) δ A refl
+\end{lstlisting}
+\end{definition}
+
+\begin{definition}[Graded Tensor Introduction]
+Graded tensor products combine types with matching levels, combining parities.
+\[
+\begin{aligned}
+\mathbf{tensor} & : \prod_{i : \mathbb{N}} \prod_{g_1, g_2 : \mathbf{Grade}}
+\mathbf{U}_{i,g_1} \to \mathbf{U}_{i,g_2} \to \mathbf{U}_{i,(g_1 + g_2 \bmod 2)}, \\
+\mathbf{pair\text{-}tensor} & : \prod_{i : \mathbb{N}} \prod_{g_1, g_2 : \mathbf{Grade}}
+\prod_{A : \mathbf{U}_{i,g_1}} \prod_{B : \mathbf{U}_{i,g_2}} \prod_{a : A} \prod_{b : B}
+\mathbf{tensor}(i, g_1, g_2, A, B).
+\end{aligned}
+\]
+\begin{lstlisting}[mathescape=true]
+def tensor (i : Nat) (g₁ g₂ : Grade)
+    (A : U i g₁) (B : U i g₂) : U i (g₁ + g₂ mod 2)
+ := A ⊗ B
+
+def pair-tensor (i : Nat) (g₁ g₂ : Grade) (A : U i g₁)
+    (B : U i g₂) (a : A) (b : B) : tensor i g₁ g₂ A B
+ := a ⊗ b
+\end{lstlisting}
+\end{definition}
+
+\begin{definition}[Graded Tensor Eliminators]
+Eliminators for graded tensor products project to their components.
+\[
+\begin{aligned}
+\otimes\text{-}\mathbf{prj}_1 & : (A \otimes B) \to A, \\
+\otimes\text{-}\mathbf{prj}_2 & : (A \otimes B) \to B.
+\end{aligned}
+\]
+\begin{lstlisting}[mathescape=true]
+def pr₁ (i : Nat) (g₁ g₂ : Grade)
+    (A : U i g₁) (B : U i g₂) (p : A ⊗ B) : A := p.1
+
+def pr₂ (i : Nat) (g₁ g₂ : Grade)
+    (A : U i g₁) (B : U i g₂) (p : A ⊗ B) : B := p.2
+\end{lstlisting}
+\end{definition}
+
+\begin{theorem}[Monoid Properties]
+The grading monoid $\mathcal{G}$ satisfies associativity and identity laws.
+\[
+\begin{aligned}
+\mathbf{assoc} & : ((\alpha \oplus \beta) \oplus \gamma) = (\alpha \oplus (\beta \oplus \gamma)), \\
+\mathbf{id\text{-}left} & : (\alpha \oplus \mathbf{0}) = \alpha, \\
+\mathbf{id\text{-}right} & : (\mathbf{0} \oplus \alpha) = \alpha.
+\end{aligned}
+\]
+\begin{lstlisting}[mathescape=true]
+def assoc (α β γ : 𝒢) : (α ⊕ β) ⊕ γ = α ⊕ (β ⊕ γ) := refl
+def ident-left (α : 𝒢) : α ⊕ 𝟘 = α := refl
+def ident-right (α : 𝒢) : 𝟘 ⊕ α = α := refl
+\end{lstlisting}
+\end{theorem}
+
+\end{document}
