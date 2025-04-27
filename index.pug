@@ -222,6 +222,20 @@ block content
             br
 
         .exe
+            section
+
+                h1 BOOKS
+
+                div(style="padding-top: 8px;")
+                    img(src="https://anders.groupoid.space/images/pdf.jpg", width="35")
+                    a(href="https://groupoid.space/books/vol1/vol1.pdf") &nbsp; Volume 1: Foundations
+
+                div(style="padding-top: 8px;")
+                    img(src="https://anders.groupoid.space/images/pdf.jpg", width="35")
+                    a(href="https://groupoid.space/books/vol3/vol3.pdf") &nbsp; Volume 3: Languages
+
+        .exe
+            section
 
             h1 LIBRARY
             p.
@@ -229,92 +243,126 @@ block content
                 theorem prover consists of two parts Foundations and Mathematics just
                 as <a href="https://homotopytypetheory.org/book/">HoTT Book</a>.
 
-            h2 FOUNDATIONS
+            h2 Foundations
             p.
                 MLTT, Modal and Univalent Foundations represent a basic
                 language primitives of <b>Anders</b> and its base library.
 
+        .types
+            -
+
+                   var foundations = {
+
+                    'MLTT': {  'Pi': 'https://anders.groupoid.space/foundations/mltt/pi/',
+                               'Sigma': 'https://anders.groupoid.space/foundations/mltt/sigma/',
+                               'Id': 'https://anders.groupoid.space/foundations/mltt/id/',
+                               '0, 1, 2, W': 'https://anders.groupoid.space/foundations/mltt/inductive/',
+                               'Nat': 'https://anders.groupoid.space/foundations/mltt/nat/',
+                               'List': 'https://anders.groupoid.space/foundations/mltt/list/',
+                               'Fin': 'https://anders.groupoid.space/foundations/mltt/fin/',
+                               'Vec': 'https://anders.groupoid.space/foundations/mltt/vec/'
+                            },
+
+               'Univalent': {  'Path': 'https://anders.groupoid.space/foundations/univalent/path/',
+                               'Glue': 'https://anders.groupoid.space/foundations/univalent/glue/',
+                               'Equiv': 'https://anders.groupoid.space/foundations/univalent/equiv/',
+                               'Homotopy': 'https://anders.groupoid.space/foundations/univalent/funext/',
+                               'Isomorphism': 'https://anders.groupoid.space/foundations/univalent/iso/'
+                            },
+
+               'Modal': {  'Process': 'https://anders.groupoid.space/foundations/modal/process/',
+                           'Infinitesimal': 'https://anders.groupoid.space/foundations/modal/infinitesimal/',
+                           'Modality': 'https://anders.groupoid.space/foundations/modal/modality/',
+                           'Localization': 'https://anders.groupoid.space/foundations/modal/localization/'
+                        }
+                   };
+            .type
+                for v, k in foundations
+                    ol.type__col
+                        h3= k
+                        for j, i in v
+                            if j === ""
+                                li(style="font-size:16px;"): b()= i
+                            else
+                                li(style="font-size:16px;"): a(href= j)= i
+
+        .exe
             section
-                .macro
-                    .macro__col
-                        h3#mltt <b>MLTT</b>
-                        ol
-                            li: <a href='https://anders.groupoid.space/foundations/mltt/pi/'>Π</a>, <a href='https://anders.groupoid.space/foundations/mltt/sigma/'>Σ</a>, <a href='https://anders.groupoid.space/foundations/mltt/id/'>=</a>
-                            li: <a href='https://anders.groupoid.space/foundations/mltt/inductive/'>0, 1, 2, W</a>
-                            li: <a href='https://anders.groupoid.space/foundations/mltt/either/'>+</a>, <a href='https://anders.groupoid.space/foundations/mltt/maybe/'>1+</a>
-                            li: <a href='https://anders.groupoid.space/foundations/mltt/nat/'>N</a>, <a href='https://anders.groupoid.space/foundations/mltt/list/'>LIST</a>
-                            li: <a href='https://anders.groupoid.space/foundations/mltt/fin/'>FIN</a>, <a href='https://anders.groupoid.space/foundations/mltt/vec/'>VEC</a>
 
-                    .macro__col
-                        h3#modal <b>MODAL</b>
-                        ol
-                            li: a(href='https://anders.groupoid.space/foundations/modal/process/') PROCESS
-                            li: a(href='https://anders.groupoid.space/foundations/modal/infinitesimal/') INFINITESIMAL
-                            li: a(href='https://anders.groupoid.space/foundations/modal/localization/') LOCALIZATION
-
-                    .macro__col
-                        h3#univalent <b>UNIVALENT</b>
-                        ol
-                            li: a(href='https://anders.groupoid.space/foundations/univalent/path/') PATH
-                            li: a(href='https://anders.groupoid.space/foundations/univalent/glue/') GLUE
-                            li: a(href='https://anders.groupoid.space/foundations/univalent/equiv/') EQUIV
-                            li: a(href='https://anders.groupoid.space/foundations/univalent/funext/') FUNEXT
-                            li: a(href='https://anders.groupoid.space/foundations/univalent/iso/') ISO
-
-            h2 MATHEMATICS
+            h2 Mathematics
             p.
                 The second part is dedicated to mathematical models and theories internalized in this language.
 
+        .types
+            -
+
+                   var classic = {
+
+                    'Analysis': {  'Topology': 'https://anders.groupoid.space/mathematics/analysis/topology/',
+                                   'Set': 'https://anders.groupoid.space/mathematics/analysis/set/',
+                                   'ℚ': 'https://anders.groupoid.space/mathematics/analysis/rational/',
+                                   'ℝ': 'https://anders.groupoid.space/mathematics/analysis/real/',
+                                   'ℂ': 'https://anders.groupoid.space/mathematics/analysis/complex/',
+                                   'ℍ': 'https://anders.groupoid.space/mathematics/analysis/quatro/',
+                                   '𝕆': 'https://anders.groupoid.space/mathematics/analysis/octo/',
+                                },
+
+                     'Algebra': {  'Group': 'https://anders.groupoid.space/mathematics/algebra/group/',
+                                   'Field': 'https://anders.groupoid.space/mathematics/algebra/field/',
+                                   'Ring': 'https://anders.groupoid.space/mathematics/algebra/ring/',
+                                   'Homology': 'https://anders.groupoid.space/mathematics/algebra/homology/'
+                                },
+
+                    'Geometry': {  'Bundle': 'https://anders.groupoid.space/mathematics/geometry/bundle/',
+                                   'Etale': 'https://anders.groupoid.space/mathematics/geometry/etale/',
+                                   'Manifold': 'https://anders.groupoid.space/mathematics/geometry/manifold/',
+                                   'de Rham': 'https://anders.groupoid.space/mathematics/geometry/derham/'
+                                }
+
+                       };
+
+                   var higher = {
+
+                    'Homotopy': {  'Coeq': 'https://anders.groupoid.space/mathematics/homotopy/coequalizer/',
+                                   'Pushout': 'https://anders.groupoid.space/mathematics/homotopy/pushout/',
+                                   'Pullback': 'https://anders.groupoid.space/mathematics/homotopy/pullback/',
+                                   'Hopf': 'https://anders.groupoid.space/mathematics/homotopy/hopf/',
+                                   'CW': 'https://anders.groupoid.space/mathematics/homotopy/cw/'
+                                },
+
+                  'Categories': {  'Category': 'https://anders.groupoid.space/mathematics/categories/category/',
+                                   'Functor': 'https://anders.groupoid.space/mathematics/categories/functor/',
+                                   'Adjoint': 'https://anders.groupoid.space/mathematics/categories/adjoint/',
+                                   'Groupoid': 'https://anders.groupoid.space/mathematics/categories/groupoid/',
+                                   'Topos': 'https://anders.groupoid.space/mathematics/categories/topos/',
+                                   'Presheaf': 'https://anders.groupoid.space/mathematics/categories/presheaf/',
+                                   'Sheaf': 'https://anders.groupoid.space/mathematics/categories/sheaf/',
+                                   'Stack': 'https://anders.groupoid.space/mathematics/categories/stack/'
+                                 } };
+
+            .type
+                for v, k in classic
+                    ol.type__col
+                        h3= k
+                        for j, i in v
+                            if j === ""
+                                li(style="font-size:16px;"): b()= i
+                            else
+                                li(style="font-size:16px;"): a(href= j)= i
+            br
+            .type
+                for v, k in higher
+                    ol.type__col
+                        h3= k
+                        for j, i in v
+                            if j === ""
+                                li(style="font-size:16px;"): b()= i
+                            else
+                                li(style="font-size:16px;"): a(href= j)= i
+
+        .exe
             section
-                .macro
-                    .macro__col
-                        h3#categories <b>ANALYSIS</b>
-                        ol
-                            li: <a href='https://anders.groupoid.space/mathematics/analysis/topology/'>TOPOLOGY</a>
-                            li: <a href='https://anders.groupoid.space/mathematics/analysis/set/'>SET</a>
-                            li: <a href='https://anders.groupoid.space/mathematics/analysis/rational/'>ℚ</a>,
-                                <a href='https://anders.groupoid.space/mathematics/analysis/real/'>ℝ</a>
-                            li: <a href='https://anders.groupoid.space/mathematics/analysis/complex/'>ℂ</a>,
-                                <a href='https://anders.groupoid.space/mathematics/analysis/quatro/'>ℍ</a>,
-                                <a href='https://anders.groupoid.space/mathematics/analysis/octo/'>𝕆</a>
 
-                    .macro__col
-                        h3#algebra <b>ALGEBRA</b>
-                        ol
-                            li: a(href='https://anders.groupoid.space/mathematics/algebra/group/') GROUP
-                            li: a(href='https://anders.groupoid.space/mathematics/algebra/algebra/') ALGEBRA
-                            li: a(href='https://anders.groupoid.space/mathematics/algebra/homology/') HOMOLOGY
-
-                    .macro__col
-                        h3#geometry <b>GEOMETRY</b>
-                        ol
-                            li: a(href='https://anders.groupoid.space/mathematics/geometry/etale/') ETALE
-                            li: a(href='https://anders.groupoid.space/mathematics/geometry/bundle/') BUNDLE
-                            li: a(href='https://anders.groupoid.space/mathematics/geometry/manifold/') MANIFOLD
-                            li: a(href='https://anders.groupoid.space/mathematics/geometry/derham/') DE RHAM
-
-
-            section
-                .macro
-                    .macro__col
-                        h3#homotopy <b>HOMOTOPY</b>
-                        ol
-                            li: a(href='https://anders.groupoid.space/mathematics/homotopy/coequalizer/') COEQUALIZER
-                            li: a(href='https://anders.groupoid.space/mathematics/homotopy/pushout/') PUSHOUT
-                            li: a(href='https://anders.groupoid.space/mathematics/homotopy/pullback/') PULLBACK
-                            li: a(href='https://anders.groupoid.space/mathematics/homotopy/hopf/') HOPF
-                            li: a(href='https://anders.groupoid.space/mathematics/homotopy/cw/') CW
-
-                    .macro__col
-                        h3#categories <b>CATEGORIES</b>
-                        ol
-                            li: a(href='https://anders.groupoid.space/mathematics/categories/category/') CATEGORY
-                            li: a(href='https://anders.groupoid.space/mathematics/categories/functor/') FUNCTOR
-                            li: a(href='https://anders.groupoid.space/mathematics/categories/adjoint/') ADJOINT
-                            li: a(href='https://anders.groupoid.space/mathematics/categories/groupoid/') GROUPOID
-                            li: a(href='https://anders.groupoid.space/mathematics/categories/topos/') TOPOS
-                            li: a(href='https://anders.groupoid.space/mathematics/categories/presheaf/') PRESHEAF
-            br.
             p.
                  The base library for <b>cubicaltt</b> is given on separate page:
                  <a href='https://groupoid.space/misc/library/'>Formal Mathematics: The Cubical Base Library</a><br>
