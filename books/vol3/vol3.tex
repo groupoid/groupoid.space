@@ -1,0 +1,13 @@
+\documentclass{article}
+\usepackage{minitoc}
+\usepackage{titling}
+\usepackage{standalone}
+\input{journal}
+\begin{document}
+\tableofcontents
+\newif\ifincludeTOC
+\includeTOCfalse
+\newpage \begin{standalone} \input{henk}    \end{standalone}
+\newpage \begin{standalone} \input{anders}  \end{standalone}
+\newpage \begin{standalone} \input{laurent} \end{standalone}
+\end{document}
