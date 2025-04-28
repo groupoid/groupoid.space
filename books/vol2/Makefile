@@ -1,9 +1,9 @@
 default:
-	pdflatex vol1.tex
+	pdflatex vol2.tex
 	return 0
 
 clean:
-	pdflatex vol1.tex
+	pdflatex vol2.tex
 	rm -f *.bbl
 	rm -f *.blg
 	rm -f *.toc

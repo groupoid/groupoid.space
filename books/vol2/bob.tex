@@ -1,0 +1,362 @@
+\documentclass{article}
+\usepackage{indentfirst}
+\usepackage{listings}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{url}
+\usepackage{tikz-cd}
+\usepackage[utf8]{inputenc}
+
+\setlength{\parindent}{15pt}
+
+\theoremstyle{definition}
+\newtheorem{theorem}{Theorem}
+\newtheorem{definition}{Definition}
+
+\lstset{basicstyle=\footnotesize,inputencoding=utf8,
+literate=
+{𝟎}{{\ensuremath{\mathbf{0}}}}1
+{𝟏}{{\ensuremath{\mathbf{1}}}}1
+{≔}{{\ensuremath{\mathrm{:=}}}}1
+{α}{{\ensuremath{\mathrm{\alpha}}}}1
+{ᵂ}{{\ensuremath{^W}}}1
+{β}{{\ensuremath{\mathrm{\beta}}}}1
+{γ}{{\ensuremath{\mathrm{\gamma}}}}1
+{δ}{{\ensuremath{\mathrm{\delta}}}}1
+{ε}{{\ensuremath{\mathrm{\varepsilon}}}}1
+{ζ}{{\ensuremath{\mathrm{\zeta}}}}1
+{η}{{\ensuremath{\mathrm{\eta}}}}1
+{θ}{{\ensuremath{\mathrm{\theta}}}}1
+{ι}{{\ensuremath{\mathrm{\iota}}}}1
+{κ}{{\ensuremath{\mathrm{\kappa}}}}1
+{λ}{{\ensuremath{\mathrm{\lambda}}}}1
+{μ}{{\ensuremath{\mathrm{\mu}}}}1
+{ν}{{\ensuremath{\mathrm{\nu}}}}1
+{ξ}{{\ensuremath{\mathrm{\xi}}}}1
+{π}{{\ensuremath{\mathrm{\mathnormal{\pi}}}}}1
+{ρ}{{\ensuremath{\mathrm{\rho}}}}1
+{σ}{{\ensuremath{\mathrm{\sigma}}}}1
+{τ}{{\ensuremath{\mathrm{\tau}}}}1
+{φ}{{\ensuremath{\mathrm{\varphi}}}}1
+{χ}{{\ensuremath{\mathrm{\chi}}}}1
+{ψ}{{\ensuremath{\mathrm{\psi}}}}1
+{ω}{{\ensuremath{\mathrm{\omega}}}}1
+{Π}{{\ensuremath{\mathrm{\Pi}}}}1
+{Γ}{{\ensuremath{\mathrm{\Gamma}}}}1
+{Δ}{{\ensuremath{\mathrm{\Delta}}}}1
+{Θ}{{\ensuremath{\mathrm{\Theta}}}}1
+{Λ}{{\ensuremath{\mathrm{\Lambda}}}}1
+{Σ}{{\ensuremath{\mathrm{\Sigma}}}}1
+{Φ}{{\ensuremath{\mathrm{\Phi}}}}1
+{Ξ}{{\ensuremath{\mathrm{\Xi}}}}1
+{Ψ}{{\ensuremath{\mathrm{\Psi}}}}1
+{Ω}{{\ensuremath{\mathrm{\Omega}}}}1
+{ℵ}{{\ensuremath{\aleph}}}1
+{≤}{{\ensuremath{\leq}}}1
+{≥}{{\ensuremath{\geq}}}1
+{≠}{{\ensuremath{\neq}}}1
+{≈}{{\ensuremath{\approx}}}1
+{≡}{{\ensuremath{\equiv}}}1
+{≃}{{\ensuremath{\simeq}}}1
+{≤}{{\ensuremath{\leq}}}1
+{≥}{{\ensuremath{\geq}}}1
+{∂}{{\ensuremath{\partial}}}1
+{∆}{{\ensuremath{\triangle}}}1 % or \laplace?
+{∫}{{\ensuremath{\int}}}1
+{∑}{{\ensuremath{\mathrm{\Sigma}}}}1
+{→}{{\ensuremath{\rightarrow}}}1
+{⊥}{{\ensuremath{\perp}}}1
+{∞}{{\ensuremath{\infty}}}1
+{∂}{{\ensuremath{\partial}}}1
+{∓}{{\ensuremath{\mp}}}1
+{±}{{\ensuremath{\pm}}}1
+{×}{{\ensuremath{\times}}}1
+{⊕}{{\ensuremath{\oplus}}}1
+{⊗}{{\ensuremath{\otimes}}}1
+{⊞}{{\ensuremath{\boxplus}}}1
+{∇}{{\ensuremath{\nabla}}}1
+{√}{{\ensuremath{\sqrt}}}1
+{⬝}{{\ensuremath{\cdot}}}1
+{•}{{\ensuremath{\cdot}}}1
+{∘}{{\ensuremath{\circ}}}1
+{⁻}{{\ensuremath{^{-}}}}1
+{▸}{{\ensuremath{\blacktriangleright}}}1
+{∧}{{\ensuremath{\wedge}}}1
+{∨}{{\ensuremath{\vee}}}1
+{¬}{{\ensuremath{\neg}}}1
+{⊢}{{\ensuremath{\vdash}}}1
+{⟨}{{\ensuremath{\langle}}}1
+{⟩}{{\ensuremath{\rangle}}}1
+{↦}{{\ensuremath{\mapsto}}}1
+{→}{{\ensuremath{\rightarrow}}}1
+{↔}{{\ensuremath{\leftrightarrow}}}1
+{⇒}{{\ensuremath{\Rightarrow}}}1
+{⟹}{{\ensuremath{\Longrightarrow}}}1
+{⇐}{{\ensuremath{\Leftarrow}}}1
+{⟸}{{\ensuremath{\Longleftarrow}}}1
+{∩}{{\ensuremath{\cap}}}1
+{∪}{{\ensuremath{\cup}}}1
+{⊂}{{\ensuremath{\subseteq}}}1
+{⊆}{{\ensuremath{\subseteq}}}1
+{⊄}{{\ensuremath{\nsubseteq}}}1
+{⊈}{{\ensuremath{\nsubseteq}}}1
+{⊃}{{\ensuremath{\supseteq}}}1
+{⊇}{{\ensuremath{\supseteq}}}1
+{⊅}{{\ensuremath{\nsupseteq}}}1
+{⊉}{{\ensuremath{\nsupseteq}}}1
+{∈}{{\ensuremath{\in}}}1
+{∉}{{\ensuremath{\notin}}}1
+{∋}{{\ensuremath{\ni}}}1
+{∌}{{\ensuremath{\notni}}}1
+{∅}{{\ensuremath{\emptyset}}}1
+{∖}{{\ensuremath{\setminus}}}1
+{†}{{\ensuremath{\dag}}}1
+{ℕ}{{\ensuremath{\mathbb{N}}}}1
+{ℤ}{{\ensuremath{\mathbb{Z}}}}1
+{ℝ}{{\ensuremath{\mathbb{R}}}}1
+{ℚ}{{\ensuremath{\mathbb{Q}}}}1
+{ℂ}{{\ensuremath{\mathbb{C}}}}1
+{⌞}{{\ensuremath{\llcorner}}}1
+{⌟}{{\ensuremath{\lrcorner}}}1
+{⦃}{{\ensuremath{ \{\!| }}}1
+{⦄}{{\ensuremath{ |\!\} }}}1
+{₁}{{\ensuremath{_1}}}1
+{₂}{{\ensuremath{_2}}}1
+{₃}{{\ensuremath{_3}}}1
+{₄}{{\ensuremath{_4}}}1
+{₅}{{\ensuremath{_5}}}1
+{₆}{{\ensuremath{_6}}}1
+{₇}{{\ensuremath{_7}}}1
+{₈}{{\ensuremath{_8}}}1
+{₉}{{\ensuremath{_9}}}1
+{₀}{{\ensuremath{_0}}}1
+{¹}{{\ensuremath{^1}}}1
+{ₙ}{{\ensuremath{_n}}}1
+{ₘ}{{\ensuremath{_m}}}1
+{↑}{{\ensuremath{\uparrow}}}1
+{↓}{{\ensuremath{\downarrow}}}1
+{▸}{{\ensuremath{\triangleright}}}1
+{∀}{{\ensuremath{\forall}}}1
+{∃}{{\ensuremath{\exists}}}1
+{λ}{{\ensuremath{\mathrm{\lambda}}}}1
+{=}{{\ensuremath{=}}}1
+{<}{{\ensuremath{\langle}}}1
+{>}{{\ensuremath{\rangle}}}1
+{(}{(}1
+{(}{(}1
+{‖}{‖}1
+{+}{{+}}1
+{*}{{*}}1,
+}
+
+\begin{document}
+
+\title{Issue VIII: Linear Interpreter}
+\author{Maksym Sokhatskyi $^1$}
+\date{ $^1$ National Technical University of Ukraine \\
+       \small Igor Sikorsky Kyiv Polytechnical Institute \\
+       \today }
+
+\maketitle
+
+\begin{abstract}
+
+Minimal language for parallel computations in symmetric monoidal categories. \\
+{\bf Keywords}: Interaction Networks, Symmetric Monoidal Categories
+\end{abstract}
+
+\ifincludeTOC
+  \tableofcontents
+\fi
+
+\newpage
+
+\subsection{The Bob Language}
+
+Мова програмування $\mathbf{Bob}$ — це внутрішня мова симетричних моноїдальних категорій,
+що реалізує паралельні обчислення через взаємодію комбінаторів ($\zeta$, $\delta$, $\epsilon$) з правилами
+анігіляції та комутації, придатна для моделювання лінійних і паралельних систем.
+
+\begin{definition}
+Терми $\mathbf{Bob}$ складаються зі змінних, комбінаторів (Con, Dup, Era), пар, обміну (Swap),
+зв’язування (Let) та одиниці (Unit). Мова підтримує афінну логіку, забороняючи повторне використання змінних.
+\begin{lstlisting}[mathescape=true]
+I = #identifier
+BOB = I | Con BOB  | Dup BOB | Era BOB
+        | Pair (BOB, BOB)    | Unit
+        | Let (I, BOB, BOB)  | Swap BOB
+\end{lstlisting}
+\end{definition}
+
+\begin{definition}
+Кодування термів у мові OCaml:
+\begin{lstlisting}[mathescape=true]
+type term =
+    | Var of string
+    | Con of term
+    | Dup of term
+    | Era of term
+    | Pair of term * term
+    | Swap of term
+    | Let of string * term * term
+    | Unit
+\end{lstlisting}
+\end{definition}
+
+\begin{theorem}
+Правила обчислень у $\mathbf{Bob}$ базуються на анігіляції та комутації комбінаторів:
+\begin{lstlisting}[mathescape=true]
+Con (Con x) → Pair (x, x)
+Dup (Dup x) → Pair (x, x)
+Era (Era x) → Unit
+Con (Dup x) → Dup (Con x)
+Con (Era x) → Pair (Era x, Era x)
+Dup (Era x) → Pair (Era x, Era x)
+Swap (Pair (t, u)) → Pair (u, t)
+Let (x, t, u) → subst x t u
+\end{lstlisting}
+\end{theorem}
+
+\begin{equation}
+\tag{$\zeta$-annihilation}
+\dfrac
+{\zeta (\zeta (x))}
+{(x, x)}
+\end{equation}
+
+\begin{equation}
+\tag{$\delta$-annihilation}
+\dfrac
+{\delta (\delta (x))}
+{(x, x)}
+\end{equation}
+
+\begin{equation}
+\tag{$\epsilon$-annihilation}
+\dfrac
+{\varepsilon (\varepsilon (x))}
+{\mathbf{1}}
+\end{equation}
+
+\begin{definition}
+Підстановка в $\mathbf{Bob}$:
+\begin{lstlisting}[mathescape=true]
+let rec subst env var term = function
+    | Var v ->
+        if v = var then
+            if is_bound var env then failwith "Affine violation: variable used twice"
+            else term
+        else Var v
+    | Con t -> Con (subst env var term t)
+    | Dup t -> Dup (subst env var term t)
+    | Era t -> Era (subst env var term t)
+    | Pair (t, u) -> Pair (subst env var term t, subst env var term u)
+    | Swap t -> Swap (subst env var term t)
+    | Let (x, t1, t2) ->
+        let t1' = subst env var term t1 in
+        if x = var then Let (x, t1', t2)
+        else Let (x, t1', subst env var term t2)
+    | Unit -> Unit
+\end{lstlisting}
+\end{definition}
+
+\begin{definition}
+Редукція термів у $\mathbf{Bob}$:
+\begin{lstlisting}[mathescape=true]
+let reduce env term =
+    match term with
+    | Con (Con x) -> Pair (x, x)
+    | Dup (Dup x) -> Pair (x, x)
+    | Era (Era x) -> Unit
+    | Con (Dup x) -> Dup (Con x)
+    | Con (Era x) -> Pair (Era x, Era x)
+    | Dup (Era x) -> Pair (Era x, Era x)
+    | Swap (Pair (t, u)) -> Pair (u, t)
+    | Let (x, t, u) -> subst env x t u
+    | _ -> term
+\end{lstlisting}
+\end{definition}
+
+\begin{definition}
+Пошук активних пар для редукції:
+\begin{lstlisting}[mathescape=true]
+let rec find_redexes env term acc =
+    match term with
+    | Con (Con x) -> (term, Pair (x, x)) :: acc
+    | Dup (Dup x) -> (term, Pair (x, x)) :: acc
+    | Era (Era x) -> (term, Unit) :: acc
+    | Con (Dup x) -> (term, Dup (Con x)) :: acc
+    | Con (Era x) -> (term, Pair (Era x, Era x)) :: acc
+    | Dup (Era x) -> (term, Pair (Era x, Era x)) :: acc
+    | Swap (Pair (t, u)) -> (term, Pair (u, t)) :: acc
+    | Let (x, t, u) -> (term, subst env x t u) :: find_redexes env t (find_redexes env u acc)
+    | Con t ->
+        (match t with
+         | Dup _ | Era _ -> acc
+         | Con x -> find_redexes env t ((term, reduce env term) :: acc)
+         | _ -> find_redexes env t acc)
+    | Dup t -> find_redexes env t acc
+    | Era t -> find_redexes env t acc
+    | Pair (t, u) ->
+        let acc' = find_redexes env t acc in
+        find_redexes env u acc'
+    | Swap t -> find_redexes env t acc
+    | Var _ | Unit -> acc
+\end{lstlisting}
+\end{definition}
+
+\begin{definition}
+Паралельна редукція:
+\begin{lstlisting}[mathescape=true]
+let eval_parallel pool env term =
+    let rec loop term =
+        let redexes = find_redexes env term [] in
+        if redexes = [] then term
+        else
+            let new_term = Task.run pool (fun () ->
+                List.fold_left
+                    (fun acc (old_t, new_t) -> replace_subterm old_t new_t acc)
+                    term redexes
+            ) in
+            loop new_term
+    in
+    loop term
+\end{lstlisting}
+\end{definition}
+
+\begin{theorem}
+Доведення, що мова $\mathbf{Bob}$ є внутрішньою мовою симетричних моноїдальних категорій:
+\[
+\begin{cases}
+   \mathrm{Let} : A \to C (u \cdot t, t: A \to B, u: B \to C), \\
+   \mathrm{Pair} : A \rightarrow B \rightarrow A \otimes B, \\
+   \mathrm{Swap} : A \otimes B \rightarrow B \otimes A, \\
+   \mathrm{Con} : A \otimes A \rightarrow A, \\
+   \mathrm{Dup} : A \rightarrow A \otimes A, \\
+   \mathrm{Era} : A \rightarrow \mathbf{1}, \\
+   \mathrm{Var} : A, \\
+   \mathrm{Unit} : \mathbf{1}.
+\end{cases}
+\]
+\end{theorem}
+
+Конструктори відповідають аксіомам СМК:
+
+- $\mathrm{Pair}$ моделює тензорний добуток $\otimes$.
+- $\mathrm{Swap}$ реалізує симетрію $\sigma_{A,B}$ з умовою $\sigma_{B,A} \circ \sigma_{A,B} = \mathrm{id}_{A \otimes B}$.
+- $\mathrm{Unit}$ є одиничним об'єктом $I$ для якого $A \otimes I \cong A$.
+- $\mathrm{Let}$ моделює композицію морфізмів (асоціативність).
+- $\mathrm{Dup}$ та $\mathrm{Era}$ утворюють структуру комоноїда.
+- $\mathrm{Con}$ діє як контракція.
+
+Лямбда-функція і аплікація:
+
+\[
+\begin{cases}
+  \lambda x.t \vdash \mathrm{Con}(\mathrm{Let}(x,\mathrm{Var}(x),t)), \\
+  t u \mapsto \mathrm{Con}(\mathrm{Pair}(t,u)).
+\end{cases}
+\]
+
+\end{document}

@@ -1,0 +1,290 @@
+\documentclass{article}
+\usepackage{indentfirst}
+\usepackage{listings}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{url}
+\usepackage{tikz-cd}
+\usepackage[utf8]{inputenc}
+
+\setlength{\parindent}{15pt}
+
+\theoremstyle{definition}
+\newtheorem{theorem}{Theorem}
+\newtheorem{definition}{Definition}
+
+\lstset{basicstyle=\footnotesize,inputencoding=utf8,
+literate=
+{𝟎}{{\ensuremath{\mathbf{0}}}}1
+{𝟏}{{\ensuremath{\mathbf{1}}}}1
+{≔}{{\ensuremath{\mathrm{:=}}}}1
+{α}{{\ensuremath{\mathrm{\alpha}}}}1
+{ᵂ}{{\ensuremath{^W}}}1
+{β}{{\ensuremath{\mathrm{\beta}}}}1
+{γ}{{\ensuremath{\mathrm{\gamma}}}}1
+{δ}{{\ensuremath{\mathrm{\delta}}}}1
+{ε}{{\ensuremath{\mathrm{\varepsilon}}}}1
+{ζ}{{\ensuremath{\mathrm{\zeta}}}}1
+{η}{{\ensuremath{\mathrm{\eta}}}}1
+{θ}{{\ensuremath{\mathrm{\theta}}}}1
+{ι}{{\ensuremath{\mathrm{\iota}}}}1
+{κ}{{\ensuremath{\mathrm{\kappa}}}}1
+{λ}{{\ensuremath{\mathrm{\lambda}}}}1
+{μ}{{\ensuremath{\mathrm{\mu}}}}1
+{ν}{{\ensuremath{\mathrm{\nu}}}}1
+{ξ}{{\ensuremath{\mathrm{\xi}}}}1
+{π}{{\ensuremath{\mathrm{\mathnormal{\pi}}}}}1
+{ρ}{{\ensuremath{\mathrm{\rho}}}}1
+{σ}{{\ensuremath{\mathrm{\sigma}}}}1
+{τ}{{\ensuremath{\mathrm{\tau}}}}1
+{φ}{{\ensuremath{\mathrm{\varphi}}}}1
+{χ}{{\ensuremath{\mathrm{\chi}}}}1
+{ψ}{{\ensuremath{\mathrm{\psi}}}}1
+{ω}{{\ensuremath{\mathrm{\omega}}}}1
+{Π}{{\ensuremath{\mathrm{\Pi}}}}1
+{Γ}{{\ensuremath{\mathrm{\Gamma}}}}1
+{Δ}{{\ensuremath{\mathrm{\Delta}}}}1
+{Θ}{{\ensuremath{\mathrm{\Theta}}}}1
+{Λ}{{\ensuremath{\mathrm{\Lambda}}}}1
+{Σ}{{\ensuremath{\mathrm{\Sigma}}}}1
+{Φ}{{\ensuremath{\mathrm{\Phi}}}}1
+{Ξ}{{\ensuremath{\mathrm{\Xi}}}}1
+{Ψ}{{\ensuremath{\mathrm{\Psi}}}}1
+{Ω}{{\ensuremath{\mathrm{\Omega}}}}1
+{ℵ}{{\ensuremath{\aleph}}}1
+{≤}{{\ensuremath{\leq}}}1
+{≥}{{\ensuremath{\geq}}}1
+{≠}{{\ensuremath{\neq}}}1
+{≈}{{\ensuremath{\approx}}}1
+{≡}{{\ensuremath{\equiv}}}1
+{≃}{{\ensuremath{\simeq}}}1
+{≤}{{\ensuremath{\leq}}}1
+{≥}{{\ensuremath{\geq}}}1
+{∂}{{\ensuremath{\partial}}}1
+{∆}{{\ensuremath{\triangle}}}1 % or \laplace?
+{∫}{{\ensuremath{\int}}}1
+{∑}{{\ensuremath{\mathrm{\Sigma}}}}1
+{→}{{\ensuremath{\rightarrow}}}1
+{⊥}{{\ensuremath{\perp}}}1
+{∞}{{\ensuremath{\infty}}}1
+{∂}{{\ensuremath{\partial}}}1
+{∓}{{\ensuremath{\mp}}}1
+{±}{{\ensuremath{\pm}}}1
+{×}{{\ensuremath{\times}}}1
+{⊕}{{\ensuremath{\oplus}}}1
+{⊗}{{\ensuremath{\otimes}}}1
+{⊞}{{\ensuremath{\boxplus}}}1
+{∇}{{\ensuremath{\nabla}}}1
+{√}{{\ensuremath{\sqrt}}}1
+{⬝}{{\ensuremath{\cdot}}}1
+{•}{{\ensuremath{\cdot}}}1
+{∘}{{\ensuremath{\circ}}}1
+{⁻}{{\ensuremath{^{-}}}}1
+{▸}{{\ensuremath{\blacktriangleright}}}1
+{∧}{{\ensuremath{\wedge}}}1
+{∨}{{\ensuremath{\vee}}}1
+{¬}{{\ensuremath{\neg}}}1
+{⊢}{{\ensuremath{\vdash}}}1
+{⟨}{{\ensuremath{\langle}}}1
+{⟩}{{\ensuremath{\rangle}}}1
+{↦}{{\ensuremath{\mapsto}}}1
+{→}{{\ensuremath{\rightarrow}}}1
+{↔}{{\ensuremath{\leftrightarrow}}}1
+{⇒}{{\ensuremath{\Rightarrow}}}1
+{⟹}{{\ensuremath{\Longrightarrow}}}1
+{⇐}{{\ensuremath{\Leftarrow}}}1
+{⟸}{{\ensuremath{\Longleftarrow}}}1
+{∩}{{\ensuremath{\cap}}}1
+{∪}{{\ensuremath{\cup}}}1
+{⊂}{{\ensuremath{\subseteq}}}1
+{⊆}{{\ensuremath{\subseteq}}}1
+{⊄}{{\ensuremath{\nsubseteq}}}1
+{⊈}{{\ensuremath{\nsubseteq}}}1
+{⊃}{{\ensuremath{\supseteq}}}1
+{⊇}{{\ensuremath{\supseteq}}}1
+{⊅}{{\ensuremath{\nsupseteq}}}1
+{⊉}{{\ensuremath{\nsupseteq}}}1
+{∈}{{\ensuremath{\in}}}1
+{∉}{{\ensuremath{\notin}}}1
+{∋}{{\ensuremath{\ni}}}1
+{∌}{{\ensuremath{\notni}}}1
+{∅}{{\ensuremath{\emptyset}}}1
+{∖}{{\ensuremath{\setminus}}}1
+{†}{{\ensuremath{\dag}}}1
+{ℕ}{{\ensuremath{\mathbb{N}}}}1
+{ℤ}{{\ensuremath{\mathbb{Z}}}}1
+{ℝ}{{\ensuremath{\mathbb{R}}}}1
+{ℚ}{{\ensuremath{\mathbb{Q}}}}1
+{ℂ}{{\ensuremath{\mathbb{C}}}}1
+{⌞}{{\ensuremath{\llcorner}}}1
+{⌟}{{\ensuremath{\lrcorner}}}1
+{⦃}{{\ensuremath{ \{\!| }}}1
+{⦄}{{\ensuremath{ |\!\} }}}1
+{₁}{{\ensuremath{_1}}}1
+{₂}{{\ensuremath{_2}}}1
+{₃}{{\ensuremath{_3}}}1
+{₄}{{\ensuremath{_4}}}1
+{₅}{{\ensuremath{_5}}}1
+{₆}{{\ensuremath{_6}}}1
+{₇}{{\ensuremath{_7}}}1
+{₈}{{\ensuremath{_8}}}1
+{₉}{{\ensuremath{_9}}}1
+{₀}{{\ensuremath{_0}}}1
+{¹}{{\ensuremath{^1}}}1
+{ₙ}{{\ensuremath{_n}}}1
+{ₘ}{{\ensuremath{_m}}}1
+{↑}{{\ensuremath{\uparrow}}}1
+{↓}{{\ensuremath{\downarrow}}}1
+{▸}{{\ensuremath{\triangleright}}}1
+{∀}{{\ensuremath{\forall}}}1
+{∃}{{\ensuremath{\exists}}}1
+{λ}{{\ensuremath{\mathrm{\lambda}}}}1
+{=}{{\ensuremath{=}}}1
+{<}{{\ensuremath{\langle}}}1
+{>}{{\ensuremath{\rangle}}}1
+{(}{(}1
+{(}{(}1
+{‖}{‖}1
+{+}{{+}}1
+{*}{{*}}1,
+}
+
+\begin{document}
+
+\title{Issue VII: Cartesian Interpreter}
+\author{Maksym Sokhatskyi $^1$}
+\date{ $^1$ National Technical University of Ukraine \\
+       \small Igor Sikorsky Kyiv Polytechnical Institute \\
+       \today }
+
+\maketitle
+
+\begin{abstract}
+
+Minimal language for sequential computations in cartesian closed categories.
+\\
+\\
+{\bf Keywords}: Lambda Calculus, Cartesian Closed Categories
+\end{abstract}
+
+\ifincludeTOC
+  \tableofcontents
+\fi
+
+\newpage
+
+\subsection{The Joe Language}
+
+Мова програмування $\mathbf{Joe}$ — це чиста нетипізована мова, що є внутрішньою мовою декартово-замкнених категорій. Вона базується на лямбда-численні, розширеному парами, проєкціями та термінальним об’єктом, забезпечуючи мінімальну модель для обчислень у категорійному контексті.
+
+\paragraph{Синтаксис}
+
+Терми $\mathbf{Joe}$ складаються зі змінних, лямбда-абстракцій, застосувань, пар, проєкцій (першої та другої) та термінального об’єкта. Це мінімальна мова, що підтримує обчислення через бета-редукцію та проєкції.
+
+\begin{lstlisting}[mathescape=true]
+I = #identifier
+O = I | ( O ) | O O | λ I -> O | O , O | O.1 | O.2 | 1
+\end{lstlisting}
+
+\begin{lstlisting}[mathescape=true]
+type term =
+  | Var of string
+  | Lam of string * term
+  | App of term * term
+  | Pair of term * term
+  | Fst of term
+  | Snd of term
+  | Unit
+\end{lstlisting}
+
+\paragraph{Правила обчислень}
+
+Основними правилами обчислень у $\mathbf{Joe}$ є бета-редукція для лямбда-абстракцій та правила проєкцій для пар. Термінальний об’єкт є незвідним.
+
+\begin{lstlisting}[mathescape=true]
+App (Lam (x, b), a) → subst x a b
+Fst (Pair (t1, t2)) → t1
+Snd (Pair (t1, t2)) → t2
+\end{lstlisting}
+
+$$
+\frac{(\lambda x . b)\ a}{b [a/x]} \\[10pt]
+\frac{\text{fst}\ \langle t_1, t_2 \rangle}{t_1} \\[10pt]
+\frac{\text{snd}\ \langle t_1, t_2 \rangle}{t_2}
+$$
+
+\paragraph{Підстановка}
+
+\begin{lstlisting}[mathescape=true]
+let rec subst x s = function
+  | Var y -> if x = y then s else Var y
+  | Lam (y, t) when x <> y -> Lam (y, subst x s t)
+  | App (f, a) -> App (subst x s f, subst x s a)
+  | Pair (t1, t2) -> Pair (subst x s t1, subst x s t2)
+  | Fst t -> Fst (subst x s t)
+  | Snd t -> Snd (subst x s t)
+  | Unit -> Unit
+  | t -> t
+\end{lstlisting}
+
+\paragraph{Рівність}
+
+\begin{lstlisting}[mathescape=true]
+let rec equal t1 t2 =
+  match t1, t2 with
+  | Var x, Var y -> x = y
+  | Lam (x, b), Lam (y, b') -> equal b (subst y (Var x) b')
+  | Lam (x, b), t -> equal b (App (t, Var x))
+  | t, Lam (x, b) -> equal (App (t, Var x)) b
+  | App (f1, a1), App (f2, a2) -> equal f1 f2 && equal a1 a2
+  | Pair (t1, t2), Pair (t1', t2') -> equal t1 t1' && equal t2 t2'
+  | Fst t, Fst t' -> equal t t'
+  | Snd t, Snd t' -> equal t t'
+  | Unit, Unit -> true
+  | _ -> false
+\end{lstlisting}
+
+\paragraph{Редукція}
+
+\begin{lstlisting}[mathescape=true]
+let rec reduce = function
+  | App (Lam (x, b), a) -> subst x a b
+  | App (f, a) -> App (reduce f, reduce a)
+  | Pair (t1, t2) -> Pair (reduce t1, reduce t2)
+  | Fst (Pair (t1, t2)) -> t1
+  | Fst t -> Fst (reduce t)
+  | Snd (Pair (t1, t2)) -> t2
+  | Snd t -> Snd (reduce t)
+  | Unit -> Unit
+  | t -> t
+\end{lstlisting}
+
+\paragraph{Нормалізація}
+
+\begin{lstlisting}[mathescape=true]
+let rec normalize t =
+  let t' = reduce t in
+  if equal t t' then t else normalize t'
+\end{lstlisting}
+
+\paragraph{Внутрішня мова ДЗК}
+
+Мова $\mathbf{Joe}$ є внутрішньою мовою декартово-замкненої категорії (ДЗК).
+Вона включає лямбда-абстракції та застосування для замкнутої структури,
+пари та проєкції для декартового добутку, а також термінальний об’єкт для
+відновлення повної структури ДЗК.
+
+\paragraph{Бібліографія}
+
+\begin{itemize}
+\item[1.] Alonzo Church. \textit{A Set of Postulates for the Foundation of Logic}. 1933.
+\item[2.] Alonzo Church. \textit{An Unsolvable Problem of Elementary Number Theory}. 1941.
+\item[3.] Haskell Curry, Robert Fey. \textit{Combinatory Logic, Volume I}. 1951.
+\item[4.] Dana Scott. \textit{A Type-Free Theory of Lambda Calculus}. 1970.
+\item[5.] John Reynolds. \textit{Towards a Theory of Type Structure}. 1974.
+\item[6.] Henk Barendregt. \textit{The Lambda Calculus: Its Syntax and Semantics}. 1984.
+\item[7.] G. Cousineau, P.-L. Curien, M. Mauny. \textit{The Categorical Abstract Machine}. 1985.
+\end{itemize}
+
+\end{document}
