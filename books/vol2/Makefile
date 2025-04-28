@@ -3,7 +3,6 @@ default:
 	return 0
 
 clean:
-	pdflatex vol2.tex
 	rm -f *.bbl
 	rm -f *.blg
 	rm -f *.toc
