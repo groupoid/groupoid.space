@@ -12,7 +12,7 @@
 \newtheorem{example}{Example}
 \newtheorem{remark}{Remark}
 
-\newcommand{\Spec}{\mathrm{Spec}}
+\newcommand{\Spec}{\mathbf{Spec}}
 
 \title{Issue XXX: Structure Preserving Theorems in \\ Algebra and Geometry}
 \author{Namdak Tonpa}
@@ -124,11 +124,19 @@ In a complete category, a functor has a left adjoint if it preserves limits, and
 \end{theorem}
 
 \begin{remark}
-Stone and Gelfand Dualities \cite{johnstone, takesaki} connect algebraic homomorphisms (HPT) to geometric inverse images (IIPT). The Adjoint Functor Theorem \cite{mac} underpins dualities like Spec, where algebraic and geometric structures are preserved \cite{hart}.
+A Stone space is a compact, Hausdorff, totally disconnected topological space,
+with a basis of clopen sets. Stone Duality \cite{johnstone, takesaki} connects
+algebraic homomorphisms in \(\mathbf{BoolAlg}\) (HPT) to geometric inverse
+images in \(\mathbf{Stone}\) (IIPT), where continuous maps preserve clopen
+sets via inverse images. The Adjoint Functor Theorem \cite{mac} underpins
+dualities like $\Spec$, where algebraic and geometric structures are
+preserved \cite{hart}.
 \end{remark}
 
 \begin{example}
-The Spec functor maps a ring homomorphism \(\phi: R \to S\) to a morphism \(\Spec S \to \Spec R\), with inverse images of prime ideals preserving geometric structure.
+The Spec functor maps a ring homomorphism $\phi: R \to S$ to a
+morphism $\Spec(S) \to \Spec(R)$, with inverse images
+of prime ideals preserving geometric structure.
 \end{example}
 
 \section{Applications and Implications}
