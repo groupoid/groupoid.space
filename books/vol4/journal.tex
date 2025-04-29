@@ -11,9 +11,9 @@
 \usepackage{url}
 \usepackage[utf8]{inputenc}
 \usepackage[english,ukrainian]{babel}
-\usepackage{url}
 \usepackage{tikz}
 \usepackage{tikz-cd}
+\usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}
 \usepackage[only,llbracket,rrbracket,llparenthesis,rrparenthesis]{stmaryrd}
 
@@ -24,11 +24,7 @@
 \renewcommand{\Join}{\vee} % Join operation symbol
 \newcommand{\tabstyle}[0]{\scriptsize\ttfamily\fontseries{l}\selectfont}
 
-\lstset{
-  basicstyle=\footnotesize,
-  inputencoding=utf8,
-  identifierstyle=,
-  literate=
+\lstset{basicstyle=\footnotesize,inputencoding=utf8,extendedchars=true,literate={
 {𝟎}{{\ensuremath{\mathbf{0}}}}1
 {𝟏}{{\ensuremath{\mathbf{1}}}}1
 {≔}{{\ensuremath{\mathrm{:=}}}}1
@@ -56,6 +52,7 @@
 {ψ}{{\ensuremath{\mathrm{\psi}}}}1
 {ω}{{\ensuremath{\mathrm{\omega}}}}1
 {Π}{{\ensuremath{\mathrm{\Pi}}}}1
+{П}{{\ensuremath{\mathrm{\Pi}}}}1
 {Γ}{{\ensuremath{\mathrm{\Gamma}}}}1
 {Δ}{{\ensuremath{\mathrm{\Delta}}}}1
 {Θ}{{\ensuremath{\mathrm{\Theta}}}}1
@@ -170,11 +167,28 @@
 {<}{{\ensuremath{\textless}}}1
 {>}{{\ensuremath{\textgreater}}}1
 {_}{{$\_$}}1
-{(}{(}1
-{(}{(}1
 {‖}{{\ensuremath{\Vert}}}1
-{+}{{+}}1
-{*}{{*}}1,
+{→}{{$\rightarrow$}}1
+{Π}{{$\Pi$}}1
+{Σ}{{$\Sigma$}}1
+{Г}{{$\Gamma$}}1
+{Θ}{{$\Theta$}}1
+{∆}{{$\Delta$}}1
+{Σ}{{$\Sigma$}}1
+{Ф}{{$\Phi$}}1
+{σ}{{$\sigma$}}1
+{δ}{{$\delta$}}1
+{ν}{{$\nu$}}1
+{η}{{$\eta$}}1
+{₁}{{$_1$}}1
+{•}{{$\bullet$}}1
+{є}{{$\varepsilon$}}1
+{ᵀ}{{$\textsuperscript{T}$}}1
+{ᵗ}{{$\textsuperscript{t}$}}1
+{◊}{{$\lozenge$}}1
+{ᵀ}{{$^T$}}1
+{ᵗ}{{$^t$}}1
+ }
 }
 
 \theoremstyle{definition}
@@ -182,4 +196,12 @@
 \newtheorem{theorem}{Theorem}
 \newtheorem{lemma}{Lemma}
 \newtheorem{example}{Example}
+\newtheorem{remark}{Remark}
+\newtheorem{corollary}{Corollary}
+
+\newcommand{\Spec}{\mathbf{Spec}}
+
+\def\mapright#1{\xrightarrow{{#1}}}
+\def\mapleft#1{\xleftarrow{{#1}}}
+\def\under{\underline{\hspace{0.25cm}}}
 

@@ -14,11 +14,12 @@
 
 \newcommand{\Spec}{\mathrm{Spec}}
 
-\title{Structure Preserving Homomorphisms in \\ Algebra and Geometry}
+\begin{document}
+
+\title{Structure Preserving Theorems}
 \author{Namdak Tonpa}
 \date{\today}
 
-\begin{document}
 
 \maketitle
 
@@ -26,10 +27,14 @@
 This article unifies algebra and geometry by characterizing algebra as the domain of homomorphisms preserving structure and geometry as the domain of inverse images of homomorphisms preserving structure. We introduce two new theorems: the Homomorphism Preservation Theorem (HPT) for Algebraic Categories and the Inverse Image Preservation Theorem (IIPT) for Geometric Categories. These build on foundational results like the First Isomorphism Theorem, Continuity Theorem, Pullback Theorem, Stone Duality, Gelfand Duality, and Adjoint Functor Theorem. Aimed at advanced graduate students, this exposition uses category theory to illuminate the algebraic-geometric duality.
 \end{abstract}
 
-\section{Introduction}
+\ifincludeTOC
+  \tableofcontents
+\fi
+
+\section{Structure Preservation Theorems in Algebra and Geometry}
 Algebra and geometry, foundational to pure mathematics, differ in focus: algebra on abstract structures and their transformations, geometry on spatial properties and invariants. We propose a unifying perspective: algebra is defined by homomorphisms preserving structure, and geometry by the inverse images of homomorphisms preserving structure. This article formalizes this view through two explicit theorems—the Homomorphism Preservation Theorem (HPT) for Algebraic Categories and the Inverse Image Preservation Theorem (IIPT) for Geometric Categories—building on established results. Assuming familiarity with category theory, algebraic topology, and commutative algebra, we provide a framework for graduate students to explore these fields’ interplay.
 
-\section{Homomorphisms in Algebra}
+\subsection{Homomorphisms in Algebra}
 \begin{definition}
 Let \(\mathcal{C}\) be a category, and let \(A, B\) be objects in \(\mathcal{C}\). A \emph{homomorphism} \(\phi: A \to B\) is a morphism in \(\mathcal{C}\) that preserves the structure defined by the category’s operations and relations.
 \end{definition}
@@ -62,7 +67,7 @@ The first part follows from the First Isomorphism Theorem \cite{lang}: for a sur
 The HPT formalizes that homomorphisms in algebraic categories preserve structure forward, inducing isomorphisms on quotients and respecting generators, unifying the First Isomorphism Theorem and Universal Property. The name avoids confusion with the Structure-Identity Principle in category theory \cite{mac}.
 \end{remark}
 
-\section{Homomorphisms in Geometry}
+\subsection{Homomorphisms in Geometry}
 Geometry emphasizes spaces where structure is preserved under inverse images of homomorphisms, as in \(\mathbf{Top}\) or \(\mathbf{Sch}\).
 
 \begin{definition}
@@ -99,7 +104,7 @@ The IIPT captures the geometric essence of inverse images preserving structure, 
 For a morphism of schemes \(\phi: X \to Y\), the inverse image of a prime ideal under the induced map on stalks is prime, preserving geometric structure \cite{hart}.
 \end{example}
 
-\section{Categorical Unification}
+\subsection{Categorical Unification}
 Category theory bridges algebra and geometry through dualities, where the HPT and IIPT interplay.
 
 \begin{theorem}[Stone Duality]
@@ -122,7 +127,7 @@ Stone and Gelfand Dualities \cite{johnstone, takesaki} connect algebraic homomor
 The Spec functor maps a ring homomorphism \(\phi: R \to S\) to a morphism \(\Spec S \to \Spec R\), with inverse images of prime ideals preserving geometric structure.
 \end{example}
 
-\section{Applications and Implications}
+\subsection{Applications and Implications}
 The HPT and IIPT, supported by prior results, impact advanced research:
 
 \begin{itemize}
@@ -135,7 +140,7 @@ The HPT and IIPT, supported by prior results, impact advanced research:
 In any category with pullbacks, \(\phi^{-1}: \text{Sub}(Y) \to \text{Sub}(X)\) preserves subobject lattices, as per the IIPT.
 \end{corollary}
 
-\section{Conclusion}
+\subsection{Conclusion}
 The Homomorphism Preservation Theorem and Inverse Image Preservation Theorem formalize that algebra preserves structure via homomorphisms and geometry via inverse images. Building on the First Isomorphism Theorem, Continuity Theorem, Pullback Theorem, and dualities, these theorems unify pure mathematics. Graduate students are encouraged to apply this framework to algebraic topology, algebraic geometry, and category theory, deepening their research.
 
 \bibliographystyle{amsplain}

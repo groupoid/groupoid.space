@@ -1,0 +1,33 @@
+\documentclass{article}
+\usepackage{minitoc}
+\usepackage{titling}
+\usepackage{standalone}
+\input{journal}
+\begin{document}
+
+\begin{titlepage}
+    \centering
+    \vspace*{1in}
+    \Huge
+    \textbf{Volume IV: Mathematics} \\
+    \vspace{0.5in}
+    \LARGE
+    Introduction to Mathematics
+    \vfill
+    \large
+    Namdak Tonpa \\
+    \vspace{0.1in}
+    \Large
+    2024 $\cdot$ Groupoid Infinity \\
+    \vspace{0.5in}
+    IV
+\end{titlepage}
+
+\tableofcontents
+\newif\ifincludeTOC
+\includeTOCfalse
+\newpage \begin{standalone} \input{spt} \end{standalone}
+\newpage \begin{standalone} \input{topos} \end{standalone}
+\newpage \begin{standalone} \input{equ} \end{standalone}
+\newpage \begin{standalone} \input{cwf} \end{standalone}
+\end{document}
