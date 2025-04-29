@@ -23,7 +23,144 @@
 \newtheorem{theorem}{Theorem}
 \newcommand*{\incmap}{\hookrightarrow}
 \newcommand*{\thead}[1]{\multicolumn{1}{c}{\bfseries #1}}
-\lstset{basicstyle=\small,inputencoding=utf8}
+
+\lstset{basicstyle=\footnotesize,inputencoding=utf8,
+literate=
+{𝟎}{{\ensuremath{\mathbf{0}}}}1
+{𝟏}{{\ensuremath{\mathbf{1}}}}1
+{≔}{{\ensuremath{\mathrm{:=}}}}1
+{α}{{\ensuremath{\mathrm{\alpha}}}}1
+{ᵂ}{{\ensuremath{^W}}}1
+{β}{{\ensuremath{\mathrm{\beta}}}}1
+{γ}{{\ensuremath{\mathrm{\gamma}}}}1
+{δ}{{\ensuremath{\mathrm{\delta}}}}1
+{ε}{{\ensuremath{\mathrm{\varepsilon}}}}1
+{ζ}{{\ensuremath{\mathrm{\zeta}}}}1
+{η}{{\ensuremath{\mathrm{\eta}}}}1
+{θ}{{\ensuremath{\mathrm{\theta}}}}1
+{ι}{{\ensuremath{\mathrm{\iota}}}}1
+{κ}{{\ensuremath{\mathrm{\kappa}}}}1
+{λ}{{\ensuremath{\mathrm{\lambda}}}}1
+{μ}{{\ensuremath{\mathrm{\mu}}}}1
+{ν}{{\ensuremath{\mathrm{\nu}}}}1
+{ξ}{{\ensuremath{\mathrm{\xi}}}}1
+{π}{{\ensuremath{\mathrm{\mathnormal{\pi}}}}}1
+{ρ}{{\ensuremath{\mathrm{\rho}}}}1
+{σ}{{\ensuremath{\mathrm{\sigma}}}}1
+{τ}{{\ensuremath{\mathrm{\tau}}}}1
+{φ}{{\ensuremath{\mathrm{\varphi}}}}1
+{χ}{{\ensuremath{\mathrm{\chi}}}}1
+{ψ}{{\ensuremath{\mathrm{\psi}}}}1
+{ω}{{\ensuremath{\mathrm{\omega}}}}1
+{Π}{{\ensuremath{\mathrm{\Pi}}}}1
+{П}{{\ensuremath{\mathrm{\Pi}}}}1
+{Γ}{{\ensuremath{\mathrm{\Gamma}}}}1
+{Δ}{{\ensuremath{\mathrm{\Delta}}}}1
+{Θ}{{\ensuremath{\mathrm{\Theta}}}}1
+{Λ}{{\ensuremath{\mathrm{\Lambda}}}}1
+{Σ}{{\ensuremath{\mathrm{\Sigma}}}}1
+{Φ}{{\ensuremath{\mathrm{\Phi}}}}1
+{Ξ}{{\ensuremath{\mathrm{\Xi}}}}1
+{Ψ}{{\ensuremath{\mathrm{\Psi}}}}1
+{Ω}{{\ensuremath{\mathrm{\Omega}}}}1
+{ℵ}{{\ensuremath{\aleph}}}1
+{≤}{{\ensuremath{\leq}}}1
+{≥}{{\ensuremath{\geq}}}1
+{≠}{{\ensuremath{\neq}}}1
+{≈}{{\ensuremath{\approx}}}1
+{≡}{{\ensuremath{\equiv}}}1
+{≃}{{\ensuremath{\simeq}}}1
+{≤}{{\ensuremath{\leq}}}1
+{≥}{{\ensuremath{\geq}}}1
+{∂}{{\ensuremath{\partial}}}1
+{∆}{{\ensuremath{\triangle}}}1 % or \laplace?
+{∫}{{\ensuremath{\int}}}1
+{∑}{{\ensuremath{\mathrm{\Sigma}}}}1
+{→}{{\ensuremath{\rightarrow}}}1
+{⊥}{{\ensuremath{\perp}}}1
+{∞}{{\ensuremath{\infty}}}1
+{∂}{{\ensuremath{\partial}}}1
+{∓}{{\ensuremath{\mp}}}1
+{±}{{\ensuremath{\pm}}}1
+{×}{{\ensuremath{\times}}}1
+{⊕}{{\ensuremath{\oplus}}}1
+{⊗}{{\ensuremath{\otimes}}}1
+{⊞}{{\ensuremath{\boxplus}}}1
+{∇}{{\ensuremath{\nabla}}}1
+{√}{{\ensuremath{\sqrt}}}1
+{⬝}{{\ensuremath{\cdot}}}1
+{•}{{\ensuremath{\cdot}}}1
+{∘}{{\ensuremath{\circ}}}1
+{⁻}{{\ensuremath{^{-}}}}1
+{▸}{{\ensuremath{\blacktriangleright}}}1
+{∧}{{\ensuremath{\wedge}}}1
+{∨}{{\ensuremath{\vee}}}1
+{¬}{{\ensuremath{\neg}}}1
+{⊢}{{\ensuremath{\vdash}}}1
+{⟨}{{\ensuremath{\langle}}}1
+{⟩}{{\ensuremath{\rangle}}}1
+{↦}{{\ensuremath{\mapsto}}}1
+{→}{{\ensuremath{\rightarrow}}}1
+{↔}{{\ensuremath{\leftrightarrow}}}1
+{⇒}{{\ensuremath{\Rightarrow}}}1
+{⟹}{{\ensuremath{\Longrightarrow}}}1
+{⇐}{{\ensuremath{\Leftarrow}}}1
+{⟸}{{\ensuremath{\Longleftarrow}}}1
+{∩}{{\ensuremath{\cap}}}1
+{∪}{{\ensuremath{\cup}}}1
+{⊂}{{\ensuremath{\subseteq}}}1
+{⊆}{{\ensuremath{\subseteq}}}1
+{⊄}{{\ensuremath{\nsubseteq}}}1
+{⊈}{{\ensuremath{\nsubseteq}}}1
+{⊃}{{\ensuremath{\supseteq}}}1
+{⊇}{{\ensuremath{\supseteq}}}1
+{⊅}{{\ensuremath{\nsupseteq}}}1
+{⊉}{{\ensuremath{\nsupseteq}}}1
+{∈}{{\ensuremath{\in}}}1
+{∉}{{\ensuremath{\notin}}}1
+{∋}{{\ensuremath{\ni}}}1
+{∌}{{\ensuremath{\notni}}}1
+{∅}{{\ensuremath{\emptyset}}}1
+{∖}{{\ensuremath{\setminus}}}1
+{†}{{\ensuremath{\dag}}}1
+{ℕ}{{\ensuremath{\mathbb{N}}}}1
+{ℤ}{{\ensuremath{\mathbb{Z}}}}1
+{ℝ}{{\ensuremath{\mathbb{R}}}}1
+{ℚ}{{\ensuremath{\mathbb{Q}}}}1
+{ℂ}{{\ensuremath{\mathbb{C}}}}1
+{⌞}{{\ensuremath{\llcorner}}}1
+{⌟}{{\ensuremath{\lrcorner}}}1
+{⦃}{{\ensuremath{ \{\!| }}}1
+{⦄}{{\ensuremath{ |\!\} }}}1
+{₁}{{\ensuremath{_1}}}1
+{₂}{{\ensuremath{_2}}}1
+{₃}{{\ensuremath{_3}}}1
+{₄}{{\ensuremath{_4}}}1
+{₅}{{\ensuremath{_5}}}1
+{₆}{{\ensuremath{_6}}}1
+{₇}{{\ensuremath{_7}}}1
+{₈}{{\ensuremath{_8}}}1
+{₉}{{\ensuremath{_9}}}1
+{₀}{{\ensuremath{_0}}}1
+{¹}{{\ensuremath{^1}}}1
+{ₙ}{{\ensuremath{_n}}}1
+{ₘ}{{\ensuremath{_m}}}1
+{↑}{{\ensuremath{\uparrow}}}1
+{↓}{{\ensuremath{\downarrow}}}1
+{▸}{{\ensuremath{\triangleright}}}1
+{∀}{{\ensuremath{\forall}}}1
+{∃}{{\ensuremath{\exists}}}1
+{λ}{{\ensuremath{\mathrm{\lambda}}}}1
+{=}{{\ensuremath{=}}}1
+{<}{{\ensuremath{\langle}}}1
+{>}{{\ensuremath{\rangle}}}1
+{(}{(}1
+{(}{(}1
+{‖}{‖}1
+{+}{{+}}1
+{*}{{*}}1,
+}
+
 
 \addto\captionsukrainian{\renewcommand{\contentsname}{Зміст}}
 \addto\captionsukrainian{\def\refname{Список використаних джерел}}
@@ -34,7 +171,7 @@
 \begin{document}
 
 \author { М.Е. Сохацький $^1$ }
-\title { Issue XX: Modal Homotopy Type System }
+\title { Issue XIX: Modal Homotopy Type System }
 \date{ \small $^1$ Національний технічний університет України \\
        ім. Ігоря Сікорського \\
        26 листопада 2021 }
@@ -44,14 +181,13 @@
 Here is presented a reincarnation of \textbf{cubicaltt} called \textbf{Anders}.
 \end{abstract}
 
+\addtocontents{toc}{\protect\newpage}
+
 \ifincludeTOC
   \tableofcontents
 \fi
 
-\addtocontents{toc}{\protect\newpage}
-
 \newpage
-
 \section{Introduction to Anders}
 
 \textbf{Anders} is a Modal HoTT proof assistant based on: classical MLTT-80 \cite{MLTT80}
@@ -147,18 +283,16 @@ $\neg\texttt{-of-}\vee$, $\texttt{1}$$\rightarrow$$\texttt{1}$, $\texttt{is-?}$,
 $\texttt{=}$, $\texttt{\$$\sim$]!}$$\texttt{005x}$, $\infty$, $\texttt{x}$$\rightarrow$$\texttt{Nat}$.
 
 \textbf{Modules}. Modules represent files with declarations. More accurate, BNF notation of module consists of imports, options and declarations.
-\begin{table}[ht]
-\tabstyle
-\begin{tabular}{l}
-\textbf{menhir} \\
-\ \ \ start <Module.file> file \\
-\ \ \ start <Module.command> repl \\
-\ \ \ repl : COLON IDENT exp1 EOF | COLON IDENT EOF | exp0 EOF | EOF \\
-\ \ \ file : MODULE IDENT WHERE line* EOF \\
-\ \ \ path : IDENT \\
-\ \ \ line : IMPORT path+ | OPTION IDENT IDENT | declarations \\
-\end{tabular}
-\end{table}
+
+\begin{lstlisting}[mathescape=true]
+$\mathbf{menhir}$
+    start <Module.file> file
+    start <Module.command> repl
+    repl : COLON IDENT exp1 EOF | COLON IDENT EOF | exp0 EOF | EOF
+    file : MODULE IDENT WHERE line* EOF
+    path : IDENT
+    line : IMPORT path+ | OPTION IDENT IDENT | declarations
+\end{lstlisting}
 
 \textbf{Imports}. The import construction supports file folder structure (without file extensions)
 by using reserved symbol / for hierarchy walking.
@@ -177,13 +311,11 @@ tune inner variables of the type checker.
 4) lemma (helper in big game);
 5) theorem (something valuable or complex enough).
 
-\begin{table}[ht!]
-\tabstyle
-\begin{tabular}{l}
-\textbf{axiom} isProp (A : U) : U \\
-\textbf{def} isSet (A : U) : U := \textbf{$\Pi$} (a b : A) (x y : Path A a b), Path (Path A a b) x y
-\end{tabular}
-\end{table}
+\begin{lstlisting}[mathescape=true]
+axiom isProp (A : U) : U
+def isSet (A : U) : U
+ := $\Pi$ (a b : A) (x y : Path A a b), Path (Path A a b) x y
+\end{lstlisting}
 
 Sample declarations. For example, signature isProp (A : U) of type U could be
 defined as normalization-blocking axiom without proof-term or by providing proof-term as definition.
@@ -193,60 +325,50 @@ Each telescope consists of a series of lenses or empty. Each lense provides a
 set of variables of the same type. Telescope defines parameters of a declaration.
 Types in a telescope, type of a declaration and a proof-terms are a language expressions exp1.
 
-\begin{table}[ht]
-\tabstyle
-\begin{tabular}{l}
-\textbf{menhir} \\
-\ \ \ ident : IRREF | IDENT \\
-\ \ \ lense : LPARENS ident+ COLON exp1 RPARENS \\
-\ \ \ telescope : lense telescope \\
-\ \ \ params : telescope | [] \\
-\ \ \ declarations : \\
-\ \ \ \ \ \ | DEF IDENT params DEFEQ exp1 \\
-\ \ \ \ \ \ | DEF IDENT params COLON exp1 DEFEQ exp1 \\
-\ \ \ \ \ \ | AXIOM IDENT params COLON exp1
-\end{tabular}
-\end{table}
+\begin{lstlisting}[mathescape=true]
+$\mathbf{menhir}$
+    ident : IRREF | IDENT
+    lense : LPARENS ident+ COLON exp1 RPARENS
+    telescope : lense telescope
+    params : telescope | []
+    declarations :
+        | DEF IDENT params DEFEQ exp1
+        | DEF IDENT params COLON exp1 DEFEQ exp1
+        | AXIOM IDENT params COLON exp1
+\end{lstlisting}
 
 \textbf{Expressions}. All atomic language expressions are grouped by four categories:
 exp0 (pair constructions), exp1 (non neutral constructions), exp2 (path and pi applcations),
 exp3 (neutral constructions).
 
-\begin{table}[ht!]
-\tabstyle
-\begin{tabular}{ll}
-\textbf{menhir} \\
-\multicolumn{2}{l}{\ \ \ face : LPARENS IDENT IDENT IDENT RPARENS } \\
-\multicolumn{2}{l}{\ \ \ part : face+ ARROW exp1 } \\
-\multicolumn{2}{l}{\ \ \ exp0 : exp1 COMMA exp0 | exp1 } \\
-\multicolumn{2}{l}{\ \ \ exp1 : LSQ separated(COMMA, part) RSQ } \\
-\ \ \ \ \ \ | LAM telescope COMMA exp1   & | PI telescope COMMA exp1 \\
-\ \ \ \ \ \ | SIGMA telescope COMMA exp1 & | LSQ IRREF ARROW exp1 RSQ \\
-\ \ \ \ \ \ | LT ident+ GT exp1          & | exp2 ARROW exp1 \\
-\ \ \ \ \ \ | exp2 PROD exp1             & | exp2 \\
-\end{tabular}
-\end{table}
+\begin{lstlisting}[mathescape=true]
+$\mathbf{menhir}$
+    face : LPARENS IDENT IDENT IDENT RPARENS }
+    part : face+ ARROW exp1 }
+    exp0 : exp1 COMMA exp0 | exp1 }
+    exp1 : LSQ separated(COMMA, part) RSQ }
+         | LAM telescope COMMA exp1     | PI telescope COMMA exp1
+         | SIGMA telescope COMMA exp1   | LSQ IRREF ARROW exp1 RSQ
+         | LT ident+ GT exp1            | exp2 ARROW exp1
+         | exp2 PROD exp1               | exp2
+\end{lstlisting}
 
 The LR parsers demand to define exp1 as expressions that cannot be used (without a parens enclosure)
 as a right part of left-associative application for both Path and Pi lambdas.
 Universe indicies $U_j$ (inner fibrant), $V_k$ (outer pretypes) and S (outer strict omega)
 are using unicode subscript letters that are already processed in lexer.
 
-\begin{table}[ht!]
-\tabstyle
-\begin{tabular}{llll}
-\textbf{menhir} \\
-\multicolumn{3}{l}{\ \ \ exp2 : exp2 exp3 | exp2 APPFORMULA exp3 | exp3 } \\
-\multicolumn{4}{l}{\ \ \ exp3 : LPARENS exp0 RPARENS LSQ exp0 MAP exp0 RSQ } \\
-\ \ \ \ \ \   | HOLE              & | PRE          & | KAN          & | IDJ exp3 \\
-\ \ \ \ \ \   | exp3 FST          & | exp3 SND     & | NEGATE exp3  & | INC exp3 \\
-\ \ \ \ \ \   | exp3 AND exp3     & | exp3 OR exp3 & | ID exp3      & | REF exp3\\
-\ \ \ \ \ \   | OUC exp3          & | PATHP exp3   & | PARTIAL exp3 & | IDENT \\
-\multicolumn{3}{l}{\ \ \ \ \ \    | IDENT LSQ exp0 MAP exp0 RSQ }   & | HCOMP exp3 \\
-\multicolumn{3}{l}{\ \ \ \ \ \    | LPARENS exp0 RPARENS }          & | TRANSP exp3 exp3 \\
-\end{tabular}
-\end{table}
-
+\begin{lstlisting}[mathescape=true]
+$\mathbf{menhir}$
+    exp2 : exp2 exp3 | exp2 APPFORMULA exp3 | exp3 }
+    exp3 : LPARENS exp0 RPARENS LSQ exp0 MAP exp0 RSQ }
+         | HOLE              | PRE            | KAN            | IDJ exp3
+         | exp3 FST          | exp3 SND       | NEGATE exp3    | INC exp3
+         | exp3 AND exp3     | exp3 OR exp3   | ID exp3        | REF exp3
+         | OUC exp3          | PATHP exp3     | PARTIAL exp3   | IDENT
+         | IDENT LSQ exp0 MAP exp0 RSQ }      | HCOMP exp3
+         | LPARENS exp0 RPARENS }             | TRANSP exp3 exp3
+\end{lstlisting}
 
 \newpage
 \section{Semantics}
@@ -255,20 +377,19 @@ assign types to universes and enable/disable hierachies. This will be done by pr
 pluggable presheaf modules. We selected 5 levels of type checker awareness from universes and pure type
 systems up to synthetic language of homotopy type theory. Each layer corresponds to its presheaves with
 separate configuration for universe hierarchies.
-\begin{table}[ht]
-\tabstyle
-\begin{tabular}{rl}
-     \textbf{def} & lang :\textbf{U} := \textbf{inductive} \\
-               \{ & UNI: cosmos $\rightarrow$ lang \\
-               |  & PI: pure lang $\rightarrow$ lang \\
-               |  & SIGMA: total lang $\rightarrow$ lang \\
-               |  & ID: strict lang $\rightarrow lang$ \\
-               |  & PATH: homotopy lang $\rightarrow$ lang \\
-               |  & GLUE: glue lang $\rightarrow$ lang \\
-               |  & INDUCTIVE: w012 lang $\rightarrow$ lang \\
-               \} & \\
-\end{tabular}
-\end{table}
+
+\begin{lstlisting}[mathescape=true]
+def lang : U
+ := inductive { UNI: cosmos $\rightarrow$ lang
+              | PI: pure lang $\rightarrow$ lang
+              | SIGMA: total lang $\rightarrow$ lang
+              | ID: strict lang $\rightarrow lang$
+              | PATH: homotopy lang $\rightarrow$ lang
+              | GLUE: glue lang $\rightarrow$ lang
+              | INDUCTIVE: w012 lang $\rightarrow$ lang
+              }
+\end{lstlisting}
+
 We want to mention here with homage to its authors all categorical models of dependent type theory:
 Comprehension Categories (Grothendieck, Jacobs), LCCC (Seely), D-Categories and CwA (Cartmell),
 CwF (Dybjer), C-Systems (Voevodsky), Natural Models (Awodey). While we can build some transports
@@ -288,17 +409,14 @@ j < k.
 \end{equation}
 Large elimination to upper universes is prohibited. This is extendable to Agda model:
 
-\begin{table}[ht]
-\tabstyle
-\begin{tabular}{rl}
-     \textbf{def} & cosmos : \textbf{U} := \textbf{inductive} \\
-               \{ & fibrant: nat \\
-               |  & pretypes: nat \\
-               \} & \\
-\end{tabular}
-\end{table}
+\begin{lstlisting}[mathescape=true]
+def cosmos : U
+ := inductive { fibrant: $\mathbb{N}$
+              | pretypes: $\mathbb{N}$
+              }
+\end{lstlisting}
 
-The \textbf{anders} model contains only fibrant $U_j$ and pretypes $V_k$ universe hierarchies.
+The \textbf{Anders} model contains only fibrant $U_j$ and pretypes $V_k$ universe hierarchies.
 
 \newpage
 
@@ -322,52 +440,52 @@ implication in a Kripke model.
 An element $w:[\Pi(x:A)B(x)](I)$ is a family of functions $w_f : \Pi(u:A(J))B(J,u)$
 for $f : J \rightarrow I$ such that $(w_f u)g=w_{f\ g}(u\ g)$ when $u:A(J)$ and $g:K\rightarrow J$.
 \end{definition}
-\begin{table}[ht]
-\tabstyle
-\begin{tabular}{rl}
-  \textbf{def} & pure (lang : U) : \textbf{U} := \textbf{inductive} \\
-            \{ & pi: name $\rightarrow$ nat $\rightarrow$ lang $\rightarrow$ lang $\rightarrow$ pure lang \\
-             | & lambda: name $\rightarrow$ nat $\rightarrow$ lang $\rightarrow$ lang \\
-             | & app: lang $\rightarrow$ lang \\
-            \} & \\
-\end{tabular}
-\end{table}
+
+\begin{lstlisting}[mathescape=true]
+def pure (lang : U) : U
+ := inductive { pi: name $\rightarrow$ nat $\rightarrow$ lang $\rightarrow$ lang $\rightarrow$ pure lang
+              | lambda: name $\rightarrow$ nat $\rightarrow$ lang $\rightarrow$ lang
+              | app: lang $\rightarrow$ lang
+              }
+\end{lstlisting}
 
 \begin{definition}[Sigma]
-The set $\Sigma(x:A)B(x)$ is the set of pairs $(u,v)$ when $u:A(I),v:B(I,u)$ and restriction map $(u,v)\ f=(u\ f,v\ f)$.
+The set $\Sigma(x:A)B(x)$ is the set of pairs $(u,v)$ when $u:A(I),v:B(I,u)$ and
+restriction map $(u,v)\ f=(u\ f,v\ f)$.
 \end{definition}
-\begin{table}[ht]
-\tabstyle
-\begin{tabular}{rl}
-  \textbf{def} & total (lang : U) : \textbf{U} := \textbf{inductive} \\
-            \{ & sigma: name $\rightarrow$ lang $\rightarrow$ total lang \\
-             | & pair: lang $\rightarrow$ lang \\
-             | & fst: lang \\
-             | & snd: lang \\
-            \} & \\
-\end{tabular}
-\end{table}
 
-The presheaf with only Pi and Sigma is called \textbf{MLTT-72} \cite{MLTT72}. Its internalization in \textbf{anders} is as follows:
+\begin{lstlisting}[mathescape=true]
+def total (lang : U) : U
+ := inductive { sigma: name $\rightarrow$ lang $\rightarrow$ total lang
+              | pair: lang $\rightarrow$ lang
+              | fst: lang
+              | snd: lang
+              }
+\end{lstlisting}
 
-\begin{table}[ht!]
-\tabstyle
-\begin{tabular}{rl}
-\textbf{def} & MLTT-72 (A : U) (B : A $\rightarrow$ U) : U := $\Sigma$ \\
-             & ($\Pi$-form$_1$ : U) \\
-             & ($\Pi$-ctor$_1$ : Pi A B $\rightarrow$ Pi A B) \\
-             & ($\Pi$-elim$_1$ : Pi A B $\rightarrow$ Pi A B) \\
-             & ($\Pi$-comp$_1$ : (a : A) (f : Pi A B), $\Pi$-elim$_1$ ($\Pi$-ctor$_1$ f) a = f a) \\
-             & ($\Pi$-comp$_2$ : (a : A) (f : Pi A B), f = $\lambda$ (x : A), f x) \\
-             & ($\Sigma$-form$_1$ : U) \\
-             & ($\Sigma$-ctor$_1$ : $\Pi$ (a : A) (b : B a) , Sigma A B) \\
-             & ($\Sigma$-elim$_1$ : $\Pi$ (p : Sigma A B), A) \\
-             & ($\Sigma$-elim$_2$ : $\Pi$ (p : Sigma A B), B (pr$_1$ A B p)) \\
-             & ($\Sigma$-comp$_1$ : $\Pi$ (a : A) (b: B a), a = $\Sigma$-elim$_1$ ($\Sigma$-ctor$_1$ a b)) \\
-             & ($\Sigma$-comp$_2$ : $\Pi$ (a : A) (b: B a), b = $\Sigma$-elim$_2$ (a, b)) \\
-             & ($\Sigma$-comp$_3$ : $\Pi$ (p : Sigma A B), p = (pr$_1$ A B p, pr$_2$ A B p)), \textbf{1}
-\end{tabular}
-\end{table}
+The presheaf with only Pi and Sigma is called \textbf{MLTT-72} \cite{MLTT72}.
+Its internalization in \textbf{Anders} is as follows:
+
+\begin{lstlisting}[mathescape=true]
+def MLTT (A : U) : U₁
+ := Σ (Π-form  : Π (B : A → U), U)
+      (Π-ctor₁ : Π (B : A → U), Pi A B → Pi A B)
+      (Π-elim₁ : Π (B : A → U), Pi A B → Pi A B)
+      (Π-comp₁ : Π (B : A → U) (a : A) (f : Pi A B),
+                 = (B a) (Π-elim₁ B (Π-ctor₁ B f) a) (f a))
+      (Π-comp₂ : Π (B : A → U) (a : A) (f : Pi A B),
+                 = (Pi A B) f (λ (x : A), f x))
+      (Σ-form  : Π (B : A → U), U)
+      (Σ-ctor₁ : Π (B : A → U) (a : A) (b : B a) , Sigma A B)
+      (Σ-elim₁ : Π (B : A → U) (p : Sigma A B), A)
+      (Σ-elim₂ : Π (B : A → U) (p : Sigma A B), B (pr₁ A B p))
+      (Σ-comp₁ : Π (B : A → U) (a : A) (b: B a),
+                 = A a (Σ-elim₁ B (Σ-ctor₁ B a b)))
+      (Σ-comp₂ : Π (B : A → U) (a : A) (b: B a),
+                 = (B a) b (Σ-elim₂ B (a, b)))
+      (Σ-comp₃ : Π (B : A → U) (p : Sigma A B),
+                 = (Sigma A B) p (pr₁ A B p, pr₂ A B p)), Unit
+\end{lstlisting}
 
 \newpage
 \subsection{Path Equality}
@@ -376,29 +494,17 @@ The fundamental development of equality inside MLTT provers led us to the
 notion of $\infty$-groupoid as spaces. In this way Path identity type appeared
 in the core of type checker along with De Morgan algebra on built-in interval type.
 
-\begin{table}[ht]
-\tabstyle
-\begin{tabular}{rl}
-     \textbf{def} & homotopy (lang : U) : \textbf{U} := \textbf{inductive} \\
-               \{ & PathP: lang $\rightarrow$ lang $\rightarrow$ lang \\
-  |& plam: name $\rightarrow$ lang $\rightarrow$ lang \\
-  |& papp: lang $\rightarrow$ lang \\
-  |& I \\
-  |& zero \\
-  |& one \\
-  |& meet: lang $\rightarrow$ lang \\
-  |& join: lang $\rightarrow$ lang \\
-  |& neg: lang \\
-  |& system: lang \\
-  |& Partial: lang \\
-  |& transp: lang $\rightarrow$ lang \\
-  |& hcomp: lang \\
-  |& Sub: lang \\
-  |& inc: lang \\
-  |& ouc: lang \\
- \}& \\
-\end{tabular}
-\end{table}
+\begin{lstlisting}[mathescape=true]
+def CCHM (lang: U) : U
+ := inductive { pretype (n: nat)
+              | PathP (_: lang) | PLam (_: lang) | PApp (f a: lang)
+              | I | 0 | 1 | And (a b: lang) | Or (a b: lang) | Neg (_: lang)
+              | Transp (a b: lang) | HComp (a b c d: lang)
+              | Partial (_: lang) | PartialP (a b: lang) | System (_: lang)
+              | Sub (a b c: lang) | Inc (a b: lang) | Ouc (: lang)
+              | Glue (: lang) | GlueElem (a b c: lang) | Unglue (_: lang)
+              }
+\end{lstlisting}
 
 \begin{definition}[Cubical Presheaf $\mathbb{I}$]
 The identity types modeled with another presheaf, the presheaf on Lawvere
@@ -423,32 +529,28 @@ extensionality; it is not enough for proving $\beta$ rule for Path type or path 
 \indent $\textbf{Generalized\ Transport}$. Generalized transport transp adresses
 first problem of deriving the computational $\beta$ rule for Path types:
 
-\begin{table}[ht]
-\tabstyle
-\begin{tabular}{rl}
-\textbf{theorem} & Path$_\beta$ (A : U) (a : A) (C : D A) (d: C a a (refl A a)) \\
-               : & Equ (C a a (refl A a)) d (J A a C d a (refl A a)) \\
-              := & $\lambda$ (A : U), $\lambda$ (a : A), \\
-                 & $\lambda$ (C : $\Pi$ (x : A), $\Pi$ (y : A), PathP (<\_> A) x y $\rightarrow$ U), \\
-                 & $\lambda$ (d : C a a (<\_> a)), <j> transp (<\_> C a a (<\_> a)) -j d \\
-\end{tabular}
-\end{table}
+\begin{lstlisting}[mathescape=true]
+theorem Path$_\beta$ (A : U) (a : A) (C : D A) (d: C a a (refl A a))
+  : Equ (C a a (refl A a)) d (J A a C d a (refl A a))
+ := λ (A : U)
+      (a : A)
+      (C : П (x : A) (y : A), PathP (<\_> A) x y $\rightarrow$ U),
+      (d : C a a (<\_> a)),
+      <j> transp (<\_> C a a (<\_> a)) -j d
+\end{lstlisting}
 
 Transport is defined on fibrant types (only) and type checker should cover all the cases
 Note that transp$^i$ (Path$^j$ A v w) $\varphi$ u$_0$ case is relying on comp
 operation which depends on hcomp primitive. Here is given the first part of Simon Huber equations \cite{Huber} for \textbf{transp}:
 
-\begin{table}[ht]
-\tabstyle
-\begin{tabular}{l}
-transp$^{i}$ N $\varphi$ u$_0$ = u$_0$ \\
-transp$^{i}$ U $\varphi$ A = A \\
-transp$^{i}$ ($\Pi$ (x : A), B) $\varphi$ u$_0$ v = transp$^i$ B(x/w) $\varphi$ (u$_0$ w(i/0)) \\
-transp$^{i}$ ($\Sigma$ (x : A), B) $\varphi$ u$_0$ = (transp$^i$ A $\varphi$ (u$_0$.1),transp$^i$ B(x/v) $\varphi$ (u$_0$.2)) \\
-transp$^{i}$ (Path$^j$ v w) $\varphi$ u$_0$ = <j> comp$^i$ A [$\phi$ u$_0$ j, (j=0) $\mapsto$ v, (j=1) $\mapsto$ w] (u$_0$ j) \\
-transp$^{i}$ (Glue [$\varphi$ $\mapsto$ (T,w)] A) $\psi$ u$_0$ = glue [$\phi$(i/1) $\mapsto$ t'$_1$] a'$_1$ : B(i/1) \\
-\end{tabular}
-\end{table}
+\begin{lstlisting}[mathescape=true]
+transp$^{i}$ N $\varphi$ u$_0$ = u$_0$
+transp$^{i}$ U $\varphi$ A = A
+transp$^{i}$ ($\Pi$ (x : A), B) $\varphi$ u$_0$ v = transp$^i$ B(x/w) $\varphi$ (u$_0$ w(i/0))
+transp$^{i}$ ($\Sigma$ (x : A), B) $\varphi$ u$_0$ = (transp$^i$ A $\varphi$ (u$_0$.1),transp$^i$ B(x/v) $\varphi$ (u$_0$.2))
+transp$^{i}$ (Path$^j$ v w) $\varphi$ u$_0$ = <j> comp$^i$ A [$\phi$ u$_0$ j, (j=0) $\mapsto$ v, (j=1) $\mapsto$ w] (u$_0$ j)
+transp$^{i}$ (Glue [$\varphi$ $\mapsto$ (T,w)] A) $\psi$ u$_0$ = glue [$\phi$(i/1) $\mapsto$ t'$_1$] a'$_1$ : B(i/1)
+\end{lstlisting}
 
 \newpage
 $\textbf{Partial\ Elements}$. In order to explicitly define hcomp we need to specify
@@ -460,29 +562,23 @@ extensional equality: two of its elements are considered judgmentally equal if
 they represent the same subcube of A. They are equal whenever they reduce to
 equal terms for all the possible assignment of variables that make r equal to 1.
 
-\begin{table}[ht]
-\tabstyle
-\begin{tabular}{l}
-\textbf{def} Partial' (A : U) (i : I) := Partial A i \\
-\textbf{def} isOne : I -> V := Id I 1 \\
-\textbf{def} 1=>1 : isOne 1 := ref 1 \\
-\textbf{def} UIP (A : V) (a b : A) (p q : Id A a b) : Id (Id A a b) p q := ref p \\
-\end{tabular}
-\end{table}
+\begin{lstlisting}[mathescape=true]
+def Partial' (A : U) (i : I) := Partial A i
+def isOne : I -> V := Id I 1
+def 1=>1 : isOne 1 := ref 1
+def UIP (A : V) (a b : A) (p q : Id A a b) : Id (Id A a b) p q := ref p
+\end{lstlisting}
 
 $\textbf{Cubical\ Subtypes}$. For (A : U) (i : I) (Partial A i) we can define
 subtype A [ i $\mapsto$ u ]. A term of this type is a term of type A that is
 definitionally equal to u when (IsOne i) is satisfied. We have forth and back
 fusion rules ouc (inc v) = v and inc (outc v) = v. Moreover, ouc v will reduce to u 1=1 when i=1.
 
-\begin{table}[ht]
-\tabstyle
-\begin{tabular}{l}
-\textbf{def} sub' (A : U) (i : I) (u : Partial A i) : V := A [i $\mapsto$ u ] \\
-\textbf{def} inc' (A : U) (i : I) (a : A) : A [i $\mapsto$ [(i = 1) $\rightarrow$ a]] := inc A i a \\
-\textbf{def} ouc' (A : U) (i : I) (u : Partial A i) (a : A [i $\mapsto$ u]) : A := ouc a \\
-\end{tabular}
-\end{table}
+\begin{lstlisting}[mathescape=true]
+def sub' (A : U) (i : I) (u : Partial A i) : V := A [i $\mapsto$ u ]
+def inc' (A : U) (i : I) (a : A) : A [i $\mapsto$ [(i = 1) $\rightarrow$ a]] := inc A i a
+def ouc' (A : U) (i : I) (u : Partial A i) (a : A [i $\mapsto$ u]) : A := ouc a
+\end{lstlisting}
 
 $\textbf{Homogeneous\ Composition}$. hcomp is the answer to second problem: with hcomp and transp
 one can express path composition, groupoid, category of groupoids (groupoid interpretation and
@@ -490,40 +586,33 @@ internalization in type theory). One of the main roles of homogeneous compositio
 carrier in [higher] inductive type constructors for calculating of homotopy colimits and direct
 encoding of CW-complexes. Here is given the second part of Simon Huber equations \cite{Huber} for $\textbf{hcomp}$:
 
-\begin{table}[ht]
-\tabstyle
-\begin{tabular}{l}
-hcomp$^i$ N [$\phi$ $\mapsto$ 0] 0 = 0 \\
-hcomp$^i$ N [$\phi$ $\mapsto$ S u] (S u$_0$) = S (hcomp$^i$ N [$\phi$ $\mapsto$ u] u$_0$) \\
-hcomp$^i$ U [$\phi$ $\mapsto$ E] A = Glue [$\phi$ $\mapsto$ (E(i/1), equiv$^i$ E(i/1-i))] A \\
-hcomp$^i$ ($\Pi$ (x : A), B) [$\phi$ $\mapsto$ u] u$_0$ v = hcomp$^i$ B(x/v) [$\phi$ $\mapsto$ u v] (u$_0$ v) \\
-hcomp$^i$ ($\Sigma$ (x : A), B) [$\phi$ $\mapsto$ u] u$_0$ = (v(i/1), comp$^i$ B(x/v) [$\phi$ $\mapsto$ u.2] u$_0$.2) \\
-hcomp$^i$ (Path$^j$ A v w) [$\phi$ $\mapsto$ u] u$_0$ = <j> hcomp$^i$ A[$\phi$ $\mapsto$ u j, (j=0) $\mapsto$ v, (j=1) $\mapsto$ w] (u$_0$ j) \\
-hcomp$^i$ (Glue [$\phi$ $\mapsto$ (T,w)] A) [$\psi$ $\mapsto$ u] u$_0$ = glue [$\phi$ $\mapsto$ u(i/1)] (unglue u(i/1)) \\
-\end{tabular}
-\end{table}
+\begin{lstlisting}[mathescape=true]
+hcomp$^i$ N [$\phi$ $\mapsto$ 0] 0 = 0
+hcomp$^i$ N [$\phi$ $\mapsto$ S u] (S u$_0$) = S (hcomp$^i$ N [$\phi$ $\mapsto$ u] u$_0$)
+hcomp$^i$ U [$\phi$ $\mapsto$ E] A = Glue [$\phi$ $\mapsto$ (E(i/1), equiv$^i$ E(i/1-i))] A
+hcomp$^i$ ($\Pi$ (x : A), B) [$\phi$ $\mapsto$ u] u$_0$ v = hcomp$^i$ B(x/v) [$\phi$ $\mapsto$ u v] (u$_0$ v)
+hcomp$^i$ ($\Sigma$ (x : A), B) [$\phi$ $\mapsto$ u] u$_0$ = (v(i/1), comp$^i$ B(x/v) [$\phi$ $\mapsto$ u.2] u$_0$.2)
+hcomp$^i$ (Path$^j$ A v w) [$\phi$ $\mapsto$ u] u$_0$ = <j> hcomp$^i$ A[$\phi$ $\mapsto$ u j, (j=0) $\mapsto$ v, (j=1) $\mapsto$ w] (u$_0$ j)
+hcomp$^i$ (Glue [$\phi$ $\mapsto$ (T,w)] A) [$\psi$ $\mapsto$ u] u$_0$ = glue [$\phi$ $\mapsto$ u(i/1)] (unglue u(i/1))
+\end{lstlisting}
 
 \subsection{Strict Equality}
 
 To avoid conflicts with path equalities which live in fibrant universes strict
 equalities live in pretypes universes.
 
-\begin{table}[ht!]
-\tabstyle
-\begin{tabular}{rl}
-     \textbf{def} & strict (lang : U) : \textbf{U} := \textbf{inductive} \\\
- \{ & Id: name $\rightarrow$ lang \\
-  |& ref: lang $\rightarrow$ lang \\
-  |& idJ: lang $\rightarrow$ lang $\rightarrow$ lang \\
-                         \} & \\
-\end{tabular}
-\end{table}
+\begin{lstlisting}[mathescape=true]
+def strict (lang : U) : U
+ := inductive { Id: name $\rightarrow$ lang
+              | ref: lang $\rightarrow$ lang
+              | idJ: lang $\rightarrow$ lang $\rightarrow$ lang
+              }
+\end{lstlisting}
 
 We use strict equality in HTS for pretypes and partial elements which live in V.
 The presheaf configuration with Pi, Sigma and Id is called \textbf{MLTT-75} \cite{MLTT75}. The presheaf
 configuration with Pi, Sigma, Id and Path is called \textbf{HTS} (Homotopy Type System).
 
-\newpage
 \subsection{Glue Types}
 
 The main purpose of Glue types is to construct a cube where some faces have
@@ -533,32 +622,26 @@ types you can compose with equivalences instead of paths. This implies the
 univalence principle and it is what lets us transport along paths built
 out of equivalences.
 
-\begin{table}[ht]
-\tabstyle
-\begin{tabular}{rl}
-     \textbf{def} & glue (lang : U) : \textbf{U} := \textbf{inductive} \\
- \{ & Glue: lang $\rightarrow$ lang $\rightarrow$ lang \\
-  |& glue: lang $\rightarrow$ lang \\
-  |& unglue: lang $\rightarrow$ lang \\
-                         \} & \\
-\end{tabular}
-\end{table}
+\begin{lstlisting}[mathescape=true]
+def glue (lang : U) : U
+ := inductive { Glue: lang $\rightarrow$ lang $\rightarrow$ lang
+              | glue: lang $\rightarrow$ lang
+              | unglue: lang $\rightarrow$ lang
+              }
+\end{lstlisting}
 
 Basic Fibrational HoTT core by Pelayo, Warren, and Voevodsky (2012).
 
-\begin{table}[ht]
-\tabstyle
-\begin{tabular}{l}
-\textbf{def} fiber (A B : U) (f: A → B) (y : B): U := $\Sigma$ (x : A), Path B y (f x) \\
-\textbf{def} isEquiv (A B : U) (f : A → B) : U := $\Pi$ (y : B), isContr (fiber A B f y) \\
-\textbf{def} equiv (A B : U) : U := $\Sigma$ (f : A → B), isEquiv A B f \\
-\textbf{def} contrSingl (A : U) (a b : A) (p : Path A a b) \\
-\ \ \ \ : Path ($\Sigma$ (x : A), Path A a x) (a,<i>a) (b,p) := <i> (p @ i, <j> p @ i $\vee$ j) \\
-\textbf{def} idIsEquiv (A : U) : isEquiv A A (id A) := \\
-\ \ \ \ $\lambda$ (a : A), ((a,<i>a), $\lambda$ (z : fiber A A (id A) a), contrSingl A a z.1 z.2) \\
-\textbf{def} idEquiv (A : U) : equiv A A := (id A, isContrSingl A) \\
-\end{tabular}
-\end{table}
+\begin{lstlisting}[mathescape=true]
+def fiber (A B : U) (f: A → B) (y : B): U := $\Sigma$ (x : A), Path B y (f x)
+def isEquiv (A B : U) (f : A → B) : U := $\Pi$ (y : B), isContr (fiber A B f y)
+def equiv (A B : U) : U := $\Sigma$ (f : A → B), isEquiv A B f
+def contrSingl (A : U) (a b : A) (p : Path A a b)
+  : Path ($\Sigma$ (x : A), Path A a x) (a,<i>a) (b,p) := <i> (p @ i, <j> p @ i $\vee$ j)
+def idIsEquiv (A : U) : isEquiv A A (id A)
+ := $\lambda$ (a : A), ((a,<i>a), $\lambda$ (z : fiber A A (id A) a), contrSingl A a z.1 z.2)
+def idEquiv (A : U) : equiv A A := (id A, isContrSingl A)
+\end{lstlisting}
 
 The notion of Univalence was discovered by Vladimir Voevodsky
 as forth and back transport between fibrational equivalence
@@ -567,52 +650,42 @@ heterogeneous path equality. The Equiv → Path type is called Univalence type,
 where univalence intro is obtained by Glue type and elim (Path → Equiv) is
 obtained by sigma transport from constant map.
 
-\begin{table}[ht]
-\tabstyle
-\begin{tabular}{l}
-\textbf{def} univ-formation (A B : U) := equiv A B → PathP (<i> U) A B \\
-\textbf{def} univ-intro (A B : U) : univ-formation A B := $\lambda$ (e : equiv A B), \\
-\ \ \ \ <i> Glue B ($\partial$ i) [(i = 0) → (A, e), (i = 1) → (B, idEquiv B)] \\
-\textbf{def} univ-elim (A B : U) (p : PathP (<i> U) A B) \\
-\ \ : equiv A B := transp (<i> equiv A (p @ i)) 0 (idEquiv A) \\
-\textbf{def} univ-computation (A B : U) (p : PathP (<i> U) A B) \\
-\ \ : PathP (<i> PathP (<i> U) A B) (univ-intro A B (univ-elim A B p)) p \\
-\ \ := <j i> Glue B (j $\vee$ $\partial$ i) \\
-\ \ \ \ \ [(i = 0) → (A, univ-elim A B p), (i = 1) → (B, idEquiv B), \\
-\ \ \ \ \ \ (j = 1) → (p @ i, univ-elim (p @ i) B (<k> p @ (i $\vee$ k)))] \\
-\end{tabular}
-\end{table}
+\begin{lstlisting}[mathescape=true]
+def univ-formation (A B : U) := equiv A B → PathP (<i> U) A B
+def univ-intro (A B : U) : univ-formation A B := $\lambda$ (e : equiv A B),
+    <i> Glue B ($\partial$ i) [(i = 0) → (A, e), (i = 1) → (B, idEquiv B)]
+def univ-elim (A B : U) (p : PathP (<i> U) A B)
+  : equiv A B := transp (<i> equiv A (p @ i)) 0 (idEquiv A)
+def univ-computation (A B : U) (p : PathP (<i> U) A B)
+  : PathP (<i> PathP (<i> U) A B) (univ-intro A B (univ-elim A B p)) p
+ := <j i> Glue B (j $\vee$ $\partial$ i)
+    [ (i = 0) → (A, univ-elim A B p), (i = 1) → (B, idEquiv B),
+      (j = 1) → (p @ i, univ-elim (p @ i) B (<k> p @ (i $\vee$ k)))]
+\end{lstlisting}
 
 Similar to Fibrational Equivalence the notion of Retract/Section based Isomorphism could be introduced
 as forth-back transport between isomorphism and path equality. This notion is somehow cannonical to all
 cubical systems and is called Unimorphism here.
 
-\begin{table}[ht!]
-\tabstyle
-\begin{tabular}{l}
-\textbf{def} iso-Form (A B: U) : U$_1$ := iso A B -> PathP (<i>U) A B \\
-\textbf{def} iso-Intro (A B: U) : iso-Form A B := \\
-\ \ \ $\lambda$ (x : iso A B), isoPath A B x.f x.g x.s x.t \\
-\textbf{def} iso-Elim (A B : U) : PathP (<i> U) A B -> iso A B \\
-\ := $\lambda$ (p : PathP (<i> U) A B), \\
-\ \ \ ( coerce A B p, coerce B A (<i> p @ -i), \\
-\ \ \ \ \ trans$^{-1}$-trans A B p, $\lambda$ (a : A), <k> trans-trans$^{-1}$ A B p a @-k, $\star$) \\
-\end{tabular}
-\end{table}
+\begin{lstlisting}[mathescape=true]
+def iso-Form (A B: U) : U$_1$ := iso A B -> PathP (<i>U) A B
+def iso-Intro (A B: U) : iso-Form A B
+ := $\lambda$ (x : iso A B), isoPath A B x.f x.g x.s x.t
+def iso-Elim (A B : U) : PathP (<i> U) A B -> iso A B
+ := $\lambda$ (p : PathP (<i> U) A B),
+      (coerce A B p, coerce B A (<i> p @ -i),
+      trans$^{-1}$-trans A B p, $\lambda$ (a : A), <k> trans-trans$^{-1}$ A B p a @-k, $\star$)
+\end{lstlisting}
 
 Orton-Pitts basis for univalence computability (2017):
 
-\begin{table}[ht!]
-\tabstyle
-\begin{tabular}{l}
-\textbf{def} ua (A B : U) (p : equiv A B) : PathP (<i> U) A B := univ-intro A B p \\
-\textbf{def} ua$-\beta$ (A B : U) (e : equiv A B) : Path (A → B) (trans A B (ua A B e)) e.1 \\
- := <i> $\lambda$ (x : A), (idfun=idfun'' B @ -i) \\
-\ \ \ \ ( (idfun=idfun'' B @ -i) ((idfun=idfun' B @ -i) (e.1 x)) ) \\
-\end{tabular}
-\end{table}
+\begin{lstlisting}[mathescape=true]
+def ua (A B : U) (p : equiv A B) : PathP (<i> U) A B := univ-intro A B p
+def ua$-\beta$ (A B : U) (e : equiv A B) : Path (A → B) (trans A B (ua A B e)) e.1
+ := <i> $\lambda$ (x : A), (idfun=idfun'' B @ -i)
+    (idfun=idfun'' B @ -i) ((idfun=idfun' B @ -i) (e.1 x)) )
+\end{lstlisting}
 
-\newpage
 \subsection{de Rham Stack}
 
 Stack de Rham or Infinitezemal Shape Modality is a basic primitive for proving theorems
@@ -620,54 +693,46 @@ from synthetic differential geometry. This type-theoretical framework was develo
 for the first time by Felix Cherubini under the guidance of Urs Schreiber. The Anders
 prover implements the computational semantics of the de Rham stack.
 
-\begin{table}[ht]
-\tabstyle
-\begin{tabular}{l}
-\textbf{def} $\iota$ (A : U) (a : A) : $\Im$ A := $\Im-$unit a \\
-\textbf{def} $\mu$ (A : U) (a : $\Im$ ($\Im$ A)) := $\Im-$join a \\
-\\
-\textbf{def} is-coreduced (A : U) : U := isEquiv A ($\Im$ A) ($\iota$ A) \\
-\textbf{def} $\Im$-coreduced (A : U) : is-coreduced ($\Im$ A) := isoToEquiv \\
-\ \ \ \ ($\Im$ A) ($\Im$ ($\Im$ A)) ($\iota$ ($\Im$ A)) ($\mu$ A) ($\lambda$ (x : $\Im$ ($\Im$ A)), <i>x) ($\lambda$ (y : $\Im$ A),<i>y) \\
-\textbf{def} ind$-\Im\beta$ (A : U) (B : $\Im$ A → U) (f : $\Pi$ (a : A), $\Im$ (B ($\iota$ A a))) (a : A) \\
-\ \ : Path ($\Im$ (B ($\iota$ A a))) (ind$-\Im$ A B f ($\iota$ A a)) (f a) := <i> f a \\
-\textbf{def} ind$-\Im-$const (A B : U) (b : $\Im$ B) (x : $\Im$ A) \\
-\ \ : Path ($\Im$ B) (ind$-\Im$ A ($\lambda$ (i : $\Im$ A), B) ($\lambda$ (i : A), b) x) b := <i> b \\
-\end{tabular}
-\end{table}
+\begin{lstlisting}[mathescape=true]
+def $\iota$ (A : U) (a : A) : $\Im$ A := $\Im-$unit a
+def $\mu$ (A : U) (a : $\Im$ ($\Im$ A)) := $\Im-$join a
+def is-coreduced (A : U) : U := isEquiv A ($\Im$ A) ($\iota$ A)
+def $\Im$-coreduced (A : U) : is-coreduced ($\Im$ A)
+ := isoToEquiv ($\Im$ A) ($\Im$ ($\Im$ A)) ($\iota$ ($\Im$ A)) ($\mu$ A)
+    ($\lambda$ (x : $\Im$ ($\Im$ A)), <i>x) ($\lambda$ (y : $\Im$ A),<i>y)
+def ind$-\Im\beta$ (A : U) (B : $\Im$ A → U) (f : $\Pi$ (a : A), $\Im$ (B ($\iota$ A a))) (a : A)
+  : Path ($\Im$ (B ($\iota$ A a))) (ind$-\Im$ A B f ($\iota$ A a)) (f a) := <i> f a
+def ind$-\Im-$const (A B : U) (b : $\Im$ B) (x : $\Im$ A)
+  : Path ($\Im$ B) (ind$-\Im$ A ($\lambda$ (i : $\Im$ A), B) ($\lambda$ (i : A), b) x) b := <i> b
+\end{lstlisting}
 
 Coreduced induction and its $\beta-$quation.
 
-\begin{table}[ht]
-\tabstyle
-\begin{tabular}{l}
-\textbf{def} $\Im-$ind (A : U) (B : $\Im$ A → U) (c : $\Pi$ (a : $\Im$ A), \\
-\ \ \ \ is-coreduced (B a)) (f : $\Pi$ (a : A), B ($\iota$ A a)) (a : $\Im$ A) : B a \\
-\ \ \ \ := (c a (ind$-\Im$ A B ($\lambda$ (x : A), $\iota$ (B ($\iota$ A x)) (f x)) a)).1.1 \\
-\textbf{def} $\Im-$ind$\beta$ (A : U) (B : $\Im$ A → U) (c : $\Pi$ (a : $\Im$ A), \\
-\ \ \ \ is-coreduced (B a)) (f : $\Pi$ (a : A), B ($\iota$ A a)) (a : A) \\
-\ \ : Path (B ($\iota$ A a)) (f a) (($\Im-$ind A B c f) ($\iota$ A a)) \\
-\ := <i> sec-equiv (B ($\iota$ A a)) ($\Im$ (B ($\iota$ A a))) ($\iota$ (B ($\iota$ A a)), c ($\iota$ A a)) (f a) @-i \\
-\end{tabular}
-\end{table}
+\begin{lstlisting}[mathescape=true]
+def $\Im-$ind (A : U) (B : $\Im$ A → U) (c : $\Pi$ (a : $\Im$ A),
+    is-coreduced (B a)) (f : $\Pi$ (a : A), B ($\iota$ A a)) (a : $\Im$ A) : B a
+ := (c a (ind$-\Im$ A B ($\lambda$ (x : A), $\iota$ (B ($\iota$ A x)) (f x)) a)).1.1
+def $\Im-$ind$\beta$ (A : U) (B : $\Im$ A → U) (c : $\Pi$ (a : $\Im$ A),
+    is-coreduced (B a)) (f : $\Pi$ (a : A), B ($\iota$ A a)) (a : A)
+  : Path (B ($\iota$ A a)) (f a) (($\Im-$ind A B c f) ($\iota$ A a))
+ := <i> sec-equiv (B ($\iota$ A a)) ($\Im$ (B ($\iota$ A a)))
+    ($\iota$ (B ($\iota$ A a)), c ($\iota$ A a)) (f a) @-i
+\end{lstlisting}
 
 Geometric Modal HoTT Framework: Infinitesimal Proximity, Formal Disk, Formal Disk Bundle, Differential.
 
-\begin{table}[ht]
-\tabstyle
-\begin{tabular}{l}
-\textbf{def} $\sim$ (X : U) (a x' : X) : U := Path ($\Im$ X) ($\iota$ X a) ($\iota$ X x') \\
-\textbf{def} $\mathbb{D}$ (X : U) (a : X) : U := $\Sigma$ (x' : X), $\sim$ X a x' \\
-\textbf{def} inf-prox-ap (X Y : U) (f : X → Y) (x x' : X) (p : $\sim$ X x x') \\
-\ \ : $\sim$ Y (f x) (f x') := <i> $\Im-$app X Y f (p @ i) \\
-\textbf{def} T$^\infty$ (A : U) : U := $\Sigma$ (a : A), $\mathbb{D}$ A a \\
-\textbf{def} inf-prox-ap (X Y : U) (f : X → Y) (x x' : X) (p : $\sim$ X x x') \\
-\ \ : $\sim$ Y (f x) (f x') := <i> $\Im-$app X Y f (p @ i) \\
-\textbf{def} d (X Y : U) (f : X → Y) (x : X) ($\varepsilon$ : $\mathbb{D}$ X x) \\
-\ \ : $\mathbb{D}$ Y (f x) := (f $\varepsilon$.1, inf-prox-ap X Y f x $\varepsilon$.1 $\varepsilon$.2) \\
-\textbf{def} T$^\infty$-map (X Y : U) (f : X → Y) ($\tau$ : T$^\infty$ X) : T$^\infty$ Y := (f $\tau$.1, d X Y f $\tau$.1 $\tau$.2) \\
-\end{tabular}
-\end{table}
+\begin{lstlisting}[mathescape=true]
+def $\sim$ (X : U) (a x' : X) : U := Path ($\Im$ X) ($\iota$ X a) ($\iota$ X x')
+def $\mathbb{D}$ (X : U) (a : X) : U := $\Sigma$ (x' : X), $\sim$ X a x'
+def inf-prox-ap (X Y : U) (f : X → Y) (x x' : X) (p : $\sim$ X x x')
+  : $\sim$ Y (f x) (f x') := <i> $\Im-$app X Y f (p @ i)
+def T$^\infty$ (A : U) : U := $\Sigma$ (a : A), $\mathbb{D}$ A a
+def inf-prox-ap (X Y : U) (f : X → Y) (x x' : X) (p : $\sim$ X x x')
+  : $\sim$ Y (f x) (f x') := <i> $\Im-$app X Y f (p @ i)
+def d (X Y : U) (f : X → Y) (x : X) ($\varepsilon$ : $\mathbb{D}$ X x)
+  : $\mathbb{D}$ Y (f x) := (f $\varepsilon$.1, inf-prox-ap X Y f x $\varepsilon$.1 $\varepsilon$.2)
+def T$^\infty$-map (X Y : U) (f : X → Y) ($\tau$ : T$^\infty$ X) : T$^\infty$ Y := (f $\tau$.1, d X Y f $\tau$.1 $\tau$.2)
+\end{lstlisting}
 
 \newpage
 \subsection{Inductive Types}
@@ -697,26 +762,19 @@ to express other HITs. Also there are other foundations to consider motivated by
 Modification of Anders with Simplicial types and Hopf Fibrations built intro the core of type checker
 is called \textbf{Dan} with following recursive syntax (having $f$ as Simplecies and $coh$ as Path-coherence functions):
 
-\begin{table}[ht!]
-\tabstyle
-\begin{tabular}{l}
-   \textbf{simplex} n [v$_0$ .. v$_n$] \{ f$_0$, f$_1$, ..., f$_n$ | coh i$_1$ i$_2$ ... i$_n$ \} : Simplex
-\end{tabular}
-\end{table}
+\begin{lstlisting}[mathescape=true]
+simplex n [v$_0$ .. v$_n$] { f$_0$, f$_1$, ..., f$_n$ | coh i$_1$ i$_2$ ... i$_n$ } : Simplex
+\end{lstlisting}
 
 and instantiation example:
 
-\begin{table}[ht!]
-\tabstyle
-\begin{tabular}{l}
-
-\textbf{def} s$_\infty$ : Simplicial \\
-\ := $\Pi$ (v e : Simplex), \\
-\ \ \ \ $\delta_{10}$ = v, $\delta_{11}$ = v, s$_0$ < v, \\
-\ \ \ \ $\delta_{20}$ = e $\circ$ e, s$_{10}$ < $\delta_{20}$ \\
-\ \ \ \ $\vdash$ $\infty$ (v, e, $\delta_{20}$ | $\delta_{10}$ $\delta_{11}$, s$_0$, $\delta_{20}$, s$_{10}$)
-\end{tabular}
-\end{table}
+\begin{lstlisting}[mathescape=true]
+def s$_\infty$ : Simplicial
+ := $\Pi$ (v e : Simplex),
+      $\delta_{10}$ = v, $\delta_{11}$ = v, s$_0$ < v,
+      $\delta_{20}$ = e $\circ$ e, s$_{10}$ < $\delta_{20}$
+      $\vdash$ $\infty$ (v, e, $\delta_{20}$ | $\delta_{10}$ $\delta_{11}$, s$_0$, $\delta_{20}$, s$_{10}$)
+\end{lstlisting}
 
 \newpage
 \section{Properties}
@@ -757,118 +815,98 @@ As a practical refinement of cubicaltt, Anders serves as an accessible
 tool for homotopy type theory, with potential for incremental
 enhancements like a tactic language.
 
+\newpage
 \begin{thebibliography}{99}
 
 \bibitem{deRham}
-Felix Cherubini,
-\textit{Cartan Geometry in Modal Homotopy Type Theory},
-2019.
-\href{https://arxiv.org/pdf/1806.05966.pdf}{\texttt{arxiv.org/pdf/1806.05966.pdf}}.
+Felix Cherubini.
+\newblock \emph{Cartan Geometry in Modal Homotopy Type Theory}.
+\newblock 2019. \url{https://arxiv.org/pdf/1806.05966.pdf}.
 
 \bibitem{CHM}
-Thierry Coquand, Simon Huber, and Anders Mörtberg,
-\textit{On Higher Inductive Types in Cubical Type Theory},
-2017.
-\href{https://staff.math.su.se/anders.mortberg/papers/cubicalhits.pdf}{\texttt{cubicalhits.pdf}}.
+Thierry Coquand, Simon Huber, and Anders Mörtberg.
+\newblock \emph{On Higher Inductive Types in Cubical Type Theory}.
+\newblock 2017. \url{https://staff.math.su.se/anders.mortberg/papers/cubicalhits.pdf}.
 
 \bibitem{Huber}
-Simon Huber,
-\textit{On Higher Inductive Types in Cubical Type Theory},
-2017.
-\href{http://www.cse.chalmers.se/~simonhu/misc/hcomp.pdf}{\texttt{hcomp.pdf}}.
+Simon Huber.
+\newblock \emph{On Higher Inductive Types in Cubical Type Theory}.
+\newblock 2017. \url{http://www.cse.chalmers.se/~simonhu/misc/hcomp.pdf}.
 
 \bibitem{MLTT72}
-Per Martin-Löf,
-\textit{An Intuitionistic Theory of Types},
-1972.
+Per Martin-Löf.
+\newblock \emph{An Intuitionistic Theory of Types}.
+\newblock 1972.
 
 \bibitem{MLTT75}
-Per Martin-Löf,
-\textit{An Intuitionistic Theory of Types: Predicative Part},
-1975.
+Per Martin-Löf.
+\newblock \emph{An Intuitionistic Theory of Types: Predicative Part}.
+\newblock 1975.
 
 \bibitem{MLTT80}
-Per Martin-Löf,
-\textit{Intuitionistic Type Theory},
-1980.
-\href{https://raw.githubusercontent.com/michaelt/martin-lof/master/pdfs/Bibliopolis-Book-retypeset-1984.pdf}{\texttt{Bibliopolis retypeset version}}.
+Per Martin-Löf.
+\newblock \emph{Intuitionistic Type Theory}.
+\newblock 1980. \url{https://raw.githubusercontent.com/michaelt/martin-lof/master/pdfs/Bibliopolis-Book-retypeset-1984.pdf}.
 
 \bibitem{CIC}
-Christine Paulin-Mohring,
-\textit{Introduction to the Calculus of Inductive Constructions},
-2015.
-\href{https://hal.inria.fr/hal-01094195/document}{\texttt{hal-01094195}}.
+Christine Paulin-Mohring.
+\newblock \emph{Introduction to the Calculus of Inductive Constructions}.
+\newblock 2015. \url{https://hal.inria.fr/hal-01094195/document}.
 
 \bibitem{HTS}
-Vladimir Voevodsky,
-\textit{A Simple Type System with Two Identity Types},
-2013.
-\href{https://www.math.ias.edu/vladimir/sites/math.ias.edu.vladimir/files/HTS.pdf}{\texttt{HTS.pdf}}.
+Vladimir Voevodsky.
+\newblock \emph{A simple type system with two identity types}.
+\newblock 2013. \url{https://www.math.ias.edu/vladimir/sites/math.ias.edu.vladimir/files/HTS.pdf}.
 
 \bibitem{2LTT}
-Danil Annenkov, Paolo Capriotti, Nicolai Kraus, and Christian Sattler,
-\textit{Two-Level Type Theory and Applications},
-2019.
-\href{https://arxiv.org/pdf/1705.03307.pdf}{\texttt{arxiv.org/pdf/1705.03307.pdf}}.
+Danil Annenkov, Paolo Capriotti, Nicolai Kraus, and Christian Sattler.
+\newblock \emph{Two-Level Type Theory and Applications}.
+\newblock 2019. \url{https://arxiv.org/pdf/1705.03307.pdf}.
 
 \bibitem{CubicalAgda}
-Andrea Vezzosi, Anders Mörtberg, and Andreas Abel,
-\textit{Cubical Agda: A Dependently Typed Programming Language with Univalence and Higher Inductive Types},
-2019.
-\href{https://staff.math.su.se/anders.mortberg/papers/cubicalagda.pdf}{\texttt{cubicalagda.pdf}}.
+Andrea Vezzosi, Anders Mörtberg, and Andreas Abel.
+\newblock \emph{Cubical Agda: A Dependently Typed Programming Language with Univalence and Higher Inductive Types}.
+\newblock 2019. \url{https://staff.math.su.se/anders.mortberg/papers/cubicalagda.pdf}.
 
 \bibitem{CCHM}
-Cyril Cohen, Thierry Coquand, Simon Huber, and Anders Mörtberg,
-\textit{Cubical Type Theory: A Constructive Interpretation of the Univalence Axiom},
-2018.
-\href{https://staff.math.su.se/anders.mortberg/papers/cubicalagda.pdf}{\texttt{cubicalagda.pdf}}.
+Cyril Cohen, Thierry Coquand, Simon Huber, and Anders Mörtberg.
+\newblock \emph{Cubical Type Theory: A Constructive Interpretation of the Univalence Axiom}.
+\newblock 2018. \url{https://staff.math.su.se/anders.mortberg/papers/cubicalagda.pdf}.
 
 \bibitem{Awodey12}
-Steve Awodey,
-\textit{Type Theory and Homotopy},
-in \textit{Epistemology versus Ontology: Essays on the Philosophy and Foundations of Mathematics in Honour of Per Martin-Löf},
-Springer, 2012, pp. 183--201.
-(Note: Completeness in categorical models of type theory.)
+Steve Awodey.
+\newblock \emph{Type Theory and Homotopy}.
+\newblock In \emph{Epistemology versus Ontology: Essays on the Philosophy and Foundations of Mathematics in Honour of Per Martin-Löf}, pages 183--201. Springer, 2012.
 
 \bibitem{Coquand18}
-Thierry Coquand,
-\textit{A Survey of Constructive Models of Univalence},
-2018.
-Preprint or Lecture Notes.
-(Note: Semantic completeness challenges in cubical systems, decidability for type checking.)
+Thierry Coquand.
+\newblock \emph{A Survey of Constructive Models of Univalence}.
+\newblock 2018. Preprint or lecture notes.
 
 \bibitem{Huber17}
-Simon Huber,
-\textit{Canonicity for Cubical Type Theory},
-\textit{Journal of Automated Reasoning},
-Vol. 61, No. 1--4, 2017, pp. 173--205.
-(Note: Proof of normalization and strong normalization for CCHM.)
+Simon Huber.
+\newblock \emph{Canonicity for Cubical Type Theory}.
+\newblock \emph{Journal of Automated Reasoning}, 61(1--4):173--205, 2017.
 
 \bibitem{Streicher91}
-Thomas Streicher,
-\textit{Semantics of Type Theory: Correctness, Completeness and Independence Results},
-Birkhäuser, Basel, 1991.
-(Note: Normalization and totality in MLTT models.)
+Thomas Streicher.
+\newblock \emph{Semantics of Type Theory: Correctness, Completeness and Independence Results}.
+\newblock Birkhäuser, Basel, 1991.
 
 \bibitem{Bezem14}
-Marc Bezem, Thierry Coquand, and Simon Huber,
-\textit{A Model of Type Theory in Cubical Sets},
-Preprint, arXiv:1406.1731, 2014.
-(Note: Consistency follows from the model.)
+Marc Bezem, Thierry Coquand, and Simon Huber.
+\newblock \emph{A Model of Type Theory in Cubical Sets}.
+\newblock arXiv preprint arXiv:1406.1731, 2014.
 
 \bibitem{Shulman15}
-Michael Shulman,
-\textit{Univalence for Inverse Diagrams and Homotopy Canonicity},
-\textit{Mathematical Structures in Computer Science},
-Vol. 25, No. 5, 2015, pp. 1203--1277.
-(Note: Conservativity in HoTT-style systems.)
+Michael Shulman.
+\newblock \emph{Univalence for Inverse Diagrams and Homotopy Canonicity}.
+\newblock \emph{Mathematical Structures in Computer Science}, 25(5):1203--1277, 2015.
 
 \bibitem{Hofmann97}
-Martin Hofmann,
-\textit{Syntax and Semantics of Dependent Types},
-in \textit{Semantics and Logics of Computation},
-Cambridge University Press, 1997, pp. 79--130.
-(Note: Categorical framework for extensions.)
+Martin Hofmann.
+\newblock \emph{Syntax and Semantics of Dependent Types}.
+\newblock In \emph{Semantics and Logics of Computation}, pages 79--130. Cambridge University Press, 1997.
 
 \end{thebibliography}
 
