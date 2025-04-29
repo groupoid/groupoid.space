@@ -32,9 +32,12 @@ block content
         br
         .exe
             section
+            p.
+                Here we will briefly describe the process of creating laboratory artifacts.
             h1 MATHEMATICS
             p.
-                Mathematical theories, models and languages.
+                First we pick up one topic from known mathematical theories, models and languages that has
+                following index:
         .types
             -
                    var logic = {
@@ -169,84 +172,9 @@ block content
         .exe
             section
 
-
-            h1 ARTICLES
-            p.
-                The series of articles on foundation and mathematics of Homotopy Type Theory.
-
-        .types
-            -
-                   var logic = {
-
-                    'Foundations': {  'Type Theory': 'https://groupoid.space/articles/mltt/mltt.pdf',
-                                      'Inductive Types': 'https://groupoid.space/articles/cic/cic.pdf',
-                                      'Homotopy Type Theory': 'https://groupoid.space/articles/hott/hott.pdf',
-                                      'Higher Inductive Types':'https://groupoid.space/articles/hit/hit.pdf',
-                                      'Modalities': '' },
-
-                      'Languages': { 'Laurent Schwartz' : 'https://groupoid.space/articles/laurent/laurent.pdf',
-                                     'Ernst Zermelo' : '',
-                                     'Paul Cohen' : '',
-                                     'Henk Barendregt': 'https://groupoid.space/articles/henk/henk.pdf',
-                                     'Per Martin-Löf': '',
-                                     'Christine Paulin-Mohring': '',
-                                     'Anders Mörtberg': 'https://groupoid.space/articles/anders/anders.pdf',
-                                     'Dan Kan': '',
-                                     'Jack Morava': '',
-                                     'Urs Schreiber': 'https://groupoid.space/articles/urs/urs.pdf',
-                                     'Fabien Morel': '' },
-
-                    'Mathematics': { 'Algebra vs Geometry': 'https://groupoid.space/articles/hom/hom.pdf',
-                                     'Set Theory': '',
-                                     'Topos Theory': '',
-                                     'Simple Finite Groups': '',
-                                     'Categories with Families': '',
-                                     'Heterogeneous Equality': '',
-                                     'Abelian Groups': '',
-                                     'Abelian Categories': '',
-                                     'Supergeometry': '',
-                                     'C-Systems': '',
-                                     'Grothendieck Group': '' }
-                                 };
-
-
-            .type
-                for v, k in logic
-                    ol.type__col
-                        h3= k
-                        for j, i in v
-                            if j === ""
-                                li(style="font-size:14px;"): b()= i
-                            else
-                                li(style="font-size:14px;"): a(href= j)= i
-            br
-            br
-
-        .exe
-            section
-
-                h1 BOOKS
-
-                div(style="padding-top: 8px;")
-                    img(src="https://anders.groupoid.space/images/pdf.jpg", width="35")
-                    a(href="https://groupoid.space/books/vol1/vol1.pdf") &nbsp; Volume 1: Foundations
-
-                div(style="padding-top: 8px;")
-                    img(src="https://anders.groupoid.space/images/pdf.jpg", width="35")
-                    a(href="https://groupoid.space/books/vol2/vol2.pdf") &nbsp; Volume 2: Systems
-
-                div(style="padding-top: 8px;")
-                    img(src="https://anders.groupoid.space/images/pdf.jpg", width="35")
-                    a(href="https://groupoid.space/books/vol3/vol3.pdf") &nbsp; Volume 3: Languages
-
-                div(style="padding-top: 8px;")
-                    img(src="https://anders.groupoid.space/images/pdf.jpg", width="35")
-                    a(href="#") &nbsp; Volume 4: Mathematics
-
-        .exe
-            section
-
             h1 LIBRARY
+            p.
+                Then we formalize this theory in one of mathematical language best suited for that theory.
             p.
                 Homotopy Library for <a href="https://anders.groupoid.space/">Anders</a>
                 theorem prover consists of two parts Foundations and Mathematics just
@@ -256,6 +184,8 @@ block content
             p.
                 MLTT, Modal and Univalent Foundations represent a basic
                 language primitives of <b>Anders</b> and its base library.
+            br
+            br
 
         .types
             -
@@ -301,6 +231,8 @@ block content
             h2 Mathematics
             p.
                 The second part is dedicated to mathematical models and theories internalized in this language.
+            br
+            br
 
         .types
             -
@@ -377,6 +309,94 @@ block content
                  <a href='https://groupoid.space/misc/library/'>Formal Mathematics: The Cubical Base Library</a><br>
 
 
+        .exe
+            section
+
+
+            h1 ARTICLES
+            p.
+                Then we publish this as an article for peer review and include in
+                series of articles on foundation and mathematics of Homotopy Type Theory.
+            br
+            br
+        .types
+            -
+                   var logic = {
+
+                    'Foundations': {  'Type Theory': 'https://groupoid.space/articles/mltt/mltt.pdf',
+                                      'Inductive Types': 'https://groupoid.space/articles/cic/cic.pdf',
+                                      'Homotopy Type Theory': 'https://groupoid.space/articles/hott/hott.pdf',
+                                      'Higher Inductive Types':'https://groupoid.space/articles/hit/hit.pdf',
+                                      'Modalities': '' },
+
+                      'Languages': { 'Laurent Schwartz' : 'https://groupoid.space/articles/laurent/laurent.pdf',
+                                     'Ernst Zermelo' : '',
+                                     'Paul Cohen' : '',
+                                     'Henk Barendregt': 'https://groupoid.space/articles/henk/henk.pdf',
+                                     'Per Martin-Löf': '',
+                                     'Christine Paulin-Mohring': '',
+                                     'Anders Mörtberg': 'https://groupoid.space/articles/anders/anders.pdf',
+                                     'Dan Kan': '',
+                                     'Jack Morava': '',
+                                     'Urs Schreiber': 'https://groupoid.space/articles/urs/urs.pdf',
+                                     'Fabien Morel': '' },
+
+                    'Mathematics': { 'Algebra vs Geometry': 'https://groupoid.space/articles/hom/hom.pdf',
+                                     'Set Theory': '',
+                                     'Topos Theory': '',
+                                     'Simple Finite Groups': '',
+                                     'Categories with Families': '',
+                                     'Heterogeneous Equality': '',
+                                     'Abelian Groups': '',
+                                     'Abelian Categories': '',
+                                     'Supergeometry': '',
+                                     'C-Systems': '',
+                                     'Grothendieck Group': '' }
+                                 };
+
+
+            .type
+                for v, k in logic
+                    ol.type__col
+                        h3= k
+                        for j, i in v
+                            if j === ""
+                                li(style="font-size:14px;"): b()= i
+                            else
+                                li(style="font-size:14px;"): a(href= j)= i
+            br
+            br
+
+        .exe
+            section
+
+                h1 BOOKS
+                p.
+                    As a result, a contribution is made to Book Volumes as example of formalization in AXIO/1 formal system.
+                br
+                br
+                div(style="padding-top: 8px;")
+                    img(src="https://anders.groupoid.space/images/pdf.jpg", width="35")
+                    a(href="https://groupoid.space/books/vol1/vol1.pdf") &nbsp; Volume 1: Foundations
+
+                div(style="padding-top: 8px;")
+                    img(src="https://anders.groupoid.space/images/pdf.jpg", width="35")
+                    a(href="https://groupoid.space/books/vol2/vol2.pdf") &nbsp; Volume 2: Systems
+
+                div(style="padding-top: 8px;")
+                    img(src="https://anders.groupoid.space/images/pdf.jpg", width="35")
+                    a(href="https://groupoid.space/books/vol3/vol3.pdf") &nbsp; Volume 3: Languages
+
+                div(style="padding-top: 8px;")
+                    img(src="https://anders.groupoid.space/images/pdf.jpg", width="35")
+                    a(href="#") &nbsp; Volume 4: Mathematics
+
+                div(style="padding-top: 8px;")
+                    img(src="https://anders.groupoid.space/images/pdf.jpg", width="35")
+                    a(href="https://groupoid.space/books/axio/axio.pdf") &nbsp; Groupoid Infinity AXIO/1 Formal System (PhD Thesis)
+
+                br
+                br
             center.
                 <br>🧊 <br><br><br>
 
