@@ -1,0 +1,634 @@
+\section{Мова простору}
+
+Ця стаття присвячена цілком CCHM верифікатору гомотопічної системи типів з
+двома рівностями, відомої як HTS система Воєводського або система 2LTT
+Анненкова-Капріотті-Крауса-Саттлера. Крім рівності на претипах,
+Андерс містить як примітив стек де Рама Черубіні-Шрайбера, що робить
+його придатним для програмування когомологій та синтетичної диференціальної геометрії.
+
+\begin{lstlisting}
+type exp =
+  | EPre of Z.t | EKan of Z.t | EVar of name | EHole
+  | EPi of exp * (name * exp) | ELam of exp * (name * exp) | EApp of exp * exp
+  | ESig of exp * (name *exp) | EPair of tag*exp*exp | EFst of exp | ESnd of exp
+  | EId of exp | ERef of exp | EJ of exp | EField of exp * string
+  | EPathP of exp | EPLam of exp | EAppFormula of exp * exp
+  | EI | EDir of dir | EAnd of exp * exp | EOr of exp * exp | ENeg of exp
+  | ETransp of exp * exp | EHComp of exp * exp * exp * exp
+  | EPartial of exp | EPartialP of exp * exp | ESystem of exp System.t
+  | ESub of exp * exp * exp | EInc of exp * exp | EOuc of exp
+  | EGlue of exp | EGlueElem of exp * exp * exp | EUnglue of exp
+  | EEmpty | EIndEmpty of exp
+  | EUnit | EStar | EIndUnit of exp
+  | EBool | EFalse | ETrue | EIndBool of exp
+  | EW of exp * (name * exp) | ESup of exp * exp | EIndW of exp * exp * exp
+  | EIm of exp | EInf of exp | EIndIm of exp * exp | EJoin of exp
+\end{lstlisting}
+
+\subsection*{Космос або структура всесвітів}
+
+Почати статтю хочу з влаштування тайп чекера. По суті тайп чекер
+це функція над мовою виразів exp. Розглянемо пристрій функцій тайп
+чекера рядково для кожного притимітива з дерева exp.
+
+\begin{lstlisting}
+type exp = | EPre of Z.t | EKan of Z.t | EVar of name | EHole
+\end{lstlisting}
+
+Система HTS (або 2LTT) характеризується наявністю двох ієрархій
+предикативних всесвітів $U_i$ для фібраційних типів і $V_j$ для претипів,
+де живе гомотопічний багатовимірний відрізок. Також в ядрі тайп чекерів
+зазвичай знаходяться конструктори для змінних і дірок зручних для процесу
+вилучення доказів. Рівняння цих примітивів будуть дані у цьому параграфі.
+
+Сам тайпчекер влаштований таким чином (стандартна практика, дивіться
+наприклад, тайпчекери Mini-TT або cubicaltt, що вже стали класичними),
+що для процесу бета-нормалізації (евалуації) або інтерпретування виразу
+використовується внутрішнє уявлення, оптимізоване для потреб ефективних обчислень.
+
+\begin{lstlisting}
+type value = | VKan of Z.t | VPre of Z.t | Var of name * value | VHole
+\end{lstlisting}
+
+Таким чином сигнатура тайпчекера виглядає так:
+
+\begin{lstlisting}
+and check ctx (e0: exp) (t0: value)
+  = traceCheck e0 t0; try match e0, t0 with
+\end{lstlisting}
+
+Алгоритм класичний і звучить так: для типового виразу та його
+екземпляра ми беремо екземпляр типового виразу виводимо його
+тип і порівнюємо із заданим типовим виразом. Якщо вони збігаються
+все добре, якщо ні --- то помилка типізації. Далі йде список
+патерн-матчінг рівнянь всіх функцій на деревах мовних виразів expr:
+
+\begin{lstlisting}
+check:
+  | EHole, v -> traceHole v ctx
+  | e, VPre u -> begin match infer ctx e with
+    | VKan v | VPre v ->
+      if ieq u v then ()
+      else raise (Ineq (VPre u, VPre v))
+    | t -> raise (Ineq (VPre u, t)) end
+  | e, t -> eqNf (infer ctx e) t
+
+conv:
+  | VKan u, VKan v -> ieq u v | VPre u, VPre v -> ieq u v
+  | Var (u, _), Var (v, _) -> u = v
+
+eval:
+  | EPre u -> VPre u | EKan u -> VKan u
+  | EVar x -> getRho ctx x | EHole -> VHole
+
+infer:
+  | VPre n -> VPre (Z.succ n) | VKan n -> VKan (Z.succ n)
+  | EPre u -> VPre (Z.succ u) | EKan u -> VKan (Z.succ u)
+  | EVar x -> lookup x ctx
+
+inferV:
+  | Var (_, t) -> t | VPre n -> VPre (Z.succ n)
+  | VKan n -> VKan (Z.succ n)
+\end{lstlisting}
+
+\newpage
+\begin{lstlisting}
+act:
+  | Var (i, VI) -> actVar rho i
+  | Var (x, t) -> Var (x, act rho t) | VHole -> VHole
+  | VKan u -> VKan u | VPre u -> VPre u
+
+check:
+  | e, t -> eqNf (infer ctx e) t
+
+and getRho ctx x = match Env.find_opt x ctx with
+  | Some (_, _, Value v) -> v
+  | Some (_, _, Exp e) -> eval e ctx
+  | None -> raise (VariableNotFound x)
+
+and eqNf v1 v2 : unit = traceEqNF v1 v2;
+  if conv v1 v2 then () else raise (Ineq (v1, v2))
+
+and lookup (x : name) (ctx : ctx) = match Env.find_opt x ctx with
+  | Some (_, Value v, _) -> v
+  | Some (_, Exp e, _) -> eval e ctx
+  | None -> raise (VariableNotFound x)
+\end{lstlisting}
+
+Тут описується так звана база рекурсії та робота з
+контекстом верифікатора (getRho, lookup).
+
+\subsection*{$\Pi$-тип}
+
+Першим математичним прувером взагалі та першим прувером
+на фібраційному типі вважається [мною] AUTOMATH де Брейна. Перша
+повна формальна система CoC та лямбда-куб були детально розроблені
+Барендрехтом. Проте батьком формальної математики прийнято вважати
+Мартіна-Лефа. Його типова система досі формує обчислювальну основу
+сучасних пруверів. Традиційно MLTT складається з $\Pi, \Sigma, 0, 1, 2, W, Id$ типів.
+При розробці верифікатора Anders ми керувалися мотивацією мінімалістичності,
+тому відкинули варіант імплементації загальної схеми індуктивних типів і
+вищих ідуктивних типів (HIT), а вирішили реалізувати як індуктивне
+ядро класичні W-типи системи MLTT.
+
+\newpage
+Досніповий код верифікатора для $\Pi$-типу:
+\begin{lstlisting}
+eval:
+  | EPi (a, (p, b)) -> let t = eval a ctx in
+    VPi (t, (fresh p, closByVal ctx p t b))
+  | ELam (a,(p, b)) -> let t = eval a ctx in
+    VLam (t,(fresh p, closByVal ctx p t b))
+  | EApp (f, x) -> app (eval f ctx, eval x ctx)
+
+infer:
+  | EPi (a, (p, b)) -> inferTele ctx p a b
+
+inferV:
+  | VPi (t, (x, f)) -> imax (inferV t) (inferV (f (Var (x, t))))
+  | VLam (t, (x, f)) -> VPi (t, (x, fun x -> inferV (f x)))
+  | VApp (f, x) -> begin match inferV f with
+    | VPi (_, (_, g)) -> g x
+    | v -> raise (ExpectedPi v) end
+
+act:
+  | VLam (t, (x, g)) -> VLam (act rho t, (x, g >> act rho))
+  | VPi (t, (x, g)) -> VPi (act rho t, (x, g >> act rho))
+  | VApp (f, x) -> app (act rho f, act rho x)
+
+app:
+  | f, x -> VApp (f, x)
+
+conv:
+  | VPi (a,(p,f)), VPi (b,(_,g)) ->
+    let x = Var (p,a) in conv a b && conv (f x) (g x)
+  | VLam (a,(p,f)), VLam (b,(_,g))
+  | VApp (f,a), VApp (g,b) -> conv f g && conv a b
+
+check:
+  | ELam (a, (p, b)), VPi (t, (_, g)) ->
+    ignore (extSet (infer ctx a)); eqNf (eval a ctx) t;
+    let x = Var (p, t) in let ctx' =
+    upLocal ctx p t x in check ctx' b (g x)
+
+and inferTele ctx p a b =
+    ignore (extSet (infer ctx a));
+    let t = eval a ctx in let x = Var (p, t) in
+    let ctx' = upLocal ctx p t x in
+    let v = infer ctx' b in imax (infer ctx a) v
+
+and inferLam ctx p a e =
+    ignore (extSet (infer ctx a)); let t = eval a ctx in
+    ignore (infer (upLocal ctx p t (Var (p, t))) e);
+    VPi (t, (p, fun x -> inferV (eval e (upLocal ctx p t x))))
+\end{lstlisting}
+
+\newpage
+$\Pi$-тип тестується інтерналізацією, а за наявності гомотопічної
+рівності ще й функціональною екстенсіональністю.
+
+\begin{lstlisting}
+def Pi (A : U) (B : A → U) : U := Π (x : A), B x
+def lambda (A: U) (B: A → U) (b: Pi A B) : Pi A B := $\lambda$ (x : A), b x
+def lam (A B: U) (f: A → B) : A → B := $\lambda$ (x : A), f x
+def apply (A: U) (B: A → U) (f: Pi A B) (a: A) : B a := f a
+def app (A B: U) (f: A → B) (x: A): B := f x
+
+def Π-$\beta$ (A : U) (B : A → U) (a : A) (f : Pi A B)
+  : Path (B a) (apply A B (lambda A B f) a) (f a) := idp (B a) (f a)
+def Π-$\eta$ (A : U) (B : A → U) (a : A) (f : Pi A B)
+  : Path (Pi A B) f ($\lambda$ (x : A), f x) := idp (Pi A B) f
+
+def funext-form (A B: U) (f g: A → B): U := Path (A → B) f g
+def funext (A B: U) (f g: A → B) (p: Π (x: A), Path B (f x) (g x))
+  : funext-form A B f g := <i> $\lambda$ (a: A), p a @ i
+
+def happly (A B: U) (f g : A → B) (p: funext-form A B f g) (x : A)
+  : Path B (f x) (g x) := cong (A → B) B ($\lambda$ (h: A → B), app A B h x) f g p
+
+def funext-$\beta$ (A B: U) (f g: A → B) (p: Π (x: A), Path B (f x) (g x))
+  : Π (x: A), Path B (f x) (g x) := $\lambda$ (x: A), happly A B f g (funext A B f g p) x
+
+def funext-$\eta$ (A B: U) (f g: A → B) (p: Path (A → B) f g)
+  : Path (Path (A → B) f g) (funext A B f g (happly A B f g p)) p
+ := idp (Path (A → B) f g) p
+\end{lstlisting}
+
+\subsection*{$\Sigma$-тип}
+
+Як ви вже могли помітити система типів прувера порізана на модулі,
+кожен з яких реалізує певний тип системи типів, а саме 5 правил
+Мартіна-Лефа: 1) Правило сигнатури або формації, що поселяє тип
+у певний всесвіт, 2) Конструктори за допомогою яких створюються
+елементи типу , 3) Елімінатори та/або Індуктори за допомогою яких
+доводять теореми про тип, 4) Обчислювальне рівняння, що гарантують
+процес обчислень (бета-правило);
+
+При цьому для додавання типу в систему достатньо додати рівняння
+патерн-мачингу в набір функцій з яких складається тайп чекер:
+infer, inferV, app, check, act, conv, eval.
+
+\newpage
+Досніповий код верифікатора для $\Sigma$-типу:
+\begin{lstlisting}
+infer:
+  | ESig (a, (p, b)) -> inferTele ctx p a b
+  | EFst e -> fst (extSigG (infer ctx e))
+  | ESnd e -> let (_, (_, g)) = extSigG (infer ctx e) in g (vfst (eval e ctx))
+  | EField (e, p) -> inferField ctx p e
+
+inferV:
+  | VFst e -> fst (extSigG (inferV e))
+  | VSnd e -> let (_, (_, g)) = extSigG (inferV e) in g (vfst e)
+
+eval:
+  | ESig (a, (p, b)) -> let t = eval a ctx in VSig (t, (fresh p, closByVal ctx p t b))
+  | EPair (r, e1, e2) -> VPair (r, eval e1 ctx, eval e2 ctx)
+  | EFst e -> vfst (eval e ctx)
+  | EField (e, p) -> evalField p (eval e ctx)
+
+check:
+  | EPair (r, e1, e2), VSig (t, (p, g)) ->
+    ignore (extSet (inferV t)); check ctx e1 t;
+    check ctx e2 (g (eval e1 ctx)); begin match p with
+    | Name (v, _) -> r := Some v
+    | Irrefutable -> () end
+
+act:
+  | VSig (t, (x, g)) -> VSig (act rho t, (x, g >> act rho))
+  | VPair (r, u, v) -> VPair (r, act rho u, act rho v)
+  | VFst k -> vfst (act rho k) | VSnd k -> vsnd (act rho k)
+
+conv:
+  | VFst x, VFst y | VSnd x, VSnd y -> conv x y
+  | VPair (_, a, b), VPair (_, c, d) -> conv a c && conv b d
+  | VPair (_, a, b), v | v, VPair (_, a, b) -> conv (vfst v) a && conv (vsnd v) b
+
+and inferField ctx p e = snd (getField p (eval e ctx) (infer ctx e))
+
+let rec getField p v = function
+  | VSig (t, (q, g)) ->
+    if matchIdent p q then (vfst v, t)
+    else getField p (vsnd v) (g (vfst v))
+  | t -> raise (ExpectedSig t)
+
+let vfst : value -> value = function | VPair (_, u, _) -> u | v -> VFst v
+let vsnd : value -> value = function | VPair (_, _, u) -> u | v -> VSnd v
+\end{lstlisting}
+
+\newpage
+Наш $\Sigma$-тип розширений додатковим елімінатором, який дає доступ до
+іменованого тілесного прямо в процесі нормалізації. Цей механізм дозволяє
+реалізувати базовий механізм записів-кортежів з іменованими полями,
+за винятком успадкування та розширення рекордів.
+Елімінатори .1 та .2 (з cubicaltt) теж працюють.
+
+\begin{lstlisting}
+def Sigma (A : U) (B : A → U) : U := summa (x: A), B x
+def prod (A B : U) : U := summa (_ : A), B
+def pair (A: U) (B: A → U) (a: A) (b: B a) : Sigma A B := (a, b)
+def pr₁ (A: U) (B: A → U) (x: Sigma A B) : A := x.1
+def pr₂ (A: U) (B: A → U) (x: Sigma A B) : B (pr₁ A B x) := x.2
+
+def Sigma-rec (A: U) (B: A -> U) (C: U) (g: Π (x: A), B(x) -> C)
+    (p: Σ (x: A), B x): C := g p.1 p.2
+
+def Sigma-ind (A : U) (B : A -> U) (C : Π (s: Σ (x: A), B x), U) 
+    (g: Π (x: A) (y: B x), C (x,y)) (p: Σ (x: A), B x) : C p := g p.1 p.2
+
+def ac (A B: U) (R: A -> B -> U) (g: Π (x: A), Σ (y: B), R x y)
+  : Σ (f: A -> B), Π (x: A), R x (f x) := ($\lambda$(i:A),(g i).1,$\lambda$(j:A),(g j).2)
+
+def total (A:U) (B C : A -> U) (f : Π (x:A), B x -> C x) (w: Σ(x: A), B x)
+  : Σ (x: A), C x := (w.1,f (w.1) (w.2))
+
+def funDepTr (A: U) (P: A -> U) (a0 a1: A) (p: PathP (<_>A) a0 a1)
+    (u0: P a0) (u1: P a1)
+  : PathP (<_>U) (PathP (<i> P (p @ i)) u0 u1) (PathP (<_>P a1)
+            (hcomp (P a1) 0 (λ (k : I), []) (transp (<i> P (p @ i)) 0 u0)) u1)
+ := <j> PathP (<i> P (p @ j \\/ i))
+            (comp ($\lambda$(i:I), P (p @ j /\\ i)) -j ($\lambda$(k: I), [(j = 0) -> u0 ])
+            (inc (P a0) -j u0)) u1
+
+def pathSig0 (A: U) (P: A -> U) (t u: Σ (x: A), P x) (p: PathP (<_>A) t.1 u.1)
+  : PathP (<_>U) (PathP (<i>P (p @ i)) t.2 u.2) (PathP (<_>P u.1)
+          (hcomp (P u.1) 0 ($\lambda$(k:I),[]) (transp (<i> P (p @ i)) 0 t.2)) u.2)
+ := funDepTr A P t.1 u.1 p t.2 u.2
+\end{lstlisting}
+
+\newpage
+\subsection*{0-тип}
+
+0-тип є тип-брехня, логічний нуль $\mathbbm{0}$, порожнечу, Empty, Void або $\bot$.
+Використовується для доказу протиріч, містить лише правила формації та індуктор.
+
+Досніповий код верифікатора для 0-типу:
+\begin{lstlisting}
+eval:
+  | EEmpty -> VEmpty
+  | EIndEmpty e -> VIndEmpty (eval e ctx)
+
+inferV:
+  | VEmpty -> VKan Z.zero
+  | VIndEmpty t -> implv VEmpty t
+
+act:
+  | VEmpty -> VEmpty
+  | VIndEmpty v -> VIndEmpty (act rho v)
+
+conv:
+  | VEmpty, VEmpty -> true
+  | VIndEmpty u, VIndEmpty v -> conv u v
+
+infer:
+  | EEmpty | EUnit
+  | EIndEmpty e -> ignore (extSet (infer ctx e)); implv VEmpty (eval e ctx)
+\end{lstlisting}
+
+\newpage
+\subsection*{1-тип}
+1-тип являє собою логічну одиницю $\mathbb{1}$, тип-істину
+в інтуїціоністській логіці, Unit або $\top$. Має єдиний конструктор $\star$.
+
+Досніповий код верифікатора для 1-типу:
+\begin{lstlisting}
+eval:
+  | EUnit -> VUnit
+  | EStar -> VStar
+  | EIndUnit e -> VIndUnit (eval e ctx)
+
+app:
+  | VApp (VIndUnit _, x), VStar -> x
+
+inferV:
+  | VUnit -> VKan Z.zero
+  | VStar -> VUnit
+  | VIndUnit t -> recUnit t
+
+act:
+  | VUnit -> VUnit
+  | VStar -> VStar
+  | VIndUnit v -> VIndUnit (act rho v)
+
+conv:
+  | VUnit, VUnit -> true
+  | VStar, VStar -> true
+  | VIndUnit u, VIndUnit v -> conv u v
+
+infer:
+  | EStar -> VUnit
+  | EIndUnit e -> inferInd false ctx VUnit e recUnit
+
+and recUnit t = let x = freshName "x" in
+  implv (app (t, VStar)) (VPi (VUnit, (x, fun x -> app (t, x))))
+\end{lstlisting}
+
+\newpage
+\subsection*{2-тип}
+2-тип є логічною двійкою $\mathbbm{2}$, булевим типом Bool
+або 0-мірною гомотопічною (без метрики) сферою. Має два
+конструктори false=0$_2$ та true=1$_2$.
+
+Досніповий код верифікатора для 2-типу:
+\begin{lstlisting}
+eval:
+  | EBool -> VBool
+  | EFalse -> VFalse
+  | ETrue -> VTrue
+  | EIndBool e -> VIndBool (eval e ctx)
+
+app:
+  | VApp (VApp (VIndBool _, a), _), VFalse -> a
+  | VApp (VApp (VIndBool _, _), b), VTrue -> b
+
+inferV:
+  | VBool -> VKan Z.zero
+  | VFalse | VTrue -> VBool
+  | VIndBool t -> recBool t
+
+act:
+  | VBool -> VBool
+  | VFalse -> VFalse
+  | VTrue -> VTrue
+  | VIndBool v -> VIndBool (act rho v)
+
+conv:
+  | VBool, VBool -> true
+  | VFalse, VFalse -> true
+  | VTrue, VTrue -> true
+  | VIndBool u, VIndBool v -> conv u v
+
+infer:
+  | EBool -> VKan Z.zero
+  | EFalse | ETrue -> VBool
+  | EIndBool e -> inferInd false ctx VBool e recBool
+
+and recBool t = let x = freshName "x" in
+  implv (app (t, VFalse)) (implv (app (t, VTrue))
+    (VPi (VBool, (x, fun x -> app (t, x)))))
+\end{lstlisting}
+
+\newpage
+\subsection*{W-тип}
+W-тип призначений для кодування добре визначених дерев.
+W-тип визначається конструкторах індуктивного дерева,
+а гілки умови виражені функцією другий залежної компоненти.
+За допомогою гомотопічної рівності, W-типів, а також типів 0,1,2
+виразна індукція натуральних чисел.
+
+Досніповий код верифікатора для W-типу:
+\begin{lstlisting}
+eval:
+  | EW (a, (p, b)) -> let t = eval a ctx in W (t, (fresh p, closByVal ctx p t b))
+  | ESup (a, b) -> VSup (eval a ctx, eval b ctx)
+  | EIndW (a, b, c) -> VIndW (eval a ctx, eval b ctx, eval c ctx)
+
+app: 
+  | VApp (VIndW (a, b, c), g), VApp (VApp (VSup (_, _), x), f) ->
+    app (app (app (g, x), f),
+      VLam (app (b, x), (freshName "b", fun y ->
+        app (VApp (VIndW (a, b, c), g), app (f, y)))))
+
+inferV:
+  | VSup (a, b) -> inferSup a b
+  | VIndW (a, b, c) -> inferIndW a b c
+
+and wtype a b = W (a, (freshName "x", fun x -> app (b, x)))
+
+and inferSup a b = let t = wtype a b in let x = freshName "x" in
+  VPi (a, (x, fun x -> implv (implv (app (b, x)) t) t))
+
+and inferIndW a b c = let t = wtype a b in
+  implv (VPi (a, (freshName "x", fun x ->
+    VPi (implv (app (b, x)) t, (freshName "f", fun f ->
+      implv (VPi (app (b, x), (freshName "b", fun b -> app (c, (app (f, b))))))
+        (app (c, VApp (VApp (VSup (a, b), x), f))))))))
+    (VPi (t, (freshName "w", fun w -> app (c, w))))
+
+act:
+  | W (t, (x, g)) -> W (act rho t, (x, g >> act rho))
+  | VSup (a, b) -> VSup (act rho a, act rho b)
+  | VIndW (a, b, c) -> VIndW (act rho a, act rho b, act rho c)
+\end{lstlisting}
+
+\newpage
+\begin{lstlisting}
+conv:
+  | VSup (a1,b1), VSup (a2,b2) -> conv a1 a2 && conv b1 b2
+  | VIndW (a1,b1,c1), VIndW (a2,b2,c2) -> conv a1 a2 && conv b1 b2 && conv c1 c2
+
+infer:
+  | ESup (a, b) -> let t = eval a ctx in ignore (extSet (infer ctx a));
+    let (t', (p, g)) = extPiG (infer ctx b) in eqNf t t';
+    ignore (extSet (g (Var (p, t))));
+    inferSup t (eval b ctx)
+  | EIndW (a, b, c) -> let t = eval a ctx in ignore (extSet (infer ctx a));
+    let (t', (p, g)) = extPiG (infer ctx b) in
+    eqNf t t'; ignore (extSet (g (Var (p, t))));
+    let (w', (q, h)) = extPiG (infer ctx c) in
+    eqNf (wtype t (eval b ctx)) w';
+    ignore (extSet (h (Var (q, w'))));
+    inferIndW t (eval b ctx) (eval c ctx)
+
+and inferIndW a b c = let t = wtype a b in
+    implv (VPi (a, (freshName "x", fun x ->
+      VPi (implv (app (b, x)) t, (freshName "f", fun f ->
+        implv (VPi (app (b, x), (freshName "b", fun b -> app (c, (app (f, b))))))
+          (app (c, VApp (VApp (VSup (a, b), x), f))))))))
+      (VPi (t, (freshName "w", fun w -> app (c, w))))
+\end{lstlisting}
+
+\newpage
+Після того, як ми визначили W типи в ядрі, для реалізації
+принципу індукції нам знадобиться транспорт у фібраційному шляху Path.
+
+\begin{lstlisting}
+def ind$^W$-$\beta$ (A : U) (B : A → U) (C : (W (x : A), B x) → U) (g : Π (x : A)
+    (f : B x → (W (x : A), B x)), (Π (b : B x), C (f b)) → C (sup A B x f))
+    (a : A) (f : B a → (W (x : A), B x))
+  : PathP (<_> C (sup A B a f))
+          (ind$^W$ A B C g (sup A B a f)) (g a f (λ (b : B a), ind$^W$ A B C g (f b)))
+ := <_> g a f ($\lambda$ (b : B a), ind$^W$ A B C g (f b))
+
+def trans-W (A : I → U) (B : Π (i : I), A i → U)
+    (a : A 0) (f : B 0 a → (W (x : A 0), B 0 x))
+  : W (x : A 1), B 1 x
+ := sup (A 1) (B 1) (transp (<i> A i) 0 a)
+        (transp (<i> B i (transFill (A 0)
+                (A 1) (A j) a @ i) → (W (x : A i), B i x)) 0 f)
+
+def trans-W′ (A : I → U) (B : Π (i : I), A i → U)
+    (a : A 0) (f : B 0 a → (W (x : A 0), B 0 x))
+  : W (x : A 1), B 1 x
+ := transp (<i> W (x : A i), B i x) 0 (sup (A 0) (B 0) a f)
+
+def trans-W-is-correct (A : I → U) (B : Π (i : I), A i → U)
+    (a : A 0) (f : B 0 a → (W (x : A 0), B 0 x))
+  : Path (W (x : A 1), B 1 x) (trans-W A B a f) (trans-W′ A B a f)
+ := <_> trans-W A B a f
+
+def hcomp-W′ (A : U) (B : A → U) (r : I) (a : I → Partial A r)
+    (f : Π (i : I), PartialP [(r = 1) → B (a i 1=1) → (W (x : A), B x)] r)
+    (a$_0$ : A[r $\mapsto$ a 0]) (f₀ : (B (ouc a$_0$) → (W (x : A), B x)) [r $\mapsto$ f 0])
+  : W (x : A), B x
+ := hcomp (W (x : A), B x) r
+          ($\lambda$ (i : I), [(r = 1) → sup A B (a i 1=1) (f i 1=1)])
+          (sup A B (ouc a$_0$) (ouc f$_0$))
+\end{lstlisting}
+
+\newpage
+\subsection*{Path-тип}
+Нарешті багатовимірний Path тип є та гомотопічна кубічна гетерогенна
+рівність за допомогою якої можна побудувати групоїди (дивіться базову бібліотеку Андерса).
+
+\begin{lstlisting}
+eval:
+  | EPathP e -> VPathP (eval e ctx)
+  | EPLam e -> VPLam (eval e ctx)
+  
+check:
+  | EPLam (ELam (EI, (i, e))), VApp (VApp (VPathP p, u0), u1) ->
+    let v = Var (i, VI) in let ctx' = upLocal ctx i VI v in
+    let v0 = eval e (upLocal ctx i VI vzero) in
+    let v1 = eval e (upLocal ctx i VI vone) in
+    check ctx' e (appFormula p v); eqNf v0 u0; eqNf v1 u1
+
+inferV:
+  | VPLam (VLam (VI, (_, g))) -> let t = VLam (VI, (freshName "ι", g >> inferV)) in
+    VApp (VApp (VPathP (VPLam t), g vzero), g vone)
+  | VAppFormula (f, x)       -> let (p, _, _) = extPathP (inferV f) in appFormula p x
+  | VPathP p -> let (_, _, v) = freshDim () in let t = inferV (appFormula p v) in
+    let v0 = appFormula p vzero in let v1 = appFormula p vone in implv v0 (implv v1 t)
+
+act:
+  | VPLam f -> VPLam (act rho f)
+  | VPathP v -> VPathP (act rho v)
+  | VAppFormula (f, x)   -> appFormula (act rho f) (act rho x)
+
+
+and inferPath ctx p =
+  let (_, t0, t1) = extPathP (infer ctx p) in
+  let k = extSet (inferV t0) in implv t0 (implv t1 (VKan k))
+
+and appFormula v x = match v with
+  | VPLam f -> app (f, x)
+  | _       -> let (_, u0, u1) = extPathP (inferV v) in
+    begin match x with
+      | VDir Zero -> u0
+      | VDir One  -> u1
+      | i -> VAppFormula (v, i)
+    end
+\end{lstlisting}
+
+\newpage
+\begin{lstlisting}
+conv:
+  | VPLam f, VPLam g -> conv f g
+  | VPLam f, v | v, VPLam f ->
+    let (_, _, i) = freshDim () in conv (appFormula v i) (app (f, i))
+  | VPathP a, VPathP b -> conv a b
+
+infer:
+  | EPathP p -> inferPath ctx p
+  | EPLam (ELam (EI, (i, e))) ->
+    let ctx' = upLocal ctx i VI (Var (i, VI)) in ignore (infer ctx' e);
+    let g = fun j -> eval e (upLocal ctx i VI j) in
+    let t = VLam (VI, (freshName "ι", g >> inferV)) in
+    VApp (VApp (VPathP (VPLam t), g vzero), g vone)
+  | EPLam _ -> raise (InferError e)
+  | VAppFormula (f, x), VAppFormula (g, y) -> conv f g && conv x y
+
+\end{lstlisting}
+
+Маючи Π,Σ та Path типи та урізаний транспорт можна
+побудувати обчислювальну семантику MLTT-73:
+
+\begin{lstlisting}
+def MLTT (A : U) : U₁ ≔ Σ
+  (Π-form  : Π (B: A → U), U)
+  (Π-ctor₁ : Π (B: A → U), Pi A B → Pi A B)
+  (Π-elim₁ : Π (B: A → U), Pi A B → Pi A B)
+  (Π-comp₁ : Π (B: A → U) (a: A) (f: Pi A B),
+                     Equ (B a) (Π-elim₁ B (Π-ctor₁ B f) a) (f a))
+  (Π-comp₂ : Π (B : A → U) (a : A) (f : Pi A B),
+                     Equ (Pi A B) f (λ (x : A), f x))
+  (Σ-form  : Π (B: A → U), U)
+  (Σ-ctor₁ : Π (B: A → U) (a: A) (b : B a) , Sigma A B)
+  (Σ-elim₁ : Π (B: A → U) (p: Sigma A B), A)
+  (Σ-elim₂ : Π (B: A → U) (p: Sigma A B), B (pr₁ A B p))
+  (Σ-comp₁ : Π (B: A → U) (a: A) (b: B a), Equ A a (Σ-elim₁ B (Σ-ctor₁ B a b)))
+  (Σ-comp₂ : Π (B: A → U) (a: A) (b: B a), Equ (B a) b (Σ-elim₂ B (a, b)))
+  (Σ-comp₃ : Π (B: A → U) (p: Sigma A B),
+                     Equ (Sigma A B) p (pr₁ A B p, pr₂ A B p))
+  (=-form  : Π (a: A), A → U)
+  (=-ctor₁ : Π (a: A), Equ A a a)
+  (=-elim₁ : Π (a: A) (C: D A) (d: C a a (=-ctor₁ a)) (y: A) (p: Equ A a y),
+             C a y p)
+  (=-comp₁ : Π (a: A) (C: D A) (d: C a a (=-ctor₁ a)),
+                     Equ (C a a (=-ctor₁ a)) d (=-elim₁ a C d a (=-ctor₁ a))), 𝟏
+
+theorem internalizing (A : U) : MLTT A :=
+  (Pi A, lambda A, app A, comp₁ A, comp₂ A,
+   Sigma A, pair A, pr₁ A, pr₂ A, comp₃ A, comp₄ A, comp₅ A,
+   Equ A, refl A, J A, comp₆ A, A)
+\end{lstlisting}
