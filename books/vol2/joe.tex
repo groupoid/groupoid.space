@@ -174,11 +174,13 @@ Minimal language for sequential computations in cartesian closed categories.
 
 \newpage
 
-\subsection{The Joe Language}
+\epigraph{Присвячується автору Erlang}{Джо Армстронгу}
+
+\section{The Joe Language}
 
 Мова програмування $\mathbf{Joe}$ — це чиста нетипізована мова, що є внутрішньою мовою декартово-замкнених категорій. Вона базується на лямбда-численні, розширеному парами, проєкціями та термінальним об’єктом, забезпечуючи мінімальну модель для обчислень у категорійному контексті.
 
-\paragraph{Синтаксис}
+\subsection{Синтаксис}
 
 Терми $\mathbf{Joe}$ складаються зі змінних, лямбда-абстракцій, застосувань, пар, проєкцій (першої та другої) та термінального об’єкта. Це мінімальна мова, що підтримує обчислення через бета-редукцію та проєкції.
 
@@ -198,7 +200,7 @@ type term =
   | Unit
 \end{lstlisting}
 
-\paragraph{Правила обчислень}
+\subsection{Правила обчислень}
 
 Основними правилами обчислень у $\mathbf{Joe}$ є бета-редукція для лямбда-абстракцій та правила проєкцій для пар. Термінальний об’єкт є незвідним.
 
@@ -214,7 +216,7 @@ $$
 \frac{\text{snd}\ \langle t_1, t_2 \rangle}{t_2}
 $$
 
-\paragraph{Підстановка}
+\subsection{Підстановка}
 
 \begin{lstlisting}[mathescape=true]
 let rec subst x s = function
@@ -228,7 +230,7 @@ let rec subst x s = function
   | t -> t
 \end{lstlisting}
 
-\paragraph{Рівність}
+\subsection{Рівність}
 
 \begin{lstlisting}[mathescape=true]
 let rec equal t1 t2 =
@@ -245,7 +247,7 @@ let rec equal t1 t2 =
   | _ -> false
 \end{lstlisting}
 
-\paragraph{Редукція}
+\subsection{Редукція}
 
 \begin{lstlisting}[mathescape=true]
 let rec reduce = function
@@ -260,7 +262,7 @@ let rec reduce = function
   | t -> t
 \end{lstlisting}
 
-\paragraph{Нормалізація}
+\subsection{Нормалізація}
 
 \begin{lstlisting}[mathescape=true]
 let rec normalize t =
@@ -268,23 +270,51 @@ let rec normalize t =
   if equal t t' then t else normalize t'
 \end{lstlisting}
 
-\paragraph{Внутрішня мова ДЗК}
+\subsection{Внутрішня мова ДЗК}
 
 Мова $\mathbf{Joe}$ є внутрішньою мовою декартово-замкненої категорії (ДЗК).
 Вона включає лямбда-абстракції та застосування для замкнутої структури,
 пари та проєкції для декартового добутку, а також термінальний об’єкт для
 відновлення повної структури ДЗК.
 
-\paragraph{Бібліографія}
 
-\begin{itemize}
-\item[1.] Alonzo Church. \textit{A Set of Postulates for the Foundation of Logic}. 1933.
-\item[2.] Alonzo Church. \textit{An Unsolvable Problem of Elementary Number Theory}. 1941.
-\item[3.] Haskell Curry, Robert Fey. \textit{Combinatory Logic, Volume I}. 1951.
-\item[4.] Dana Scott. \textit{A Type-Free Theory of Lambda Calculus}. 1970.
-\item[5.] John Reynolds. \textit{Towards a Theory of Type Structure}. 1974.
-\item[6.] Henk Barendregt. \textit{The Lambda Calculus: Its Syntax and Semantics}. 1984.
-\item[7.] G. Cousineau, P.-L. Curien, M. Mauny. \textit{The Categorical Abstract Machine}. 1985.
-\end{itemize}
+\begin{thebibliography}{9}
+
+\bibitem{church1933}
+Alonzo Church.
+\textit{A Set of Postulates for the Foundation of Logic}.
+1933.
+
+\bibitem{church1941}
+Alonzo Church.
+\textit{An Unsolvable Problem of Elementary Number Theory}.
+1941.
+
+\bibitem{curry1951}
+Haskell Curry and Robert Feys.
+\textit{Combinatory Logic, Volume I}.
+1951.
+
+\bibitem{scott1970}
+Dana Scott.
+\textit{A Type-Free Theory of Lambda Calculus}.
+1970.
+
+\bibitem{reynolds1974}
+John C. Reynolds.
+\textit{Towards a Theory of Type Structure}.
+1974.
+
+\bibitem{barendregt1984}
+Henk Barendregt.
+\textit{The Lambda Calculus: Its Syntax and Semantics}.
+1984.
+
+\bibitem{cousineau1985}
+G. Cousineau, P.-L. Curien, and M. Mauny.
+\textit{The Categorical Abstract Machine}.
+1985.
+
+\end{thebibliography}
 
 \end{document}
