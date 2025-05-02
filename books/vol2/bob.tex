@@ -180,6 +180,8 @@ Minimal language for parallel computations in symmetric monoidal categories. \\
 що реалізує паралельні обчислення через взаємодію комбінаторів ($\zeta$, $\delta$, $\epsilon$) з правилами
 анігіляції та комутації, придатна для моделювання лінійних і паралельних систем.
 
+\subsection{Синтаксис}
+
 \begin{definition}
 Терми $\mathbf{Bob}$ складаються зі змінних, комбінаторів (Con, Dup, Era), пар, обміну (Swap),
 зв’язування (Let) та одиниці (Unit). Мова підтримує афінну логіку, забороняючи повторне використання змінних.
@@ -205,6 +207,8 @@ type term =
     | Unit
 \end{lstlisting}
 \end{definition}
+
+\subsection{Семантика}
 
 \begin{theorem}
 Правила обчислень у $\mathbf{Bob}$ базуються на анігіляції та комутації комбінаторів:
@@ -241,6 +245,8 @@ Let (x, t, u) → subst x t u
 {\mathbf{1}}
 \end{equation}
 
+\subsubsection{Підстановка}
+
 \begin{definition}
 Підстановка в $\mathbf{Bob}$:
 \begin{lstlisting}[mathescape=true]
@@ -263,6 +269,8 @@ let rec subst env var term = function
 \end{lstlisting}
 \end{definition}
 
+\subsubsection{Редукція}
+
 \begin{definition}
 Редукція термів у $\mathbf{Bob}$:
 \begin{lstlisting}[mathescape=true]
@@ -279,6 +287,8 @@ let reduce env term =
     | _ -> term
 \end{lstlisting}
 \end{definition}
+
+\subsubsection{Пошук пар}
 
 \begin{definition}
 Пошук активних пар для редукції:
@@ -308,6 +318,8 @@ let rec find_redexes env term acc =
 \end{lstlisting}
 \end{definition}
 
+\subsubsection{Паралельна редукція}
+
 \begin{definition}
 Паралельна редукція:
 \begin{lstlisting}[mathescape=true]
@@ -326,6 +338,8 @@ let eval_parallel pool env term =
     loop term
 \end{lstlisting}
 \end{definition}
+
+\subsubsection{Внутрішня мова СМК}
 
 \begin{theorem}
 Доведення, що мова $\mathbf{Bob}$ є внутрішньою мовою симетричних моноїдальних категорій:
