@@ -1,0 +1,207 @@
+\documentclass{article}
+\usepackage{amsmath,amssymb,amsthm,mathtools}
+\usepackage{tikz-cd}
+
+\begin{document}
+
+\title{Issue XXVII: Cohesive Topos}
+\author{Максим Сохацький $^1$}
+\date{ $^1$ Національний технічний університет України \\
+       \small Київський політехнічний інститут імені Ігоря Сікорського \\
+       \today }
+
+\maketitle
+
+\begin{abstract}
+
+Formal definition of Cohesive Topos.
+
+{\bf Keywords}: Topos Theory \\
+\end{abstract}
+
+\ifincludeTOC
+  \tableofcontents
+\fi
+
+\section{Cohesive Topos Theory}
+
+\subsection{Category}
+A \textbf{category} $\mathcal{C}$ consists of:
+\begin{itemize}
+  \item A class of \textbf{objects}, $\mathrm{Ob}(\mathcal{C})$,
+  \item A class of \textbf{morphisms}, $\mathrm{Hom}_{\mathcal{C}}(X,Y)$, for each pair $X,Y \in \mathrm{Ob}(\mathcal{C})$,
+  \item Composition maps $\circ: \mathrm{Hom}(Y,Z) \times \mathrm{Hom}(X,Y) \to \mathrm{Hom}(X,Z)$,
+  \item Identity morphisms $\mathrm{id}_X \in \mathrm{Hom}(X,X)$ for each $X$,
+\end{itemize}
+satisfying associativity and identity laws.
+
+\subsection{Functor}
+A \textbf{functor} $F: \mathcal{C} \to \mathcal{D}$ assigns to each:
+\begin{itemize}
+  \item Object $X \in \mathcal{C}$ an object $F(X) \in \mathcal{D}$,
+  \item Morphism $f: X \to Y$ a morphism $F(f): F(X) \to F(Y)$,
+\end{itemize}
+such that $F(\mathrm{id}_X) = \mathrm{id}_{F(X)}$ and $F(g \circ f) = F(g) \circ F(f)$.
+
+\subsection{Natural Transformation}
+A \textbf{natural transformation} $\eta: F \Rightarrow G$ between functors $F, G: \mathcal{C} \to \mathcal{D}$ consists of morphisms $\eta_X: F(X) \to G(X)$ such that for every $f: X \to Y$ in $\mathcal{C}$,
+\[
+\begin{tikzcd}
+F(X) \arrow[r, "\eta_X"] \arrow[d, "F(f)"'] & G(X) \arrow[d, "G(f)"] \\
+F(Y) \arrow[r, "\eta_Y"'] & G(Y)
+\end{tikzcd}
+\]
+commutes.
+
+\subsection{Adjunction}
+An \textbf{adjunction} between categories $\mathcal{C}$ and $\mathcal{D}$ consists of functors
+\[
+F: \mathcal{C} \leftrightarrows \mathcal{D} : G
+\]
+and natural transformations (unit $\eta$ and counit $\varepsilon$)
+\[
+\eta: \mathrm{Id}_{\mathcal{C}} \Rightarrow G \circ F, \quad \varepsilon: F \circ G \Rightarrow \mathrm{Id}_{\mathcal{D}}
+\]
+satisfying the triangle identities.
+
+\subsection{Topos}
+A \textbf{topos} $\mathcal{E}$ is a category that:
+\begin{itemize}
+  \item Has all finite limits and colimits,
+  \item Is Cartesian closed: has exponential objects $[X,Y]$,
+  \item Has a subobject classifier $\Omega$.
+\end{itemize}
+
+\subsection{Geometric Morphism}
+A \textbf{geometric morphism} $f: \mathcal{E} \to \mathcal{F}$ between topoi consists of an adjoint pair
+\[
+f^*: \mathcal{F} \leftrightarrows \mathcal{E} : f_*
+\]
+with $f^* \dashv f_*$, where $f^*$ preserves finite limits (i.e., is left exact).
+
+\newpage
+\subsection{Cohesive Topos}
+A \textbf{cohesive topos} is a topos $\mathcal{E}$ equipped with a quadruple of adjoint functors:
+\[
+\Pi \dashv \Delta \dashv \Gamma \dashv \nabla : \mathcal{E} \leftrightarrows \mathbf{Set}
+\]
+such that:
+\begin{itemize}
+  \item $\Gamma$ is the global sections functor,
+  \item $\Delta$ is the constant sheaf functor,
+  \item $\nabla$ sends a set to a codiscrete object,
+  \item $\Pi$ is the shape or fundamental groupoid functor,
+  \item $\Delta$ and $\nabla$ are fully faithful,
+  \item $\Delta$ preserves finite limits,
+  \item $\Pi$ preserves finite products (in some variants).
+\end{itemize}
+
+\subsection{Cohesive Adjunction Diagram and Modalities}
+
+\[
+\begin{tikzcd}
+\mathcal{E}
+  \arrow[r, shift left=3, "\Pi"]
+  \arrow[r, shift right=3, "\nabla"']
+  \arrow[r, phantom, "\dashv" description]
+  & \mathbf{Set}
+  \arrow[l, shift left=1.5, "\Delta"]
+  \arrow[l, shift right=1.5, "\Gamma"']
+  \arrow[l, phantom, "\dashv" description]
+\end{tikzcd}
+\]
+
+\[
+\begin{tikzcd}[column sep=large]
+\mathcal{E}
+  \arrow[r, bend left=40, "\int", ""{name=s, below}]
+  \arrow[r, bend right=40, "\sharp"'{name=t}]
+  & \mathcal{E}
+  \arrow[Rightarrow, from=s, to=t, "\flat" description]
+\end{tikzcd}
+\]
+
+
+\newpage
+\subsection{Cohesive Modalities}
+
+The above adjoint quadruple canonically induces a triple of endofunctors on $\mathcal{E}$:
+\[
+(\int \dashv \flat \dashv \sharp) : \mathcal{E} \to \mathcal{E}
+\]
+defined as follows:
+\begin{align*}
+\int &\coloneqq \Delta \circ \Pi \\
+\flat &\coloneqq \Delta \circ \Gamma \\
+\sharp &\coloneqq \nabla \circ \Gamma
+\end{align*}
+This yields an \textbf{adjoint triple} of endofunctors on $\mathcal{E}$:
+\[
+\int \dashv \flat \dashv \sharp
+\]
+
+These are:
+\begin{itemize}
+  \item $\int$ — the \textbf{shape modality}: captures the fundamental shape or homotopy type,
+  \item $\flat$ — the \textbf{flat modality}: forgets cohesive structure while remembering discrete shape,
+  \item $\sharp$ — the \textbf{sharp modality}: codiscretizes the structure, reflecting the full cohesion.
+\end{itemize}
+
+Each of these is an \textbf{idempotent} (co)monad, hence a \emph{modality} in the internal language (type theory) of $\mathcal{E}$.
+
+
+\newpage
+\subsection{Differential Cohesion}
+
+A \textbf{differential cohesive topos} is a cohesive topos $\mathcal{E}$ equipped with an additional adjoint triple of endofunctors:
+\[
+(\Re \dashv \Im \dashv \&) : \mathcal{E} \to \mathcal{E}
+\]
+These are:
+\begin{itemize}
+  \item $\Re$: the \textbf{reduction modality} — forgets nilpotents,
+  \item $\Im$: the \textbf{infinitesimal shape modality} — retains infinitesimal data,
+  \item $\&$: the \textbf{infinitesimal flat modality} — reflects formally smooth structure.
+\end{itemize}
+
+Important object classes:
+\begin{itemize}
+  \item An object $X$ is \textbf{reduced} if $\Re(X) \cong X$.
+  \item It is \textbf{coreduced} if $\&(X) \cong X$.
+  \item It is \textbf{formally smooth} if the unit map $X \to \& X$ is an effective epimorphism.
+\end{itemize}
+
+\textbf{Formally étale maps} are those morphisms \( f: X \to Y \) such that the square
+\[
+\begin{tikzcd}
+X \arrow[r] \arrow[d, "f"'] & \Im X \arrow[d, "\Im(f)"] \\
+Y \arrow[r] & \Im Y
+\end{tikzcd}
+\]
+is a pullback.
+
+\newpage
+\subsection{Graded Differential Cohesion}
+
+In \textbf{graded differential cohesion}, such as used in synthetic supergeometry, one introduces an adjoint triple:
+
+% \def\fermionic\rightrightarrows
+% \def\bosonic\rightsquigarrow
+
+10) $\rightrightarrows\ \dashv\ \rightsquigarrow\ \dashv\ Rh$
+
+\[
+(\rightrightarrows \dashv \rightsquigarrow \dashv Rh) : \mathcal{E} \to \mathcal{E}
+\]
+
+These are:
+\begin{itemize}
+  \item $\rightrightarrows$: the \textbf{fermionic modality} — captures anti-commuting directions,
+  \item $\rightsquigarrow$: the \textbf{bosonic modality} — filters out fermionic directions,
+  \item $Rh$: the \textbf{rheonomic modality} — encodes constraint structures.
+\end{itemize}
+
+These modal operators form part of the internal logic of supergeometric or supersymmetric type theories.
+
+
+\end{document}

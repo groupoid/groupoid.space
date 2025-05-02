@@ -1,0 +1,162 @@
+% Defining the document structure
+\documentclass[12pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath, amssymb, amsthm}
+\usepackage{booktabs}
+\usepackage{xcolor}
+\usepackage{colortbl}
+\usepackage{geometry}
+\geometry{a4paper, margin=1in}
+\usepackage{parskip}
+
+% Defining custom color for table
+\definecolor{ZimaBlue}{RGB}{0, 128, 255}
+
+% Setting up theorems and definitions
+\theoremstyle{definition}
+\newtheorem{definition}{Definition}
+\theoremstyle{plain}
+\newtheorem{theorem}{Theorem}
+
+
+\begin{document}
+
+% Title and author
+\title{Issue XXVIII: Functor Compositions Structure}
+\author{}
+\date{\today}
+
+\maketitle
+
+\begin{abstract}
+This article explores the interplay between modalities, identity systems, and homologies
+in the framework of Homotopy Type Theory (HoTT). We formalize modalities and identity
+systems as structures within ($\infty$,1)-categories and investigate the homological properties arising when their functor compositions are treated as groups. Special attention is given to topological structures, such as the Möbius strip, that emerge from non-trivial compositions, and their role in generating non-trivial fundamental groups. A classification of generators is provided, highlighting their categorical and homotopical properties.
+\end{abstract}
+
+\section{Functor Compositions Structure}
+
+Homotopy Type Theory (HoTT) provides a powerful framework for studying
+categorical structures through the lens of types, paths, and higher
+homotopies. In this context, \emph{modalities} and \emph{identity systems}
+serve as fundamental constructs that encode localization and identification
+properties, respectively. When compositions of their associated functors
+are interpreted as groups, they give rise to homological structures, such
+as fundamental groups, that can model complex topological spaces like the
+Möbius strip. This article formalizes these concepts and explores their
+implications in ($\infty$,1)-toposes, with a focus on the emergence of CW-complexes and homologies.
+
+\subsection{Modality}
+
+\begin{definition}[Modality]
+A modality in HoTT is a structure comprising:
+\begin{lstlisting}[mathescape=true]
+def Modality :=
+  Σ (modality: U → U)
+    (isModal : U → U)
+    (eta:      Π (A : U), A → modality A)
+    (elim:     Π (A : U) (B : modality A → U)
+                 (B-Modal : Π (x : modality A), isModal (B x))
+                 (f: П (x : A), (B (eta A x))),
+                 (Π (x : modality A), B x))
+    (elim-β :  Π (A : U) (B : modality A → U)
+                 (B-Modal : Π (x : modality A), isModal (B x))
+                 (f : Π (x : A), (B (eta A x))) (a : A),
+                 PathP (<_>B (eta A a)) (elim A B B-Modal f (eta A a)) (f a))
+    (modalityIsModal : Π (A : U), isModal (modality A))
+    (propIsModal : Π (A : U), Π (a b : isModal A),
+                     PathP (<_>isModal A) a b)
+    (=-Modal : Π (A : U) (x y : modality A),
+                 isModal (PathP (<_>modality A) x y)), 𝟏
+\end{lstlisting}
+where $\mathcal{U}$ is a universe of types, $\eta$ is a natural inclusion, and $\text{elim}$ provides a universal property for modal types (see \cite{shulman2018modal} for details).
+\end{definition}
+
+Modalities act as localization functors, projecting types onto subcategories of modal types. For instance, the \emph{discrete modality} ($\flat$) trivializes higher homotopies, while the \emph{codiscrete modality} ($\sharp$) makes types contractible.
+
+% Section: Identity Systems
+\subsection{Identity Systems}
+
+\begin{definition}[Identity System]
+For a type $A: \mathcal{U}$, an identity system is defined as:
+\begin{lstlisting}[mathescape=true]
+def IdentitySystem (A : U) : U ≔
+  Σ (=-form : A → A → U)
+    (=-ctor : Π (a : A), =-form a a)
+    (=-elim : Π (a : A) (C: Π (x y : A)
+                (p : =-form x y), U)
+                (d : C a a (=-ctor a)) (y : A)
+                (p : =-form a y), C a y p)
+    (=-comp : Π (a : A) (C: Π (x y : A)
+                (p : =-form x y), U)
+                (d : C a a (=-ctor a)),
+                Path (C a a (=-ctor a)) d
+                     (=-elim a C d a (=-ctor a))), 𝟏
+\end{lstlisting}
+where $=\text{-form}$ generalizes the identity type, and $=\text{-ctor}$ ensures reflexivity.
+\end{definition}
+
+Identity systems generalize paths in HoTT, allowing the construction of types with non-trivial fundamental groups, such as the Möbius strip, where identifications generate $\mathbb{Z}$.
+
+% Section: Classification of Generators
+\subsection{Classification of Generators}
+
+The following table classifies key generators, including modalities and identity systems, based on their categorical and homotopical properties.
+
+% Creating the table
+\begin{table}[ht]
+\caption{Classification of Generators in Homotopy Type Theory}
+\begin{tabular}{lccccc}
+\hline
+\textbf{Generator} & \textbf{Notation} & \textbf{Type} & \textbf{Adjunction}  \\
+\hline
+Discrete & $\flat$ & Modality & $\flat \dashv \sharp$  \\
+Codiscrete & $\sharp$ & Comodality & $\flat \dashv \sharp$  \\
+Bosonic & $\bigcirc$ & Modality & $\bigcirc \dashv \bigcirc^+$  \\
+Fermionic/Infinitesimal & $\Im$ & Modality & $\Im \dashv \Im^+$ \\
+Rheonomic & $\text{Rh}$ & Modality & —  \\
+Reduced & $\Re$ & Modality & — \\
+Polynomial & $W$ & Inductive & —  \\
+Polynomial & $M$ & Coinductive & —  \\
+Higher Inductive & $\text{HIT}$ & Inductive & $\text{HIT} \dashv \text{Path}$  \\
+Higher Coinductive & $\text{CoHIT}$ & Coinductive & $\text{Path} \dashv \text{CoHIT}$  \\
+Path Spaces & $\text{Path}$ & Identification & $\text{HIT} \dashv \Im$  \\
+Identity & $=, \simeq, \cong$ & Identification & —  \\
+Isomporphism & $=, \simeq, \cong$ & Identification & —  \\
+Equality & $=, \simeq, \cong$ & Identification & —  \\
+\hline
+\end{tabular}
+\end{table}
+
+% Section: Homologies from Functor Compositions
+\subsection{Homologies from Functor Compositions}
+
+When functor compositions of modalities and identity systems are treated as groups, they generate homological structures, such as fundamental groups or homology groups. For example, consider the composition $\flat \circ \sharp \circ \flat$. In a topological context, this may correspond to a localization that preserves certain homotopical features, potentially yielding a CW-complex like the Möbius strip.
+
+\begin{theorem}
+Let $\mathcal{C}$ be an ($\infty$,1)-topos, and let $F = \flat \circ \sharp \circ \flat$ be a functor composition treated as a group action. The resulting structure induces a fundamental group isomorphic to $\mathbb{Z}$ for types modeling the Möbius strip.
+\end{theorem}
+
+\begin{proof}[Sketch]
+The Möbius strip can be constructed as a higher inductive type (HIT) with an identity system generating $\mathbb{Z}$. The functor $\flat$ discretizes the type, $\sharp$ contracts it, and the second $\flat$ reintroduces discrete structure, preserving the non-trivial loop in the identification system. The resulting type has a fundamental group $\pi_1 \cong \mathbb{Z}$.
+\end{proof}
+
+% Section: Topological Interpretation
+\subsection{Topological Interpretation}
+
+The Möbius strip, as a CW-complex, arises naturally in this framework. Its non-trivial fundamental group is generated by an identity system, while modalities like $\Im$ or $\bigcirc$ introduce twisting or orientation properties. This connects to topological quantum field theories (TQFTs), where surfaces like the Möbius strip encode non-trivial symmetries.
+
+% Section: Conclusion
+\subsection{Conclusion}
+
+Modalities and identity systems in HoTT provide a rich framework for modeling categorical and topological phenomena. By treating functor compositions as groups, we uncover homological structures that bridge type theory and topology. Future work may explore applications in TQFT and synthetic differential geometry.
+
+% Bibliography
+\begin{thebibliography}{9}
+\bibitem{shulman2018modal}
+M. Shulman, \emph{Brouwer’s fixed-point theorem in real-cohesive homotopy type theory}, Mathematical Structures in Computer Science, 2018.
+\bibitem{hottbook}
+The Univalent Foundations Program, \emph{Homotopy Type Theory: Univalent Foundations of Mathematics}, 2013.
+\end{thebibliography}
+
+\end{document}
