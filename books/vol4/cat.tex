@@ -4,7 +4,7 @@
 
 \begin{document}
 
-\title{Issue XXV: Caregory Theory}
+\title{Issue XXV: Category Theory}
 \author{Максим Сохацький $^1$}
 \date{ $^1$ Національний технічний університет України \\
        \small Київський політехнічний інститут імені Ігоря Сікорського \\
@@ -24,6 +24,19 @@ Formal definition of Category.
 
 \section{Category Theory}
 
+Category Theory provides a rigorous framework for abstracting and unifying mathematical structures.
+Developed in the 1940s by Samuel Eilenberg and Saunders Mac Lane to address coherence problems in
+algebraic topology, it generalizes relationships between mathematical objects across diverse fields
+like algebra, geometry, and computer science. Category Theory captures objects and their
+morphisms—functions preserving structure—as a universal systems theory,
+akin to a universal algebra of functions, emphasizing composition and transformation.
+Interpreted as a foundational language, a tool for structural analysis,
+or a bridge to computer-aided formalization, it solves problems of abstraction and generalization.
+Categories serve as a stepping stone to topos theory, which enriches logical and geometric insights,
+and higher cohesive topos theory, extending to infinity-categories for advanced applications.
+
+
+\newpage
 \subsection{Category}
 
 First of all very simple category theory up to pullbacks is provided. We give here
@@ -58,27 +71,46 @@ cat: U = (A: U) * (A -> A -> U)
 (vi) For each $a,b,c,d: A$ and $f: \mathrm{Hom}_C(a,b)$, $g: \mathrm{Hom}_C(b,c)$, $h: \mathrm{Hom}_C(c,d)$,
      $h \circ (g \circ f ) = (h \circ g) \circ f$.
 \begin{lstlisting}
-isPrecategory (C: cat): U
-  = (id: (x: C.1) -> C.2 x x)
-  * (c: (x y z: C.1) -> C.2 x y -> C.2 y z -> C.2 x z)
-  * (homSet: (x y: C.1) -> isSet (C.2 x y))
-  * (left: (x y: C.1) -> (f: C.2 x y) ->
-    Path (C.2 x y) (c x x y (id x) f) f)
-  * (right: (x y: C.1) -> (f: C.2 x y) ->
-    Path (C.2 x y) (c x y y f (id y)) f)
-  * ( (x y z w: C.1) -> (f: C.2 x y) ->
-    (g: C.2 y z) -> (h: C.2 z w) ->
-    Path (C.2 x w) (c x z w (c x y z f g) h)
-                   (c x y w f (c y z w g h)))
+def cat : U₁
+ := Σ (ob: U) (hom: ob -> ob -> U), unit
+
+def isPrecategory (C: cat) : U := Σ
+    (id:      Π (x: C.ob), C.hom x x)
+    (∘:       Π (x y z: C.ob),
+                C.hom x y -> C.hom y z -> C.hom x z)
+    (homSet:  Π (x y: C.ob), isSet (C.hom x y))
+    (∘-left:  Π (x y: C.ob) (f: C.hom x y),
+              = (C.hom x y) (∘ x x y (id x) f) f)
+    (∘-right: Π (x y: C.ob) (f: C.hom x y),
+              = (C.hom x y) (∘ x y y f (id y)) f)
+    (∘-assoc: Π (x y z w: C.ob) (f: C.hom x y)
+                (g: C.hom y z) (h: C.hom z w),
+              = (C.hom x w) (∘ x z w (∘ x y z f g) h)
+                            (∘ x y w f (∘ y z w g h))), 1
+def precategory: U₁ := Σ (C: cat) (P: isPrecategory C), unit
+
 \end{lstlisting}
+
+\newpage
+Univalent Categories:
+
 \begin{lstlisting}
-carrier (C: precategory) : U
-hom     (C: precategory) (a b: carrier C) : U
-compose (C: precategory) (x y z: carrier C)
-        (f: hom C x y) (g: hom C y z) : hom C x z
+
+def isoCat (P: precategory) (A B: P.C.ob) : U := Σ
+    (f: P.C.hom A B)
+    (g: P.C.hom B A)
+    (retract: Path (P.C.hom A A) (P.P.∘ A B A f g) (P.P.id A))
+    (section: Path (P.C.hom B B) (P.P.∘ B A B g f) (P.P.id B)), 1
+
+def isCategory (P: precategory): U
+ := Σ (A: P.C.ob), isContr (Π (B: P.C.ob), isoCat P A B)
+
+def category: U₁
+ := Σ (P: precategory), isCategory P
 \end{lstlisting}
 \end{definition}
 
+\newpage
 \subsection{Pullback}
 
 \begin{definition} (Categorical Pullback).
@@ -103,22 +135,38 @@ Pullback $(\times_C,pb_1,pb_2)$ must be universal, means for any $(D,q_1,q_2)$
 for which diagram also commutes there must exists a unique $u: D \rightarrow \times_C$,
 such that $pb_1 \circ u = q_1$ and $pb_2 \circ q_2$.
 \begin{lstlisting}
-homTo  (C: precategory) (X: carrier C): U
-  = (Y: carrier C) * hom C Y X
-cospan (C: precategory): U
-  = (X: carrier C) * (_: homTo C X) * homTo C X
-cospanCone (C: precategory) (D: cospan C): U
-  = (W: carrier C) * hasCospanCone C D W
-cospanConeHom (C: precategory) (D: cospan C)
-    (E1 E2: cospanCone C D) : U
-  = (h: hom C E1.1 E2.1) * isCospanConeHom C D E1 E2 h
-isPullback (C: precategory) (D: cospan C) (E: cospanCone C D) : U
-  = (h: cospanCone C D) -> isContr (cospanConeHom C D h E)
-hasPullback (C: precategory) (D: cospan C) : U
-  = (E: cospanCone C D) * isPullback C D E
+def homTo  (P: precategory) (X: P.C.ob): U
+ := Σ (Y: P.C.ob), P.C.hom Y X
+
+def cospan (P: precategory): U
+ := Σ (X: P.C.ob) (_: homTo P X), homTo P X
+
+def hasCospanCone (P: precategory) (D: cospan P) (w: P.C.ob) : U
+ := Σ (f: P.C.hom w D.2.1.1) (g: P.C.hom w D.2.2.1),
+    = (P.C.hom w D.1) (P.P.∘ w D.2.1.1 D.1 f D.2.1.2)
+                      (P.P.∘ w D.2.2.1 D.1 g D.2.2.2)
+def cospanCone (P: precategory) (D: cospan P): U
+ := Σ (w: P.C.ob), hasCospanCone P D w
+
+def isCospanConeHom (P: precategory) (D: cospan P)
+    (E1 E2: cospanCone P D) (h: P.C.hom E1.1 E2.1) : U
+ := Σ (_ : = (P.C.hom E1.1 D.2.1.1)
+             (P.P.∘ E1.1 E2.1 D.2.1.1 h E2.2.1) E1.2.1),
+           = (P.C.hom E1.1 D.2.2.1)
+             (P.P.∘ E1.1 E2.1 D.2.2.1 h E2.2.2.1) E1.2.2.1
+
+def cospanConeHom (P: precategory) (D: cospan P) (E1 E2: cospanCone P D) : U
+ := Σ (h: P.C.hom E1.1 E2.1), isCospanConeHom P D E1 E2 h
+
+def isPullback (P: precategory) (D: cospan P) (E: cospanCone P D) : U
+ := Σ (h: cospanCone P D), isContr (cospanConeHom P D h E)
+
+def hasPullback (P: precategory) (D: cospan P) : U
+ := Σ (E: cospanCone P D), isPullback P D E
 \end{lstlisting}
 \end{definition}
 
+\newpage
 \subsection{Functor}
 
 A \textbf{functor} $F: \mathcal{C} \to \mathcal{D}$ assigns to each:
@@ -148,6 +196,7 @@ catfunctor (A B: precategory): U
 \end{definition}
 
 \newpage
+\subsection{Terminals}
 \begin{definition} (Terminal Object). Is such object $\mathrm{Ob}_C$,
 that
 $$
@@ -161,6 +210,7 @@ terminal (C: precategory): U
 \end{lstlisting}
 \end{definition}
 
+\newpage
 \subsection{Natural Transformation}
 A \textbf{natural transformation} $\eta: F \Rightarrow G$ between functors $F, G: \mathcal{C} \to \mathcal{D}$ consists of morphisms $\eta_X: F(X) \to G(X)$ such that for every $f: X \to Y$ in $\mathcal{C}$,
 \[
@@ -170,7 +220,21 @@ F(Y) \arrow[r, "\eta_Y"'] & G(Y)
 \end{tikzcd}
 \]
 commutes.
+\begin{lstlisting}
+isNaturalTrans (C D: precategory)
+               (F G: catfunctor C D)
+               (eta: (x: carrier C) -> hom D (F.1 x) (G.1 x)): U
+  = (x y: carrier C) (h: hom C x y) ->
+    Path (hom D (F.1 x) (G.1 y))
+         (compose D (F.1 x) (F.1 y) (G.1 y) (F.2.1 x y h) (eta y))
+         (compose D (F.1 x) (G.1 x) (G.1 y) (eta x) (G.2.1 x y h))
 
+ntrans (C D: precategory) (F G: catfunctor C D): U
+    = (eta: (x: carrier C) -> hom D (F.1 x) (G.1 x))
+    * (isNaturalTrans C D F G eta)
+\end{lstlisting}
+
+\newpage
 \subsection{Adjunction}
 An \textbf{adjunction} between categories $\mathcal{C}$ and $\mathcal{D}$ consists of functors
 \[
@@ -181,6 +245,65 @@ and natural transformations (unit $\eta$ and counit $\varepsilon$)
 \eta: \mathrm{Id}_{\mathcal{C}} \Rightarrow G \circ F, \quad \varepsilon: F \circ G \Rightarrow \mathrm{Id}_{\mathcal{D}}
 \]
 satisfying the triangle identities.
+\begin{lstlisting}
+ntransL (C D: precategory) (F G: catfunctor C D)
+        (f: ntrans C D F G) (B: precategory) (H: catfunctor B C)
+      : ntrans B D (compFunctor B C D H F) (compFunctor B C D H G)
+      = (eta, p) where
+        F': catfunctor B D = compFunctor B C D H F
+        G': catfunctor B D = compFunctor B C D H G
+        eta (x: carrier B): hom D (F'.1 x) (G'.1 x) = f.1 (H.1 x)
+        p (x y: carrier B) (h: hom B x y): Path (hom D (F'.1 x) (G'.1 y))
+            (compose D (F'.1 x) (F'.1 y) (G'.1 y) (F'.2.1 x y h) (eta y))
+            (compose D (F'.1 x) (G'.1 x) (G'.1 y) (eta x) (G'.2.1 x y h))
+          = f.2 (H.1 x) (H.1 y) (H.2.1 x y h)
+
+ntransR (C D: precategory) (F G: catfunctor C D)
+    (f: ntrans C D F G) (E: precategory) (H: catfunctor D E)
+  : ntrans C E (compFunctor C D E F H) (compFunctor C D E G H)
+  = (eta, p) where
+    F': catfunctor C E = compFunctor C D E F H
+    G': catfunctor C E = compFunctor C D E G H
+    eta (x: carrier C): hom E (F'.1 x) (G'.1 x)
+      = H.2.1 (F.1 x) (G.1 x) (f.1 x)
+    p (x y: carrier C) (h: hom C x y): Path (hom E (F'.1 x) (G'.1 y))
+        (compose E (F'.1 x) (F'.1 y) (G'.1 y) (F'.2.1 x y h) (eta y))
+        (compose E (F'.1 x) (G'.1 x) (G'.1 y) (eta x) (G'.2.1 x y h))
+      = <i> comp (<_> hom E (F'.1 x) (G'.1 y))
+                 (H.2.1 (F.1 x) (G.1 y) (f.2 x y h @ i))
+        [ (i = 0) -> H.2.2.2 (F.1 x) (F.1 y) (G.1 y) (F.2.1 x y h) (f.1 y),
+          (i = 1) -> H.2.2.2 (F.1 x) (G.1 x) (G.1 y) (f.1 x) (G.2.1 x y h) ]
+\end{lstlisting}
+
+\newpage
+\begin{lstlisting}
+areAdjoint (C D: precategory)
+           (F: catfunctor D C)
+           (G: catfunctor C D)
+           (unit: ntrans D D (idFunctor D) (compFunctor D C D F G))
+           (counit: ntrans C C (compFunctor C D C G F) (idFunctor C)): U
+  = prod  ((x: carrier C) -> = (hom D (G.1 x) (G.1 x))
+                               (path D (G.1 x)) (h0 x))
+          ((x: carrier D) -> = (hom C (F.1 x) (F.1 x))
+                               (path C (F.1 x)) (h1 x)) where
+    h0 (x:  carrier C) : hom D (G.1 x) (G.1 x)
+                = compose D (G.1 x) (G.1 (F.1 (G.1 x))) (G.1 x)
+          ((ntransL D D (idFunctor D)
+                        (compFunctor D C D F G) unit C G).1 x)
+          ((ntransR C C (compFunctor C D C G F)
+                        (idFunctor C) counit D G).1 x)
+    h1 (x: carrier D) : hom C (F.1 x) (F.1 x)
+               = compose C (F.1 x) (F.1 (G.1 (F.1 x))) (F.1 x)
+          ((ntransR D D (idFunctor D)
+                        (compFunctor D C D F G) unit C F).1 x)
+          ((ntransL C C (compFunctor C D C G F)
+                        (idFunctor C) counit D F).1 x)
+
+adjoint (C D: precategory) (F: catfunctor D C) (G: catfunctor C D): U
+  = (unit: ntrans D D (idFunctor D) (compFunctor D C D F G))
+  * (counit: ntrans C C (compFunctor C D C G F) (idFunctor C))
+  * areAdjoint C D F G unit counit
+\end{lstlisting}
 
 %\begin{definition}
 %\begin{lstlisting}
