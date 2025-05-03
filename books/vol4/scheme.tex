@@ -1,0 +1,90 @@
+\documentclass{article}
+\usepackage{amsmath,amssymb,amsthm,hyperref}
+\begin{document}
+
+\title{Grothendieck Schemes}
+\author{Namdak Tonpa}
+\date{\today}
+
+\maketitle
+
+\begin{abstract}
+We present Grothendieck’s functorial definition of schemes as sheaves on the category of affine schemes, structured according to the functor of points perspective. We also outline a path toward formalizing these objects within Homotopy Type Theory (HoTT).
+\end{abstract}
+
+\section{Grothendieck Schemes}
+
+We view schemes as \textbf{sheaves on the category of affine schemes}, satisfying a gluing condition analogous to the usual descent condition in topology.
+
+\subsection{Affine Schemes}
+
+Let:
+\[
+\mathbf{Aff} := (\mathbf{CRing})^{\mathrm{op}}
+\]
+denote the category of affine schemes, i.e., the opposite of the category of commutative rings.
+
+An affine scheme is of the form $\mathrm{Spec}(A)$, for a commutative ring $A$.
+
+\subsection{Zariski Covers}
+
+A \textbf{presheaf of sets} on $\mathbf{Aff}$ is a functor:
+\[
+F : \mathbf{Aff}^{\mathrm{op}} \to \mathbf{Set}.
+\]
+This is the \emph{functor of points} perspective: each affine scheme $\mathrm{Spec}(A)$ represents the "test ring" $A$, and $F(\mathrm{Spec}(A))$ can be thought of as the $A$-points of $F$.
+
+A \textbf{Zariski sheaf} is a presheaf that satisfies descent for Zariski covers: if $\{ \mathrm{Spec}(A_{f_i}) \to \mathrm{Spec}(A) \}$ is a Zariski open affine cover, then the diagram
+\[
+F(\mathrm{Spec}(A)) \to \mathrm{Eq} \left( \prod_i F(\mathrm{Spec}(A_{f_i})) \rightrightarrows \prod_{i,j} F(\mathrm{Spec}(A_{f_i f_j})) \right)
+\]
+is an equalizer diagram.
+
+\subsection{Grothendieck Scheme}
+
+A \textbf{scheme} is a Zariski sheaf
+\[
+F : \mathbf{Aff}^{\mathrm{op}} \to \mathbf{Set}
+\]
+such that:
+
+\begin{itemize}
+  \item There exists a Zariski cover $\{ U_i \to F \}$ where each $U_i$ is \textbf{representable}, i.e., $U_i \cong \mathrm{Spec}(A_i)$ for some ring $A_i$.
+  \item Each morphism $U_i \to F$ is an \textbf{open immersion} (in the sheaf-theoretic sense).
+\end{itemize}
+
+This means $F$ is \textbf{locally isomorphic to affine schemes} and satisfies Zariski descent.
+
+\paragraph{Equivalently:} Schemes are Zariski sheaves on $\mathbf{Aff}$ that are \textbf{locally representable by affine schemes}.
+
+\subsection{Formalization in HoTT}
+
+\subsubsection*{Categories and Presheaves in HoTT}
+
+In HoTT, a category can be defined as a type of objects together with types of morphisms and operations satisfying associativity and identity laws up to higher homotopies. A presheaf is then a functor:
+\[
+F : \mathcal{C}^{\mathrm{op}} \to \mathcal{U}_0
+\]
+where $\mathcal{U}_0$ is the universe of $0$-types (sets). For $\mathcal{C} = \mathbf{Aff}$, this gives us the functor-of-points view.
+
+\subsubsection*{Sheaf Conditions in HoTT}
+
+A sheaf in HoTT is a presheaf that satisfies a descent condition with respect to a Grothendieck topology, formalized via homotopy limits or truncations, depending on the level of the types involved.
+
+\subsubsection*{Defining Schemes in HoTT}
+
+Within HoTT, a scheme is a sheaf $F : \mathbf{Aff}^{\mathrm{op}} \to \mathcal{U}_0$ satisfying:
+
+\begin{itemize}
+  \item A Zariski descent condition.
+  \item Local representability: there exists a family of open immersions $\{ \mathrm{Spec}(A_i) \to F \}$ covering $F$.
+\end{itemize}
+
+This mirrors the classical definition but is grounded in type-theoretic and higher-categorical constructions.
+
+\subsection{Conclusion}
+
+Grothendieck’s functorial approach to schemes provides a clean and general definition that is well-suited for formalization in Homotopy Type Theory. This opens the way for a synthetic and structured foundation for algebraic geometry in type-theoretic settings.
+
+\end{document}
+
