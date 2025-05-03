@@ -4,7 +4,7 @@
 
 \begin{document}
 
-\title{Issue XXVII: Cohesive Topos}
+\title{Issue XXIX: Cohesive Topos}
 \author{Максим Сохацький $^1$}
 \date{ $^1$ Національний технічний університет України \\
        \small Київський політехнічний інститут імені Ігоря Сікорського \\
@@ -25,7 +25,7 @@ Formal definition of Cohesive Topos.
 
 \section{Cohesive Topos Theory}
 
-\subsection{Category}
+\subsection{Preliminaries}
 A \textbf{category} $\mathcal{C}$ consists of:
 \begin{itemize}
   \item A class of \textbf{objects}, $\mathrm{Ob}(\mathcal{C})$,
@@ -35,7 +35,7 @@ A \textbf{category} $\mathcal{C}$ consists of:
 \end{itemize}
 satisfying associativity and identity laws.
 
-\subsection{Functor}
+
 A \textbf{functor} $F: \mathcal{C} \to \mathcal{D}$ assigns to each:
 \begin{itemize}
   \item Object $X \in \mathcal{C}$ an object $F(X) \in \mathcal{D}$,
@@ -43,7 +43,7 @@ A \textbf{functor} $F: \mathcal{C} \to \mathcal{D}$ assigns to each:
 \end{itemize}
 such that $F(\mathrm{id}_X) = \mathrm{id}_{F(X)}$ and $F(g \circ f) = F(g) \circ F(f)$.
 
-\subsection{Natural Transformation}
+
 A \textbf{natural transformation} $\eta: F \Rightarrow G$ between functors $F, G: \mathcal{C} \to \mathcal{D}$ consists of morphisms $\eta_X: F(X) \to G(X)$ such that for every $f: X \to Y$ in $\mathcal{C}$,
 \[
 \begin{tikzcd}
@@ -53,7 +53,6 @@ F(Y) \arrow[r, "\eta_Y"'] & G(Y)
 \]
 commutes.
 
-\subsection{Adjunction}
 An \textbf{adjunction} between categories $\mathcal{C}$ and $\mathcal{D}$ consists of functors
 \[
 F: \mathcal{C} \leftrightarrows \mathcal{D} : G

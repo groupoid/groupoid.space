@@ -1,0 +1,169 @@
+% Setting up a comprehensive LaTeX preamble for a mathematical survey
+\documentclass[12pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T2A]{fontenc}
+\usepackage[ukrainian,english]{babel}
+\usepackage{amsmath, amssymb, amsthm}
+\usepackage{mathtools}
+\usepackage{geometry}
+\geometry{a4paper, margin=1in}
+\usepackage{listings}
+\usepackage{hyperref}
+\hypersetup{colorlinks=true, linkcolor=blue, citecolor=blue, urlcolor=blue}
+\usepackage{tocloft}
+\usepackage{xcolor}
+
+% Configuring lstlisting for code
+\lstset{
+    basicstyle=\ttfamily\footnotesize,
+    breaklines=true,
+%    frame=single,
+%    numbers=left,
+%    numberstyle=\tiny,
+    keywordstyle=\color{blue},
+    commentstyle=\color{gray},
+    stringstyle=\color{red}
+}
+
+% Defining theorem-like environments
+\theoremstyle{plain}
+\newtheorem{theorem}{Теорема}[section]
+\newtheorem{lemma}[theorem]{Лема}
+\newtheorem{corollary}[theorem]{Наслідок}
+\theoremstyle{definition}
+\newtheorem{definition}{Означення}[section]
+\newtheorem{example}{Приклад}[section]
+\theoremstyle{remark}
+\newtheorem{remark}{Зауваження}[section]
+
+
+\begin{document}
+
+% Setting up the title and author
+\title{Issue XXVIII: Quillen Model Categories}
+\author{Namdak Tonpa}
+\date{\today}
+
+\maketitle
+
+\begin{abstract}
+% Providing a concise overview of the survey
+Ця стаття є оглядом теорії модельних категорій, започаткованої Деніелом Квілленом у його новаторській праці 1967 року ``Гомотопічна алгебра''. Ми розглядаємо історичний контекст, основні аксіоми та застосування модельних категорій у топології та суміжних галузях, зокрема у доведенні кон’єктур Мілнора та Блоха-Като Воєводським. Також обговорюються сучасні узагальнення, такі як інфініті-категорії та модельні структури на симпліційних і кубічних множинах, з акцентом на їхню релевантність у математиці та теоретичній інформатиці.
+\end{abstract}
+
+\ifincludeTOC
+  \tableofcontents
+\fi
+
+
+\section{Model Categories}
+% Introducing the historical shift initiated by Quillen
+PhD Деніела Квілена була присвячена диференціальним рівнянням, але відразу після цього він перевівся в МІТ і почав працювати в алгебраїній топології, під впливом Дена Кана. Через три роки він видає Шпрінгеровські лекції з математики "Гомотопічна алгебра" \cite{Quillen67}, яка назавжди трансформувала алгебраїчну топологію від вивчення топологічних просторів з точністю до гомотопій до загального інструменту, що застосовується в інших галузях математики.
+
+Модельні категорії вперше були успішно застосовані Воєводським на підтвердження кон'юнктури Мілнора \cite{Voevodsky96} (для 2) і потім мотивної кон'юнктури Блоха-Като \cite{Voevodsky03} (для n). Для доказу для 2 була побудована зручна гомотопічна стабільна категорія узагальнених схем. Інфініті категорії Джояля, досить добре досліджені Лур'є \cite{Lurie09}, є прямим узагальненням модельних категорій.
+
+\subsection{Означення модельних категорій}
+До часу, коли Квіллен написав "Гомотопічну алгебру", вже було деяке уявлення про те,
+як має виглядати теорія гомотопій. Починаємо ми з категорії $\mathcal{C}$ та колекції морфізмів $W$ –
+слабкими еквівалентностями. Завдання вправи інвертувати $W$ морфізму щоб отримати гомотопічну категорію.
+Хотілося б мати спосіб, щоб можна було конструтувати похідні функтори. Для топологічного простору $X$,
+його апроксимації $LX$ і слабкої еквівалентності $LX \to X$ це означає, що ми повинні
+замінити $X$ на $LX$. Це аналогічно до заміни модуля або ланцюгового комплексу на
+проективну резольвенту. Подвійним чином, для симпліційної множини $K$, Кан комплексу $RK$,
+і слабкої еквівалентності $K \to RK$ ми повинні замінити $K$ на $RK$. У цьому випадку це
+аналогічно до заміни ланцюгового комплексу ін'єктивною резольвентою.
+
+\begin{lstlisting}
+modelStructure (C: category): U
+   = (fibrations: fib C)
+   * (cofibrations: cofib C)
+   * (weakEqivalences: weak C)
+   * unit
+\end{lstlisting}
+
+Таким чином Квілену потрібно було окрім поняття слабкої еквівалентності ще й поняття розшарованого ($RK$) та корозшарованого ($LX$) об'єктів. Ключовий інстайт з топології тут наступний, в неабелевих ситуаціях об'єкти не надають достатньої структури поняття точної послідовності. Тому стало зрозуміло, що для відновлення структури необхідно ще два класи морфізмів: розшарування та корозшарування на додаток до слабких еквівалентностей, яким ми повинні інverтувати для розбудови гомотопічної категорії. Природно ці три колекції морфізом повинні задовольняти набору умов, званих аксіомами модельних категорій: 1) наявність малих лімітів і колимітів; 2) правило 3-для-2; 3) правило ректрактів; 4) правило підйому; 5) правило факторизації.
+
+\begin{definition}
+Модельна категорія --- це категорія $\mathcal{C}$, оснащена трьома класами морфізмів: 1) $fib(\mathcal{C})$ --- розшарування; 2) $cof(\mathcal{C})$ --- корозшарування; 3) $W(\mathcal{C})$ --- слабкі еквівалентності, які задовольняють аксіоми, наведені вище.
+\end{definition}
+
+Цікавою властивістю модельних категорій є те, що дуальні до них категорії перевертають розшарування та корозшарування, таким чином реалізуючи дуальність Екманна-Хілтона. Розшарування та корозшарування пов'язані, тому взаємовизначені. Корозшарування є морфізми, що мають властивість лівого гомотопічного підйому по відношенню до ациклічних розшарування і розшарування є морфизми, що мають властивість правого гомотопічного підйому по відношенню до ациклічних кофібрацій.
+
+\subsection{Застосування в топології}
+% Exploring model structures on topological spaces
+Основним застосуванням модельних категорій у роботі Квілена було присвячено категоріям топологічних просторів. Для топологічних просторів існує дві модельні категорії: Квілена (1967) та Строма (1972). Перша як розшарований використовує розшарування Серра, а як корозшаровування морфізму які мають лівий гомотопічний підйом по відношенню до ациклічних розшарування Серра, еквівалентно це ретракти відповідних $CW$-комплексів, а як слабка еквівалентність виступає слабка гомотопічна. Друга модель Строма як розшарування використовуються розшарування Гуревича, як корозшарування стандартні корозшаровування, і як слабка еквівалентність --- сильна гомотопічна еквівалентність.
+
+\begin{lstlisting}
+quillen67
+    : modelStructure Top
+    = ( serreFibrations ,
+        retractsCW ,
+        weakHomotopyEquivalence )
+
+strom1972
+    : modelStructure Top
+    = ( hurewiczFibrations ,
+        cofibrations ,
+        strongHomotopyEquivalence )
+\end{lstlisting}
+
+\subsection{Модельні категорії для множин}
+% Presenting model structures on sets
+Найпростіші модельні категорії можна побудувати для категорії множин, де кількість ізоморфних моделей зростає до дев'яти. Наведемо деякі конфігурації модельних категорій для категорії множин:
+
+\begin{lstlisting}
+set0: modelStructure Set = (all,all,bijections)
+set1: modelStructure Set = (bijections,all,all)
+set2: modelStructure Set = (all,bijections,all)
+set3: modelStructure Set = (surjections,injections,all)
+set4: modelStructure Set = (injections,surjections,all)
+\end{lstlisting}
+
+\subsection{Застосування в алгебраїчній геометрії}
+% Highlighting Voevodsky’s contributions
+Модельні категорії вперше були успішно застосовані Воєводським на підтвердження кон'юнктури Мілнора \cite{Voevodsky96} (для 2) і потім мотивної кон'юнктури Блоха-Като \cite{Voevodsky03} (для n). Для доказу для 2 була побудована зручна гомотопічна стабільна категорія узагальнених схем.
+
+\subsection{Інфініті-категорії та сучасні узагальнення}
+% Transitioning to infinity-categories
+Для переходу від модельних категорій до ($\infty$,1)-категорій необхідно перейти до категорій де морфізми утворюють не множини, а симпліційні множини. Потім можна переходити до локалізації.
+
+\begin{lstlisting}
+simplicial
+    : modelStructure sSet
+    = ( kanComplexes ,
+        monos ,
+        simplicialBijections )
+\end{lstlisting}
+
+Але для нас, для програмістів найцікавішими є модельні категорії симпліціальних множин та модельні категорії кубічних множин, саме в цьому сеттингу написано CCHM пейпер 2016 року, де показано модельну структуру категорії кубічних множин \cite{Cavallo19}.
+
+\begin{lstlisting}
+cubical
+    : modelStructure cSet
+    = ( kanComplexes ,
+        monos ,
+        geometricRealisation )
+\end{lstlisting}
+
+де $cSet = [\Box^{\mathrm{op}},Set]$, а $\Box$ — категорія збагачена структурою алгебри де Моргана.
+
+\subsection{Висновки}
+% Summarizing the impact and future directions
+Модельні категорії, запроваджені Квілленом, стали фундаментальним інструментом у сучасній математиці, забезпечуючи гнучкий фреймворк для роботи з гомотопіями в різних категоріях. Їхні застосування варіюються від топології до алгебраїчної геометрії та теоретичної інформатики, а узагальнення, такі як інфініті-категорії, відкривають нові горизонти для досліджень. Подальший розвиток теорії, ймовірно, буде пов’язаний із застосуванням модельних структур у комп’ютерних науках, зокрема в семантиці мов програмування та гомотопічній теорії типів.
+
+% Compiling the bibliography
+\begin{thebibliography}{9}
+\bibitem{Quillen67} Д. Квіллен, \emph{Гомотопічна алгебра}, Springer Lecture Notes in Mathematics, 1967.
+\bibitem{Voevodsky96} В. Воєводський, \emph{The Milnor conjecture}, 1996.
+\bibitem{Voevodsky03} В. Воєводський, \emph{Bloch-Kato conjecture for $\mathbb{Z}/2$ coefficients and algebraic Morava K-theories}, 2003.
+\bibitem{Lurie09} Дж. Лур’є, \emph{Higher Topos Theory}, Princeton University Press, 2009.
+\bibitem{Cavallo19} Е. Кавалло, А. Мьортберг, А. Сван, \emph{Model structure on cubical sets}, 2019.
+\bibitem{Strom72} А. Стром, \emph{Note on cofibrations II}, Mathematische Zeitschrift, 1972.
+\bibitem{Jardine02} Дж. Джардін, \emph{Model structure on cubical sets}, 2002.
+\bibitem{Kapulkin12} К. Капулкін, П. Ламсдейн, В. Воєводський, \emph{Univalence in Simplicial Sets}, 2012.
+\bibitem{Gambino19} Н. Гамбіно, К. Саттлер, К. Шуміло, \emph{The constructive Kan-Quillen model structure: two new proofs}, 2019.
+\bibitem{Bousfield72} Д. Кан, А. Бусфілд, \emph{Homotopy Limits, Completions and Localizations}, 1972.
+\bibitem{Morel99} Ф. Морель, В. Воєводський, \emph{A1-homotopy theory of schemes}, 1999.
+\end{thebibliography}
+
+\end{document}

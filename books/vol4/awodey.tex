@@ -45,7 +45,7 @@
 
 \begin{document}
 
-\title{Issue XXXI: Categories with Families}
+\title{Issue XXVII: Models of Type Theory}
 \author{Максим Сохацький $^1$}
 \date{ $^1$ Національний технічний університет України \\
        \small Київський політехнічний інститут імені Ігоря Сікорського \\
@@ -65,12 +65,14 @@
 \fi
 
 \newpage
-\section{Categories with Families}
+\section{Models of Type Theory}
 
 Тут подано короткий неформальний опис категорійної семантики залежної теорії типів, запропонований Пітером Диб’єром.
 Категоріальна абстрактна машина Диб'єра на Haskell описана тут\footnote{\url{https://www.cse.chalmers.se/~peterd/papers/Ise2008.pdf}}.
 
-\subsection{Основні визначення}
+\subsection{Categories with Families}
+
+\subsubsection{Категорії з сім'ями}
 
 \begin{definition}[Fam]
 Категорія $Fam$ --- це категорія сімей множин, де об’єкти є залежними функціональними просторами $(x:A)\rightarrow B(x)$, а морфізми з доменом $\Pi(A,B)$ і кодоменом $\Pi(A',B')$ --- це пари функцій $\langle f:A\rightarrow A', g(x:A):B(x)\rightarrow B'(f(x)) \rangle$.
@@ -106,7 +108,7 @@ CwF-об’єкт --- це пара $\Sigma(C, C\rightarrow Fam)$, де $C$ --- 
 Для CwF з об’єктами $(C,T)$ і морфізмами $(C,T)\rightarrow(C',T')$, для заданого контексту $\Gamma \in Ob(C)$ можна побудувати категорію $Type(\Gamma)$ --- категорію типів у контексті $\Gamma$, де об’єкти --- множина типів у контексті, а морфізми --- функції $f:\Gamma;A\rightarrow B(p)$.
 \end{definition}
 
-\subsection{Семантика залежної теорії типів}
+\subsubsection{Семантика залежної теорії типів}
 
 \begin{definition}[Терми та типи]
 У CwF для контексту $\Gamma$ терми $\Gamma\vdash a:A$ є елементами множини $A(\gamma)$, де $\gamma:\Gamma$. Типи $\Gamma\vdash A$ є об’єктами в $Type(\Gamma)$, а підстановка $\gamma:\Delta\rightarrow\Gamma$ діє на типи та терми через функтор $T$.
@@ -136,7 +138,7 @@ CwF-об’єкт --- це пара $\Sigma(C, C\rightarrow Fam)$, де $C$ --- 
 \end{proof}
 
 \newpage
-\subsection{Формалізація в Anders}
+\subsubsection{Формалізація в Anders}
 
 Для формалізації CwF у Agda чи Lean необхідно визначити категорію $C$ як запис із полями
 для об’єктів, морфізмів, композиції та ідентичності, а також функтор $T:C \rightarrow Fam$.
@@ -186,7 +188,7 @@ def algebra : U₁ := Σ
 через перевірку асоціативності та універсальних властивостей.
 
 \newpage
-\subsection{Висновки}
+\subsubsection{Висновки}
 
 Категорії з сім’ями (CwF) є потужним інструментом для моделювання залежної теорії типів.
 Вони забезпечують чітку семантику для контекстів, підстановок і залежних типів,
