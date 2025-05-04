@@ -1,0 +1,180 @@
+\documentclass{article}
+\usepackage{indentfirst}
+\usepackage{listings}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{url}
+\usepackage{tikz-cd}
+\usepackage[utf8]{inputenc}
+\include{journal}
+
+\begin{document}
+
+\title{Issue VI: Cartesian Interpreter}
+\author{Maksym Sokhatskyi $^1$}
+\date{ $^1$ National Technical University of Ukraine \\
+       \small Igor Sikorsky Kyiv Polytechnical Institute \\
+       \today }
+
+\maketitle
+
+\begin{abstract}
+
+Minimal language for sequential computations in cartesian closed categories.
+\\
+\\
+{\bf Keywords}: Lambda Calculus, Cartesian Closed Categories
+\end{abstract}
+
+\ifincludeTOC
+  \tableofcontents
+\fi
+
+\newpage
+
+\epigraph{Присвячується автору типізованого лямбда числення}{Алонсо Чьорчу}
+
+\section{The Alonso Language}
+
+Мова програмування $\mathbf{Alonso}$ — це чиста нетипізована мова, що є внутрішньою мовою декартово-замкнених категорій. Вона базується на лямбда-численні, розширеному парами, проєкціями та термінальним об’єктом, забезпечуючи мінімальну модель для обчислень у категорійному контексті.
+
+\subsection{Синтаксис}
+
+Терми $\mathbf{Alonso}$ складаються зі змінних, лямбда-абстракцій, застосувань, пар, проєкцій (першої та другої) та термінального об’єкта. Це мінімальна мова, що підтримує обчислення через бета-редукцію та проєкції.
+
+\begin{lstlisting}[mathescape=true]
+I = #identifier
+O = I | ( O ) | O O | λ I -> O | O , O | O.1 | O.2 | 1
+\end{lstlisting}
+
+\begin{lstlisting}[mathescape=true]
+type term =
+  | Var of string
+  | Lam of string * term
+  | App of term * term
+  | Pair of term * term
+  | Fst of term
+  | Snd of term
+  | Unit
+\end{lstlisting}
+
+\subsection{Правила обчислень}
+
+Основними правилами обчислень у $\mathbf{Alonso}$ є бета-редукція для лямбда-абстракцій та правила проєкцій для пар. Термінальний об’єкт є незвідним.
+
+\begin{lstlisting}[mathescape=true]
+App (Lam (x, b), a) → subst x a b
+Fst (Pair (t1, t2)) → t1
+Snd (Pair (t1, t2)) → t2
+\end{lstlisting}
+
+$$
+\frac{(\lambda x . b)\ a}{b [a/x]} \\[10pt]
+\frac{\text{fst}\ \langle t_1, t_2 \rangle}{t_1} \\[10pt]
+\frac{\text{snd}\ \langle t_1, t_2 \rangle}{t_2}
+$$
+
+\newpage
+\subsection{Підстановка}
+
+\begin{lstlisting}[mathescape=true]
+let rec subst x s = function
+  | Var y -> if x = y then s else Var y
+  | Lam (y, t) when x <> y -> Lam (y, subst x s t)
+  | App (f, a) -> App (subst x s f, subst x s a)
+  | Pair (t1, t2) -> Pair (subst x s t1, subst x s t2)
+  | Fst t -> Fst (subst x s t)
+  | Snd t -> Snd (subst x s t)
+  | Unit -> Unit
+  | t -> t
+\end{lstlisting}
+
+\subsection{Рівність}
+
+\begin{lstlisting}[mathescape=true]
+let rec equal t1 t2 =
+  match t1, t2 with
+  | Var x, Var y -> x = y
+  | Lam (x, b), Lam (y, b') -> equal b (subst y (Var x) b')
+  | Lam (x, b), t -> equal b (App (t, Var x))
+  | t, Lam (x, b) -> equal (App (t, Var x)) b
+  | App (f1, a1), App (f2, a2) -> equal f1 f2 && equal a1 a2
+  | Pair (t1, t2), Pair (t1', t2') -> equal t1 t1' && equal t2 t2'
+  | Fst t, Fst t' -> equal t t'
+  | Snd t, Snd t' -> equal t t'
+  | Unit, Unit -> true
+  | _ -> false
+\end{lstlisting}
+
+\subsection{Редукція}
+
+\begin{lstlisting}[mathescape=true]
+let rec reduce = function
+  | App (Lam (x, b), a) -> subst x a b
+  | App (f, a) -> App (reduce f, reduce a)
+  | Pair (t1, t2) -> Pair (reduce t1, reduce t2)
+  | Fst (Pair (t1, t2)) -> t1
+  | Fst t -> Fst (reduce t)
+  | Snd (Pair (t1, t2)) -> t2
+  | Snd t -> Snd (reduce t)
+  | Unit -> Unit
+  | t -> t
+\end{lstlisting}
+
+\subsection{Нормалізація}
+
+\begin{lstlisting}[mathescape=true]
+let rec normalize t =
+  let t' = reduce t in
+  if equal t t' then t else normalize t'
+\end{lstlisting}
+
+\subsection{Внутрішня мова ДЗК}
+
+Мова $\mathbf{Alonso}$ є внутрішньою мовою декартово-замкненої категорії (ДЗК).
+Вона включає лямбда-абстракції та застосування для замкнутої структури,
+пари та проєкції для декартового добутку, а також термінальний об’єкт для
+відновлення повної структури ДЗК.
+
+
+\begin{thebibliography}{9}
+
+\bibitem{church1933}
+Alonzo Church.
+\textit{A Set of Postulates for the Foundation of Logic}.
+1933.
+
+\bibitem{church1941}
+Alonzo Church.
+\textit{An Unsolvable Problem of Elementary Number Theory}.
+1941.
+
+\bibitem{curry1951}
+Haskell Curry and Robert Feys.
+\textit{Combinatory Logic, Volume I}.
+1951.
+
+\bibitem{scott1970}
+Dana Scott.
+\textit{A Type-Free Theory of Lambda Calculus}.
+1970.
+
+\bibitem{reynolds1974}
+John C. Reynolds.
+\textit{Towards a Theory of Type Structure}.
+1974.
+
+\bibitem{barendregt1984}
+Henk Barendregt.
+\textit{The Lambda Calculus: Its Syntax and Semantics}.
+1984.
+
+\bibitem{cousineau1985}
+G. Cousineau, P.-L. Curien, and M. Mauny.
+\textit{The Categorical Abstract Machine}.
+1985.
+
+\end{thebibliography}
+
+\end{document}

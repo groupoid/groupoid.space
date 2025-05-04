@@ -180,6 +180,8 @@
 {*}{{*}}1,
 }
 
+\setlength{\parindent}{15pt}
+
 \theoremstyle{definition}
 \newtheorem{definition}{Definition}
 \newtheorem{theorem}{Theorem}
@@ -189,3 +191,13 @@
 \definecolor{LightGray}{rgb}{0.8,0.8,0.8}
 \definecolor{LightGray25}{rgb}{0.9,0.9,0.9}
 \definecolor{ZimaBlue}{HTML}{A1D8FC}
+
+\newif\ifincludeTOC
+\includeTOCtrue
+
+\lefthyphenmin=1
+\hyphenpenalty=100
+\tolerance=11000
+\emergencystretch=1em
+\hfuzz=2pt
+\vfuzz=2pt
