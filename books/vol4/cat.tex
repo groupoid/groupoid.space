@@ -184,14 +184,18 @@ A functor $F : A \rightarrow B$ consists of: (i) A function $F_{Ob}: Ob_hA \righ
 (iii) for each $a:Ob_A$, $F_{Ob}(1_a) = 1_{F_{Ob}}(a)$;
 (iv) for $a,b,c:Ob_A$ and $f: Hom_A(a,b)$ and $g: Hom_A(b,c)$, $F(g\circ f) = F_{Hom}(g)\circ F_{Hom}(f)$.
 \begin{lstlisting}
-catfunctor (A B: precategory): U
-  = (ob: carrier A -> carrier B)
-  * (mor: (x y:carrier A)->hom A x y->hom B(ob x)(ob y))
-  * (id: (x: carrier A) -> Path (hom B (ob x) (ob x))
-    (mor x x (path A x)) (path B (ob x)))
-  * ((x y z: carrier A) -> (f: hom A x y) -> (g: hom A y z) ->
-    Path (hom B (ob x) (ob z)) (mor x z (compose A x y z f g))
-         (compose B (ob x) (ob y) (ob z) (mor x y f) (mor y z g)))
+def catfunctor (A B: precategory): U
+ := Σ (ob: A.C.ob -> B.C.ob)
+      (mor:   Π (x y: A.C.ob),
+                A.C.hom x y -> B.C.hom (ob x) (ob y))
+      (id:    Π (x: A.C.ob),
+              = (B.C.hom (ob x) (ob x))
+                (mor x x (A.P.id x)) (B.P.id (ob x)))
+      (fcomp: Π (x y z: A.C.ob) (f: A.C.hom x y) (g: A.C.hom y z),
+              = (B.C.hom (ob x) (ob z))
+                (mor x z (A.P.∘ x y z f g))
+                (B.P.∘ (ob x) (ob y) (ob z) (mor x y f) (mor y z g))), 1
+
 \end{lstlisting}
 \end{definition}
 
@@ -203,10 +207,17 @@ $$
     \prod_{x,y:\mathrm{Ob}_C} \mathrm{isContr} (\mathrm{Hom}_C(y,x)).
 $$
 \begin{lstlisting}
-isTerminal (C: precategory) (y: carrier C): U
-  = (x: carrier C) -> isContr (hom C x y)
-terminal (C: precategory): U
-  = (y: carrier C) * isTerminal C y
+def isInitial (P: precategory) (bot: P.C.ob): U
+ := Π (x: P.C.ob), isContr (P.C.hom bot x)
+
+def isTerminal (P: precategory) (top: P.C.ob): U
+ := Π (x: P.C.ob), isContr (P.C.hom x top)
+
+def initial (P: precategory): U
+ := Σ (bot: P.C.ob), isInitial P bot
+
+def terminal (P: precategory): U
+ := Σ (top: P.C.ob), isTerminal P top
 \end{lstlisting}
 \end{definition}
 
@@ -221,17 +232,22 @@ F(Y) \arrow[r, "\eta_Y"'] & G(Y)
 \]
 commutes.
 \begin{lstlisting}
-isNaturalTrans (C D: precategory)
-               (F G: catfunctor C D)
-               (eta: (x: carrier C) -> hom D (F.1 x) (G.1 x)): U
-  = (x y: carrier C) (h: hom C x y) ->
-    Path (hom D (F.1 x) (G.1 y))
-         (compose D (F.1 x) (F.1 y) (G.1 y) (F.2.1 x y h) (eta y))
-         (compose D (F.1 x) (G.1 x) (G.1 y) (eta x) (G.2.1 x y h))
+def isNaturalTransformation
+    (C D: precategory)
+    (F G: catfunctor C D)
+    (eta: Π (x: C.C.ob), D.C.hom (F.ob x) (G.ob x)) : U
+ := Π (x y: C.C.ob) (h: C.C.hom x y),
+    = (D.C.hom (F.ob x) (G.ob y))
+      (D.P.∘ (F.ob x) (F.ob y) (G.ob y) (F.mor x y h) (eta y))
+      (D.P.∘ (F.ob x) (G.ob x) (G.ob y) (eta x) (G.mor x y h))
 
-ntrans (C D: precategory) (F G: catfunctor C D): U
-    = (eta: (x: carrier C) -> hom D (F.1 x) (G.1 x))
-    * (isNaturalTrans C D F G eta)
+def nattrans (C D: precategory) (F G: catfunctor C D): U
+ := Σ (η: Π (x: C.C.ob), D.C.hom (F.ob x) (G.ob x))
+      (commute: isNaturalTransformation C D F G η), unit
+
+def natiso (C D: precategory) (F G: catfunctor C D) : U
+ := Σ (left: nattrans C D F G)
+      (right: nattrans C D G F), 1
 \end{lstlisting}
 
 \newpage

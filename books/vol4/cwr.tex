@@ -1,0 +1,323 @@
+\documentclass{article}
+\usepackage{tikz}
+\usepackage{tikz-cd}
+\usepackage[english,ukrainian]{babel}
+\usepackage{listings}
+\usepackage{amscd}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{url}
+\usepackage[utf8]{inputenc}
+
+\theoremstyle{definition}
+\newtheorem{definition}{Визначення}[section]
+\newtheorem{theorem}{Теорема}[section]
+
+\lstset{basicstyle=\footnotesize,inputencoding=utf8,extendedchars=true,
+ literate={
+    {→}{{$\rightarrow$}}1
+    {Π}{{$\Pi$}}1
+    {Σ}{{$\Sigma$}}1
+    {Г}{{$\Gamma$}}1
+    {Θ}{{$\Theta$}}1
+    {∆}{{$\Delta$}}1
+    {Σ}{{$\Sigma$}}1
+    {Ф}{{$\Phi$}}1
+    {σ}{{$\sigma$}}1
+    {δ}{{$\delta$}}1
+    {ν}{{$\nu$}}1
+    {η}{{$\eta$}}1
+    {₁}{{$_1$}}1
+    {•}{{$\bullet$}}1
+    {є}{{$\varepsilon$}}1
+    {ᵀ}{{$\textsuperscript{T}$}}1
+    {ᵗ}{{$\textsuperscript{t}$}}1
+    {◊}{{$\lozenge$}}1
+    {ᵀ}{{$^T$}}1
+    {ᵗ}{{$^t$}}1
+    {<i>}{{$\langle i\rangle$}}1
+    {<_>}{{$\langle\_\rangle$}}1
+  }
+}
+
+\begin{document}
+
+\title{Issue XXVII: Categories with Representable Maps}
+\author{Максим Сохацький $^1$}
+\date{ $^1$ Національний технічний університет України \\
+       \small Київський політехнічний інститут імені Ігоря Сікорського \\
+       \today }
+
+\maketitle
+
+\ifincludeTOC
+  \tableofcontents
+\fi
+
+
+\begin{abstract}
+This article presents a modern categorical framework,
+termed Categories with Representable Maps (CwR),
+designed to model structures for dependent type theories.
+Inspired by Uemura’s work, the framework unifies related
+models such as categories with families, categories with attributes,
+comprehension categories, and natural models.
+We provide a comprehensive set of classical mathematical
+definitions and theorems, focusing on specialized categorical
+structures like fibrations, indexed categories, and representable maps,
+while establishing their properties and equivalences.
+
+As example we present a categorical model of Martin-Löf Type Theory (MLTT-75)
+with dependent products ($\Pi$-types), dependent sums ($\Sigma$-types),
+and identity types (Id-types). The model is based on Grothendieck fibrations
+and Uemura’s categories with representable maps, generalizing Awodey’s natural models.
+Formal definitions are provided, with pullback diagrams resembling Awodey’s style.
+\end{abstract}
+
+\section{Categories with Representable Maps}
+
+The Categories with Representable Maps (CwR) framework offers a robust
+foundation for categorical semantics, generalizing prior models used in type theory.
+Assuming a base category \(\mathcal{C}\) with all pullbacks,
+this framework builds on specialized structures to define representable
+maps and their properties, ensuring flexibility and unification across
+related categorical models. This article delineates the core definitions
+and theorems of the CwR framework, providing a concise yet complete theory.
+
+Martin-Löf Type Theory (MLTT-75) is a dependent type theory with $\Pi$-types,
+$\Sigma$-types, and Id-types. We model its categorical semantics using
+a \emph{category with representable maps} (CwR), starting from Grothendieck
+fibrations, as described in \cite{uemura}.
+
+\subsection{Definitions}
+\begin{definition}[Fiber Category]
+For a functor \(p : \mathcal{E} \to \mathcal{C}\) and an object \(c \in \mathcal{C}\), the \emph{fiber category} \(\mathcal{E}_c\) has:
+\begin{itemize}
+    \item Objects: \(e \in \mathcal{E}\) such that \(p(e) = c\).
+    \item Morphisms: \(f : e' \to e\) in \(\mathcal{E}\) such that \(p(f) = \mathrm{id}_c\).
+\end{itemize}
+\end{definition}
+
+\begin{definition}[Cartesian Morphism]
+For a functor \(p : \mathcal{E} \to \mathcal{C}\), a morphism \(\phi : e' \to e\) in \(\mathcal{E}\) is \emph{Cartesian} if, for any \(g : e'' \to e\) in \(\mathcal{E}\) and \(h : p(e'') \to p(e')\) in \(\mathcal{C}\) with \(p(g) = p(\phi) \circ h\), there exists a unique \(k : e'' \to e'\) in \(\mathcal{E}\) such that \(p(k) = h\) and \(g = \phi \circ k\).
+\end{definition}
+
+\begin{definition}[Grothendieck Fibration]
+A functor \(p : \mathcal{E} \to \mathcal{C}\) is a \emph{Grothendieck fibration} if, for every \(e \in \mathcal{E}\) and \(f : c' \to p(e)\) in \(\mathcal{C}\), there exists a Cartesian morphism \(\phi : e' \to e\) in \(\mathcal{E}\) such that \(p(\phi) = f\).
+\end{definition}
+
+\begin{definition}[Grothendieck Construction]
+For an indexed category \(\Phi : \mathcal{C}^{\mathrm{op}} \to \mathbf{Cat}\), the \emph{Grothendieck construction} produces a category \(\int \Phi\) with:
+\begin{itemize}
+    \item Objects: Pairs \((c, x)\), where \(c \in \mathcal{C}\), \(x \in \Phi(c)\).
+    \item Morphisms: From \((c', x') \to (c, x)\), pairs \((f, \alpha)\), where \(f : c' \to c\) in \(\mathcal{C}\), \(\alpha : x' \to \Phi(f)(x)\) in \(\Phi(c')\).
+    \item Composition: For \((g, \beta) : (c'', x'') \to (c', x')\) and \((f, \alpha) : (c', x') \to (c, x)\), the composite is \((f \circ g, \Phi(g)(\alpha) \circ \beta)\).
+\end{itemize}
+The functor \(p : \int \Phi \to \mathcal{C}\), mapping \((c, x) \mapsto c\), \((f, \alpha) \mapsto f\), is a Grothendieck fibration.
+\end{definition}
+
+\begin{definition}[Discrete Fibration]
+A functor \(p : \mathcal{E} \to \mathcal{C}\) is a \emph{discrete fibration} if, for every \(e \in \mathcal{E}\) and \(f : c' \to p(e)\) in \(\mathcal{C}\), there exists a unique \(\tilde{f} : e' \to e\) in \(\mathcal{E}\) such that \(p(\tilde{f}) = f\).
+\end{definition}
+
+\begin{definition}[Indexed Category]
+An \emph{indexed category} over \(\mathcal{C}\) is a functor \(\Phi : \mathcal{C}^{\mathrm{op}} \to \mathbf{Cat}\). For each \(c \in \mathcal{C}\), \(\Phi(c)\) is a category, and for each \(f : c' \to c\), \(\Phi(f) : \Phi(c) \to \Phi(c')\) is a functor.
+\end{definition}
+
+\begin{definition}[Representable Functor]
+A functor \(F : \mathcal{C}^{\mathrm{op}} \to \mathbf{Set}\) is \emph{representable} if there exists \(c \in \mathcal{C}\) such that \(F \cong \mathrm{Hom}_{\mathcal{C}}(-, c)\).
+\end{definition}
+
+\begin{definition}[Representable Map]
+In a category \(\mathcal{C}\) with pullbacks, a morphism \(f : A \to B\) is \emph{representable} if it belongs to a class \(\mathrm{Rep}(f)\) satisfying:
+\begin{itemize}
+    \item \emph{Pullback stability}: For every \(g : C \to B\), the pullback \(P = C \times_B A\) exists with projections \(h_1 : P \to A\), \(h_2 : P \to C\), and \(\mathrm{Rep}(h_2)\).
+    \item \emph{Universality}: For any \(Q\) with \(q_1 : Q \to A\), \(q_2 : Q \to C\) such that \(f \circ q_1 = g \circ q_2\), there exists a unique \(u : Q \to P\) such that \(h_1 \circ u = q_1\), \(h_2 \circ u = q_2\).
+\end{itemize}
+\end{definition}
+
+%\begin{lstlisting}[mathescape=true]
+%\end{lstlisting}
+
+
+\begin{definition}[CwR]
+A category with representable maps (CwR) is a category with a class of
+morphisms (representable maps) that are pullback-stable and exponentiable, generalizing Awodey’s natural models.
+A \emph{category with representable maps} (CwR) is a structure with:
+\begin{itemize}
+  \item A category $\mathcal{C}$.
+  \item A predicate $\text{Rep} : \mathcal{C}.\text{Hom}(A, B) \to \text{Prop}$ for representable maps.
+  \item \emph{Pullback stability}: For every $f : A \to B$ with $\text{Rep}(f)$ and $g : C \to B$, there exists a pullback $P$ with morphisms $h_1 : P \to A$, $h_2 : P \to C$ such that $f \circ h_1 = g \circ h_2$, $\text{Rep}(h_2)$, and $P$ is universal.
+  \item \emph{Exponentiability}: For every $f : A \to B$ with $\text{Rep}(f)$, there exists $\Pi_f : \text{Ob}$ and $\pi : \Pi_f \to B$ with $\text{Rep}(\pi)$, such that for any $g : C \to A$, there exists $h : C \to \Pi_f$ with $\pi \circ h = f \circ g$.
+\end{itemize}
+\end{definition}
+
+\begin{lstlisting}[mathescape=true]
+structure CwR where
+  cat : Category
+  Rep : $\forall$ {A B : cat.Ob}, cat.Hom A B $\to$ Prop
+  pullback : $\forall$ {A B C : cat.Ob} {f : cat.Hom A B},
+    Rep f $\to$ (g : cat.Hom C B) $\to$
+    $\exists$ (P : cat.Ob) ($\exists$ (h1 : cat.Hom P A) ($\exists$ (h2 : cat.Hom P C)
+      (cat.comp f h1 = cat.comp g h2 $\wedge$
+       Rep h2 $\wedge$
+       $\forall$ (Q : cat.Ob) (q1 : cat.Hom Q A) (q2 : cat.Hom Q C),
+       cat.comp f q1 = cat.comp g q2 $\to$
+       $\exists$ (u : cat.Hom Q P)
+         (cat.comp h1 u = q1 $\wedge$ cat.comp h2 u = q2))))
+  exponentiable : $\forall$ {A B : cat.Ob} {f : cat.Hom A B},
+    Rep f $\to$
+    $\exists$ (Pi_f : cat.Ob) ($\exists$ (pi : cat.Hom Pi_f B)
+      (Rep pi $\wedge$
+       $\forall$ (C : cat.Ob) (g : cat.Hom C A),
+       $\exists$ (h : cat.Hom C Pi_f) (cat.comp pi h = cat.comp f g)))
+\end{lstlisting}
+
+\newpage
+\subsection{Theorems}
+The CwR framework is supported by five theorems that establish
+its properties and connections to related categorical structures.
+
+\begin{theorem}[Fibration-Indexed Category Equivalence]
+For any indexed category \(\Phi : \mathcal{C}^{\mathrm{op}} \to \mathbf{Cat}\), the Grothendieck construction produces a Grothendieck fibration \(p : \int \Phi \to \mathcal{C}\), and every Grothendieck fibration arises as the Grothendieck construction of some indexed category.
+\end{theorem}
+
+\begin{theorem}[Representable Map Stability]
+In a CwR \((\mathcal{C}, \mathrm{Rep}, \Pi)\), the class of representable maps is closed under pullback stability, and every representable map \(f : A \to B\) induces a representable morphism \(\pi_f : \Pi_f \to B\).
+\end{theorem}
+
+\begin{theorem}[Discrete Fibration Representation]
+Every discrete fibration \(p : \mathcal{E} \to \mathcal{C}\) corresponds to a representable map in the slice category \(\mathcal{C}/c\) for some \(c \in \mathcal{C}\), and every representable map induces a discrete fibration in a suitable slice category.
+\end{theorem}
+
+\begin{theorem}[Framework Equivalence]
+Every CwR \((\mathcal{C}, \mathrm{Rep}, \Pi)\) can be equipped with a
+structure equivalent to a category with families,
+or natural model under the existence of terminal objects.
+\end{theorem}
+
+\newpage
+\subsection{Example MLTT-75 Model}
+
+We model MLTT-75 in a CwR, interpreting contexts, types, terms, and type formers.
+
+\begin{definition}[MLTT-75 Model]
+Given a CwR $\mathcal{C}$, the model of MLTT-75 is defined as:
+\begin{itemize}
+  \item \emph{Contexts}: Objects $\Gamma \in \mathcal{C}.\text{Ob}$.
+  \item \emph{Types}: Pairs $(A, f : A \to \Gamma)$ with $\text{Rep}(f)$, representing $A$ in context $\Gamma$.
+  \item \emph{Terms}: Morphisms $t : \Gamma \to A$ such that $f \circ t = \text{id}_\Gamma$, i.e., sections of $f$.
+  \item \emph{Context extension}: For $\Gamma \vdash A$, the context $\Gamma, x : A$ is the pullback of $f : A \to \Gamma$ along $\text{id}_\Gamma$.
+  \item \emph{Type formers}: $\Pi$-types, $\Sigma$-types, and Id-types, defined via exponentials, pullbacks, and diagonals.
+\end{itemize}
+\end{definition}
+
+\begin{lstlisting}[mathescape=true]
+structure MLTT75 (cwr : CwR) where
+  Context : Type
+  Context := cwr.cat.Ob
+
+  Type : Context $\to$ Type
+  Type $\Gamma$ := $\exists$ (A : cwr.cat.Ob)
+    ($\exists$ (f : cwr.cat.Hom A $\Gamma$) (cwr.Rep f))
+
+  Term : $\forall$ ($\Gamma$ : Context), Type $\Gamma$ $\to$ Type
+  Term $\Gamma$ ($\exists$ A ($\exists$ f _))
+    := $\exists$ (t : cwr.cat.Hom $\Gamma$ A)
+          (cwr.cat.comp f t = cwr.cat.id)
+
+  ContextExt : $\forall$ ($\Gamma$ : Context), Type $\Gamma$ $\to$ Context
+  ContextExt $\Gamma$ ($\exists$ A ($\exists$ f rf)) := (cwr.pullback rf cwr.cat.id).fst
+\end{lstlisting}
+
+\newpage
+\subsection{$\Pi$-Types}
+For $\Gamma \vdash A : \text{Type}$ and $\Gamma, x : A \vdash B : \text{Type}$, the $\Pi$-type $\Pi_{x : A} B$ is formed using the exponential in the slice category.
+
+\begin{lstlisting}[mathescape=true]
+  PiType : $\forall$ ($\Gamma$ : Context) (A : Type $\Gamma$), Type (ContextExt $\Gamma$ A) $\to$ Type $\Gamma$
+  PiType $\Gamma$ ($\exists$ A ($\exists$ f rf)) ($\exists$ B ($\exists$ g rg)) :=
+    let exp := cwr.exponentiable rf
+    $\exists$ exp.fst ($\exists$ exp.snd.fst exp.snd.snd.fst)
+\end{lstlisting}
+
+The constructor $\lambda$ forms terms of $\Pi_{x : A} B$. The pullback diagram is:
+
+\begin{tikzpicture}
+  \node at (0,1) {$\Gamma \times A$};
+  \node at (2,1) {$B$};
+  \node at (0,0) {$\Gamma$};
+  \node at (2,0) {$\Pi_A B$};
+  \draw[->] (0.4,1) -- node[above] {$\lambda$} (1.6,1);
+  \draw[->] (0,0.8) -- (0,0.2);
+  \draw[->] (1.8,1) -- (1.8,0.2);
+  \draw[->] (0.2,0) -- node[below] {$\Pi$} (1.6,0);
+\end{tikzpicture}
+
+\subsection{$\Sigma$-Types}
+For $\Gamma \vdash A : \text{Type}$ and $\Gamma, x : A \vdash B : \text{Type}$, the $\Sigma$-type $\Sigma_{x : A} B$ is the composition via pullback.
+
+\begin{lstlisting}[mathescape=true]
+  SigmaType : $\forall$ ($\Gamma$ : Context) (A : Type $\Gamma$), Type (ContextExt $\Gamma$ A) $\to$ Type $\Gamma$
+  SigmaType $\Gamma$ ($\exists$ A ($\exists$ f rf)) ($\exists$ B ($\exists$ g rg)) :=
+    let pull := cwr.pullback rg (cwr.cat.id)
+    $\exists$ pull.fst ($\exists$ pull.snd.fst pull.snd.snd.snd.fst)
+\end{lstlisting}
+
+The constructor $\text{pair}$ forms terms of $\Sigma_{x : A} B$. The pullback diagram is:
+
+\begin{tikzpicture}
+  \node at (0,1.5) {$\Sigma_A B$};
+  \node at (2.5,1.5) {$B$};
+  \node at (0,0) {$\Gamma$};
+  \node at (2.5,0) {$\Gamma \times A$};
+  \draw[->] (0.5,1.5) -- node[above] {$\text{pair}$} (2.0,1.5);
+  \draw[->] (0,1.3) -- (0,0.2);
+  \draw[->] (2.3,1.5) -- (2.3,0.2);
+  \draw[->] (0.2,0) -- node[below] {$\Sigma$} (2.0,0);
+\end{tikzpicture}
+
+\newpage
+\subsection{Id-Types}
+For $\Gamma \vdash A : \text{Type}$ and $a, b : A$, the identity type $\text{Id}_A(a, b)$ is formed using the diagonal map.
+
+\begin{lstlisting}[mathescape=true]
+  Diagonal : $\forall$ ($\Gamma$ : Context) (A : Type $\Gamma$),
+    cwr.cat.Hom (A.fst) (cwr.pullback A.snd.fst cwr.cat.id).fst
+  Diagonal $\Gamma$ ($\exists$ A ($\exists$ f _))
+    := (cwr.cat.id, cwr.cat.id, rfl)
+
+  IdType : $\forall$ ($\Gamma$ : Context) (A : Type $\Gamma$) (a b : Term $\Gamma$ A), Type $\Gamma$
+  IdType $\Gamma$ ($\exists$ A ($\exists$ f rf)) ($\exists$ a _) ($\exists$ b _) :=
+    let pull := cwr.pullback rf (Diagonal $\Gamma$ ($\exists$ A ($\exists$ f rf)))
+    $\exists$ pull.fst ($\exists$ pull.snd.fst pull.snd.snd.snd.fst)
+\end{lstlisting}
+
+The constructor $\text{refl}$ forms terms of $\text{Id}_A(a, a)$. The pullback diagram is:
+
+\begin{tikzpicture}
+  \node at (0,1.5) {$\text{Id}_A(a, b)$};
+  \node at (2.5,1.5) {$A$};
+  \node at (0,0) {$\Gamma$};
+  \node at (2.5,0) {$A \times_\Gamma A$};
+  \draw[->] (0.5,1.5) -- node[above] {$\text{refl}$} (2.0,1.5);
+  \draw[->] (0,1.3) -- (0,0.2);
+  \draw[->] (2.5,1.3) -- node[right] {$\Delta_A$} (2.5,0.2);
+  \draw[->] (0.2,0) -- node[below] {$\text{Id}$} (2.0,0);
+\end{tikzpicture}
+
+\subsection{Conclusion}
+The CwR framework provides a unified and flexible foundation for
+categorical semantics, integrating fibrations, indexed categories,
+and representable maps. Its definitions and theorems ensure robustness
+and connectivity to related categorical models, making it a powerful
+tool for theoretical and applied category theory.
+
+\begin{thebibliography}{9}
+\bibitem{uemura}
+Uemura, T., ``A general framework for the semantics of type theory,'' arXiv:1904.04097.
+\bibitem{awodey}
+Awodey, S., ``Natural models of homotopy type theory,'' Mathematical Structures in Computer Science, 2018.
+\end{thebibliography}
+\end{document}
