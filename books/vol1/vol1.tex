@@ -27,21 +27,10 @@
 \newif\ifincludeTOC
 \includeTOCfalse
 
-\newpage
-\begin{standalone}
-    \input{mltt}
-\end{standalone}
-\newpage
-\begin{standalone}
-    \input{cic}
-\end{standalone}
-\newpage
-\begin{standalone}
-    \input{hott}
-\end{standalone}
-\newpage
-\begin{standalone}
-    \input{hit}
-\end{standalone}
+\newpage \begin{standalone} \input{mltt} \end{standalone}        % 1
+\newpage \begin{standalone} \input{cic} \end{standalone}         % 2
+\newpage \begin{standalone} \input{hott} \end{standalone}        % 3
+\newpage \begin{standalone} \input{hit} \end{standalone}         % 4
+%\newpage \begin{standalone} \input{modalities} \end{standalone}  % 5
 \end{document}
 
