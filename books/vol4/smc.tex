@@ -1,0 +1,197 @@
+\documentclass{article}
+\usepackage{amsmath, amssymb, amsthm}
+\usepackage{tikz}
+\usetikzlibrary{shapes.geometric, arrows.meta, positioning}
+\usepackage{enumitem}
+\usepackage[backend=biber, style=alphabetic]{bibentry}
+\nobibentry
+
+\theoremstyle{plain}
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{definition}[theorem]{Definition}
+
+\theoremstyle{remark}
+\newtheorem*{remark}{Remark}
+
+
+\begin{document}
+
+\title{Issue XXVI: Symmetric Monoidal Categories}
+\author{Namdak Tonpa}
+\date{May 5, 2025}
+
+\maketitle
+
+\begin{abstract}
+We present the formal definitions of monoidal, braided, and symmetric monoidal categories, emphasizing their coherence conditions. Key theorems, including Mac Lane's coherence theorem for monoidal categories and the coherence theorem for symmetric monoidal categories, are discussed. The exposition is grounded in category theory, with diagrams illustrating the triangle, pentagon, and hexagon identities.
+\end{abstract}
+
+\ifincludeTOC
+  \tableofcontents
+\fi
+
+\section{Symmetric Monoidal Categories}
+
+Monoidal categories provide a framework for studying algebraic structures with a tensor product,
+such as vector spaces or abelian groups. Braided and symmetric monoidal categories introduce
+commutativity via a braiding or symmetry, with applications in topology, quantum algebra,
+and theoretical physics. This article defines these structures and their coherence conditions,
+culminating in coherence theorems that ensure the consistency of associativity, unit,
+and braiding operations. We follow the categorical formalism pioneered by
+Saunders Mac Lane and Max Kelly.
+
+\begin{definition}[Monoidal Category]
+A \emph{monoidal category} is a category $\mathcal{C}$ equipped with:
+\begin{itemize}
+    \item A functor $\otimes : \mathcal{C} \times \mathcal{C} \to \mathcal{C}$, called the tensor product.
+    \item An object $I \in \mathrm{ob}(\mathcal{C})$, called the unit object.
+    \item Natural isomorphisms:
+    \[
+    \lambda_x : I \otimes x \to x \quad (\text{left unitor}),
+    \]
+    \[
+    \rho_x : x \otimes I \to x \quad (\text{right unitor}),
+    \]
+    \[
+    \alpha_{x,y,z} : (x \otimes y) \otimes z \to x \otimes (y \otimes z) \quad (\text{associator}),
+    \]
+    satisfying the following coherence conditions:
+    \item \emph{Triangle identity}: For all $x, y \in \mathrm{ob}(\mathcal{C})$,
+    \[
+    \alpha_{x,I,y} \circ \rho_x \otimes \mathrm{id}_y = \mathrm{id}_x \otimes \lambda_y : (x \otimes I) \otimes y \to x \otimes y.
+    \]
+    \[
+    \begin{tikzpicture}
+        \node (top) at (0,2) {$(x \otimes I) \otimes y$};
+        \node (left) at (-2,0) {$x \otimes y$};
+        \node (right) at (2,0) {$x \otimes (I \otimes y)$};
+        \draw[->] (top) to node[left] {$\rho_x \otimes \mathrm{id}_y$} (left);
+        \draw[->] (top) to node[right] {$\alpha_{x,I,y}$} (right);
+        \draw[->] (right) to node[below] {$\mathrm{id}_x \otimes \lambda_y$} (left);
+    \end{tikzpicture}
+    \]
+    \item \emph{Pentagon identity}: For all $x, y, z, w \in \mathrm{ob}(\mathcal{C})$,
+    \[
+    \alpha_{x,y,z \otimes w} \circ \alpha_{x \otimes y,z,w} = (\mathrm{id}_x \otimes \alpha_{y,z,w}) \circ \alpha_{x,y \otimes z,w} \circ \alpha_{x,y,z} \otimes \mathrm{id}_w : ((x \otimes y) \otimes z) \otimes w \to x \otimes (y \otimes (z \otimes w)).
+    \]
+    \[
+    \begin{tikzpicture}
+        \node (center) at (0,0) {$((x \otimes y) \otimes z) \otimes w$};
+        \node (topleft) at (-3,2) {$(x \otimes y) \otimes (z \otimes w)$};
+        \node (topright) at (3,2) {$x \otimes (y \otimes (z \otimes w))$};
+        \node (bottomleft) at (-3,-2) {$(x \otimes (y \otimes z)) \otimes w$};
+        \node (bottomright) at (3,-2) {$x \otimes ((y \otimes z) \otimes w)$};
+        \draw[->] (center) to node[above left] {$\alpha_{x \otimes y,z,w}$} (topleft);
+        \draw[->] (center) to node[below left] {$\alpha_{x,y,z} \otimes \mathrm{id}_w$} (bottomleft);
+        \draw[->] (topleft) to node[above] {$\alpha_{x,y,z \otimes w}$} (topright);
+        \draw[->] (bottomleft) to node[below] {$\alpha_{x,y \otimes z,w}$} (bottomright);
+        \draw[->] (bottomright) to node[right] {$\mathrm{id}_x \otimes \alpha_{y,z,w}$} (topright);
+    \end{tikzpicture}
+    \]
+\end{itemize}
+\end{definition}
+
+\begin{theorem}[Coherence for Monoidal Categories]
+\label{thm:monoidal-coherence}
+(Mac Lane, \cite{MacLane63}) In a monoidal category, every diagram composed of instances of $\alpha$, $\lambda$, $\rho$, their inverses, identities, and tensor products, that has the same source and target, commutes.
+\end{theorem}
+
+\begin{remark}
+The triangle and pentagon identities ensure that all ways of rebracketing tensor products or removing units are consistent. Theorem \ref{thm:monoidal-coherence} implies that no additional coherence conditions are needed beyond those specified.
+\end{remark}
+
+\newpage
+\subsection{Definitions}
+
+\begin{definition}[Braided Monoidal Category]
+A \emph{braided monoidal category} is a monoidal category $(\mathcal{C}, \otimes, I, \alpha, \lambda, \rho)$ equipped with a natural isomorphism
+\[
+\beta_{x,y} : x \otimes y \to y \otimes x \quad (\text{braiding}),
+\]
+satisfying the following hexagon identities:
+\begin{itemize}
+    \item \emph{Hexagon 1}: For all $x, y, z \in \mathrm{ob}(\mathcal{C})$,
+    \[
+    \alpha_{x,z,y} \circ \beta_{x \otimes y, z} \circ \alpha_{x,y,z} = (\beta_{x,z} \otimes \mathrm{id}_y) \circ \alpha_{x,z,y} \circ (\mathrm{id}_x \otimes \beta_{y,z}) : (x \otimes y) \otimes z \to x \otimes (z \otimes y).
+    \]
+    \[
+    \begin{tikzpicture}
+        \node (center) at (0,0) {$(x \otimes y) \otimes z$};
+        \node (topleft) at (-3,2) {$(x \otimes z) \otimes y$};
+        \node (topright) at (3,2) {$x \otimes (z \otimes y)$};
+        \node (bottomleft) at (-3,-2) {$(y \otimes z) \otimes x$};
+        \node (bottomcenter) at (0,-2) {$x \otimes (y \otimes z)$};
+        \draw[->] (center) to node[above left] {$\beta_{x \otimes y, z}$} (topleft);
+        \draw[->] (center) to node[below left] {$\alpha_{x,y,z}$} (bottomcenter);
+        \draw[->] (topleft) to node[above] {$\alpha_{x,z,y}$} (topright);
+        \draw[->] (bottomcenter) to node[below] {$\mathrm{id}_x \otimes \beta_{y,z}$} (topright);
+        \draw[->] (bottomcenter) to node[left] {$\beta_{x,y \otimes z}$} (bottomleft);
+        \draw[->] (bottomleft) to node[below] {$\alpha_{y,z,x}$} (topleft);
+    \end{tikzpicture}
+    \]
+    \item \emph{Hexagon 2}: For all $x, y, z \in \mathrm{ob}(\mathcal{C})$,
+    \[
+    \alpha_{x,z,y}^{-1} \circ \beta_{x, y \otimes z} \circ \alpha_{x,y,z}^{-1} = (\mathrm{id}_z \otimes \beta_{x,y}) \circ \alpha_{z,x,y}^{-1} \circ (\beta_{x,z} \otimes \mathrm{id}_y) : x \otimes (y \otimes z) \to (z \otimes x) \otimes y.
+    \]
+    \[
+    \begin{tikzpicture}
+        \node (center) at (0,0) {$x \otimes (y \otimes z)$};
+        \node (topleft) at (-3,2) {$(z \otimes x) \otimes y$};
+        \node (topright) at (3,2) {$(x \otimes z) \otimes y$};
+        \node (bottomleft) at (-3,-2) {$z \otimes (x \otimes y)$};
+        \node (bottomcenter) at (0,-2) {$(x \otimes y) \otimes z$};
+        \draw[->] (center) to node[above left] {$\beta_{x, y \otimes z}$} (topright);
+        \draw[->] (center) to node[below left] {$\alpha_{x,y,z}^{-1}$} (bottomcenter);
+        \draw[->] (topright) to node[above] {$\alpha_{x,z,y}^{-1}$} (topleft);
+        \draw[->] (bottomcenter) to node[below] {$\beta_{x \otimes y, z}$} (topright);
+        \draw[->] (bottomcenter) to node[left] {$\mathrm{id}_z \otimes \beta_{x,y}$} (bottomleft);
+        \draw[->] (bottomleft) to node[below] {$\alpha_{z,x,y}^{-1}$} (topleft);
+    \end{tikzpicture}
+    \]
+\end{itemize}
+\end{definition}
+
+\begin{definition}[Symmetric Monoidal Category]
+A \emph{symmetric monoidal category} is a braided monoidal category $(\mathcal{C}, \otimes, I, \alpha, \lambda, \rho, \beta)$ where the braiding satisfies the symmetry condition:
+\[
+\beta_{y,x} \circ \beta_{x,y} = \mathrm{id}_{x \otimes y} : x \otimes y \to x \otimes y,
+\]
+for all $x, y \in \mathrm{ob}(\mathcal{C})$.
+\end{definition}
+
+\subsection{Theorems}
+
+\begin{theorem}[Coherence for Symmetric Monoidal Categories]
+\label{thm:symmetric-coherence}
+(Joyal and Street, \cite{JoyalStreet91}) In a symmetric monoidal category, every diagram composed of instances of $\alpha$, $\lambda$, $\rho$, $\beta$, their inverses, identities, and tensor products, that has the same source and target, commutes.
+\end{theorem}
+
+\begin{remark}
+The symmetry condition $\beta_{y,x} \circ \beta_{x,y} = \mathrm{id}_{x \otimes y}$ ensures that the braiding is its own inverse up to isomorphism, distinguishing symmetric monoidal categories from braided ones. Theorem \ref{thm:symmetric-coherence} guarantees that all braiding and associativity operations are coherent, extending Theorem \ref{thm:monoidal-coherence}.
+\end{remark}
+
+\subsection{Examples}
+
+\begin{enumerate}
+    \item The category $\mathbf{Set}$ of sets, with cartesian product as the tensor product and a singleton set as the unit, is a symmetric monoidal category. The braiding $\beta_{X,Y} : X \times Y \to Y \times X$ is given by $(x, y) \mapsto (y, x)$.
+    \item The category $\mathbf{Vect}_k$ of vector spaces over a field $k$, with the tensor product of vector spaces and $k$ as the unit, is symmetric monoidal. The braiding swaps tensor factors: $v \otimes w \mapsto w \otimes v$.
+    \item The category $\mathbf{Ab}$ of abelian groups, with tensor product $\otimes_{\mathbb{Z}}$ and $\mathbb{Z}$ as the unit, is symmetric monoidal.
+\end{enumerate}
+
+\subsection{Conclusion}
+
+Symmetric monoidal categories generalize algebraic structures with associative, unital, and commutative operations, with coherence theorems ensuring consistency. These structures are foundational in category theory and have applications in quantum mechanics, knot theory, and computer science. The coherence theorems of Mac Lane and Joyal-Street provide a rigorous foundation for reasoning about such categories.
+
+\begin{thebibliography}{9}
+
+\bibitem{MacLane63} S. Mac Lane, \emph{Natural associativity and commutativity}, Rice University Studies, Vol. 49, No. 4, 1963.
+\bibitem{MacLane71} S. Mac Lane, \emph{Categories for the Working Mathematician}, Springer, Graduate Texts in Mathematics, Vol. 5, 1971 (2nd ed., 1998).
+\bibitem{JoyalStreet91} A. Joyal and R. Street, \emph{The geometry of tensor calculus I}, Advances in Mathematics, Vol. 88, No. 1, 1991, pp. 55--112.
+\bibitem{Etingofetal} P. Etingof, S. Gelaki, D. Nikshych, and V. Ostrik, \emph{Tensor Categories}, Mathematical Surveys and Monographs, Vol. 205, American Mathematical Society, 2015.
+
+\end{thebibliography}
+
+\end{document}
