@@ -172,24 +172,24 @@ Minimal language for parallel computations in symmetric monoidal categories. \\
 
 \newpage
 
-\epigraph{Присвячується автору ML}{Артуру Джону Робіну Гореллу Мілнеру}
+\epigraph{Присвячується автору Interaction Networks Combinators}{Іву Лафону}
 
 \section{The Yves Language}
 
-Мова програмування $\mathbf{Bob}$ — це внутрішня мова симетричних моноїдальних категорій,
+Мова програмування $\mathbf{Yves}$ — це внутрішня мова симетричних моноїдальних категорій,
 що реалізує паралельні обчислення через взаємодію комбінаторів ($\zeta$, $\delta$, $\epsilon$) з правилами
 анігіляції та комутації, придатна для моделювання лінійних і паралельних систем.
 
 \subsection{Синтаксис}
 
 \begin{definition}
-Терми $\mathbf{Bob}$ складаються зі змінних, комбінаторів (Con, Dup, Era), пар, обміну (Swap),
+Терми $\mathbf{Yves}$ складаються зі змінних, комбінаторів (Con, Dup, Era), пар, обміну (Swap),
 зв’язування (Let) та одиниці (Unit). Мова підтримує афінну логіку, забороняючи повторне використання змінних.
 \begin{lstlisting}[mathescape=true]
 I = #identifier
-BOB = I | Con BOB  | Dup BOB | Era BOB
-        | Pair (BOB, BOB)    | Unit
-        | Let (I, BOB, BOB)  | Swap BOB
+Y = I | Con Y  | Dup Y | Era Y
+      | Pair (Y, Y)    | Unit
+      | Let (I, Y, Y)  | Swap Y
 \end{lstlisting}
 \end{definition}
 
@@ -211,7 +211,7 @@ type term =
 \subsection{Семантика}
 
 \begin{theorem}
-Правила обчислень у $\mathbf{Bob}$ базуються на анігіляції та комутації комбінаторів:
+Правила обчислень у $\mathbf{Yves}$ базуються на анігіляції та комутації комбінаторів:
 \begin{lstlisting}[mathescape=true]
 Con (Con x) → Pair (x, x)
 Dup (Dup x) → Pair (x, x)
@@ -248,7 +248,7 @@ Let (x, t, u) → subst x t u
 \subsubsection{Підстановка}
 
 \begin{definition}
-Підстановка в $\mathbf{Bob}$:
+Підстановка в $\mathbf{Yves}$:
 \begin{lstlisting}[mathescape=true]
 let rec subst env var term = function
     | Var v ->
@@ -272,7 +272,7 @@ let rec subst env var term = function
 \subsubsection{Редукція}
 
 \begin{definition}
-Редукція термів у $\mathbf{Bob}$:
+Редукція термів у $\mathbf{Yves}$:
 \begin{lstlisting}[mathescape=true]
 let reduce env term =
     match term with
@@ -342,7 +342,7 @@ let eval_parallel pool env term =
 \subsubsection{Внутрішня мова СМК}
 
 \begin{theorem}
-Доведення, що мова $\mathbf{Bob}$ є внутрішньою мовою симетричних моноїдальних категорій:
+Доведення, що мова $\mathbf{Yves}$ є внутрішньою мовою симетричних моноїдальних категорій:
 \[
 \begin{cases}
    \mathrm{Let} : A \to C (u \cdot t, t: A \to B, u: B \to C), \\
