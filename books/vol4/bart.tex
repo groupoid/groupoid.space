@@ -32,6 +32,7 @@ A comprehension category is defined as a functor $\mathscr{P}: \mathbf{E} \to \m
 
 \tableofcontents
 
+\newpage
 \section{Introduction}
 
 The term ``type dependency'' refers to the ability in a calculus of types and terms to have types that depend on term variables, as studied by de Bruijn \cite{deBruijn1970} and Martin-L\"of \cite{MartinLof1984}. In computer science, type dependency is useful, e.g., to define $\operatorname{List}(n)$ as the type of lists of length $n$. Unlike polymorphic calculi, languages with type dependency blur the distinction between compile time and run time. This paper focuses on the categorical semantics of type dependency, referring to \cite{MartinLof1984, Troelstra1986} for syntactic details.
@@ -46,6 +47,7 @@ We view category theory as an assembly language, requiring detailed handling of 
 
 The paper begins with fibred category theory (Sections \ref{sec:fibrations} and \ref{sec:category-theory-basis}), covering standard material from Grothendieck and Bénabou. Fibrations are the backbone of comprehension categories, and fibred adjunctions ensure substitution properties like $(\lambda x : \sigma . P)[x := M] = \lambda x : \sigma[x := M] . (P[x := M])$. Section \ref{sec:comprehension-categories} introduces comprehension categories, showing how examples fit, while Section \ref{sec:quantification} addresses quantification.
 
+\newpage
 \section{Fibrations}
 \label{sec:fibrations}
 
@@ -162,6 +164,7 @@ Let $p : \mathbf{E} \to \mathbf{B}$, $q : \mathbf{D} \to \mathbf{B}$ be fibratio
 \end{enumerate}
 \end{proposition}
 
+\newpage
 \section{Category Theory over a Basis}
 \label{sec:category-theory-basis}
 
@@ -312,6 +315,7 @@ For $E \in \mathbf{E}$ above $B \in \mathbf{B}$ and $u : A \to B$, there is an i
 (Topos comprehension) For a topos $\mathbf{B}$ with subobject classifier $\top : t \to \Omega$, the functor $\mathbf{B}/\Omega \to \mathbf{B}^{\to}$ mapping $\varphi : A \to \Omega$ to its extension is a comprehension category, full and faithful on $\operatorname{Cart}(\mathbf{B})$.
 \end{example}
 
+\newpage
 \section{Quantification}
 \label{sec:quantification}
 
