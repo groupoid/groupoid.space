@@ -14,32 +14,7 @@
 \newtheorem{definition}{Визначення}[section]
 \newtheorem{theorem}{Теорема}[section]
 
-\lstset{basicstyle=\footnotesize,inputencoding=utf8,extendedchars=true,
- literate={
-    {→}{{$\rightarrow$}}1
-    {Π}{{$\Pi$}}1
-    {Σ}{{$\Sigma$}}1
-    {Г}{{$\Gamma$}}1
-    {Θ}{{$\Theta$}}1
-    {∆}{{$\Delta$}}1
-    {Σ}{{$\Sigma$}}1
-    {Ф}{{$\Phi$}}1
-    {σ}{{$\sigma$}}1
-    {δ}{{$\delta$}}1
-    {ν}{{$\nu$}}1
-    {η}{{$\eta$}}1
-    {₁}{{$_1$}}1
-    {•}{{$\bullet$}}1
-    {є}{{$\varepsilon$}}1
-    {ᵀ}{{$\textsuperscript{T}$}}1
-    {ᵗ}{{$\textsuperscript{t}$}}1
-    {◊}{{$\lozenge$}}1
-    {ᵀ}{{$^T$}}1
-    {ᵗ}{{$^t$}}1
-    {<i>}{{$\langle i\rangle$}}1
-    {<_>}{{$\langle\_\rangle$}}1
-  }
-}
+\include{journal}
 
 \begin{document}
 
@@ -50,6 +25,8 @@
        \today }
 
 \maketitle
+
+\addtocontents{toc}{\protect\newpage}
 
 \ifincludeTOC
   \tableofcontents
