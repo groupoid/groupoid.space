@@ -68,6 +68,7 @@ type term =
 \end{lstlisting}
 \end{definition}
 
+\newpage
 \subsection{Семантика}
 
 \begin{theorem}
@@ -129,6 +130,7 @@ let rec subst env var term = function
 \end{lstlisting}
 \end{definition}
 
+\newpage
 \subsubsection{Редукція}
 
 \begin{definition}
@@ -177,6 +179,8 @@ let rec find_redexes env term acc =
     | Var _ | Unit -> acc
 \end{lstlisting}
 \end{definition}
+
+\newpage
 
 \subsubsection{Паралельна редукція}
 
