@@ -30,6 +30,8 @@ We introduce locally cartesian closed categories (LCCCs), a class of categories 
 
 \section{Locally Cartesian Closed Categories}
 
+\subsection{Definitions}
+
 Locally cartesian closed categories (LCCCs) are categories where each slice category $\mathcal{C}/x$ is cartesian closed, meaning it has products, exponentials, and a terminal object. LCCCs are fundamental in categorical logic, providing models for dependent type theories with dependent products. This article defines the necessary structures, presents key properties, and highlights their role in type theory, with references from the nLab.
 
 \begin{definition}[Cartesian Closed Category]
@@ -72,6 +74,8 @@ A CCC has finite products (via the terminal object and binary products) and inte
 A category $\mathcal{C}$ is \emph{locally cartesian closed} if, for every object $x \in \mathrm{ob}(\mathcal{C})$, the slice category $\mathcal{C}/x$ is cartesian closed, i.e., $\mathcal{C}/x$ has a terminal object, binary products, and exponential objects.
 \end{definition}
 
+\subsection{Theorems}
+
 \begin{theorem}[LCCCs and Dependent Type Theory]
 \label{thm:lccc-type-theory}
 (Seely, \cite{Seely87}) A locally cartesian closed category $\mathcal{C}$ provides a categorical model for a dependent type theory with dependent products. Conversely, any dependent type theory with dependent sums and products can be interpreted in an LCCC.
@@ -80,6 +84,7 @@ A category $\mathcal{C}$ is \emph{locally cartesian closed} if, for every object
 \begin{proof}[Sketch]
 In an LCCC $\mathcal{C}$, the slice category $\mathcal{C}/x$ models the context of types over a base type $x$. The terminal object in $\mathcal{C}/x$ corresponds to the trivial type, products in $\mathcal{C}/x$ correspond to dependent pairs, and exponentials model dependent function types. The pullback functor along morphisms $f : y \to x$ in $\mathcal{C}$ corresponds to substitution in type theory. The universal properties of products and exponentials in each $\mathcal{C}/x$ ensure the rules of dependent products are satisfied. Conversely, a type theory with dependent sums and products constructs an LCCC via its syntactic category, where contexts are objects and terms are morphisms.
 \end{proof}
+
 
 \subsection{Examples}
 
