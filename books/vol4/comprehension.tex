@@ -57,6 +57,10 @@ with a comprehension functor, to capture type dependency and context extension.
 Formal definitions are provided, with pullback diagrams resembling Awodey’s natural models.
 \end{abstract}
 
+\ifincludeTOC
+  \tableofcontents
+\fi
+
 \section{Comprehension Categories}
 Martin-Löf Type Theory (MLTT-75) is a dependent type theory with $\Pi$-types, $\Sigma$-types, and Id-types. Its categorical semantics is often modeled using Grothendieck fibrations, with comprehension categories providing a structured framework for type dependency and context extension \cite{ncatlab, jacobs1993}. We formalize a model using a comprehension category, based on a split Grothendieck fibration with a comprehension functor, inspired by the codomain fibration. The model is implemented in Lean 4 without dependencies, ensuring a minimal presentation. Pullback diagrams, styled after Awodey’s natural models \cite{awodey}, illustrate the type formers, with constructors (e.g., $\lambda$, pair, refl) on upper arrows and type formers on lower arrows.
 
