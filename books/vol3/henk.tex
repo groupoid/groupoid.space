@@ -360,7 +360,6 @@ type (:star,N)         D $\rightarrow$ (:star,N+1)
                              in norm (subst O N A)
 \end{lstlisting}
 
-\newpage
 \subsection{Shifting}
 Shift renames var N in B. Renaming means adding 1 to the nat component of variable.
 
@@ -389,6 +388,7 @@ Substitution replaces variable occurance in terms.
      (:app,F,A)    N V L $\rightarrow$ (:app,   sub F N V L,sub A N V L)
 \end{lstlisting}
 
+\newpage
 \subsection{Normalization}
 Normalization performs substitutions on applications to functions (beta-reduction)
 by recursive entrance over the lambda and pi nodes.
@@ -404,7 +404,6 @@ norm (:star,X)     $\rightarrow$ (:star,X)
                                     NF $\rightarrow$ (:app,NF,norm A) end
 \end{lstlisting}
 
-\newpage
 \subsection{Equality}
 Definitional Equality simply checks the equality of Erlang terms.
 
@@ -422,8 +421,8 @@ Definitional Equality simply checks the equality of Erlang terms.
      (A,B)                             $\rightarrow$ (:error,(:eq,A,B))
 \end{lstlisting}
 
+\newpage
 \section{Henk Tutorial}
-
 Here we will show some examples of {\bf Henk} language usage.
 In this section, we will show two examples.
 One is lifting PTS system to MLTT system by defining {\bf Sigma} and {\bf Equ} types using only {\bf Pi} type.
@@ -455,7 +454,7 @@ $ ./henk print fst erase norm a "#List/Cons"
 ok
 \end{lstlisting}
 
-
+\newpage
 \subsection{Sigma Type}
 The PTS system is extremely powerful even without {\bf Sigma} type.
 But we can encode {\bf Sigma} type similar how we encode {\bf Prod} tuple pair in Bohm encoding.
@@ -516,6 +515,7 @@ data Sigma (A: Prop) (P: A -> Prop): Prop =
      (intro: (x:A) (y:P x) -> Sigma A P)
 \end{lstlisting}
 
+\newpage
 \subsection{Equ Type}
 Another example of expressiveness is Equality type a la Martin-Löf.
 
@@ -565,6 +565,7 @@ ok
           {var,{'Zero',0}}}}
 \end{lstlisting}
 
+\newpage
 \subsection{Effect Type System}
 This work is expected to compile to a limited number of target platforms.
 For now, Erlang, Haskell, and LLVM are awaiting.
@@ -585,6 +586,7 @@ data IO: Type =
      (pure: () -> IO)
 \end{lstlisting}
 
+\newpage
 \subsubsection{Infinity I/O Type}
 
 Infinity I/O Type Spec.
@@ -621,6 +623,7 @@ Infinity I/O Type Spec.
 #List/@ #Nat/@
 \end{lstlisting}
 
+\newpage
 Infinite I/O Sample Program.
 
 \begin{lstlisting}[mathescape=true]
@@ -675,6 +678,7 @@ ok
 #Fun<List.3.113171260>
 \end{lstlisting}
 
+\newpage
 \subsubsection{I/O Type}
 
 I/O Type Spec.
@@ -704,6 +708,7 @@ Guarded Recursion I/O Sample Program.
  ((((#IO/[>>=] #IO/data) #Unit/@) #IO/getLine) #IO/putLine))
 \end{lstlisting}
 
+\newpage
 Erlang Inductive Bindings.
 
 \begin{lstlisting}[mathescape=true]
@@ -743,6 +748,7 @@ Here is example of Erlang/OTP shell running recursive example.
 #Fun<List.28.113171260>
 \end{lstlisting}
 
+\newpage
 \section{Inductive Type System}
 As was shown by Herman Geuvers \cite{Geuvers01} the induction principle is not derivable in second-order dependent type theory.
 However there a lot of ways doing this. For example, we can build in induction principal into the core for every defined inductive type.
