@@ -1,10 +1,6 @@
 \documentclass{article}
 \usepackage[utf8]{inputenc}
-\usepackage{amsmath, amssymb, amsthm}
-\usepackage{tikz}
-\usepackage{hyperref}
-\usepackage{enumitem}
-\usepackage{geometry}
+\usepackage{amsmath,amssymb,amsthm}
 
 \include{journal}
 
@@ -12,7 +8,7 @@
 
 \title{Issue XLII: The Cosmic Cube}
 \author{Namdak Tonpa}
-\date{}
+\date{\today}
 
 \maketitle
 
@@ -54,12 +50,14 @@ Each vertex of the cube corresponds to a combination of the above properties and
 \hline
 \textbf{Configuration} & \textbf{Model} \\
 \hline
-($\Delta$, Set   1) & Simply typed $\lambda$-calculus \\
-($\nabla$, Set   1) & Synthetic differential geometry \\
-($\Delta$, Grpd, 1) & HoTT, Cubical Type Theory \\
-($\Delta$, Set,  H) & $\lambda$-calculus, resource-sensitive computation \\
-(\_      , Grpd, H) & Linear HoTT \\
-($\nabla$, Set,  H) & $\infty$-toposes, QFT \\
+($\Delta$, $\mathbf{2}$, $\mathbf{1}$) & Simply typed $\lambda$-calculus (STLC) \\
+($\Delta$, $\mathbf{2}$, $\mathbb{H}$) & $\lambda$-calculus, resource-sensitive computation \\
+($\Delta$, $\mathbb{N}$, $\mathbf{1}$) & Homotopy Type Theory (HoTT) \\
+($\Delta$, $\mathbb{N}$, $\mathbb{H}$) & Linear HoTT \\
+($\nabla$, $\mathbf{2}$, $\mathbf{1}$) & Modal STLC \\
+($\nabla$, $\mathbf{2}$, $\mathbb{H}$) & $\infty$-toposes, QFT \\
+($\nabla$, $\mathbb{N}$, $\mathbf{1}$) & Synthetic Differential Geometry (Modal HoTT) \\
+($\nabla$, $\mathbb{N}$, $\mathbb{H}$) & Modal Linear HoTT \\
 \hline
 \end{tabular}
 \end{center}

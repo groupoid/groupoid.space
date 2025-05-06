@@ -206,16 +206,24 @@ These modal operators form part of the internal logic of supergeometric or super
 \subsection{Adjoint String of Identity Modalities}
 In Homotopy Type Theory (HoTT), identity systems (Contractible, Strict Id, Quotient, Isomorphism, Path = Equivalence) are modeled as modalities in the $\infty$-topos $\mathcal{E} = \infty\text{Grp}$. We construct an adjoint quadruple extending the Jacobs-Lawvere triple $C \dashv \text{Id}_A \dashv Q(-/\sim)$, incorporating Isomorphism and Path = Equivalence. The modalities are ordered by adjointness: Contractible $\leq$ Strict Id $\leq$ Quotient $\leq$ Isomorphism $\leq$ Path = Equivalence, reflecting their structure in HoTT, where Strict Id, Quotient, and Path = Equivalence are mere propositions for h-sets, while Isomorphism is not.
 
-Homotopy Type Theory (HoTT) provides a framework for reasoning about equality via the identity type $\text{Id}_A(x,y)$. In the $\infty$-topos $\mathcal{E} = \infty\text{Grp}$, identity systems are modalities (monads), ordered by adjointness. The classical Jacobs-Lawvere adjunction triple $C \dashv \text{Id}_A \dashv Q(-/\sim)$ captures Contractible, Strict Id, and Quotient. We extend this to a quadruple, including Isomorphism and Path = Equivalence, respecting the HoTT equivalence of Path and Equivalence and the propositional nature of Strict Id, Quotient, and Path = Equivalence for h-sets.
+Homotopy Type Theory (HoTT) provides a framework for reasoning
+about equality via the identity type $\text{Id}_A(x,y)$.
+In the $\infty$-topos $\mathcal{E} = \infty\text{Grp}$,
+identity systems are modalities (monads), ordered by adjointness.
+The classical Jacobs-Lawvere adjunction triple $C \dashv \text{Id}_A \dashv Q(-/\sim)$
+captures \textbf{Contractible}, \textbf{Strict}, and \textbf{Quotient}.
+We extend this to a quadruple, including \textbf{Isomorphism} and \textbf{Path = Equiv},
+respecting the HoTT equivalence of Path and Equivalence and the propositional
+nature of Strict Id, Quotient, and Path = Equivalence for h-sets.
 
 \begin{definition}
 In HoTT, the identity systems are:
 \begin{itemize}
     \item \textbf{Contractible}: (-1)-truncated types, mere propositions.
-    \item \textbf{Strict Id}: $\text{Id}_A(x,y)$ for h-sets (0-truncated), a mere proposition.
+    \item \textbf{Strict}: $\text{Id}_A(x,y)$ for h-sets (0-truncated), a mere proposition.
     \item \textbf{Quotient}: Set-quotients $A / \sim$, 0-truncated, equivalent to Strict Id.
-    \item \textbf{Isomorphism}: $\text{iso}_A(x,y)$, a triple $(f, g, p)$, not a mere proposition.
-    \item \textbf{Path = Equiv}: $\text{Id}_A(x,y) \simeq (x \simeq y)$, equivalent in HoTT.
+    \item \textbf{Isomorphism}: $\text{Iso}_A(x,y)$, a triple $(f, g, p)$, not a mere proposition.
+    \item \textbf{Path = Equiv}: $\text{Path}_A(x,y) \simeq (x \simeq y)$, equivalent in HoTT.
 \end{itemize}
 \end{definition}
 
@@ -255,9 +263,9 @@ The adjunctions induce the ordering:
 \]
 \begin{itemize}
     \item \textbf{Contractible}: Coarsest, mere propositions ((-1)-truncated).
-    \item \textbf{Strict Id}: h-sets, $\text{Id}_A(x,y)$ is a mere proposition.
+    \item \textbf{Strict}: h-sets, $\text{Id}_A(x,y)$ is a mere proposition.
     \item \textbf{Quotient}: Equivalent to Strict Id, 0-truncated set-quotients.
-    \item \textbf{Isomorphism}: $\text{iso}_A(x,y)$ is not a mere proposition for general types.
+    \item \textbf{Isomorphism}: $\text{Iso}_A(x,y)$ is not a mere proposition for general types.
     \item \textbf{Path = Equivalence}: Finest, full $\infty$-groupoid structure, equivalent via univalence.
 \end{itemize}
 

@@ -1,6 +1,5 @@
 default:
 	pdflatex vol4.tex
-	return 0
 
 clean:
 	pdflatex vol4.tex
