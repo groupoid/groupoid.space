@@ -1,6 +1,8 @@
 \ProvidesPackage{journal}
 \usepackage{hyperref}
 \usepackage[mathcal,mathbf]{euler}
+\usepackage{enumitem}
+\usepackage{booktabs}
 \usepackage{adjustbox}
 \usepackage{mathtools}
 \usepackage{listings}
@@ -25,6 +27,16 @@
 \newcommand*{\thead}[1]{\multicolumn{1}{c}{\bfseries #1}}
 \renewcommand{\Join}{\vee} % Join operation symbol
 \newcommand{\tabstyle}[0]{\scriptsize\ttfamily\fontseries{l}\selectfont}
+
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\Ssphere}{\mathbb{S}}
+\newcommand{\HA}{H\mathbb{Z}}
+\newcommand{\Ch}{\text{Ch}}
+\newcommand{\Ab}{\text{Ab}}
+\newcommand{\Spectra}{\text{Spectra}}
+\newcommand{\Mod}{\text{Mod}}
+\newcommand{\dg}{\text{dg}}
 
 \lstset{basicstyle=\footnotesize,inputencoding=utf8,extendedchars=true,literate={
 {𝟎}{{\ensuremath{\mathbf{0}}}}1
@@ -218,4 +230,5 @@
 \vfuzz=2pt
 
 \newif\ifincludeTOC
+
 \includeTOCtrue
