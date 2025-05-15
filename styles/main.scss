@@ -141,7 +141,6 @@ h2 {
 h3 {
     max-width: 100%;
     margin: 16px auto 0;
-//    width: 650px;
     padding: 0 0 0 8px;
     text-transform: uppercase;
     text-align: left;
@@ -154,10 +153,10 @@ p {
     margin: auto;
     padding: 8px;
     text-align: left;
-    font-size: 18px;
+    font-size: 16px;
     line-height: 1.4;
     @media(min-width: 768px) {
-        font-size: 22px;
+        font-size: 18px;
     }
 }
 
