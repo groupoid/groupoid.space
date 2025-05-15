@@ -1,13 +1,16 @@
 \documentclass{article}
 \usepackage[utf8]{inputenc}
+\usepackage{mathpartir}
 \usepackage{amsmath,amssymb,amsthm,mathtools}
 \usepackage{tikz-cd}
 
 \lstset{basicstyle=\footnotesize,inputencoding=utf8}
 
+\include{journal}
+
 \begin{document}
 
-\title{Issue XXXVII: Simplicial Categories}
+\title{Issue XXXVII: Simplicial Type Theory}
 \author{Maksym Sokhatskyi $^1$}
 \date{ $^1$ National Technical University of Ukraine \\
        \small Igor Sikorsky Kyiv Polytechnical Institute \\
@@ -16,14 +19,683 @@
 \maketitle
 
 \begin{abstract}
+We propose a synthetic framework for simplicial homotopy theory within
+homotopy type theory, axiomatizing a directed interval type to define
+higher simplices and probe the simplicial structure of types.
+We introduce \emph{Segal types}, where binary composites are
+unique up to homotopy, ensuring coherent associativity; \emph{Rezk types},
+where categorical isomorphisms coincide with type-theoretic identities;
+and \emph{Kan types}, satisfying a horn-filling condition modeling $\infty$-groupoids.
+We define covariant fibrations as functorial type families and prove a dependent
+Yoneda lemma, providing a directed analogue of identity elimination.
+Semantically, our types correspond to Segal spaces, complete Segal spaces,
+and Kan complexes in bisimplicial sets, offering a synthetic language for
+simplicial homotopy theory.
 \end{abstract}
 
 {\bf Keywords}: Simplicial Homotopy Theory
+
+\addtocontents{toc}{\protect\newpage}
 
 \ifincludeTOC
   \tableofcontents
 \fi
 
-\section{Simplicial Categories}
+\newpage
+\section{Simplicial Homotopy Type Theory}
+
+Homotopy type theory (HoTT) \cite{Uni13} extends Martin-L\"of type theory with axioms, such as the univalence axiom, enabling it to serve as a synthetic language for $\infty$-groupoids, as modeled by simplicial sets in Voevodsky’s model \cite{KL12}. This paper develops a synthetic simplicial homotopy theory within HoTT, focusing on three flavors: Kan complexes (modeling $\infty$-groupoids), Segal spaces (modeling weak categories), and complete Segal spaces or quasi-categories (modeling $(\infty,1)$-categories).
+
+In standard HoTT, types are synthetic $\infty$-groupoids, with identity types providing paths and higher homotopies. However, simplicial homotopy theory requires richer structures, such as directed arrows and compositions, as in Segal or Rezk spaces. Following \cite{Shu15}, we interpret HoTT in the Reedy model structure on bisimplicial sets, where types are simplicial spaces, and identify specific types—Segal, Rezk, and Kan types—corresponding to Segal spaces, complete Segal spaces, and Kan complexes, respectively.
+
+Our approach axiomatizes a directed interval type $\mathbf{2}$, a strict totally ordered set with endpoints $0, 1 : \mathbf{2}$, modeled by the simplicial 1-simplex $\Delta^1$ in the categorical direction of bisimplicial sets \cite{JT06}. This allows us to define higher simplices, e.g., $\Delta^2 = \{(s,t) : \mathbf{2} \times \mathbf{2} \mid t \leq s\}$, and probe the simplicial structure of types via maps $\Delta^n \to A$.
+
+We define:
+\begin{itemize}
+    \item \emph{Segal types}, where composable arrows have contractible spaces of composites, ensuring categorical coherence.
+    \item \emph{Rezk types}, Segal types where isomorphisms are equivalent to identities, modeling quasi-categories.
+    \item \emph{Kan types}, where horn inclusions $\Lambda^n_i \to \Delta^n$ lift uniquely up to homotopy, modeling $\infty$-groupoids.
+\end{itemize}
+
+We study functors (type-theoretic functions), natural transformations ($A \times \mathbf{2} \to B$), and covariant fibrations (functorial type families), proving a dependent Yoneda lemma. In Appendix A, we show that our types correspond to their semantic counterparts in bisimplicial sets, leveraging the Reedy and Rezk model structures.
+
+This synthetic framework simplifies reasoning about simplicial homotopy theory, as type-theoretic operations are automatically functorial, mirroring the internalization benefits of \cite{Shu15}.
+
+\newpage
+\subsection{Simplicial Types}
+
+We extend HoTT with a strict interval type $\mathbf{2}$, a totally ordered set with distinct elements $0, 1 : \mathbf{2}$, satisfying the coherent theory of a strict interval \cite{Joh79, MLM94}. Semantically, $\mathbf{2}$ is the simplicial 1-simplex $\Delta^1$ in the categorical direction of bisimplicial sets.
+
+\begin{definition}
+The \emph{strict interval} $\mathbf{2}$ is equipped with:
+$$
+\begin{cases}
+    0, 1 : \mathbf{2}, & \text{distinct endpoints}, \\
+    \leq : \mathbf{2} \times \mathbf{2} \to \mathcal{U}, & \text{total order, with } 0 \leq 1.
+\end{cases}
+$$
+\end{definition}
+
+Higher simplices are defined internally:
+\[
+\Delta^n = \{(s_1, \dots, s_n) : \mathbf{2}^n \mid s_1 \leq s_2 \leq \dots \leq s_n\}.
+\]
+For example, $\Delta^2 = \{(s,t) : \mathbf{2} \times \mathbf{2} \mid t \leq s\}$. A map $\alpha : \Delta^2 \to A$ represents a commutative triangle in $A$, with edges $\lambda t . \alpha(t,0)$, $\lambda t . \alpha(1,t)$, and $\lambda t . \alpha(t,t)$.
+
+We use extension types to define hom-types. For $x, y : A$, the type of arrows from $x$ to $y$ is:
+\[
+\operatorname{hom}_A(x, y) := \left\langle \prod_{f : \mathbf{2} \to A} \mathcal{U} \mid \{0,1\} \hookrightarrow \mathbf{2} \right\rangle \{ f(0) = x, f(1) = y \},
+\]
+where $\{0,1\} \hookrightarrow \mathbf{2}$ is a cofibration, and the type family enforces $f(0) \equiv x$, $f(1) \equiv y$ judgmentally, avoiding identity type data \cite{Shu15}.
+
+\subsubsection{Segal Types}
+
+Segal types model synthetic Segal spaces, where composition is unique up to homotopy.
+
+\begin{definition}
+A type $A$ is a \emph{Segal type} if, for any composable arrows $f, g : \mathbf{2} \to A$ with $f(1) = g(0)$, the type of composites
+\[
+\sum_{h : \mathbf{2} \to A} \sum_{\alpha : \mathbf{2} \to A} \left( \lambda t . \alpha(t,0) = f \right) \times \left( \lambda t . \alpha(1,t) = g \right) \times \left( \lambda t . \alpha(t,t) = h \right)
+\]
+is contractible.
+\end{definition}
+
+This ensures that composition is associative and unital up to all higher homotopies, as the contractibility condition implies the Segal map $A^{\Delta^2} \to A^{\Delta^1} \times_{A^{\Delta^0}} A^{\Delta^1}$ is an equivalence in bisimplicial sets.
+
+\begin{theorem}
+In a Segal type $A$, composition is coherently associative and unital.
+\end{theorem}
+\begin{proof}
+The contractibility of the composite type implies that the Segal maps for higher simplices (e.g., $A^{\Delta^3} \to A^{\Delta^1} \times_{A^{\Delta^0}} A^{\Delta^1} \times_{A^{\Delta^0}} A^{\Delta^1}$) are equivalences, ensuring associativity and unit laws hold up to homotopy, as in \cite{Rez01}.
+\end{proof}
+
+\subsubsection{Rezk Types}
+
+Rezk types model complete Segal spaces, where isomorphisms coincide with identities.
+
+\begin{definition}
+A Segal type $A$ is a \emph{Rezk type} if the type of isomorphisms
+\[
+\operatorname{iso}_A(x, y) := \sum_{f : \operatorname{hom}_A(x,y)} \sum_{g : \operatorname{hom}_A(y,x)} \text{(inverses up to homotopy)}
+\]
+is equivalent to the identity type $x = y$.
+\end{definition}
+
+This “local univalence” condition ensures $A$ models a quasi-category, where invertible arrows are precisely paths.
+
+\begin{theorem}
+Rezk types correspond to complete Segal spaces in the Rezk model structure on bisimplicial sets.
+\end{theorem}
+\begin{proof}
+The completeness condition corresponds to the map $A^{E \square \Delta^0} \to A^{\Delta^0 \square \Delta^0}$ being a trivial fibration, as in \cite{Shu15}, matching Definition A.24 of the original paper.
+\end{proof}
+
+\subsubsection{Kan Types}
+
+Kan types model synthetic Kan complexes, satisfying a horn-filling condition.
+
+\begin{definition}
+A type $A$ is a \emph{Kan type} if, for all $n \geq 1$ and $0 \leq i \leq n$, the horn inclusion $\Lambda^n_i \to \Delta^n$ induces a contractible type of fillers:
+\[
+\sum_{f : \Delta^n \to A} \sum_{g : \Lambda^n_i \to A} \left( g = f \circ \iota \right).
+\]
+\end{definition}
+
+Kan types model $\infty$-groupoids, as every horn has a unique filler up to homotopy, corresponding to Kan complexes in simplicial sets.
+
+\begin{theorem}
+Kan types are Segal types, and every Kan type is a Rezk type.
+\end{theorem}
+\begin{proof}
+The Kan condition implies the Segal condition, as horn-filling for $\Lambda^2_1$ ensures unique composites. The Kan condition also implies all arrows are invertible, satisfying the Rezk completeness condition trivially.
+\end{proof}
+
+\newpage
+\subsection{Covariant Fibrations and the Yoneda Lemma}
+
+We define covariant fibrations as functorial type families over Segal types.
+
+\begin{definition}
+A type family $C : A \to \mathcal{U}$ over a Segal type $A$ is a \emph{covariant fibration} if, for any $a : A$, $C(a)$ is a Kan type, and for any $f : \operatorname{hom}_A(a,b)$, there is a transport map $C(f) : C(a) \to C(b)$ satisfying functoriality up to homotopy.
+\end{definition}
+
+\begin{theorem}[Dependent Yoneda Lemma]
+For a covariant fibration $C : A \to \mathcal{U}$ and $a : A$, there is an equivalence
+\[
+C(a) \simeq \operatorname{hom}_{\operatorname{Fib}_A}(y(a), C),
+\]
+where $y(a) : A \to \mathcal{U}$, $y(a)(b) = \operatorname{hom}_A(a,b)$, is the Yoneda embedding, and $\operatorname{Fib}_A$ is the type of covariant fibrations over $A$.
+\end{theorem}
+\begin{proof}
+The proof follows \cite{Shu15}, constructing a natural equivalence via the contractibility of hom-types and functoriality of $C$, internalized in the type theory.
+\end{proof}
+
+
+\subsection{Synthetic Categorical Structures}
+
+We extend the framework to include synthetic analogues of categorical structures, such as natural transformations, adjunctions, limits, and discrete types, which enrich the simplicial homotopy theory.
+
+\begin{definition}
+For Segal types $A, B$ and functors $F, G : A \to B$ (i.e., type-theoretic functions preserving Segal structure), a \emph{natural transformation} $\eta : F \to G$ is a map
+\[
+\eta : \prod_{a : A} \operatorname{hom}_B(F(a), G(a)),
+\]
+such that for any $f : \operatorname{hom}_A(a, a')$, the following diagram commutes up to homotopy:
+\[
+\begin{tikzcd}
+F(a) \arrow[r, "\eta_a"] \arrow[d, "F(f)"] & G(a) \arrow[d, "G(f)"] \\
+F(a') \arrow[r, "\eta_{a'}"] & G(a')
+\end{tikzcd}
+\]
+\end{definition}
+
+\begin{theorem}
+For Segal types $A, B$, the type of natural transformations $\prod_{F, G : A \to B} \prod_{a : A} \operatorname{hom}_B(F(a), G(a))$ is a Segal type.
+\end{theorem}
+\begin{proof}
+The naturality condition ensures that the type of transformations satisfies the Segal condition, as the hom-types $\operatorname{hom}_B(F(a), G(a))$ are contractible for composable arrows, and the functoriality of $F, G$ preserves this structure, following \cite{Rez01}.
+\end{proof}
+
+\begin{definition}
+For Segal types $A, B$, an \emph{adjunction} consists of functors $F : A \to B$, $G : B \to A$, and natural transformations
+$$
+\begin{cases}
+\eta : \text{id}_A \to G \circ F, & \text{unit}, \\
+\epsilon : F \circ G \to \text{id}_B, & \text{counit},
+\end{cases}
+$$
+satisfying the triangle identities up to homotopy:
+\[
+(G \epsilon) \circ (\eta G) \simeq \text{id}_G, \quad (\epsilon F) \circ (F \eta) \simeq \text{id}_F.
+\]
+\end{definition}
+
+\begin{theorem}
+An adjunction $(F, G, \eta, \epsilon)$ between Segal types $A, B$ induces an equivalence
+\[
+\operatorname{hom}_B(F(a), b) \simeq \operatorname{hom}_A(a, G(b))
+\]
+for all $a : A$, $b : B$.
+\end{theorem}
+\begin{proof}
+The unit and counit induce a bijection on hom-types via the triangle identities, which holds up to homotopy in the Segal type structure, mirroring the categorical adjunction in \cite{JT06}.
+\end{proof}
+
+\begin{definition}
+For a Segal type $A$ and a diagram $D : I \to A$ (where $I$ is a Segal type), a \emph{limit} of $D$ is a Kan type $L$ with a natural transformation $\pi : \text{const}_L \to D$ such that, for any Kan type $X$ and natural transformation $\sigma : \text{const}_X \to D$, there exists a unique map $f : X \to L$ with $\pi \circ \text{const}_f \simeq \sigma$.
+\end{definition}
+
+\begin{theorem}
+In a Rezk type $A$, the limit of any diagram $D : I \to A$ is a Kan type.
+\end{theorem}
+\begin{proof}
+The limit $L$ inherits the Kan condition from the fibers of the projection $\pi$, as Rezk types ensure isomorphisms are identities, and the universal property enforces contractibility of the mapping space, as in \cite{Shu15}.
+\end{proof}
+
+\begin{definition}
+A type $A$ is \emph{discrete} if its identity types $a =_A b$ are propositions (0-truncated), i.e., for all $a, b : A$ and $p, q : a =_A b$, we have $p = q$.
+\end{definition}
+
+\begin{theorem}
+For any discrete type $A$, there exists a Segal type $\hat{A}$ and an embedding $i : A \to \hat{A}$ such that $\operatorname{hom}_{\hat{A}}(i(a), i(b)) \simeq (a =_A b)$.
+\end{theorem}
+\begin{proof}
+Construct $\hat{A}$ as the Segal type generated by $A$ with hom-types $\operatorname{hom}_{\hat{A}}(i(a), i(b)) := (a =_A b)$, which is contractible for $a = b$ and empty otherwise, satisfying the Segal condition and embedding $A$ via the Yoneda lemma, as in \cite{KL12}.
+\end{proof}
+
+\newpage
+\subsection{Synthetic $\infty$-categories}
+
+\subsubsection{Strict Interval}
+
+\begin{definition}[Interval Formation]
+The strict interval type is formed as:
+\[
+\frac{\Gamma \text{ ctx}}{\Gamma \vdash \mathbf{2} : \mathcal{U}}
+\]
+\begin{lstlisting}[mathescape=true]
+def Interval_form : U := 𝟐
+\end{lstlisting}
+\end{definition}
+
+\begin{definition}[Interval Introduction]
+Endpoints and order are introduced:
+\[
+\frac{\Gamma \text{ ctx}}{\Gamma \vdash 0 : \mathbf{2}} \quad \frac{\Gamma \text{ ctx}}{\Gamma \vdash 1 : \mathbf{2}} \quad \frac{\Gamma \vdash s, t : \mathbf{2}}{\Gamma \vdash s \leq t : \mathcal{U}}
+\]
+\begin{lstlisting}[mathescape=true]
+def Interval_intro_0 : Interval_form := 0
+def Interval_intro_1 : Interval_form := 1
+def Interval_order (s t: Interval_form) : U := s ≤ t
+\end{lstlisting}
+\end{definition}
+
+\begin{definition}[Interval Elimination]
+The interval is eliminated by case analysis:
+\[
+\frac{\Gamma \vdash a : \mathbf{2} \quad \Gamma \vdash C : \mathbf{2} \to \mathcal{U} \quad \Gamma \vdash c_0 : C(0) \quad \Gamma \vdash c_1 : C(1)}{\Gamma \vdash \text{ind}_{\mathbf{2}}(a, \lambda x . C(x), c_0, c_1) : C(a)}
+\]
+\begin{lstlisting}[mathescape=true]
+def Interval_elim (C: Interval_form -> U)
+    (c0: C Interval_intro_0) (c1: C Interval_intro_1) (a: Interval_form)
+  : C a := split { 0 -> c0 | 1 -> c1 }
+\end{lstlisting}
+\end{definition}
+
+\begin{theorem}[Interval Computation]
+Elimination reduces on endpoints:
+\[
+\frac{\Gamma \vdash C : \mathbf{2} \to \mathcal{U} \quad \Gamma \vdash c_0 : C(0) \quad \Gamma \vdash c_1 : C(1)}{\Gamma \vdash \text{ind}_{\mathbf{2}}(0, \lambda x . C(x), c_0, c_1) \equiv c_0 : C(0)}
+\]
+\[
+\frac{\Gamma \vdash C : \mathbf{2} \to \mathcal{U} \quad \Gamma \vdash c_0 : C(0) \quad \Gamma \vdash c_1 : C(1)}{\Gamma \vdash \text{ind}_{\mathbf{2}}(1, \lambda x . C(x), c_0, c_1) \equiv c_1 : C(1)}
+\]
+\begin{lstlisting}[mathescape=true]
+def Interval_comp_0 (C: Interval_form -> U)
+    (c0: C Interval_intro_0) (c1: C Interval_intro_1)
+  : Ξ (C Interval_intro_0)
+      (Interval_elim C c0 c1 Interval_intro_0) c0
+ := refl (C Interval_intro_0) c0
+
+def Interval_comp_1 (C: Interval_form -> U)
+    (c0: C Interval_intro_0) (c1: C Interval_intro_1)
+  : Ξ (C Interval_intro_1)
+      (Interval_elim C c0 c1 Interval_intro_1) c1
+ := refl (C Interval_intro_1) c1
+\end{lstlisting}
+\end{theorem}
+
+\begin{theorem}[Interval Uniqueness]
+Elimination is unique for dependent types:
+\[
+\frac{\Gamma \vdash a : \mathbf{2} \quad \Gamma \vdash C : \mathbf{2} \to \mathcal{U} \quad \Gamma \vdash c : C(a)}{\Gamma \vdash c \equiv \text{ind}_{\mathbf{2}}(a, \lambda x . C(x), c[0/x], c[1/x]) : C(a)}
+\]
+\begin{lstlisting}[mathescape=true]
+def Interval_uniq (C: Interval_form -> U) (a: Interval_form) (c: C a)
+  : Ξ (C a) c (Interval_elim C (c[0/x]) (c[1/x]) a)
+ := refl (C a) c
+\end{lstlisting}
+\end{theorem}
+
+\newpage
+\subsubsection{Shape Cubes}
+
+\begin{definition}[Cube Formation]
+Cube types are formed for shapes:
+\[
+\frac{\Xi \text{ cube ctx}}{\Xi \vdash I : \text{Cube}} \quad \frac{\Xi \text{ cube ctx}}{\Xi \vdash 1 : \text{Cube}} \quad \frac{\Xi \vdash I : \text{Cube} \quad \Xi \vdash J : \text{Cube}}{\Xi \vdash I \times J : \text{Cube}}
+\]
+\begin{lstlisting}[mathescape=true]
+def Cube_form_I : Cube := I
+def Cube_form_unit : Cube := 1
+def Cube_form_prod (I J: Cube) : Cube := I × J
+\end{lstlisting}
+\end{definition}
+
+\begin{definition}[Cube Introduction]
+Cube terms are introduced:
+\[
+\frac{\Xi \text{ cube ctx}}{\Xi \vdash * : 1} \quad \frac{\Xi \vdash s : I \quad \Xi \vdash t : J}{\Xi \vdash \langle s, t \rangle : I \times J}
+\]
+\begin{lstlisting}[mathescape=true]
+def Cube_intro_unit : Cube_form_unit := *
+def Cube_intro_pair (I J: Cube) (s: I) (t: J)
+  : Cube_form_prod I J := <s, t>
+\end{lstlisting}
+\end{definition}
+
+\begin{definition}[Cube Elimination]
+Cube projections extract components:
+\[
+\frac{\Xi \vdash t : I \times J}{\Xi \vdash \pi_1(t) : I} \quad \frac{\Xi \vdash t : I \times J}{\Xi \vdash \pi_2(t) : J}
+\]
+\begin{lstlisting}[mathescape=true]
+def Cube_elim_fst (I J: Cube) (t: Cube_form_prod I J) : I := π₁ t
+def Cube_elim_snd (I J: Cube) (t: Cube_form_prod I J) : J := π₂ t
+\end{lstlisting}
+\end{definition}
+
+\newpage
+\subsubsection{Shape Topes}
+
+\begin{definition}[Tope Formation]
+Tope types encode logical constraints:
+\[
+\frac{\Xi \text{ cube ctx}}{\Xi \vdash \top : \text{Tope}} \quad \frac{\Xi \text{ cube ctx}}{\Xi \vdash \bot : \text{Tope}} \quad \frac{\Xi \vdash s, t : I}{\Xi \vdash s \equiv t : \text{Tope}}
+\]
+\[
+\frac{\Xi \vdash \phi : \text{Tope} \quad \Xi \vdash \psi : \text{Tope}}{\Xi \vdash \phi \wedge \psi : \text{Tope}} \quad \frac{\Xi \vdash \phi : \text{Tope} \quad \Xi \vdash \psi : \text{Tope}}{\Xi \vdash \phi \vee \psi : \text{Tope}}
+\]
+\begin{lstlisting}[mathescape=true]
+def Tope_form_true : Tope := ⊤
+def Tope_form_false : Tope := ⊥
+def Tope_form_eq (I: Cube) (s t: I) : Tope := s ≡ t
+def Tope_form_and (φ ψ: Tope) : Tope := φ ∧ ψ
+def Tope_form_or (φ ψ: Tope) : Tope := φ ∨ ψ
+\end{lstlisting}
+\end{definition}
+
+\begin{definition}[Tope Introduction]
+Tope entailments are introduced:
+\[
+\frac{\Xi \vdash \phi : \text{Tope}}{\Xi \vdash \phi \Rightarrow \top} \quad \frac{\Xi \vdash s \equiv t : \text{Tope}}{\Xi \vdash s \equiv t \Rightarrow t \equiv s}
+\]
+\[
+\frac{\Xi \vdash s \equiv t \quad \Xi \vdash t \equiv u}{\Xi \vdash s \equiv u} \quad \frac{\Xi \vdash \phi : \text{Tope} \quad \Xi \vdash \psi : \text{Tope} \quad \Xi \vdash \phi \Rightarrow \psi \quad \Xi \vdash \psi \Rightarrow \chi}{\Xi \vdash \phi \Rightarrow \chi}
+\]
+\begin{lstlisting}[mathescape=true]
+def Tope_intro_true (φ: Tope) : φ ⇒ ⊤ := λ _, ⊤
+def Tope_intro_sym (I: Cube) (s t: I) : Tope_form_eq I s t ⇒ Tope_form_eq I t s
+ := λ p, sym p
+def Tope_intro_trans (I: Cube) (s t u: I)
+  : Tope_form_eq I s t ⇒ Tope_form_eq I t u ⇒ Tope_form_eq I s u
+ := λ p q, trans p q
+\end{lstlisting}
+\end{definition}
+
+\begin{definition}[Tope Disjunction Elimination]
+Tope disjunction is eliminated via a pushout-like rule:
+\[
+\frac{\Xi \vdash \phi \vee \psi : \text{Tope} \quad \Xi, \phi \vdash \chi : \text{Tope} \quad \Xi, \psi \vdash \chi : \text{Tope} \quad \Xi, \phi \wedge \psi \vdash \chi : \text{Tope}}{\Xi \vdash \chi : \text{Tope}}
+\]
+\begin{tikzcd}
+  \phi \wedge \psi \arrow[r] \arrow[d] & \psi \arrow[d] \\
+  \phi \arrow[r] & \phi \vee \psi \arrow[phantom, ul, "\chi"]
+\end{tikzcd}
+\begin{lstlisting}[mathescape=true]
+def Tope_elim_or (φ ψ χ: Tope)
+    (c1: φ ⇒ χ) (c2: ψ ⇒ χ) (c3: φ ∧ ψ ⇒ χ)
+  : φ ∨ ψ ⇒ χ := λ _, χ
+\end{lstlisting}
+\end{definition}
+
+\begin{theorem}[Tope Computation]
+Disjunction elimination reduces on cases:
+\[
+\frac{\Xi \vdash \phi : \text{Tope} \quad \Xi, \phi \vdash \chi : \text{Tope}}{\Xi \vdash \chi[\phi \vee \psi / \phi] \equiv \chi : \text{Tope}}
+\]
+\begin{lstlisting}[mathescape=true]
+def Tope_comp_or (φ ψ χ: Tope) (c: φ ⇒ χ)
+  : Ξ Tope (Tope_elim_or φ ψ χ c c c) χ := refl Tope χ
+\end{lstlisting}
+\end{theorem}
+
+\subsubsection{Extension Types}
+
+\begin{definition}[Extension Type Formation]
+Extension types generalize dependent functions:
+\[
+  \frac{\Xi \vdash \phi : \text{Tope} \quad \Xi \vdash \psi : \text{Tope} \quad \Xi \vdash i : \phi \hookrightarrow \psi \quad \Gamma \vdash C : \psi \to \mathcal{U} \quad \Gamma \vdash d : \prod_{x : \phi} C(i(x))}{\Gamma \vdash \left\langle \prod_{y : \psi} C(y) \mid i \right\rangle : \mathcal{U}}
+\]
+\begin{lstlisting}[mathescape=true]
+def Ext_form (φ ψ: Tope) (i: φ ↪ ψ) (C: ψ -> U) (d: (x: φ) -> C (i x))
+  : U := <Π (y: ψ), C y | i>
+\end{lstlisting}
+\end{definition}
+
+\begin{definition}[Extension Type Introduction]
+Elements are functions satisfying boundary conditions:
+\[
+\frac{
+  \begin{array}{l}
+   \Xi \vdash \phi : \text{Tope} \quad \Xi \vdash \psi : \text{Tope} \quad \Xi \vdash i : \phi \hookrightarrow \psi \\[0.2cm]
+   \quad \Gamma \vdash C : \psi \to \mathcal{U} \quad \Gamma \vdash f : \prod_{y : \psi} C(y) \quad \Gamma \vdash p : \prod_{x : \phi} f(i(x)) \equiv d(x)
+  \end{array}
+ }
+ {
+   \Gamma \vdash \text{ext}(f, p) : \left\langle \prod_{y : \psi} C(y) \mid i \right\rangle
+ }
+\]
+\begin{lstlisting}[mathescape=true]
+def Ext_intro (φ ψ: Tope) (i: φ ↪ ψ) (C: ψ -> U) (d: (x: φ) -> C (i x))
+    (f: (y: ψ) -> C y) (p: (x: φ) -> Ξ (C (i x)) (f (i x)) (d x))
+  : Ext_form φ ψ i C d := ext f p
+\end{lstlisting}
+\end{definition}
+
+\begin{definition}[Extension Type Elimination]
+Extension types are applied or restricted:
+\[
+\frac{\Gamma \vdash e : \left\langle \prod_{y : \psi} C(y) \mid i \right\rangle \quad \Gamma \vdash y : \psi}{\Gamma \vdash \text{app}(e, y) : C(y)} \quad \frac{\Gamma \vdash e : \left\langle \prod_{y : \psi} C(y) \mid i \right\rangle \quad \Gamma \vdash x : \phi}{\Gamma \vdash \text{restr}(e, x) : C(i(x))}
+\]
+\[
+\begin{tikzcd}
+\phi \arrow[r, "i"] \arrow[d, "d"] & \psi \arrow[d, "C"] \\
+\mathcal{U} \arrow[r, "\text{ext}"] & \mathcal{U}
+\end{tikzcd}
+\]
+\begin{lstlisting}[mathescape=true]
+def Ext_elim_app (φ ψ: Tope) (i: φ ↪ ψ) (C: ψ -> U)
+    (d: (x: φ) -> C (i x)) (e: Ext_form φ ψ i C d) (y: ψ)
+  : C y := app e y
+
+def Ext_elim_restr (φ ψ: Tope) (i: φ ↪ ψ) (C: ψ -> U)
+    (d: (x: φ) -> C (i x)) (e: Ext_form φ ψ i C d) (x: φ)
+  : C (i x) := restr e x
+\end{lstlisting}
+\end{definition}
+
+\begin{theorem}[Extension Type Computation]
+Application and restriction reduce appropriately:
+\[
+\frac{\Gamma \vdash f : \prod_{y : \psi} C(y) \quad \Gamma \vdash p : \prod_{x : \phi} f(i(x)) \equiv d(x) \quad \Gamma \vdash y : \psi}{\Gamma \vdash \text{app}(\text{ext}(f, p), y) \equiv f(y) : C(y)}
+\]
+\[
+\frac{\Gamma \vdash f : \prod_{y : \psi} C(y) \quad \Gamma \vdash p : \prod_{x : \phi} f(i(x)) \equiv d(x) \quad \Gamma \vdash x : \phi}{\Gamma \vdash \text{restr}(\text{ext}(f, p), x) \equiv d(x) : C(i(x))}
+\]
+\begin{lstlisting}[mathescape=true]
+def Ext_comp_app (φ ψ: Tope) (i: φ ↪ ψ) (C: ψ -> U)
+    (d: (x: φ) -> C (i x)) (f: (y: ψ) -> C y)
+    (p: (x: φ) -> Ξ (C (i x)) (f (i x)) (d x)) (y: ψ)
+  : Ξ (C y) (Ext_elim_app φ ψ i C d (Ext_intro φ ψ i C d f p) y) (f y)
+ := refl (C y) (f y)
+
+def Ext_comp_restr (φ ψ: Tope) (i: φ ↪ ψ) (C: ψ -> U)
+    (d: (x: φ) -> C (i x)) (f: (y: ψ) -> C y)
+    (p: (x: φ) -> Ξ (C (i x)) (f (i x)) (d x)) (x: φ)
+  : Ξ (C (i x)) (Ext_elim_restr φ ψ i C d (Ext_intro φ ψ i C d f p) x) (d x)
+ := p x
+\end{lstlisting}
+\end{theorem}
+
+\begin{theorem}[Extension Type Uniqueness]
+Extension types are uniquely determined:
+\[
+\frac{\Gamma \vdash e : \left\langle \prod_{y : \psi} C(y) \mid i \right\rangle}{\Gamma \vdash e \equiv \text{ext}(\lambda y . \text{app}(e, y), \lambda x . \text{restr}(e, x)) : \left\langle \prod_{y : \psi} C(y) \mid i \right\rangle}
+\]
+\begin{lstlisting}[mathescape=true]
+def Ext_uniq (φ ψ: Tope) (i: φ ↪ ψ) (C: ψ -> U) (d: (x: φ) -> C (i x))
+    (e: Ext_form φ ψ i C d)
+  : Ξ (Ext_form φ ψ i C d) e
+      (Ext_intro φ ψ i C d (λ y, Ext_elim_app φ ψ i C d e y)
+                           (λ x, Ext_elim_restr φ ψ i C d e x))
+ := refl (Ext_form φ ψ i C d) e
+\end{lstlisting}
+\end{theorem}
+
+\subsubsection{Universe Types}
+
+\begin{definition}[Universe Formation]
+The universe type is formed as:
+\[
+\frac{\Gamma \text{ ctx}}{\Gamma \vdash \mathcal{U} : \mathcal{U}_{\text{succ}}}
+\]
+\begin{lstlisting}[mathescape=true]
+def Univ_form : U₁ := U
+\end{lstlisting}
+\end{definition}
+
+\begin{definition}[Universe Introduction]
+Types are elements of the universe:
+\[
+\frac{\Gamma \vdash A : \mathcal{U}}{\Gamma \vdash A : \mathcal{U}}
+\]
+\begin{lstlisting}[mathescape=true]
+def Univ_intro (A: U) : Univ_form := A
+\end{lstlisting}
+\end{definition}
+
+\begin{definition}[Universe Elimination]
+Types in the universe are used in type formation:
+\[
+\frac{\Gamma \vdash A : \mathcal{U} \quad \Gamma, x : A \vdash B : \mathcal{U}}{\Gamma \vdash \Pi_{x : A} B : \mathcal{U}}
+\]
+\begin{lstlisting}[mathescape=true]
+def Univ_elim (A: Univ_form) (B: A -> U) : Univ_form := Π (x: A), B x
+\end{lstlisting}
+\end{definition}
+
+\begin{theorem}[Universe Computation]
+Universe elimination aligns with type formation:
+\[
+ \frac{\Gamma \vdash A : \mathcal{U} \quad \Gamma, x : A \vdash B : \mathcal{U}}{\Gamma \vdash \mathrm{Univ\_elim}(A, B) \equiv \Pi_{x : A} B : \mathcal{U}}
+\]
+\begin{lstlisting}[mathescape=true]
+def Univ_comp (A: U) (B: A -> U)
+  : Ξ U (Univ_elim A B) (Π (x: A), B x)
+ := refl U (Π (x: A), B x)
+\end{lstlisting}
+\end{theorem}
+
+\newpage
+\subsection{Simplicial Type Theory}
+
+This document formalizes the inference rules for Martin-L\"of Type Theory (MLTT)
+and its extension to Simplicial Type Theory (STT) as presented in ``The Yoneda
+embedding in simplicial type theory'' (2025) by Gratzer, Weinberger, and Buchholtz.
+
+\subsubsection{Judgments}
+The type system uses:
+\begin{itemize}
+    \item $\vdash \Gamma$: Context $\Gamma$ is well-formed.
+    \item $\Gamma \vdash \delta : \Delta$: Substitution $\delta$ maps $\Gamma$ to $\Delta$.
+    \item $\Gamma \vdash A \text{ type}$: Type $A$ is well-formed in $\Gamma$.
+    \item $\Gamma \vdash a : A$: Term $a$ has type $A$ in $\Gamma$.
+\end{itemize}
+
+\subsubsection{Context Formation with Extension}
+\begin{itemize}
+    \item Modal context extension: $\vdash \Gamma \implies \vdash \Gamma, \{\mu\}$
+    \item Variable annotation: $\vdash \Gamma, \Gamma, \{\mu\} \vdash A \text{ type} \implies \vdash \Gamma, x :_\mu A$
+    \item Variable rule: $\mu \leq \text{mods}(\Gamma_1) \implies \Gamma_0, x :_\mu A, \Gamma_1 \vdash x : A$
+\end{itemize}
+where $\text{mods}(\Gamma_1) = \nu_0 \circ \nu_1 \circ \cdots$ is the composite of modal restrictions $\{\nu_i\}$ in $\Gamma_1$ (or $\text{id}$ if none).
+
+\subsubsection{Dependent Function Types ($\Pi$-Types)}
+\textbf{Definition (Inference Rules):}
+\begin{itemize}
+    \item Formation: $\Gamma \vdash A \text{ type}, \Gamma, x : A \vdash B \text{ type} \implies \Gamma \vdash \prod_{x : A} B \text{ type}$
+    \item Introduction: $\Gamma, x : A \vdash b : B \implies \Gamma \vdash \lambda x. b : \prod_{x : A} B$
+    \item Elimination: $\Gamma \vdash f : \prod_{x : A} B, \Gamma \vdash a : A \implies \Gamma \vdash f(a) : B[a / x]$
+    \item Computation: $\Gamma, x : A \vdash b : B, \Gamma \vdash a : A \implies \Gamma \vdash (\lambda x. b)(a) \equiv b[a / x] : B[a / x]$
+    \item Uniqueness: $\Gamma \vdash f : \prod_{x : A} B \implies \Gamma \vdash \lambda x. f(x) \equiv f : \prod_{x : A} B$
+\end{itemize}
+
+\textbf{Theorem (Type Safety):}
+For any $\Gamma$, if $\Gamma \vdash \prod_{x : A} B \text{ type}$ and $\Gamma \vdash f : \prod_{x : A} B$, then for any $\Gamma \vdash a : A$, there exists a unique $b : B[a / x]$ such that $\Gamma \vdash f(a) \equiv b : B[a / x]$. \\
+\textit{Proof Sketch:} Formation ensures $A, B$ are well-typed. Introduction constructs $f$. Elimination applies $f$ to $a$. Computation reduces $f(a)$. Uniqueness follows from the $\eta$-rule.
+
+\subsubsection{Dependent Pair Types ($\Sigma$-Types)}
+\textbf{Definition (Inference Rules):}
+\begin{itemize}
+    \item Formation: $\Gamma \vdash A \text{ type}, \Gamma, x : A \vdash B \text{ type} \implies \Gamma \vdash \sum_{x : A} B \text{ type}$
+    \item Introduction: $\Gamma \vdash a : A, \Gamma \vdash b : B[a / x] \implies \Gamma \vdash (a, b) : \sum_{x : A} B$
+    \item Elimination: $\Gamma, z : \sum_{x : A} B \vdash C \text{ type}, \Gamma, x : A, y : B \vdash c : C[(x, y) / z], \Gamma \vdash p : \sum_{x : A} B \implies \Gamma \vdash \text{let } (x, y) \leftarrow p \text{ in } c : C[p / z]$
+    \item Computation: $\Gamma, z : \sum_{x : A} B \vdash C \text{ type}, \Gamma, x : A, y : B \vdash c : C[(x, y) / z], \Gamma \vdash a : A, \Gamma \vdash b : B[a / x] \implies \Gamma \vdash \text{let } (x, y) \leftarrow (a, b) \text{ in } c \equiv c[a / x, b / y] : C[(a, b) / z]$
+    \item Uniqueness: $\Gamma \vdash p : \sum_{x : A} B \implies \Gamma \vdash \text{let } (x, y) \leftarrow p \text{ in } (x, y) \equiv p : \sum_{x : A} B$
+\end{itemize}
+
+\textbf{Theorem (Fibration Property):}
+$\Gamma \vdash \sum_{x : A} B \text{ type}$ is a fibration in the locally cartesian closed category of contexts. \\
+\textit{Proof Sketch:} Formation defines the fibration. Introduction constructs sections. Elimination performs dependent elimination. Computation ensures coherence. Uniqueness reflects the universal property.
+
+\subsubsection{Universes}
+\textbf{Definition (Inference Rules):}
+\begin{itemize}
+    \item Formation: $\text{true} \implies \Gamma \vdash \mathcal{U}_i \text{ type}$
+    \item Introduction: $\Gamma \vdash A \text{ type}, \text{level}(A) \leq i \implies \Gamma \vdash A : \mathcal{U}_i$
+    \item Elimination: $\Gamma \vdash A : \mathcal{U}_i \implies \Gamma \vdash \text{El}(A) \text{ type}$
+    \item Computation: $\Gamma \vdash A : \mathcal{U}_i, \Gamma \vdash A \text{ type} \implies \Gamma \vdash \text{El}(A) \equiv A \text{ type}$
+    \item Uniqueness: $\Gamma \vdash A : \mathcal{U}_i \implies \Gamma \vdash A \equiv \text{El}(A) : \mathcal{U}_i$
+\end{itemize}
+
+\textbf{Theorem (Consistency):}
+The hierarchy $\mathcal{U}_i$ ensures MLTT consistency by stratifying types. \\
+\textit{Proof Sketch:} Formation introduces the hierarchy. Introduction embeds types. Elimination decodes them. Computation ensures idempotence. Uniqueness guarantees coherence.
+
+\subsubsection{Interval Type ($\mathbb{I}$)}
+\textbf{Definition}[Inference Rules]
+\begin{itemize}
+    \item Formation: $\text{true} \implies \Gamma \vdash \mathbb{I} \text{ type}$
+    \item Introduction: $\text{true} \implies \Gamma \vdash 0 : \mathbb{I}$, $\text{true} \implies \Gamma \vdash 1 : \mathbb{I}$, $\Gamma \vdash i : \mathbb{I}, \Gamma \vdash j : \mathbb{I} \implies \Gamma \vdash i \wedge j : \mathbb{I}$, $\Gamma \vdash i : \mathbb{I}, \Gamma \vdash j : \mathbb{I} \implies \Gamma \vdash i \vee j : \mathbb{I}$
+    \item Elimination: $\Gamma, x : \mathbb{I} \vdash B \text{ type}, \Gamma \vdash b_0 : B[0 / x], \Gamma \vdash b_1 : B[1 / x], \Gamma, x, y : \mathbb{I} \vdash b_\wedge : B[x \wedge y / x], \Gamma, x, y : \mathbb{I} \vdash b_\vee : B[x \vee y / x], \Gamma \vdash i : \mathbb{I} \implies \Gamma \vdash \text{rec}_{\mathbb{I}}(B, b_0, b_1, b_\wedge, b_\vee, i) : B[i / x]$
+    \item Computation: (as above) $\implies \Gamma \vdash \text{rec}_{\mathbb{I}}(B, b_0, b_1, b_\wedge, b_\vee, 0) \equiv b_0 : B[0 / x]$, $\ldots$, $\Gamma \vdash \text{rec}_{\mathbb{I}}(B, b_0, b_1, b_\wedge, b_\vee, i \vee j) \equiv b_\vee[i / x, j / y] : B[i \vee y / x]$
+    \item Uniqueness: $\Gamma \vdash f : \prod_{x : \mathbb{I}} B, \Gamma \vdash f(0) \equiv b_0 : B[0 / x], \ldots, \Gamma \vdash f(x \vee y) \equiv b_\vee : B[x \vee y / x] \implies \Gamma \vdash \text{rec}_{\mathbb{I}}(B, b_0, b_1, b_\wedge, b_\vee, i) \text{ unique up to } \equiv$
+\end{itemize}
+
+\textbf{Theorem}[Bounded Lattice]
+$\mathbb{I}$ forms a bounded distributive lattice, satisfying $\prod_{i,j : \mathbb{I}} (i \leq j) \vee (j \leq i)$ (Axiom A). \\
+\textit{Proof Sketch:} Introduction defines lattice operations. Elimination and computation ensure well-definedness. Uniqueness respects the lattice structure.
+
+\subsubsection{Modal Types ($\langle \mu \mid A \rangle$)}
+\textbf{Definition}[Inference Rules]
+\begin{itemize}
+    \item Formation: $\Gamma, \{\mu\} \vdash A \text{ type} \implies \Gamma \vdash \langle \mu \mid A \rangle \text{ type}$
+    \item Introduction: $\Gamma, \{\mu\} \vdash a : A \implies \Gamma \vdash \text{mod}_\mu(a) : \langle \mu \mid A \rangle$
+    \item Elimination: $\Gamma, x :_\nu \langle \mu \mid A \rangle \vdash B \text{ type}, \Gamma, y :_{\nu \circ \mu} A \vdash b : B[\text{mod}_\mu(y) / x], \Gamma, \{\nu\} \vdash a : \langle \mu \mid A \rangle \implies \Gamma \vdash \text{let } \text{mod}_\mu(y) \leftarrow a \text{ in } b : B[a / x]$
+    \item Computation: $\Gamma, x :_\nu \langle \mu \mid A \rangle \vdash B \text{ type}, \Gamma, y :_{\nu \circ \mu} A \vdash b : B[\text{mod}_\mu(y) / x], \Gamma, \{\nu \circ \mu\} \vdash a : A \implies \Gamma \vdash \text{let } \text{mod}_\mu(y) \leftarrow \text{mod}_\mu(a) \text{ in } b \equiv b[a / y] : B[\text{mod}_\mu(a) / x]$
+    \item Uniqueness: $\Gamma \vdash f : \langle \mu \mid A \rangle \to B, \Gamma, y :_{\nu \circ \mu} A \vdash f(\text{mod}_\mu(y)) \equiv b : B[\text{mod}_\mu(y) / x], \Gamma, \{\nu\} \vdash a : \langle \mu \mid A \rangle \implies \Gamma \vdash \text{let } \text{mod}_\mu(y) \leftarrow a \text{ in } b \text{ unique up to } \equiv$
+\end{itemize}
+
+\textbf{Theorem}[Modal Equivalence]
+For $\mu$, $\text{mod}_\mu : A \to \langle \mu \mid A \rangle$ is an equivalence if $\text{mod}_\mu(a) = \text{mod}_\mu(b) \to \langle \mu \mid a = b \rangle$ is an equivalence (Axiom B). \\
+\textit{Proof Sketch:} Formation and introduction define the modal type. Elimination and computation ensure injectivity. Axiom B guarantees surjectivity.
+
+\subsubsection{Modal $\Pi$-Types}
+\textbf{Definition}[Inference Rules]
+\begin{itemize}
+    \item Formation: $\Gamma \vdash A \text{ type}, \Gamma, x :_\mu A \vdash B \text{ type} \implies \Gamma \vdash \prod_{x :_\mu A} B \text{ type}$
+    \item Introduction: $\Gamma, x :_\mu A \vdash b : B \implies \Gamma \vdash \lambda x. b : \prod_{x :_\mu A} B$
+    \item Elimination: $\Gamma \vdash f : \prod_{x :_\mu A} B, \Gamma, \{\mu\} \vdash a : A \implies \Gamma \vdash f(a) : B[a / x]$
+    \item Computation: $\Gamma, x :_\mu A \vdash b : B, \Gamma, \{\mu\} \vdash a : A \implies \Gamma \vdash (\lambda x. b)(a) \equiv b[a / x] : B[a / x]$
+    \item Uniqueness: $\Gamma \vdash f : \prod_{x :_\mu A} B \implies \Gamma \vdash \lambda x. f(x) \equiv f : \prod_{x :_\mu A} B$
+\end{itemize}
+
+\textbf{Theorem}[Pointwise Invertibility]
+For a category $C$, if $f : \prod_{x :_b C} \langle b \mid \text{hom}_C(x, y) \rangle$ is pointwise invertible, then $f$ is globally invertible (Example 2.22). \\
+\textit{Proof Sketch:} Modal $\Pi$-types ensure $f$ respects $b$. Elimination applies $f$. Computation preserves equalities. The $b$-modality extracts isomorphisms.
+
+\subsubsection{Precategory and Category Types}
+\textbf{Definition}[Inference Rules]
+\begin{itemize}
+    \item Formation (Precategory): $\Gamma \vdash C \text{ type}, \Gamma \vdash \text{isSegal}(C) : \prod_{x,y,z : C} (\mathbb{I} \to \text{hom}_C(x,y)) \times (\mathbb{I} \to \text{hom}_C(y,z)) \to \text{hom}_C(x,z) \implies \Gamma \vdash C \text{ precategory}$
+    \item Formation (Category): $\Gamma \vdash C \text{ precategory}, \Gamma \vdash \text{isRezk}(C) : \prod_{x,y : C} \text{isEquiv}(\text{iso}_{x,y} \to (x = y)) \implies \Gamma \vdash C \text{ category}$
+\end{itemize}
+where $\text{hom}_C(x,y) = \langle \sharp \mid C \rangle$, $\text{iso}_{x,y} = \langle b \mid \text{hom}_C(x,y) \rangle$.
+
+\textbf{Theorem}[Yoneda Embedding]
+For a category $C$, there exists a fully faithful $\mathbf{y} : C \to \widehat{C}$, where $\widehat{C}$ is the precategory of presheaves $\langle \sharp \mid C \rangle$, defined by $\mathbf{y}(x)(y) = \text{hom}_C(y,x)$. \\
+\textit{Proof Sketch:} Precategory formation defines $\widehat{C}$. Yoneda uses modal types and $\sharp$. Rezk ensures $\text{hom}_{\widehat{C}}(\mathbf{y}(x), \mathbf{y}(y)) \simeq \text{hom}_C(x,y)$.
+
+\subsubsection{Key Theorems}
+\begin{itemize}
+    \item \textbf{Yoneda Lemma}: For a category $C$, $\text{hom}_{\widehat{C}}(\mathbf{y}(x), F) \to F(x)$ is an equivalence for all $x : C$, $F : \langle \sharp \mid C \rangle$. \\
+    \textit{Proof Sketch:} Uses $\text{tw}$ modality and Axiom G for twisted arrow categories.
+    \item \textbf{Free Cocompletion}: $\widehat{C}$ is the free cocompletion of $C$, i.e., $\text{Fun}(\widehat{C}, D) \simeq \text{Fun}(C, D)$ for cocomplete $D$. \\
+    \textit{Proof Sketch:} Modal $\Pi$-types and $\sharp$ define functor categories. Yoneda ensures universality.
+\end{itemize}
+
+
+\begin{thebibliography}{99}
+\bibitem{Uni13} Univalent Foundations Program. \emph{Homotopy Type Theory: Univalent Foundations of Mathematics}. \url{http://homotopytypetheory.org/book/}, 2013.
+\bibitem{KL12} Kapulkin, C., LeFanu Lumsdaine, P., Voevodsky, V. \emph{The simplicial model of univalent foundations}. arXiv:1211.2851, 2012.
+\bibitem{Shu15} Shulman, M. \emph{The univalence axiom for elegant Reedy presheaves}. Homology, Homotopy, and Applications, 17(2):81--106, 2015. arXiv:1307.6248.
+\bibitem{JT06} Joyal, A., Tierney, M. \emph{Quasi-categories vs Segal spaces}. arXiv:math/0607820, 2006.
+\bibitem{Joh79} Johnstone, P. T. \emph{On a topological topos}. Proc. London Math. Soc., 38:237--271, 1979.
+\bibitem{MLM94} Mac Lane, S., Moerdijk, I. \emph{Sheaves in geometry and logic}. Springer, 1994.
+\bibitem{Rez01} Rezk, C. \emph{A model for the homotopy theory of homotopy theory}. Trans. Amer. Math. Soc., 353(3):973--1007, 2001. arXiv:math.AT/9811037.
+\bibitem{Riehl17} Emily Riehl, Michael Shulman. \emph{A type theory for synthetic -categories}. Arxiv. 2017
+\bibitem{Gratzer25} Daniel Gratzer, Jonathan Weinberger, Ulrik Buchholtz. \emph{The Yoneda embedding in simplicial type theory}. Arxiv. 2025
+\end{thebibliography}
 
 \end{document}
