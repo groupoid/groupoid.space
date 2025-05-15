@@ -1,6 +1,12 @@
 default:
+#	pdflatex mebius.tex
+#	pdflatex hopf.tex
+	pdflatex mltt.tex
+	pdflatex cic.tex
+	pdflatex hott.tex
+	pdflatex hit.tex
+	pdflatex modalities.tex
 	pdflatex vol1.tex
-	return 0
 
 clean:
 	pdflatex vol1.tex

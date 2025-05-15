@@ -1,22 +1,8 @@
-% Defining the document structure
-\documentclass[12pt]{article}
+\documentclass{article}
 \usepackage[utf8]{inputenc}
-\usepackage{amsmath, amssymb, amsthm}
-\usepackage{booktabs}
-\usepackage{xcolor}
-\usepackage{colortbl}
-\usepackage{geometry}
-\geometry{a4paper, margin=1in}
-\usepackage{parskip}
+\usepackage{amsmath,amssymb,amsthm}
 
-% Defining custom color for table
-\definecolor{ZimaBlue}{RGB}{0, 128, 255}
-
-% Setting up theorems and definitions
-\theoremstyle{definition}
-\newtheorem{definition}{Definition}
-\theoremstyle{plain}
-\newtheorem{theorem}{Theorem}
+\include{journal}
 
 \begin{document}
 
@@ -31,6 +17,10 @@ This article explores the interplay between modalities, identity systems, and ho
 in the framework of Homotopy Type Theory (HoTT). We formalize modalities and identity
 systems as structures within ($\infty$,1)-categories and investigate the homological properties arising when their functor compositions are treated as groups. Special attention is given to topological structures, such as the Möbius strip, that emerge from non-trivial compositions, and their role in generating non-trivial fundamental groups. A classification of generators is provided, highlighting their categorical and homotopical properties.
 \end{abstract}
+
+\ifincludeTOC
+  \tableofcontents
+\fi
 
 \section{Modalities and Identity Systems}
 
@@ -149,10 +139,8 @@ The Möbius strip, as a CW-complex, arises naturally in this framework. Its non-
 Modalities and identity systems in HoTT provide a rich framework for modeling categorical and topological phenomena. By treating functor compositions as groups, we uncover homological structures that bridge type theory and topology. Future work may explore applications in TQFT and synthetic differential geometry.
 
 \begin{thebibliography}{9}
-\bibitem{shulman2018modal}
-M. Shulman, \emph{Brouwer’s fixed-point theorem in real-cohesive homotopy type theory}, Mathematical Structures in Computer Science, 2018.
-\bibitem{hottbook}
-The Univalent Foundations Program, \emph{Homotopy Type Theory: Univalent Foundations of Mathematics}, 2013.
+\bibitem{shulman2018modal} M. Shulman, \emph{Brouwer’s fixed-point theorem in real-cohesive homotopy type theory}, Mathematical Structures in Computer Science, 2018.
+\bibitem{hottbook} The Univalent Foundations Program, \emph{Homotopy Type Theory: Univalent Foundations of Mathematics}, 2013.
 \end{thebibliography}
 
 \end{document}

@@ -1,27 +1,12 @@
 \documentclass{article}
-\usepackage[english,russian]{babel}
 \usepackage{listings}
-\usepackage{amsmath}
-\usepackage{amssymb}
-\usepackage{amsthm}
+\usepackage{amsmath,amssymb,amsthm}
 \usepackage{mathtools}
 \usepackage{url}
 \usepackage{tikz-cd}
 \usepackage[utf8]{inputenc}
 
-\theoremstyle{definition}
-\newtheorem{theorem}{Теорема}
-\newtheorem{definition}{Визначення}
-\newtheorem{exercise}{Вправа}
-\newtheorem{example}{Приклад}
-\newcommand*{\incmap}{\hookrightarrow}
-\newcommand*{\thead}[1]{\multicolumn{1}{c}{\bfseries #1}}
-\lstset{basicstyle=\small,inputencoding=utf8}
-
-\addto\captionsrussian{\renewcommand{\contentsname}{Зміст}}
-\addto\captionsrussian{\def\refname{Список використаних джерел}}
-\addto\captionsrussian{\renewcommand{\abstractname}{Аннотація}}
-
+\include{journal}
 
 \begin{document}
 

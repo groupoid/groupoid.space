@@ -1,6 +1,10 @@
 default:
+	pdflatex anders.tex
+	pdflatex frank.tex
+	pdflatex henk.tex
+	pdflatex laurent.tex
+	pdflatex urs.tex
 	pdflatex vol3.tex
-	return 0
 
 clean:
 	pdflatex vol3.tex

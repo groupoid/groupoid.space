@@ -1,6 +1,10 @@
 default:
+	pdflatex alonso.tex
+	pdflatex felix.tex
+	pdflatex joe.tex
+	pdflatex robin.tex
+	pdflatex yves.tex
 	pdflatex vol2.tex
-	return 0
 
 clean:
 	rm bloch-eps-converted-to.pdf

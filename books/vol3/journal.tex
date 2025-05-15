@@ -1,25 +1,16 @@
 \ProvidesPackage{journal}
 \usepackage{hyperref}
-\usepackage{adjustbox}
+\usepackage{epigraph}
 \usepackage{listings}
-\usepackage{amsfonts}
-\usepackage{amscd}
 \usepackage{amsmath}
 \usepackage{amssymb}
 \usepackage{amsthm}
 \usepackage{tikz}
-\usepackage{tikz-cd}
 \usepackage{url}
 \usepackage[utf8]{inputenc}
 \usepackage[english,ukrainian]{babel}
 \usepackage{url}
-\usepackage{tikz}
-\usepackage{tikz-cd}
-\usepackage[utf8]{inputenc}
-\usepackage[T1]{fontenc}
 \usepackage[only,llbracket,rrbracket,llparenthesis,rrparenthesis]{stmaryrd}
-
-\usetikzlibrary{babel}
 
 \newcommand*{\incmap}{\hookrightarrow}
 \newcommand*{\thead}[1]{\multicolumn{1}{c}{\bfseries #1}}
@@ -180,11 +171,27 @@
 {*}{{*}}1,
 }
 
+\setlength{\parindent}{15pt}
+
 \theoremstyle{definition}
 \newtheorem{definition}{Definition}
 \newtheorem{theorem}{Theorem}
 \newtheorem{lemma}{Lemma}
 \newtheorem{example}{Example}
+
+\definecolor{LightGray}{rgb}{0.8,0.8,0.8}
+\definecolor{LightGray25}{rgb}{0.9,0.9,0.9}
+\definecolor{ZimaBlue}{HTML}{A1D8FC}
+
+\newif\ifincludeTOC
+\includeTOCtrue
+
+\lefthyphenmin=1
+\hyphenpenalty=100
+\tolerance=11000
+\emergencystretch=1em
+\hfuzz=2pt
+\vfuzz=2pt
 
 \newcommand{\term}{\mathcal{T}}
 \newcommand{\type}{\mathcal{A}}
@@ -200,3 +207,4 @@
 \newcommand{\ind}{\text{Ind}}
 \newcommand{\constr}{\text{Constr}}
 \newcommand{\case}{\text{case}}
+
