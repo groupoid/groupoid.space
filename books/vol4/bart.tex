@@ -3,26 +3,14 @@
 \usepackage{amsmath,amssymb,amsthm}
 \usepackage{enumitem}
 \usepackage{tikz}
-\usetikzlibrary{shapes.geometric, arrows.meta, positioning}
 
-\theoremstyle{plain}
-\newtheorem{theorem}{Theorem}[section]
-\newtheorem{lemma}[theorem]{Lemma}
-\newtheorem{proposition}[theorem]{Proposition}
-\newtheorem{notation}{Notation}
-\newtheorem{corollary}[theorem]{Corollary}
-\newtheorem{definition}[theorem]{Definition}
-\newtheorem{example}[theorem]{Example}
-\newtheorem{remark}[theorem]{Remark}
+\include{journal}
 
-\theoremstyle{remark}
-\newtheorem*{acknowledgment}{Acknowledgment}
+\begin{document}
 
 \title{Comprehension Categories and the Semantics of Type Dependency}
 \author{Bart Jacobs \\ Department of Mathematics, University of Utrecht \\ P.O. Box 80.010, 3508 TA Utrecht, The Netherlands \\ Email: bjacobs@math.ruu.nl}
 \date{Received June 1990 \\ Revised August 1991}
-
-\begin{document}
 
 \maketitle
 
@@ -30,7 +18,9 @@
 A comprehension category is defined as a functor $\mathscr{P}: \mathbf{E} \to \mathbf{B}^{\to}$ satisfying (a) $\operatorname{cod} \circ \mathscr{P}$ is a fibration, and (b) $f$ is cartesian in $\mathbf{E}$ implies that $\mathscr{P} f$ is a pullback in $\mathbf{B}$. This notion captures many structures used to describe type dependency, such as display-map categories, categories with attributes, D-categories, and comprehensive fibrations. It also encompasses comprehension as occurring in topos theory and Lawvere's hyperdoctrines. This paper introduces comprehension categories, defining a closed comprehension category as one with dependent products and sums. Examples are provided, with further details in Jacobs (1991) and applications in Jacobs et al. (1991).
 \end{abstract}
 
-\tableofcontents
+\ifincludeTOC
+  \tableofcontents
+\fi
 
 \newpage
 \section{Introduction}
