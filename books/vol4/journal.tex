@@ -228,12 +228,14 @@
 }
 
 \theoremstyle{definition}
+
 \newtheorem{definition}{Definition}
 \newtheorem{theorem}{Theorem}
 \newtheorem{lemma}{Lemma}
 \newtheorem{example}{Example}
 \newtheorem{remark}{Remark}
 \newtheorem{corollary}{Corollary}
+\newtheorem{proposition}{Proposition}
 
 \newcommand{\Spec}{\mathbf{Spec}}
 
@@ -251,3 +253,13 @@
 \newif\ifincludeTOC
 
 \includeTOCtrue
+
+\def\mapright#1{\xrightarrow{{#1}}}
+\def\mapleft#1{\xleftarrow{{#1}}}
+\def\mapup#1{\Big\uparrow\rlap{\raise2pt{\scriptstyle{#1}}}}
+\def\mapupl#1{\Big\uparrow\llap{\raise2pt{\scriptstyle{#1}}}}
+\def\mapdown#1{\Big\downarrow\rlap{\raise2pt{\scriptstyle{#1}}}}
+\def\mapdownl#1{\Big\downarrow\llap{\raise2pt{\scriptstyle{#1}}}}
+\def\mapdiagl#1{\vcenter{\searrow}\rlap{\raise2pt{\scriptstyle{#1}}}}
+\def\mapdiagr#1{\vcenter{\swarrow}\rlap{\raise2pt{\scriptstyle{#1}}}}
+\def\under{\underline{\hspace{0.25cm}}}

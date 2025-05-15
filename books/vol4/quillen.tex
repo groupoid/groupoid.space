@@ -1,44 +1,15 @@
-% Setting up a comprehensive LaTeX preamble for a mathematical survey
-\documentclass[12pt]{article}
+\documentclass{article}
 \usepackage[utf8]{inputenc}
-\usepackage[T2A]{fontenc}
-\usepackage[ukrainian,english]{babel}
-\usepackage{amsmath, amssymb, amsthm}
+\usepackage{amsmath,amssymb,amsthm}
 \usepackage{mathtools}
-\usepackage{geometry}
-\geometry{a4paper, margin=1in}
 \usepackage{listings}
 \usepackage{hyperref}
-\hypersetup{colorlinks=true, linkcolor=blue, citecolor=blue, urlcolor=blue}
-\usepackage{tocloft}
 \usepackage{xcolor}
 
-% Configuring lstlisting for code
-\lstset{
-    basicstyle=\ttfamily\footnotesize,
-    breaklines=true,
-%    frame=single,
-%    numbers=left,
-%    numberstyle=\tiny,
-    keywordstyle=\color{blue},
-    commentstyle=\color{gray},
-    stringstyle=\color{red}
-}
-
-% Defining theorem-like environments
-\theoremstyle{plain}
-\newtheorem{theorem}{Теорема}[section]
-\newtheorem{lemma}[theorem]{Лема}
-\newtheorem{corollary}[theorem]{Наслідок}
-\theoremstyle{definition}
-\newtheorem{definition}{Означення}[section]
-\newtheorem{example}{Приклад}[section]
-\theoremstyle{remark}
-\newtheorem{remark}{Зауваження}[section]
+\include{journal}
 
 \begin{document}
 
-% Setting up the title and author
 \title{Issue XXVII: Quillen Model Categories}
 \author{Namdak Tonpa}
 \date{\today}
@@ -46,7 +17,6 @@
 \maketitle
 
 \begin{abstract}
-% Providing a concise overview of the survey
 Ця стаття є оглядом теорії модельних категорій, започаткованої Деніелом Квілленом у його новаторській праці 1967 року ``Гомотопічна алгебра''. Ми розглядаємо історичний контекст, основні аксіоми та застосування модельних категорій у топології та суміжних галузях, зокрема у доведенні кон’єктур Мілнора та Блоха-Като Воєводським. Також обговорюються сучасні узагальнення, такі як інфініті-категорії та модельні структури на симпліційних і кубічних множинах, з акцентом на їхню релевантність у математиці та теоретичній інформатиці.
 \end{abstract}
 

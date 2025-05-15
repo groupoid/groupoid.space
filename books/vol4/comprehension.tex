@@ -3,22 +3,13 @@
 \usepackage{listings}
 \usepackage{tikz}
 
-\lstset{
-  language=lean,
-  basicstyle=\ttfamily\footnotesize,
-  keywordstyle=\bfseries,
-  breaklines=true,
-  mathescape=true,
-  escapeinside={(*}{*)},
-  keepspaces=true
-}
+\include{journal}
 
 \begin{document}
 
 \title{Issue XXIX: Comprehension Categories}
 \author{Namdak Tonpa}
 \date{}
-
 
 \maketitle
 
@@ -341,16 +332,11 @@ structure ComprehensionCategory (E B : Category) where
 The Lean 4 formalization provides a minimal, dependency-free model of MLTT-75 using a comprehension category, explicitly capturing type dependency and context extension via a Grothendieck fibration and comprehension functor. This contrasts with the representable maps approach, aligning more closely with traditional fibration-based models. The pullback diagrams, styled after Awodey, clarify the categorical constructions. Future work includes verifying the model with concrete examples and extending it to homotopy type theory.
 
 \begin{thebibliography}{9}
-\bibitem{jacobs1993}
-Jacobs, B., ``Comprehension categories and the semantics of type dependency,'' TCS, 1993.
-\bibitem{hofmann1997}
-Hofmann, M., ``On the interpretation of type theory in locally cartesian closed categories,'' LFCS, 1997.
-\bibitem{cartmell1986}
-Cartmell, J., ``Generalised algebraic theories and contextual categories,'' APAL, 1986.
-\bibitem{voevodsky2014}
-Voevodsky, V., ``Notes on type systems,'' 2014.
-\bibitem{awodey}
-Awodey, S., ``Natural models of homotopy type theory,'' MSCS, 2018.
+\bibitem{jacobs1993} Jacobs, B., ``Comprehension categories and the semantics of type dependency,'' TCS, 1993.
+\bibitem{hofmann1997} Hofmann, M., ``On the interpretation of type theory in locally cartesian closed categories,'' LFCS, 1997.
+\bibitem{cartmell1986} Cartmell, J., ``Generalised algebraic theories and contextual categories,'' APAL, 1986.
+\bibitem{voevodsky2014} Voevodsky, V., ``Notes on type systems,'' 2014.
+\bibitem{awodey} Awodey, S., ``Natural models of homotopy type theory,'' MSCS, 2018.
 \end{thebibliography}
 
 \end{document}

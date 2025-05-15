@@ -1,21 +1,9 @@
 \documentclass{article}
 \usepackage{amsmath, amssymb, amsthm}
 \usepackage{tikz}
-\usetikzlibrary{shapes.geometric, arrows.meta, positioning}
 \usepackage{enumitem}
-\usepackage[backend=biber, style=alphabetic]{bibentry}
-\nobibentry
 
-\theoremstyle{plain}
-\newtheorem{theorem}{Theorem}[section]
-\newtheorem{lemma}[theorem]{Lemma}
-\newtheorem{proposition}[theorem]{Proposition}
-\newtheorem{corollary}[theorem]{Corollary}
-\newtheorem{definition}[theorem]{Definition}
-
-\theoremstyle{remark}
-\newtheorem*{remark}{Remark}
-
+\include{journal}
 
 \begin{document}
 
@@ -26,7 +14,12 @@
 \maketitle
 
 \begin{abstract}
-We present the formal definitions of monoidal, braided, and symmetric monoidal categories, emphasizing their coherence conditions. Key theorems, including Mac Lane's coherence theorem for monoidal categories and the coherence theorem for symmetric monoidal categories, are discussed. The exposition is grounded in category theory, with diagrams illustrating the triangle, pentagon, and hexagon identities.
+We present the formal definitions of monoidal, braided, and symmetric
+monoidal categories, emphasizing their coherence conditions. Key theorems,
+including Mac Lane's coherence theorem for monoidal categories and the
+coherence theorem for symmetric monoidal categories, are discussed.
+The exposition is grounded in category theory, with diagrams illustrating
+the triangle, pentagon, and hexagon identities.
 \end{abstract}
 
 \ifincludeTOC
