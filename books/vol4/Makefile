@@ -1,6 +1,5 @@
 default:
 	pdflatex abelian.tex
-	pdflatex bart.tex
 	pdflatex cat.tex
 	pdflatex comprehension.tex
 	pdflatex cube.tex
