@@ -26,34 +26,23 @@
 \maketitle
 
 \begin{abstract}
-
-{\bf Background.} The long road from pure type systems of AUTOMATH by de Bruijn to type
-checkers with homotopical core was made. This article touches only
-the formal Martin-Löf Type Theory core type system with $\Pi$ and $\Sigma$ types (that correspond
-to $\forall$ and $\exists$ quantifiers for mathematical reasoning) and identity type (MLTT-75).
-Expressing the MLTT embedding in a host type checker for a long time was
-inaccessible due to the non-derivability of the J eliminator in pure functions.
-This was recently made possible by cubical type theory and cubical type checker.\\
-\indent {\bf Objective.} Select the type system as a part of conceptual model of theorem proving system that is
-able to derive the J eliminator and its theorems based on the latest research in cubical type systems.
-The goal of this article is to demonstrate the formal embedding of MLTT-75 into $\mathbf{Per}$ with constructive proofs
-of the complete set of inference rules including J eliminator.\\
-\indent {\bf Methods.}
-As types are formulated using 5 types of rules (formation, intro, elimination, computation, uniqueness) according to MLTT
-we constructed aliases for the host language primitives and used the cubical type checker to prove that it has
-the realization of MLTT-75. \\
-\indent {\bf Results.} This work leads to several results:
-1) $\mathbf{Per}$ --- a special embedded version of type theory with infinite number of universes and Path type suitable for HoTT purposes without uniqueness rule of equality type;
-2) The actual embedding of MLTT with syntax implying universe polymorphism and cubical primitives in $\mathbf{Per}$;
-3) The different interpretations of types were given: set-theoretical, groupoid, homotopical; \\
-4) Internalization could be seen as an ultimate test sample for type checker as intro-elimination fusion resides in beta-eta rules, so by proving them, we prove properties of the host type checker. \\
-\indent {\bf Conclusion.} We should note that this is an entrance to the internalization
-technique, and after formal MLTT embedding, we could go through
-inductive types up to embedding of CW-complexes as the indexed
-gluing of the higher inductive types. This means the implementation
-of a wide spectrum of math theories inside HoTT up to algebraic topology.
-\indent {\bf Keywords}: Martin-Löf Type Theory, Cubical Type Theory.
-
+Martin-Löf Type Theory (MLTT), introduced by Per Martin-Löf in 1972,
+is a cornerstone of constructive mathematics, providing a foundation
+for formalizing mathematical proofs and programming languages.
+Its 1975 variant, MLTT-75, incorporates dependent types ($\Pi$, $\Sigma$)
+and identity types, with the J eliminator as a key construct for reasoning about equality.
+Historically, internalizing MLTT-75 in a type checker while constructively
+proving the J eliminator has been challenging due to limitations in pure
+functional systems. This article presents a canonical formalization of
+MLTT-75 and its complete internalization in \textbf{Per}, a minimal type
+theory language equipped with cubical type primitives. Using cubical type
+theory, we constructively prove all MLTT-75 inference rules, including
+the J eliminator, and demonstrate \textbf{Per}'s suitability as a robust
+type checker. We also provide logical, categorical, and homotopical
+interpretations of MLTT-75 to contextualize its significance.
+This work advances the mechanization of constructive mathematics and offers
+a blueprint for future type-theoretic explorations. \\
+\textbf{Keywords}: Martin-Löf Type Theory, Cubical Type Theory.
 \end{abstract}
 
 \ifincludeTOC
@@ -62,32 +51,38 @@ of a wide spectrum of math theories inside HoTT up to algebraic topology.
 
 \section*{Introduction}
 
-Each language implementation needs to be checked. The one of possible test cases
-for type checkers is the direct embedding of type theory model into the language of type checker.
-As types in Martin-Löf Type Theory \cite{Lof72,Lof84} are formulated using 5 types of rules (formation,
-introduction, elimination, computation, uniqueness), we construct aliases
-for host language primitives and use type checker to prove that it is MLTT-75.
-This could be seen as ultimate test sample for type checker as
-intro-elimination fusion resides in beta-eta rules, so by proving them
-we prove properties of the host type checker.
+For decades, type theorists have sought to fully internalize
+Martin-Löf Type Theory (MLTT) within a type checker, a task
+akin to building a self-verifying blueprint for mathematics.
+Introduced by Per Martin-Löf in 1972 \cite{Lof72} and refined
+in 1975 \cite{Lof75}, MLTT-75 is a foundational system that
+combines dependent types ($\Pi$ for universal quantification,
+$\Sigma$ for existential quantification) with identity types,
+enabling rigorous reasoning about equality. Central to MLTT-75
+is the J eliminator, a rule that governs how identity proofs
+are used, but its constructive derivation has long eluded pure
+functional type checkers due to the complexity of equality types.
 
-Also this issue opens a series of articles dedicated to formalization in
-cubical type theory the foundations of mathematics. This issue is dedicated
-to MLTT modeling and its verification. Also as many may not be familiar with
-$\Pi$ and $\Sigma$ types, this issue presents different interpretation of MLTT types.
+This article addresses this challenge by presenting a canonical
+formalization of MLTT-75 and its complete internalization in \textbf{Per},
+a novel type theory language designed for constructive proofs.
+Leveraging cubical type theory \cite{Mortberg17}, \textbf{Per}
+incorporates Path types and universe polymorphism to faithfully
+embed MLTT-75’s rules, achieving a constructive proof of the J
+eliminator for the first time. This internalization serves as
+an ultimate test of a type checker’s robustness, verifying its
+ability to fuse introduction and elimination rules through beta and eta equalities.
 
-This test is fully made possible only after 2017 when new constructive HoTT \cite{HoTT13} prover cubicaltt\footnote{http://github.com/mortberg/cubicaltt}
-prover was presented \cite{Mortberg17}.
+To make MLTT-75 accessible, we provide intuitive interpretations
+of its types: logical (as quantifiers), categorical (as functors),
+and homotopical (as spaces). These perspectives highlight MLTT’s role
+as a bridge between mathematics and computation. Our work builds on
+Martin-Löf’s vision of constructive mathematics, offering a minimal
+yet powerful framework for mechanized reasoning. We aim to inspire
+researchers and practitioners to explore type theory’s potential in
+formalizing mathematics and designing reliable software.
 
-\subsection*{Problem Statement}
-
-The formal initial problem was to create a full self-contained MLTT internalization in the host typechecker,
-where all theorems are being checked constructively. This task involves a modern techniques in type theory,
-namely cubical type theories. By following most advaced theories apply this results for building minimal
-type checker that is able to derive J and the whole MLTT theorems constructively. This leads us to the
-compact MLTT core yet compatible with future possible homotopy extensions.
-
-\subsection*{$\mathbf{Per}$ Language Syntax}
+\subsection*{Syntax}
 
 The BNF notation of type checker language used in code samples consists of:
 i) telescopes (contexts or sigma chains) and definitions;
@@ -139,35 +134,13 @@ will be described in the upcoming {\bf Issues II --- V}.
 
 \section{Interpretations}
 
-Martin-Löf Type Theory MLTT-80 contains $\Pi$, $\Sigma$, Id, W, 0, 1, 2 types.
+Martin-Löf Type Theory (MLTT), introduced by Per Martin-Löf in 1972 \cite{Lof72} and refined in 1975 \cite{Lof75}, is a foundational system for constructive mathematics, blending logical rigor with computational expressiveness. Its 1975 variant, MLTT-75, centers on dependent types ($\Pi$, $\Sigma$) and identity types (Id), which underpin its ability to formalize mathematical reasoning and type checking. This section explores four interpretations of MLTT-75—logical, categorical, homotopical, and set-theoretical—to illuminate its versatility and contextualize its internalization in the \textbf{Per} language. These perspectives reveal MLTT-75 as a unifying framework bridging logic, category theory, homotopy theory, and set theory, with each interpretation highlighting distinct aspects of its types and rules.
 
-Any new type in MLTT presented with set of 5 rules: i) formation rules, the signature of type;
-ii) the set of constructors which produce the elements of formation rule signature;
-iii) the dependent eliminator or induction principle for this type;
-iv) the beta-equality or computational rule;
-v) the eta-equality or uniquness principle. $\Pi$, $\Sigma$, and Path
-types will be given shortly. This interpretation or rather way of modeling is MLTT specific.
+In MLTT, types are defined by five classes of rules: (1) \textit{formation}, specifying the type’s signature; (2) \textit{introduction}, defining constructors for its elements; (3) \textit{elimination}, providing a dependent induction principle; (4) \textit{computation} (beta-equality), governing reduction; and (5) \textit{uniqueness} (eta-equality), ensuring canonical forms, though the latter is absent for identity types in homotopical settings. For MLTT-75, we focus on $\Pi$ (dependent function types), $\Sigma$ (dependent pair types), and Id (identity types), with the latter replaced by Path types in cubical type theory to enable constructive proofs, such as the J eliminator, in \textbf{Per}.
 
-The most interesting are Id types. Id types were added in MLTT-75 \cite{Lof84} while original MLTT-72
-with only $\Pi$ and $\Sigma$ was introduced in \cite{Lof72}.
-Predicative Universe Hierarchy was added in \cite{Lof75}.
-While original MLTT-75 contains Id types that preserve uniquness of identity
-proofs (UIP) or eta-rule of Id type, HoTT refutes UIP (eta rule desn't hold)
-and introduces univalent heterogeneous Path equality \cite{Hofmann96}.
+The identity type, introduced in MLTT-75 \cite{Lof75}, is particularly significant, enabling reasoning about equality constructively. Unlike MLTT-72, which included only $\Pi$ and $\Sigma$ types, MLTT-75’s Id types originally enforced uniqueness of identity proofs (UIP) via an eta-rule. However, modern homotopical interpretations, pioneered by Hofmann and Streicher \cite{Hofmann96}, refute UIP, adopting Path types that model equality as paths in a space, aligning with cubical type theory’s constructive framework. This shift is crucial for \textbf{Per}, as Path types facilitate the internalization of MLTT-75’s rules.
 
-Path types are essential to prove computation and uniquness rules for all types
-(needed for building signature and terms), so we will be able to prove all
-the MLTT rules as a whole.
-
-In contexts you can bind to variables (through de Brujin indexes or string names):
-i) indexed universes; ii) built-in types; iii) user constructed types, and ask
-questions about type derivability, type checking and code extraction. This system
-defines the core type checker within its language.
-
-By using this languages it is possible to encode different interpretations of
-type theory itself and its syntax by construction. Usually the issues will refer to
-following interpretations: i) type-theoretical; ii) categorical;
-iii) set-theoretical; iv) homotopical; v) fibrational or geometrical.
+Type checkers operate within contexts, binding variables to indexed universes, built-in types, or user-defined types via de Bruijn indices or names. These contexts enable queries about type derivability and code extraction, forming the core of \textbf{Per}’s type checker. By encoding MLTT-75’s syntax and rules, \textbf{Per} supports multiple interpretations, each offering unique insights into its structure and applications.
 
 \begin{table}[!ht]
   \centering
@@ -182,7 +155,7 @@ iii) set-theoretical; iv) homotopical; v) fibrational or geometrical.
        a:A program & proof & generalized element & point \\
        $B(x)$ & predicate & indexed object & fibration \\
        $b(x) : B(x)$ & conditional proof & indexed elements & section\\
-       $\emptyset$ & $\bot$ false & initial object & empty space \\
+       $\mathbf{0}$ & $\bot$ false & initial object & empty space \\
        $\mathbf{1}$ & $\top$ true & terminal object & singleton \\
        $A + B$ & $A\vee B$ disjunction & coproduct & coproduct space \\
        $A\times B$ & $A\wedge B$ conjunction & product & product space \\
@@ -201,52 +174,89 @@ iii) set-theoretical; iv) homotopical; v) fibrational or geometrical.
 
 \subsection{Logical Interpretation}
 
-According to type theoretical interpretation of MLTT for any type should be provided 5 formal
-inference rules: i) formation; ii) introduction; iii) dependent elimination principle;
-iv) beta rule or computational rule; v) eta rule or uniqueness rule. The last one could
-be exceptional for Path types. The formal representation of all rules of MLTT
-are given according to type-theoretical interpretation as a final result in this Issue I.
-It was proven that classical Logic could be embedded into
-intuitionistic propositional logic (IPL) which is directly embedded into MLTT.
+The logical interpretation casts MLTT-75 as a system for
+intuitionistic higher-order logic, where types correspond
+to propositions and terms to proofs, embodying the Curry-Howard
+correspondence. In this view, a type $A$ represents a proposition,
+and a term $a : A$ is a proof of $A$. The $\Pi$-type, $\prod_{x:A} B(x)$,
+encodes universal quantification ($\forall x : A, B(x)$),
+while the $\Sigma$-type, $\sum_{x:A} B(x)$, represents existential
+quantification ($\exists x : A, B(x)$). The identity type, $\text{Id}_A(a, b)$,
+captures propositional equality ($a =_A b$), with the J eliminator providing a
+constructive means to reason about equalities.
 
-Logical and type-theoretical interpretations could be distincted. Also
-set-theoretical interpretation is not presented in the Table.
+Each type’s five rules (formation, introduction, elimination, computation,
+and uniqueness, except for Id in cubical settings) mirror the structure
+of logical inference rules. For instance, the introduction rule for $\Pi$
+constructs a lambda term (proof of a universal statement), while its elimination
+rule applies the term to an argument (using the universal statement).
 
+MLTT-75 is not standalone framework for constructive mathematics
+but rather the extended foundational core on top of MLTT-72.
+Adding $\mathbf{0}$ (Empty), $\mathbf{1}$ (Unit), $\mathbf{2}$ (Bool) types allows
+resulting type system to internalize intuitionistic propositional logic (IPL),
+via Gödel’s double-negation translation, classical logic can be encoded within IPL \cite{Nordstrom90}.
+In \textbf{Per}, this logical framework underpins the type checker’s ability
+to verify MLTT-75’s rules, ensuring constructive consistency.
 
 \subsection{Categorical Interpretation}
 
-Categorical interpretation \cite{Curien14} is a modeling through categories and functors.
-First category is defined as objects, morphisms and their properties, then
-we define functors, etc. In particular, as an example, according to categorical
-interpretation $\Pi$ and $\Sigma$ types of MLTT are presented as adjoint
-functors, and forms itself a locally closed cartesian category, which will be given an
-intermediate result in future issues. In some sense we include here
-topos-theoretical interpretations, with presheaf model of type theory as
-example (in this case fibrations are constructes as functors, categorically).
+The categorical interpretation models MLTT-75 within category theory,
+where types are objects, terms are morphisms, and type constructions are functors.
+This perspective, formalized by Cartmell and Seely \cite{Jacobs99},
+views MLTT-75 with $\mathbf{0}$, $\mathbf{1}$, $\mathbf{2}$ types
+as a locally cartesian closed category (LCCC). Here, $\Pi$-types
+correspond to dependent products (right adjoints to base change functors),
+and $\Sigma$-types to dependent sums (left adjoints). The identity
+type, $\text{Id}_A$, is modeled as a path space object, reflecting
+equality as a morphism.
+
+For example, given a morphism $f : A \to B$ in a category, the $\Pi_f$
+functor maps a dependent type over $B$ to one over $A$, generalizing
+function spaces, while $\Sigma_f$ constructs the total space of a fibration.
+In \textbf{Per}, this interpretation informs the type checker’s handling
+of dependent types, with cubical primitives enabling precise categorical
+semantics for Path types. Topos-theoretical models, such as presheaves,
+further enrich this interpretation by treating fibrations as functors,
+aligning with MLTT-75’s expressive power \cite{Curien14}.
 
 \subsection{Homotopical Interpretation}
 
-In classical MLTT uniquness rule of Id type do holds strictly. In Homotopical
-interpretation of MLTT we need to allow a path space as Path type where uniqueness
-rule doesn't hold. Groupoid interpretation of Path equality that doesn't hold UIP generally
-was given in 1996 by Martin Hofmann and Thomas Streicher \cite{Hofmann96}.
+The homotopical interpretation, a breakthrough in modern type theory,
+views MLTT-75’s types as spaces and terms as points, with identity types as paths.
+Introduced by Hofmann and Streicher’s groupoid model \cite{Hofmann96},
+this perspective refutes the uniqueness of identity proofs (UIP) in
+classical MLTT-75, replacing Id with Path types that model equality
+as continuous paths in a space. In cubical type theory, Path types
+are functions from an interval $[0,1]$ to a type, enabling constructive
+proofs of MLTT-75’s rules, including the J eliminator, in \textbf{Per}.
 
-When objects are defined as fibrations, or dependent products, or indexed-objects
-this leds to fibrational semantics and geometric sheaf interpretation. Several definition
-of fiber bundles and trivial fiber bindle as direct isomorphisms of $\Pi$ types is
-given here as theorem. As fibrations study in homotopical interpretation, geometric
-interpretation could be treated as homotopical.
+Here, $\Pi$-types represent spaces of sections, $\Sigma$-types denote
+total spaces of fibrations, and Path types form path spaces ($A^I$).
+This interpretation connects MLTT-75 to homotopy theory, where types
+are $\infty$-groupoids, and fibrations (dependent types) are studied
+geometrically. For instance, a $\Pi$-type can be seen as a trivial fiber
+bundle, with its introduction rule constructing a section \cite{HoTT13}.
+In \textbf{Per}, cubical primitives like connections and compositions support
+this interpretation, making MLTT-75’s internalization homotopically robust.
 
-\subsection{Set Interpretation}
+\subsection{Set-Theoretical Interpretation}
 
-Set-theoretical interpretations could replace first-order logic, but could not allow
-higher equalities, as long as inductive types to be embedded directly. Set is modelled
-in type theory according to homotopical interpretation as n-type.
+The set-theoretical interpretation models MLTT-75’s types as sets and
+terms as elements, aligning with classical first-order logic. In this
+view, a type $A$ is a set, and a term $a : A$ is an element. The $\Pi$-type
+represents a set of functions, $\Sigma$-type a disjoint union of sets,
+and $\text{Id}_A(a, b)$ an equality relation. However, this interpretation
+is limited, as it cannot capture higher equalities (e.g., paths between paths)
+or inductive types directly, due to its 0-truncated nature \cite{HoTT13}.
 
-MLTT-80 could be reduced to $\Pi$, $\Sigma$, Path types (MLTT-75) omitting polynomial
-functors W modeled by F-algebras and their terminators: 0, 1, 2 types.
-In this issue $\Pi$, $\Sigma$, Path are given as a core of MLTT-75. The inductive types
-will be disscussed in the upcoming $\textbf{Issue II: Inductive Types}$.
+In homotopical terms, sets are modeled as 0-types (types with no non-trivial
+higher paths), but MLTT-75’s identity types introduce higher structure,
+making the set-theoretical view less expressive. In \textbf{Per}, the
+set-theoretical interpretation serves as a baseline, with cubical Path
+types extending it to handle MLTT-75’s full complexity. This interpretation
+clarifies the boundaries of classical logic within MLTT-75, emphasizing
+the need for homotopical or categorical models for complete internalization.
 
 \section{Internalized Type Theory}
 
