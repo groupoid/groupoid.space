@@ -21,20 +21,21 @@
 \maketitle
 
 \begin{abstract}
-Martin-Löf Type Theory (MLTT), introduced by Per Martin-Löf in 1972,
+Martin-Löf Type Theory (MLTT), introduced by Per Martin-Löf in 1972 as MLTT-72,
 is a cornerstone of constructive mathematics, providing a foundation
 for formalizing mathematical proofs and programming languages.
 Its 1975 variant, MLTT-75, incorporates dependent types ($\Pi$, $\Sigma$)
 and identity types, with the J eliminator as a key construct for reasoning about equality.
-Historically, internalizing MLTT-75 in a type checker while constructively
+Historically, internalizing MLTT in a type checker while constructively
 proving the J eliminator has been challenging due to limitations in pure
 functional systems. This article presents a canonical formalization of
-MLTT-75 and its complete internalization in \textbf{Per}, a minimal dependent type
+MLTT-75 without disjoin union types and natural numbers $\mathbb{N}$, denoted as MLTT-73
+and its complete internalization in \textbf{Per}, a minimal dependent type
 theory language equipped with cubical type primitives. Using cubical type
-theory, we constructively prove all MLTT-75 inference rules, including
+theory, we constructively prove all MLTT-73 inference rules, including
 the J eliminator, and demonstrate suitability as a robust type checker.
 We also provide logical, categorical, and homotopical
-interpretations of MLTT-75 to contextualize its significance.
+interpretations of MLTT to contextualize its significance.
 This work advances the mechanization of constructive mathematics and offers
 a blueprint for future type-theoretic explorations. \\
 \indent \textbf{Keywords}: Martin-Löf Type Theory, Cubical Type Theory.
@@ -44,7 +45,7 @@ a blueprint for future type-theoretic explorations. \\
   \tableofcontents
 \fi
 
-\section*{Introduction to MLTT}
+\section*{Introduction to MLTT-73}
 
 For decades, type theorists have sought to fully internalize
 Martin-Löf Type Theory (MLTT) within a type checker, a task
@@ -58,17 +59,18 @@ is the J eliminator, a rule that governs how identity proofs
 are used, but its constructive derivation has long eluded pure
 functional type checkers due to the complexity of equality types.
 
-This article addresses this challenge by presenting a canonical
-formalization of MLTT-75 and its complete internalization in \textbf{Per},
+The MLTT-75 without Sum Types (+) and Natural Numbers ($\mathbb{N}$) we will
+denote MLTT-73. This article addresses this challenge by presenting a canonical
+formalization of MLTT-73 and its complete internalization in \textbf{Per},
 a novel type theory language designed for constructive proofs.
 Leveraging cubical type theory \cite{Mortberg17}, \textbf{Per}
 incorporates Path types and universe polymorphism to faithfully
-embed MLTT-75’s rules, achieving a constructive proof of the J
+embed MLTT-73 rules, achieving a constructive proof of the J
 eliminator for the first time for pure MLTT. This internalization serves as
 an ultimate test of a type checker’s robustness, verifying its
 ability to fuse introduction and elimination rules through beta and eta equalities.
 
-To make MLTT-75 accessible, we provide intuitive interpretations
+To make MLTT accessible, we provide intuitive interpretations
 of its types: logical (as quantifiers), categorical (as functors),
 and homotopical (as spaces). These perspectives highlight MLTT’s role
 as a bridge between mathematics and computation. Our work builds on
@@ -77,8 +79,8 @@ yet powerful framework for mechanized reasoning. We aim to inspire
 researchers and practitioners to explore type theory’s potential in
 formalizing mathematics and designing reliable software.
 
-\subsection*{Syntax of MLTT}
 
+\subsection*{Syntax of Per}
 The BNF notation of type checker language used in code samples consists of:
 i) telescopes (contexts or sigma chains) and definitions;
 ii) pure dependent type theory syntax;
@@ -88,8 +90,8 @@ v) module system. It is slightly based on cubicaltt.
 
 \begin{lstlisting}[mathescape=true]
 F = module I where L
-L = $\emptyset$ | import I | def I T : O := O
-T = $\emptyset$ | ( I : O ) T
+L = $\varnothing$ | import I | def I T : O := O
+T = $\varnothing$ | ( I : O ) T
 O = I | ( O ) | U | O → O | O O
   | Π ( I : O ) , O | λ ( I : O ), O
   | Ξ O O O O O | $\langle$ O $\rangle$ O | O @ O | transp O O
@@ -97,7 +99,7 @@ O = I | ( O ) | U | O → O | O O
   | Σ ( I : O ) , O | O .1 | O .2 | O , O
 \end{lstlisting}
 
-Here = (definition), $\emptyset$ (empty set), $\rvert$, are parts of BNF language and
+Here = (definition), $\varnothing$ (empty set), $\rvert$, are parts of BNF language and
 $\langle$, $\rangle$, (, ), :=, $\vee$, $\wedge$, -, $\rightarrow$, 0, 1, @, $\Box$,
 $\mathbf{module}$, $\mathbf{import}$, $\mathbf{where}$, $\mathbf{transp}$, $\mathbf{.1}$, $\mathbf{.2}$,
 and $,$ are terminals of type checker language.
@@ -110,7 +112,7 @@ mathematics, blending logical rigor with computational expressiveness.
 Its 1975 variant, MLTT-75, centers on dependent types ($\Pi$, $\Sigma$)
 and identity types (Id), which underpin its ability to formalize mathematical
 reasoning and type checking. This section explores four interpretations
-of MLTT-75—logical, categorical, homotopical, and set-theoretical—to illuminate
+of MLTT-75: logical, categorical, homotopical, and set-theoretical; --- to illuminate
 its versatility and contextualize its internalization in the \textbf{Per} language.
 These perspectives reveal MLTT-75 as a unifying framework bridging logic,
 category theory, homotopy theory, and set theory, with each interpretation
@@ -124,18 +126,18 @@ In MLTT, types are defined by five classes of rules:
 (5) \textit{uniqueness} (eta-equality), ensuring canonical forms,
 though the latter is absent for identity types in homotopical settings.
 
-For MLTT-75, we focus on $\Pi$ (dependent function types), $\Sigma$ (dependent pair types),
+For MLTT-73, we focus on $\Pi$ (dependent function types), $\Sigma$ (dependent pair types),
 and Id (identity types), with the latter replaced by Path types in cubical type theory
 to enable constructive proofs, such as the J eliminator, in \textbf{Per}.
-
 The identity type, introduced in MLTT-75 \cite{Lof75}, is particularly significant,
 enabling reasoning about equality constructively. Unlike MLTT-72, which included
 only $\Pi$ and $\Sigma$ types, MLTT-75’s Id types originally enforced uniqueness
-of identity proofs (UIP) via an eta-rule. However, modern homotopical interpretations,
-pioneered by Hofmann and Streicher \cite{Hofmann96}, refute UIP, adopting Path types
-that model equality as paths in a space, aligning with cubical type theory’s constructive
-framework. This shift is crucial for \textbf{Per}, as Path types facilitate the
-internalization of MLTT-75’s rules.
+of identity proofs (UIP) via an eta-rule.
+
+However, modern homotopical interpretations, pioneered by Hofmann and
+Streicher \cite{Hofmann96}, refute UIP, adopting Path types that model equality
+as paths in a space, aligning with cubical type theory’s constructive framework.
+This shift is crucial for \textbf{Per}, as Path types facilitate the internalization of MLTT-75’s rules.
 
 Type checkers operate within contexts, binding variables to indexed universes,
 built-in types, or user-defined types via de Bruijn indices or names. These
@@ -544,7 +546,7 @@ pathSig (A:U) (B : A -> U) (t u : Sigma A B)
 \end{lstlisting}
 \end{theorem}
 
-\subsection{Path ($\Xi$)}
+\subsection{Path Spaces ($\Xi$)}
 
 The Path identity type or $\Xi$ defines a Path space with elements and values.
 Elements of that space are functions from interval $[0,1]$ to a values of that path space.
@@ -752,12 +754,10 @@ J_comp (A: U) (a: A) (C: (x: A)
 Note that  Path type has no Eta rule due to groupoid interpretation.
 
 \subsubsection*{Groupoid interpretation}
-
 The groupoid interpretation of type theory is well known article by Martin Hofmann and Thomas Streicher,
 more specific interpretation of identity type as infinity groupoid.
 
-\subsection{Contexts}
-
+\subsection{Contexts and Universes}
 Speaking of type checker execution, we introduce context or dictionary with types and terms,
 from which we can derive typed variables. This chain could be implemented as
 nested sigma types (due to R.A.G.Seely) or list types (due to Voevodsky). Categorically
@@ -780,8 +780,6 @@ $$
 \Gamma \vdash A =_{def} \prod_{\gamma:\Gamma}A(\gamma).
 $$
 \end{definition}
-
-\subsection{Universes}
 
 \begin{definition} (Terms). Point in initial object of language AST
 inductive definition is called a term. If type theory or language is defined as
@@ -839,13 +837,13 @@ $\mathrm{U_i} \rightarrow \mathrm{U_j} : \mathrm{U_{\lambda(i,j), i,j \in \mathr
     \}$. Where $U_i$ is a universe of $i$-level or $i$-category in categorical interpretation.
 \end{example}
 
-\subsection{MLTT-75}
+\subsection{MLTT-73}
 Here is given formal model of type-theoretical interpretation of Martin-Löf Type Theory.
 It combines 4 Path rules (no eta), 5 $\Pi$ rules, and 6 $\Sigma$ rules (two elims).
 The proof is provided by direct embedding (internalizing) the model intro the model
 of type checker which is even more powerful.
 
-\begin{definition} (MLTT-75).
+\begin{definition} (MLTT-73).
 The MLTT as a Type is defined by taking all rules
 for $\Pi$, $\Sigma$ and Path types into one $\Sigma$ telescope or context.
 \begin{lstlisting}[mathescape=true]
@@ -894,104 +892,66 @@ instance (A: U) : MLTT A
 \end{lstlisting}
 \end{theorem}
 
-The result of the work is a $\text{mltt.ctt}$ file which can be runned using $\mathbf{cubicaltt}$.
-Note that computation rules take a seconds to type check.
-
-\begin{lstlisting}
-Anders --- 0.1 second.
-Arend --- 1 second.
-Agda --- 2 second.
-cubicaltt --- 6 second.
-\end{lstlisting}
+The result of the work is a \texttt{mltt.ctt} file which can be runned using \texttt{cubicaltt}.
+Note that MLTT-75 internalization includes only eliminator and computational rule (without uniquness rule)
+for identity system, as cubical Path spaces refute uniqueness of identity proofs.
 
 \subsection*{Conclusions}
 
-In this issue the type-theoretical model (interpretation) of MLTT was
-presented in cubical syntax and type checked in it.
-This is the first constructive proof of internalization of MLTT.
+This article presents a landmark achievement in type theory:
+the constructive internalization of Martin-Löf Type Theory (MLTT-73)
+within the \textbf{Per} language, a minimal type system equipped with
+cubical type theory primitives. By embedding MLTT-73’s core types
+--- dependent function types ($\Pi$), dependent pair types ($\Sigma$),
+and identity types (Id, modeled as Path ($\Xi$) types in cubical syntax) ---
+we have constructively verified all inference rules, including the pivotal
+J eliminator, using the cubical type checker \cite{Mortberg17}.
 
-From the theoretical point of view the landspace of possible interpretation was shown
-corresponding different mathematical theories for those who are new to type theory.
-The brief description of the previous attempts to internalize MLTT could
-be found as canonical example in MLTT works, but none of them give the constructive
-J eliminator or its equality rule.
-
-Type theoretical cubical constructions was given for the Path types
-along the article for other interpretations, all of them were taken
-from our Groupoid Infinity \footnote{https://groupoid.space/} base library.
+This internalization, formalized in the \texttt{mltt.ctt} file and
+validated with cubicaltt, marks a significant advance in mechanized
+reasoning, as it provides a rigorous test of a type checker’s ability
+to fuse introduction and elimination rules through beta and eta equalities.
 
 \begin{table}[!ht]
-  \begin{tabular}{lccccccc}
+  \begin{tabular}{lcccccccccc}
     \hline
-       Lang          & $\Pi$ & $\Sigma$ & $\equiv$ & $\text{Path}$ & $U^{\infty}$ & Co/Fix & Lazy\\
+       Lang               & $U^n$ & $\Pi$ & $\Sigma$ & Id & $\Xi$ & Fix & 0/1/2 & $W$ & Ind & $\mathbb{N}$ \\
     \hline
-       CoC-88        & x \\
-       Henk          & x &   &   &   & x \\
-       MLTT-72       & x & x \\
-       MLTT-75       & x & x & x \\
-       Per           & x & x &   & x & x \\
-       Lean, Agda    & x &   & x & x & x  \\
-       NuPRL         & x & x & x &   &   & x \\
-       System-D      & x & x &   &   &   & x & x\\
-       cubicaltt     & x & x & x & x &   & x \\
+       CoC-88             &       & x     &          &    &       &     &       &     &     &     \\
+       MLTT-72            &       & x     & x        &    &       &     &       &     &     &     \\
+       Henk (ECC)         & x     & x     &          &    &       &     &       &     &     &     \\
+       LCCC               & x     & x     & x        &    &       &     & x     &     &     &     \\
+       MLTT-73            & x     & x     & x        & x  &       &     &       &     &     &     \\
+       MLTT-75            & x     & x     & x        & x  &       &     & x     &     &     & x   \\
+       Per                & x     & x     & x        &    & x     &     &       &     &     &     \\
+       MLTT-80            & x     & x     & x        & x  &       &     & x     & x   &     &     \\
+       Anders (HTS)       & x     & x     & x        & x  & x     &     & x     & x   &     &     \\
+       Frank (CoC+CIC)    & x     & x     &          &    &       &     &       &     & x   &     \\
+       Christine (Coq)    & x     & x     & x        & x  &       &     &       &     & x   &     \\
+    \hline
+       cuicaltt           &       & x     & x        &    & x     & x   &       &     & x   &     \\
+       Agda               & x     & x     & x        & x  & x     & x   &       &     & x   &     \\
+       Lean               & x     & x     & x        & x  &       & x   &       &     & x   &     \\
+       NuPRL              &       & x     & x        & x  &       & x   & x     &     &     &     \\
+    \hline
   \end{tabular}
 \end{table}
 
-The objective of complete derivability of all eliminators, computational and uniquness rules
-is a basic objective for constructive mathematics as mathematical reasoning implies verification
-and mechanization. Yes cubical type system represent most compact system that make possible
-derivability of all theorems for core types which make this system as a first candidate for
-the metacircular type checker.
+The significance of this work lies in its constructive approach to the
+J eliminator, a cornerstone of MLTT-75’s identity type, which previous
+internalization attempts failed to derive constructively \cite{Lof75, Nordstrom90}.
+By leveraging cubical type theory’s Path types and operations (e.g., connections,
+compositions), \textbf{Per} achieves a compact and robust framework for encoding
+MLTT-75, as demonstrated by the type-theoretical model presented herein.
+The article also elucidates MLTT-75’s versatility through logical, categorical,
+homotopical, and set-theoretical interpretations, offering a comprehensive
+landscape for researchers and newcomers to type theory.
 
-Also for programming purposes we may also want to investigate Fixpoint as a useful
-type in coinductive and modal type theories and harmful type in theoretical foundation of type systems.
-Elimination the possibility of uncontrolled Fixpoint is a main objective of the correct type system
-for reasoning without paradoxes. By this creatiria we could filter all the fixpoint implementations being condidered harmful.
-
-Without a doubt the core type that makes type theory more
-like programming is the inductive type system that allows to
-define type families. In the following Issue II will be shown
-the semantics and embedding of inductive types with several types
-of Inductive-Recursive encodings.
-
-\begin{table}[!ht]
-  \begin{tabular}{lccc}
-    \hline
-       Lang       & Co/Inductive & Quot/Trunc & HITs\\
-    \hline
-       System-D   & x         \\
-       Lean       & x & x     \\
-       NuPRL      & x & x     \\
-       Arend      & x & x & x \\
-       Agda, Coq  & x &   & x \\
-       cubicaltt,
-       yacctt,
-       redtt      & x &   & x \\
-  \end{tabular}
-\end{table}
-
-Further research of the most pure type theory on a weak fibrations and pure Kan
-oprations without interval lattice structure (connections, de Morgan algebra, connection
-algebras) and diagonal coersions could be made on the way of building a minimal homotopy core \cite{Cavallo19}.
-
-\begin{table}[!ht]
-  \begin{tabular}{lccc}
-    \hline
-       Lang & Interval & Diagonal & Kan/Coe\\
-    \hline
-       BCH, cubical        & & & $0\rightarrow r$, $1 \rightarrow r$\\
-       CCHM, cubicaltt, Agda       & $\lor$,$\land$ & & $0 \rightarrow 1$\\
-       Dedekind          & $\lor$,$\land$ & & $0 \rightarrow 1$, $1 \rightarrow 0$\\
-       AFH/ABCFHL, yacctt & & x & $r \rightarrow s$\\
-       HTS/CMS    & &   & $r \rightarrow s$, $weak$\\
-  \end{tabular}
-\end{table}
-
-The next language after $\mathbf{Henk}$ and $\mathbf{Per}$ will
-be $\mathbf{Anders}$ with homotopy type system and infinite number of universes.
-Along with $\mathbf{Alonso}$ cartesian interpreter this evaluators form a set of
-languages as a part of conceptual model of theorem proving system with
-formalized virtual machine as extraction target.
+The internalization of MLTT-75 in \textbf{Per} advances the mechanization
+of constructive mathematics by providing a verified foundation for type checkers.
+\textbf{Per}’s cubical framework ensures that all inference rules,
+except for Path types refuting UIP are derivable, fulfilling a core objective
+of constructive reasoning: verifiable mathematical proofs.
 
 \begin{thebibliography}{99}
 
