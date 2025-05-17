@@ -105,7 +105,7 @@ and $,$ are terminals of type checker language.
 
 \section{Interpretations}
 
-\subsection*{Type-Theoretical Interpretation}
+\subsection*{Type-theoretical Interpretation}
 
 Martin-Löf Type Theory (MLTT), introduced by Per Martin-Löf in 1972 \cite{Lof72}
 and refined in 1975 \cite{Lof75}, is a foundational system for constructive
@@ -242,7 +242,7 @@ bundle, with its introduction rule constructing a section \cite{HoTT13}.
 In \textbf{Per}, cubical primitives like connections and compositions support
 this interpretation, making MLTT-75’s internalization homotopically robust.
 
-\subsection{Set-Theoretical Interpretation}
+\subsection{Set-theoretical Interpretation}
 
 The set-theoretical interpretation models MLTT-75’s types as sets and
 terms as elements, aligning with classical first-order logic. In this
@@ -287,7 +287,7 @@ $\Pi$-types represents the way we create the spaces of
 dependent functions $f: \Pi(x:A), B(x)$ with domain
 in $A$ and codomain in type family $B : A \rightarrow U$ over $A$.
 $$
-  \Pi : U =_{def} \prod_{A:U}\prod_{x:A}B(x).
+  \Pi(A,B) : U =_{def} \prod_{A:U}\prod_{B: A \rightarrow U}\prod_{x:A}B(x).
 $$
 \begin{lstlisting}[mathescape=true]
 def Pi (A : U) (B : A → U) : U := Π (x : A), B x
@@ -298,10 +298,10 @@ def Pi (A : U) (B : A → U) : U := Π (x : A), B x
 Lambda constructor defines a new lambda function in the space of dependent functions.
 It is called lambda abstraction and displayed as $\lambda x. b(x)$ or $x \mapsto b(x)$.
 $$
-  \backslash (x: A) \rightarrow b : \Pi(A,B) =_{def}
+  \lambda (x: A), b(x) : \Pi(A,B) =_{def}
 $$
 $$
-  \prod_{A:U}\prod_{B:A \rightarrow U}\prod_{b:B(a)}\lambda x.b_x.
+  \prod_{A:U}\prod_{B:A \rightarrow U}\prod_{b:\Pi(A,B)}\lambda x, b_x.
 $$
 \begin{lstlisting}[mathescape=true]
 def lambda (A: U) (B: A → U) (b: Pi A B) : Pi A B := λ (x : A), b x
@@ -517,7 +517,7 @@ telescopes, lenses, contexts, objects, algebras, $\exists$-type, etc.
 The dependent sum type is indexed over type $A$ in the sense of coproduct or disjoint union,
 where only one fiber codomain $B(x)$ is present in pair.
 $$
-   \Sigma : U =_{def} \sum_{x:A} B(x).
+   \Sigma(A,B) : U =_{def} \prod_{A:U}\prod_{B: A \rightarrow U }\sum_{x:A} B(x).
 $$
 \begin{lstlisting}[mathescape=true]
 def Sigma (A: U) (B: A → U) : U := Σ (x: A), B(x)
@@ -541,14 +541,10 @@ $pr_{1}: \Sigma(A,B) \rightarrow A$ and
 $pr_{2}: \Pi_{x: \Sigma(A,B)} B(pr_{1}(x))$ are pair deconstructors.
 $$
   \mathbf{pr}_1 : \prod_{A:U} \prod_{B:A \rightarrow U} \prod_{x: \Sigma(A,B)} A
-$$
-$$
   =_{def} .1 =_{def} (a,b) \mapsto a.
 $$
 $$
   \mathbf{pr}_2 : \prod_{A:U} \prod_{B:A \rightarrow U} \prod_{x: \Sigma(A,B)} B(x.1)
-$$
-$$
   =_{def} .2 =_{def} (a,b) \mapsto b.
 $$
 \begin{lstlisting}[mathescape=true]
@@ -601,9 +597,10 @@ If for all $x : A$ there is $y : B$ such that $R(x,y)$,
 then there is a function $f : A \rightarrow B$
 such that for all $x : A$ there is a witness of $R(x,f(x))$.
 \begin{lstlisting}
-ac (A B: U) (R: A -> B -> U)
- : (p: (x:A) -> (y:B)*(R x y))
--> (f:A->B) * ((x:A)->R(x)(f x))
+def ac (A B: U) (R: A -> B -> U)
+    (g: Π (x: A), Σ (y: B), R x y)
+  : Σ (f: A -> B), Π (x: A), R x (f x)
+ := (\(i:A),(g i).1,\(j:A),(g j).2)
 \end{lstlisting}
 \end{theorem}
 
@@ -612,17 +609,10 @@ If fiber over base implies another fiber
 over the same base then we can construct total space of section
 over that base with another fiber.
 \begin{lstlisting}
-total (A:U) (B C: A -> U)
-      (f: (x:A) -> B x -> C x) (w: Sigma A B)
-    : Sigma A C = (w.1,f (w.1) (w.2))
-\end{lstlisting}
-\end{theorem}
-
-\begin{theorem} ($\Sigma$-Contractability). If the fiber is set then the $\Sigma$ is set.
-\begin{lstlisting}
-setSig (A:U) (B: A -> U) (sA: isSet A)
-       (sB : (x:A) -> isSet (B x))
-     : isSet (Sigma A B)
+def total (A:U) (B C : A -> U)
+    (f : Π (x:A), B x -> C x)
+    (w: Σ(x: A), B x)
+  : Σ (x: A), C x := (w.1,f (w.1) (w.2))
 \end{lstlisting}
 \end{theorem}
 
@@ -630,18 +620,24 @@ setSig (A:U) (B: A -> U) (sA: isSet A)
 Path between two sigmas $t,u: \Sigma(A,B)$ could be decomposed to
 sigma of two paths $p:t_1=_{A}u_1)$ and $(t_2=_{B(p@i)}u_2)$.
 \begin{lstlisting}
-pathSig (A:U) (B : A -> U) (t u : Sigma A B)
-      : Path U (Path (Sigma A B) t u)
-               ((p: Path A t.1 u.1)
-              * PathP (<i>B(p@i)) t.2 u.2)
+def pathSig (A: U) (P: A -> U)
+    (t u: Σ (x: A), P x) (p: PathP (&lt;_>A) t.1 u.1)
+  : PathP (&lt;_>U) (PathP (<i> P (p @ i)) t.2 u.2)
+    (PathP (<_>P u.1)
+           (hcomp (P u.1) 0 (λ(k:I),[])
+           (transp (&lt;i> P (p @ i)) 0 t.2)) u.2)
 \end{lstlisting}
 \end{theorem}
 
 \newpage
 \subsection{Path Space ($\Xi$)}
 
-The Path identity type or $\Xi$ defines a Path space with elements and values.
-Elements of that space are functions from interval $[0,1]$ to a values of that path space.
+The homotopy identity system defines a $\mathbf{Path}$ space indexed over type $A$
+with elements as functions from interval $[0,1]$ to values
+of that path space $[0,1] \rightarrow A$. HoTT book
+defines two induction principles for identity types:
+path induction and based path induction.
+
 This ctt file reflects \footnote{Cyril Cohen, Thierry Coquand, Simon Huber, Anders M{\"{o}}rtberg. Cubical Type Theory: a constructive interpretation of the univalence axiom. 2015. \url{https://5ht.co/cubicaltt.pdf}}{CCHM} cubicaltt model with connections.
 For \footnote{Carlo Angiuli, Brunerie, Coquand, Kuen-Bang Hou (Favonia), Robert Harper, Dan Licata. Cartesian Cubical Type Theory. 2017. \url{https://5ht.co/cctt.pdf}}{ABCFHL} yacctt model with
 variables please refer to ytt file. You may also want to
@@ -649,39 +645,43 @@ read \footnote{Marc Bezem, Thierry Coquand, Simon Huber. A model of type theory 
 \footnote{Carlo Angiuli, Kuen-Bang Hou (Favonia), Robert Harper. Cartesian Cubical Computational Type Theory: Constructive Reasoning with Paths and Equalities. 2018. \\ \url{https://www.cs.cmu.edu/~cangiuli/papers/ccctt.pdf}}{AFH}.
 There is a \footnote{Andrew Pitts, Ian Orton. Axioms for Modelling Cubical Type Theory in a Topos. 2016. \url{https://arxiv.org/pdf/1712.04864.pdf}}{PO} paper about CCHM axiomatic in a topos.
 
-\subsubsection*{Cubical interpretation}
+\subsubsection*{Type-theoretical interpretation}
 
-Cubical interpretation was first given by Simon Huber \cite{Huber16} and later was
-written first constructive type checker in the world by Anders M{\"{o}}rtberg \cite{Mortberg17}.
-
-\begin{definition} (Path Formation).
+\begin{definition}[Path Formation]
+$$
+   \Xi : U =_{def} \prod_{A:U}\prod_{x,y:A} \mathbf{Path}_A(x,y).
+$$
 \begin{lstlisting}
-Hetero (A B: U)(a: A)(b: B)(P: Path U A B)
-  : U = PathP P a b
-Path (A: U) (a b: A)
-  : U = PathP (<i> A) a b
+def Path (A : U) (x y : A) : U
+ := PathP (<_> A) x y
+
+def Path' (A : U) (x y : A)
+ := Π (i : I), A [∂ i |-> [(i = 0) → x, (i = 1) → y ]]
 \end{lstlisting}
 \end{definition}
 
-\begin{definition} (Path Reflexivity).
-Returns an element of reflexivity path space for a given value of the type.
+\begin{definition}[Path Introduction]
+$$
+   \mathbf{idp} : x \equiv_A x =_{def} \prod_{A:U}\prod_{x:A} [i] x.
+$$
+\begin{lstlisting}[mathescape=true]
+def idp (A: U) (x: A) : Path A x x := <_> x
+\end{lstlisting}
+Returns a reflexivity path space for a given value of the type.
 The inhabitant of that path space is the lambda on the homotopy
-interval $[0,1]$ that returns a constant value a. Written in
-syntax as |<i>a| which equals to $\lambda\ (i: I) \rightarrow a$.
-\begin{lstlisting}
-refl (A: U) (a: A) : Path A a a
-\end{lstlisting}
+interval $[0,1]$ that returns a constant value $x$. Written in
+syntax as $[i]x$.
 \end{definition}
 
-\begin{definition} (Path Application).
+\begin{definition}[Path Application]
 You can apply face to path.
 \begin{lstlisting}
-app1 (A: U)(a b:A)(p:Path A a b):A=p@0
-app2 (A: U)(a b:A)(p:Path A a b):A=p@1
+def at0 (A: U) (a b: A) (p: Path A a b) : A := p @ 0
+def at1 (A: U) (a b: A) (p: Path A a b) : A := p @ 1
 \end{lstlisting}
 \end{definition}
 
-\begin{definition} (Path Composition).
+\begin{definition}[Path Composition]
 Composition operation allows to build a new path by given to paths
 in a connected point.
 \begin{center}
@@ -698,25 +698,23 @@ in a connected point.
     (m-2-1) edge node [above] {$p @ i$} (m-2-2);
 \end{tikzpicture}
 \end{center}
-\begin{lstlisting}
-composition
-    (A: U) (a b c: A)
-    (p: Path A a b) (q: Path A b c)
+\begin{lstlisting}[mathescape=true]
+def pcomp (A : U) (a b c : A) (p : Path A a b) (q : Path A b c)
   : Path A a c
-  = comp (<i>Path A a (q@i)) p []
+ := <i> hcomp A (∂ i) (λ (j : I), [(i = 0) → a,
+                                   (i = 1) → q @ j]) (p @ i)
 \end{lstlisting}
 \end{definition}
 
-\begin{theorem} (Path Inversion).
-\begin{lstlisting}
-inv (A: U) (a b: A) (p: Path A a b)
-  : Path A b a = <i> p @ -i
+\begin{theorem}[Path Inversion] \indent
+\begin{lstlisting}[mathescape=true]
+def inv (A: U) (a b: A) (p: Path A a b) : Path A b a := <i> p @ -i
 \end{lstlisting}
 \end{theorem}
 
-\begin{definition} (Connections).
-Connections allows you to build square
-with given only one element of path: i) $\lambda\ (i,j: I) \rightarrow p\ @\ min(i,j)$;
+\begin{definition}[Connections]
+Connections allows you to build square with given only one element of path:
+i) $\lambda\ (i,j: I) \rightarrow p\ @\ min(i,j)$;
 ii) $\lambda\ (i,j:I) \rightarrow p\ @\ max(i,j)$.
 \begin{center}
   \begin{tikzpicture}
@@ -744,112 +742,118 @@ ii) $\lambda\ (i,j:I) \rightarrow p\ @\ max(i,j)$.
     (m-2-1) edge node [above] {$p$} (m-2-2);
   \end{tikzpicture}
 \end{center}
-\begin{lstlisting}
-meet (A: U) (a b: A) (p: Path A a b)
+\begin{lstlisting}[mathescape=true]
+def meet (A: U) (a b: A) (p: Path A a b)
   : PathP (<x> Path A a (p@x)) (<i>a) p
   = <x y> p @ (x /\ y)
 
-join (A: U) (a b: A) (p: Path A a b)
+def join (A: U) (a b: A) (p: Path A a b)
   : PathP (<x> Path A (p@x) b) p (<i>b)
   = <y x> p @ (x \/ y)
 \end{lstlisting}
 \end{definition}
 
-\begin{theorem} (Congruence).
+\begin{theorem}[Congruence]
 Is a map between values of one type
 to path space of another type by an encode function between types.
 Implemented as lambda defined on $[0,1]$ that returns
 application of encode function to path application of
-the given path to lamda argument |$\lambda$ (i:I) $\rightarrow$ f (p @ i)|
+the given path to lamda argument $ \lambda (i:I), f (p @ i)$
 for both cases.
+$$
+   \mathrm{ap} : f(a)\equiv f(b) =_{def}
+$$
+$$
+   \prod_{A:U}\prod_{a,x:A}\prod_{B:A\rightarrow U}\prod_{f: \Pi(A,B)}\prod_{p:a\equiv_A x}[i] f(p@i).
+$$
 \begin{lstlisting}
-ap  (A B: U) (f: A -> B)
-    (a b: A) (p: Path A a b)
+def ap (A B: U) (f: A -> B) (a b: A) (p: Path A a b)
   : Path B (f a) (f b)
 
-apd (A: U) (a x:A) (B: A -> U) (f: A -> B a)
-    (b: B a) (p: Path A a x)
+def apd (A: U) (a x: A) (B: A -> U)
+    (f: A -> B a) (b: B a) (p: Path A a x)
   : Path (B a) (f a) (f x)
 \end{lstlisting}
 \end{theorem}
 
-\begin{theorem} (Transport).
-Transports a value of the domain type to the value of the codomain type
-by a given path element of the path space between domain and codomain types.
-Defined as path composition with |[]| of a over a path $p$ --- |comp p a []|.
+\begin{theorem}[Generalized Transport Kan Operation]
+Transports a value of the left type to the value of the right type
+by a given path element of the path space between left and right types.
+$$
+  \mathrm{transport} : A(0) \rightarrow A(1) =_{def}
+$$
+$$
+   \prod_{A:I\rightarrow U}\prod_{r:I} \lambda x,\mathbf{transp}([i]A(i),0,x).
+$$
 \begin{lstlisting}
-trans (A B: U) (p: Path U A B) (a: A) : B
+def transp' (A: U) (x y: A) (p : PathP (<_>A) x y) (i: I)
+ := transp (<i> (\(_:A),A) (p @ i)) i x
+
+def transp-U (A B: U) (p : PathP (<_>U) A B) (i: I)
+ := transp (<i> (\(_:U),U) (p @ i)) i A
 \end{lstlisting}
 \end{theorem}
 
-\subsubsection*{Type-theoretical interpretation}
 \begin{definition} (Singleton).
 \begin{lstlisting}
-singl (A: U) (a: A): U = (x: A) * Path A a x
+def singl (A: U) (a: A): U := Σ (x: A), Ξ A a x
 \end{lstlisting}
 \end{definition}
 
 \begin{theorem} (Singleton Instance).
 \begin{lstlisting}
-eta (A: U) (a: A): singl A a = (a,refl A a)
+def eta (A: U) (a: A): singl A a := (a, idp A a)
 \end{lstlisting}
 \end{theorem}
 
 \begin{theorem} (Singleton Contractability).
 \begin{lstlisting}
-contr (A: U) (a b: A) (p: Path A a b)
-  : Path (singl A a) (eta A a) (b,p)
-  = <i> (p @ i,<j> p @ i/\j)
+def contr (A : U) (a b : A) (p : Ξ A a b)
+  : Ξ (singl A a) (eta A a) (b, p)
+ := <i> (p @ i, <j> p @ i /\ j)
 \end{lstlisting}
 \end{theorem}
 
-\begin{theorem} (Path Elimination, Paulin-Mohring).
-J is formulated in a form of Paulin-Mohring and implemented using
-two facts that singleton are contractible and dependent function
-transport.
+\begin{theorem} (Path Elimination).
 \begin{lstlisting}
-J (A: U) (a b: A)
-  (P: singl A a -> U)
-  (u: P (a,refl A a))
-  (p: Path A a b) : P (b,p)
-\end{lstlisting}
-\end{theorem}
+def subst (A : U) (P : A -> U) (a b : A)
+    (p : Ξ A a b) (e : P a) : P b
+ := transp (<i> P (p @ i)) 0 e
 
-\begin{theorem} (Path Elimination, HoTT).
-J from HoTT book.
-\begin{lstlisting}
-J (A: U) (a b: A)
-  (C: (x: A) -> Path A a x -> U)
-  (d: C a (refl A a))
-  (p: Path A a b) : C b p
+def D (A : U) : U₁
+ := Π (x y : A), Path A x y → U
+
+def J (A: U) (x: A) (C: D A) (d: C x x (idp A x))
+    (y: A) (p: Ξ A x y) : C x y p
+ := subst (singl A x) (\ (z: singl A x), C x (z.1) (z.2))
+    (eta A x) (y, p) (contr A x y p) d
 \end{lstlisting}
 \end{theorem}
 
 \begin{theorem} (Path Computation).
 \begin{lstlisting}
-trans_comp (A: U) (a: A)
-  : Path A a (trans A A (<_> A) a)
-  = fill (<i> A) a []
-subst_comp (A: U) (P: A -> U) (a: A) (e: P a)
-  : Path (P a) e (subst A P a a (refl A a) e)
-  = trans_comp (P a) e
-J_comp (A: U) (a: A) (C: (x: A)
- -> Path A a x -> U) (d: C a (refl A a))
-  : Path (C a(refl A a)) d
-         (J A a C d a(refl A a))
-  = subst_comp (singl A a) T (eta A a) d
-    where T (z:singl A a)
-        : U = C a (z.1) (z.2)
+def trans_comp (A : U) (a : A)
+  : Ξ A a (transport A A (<i> A) a)
+ := <j> transp (<_> A) -j a
+
+def subst-comp (A: U) (P: A → U) (a: A) (e: P a)
+  : Ξ (P a) e (subst A P a a (idp A a) e)
+ := trans_comp (P a) e
+
+def J-β (A : U) (a : A) (C : D A) (d: C a a (idp A a))
+  : Ξ (C a a (idp A a)) d (J A a C d a (idp A a))
+ := subst-comp (singl A a)
+    (\ (z: singl A a), C a (z.1) (z.2)) (eta A a) d
 \end{lstlisting}
 \end{theorem}
 
-Note that  Path type has no Eta rule due to groupoid interpretation.
+Note that Path type has no Eta rule due to groupoid interpretation.
 
 \subsubsection*{Groupoid interpretation}
 The groupoid interpretation of type theory is well known article by Martin Hofmann and Thomas Streicher,
 more specific interpretation of identity type as infinity groupoid.
 
-\subsection{Contexts and Universes}
+\subsection*{Contexts}
 Speaking of type checker execution, we introduce context or dictionary with types and terms,
 from which we can derive typed variables. This chain could be implemented as
 nested sigma types (due to R.A.G.Seely) or list types (due to Voevodsky). Categorically
@@ -883,6 +887,8 @@ Could have any number of elements which defines different type systems. All buil
 types as long as user defined types are landed usually by default in $U_0$ universe.
 Sorts represented in type checker as a separate constructor.
 \end{definition}
+
+\subsection*{Universes}
 
 \begin{definition} (Axioms). The inclusion rules {\bf $\mathrm{U_i : U_j}, i,j \in \mathrm{N}$},
 that define which universe is element of another given universe. You may attach
@@ -929,6 +935,7 @@ $\mathrm{U_i} \rightarrow \mathrm{U_j} : \mathrm{U_{\lambda(i,j), i,j \in \mathr
     \}$. Where $U_i$ is a universe of $i$-level or $i$-category in categorical interpretation.
 \end{example}
 
+\newpage
 \subsection{MLTT-73}
 Here is given formal model of type-theoretical interpretation of Martin-Löf Type Theory.
 It combines 4 Path rules (no eta), 5 $\Pi$ rules, and 6 $\Sigma$ rules (two elims).
@@ -939,47 +946,42 @@ of type checker which is even more powerful.
 The MLTT as a Type is defined by taking all rules
 for $\Pi$, $\Sigma$ and Path types into one $\Sigma$ telescope or context.
 \begin{lstlisting}[mathescape=true]
-MLTT (A: U): U
-  = (Pi_Former: (A $\rightarrow$ U) $\rightarrow$ U)
-  * (Pi_Intro: (B: A $\rightarrow$ U) (a: A) $\rightarrow$ B a $\rightarrow$ (A $\rightarrow$ B a))
-  * (Pi_Elim: (B: A $\rightarrow$ U) (a: A) $\rightarrow$ (A $\rightarrow$ B a) $\rightarrow$ B a)
-  * (Pi_Comp$_1$: (B: A $\rightarrow$ U) (a: A)
-    (f: A $\rightarrow$ B a) $\rightarrow$ Path (B a)
-    (Pi_Elim B a(Pi_Intro B a(f a)))(f a))
-  * (Pi_Comp$_2$: (B: A $\rightarrow$ U) (a: A)
-    (f: A $\rightarrow$ B a) $\rightarrow$ Path (A $\rightarrow$ B a) f (\(x:A) $\rightarrow$ f x))
-  * (Sigma_Former: (A $\rightarrow$ U) $\rightarrow$ U)
-  * (Sigma_Intro: (B: A $\rightarrow$ U) (a: A) (b: B a) $\rightarrow$ Sigma A B)
-  * (Sigma_Elim1: (B: A $\rightarrow$ U)
-    (_: Sigma A B) $\rightarrow$ A)
-  * (Sigma_Elim2: (B: A $\rightarrow$ U)
-    (x: Sigma A B) $\rightarrow$ B (pr1 A B x))
-  * (Sigma_Comp1: (B: A $\rightarrow$ U) (a: A) (b: B a) 
-      $\rightarrow$ Path A a (Sigma_Elim1 B (Sigma_Intro B a b)))
-  * (Sigma_Comp2: (B: A $\rightarrow$ U) (a: A)
-    (b: B a) $\rightarrow$ Path (B a) b
-    (Sigma_Elim2 B (a,b)))
-  * (Sigma_Comp3: (B: A $\rightarrow$ U) (p: Sigma A B)
-      $\rightarrow$ Path (Sigma A B) p (pr1 A B p,pr2 A B p))
-  * (Id_Former: A $\rightarrow$ A $\rightarrow$ U)
-  * (Id_Intro: (a: A) $\rightarrow$ Path A a a)
-  * (Id_Elim: (x: A) (C: D A)
-    (d: C x x (Id_Intro x))
-    (y: A) (p: Path A x y) $\rightarrow$ C x y p)
-  * (Id_Comp: (a:A)(C: D A)
-    (d: C a a (Id_Intro a)) $\rightarrow$
-    Path (C a a (Id_Intro a))
-       d (Id_Elim a C d a (Id_Intro a))) * U
+def MLTT (A : U) : U₁ ≔
+  Σ (Π-form  : Π (B : A → U), U)
+    (Π-ctor₁ : Π (B : A → U), Pi A B → Pi A B)
+    (Π-elim₁ : Π (B : A → U), Pi A B → Pi A B)
+    (Π-comp₁ : Π (B : A → U) (a : A) (f : Pi A B),
+               Ξ (Ξ (B a) (Π-elim₁ B (Π-ctor₁ B f) a) (f a))
+    (Π-comp₂ : Π (B : A → U) (a : A) (f : Pi A B),
+               Ξ (Pi A B) f (λ (x : A), f x))
+    (Σ-form  : Π (B : A → U), U)
+    (Σ-ctor₁ : Π (B : A → U) (a : A) (b : B a) , Sigma A B)
+    (Σ-elim₁ : Π (B : A → U) (p : Sigma A B), A)
+    (Σ-elim₂ : Π (B : A → U) (p : Sigma A B), B (pr₁ A B p))
+    (Σ-comp₁ : Π (B : A → U) (a : A) (b: B a),
+               Ξ A a (Σ-elim₁ B (Σ-ctor₁ B a b)))
+    (Σ-comp₂ : Π (B : A → U) (a : A) (b: B a),
+               Ξ (B a) b (Σ-elim₂ B (a, b)))
+    (Σ-comp₃ : Π (B : A → U) (p : Sigma A B),
+               Ξ (Sigma A B) p (pr₁ A B p, pr₂ A B p))
+    (=-form  : Π (a : A), A → U)
+    (=-ctor₁ : Π (a : A), Path A a a)
+    (=-elim₁ : Π (a : A) (C: D A) (d: C a a (=-ctor₁ a))
+                 (y: A) (p: Path A a y), C a y p)
+    (=-comp₁ : Π (a : A) (C: D A) (d: C a a (=-ctor₁ a)),
+               Ξ (C a a (=-ctor₁ a)) d
+                 (=-elim₁ a C d a (=-ctor₁ a))), 𝟏
 \end{lstlisting}
 \end{definition}
 
 \begin{theorem} (Model Check).
 There is an instance of MLTT.
 \begin{lstlisting}
-instance (A: U) : MLTT A
-  = ( Pi A, lam A, app A, Beta A, Eta A,
-      Sigma A, dpair A, pr1 A, pr2 A, Beta1 A, Beta2 A, Eta2 A,
-      Path A, refl A, J A, J_comp A, A
+def internalizing (A : U)
+  : MLTT A
+ := ( Pi A, Π-lambda A, Π-apply A, Π-β A, Π-η A,
+      Sigma A, pair A, pr₁ A, pr₂ A, Σ-β₁ A, Σ-β₂ A, Σ-η A,
+      Path A, idp A, J A, J-β A, ★
     )
 \end{lstlisting}
 \end{theorem}
@@ -988,6 +990,7 @@ The result of the work is a \texttt{mltt.ctt} file which can be runned using \te
 Note that MLTT-73 internalization includes only eliminator and computational rule (without uniquness rule)
 for identity system, as cubical Path spaces refute uniqueness of identity proofs.
 
+\newpage
 \subsection*{Conclusions}
 
 This article presents a landmark achievement in type theory:
