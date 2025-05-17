@@ -105,6 +105,8 @@ and $,$ are terminals of type checker language.
 
 \section{Interpretations}
 
+\subsection*{Type-Theoretical Interpretation}
+
 Martin-Löf Type Theory (MLTT), introduced by Per Martin-Löf in 1972 \cite{Lof72}
 and refined in 1975 \cite{Lof75}, is a foundational system for constructive
 mathematics, blending logical rigor with computational expressiveness.
@@ -250,13 +252,13 @@ and $\text{Id}_A(a, b)$ an equality relation. However, this interpretation
 is limited, as it cannot capture higher equalities (e.g., paths between paths)
 or inductive types directly, due to its 0-truncated nature \cite{HoTT13}.
 
-In homotopical terms, sets are modeled as 0-types (types with no non-trivial
-higher paths), but MLTT-75’s identity types introduce higher structure,
-making the set-theoretical view less expressive. In \textbf{Per}, the
-set-theoretical interpretation serves as a baseline, with cubical Path
-types extending it to handle MLTT-75’s full complexity. This interpretation
-clarifies the boundaries of classical logic within MLTT-75, emphasizing
-the need for homotopical or categorical models for complete internalization.
+%In homotopical terms, sets are modeled as 0-types (types with no non-trivial
+%higher paths), but MLTT-75’s identity types introduce higher structure,
+%making the set-theoretical view less expressive. In \textbf{Per}, the
+%set-theoretical interpretation serves as a baseline, with cubical Path
+%types extending it to handle MLTT-75’s full complexity. This interpretation
+%clarifies the boundaries of classical logic within MLTT-75, emphasizing
+%the need for homotopical or categorical models for complete internalization.
 
 \section{Dependent Type Theory}
 
@@ -280,45 +282,86 @@ iii) categorical interpretation of functions as functors.
 As a logical system dependent type theory could correspond to higher order logic.
 However here only type-theoretical model is given completely.
 
-\begin{definition} ($\Pi$-Formation).
-$$(x: A) \rightarrow B(x) =_{def} \prod_{x:A}B(x) : U.$$
-\begin{lstlisting}
-Pi (A: U) (B: A -> U): U = (x: A) -> B x
+\begin{definition}[$\Pi$-Formation]
+$\Pi$-types represents the way we create the spaces of
+dependent functions $f: \Pi(x:A), B(x)$ with domain
+in $A$ and codomain in type family $B : A \rightarrow U$ over $A$.
+$$
+  \Pi : U =_{def} \prod_{A:U}\prod_{x:A}B(x).
+$$
+\begin{lstlisting}[mathescape=true]
+def Pi (A : U) (B : A → U) : U := Π (x : A), B x
 \end{lstlisting}
 \end{definition}
 
-\begin{definition} ($\Pi$-Introduction).
-$$\backslash (x: A) \rightarrow b =_{def} \prod_{A:U}\prod_{B:A \rightarrow U}\prod_{a: A}\prod_{b:B(a)}\lambda x.b : \prod_{y:A}B(a).$$
-\begin{lstlisting}
-lambda (A B: U) (b: B): A -> B = \ (x: A) -> b
-lam (A:U) (B: A -> U) (a:A) (b:B a)
-   : A -> B a = \ (x: A) -> b
+\begin{definition}[$\Pi$-Introduction]
+Lambda constructor defines a new lambda function in the space of dependent functions.
+It is called lambda abstraction and displayed as $\lambda x. b(x)$ or $x \mapsto b(x)$.
+$$
+  \backslash (x: A) \rightarrow b : \Pi(A,B) =_{def}
+$$
+$$
+  \prod_{A:U}\prod_{B:A \rightarrow U}\prod_{b:B(a)}\lambda x.b_x.
+$$
+\begin{lstlisting}[mathescape=true]
+def lambda (A: U) (B: A → U) (b: Pi A B) : Pi A B := λ (x : A), b x
+def lam (A B: U) (f: A → B) : A → B := λ (x : A), f x
 \end{lstlisting}
 \end{definition}
 
-\begin{definition} ($\Pi$-Elimination).
-$$f\ a =_{def} \prod_{A:U}\prod_{B: A \rightarrow U}\prod_{a:A}\prod_{f: \prod_{x:A}B(a)}f(a) : B(a).$$
-\begin{lstlisting}
-apply (A B: U) (f: A -> B) (a: A) : B = f a
-app (A: U) (B: A -> U) (a: A)
-    (f: A -> B a) : B a = f a
+When codomain is not dependent on valude from domain the function $f: A \rightarrow B$
+is studied in System F$_\omega$, dependent case in studied
+in Systen P$_\omega$ or Calculus of Construction (CoC).
+
+\begin{definition}[$\Pi$-Induction Principle]
+States that if predicate holds for lambda function
+then there is a function from function space to the space of predicate.
+\begin{lstlisting}[mathescape=true]
+def П-ind (A : U) (B : A -> U) (C : Pi A B → U) (g: Π (x: Pi A B), C x)
+  : П (p: Pi A B), C p := $\lambda$ (p: Pi A B), g p
 \end{lstlisting}
 \end{definition}
 
-\begin{theorem} ($\Pi$-Computation).
+\begin{definition}[$\Pi$-Elimination]
+Application reduces the term by using recursive substitution.
+$$
+   f\ a : B(a) =_{def} \prod_{A:U}\prod_{B: A \rightarrow U}\prod_{a:A}\prod_{f: \prod_{x:A}B(a)}f(a).
+$$
+\begin{lstlisting}[mathescape=true]
+def apply (A: U) (B: A → U) (f: Pi A B) (a: A) : B a := f a
+def app (A B: U) (f: A → B) (x: A) : B := f x
+\end{lstlisting}
+\end{definition}
+
+\begin{theorem}[$\Pi$-Composition]
+Composition is using application of appropriate singnatures.
 $$f(a) =_{B(a)} (\lambda (x:A) \rightarrow f(a))(a).$$
-\begin{lstlisting}
-Beta (A: U) (B: A -> U) (a: A) (f: A -> B a)
-   : Path (B a) (app A B a (lam A B a (f a)))
-                (f a)
+\begin{lstlisting}[mathescape=true]
+def $\circ^\top$ ($\alpha$ $\beta$ $\gamma$: U) : U
+ := (β → γ) → (α → β) → (α → γ)
+
+def $\circ$ ($\alpha$ $\beta$ $\gamma$ : U) : $\circ^\top$ $\alpha$ $\beta$ $\gamma$
+ := λ (g: β → γ) (f: α → β) (x: α), g (f x)
+\end{lstlisting}
+\end{theorem}
+
+\begin{theorem}[$\Pi$-Computation]
+$\beta$-rule shows that composition $\mathrm{lam} \circ \mathrm{app}$ could be fused.
+$$ f(a) =_{B(a)} (\lambda (x:A) \rightarrow f(a))(a).$$
+\begin{lstlisting}[mathescape=true]
+def Π-β (A : U) (B : A → U) (a : A) (f : Pi A B)
+  : Path (B a) (apply A B (lambda A B f) a) (f a)
+ := idp (B a) (f a)
 \end{lstlisting}
 \end{theorem}
 
 \begin{theorem} ($\Pi$-Uniqueness).
-$$f =_{(x:A)\rightarrow B(a)} (\lambda (y:A) \rightarrow f(y)).$$
-\begin{lstlisting}
-Eta (A: U) (B: A -> U) (a: A) (f: A -> B a)
-  : Path (A -> B a) f (\(x:A) -> f x)
+$\eta$-rule shows that composition $\mathrm{app} \circ \mathrm{lam}$ could be fused.
+$$ f =_{(x:A)\rightarrow B(a)} (\lambda (y:A) \rightarrow f(y)). $$
+\begin{lstlisting}[mathescape=true]
+def Π-η (A : U) (B : A → U) (a : A) (f : Pi A B)
+  : Path (Pi A B) f (λ (x : A), f x)
+ := idp (Pi A B) f
 \end{lstlisting}
 \end{theorem}
 
@@ -327,36 +370,39 @@ Eta (A: U) (B: A -> U) (a: A) (f: A -> B a)
 The adjoints $\Pi$ and $\Sigma$ is not the only adjoints could be presented in type system.
 Axiomatic cohesions could contain a set of adjoint pairs as a core type checker operations.
 
-\begin{definition} (Dependent Product).
+\begin{definition}[Dependent Product]
 The dependent product along morphism $g: B \rightarrow A$ in category $C$ is the right
 adjoint $\Pi_g : C_{/B} \rightarrow C_{/A}$ of the base change functor.
 \end{definition}
 
-\begin{definition} (Space of Sections).
+\begin{definition}[Space of Sections]
 Let $\mathbf{H}$ be a $(\infty,1)$-topos, and let $E \rightarrow B : \mathbf{H}_{/B}$ a bundle in
 $\mathbf{H}$, object in the slice topos. Then the space of sections $\Gamma_\Sigma(E)$
 of this bundle is the Dependent Product:
 $$ \Gamma_\Sigma(E) = \Pi_\Sigma (E) \in \mathbf{H}. $$
 \end{definition}
 
-\begin{theorem} (HomSet).
-If codomain is set then space of sections is a set.
+\begin{theorem}[Homotopy Equivalence]
+If fiber space is set for all base, and there are two functions
+$f,g : (x:A) \rightarrow B(x)$ and two homotopies between them, then these homotopies are equal.
 \begin{lstlisting}
-setFun (A B : U) (_: isSet B)
-  : isSet (A -> B)
+def setPi (A: U) (B: A -> U)
+    (h: П (x: A), isSet (B x)) (f g: Pi A B)
+    (p q: Path (Pi A B) f g)
+  : Path (Path (Pi A B) f g) p q
 \end{lstlisting}
 \end{theorem}
 
-\begin{theorem} (Contractability).
+\begin{theorem}[Contractability]
 If domain and codomain is contractible then the space of sections is contractible.
 \begin{lstlisting}
-piIsContr (A: U) (B: A -> U) (u: isContr A)
-          (q: (x: A) -> isContr (B x))
-        : isContr (Pi A B)
+def piIsContr (A: U) (B: A -> U) (u: isContr A)
+    (q: П (x: A), isContr (B x))
+  : isContr (Pi A B)
 \end{lstlisting}
 \end{theorem}
 
-\begin{definition} (Section).
+\begin{definition}[Section]
 A section of morphism $f: A \rightarrow B$ in some category is the morphism $g: B \rightarrow A$
 such that $f \circ g: B \xrightarrow{g} A \xrightarrow{f} B$ equals the identity morphism on B.
 \end{definition}
@@ -402,12 +448,12 @@ unique map $A \rightarrow F$ such that everything commute. So a category
 with all dependent products is necessarily a category with all pullbacks.
 \end{definition}
 
-\begin{definition} (Trivial Fiber Bundle).
+\begin{definition}[Trivial Fiber Bundle]
 When total space $E$ is cartesian product $\Sigma(B,F)$ and $p = pr_1$
 then such bundle is called trivial $(F,\Sigma(B,F),pr_1,B)$.
 \end{definition}
 
-\begin{theorem} (Functions Preserve Paths).
+\begin{theorem}[Functions Preserve Paths]
 For a function $f: (x:A) \rightarrow B(x)$
 there is an $ap_f : x =_A y \rightarrow f(x) =_{B(x)} f(y)$. This is called
 application of $f$ to path or congruence property (for non-dependent case ---
@@ -415,84 +461,129 @@ $cong$ function). This property behaves functoriality
 as if paths are groupoid morphisms and types are objects.
 \end{theorem}
 
-\begin{theorem} (Trivial Fiber equals Family of Sets).
+\begin{theorem}[Trivial Fiber Bundle equals Family of Sets]
 Inverse image (fiber) of fiber bundle $(F,B*F,pr_1,B)$ in point $y:B$ equals $F(y)$.
-\begin{lstlisting}
-FiberPi (B: U) (F: B -> U) (y: B)
-  : Path U (fiber (Sigma B F) B (pi1 B F) y)
-           (F y)
+\begin{lstlisting}[mathescape=true]
+def Family (B : U) : U₁ := B → U
+def Fibration (B : U) : U₁ := Σ (X : U), X → B
+
+def encode-Pi (B : U) (F : B → U) (y : B)
+  : fiber (Sigma B F) B (pr₁ B F) y → F y
+ := λ (x : fiber (Sigma B F) B (pr₁ B F) y),
+      subst B F x.1.1 y (<i> x.2 @ -i) x.1.2
+
+def decode-Pi (B : U) (F : B → U) (y : B)
+  : F y → fiber (Sigma B F) B (pr₁ B F) y
+ := λ (x : F y), ((y, x), idp B y)
+
+def decode-encode-Pi (B : U) (F : B → U) (y : B) (x : F y)
+  : Path (F y) (transp (<i> F (idp B y @ i)) 0 x) x
+ := <j> transp (<i> F y) j x
+
+def encode-decode-Pi (B : U) (F : B → U) (y : B)
+    (x : fiber (Sigma B F) B (pr₁ B F) y)
+  : Path (fiber (Sigma B F) B (pr₁ B F) y)
+         ((y, encode-Pi B F y x), idp B y) x
+ := <i> ( (x.2 @ i, transp (<j> F (x.2 @ i ∨ -j)) i x.1.2),
+          <j> x.2 @ i ∧ j )
+
+def Bundle=Pi (B : U) (F : B → U) (y : B)
+  : PathP (<_> U) (fiber (Sigma B F) B (pr₁ B F) y) (F y)
+ := iso→Path (fiber (Sigma B F) B (pr₁ B F) y) (F y)
+    (encode-Pi B F y) (decode-Pi B F y)
+    (decode-encode-Pi B F y) (encode-decode-Pi B F y)
 \end{lstlisting}
 \end{theorem}
 
-\begin{theorem} (Homotopy Equivalence).
-If fiber space is set for all base, and
-there are two functions $f,g : (x:A) \rightarrow B(x)$ and two
-homotopies between them, then these homotopies are equal.
-\begin{lstlisting}
-setPi (A: U) (B: A -> U)
-    (h: (x: A) -> isSet (B x)) (f g: Pi A B)
-    (p q: Path (Pi A B) f g)
-  : Path (Path (Pi A B) f g) p q
-\end{lstlisting}
-\end{theorem}
-
-Note that we will not be able to prove this theorem
-until {\bf Issue III: Homotopy Type Theory} because
-bi-invertible iso type will be announced there.
-
+\newpage
 \subsection{Dependent Sum ($\Sigma$)}
+$\Sigma$-type is a space that contains dependent pairs
+where type of the second element depends on the value
+of the first element. As only one point of fiber domain
+present in every defined pair, $\Sigma$-type is also a dependent sum,
+where fiber base is a disjoint union.
 
 $\Sigma$ is a dependent sum type, the generalization of products.
 $\Sigma$ type is a total space of fibration. Element of total
 space is formed as a pair of basepoint and fibration.
 
+Spaces of dependent pairs are using in type theory to model
+cartesian products, disjoint sums, fiber bundles, vector spaces,
+telescopes, lenses, contexts, objects, algebras, $\exists$-type, etc.
+
 \subsubsection*{Type-theoretical interpretation}
 
-\begin{definition} ($\Sigma$-Formation).
-\begin{lstlisting}
-Sigma (A : U) (B : A -> U)
-  : U = (x : A) * B x
+\begin{definition}[$\Sigma$-Formation]
+The dependent sum type is indexed over type $A$ in the sense of coproduct or disjoint union,
+where only one fiber codomain $B(x)$ is present in pair.
+$$
+   \Sigma : U =_{def} \sum_{x:A} B(x).
+$$
+\begin{lstlisting}[mathescape=true]
+def Sigma (A: U) (B: A → U) : U := Σ (x: A), B(x)
 \end{lstlisting}
 \end{definition}
 
-\begin{definition} ($\Sigma$-Introduction).
+\begin{definition} [$\Sigma$-Introduction]
+The dependent pair constructor is a way to create indexed pair over type $A$
+in the sense of coproduct or disjoint union.
+$$
+  \mathbf{pair} : \Sigma(A,B) =_{def} \prod_{A:U}\prod_{B:A \rightarrow U}\prod_{a:A}\prod_{b:B(a)} (a,b).
+$$
 \begin{lstlisting}
-dpair (A: U) (B: A -> U) (a: A) (b: B a)
-  : Sigma A B = (a,b)
+def pair (A: U) (B: A → U) (a: A) (b: B a) : Sigma A B := (a, b)
 \end{lstlisting}
 \end{definition}
 
-\begin{definition} ($\Sigma$-Elimination).
-\begin{lstlisting}
-pr1 (A: U) (B: A -> U)
-    (x: Sigma A B): A = x.1
-
-pr2 (A: U) (B: A -> U)
-    (x: Sigma A B): B (pr1 A B x) = x.2
-
-sigInd (A: U) (B: A -> U)
-       (C: Sigma A B -> U)
-       (g: (a: A) (b: B a) -> C (a, b))
-       (p: Sigma A B) : C p = g p.1 p.2
+\begin{definition} [$\Sigma$-Elimination]
+The dependent projections
+$pr_{1}: \Sigma(A,B) \rightarrow A$ and
+$pr_{2}: \Pi_{x: \Sigma(A,B)} B(pr_{1}(x))$ are pair deconstructors.
+$$
+  \mathbf{pr}_1 : \prod_{A:U} \prod_{B:A \rightarrow U} \prod_{x: \Sigma(A,B)} A
+$$
+$$
+  =_{def} .1 =_{def} (a,b) \mapsto a.
+$$
+$$
+  \mathbf{pr}_2 : \prod_{A:U} \prod_{B:A \rightarrow U} \prod_{x: \Sigma(A,B)} B(x.1)
+$$
+$$
+  =_{def} .2 =_{def} (a,b) \mapsto b.
+$$
+\begin{lstlisting}[mathescape=true]
+def pr₁ (A: U) (B: A → U) (x: Sigma A B) : A := x.1
+def pr₂ (A: U) (B: A → U) (x: Sigma A B) : B (pr₁ A B x) := x.2
 \end{lstlisting}
 \end{definition}
 
-\begin{theorem} ($\Sigma$-Computation).
-\begin{lstlisting}
-Beta1 (A: U) (B: A -> U)
-      (a:A) (b: B a)
-    : Equ A a (pr1 A B (a,b))
+\begin{definition} [$\Sigma$-Induction]
+States that if predicate holds for two projections
+then predicate holds for total space.
+\begin{lstlisting}[mathescape=true]
+def Σ-ind (A : U) (B : A -> U)
+    (C : Π (s: Σ (x: A), B x), U)
+    (g: Π (x: A) (y: B x), C (x,y))
+    (p: Σ (x: A), B x)
+  : C p := g p.1 p.2
+\end{lstlisting}
+\end{definition}
 
-Beta2 (A: U) (B: A -> U)
-      (a: A) (b: B a)
-    : Equ (B a) b (pr2 A B (a,b))
+\begin{theorem} [$\Sigma$-Computation]
+\begin{lstlisting}[mathescape=true]
+def Σ-β₁ (A : U) (B : A → U) (a : A) (b : B a)
+  : Path A a (pr₁ A B (a ,b)) := idp A a
+
+def Σ-β₂ (A : U) (B : A → U) (a : A) (b : B a)
+  : Path (B a) b (pr₂ A B (a, b)) := idp (B a) b
 \end{lstlisting}
 \end{theorem}
 
-\begin{theorem} ($\Sigma$-Uniqueness).
+\begin{theorem} [$\Sigma$-Uniqueness]
 \begin{lstlisting}
-Eta2 (A: U) (B: A -> U) (p: Sigma A B)
-   : Equ (Sigma A B) p (pr1 A B p,pr2 A B p)
+def Σ-η (A : U) (B : A → U) (p : Sigma A B)
+  : Path (Sigma A B) p (pr₁ A B p, pr₂ A B p)
+ := idp  (Sigma A B) p
 \end{lstlisting}
 \end{theorem}
 
@@ -546,6 +637,7 @@ pathSig (A:U) (B : A -> U) (t u : Sigma A B)
 \end{lstlisting}
 \end{theorem}
 
+\newpage
 \subsection{Path Space ($\Xi$)}
 
 The Path identity type or $\Xi$ defines a Path space with elements and values.
