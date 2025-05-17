@@ -1,6 +1,5 @@
 \ProvidesPackage{journal}
 \usepackage{hyperref}
-\usepackage{adjustbox}
 \usepackage{listings}
 \usepackage{amsfonts}
 \usepackage{amscd}
@@ -14,20 +13,16 @@
 \usepackage[english,ukrainian]{babel}
 \usepackage{url}
 \usepackage{float}
-\usepackage{tikz}
-\usepackage{tikz-cd}
-\usepackage[T1]{fontenc}
 
 \usetikzlibrary{babel}
 
 \newcommand*{\incmap}{\hookrightarrow}
 \newcommand*{\thead}[1]{\multicolumn{1}{c}{\bfseries #1}}
-\renewcommand{\Join}{\vee} % Join operation symbol
+\renewcommand{\Join}{\vee}
 
 \lstset{
   basicstyle=\footnotesize,
   inputencoding=utf8,
-  identifierstyle=,
   extendedchars=true,
   literate=
 {𝟎}{{\ensuremath{\mathbf{0}}}}1
