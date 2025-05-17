@@ -913,26 +913,26 @@ reasoning, as it provides a rigorous test of a type checker’s ability
 to fuse introduction and elimination rules through beta and eta equalities.
 
 \begin{table}[!ht]
-  \begin{tabular}{lcccccccccc}
+  \begin{tabular}{lccccccccc}
     \hline
-       Lang               & $U^n$ & $\Pi$ & $\Sigma$ & Id & $\Xi$ & Fix & 0/1/2 & $W$ & Ind & $\mathbb{N}$ \\
+       Language    & $U^n$ & $\Pi$ & $\Sigma$ & Id & $\Xi$ & $\mathbb{N}$ & 0/1/2 & $W$ & Ind  \\
     \hline
-Systen P$_\omega$ (CoC-88) &      & x     &          &    &       &     &       &     &     &     \\
-       MLTT-72            &       & x     & x        &    &       &     &       &     &     &     \\
-       Henk (ECC)         & x     & x     &          &    &       &     &       &     &     &     \\
-       Errett (LCCC/IPL)  & x     & x     & x        &    &       &     & x     &     &     &     \\
-       MLTT-73            & x     & x     & x        & x  &       &     &       &     &     &     \\
-       MLTT-75            & x     & x     & x        & x  &       &     & x     &     &     & x   \\
-       Per                & x     & x     & x        &    & x     &     &       &     &     &     \\
-       MLTT-80            & x     & x     & x        & x  &       &     & x     & x   &     &     \\
-       Anders (HTS)       & x     & x     & x        & x  & x     &     & x     & x   &     &     \\
-       Frank (CoC+CIC)    & x     & x     &          &    &       &     &       &     & x   &     \\
-       Christine (Coq)    & x     & x     & x        & x  &       &     &       &     & x   &     \\
+Systen P$_\omega$ (CoC-88)  &   & x &   &   &   &   &   &   &   \\
+       MLTT-72              &   & x & x &   &   &   &   &   &   \\
+       Henk (ECC)           & x & x &   &   &   &   &   &   &   \\
+       Errett (LCCC/IPL)    & x & x & x &   &   &   & x &   &   \\
+       MLTT-73              & x & x & x & x &   &   &   &   &   \\
+       Per                  & x & x & x &   & x &   &   &   &   \\
+       MLTT-75              & x & x & x & x &   & x & x &   &   \\
+       MLTT-80              & x & x & x & x &   & & x   & x &   \\
+       Anders (HTS)         & x & x & x & x & x &   & x & x &   \\
+       Frank (CoC+CIC)      & x & x &   &   &   &   &   &   & x \\
+       Christine (Coq)      & x & x & x & x &   &   &   &   & x \\
     \hline
-       cubicaltt          &       & x     & x        &    & x     & x   &       &     & x   &     \\
-       Agda               & x     & x     & x        & x  & x     & x   &       &     & x   &     \\
-       Lean               & x     & x     & x        & x  &       & x   &       &     & x   &     \\
-       NuPRL              &       & x     & x        & x  &       & x   & x     &     &     &     \\
+       cubicaltt            &   & x & x &   & x &   &   &   & x \\
+       Agda                 & x & x & x & x & x &   &   &   & x \\
+       Lean                 & x & x & x & x &   &   &   &   & x \\
+       NuPRL                &   & x & x & x &   &   &   &   &   \\
     \hline
   \end{tabular}
 \end{table}
