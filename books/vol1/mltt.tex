@@ -31,7 +31,7 @@ proving the J eliminator has been challenging due to limitations in pure
 functional systems. This article presents a canonical formalization of
 MLTT-75 without disjoin union types and natural numbers $\mathbb{N}$, denoted as MLTT-73
 and its complete internalization in \textbf{Per}, a minimal dependent type
-theory language equipped with cubical type primitives. Using cubical type
+theory language equipped with cubical type primitives. Using presented type
 theory, we constructively prove all MLTT-73 inference rules, including
 the J eliminator, and demonstrate suitability as a robust type checker.
 We also provide logical, categorical, and homotopical
@@ -59,14 +59,14 @@ is the J eliminator, a rule that governs how identity proofs
 are used, but its constructive derivation has long eluded pure
 functional type checkers due to the complexity of equality types.
 
-The MLTT-75 without Sum Types (+) and Natural Numbers ($\mathbb{N}$) we will
+The MLTT-75 without Disjoint Union Types (+) and Natural Numbers ($\mathbb{N}$) we will
 denote MLTT-73. This article addresses this challenge by presenting a canonical
 formalization of MLTT-73 and its complete internalization in \textbf{Per},
 a novel type theory language designed for constructive proofs.
 Leveraging cubical type theory \cite{Mortberg17}, \textbf{Per}
 incorporates Path types and universe polymorphism to faithfully
 embed MLTT-73 rules, achieving a constructive proof of the J
-eliminator for the first time for pure MLTT. This internalization serves as
+eliminator. This internalization serves as
 an ultimate test of a type checker’s robustness, verifying its
 ability to fuse introduction and elimination rules through beta and eta equalities.
 
@@ -78,7 +78,6 @@ Martin-Löf’s vision of constructive mathematics, offering a minimal
 yet powerful framework for mechanized reasoning. We aim to inspire
 researchers and practitioners to explore type theory’s potential in
 formalizing mathematics and designing reliable software.
-
 
 \subsection*{Syntax of Per}
 The BNF notation of type checker language used in code samples consists of:
@@ -158,6 +157,7 @@ into its structure and applications.
        $b(x) : B(x)$ & conditional proof & indexed elements & section\\
        $\mathbf{0}$ & $\bot$ false & initial object & empty space \\
        $\mathbf{1}$ & $\top$ true & terminal object & singleton \\
+       $\mathbf{2}$ & boolean & subobject classifier & $\mathbb{S}^0$ \\
        $A + B$ & $A\vee B$ disjunction & coproduct & coproduct space \\
        $A\times B$ & $A\wedge B$ conjunction & product & product space \\
        $A\to B$ & $A\Rightarrow B$ & internal hom & function space \\
