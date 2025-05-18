@@ -61,9 +61,9 @@ functional type checkers due to the complexity of equality types.
 
 The MLTT-75 without Disjoint Union Types (+) and Natural Numbers ($\mathbb{N}$) we will
 denote MLTT-73. This article addresses this challenge by presenting a canonical
-formalization of MLTT-73 and its complete internalization in \textbf{Per},
+formalization of MLTT-73 and its internalization in \textbf{Per},
 a novel type theory language designed for constructive proofs.
-Leveraging cubical type theory \cite{Mortberg17}, \textbf{Per}
+Leveraging cubical type theory \cite{Mortberg17}, this language
 incorporates Path types and universe polymorphism to faithfully
 embed MLTT-73 rules, achieving a constructive proof of the J
 eliminator. This internalization serves as
@@ -616,20 +616,6 @@ def total (A:U) (B C : A -> U)
 \end{lstlisting}
 \end{theorem}
 
-\begin{theorem} (Path Between Sigmas).
-Path between two sigmas $t,u: \Sigma(A,B)$ could be decomposed to
-sigma of two paths $p:t_1=_{A}u_1)$ and $(t_2=_{B(p@i)}u_2)$.
-\begin{lstlisting}
-def pathSig (A: U) (P: A -> U)
-    (t u: Σ (x: A), P x) (p: PathP (&lt;_>A) t.1 u.1)
-  : PathP (&lt;_>U) (PathP (<i> P (p @ i)) t.2 u.2)
-    (PathP (<_>P u.1)
-           (hcomp (P u.1) 0 (λ(k:I),[])
-           (transp (&lt;i> P (p @ i)) 0 t.2)) u.2)
-\end{lstlisting}
-\end{theorem}
-
-\newpage
 \subsection{Path Space ($\Xi$)}
 
 The homotopy identity system defines a $\mathbf{Path}$ space indexed over type $A$
@@ -649,7 +635,7 @@ There is a \footnote{Andrew Pitts, Ian Orton. Axioms for Modelling Cubical Type 
 
 \begin{definition}[Path Formation]
 $$
-   \Xi : U =_{def} \prod_{A:U}\prod_{x,y:A} \mathbf{Path}_A(x,y).
+   \Xi(A,x,y) : U =_{def} \prod_{A:U}\prod_{x,y:A} \mathbf{Path}_A(x,y).
 $$
 \begin{lstlisting}
 def Path (A : U) (x y : A) : U
@@ -853,87 +839,134 @@ Note that Path type has no Eta rule due to groupoid interpretation.
 The groupoid interpretation of type theory is well known article by Martin Hofmann and Thomas Streicher,
 more specific interpretation of identity type as infinity groupoid.
 
-\subsection*{Contexts}
-Speaking of type checker execution, we introduce context or dictionary with types and terms,
-from which we can derive typed variables. This chain could be implemented as
-nested sigma types (due to R.A.G.Seely) or list types (due to Voevodsky). Categorically
-dependent type theory is built upon categories of contexts.
 
-\begin{definition} (Empty Context).
-$$
-    \gamma_0 : \Gamma =_{def} \star.
-$$
+\subsection{Universes (U$_i$)}
+In Martin-Löf Type Theory (MLTT), universes are types that classify other types,
+forming a cumulative hierarchy to manage type formation and avoid paradoxes like
+Russell’s. MLTT-73, as internalized in \textbf{Per}, adopts a predicative hierarchy
+of universes, denoted \( U_i \) for \( i \in \mathbb{N} \), where each
+universe \( U_i \) is a type in the next universe \( U_{i+1} \).
+
+This section defines the universe hierarchy constructively,
+specifying formation, introduction, and computation rules,
+and illustrates their encoding in \textbf{Per}’s cubical type theory syntax.
+
+\begin{definition}[Universe Formation]
+For each natural number \( i \in \mathbb{N} \), there exists a universe \( U_i \), which is a type classifying small types at level \( i \). The formation rule is:
+$\Gamma \vdash U_i : U_{i+1}$.
+Universes are introduced as constructors, with each \( U_i \) inhabiting \( U_{i+1} \).
+\begin{lstlisting}[mathescape=true]
+def U (i : Nat) : U (suc i)
+\end{lstlisting}
 \end{definition}
 
-\begin{definition} (Context Comprehension).
-$$
-\Gamma\ ; A =_{def} \sum_{\gamma:\Gamma}A(\gamma).
-$$
+\begin{definition}[Universe Introduction]
+A type \( A \) belongs to a universe \( U_i \) if it can be derived as a type at
+level \( i \). For MLTT-73, this includes base types (e.g., \( \Pi \), \( \Sigma \), Path),
+user-defined types, and universes \( U_j \) for \( j < i \). The introduction rule is:
+$\Gamma ; A \vdash A : U_i$, where $i$ is the minimal level such that $A \in U_i$.
+Types like \( \Pi(A, B) \), \( \Sigma(A, B) \), and \( \Xi(A, x, y) \) are
+explicitly landed in a universe:
+\begin{lstlisting}[mathescape=true]
+def Pi (A : U i) (B : A -> U i) : U i := Π (x : A), B x
+def Sigma (A : U i) (B : A -> U i) : U i := Σ (x : A), B x
+def Path (A : U i) (x y : A) : U i := PathP (<_> A) x y
+\end{lstlisting}
+\end{definition}
+
+\begin{definition}[Cumulative Hierarchy]
+The universe hierarchy is cumulative, meaning
+if \( A : U_i \), then \( A : U_j \) for all \( j > i \).
+This ensures flexibility in type checking, as types can be lifted to higher universes.
+This is implicit in the type checker’s ability
+to assign types to higher universes when needed.
+\end{definition}
+
+\begin{definition}[Predicative Rules]
+The formation of dependent types (e.g., \( \Pi \), \( \Sigma \)) lands
+in the maximum of the universe levels of its constituents. For example,
+for \( \Pi \)-types: $\Gamma \vdash A : U_i$ and $\Gamma, x : A \vdash B(x) : U_j$ we
+can derive $\Gamma \vdash \Pi (x : A), B(x) : U_{\max(i, j)}$
+This predicative rule ensures that the universe level reflects
+the highest level of the domain or codomain. In \textbf{Per}:
+\begin{lstlisting}[mathescape=true]
+def Level (i j : $\mathbf{N}$) (A : U i) (B : A -> U j)
+  : U (max i j) := Π (x : A), B x
+\end{lstlisting}
+Similar rules apply to \( \Sigma \) and Path types,
+ensuring all MLTT-73 types are predicatively landed.
+\end{definition}
+
+\begin{definition}[Definitional Equality]
+Universes support definitional equality, where two types \( A, B : U_i \)
+are equal if their normalized forms are identical.
+This is crucial for type checking in MLTT-73.
+\end{definition}
+
+\subsection*{Contexts}
+In Martin-Löf Type Theory (MLTT), contexts define the typing
+environment for judgments, consisting of a sequence of typed
+variable declarations that enable the derivation of types and
+terms. In MLTT-73, as internalized in \textbf{Per}, contexts
+are constructed as telescopes, ensuring well-formedness and
+supporting constructive type checking. This section defines
+contexts using formation, extension, and derivability rules,
+preserving the homotopy type theory syntax for key definitions,
+and illustrates their encoding in \textbf{Per}’s cubical type theory.
+
+\begin{definition}[Empty Context]
+The empty context contains no variable declarations and serves as the base case for context formation.
+It is represented as the unit type, indicating an empty telescope:
+\[
+\gamma_0 : \Gamma =_{def} \star.
+\]
+\end{definition}
+
+\begin{definition}[Context Comprehension]
+A context is extended by adding a variable declaration for a
+type dependent on the existing context. For a context \( \Gamma \)
+and a type \( A \) over \( \Gamma \), the extended context is:
+\[
+\Gamma ; A =_{def} \sum_{\gamma:\Gamma}A(\gamma).
+\]
+This is encoded as a dependent pair,
+binding a variable to a type in the context:
 \end{definition}
 
 \begin{definition} (Context Derivability).
-$$
+A type \( A \) is derivable in a context \( \Gamma \) if it can be
+assigned to a universe given the variables in \( \Gamma \):
+\[
 \Gamma \vdash A =_{def} \prod_{\gamma:\Gamma}A(\gamma).
-$$
+\]
+This corresponds to a dependent function type,
+ensuring \( A \) is well-typed across all context elements:
+For terms, a term \( t : A \) in \( \Gamma \), written \( \Gamma \vdash t : A \),
+is derivable if it respects the context’s bindings.
 \end{definition}
 
-\begin{definition} (Terms). Point in initial object of language AST
-inductive definition is called a term. If type theory or language is defined as
-an inductive type (AST) then the term is defined as its instance.
+\begin{definition}[Terms]
+A term is an element of a type within a context.
+Given \( \Gamma \vdash A : U_i \), a term \( t \)
+satisfies \( \Gamma \vdash t : A \). Terms include
+variables, constructors (e.g., \( \lambda \) for \( \Pi \),
+pairs for \( \Sigma \)), and applications, defined by MLTT-73’s
+syntax.
 \end{definition}
 
-\begin{definition} (Sorts). N-indexed set of universes $\mathrm{U}_{n \in \mathrm{N}}$.
-Could have any number of elements which defines different type systems. All built-in
-types as long as user defined types are landed usually by default in $U_0$ universe.
-Sorts represented in type checker as a separate constructor.
-\end{definition}
-
-\subsection*{Universes}
-
-\begin{definition} (Axioms). The inclusion rules {\bf $\mathrm{U_i : U_j}, i,j \in \mathrm{N}$},
-that define which universe is element of another given universe. You may attach
-any rules that joins $i,j$ in some way. Axioms with sorts define universe hierarchy.
-\end{definition}
-
-\begin{definition} (Rules). The set of landings
-$\mathrm{U_i} \rightarrow \mathrm{U_j} : \mathrm{U_{\lambda(i,j), i,j \in \mathrm{N}}}$,
-where $\mathrm{\lambda : N \times N \rightarrow N}$. These rules define term dependence or
-how we land (in which universe) formation rules in definitions.
-\end{definition}
-
-\begin{definition} (Predicative hierarchy). If $\mathrm{\lambda}$ in Rules
-is an uncurried function $\mathrm{max : N \times N \rightarrow N}$
-then such universe hierarchy is called predicative.
-\end{definition}
-
-\begin{definition} (Impredicative hierarchy). If $\lambda$ in Rules
-is a second projection of a tuple $\mathrm{snd : N \times N \rightarrow N}$
-then such universe hierarchy is called impredicative.
-\end{definition}
-
-\begin{definition} (Definitional Equality). For any $\mathrm{U}_i, i \in \mathrm{N}$ there is
-defined an equality between its members and between its instances.
-For all x,y $\in$ A, there is defined a x=y. Definitional equality
-compares normalized term instances.
-\end{definition}
-
-\begin{definition} (SAR). The universum space is configured with a triple of:
-i) sorts, a set of universes  $\mathrm{U}_{n \in \mathrm{N}}$ indexed over set N;
-ii) axioms, a set of inclusions {\bf $\mathrm{U_i : U_j}, i,j \in \mathrm{N}$};
-iii) rules of term dependence universe landing, a set of landings
-$\mathrm{U_i} \rightarrow \mathrm{U_j} : \mathrm{U_{\lambda(i,j), i,j \in \mathrm{N}}}$, where $\lambda$ could be function $max$ (predicative) or $snd$ (impredicative).
-\end{definition}
-
-\begin{example} (CoC). SAR = $\{ \{\star , \Box \},\{ \star : \Box \},
-        \{ i \rightarrow j : j; i, j \in \{ \star, \Box \}
-        \}$. Terms live in universe $\star$, and types live in universe $\Box$. In CoC $\mathrm{\lambda=snd}$.
+\begin{example} [Context in MLTT-73]
+Consider a context \( \Gamma = x : U_0, y : \mathbf{Path}_x(\star, \star) \),
+where \( x \) is a type in \( U_0 \), and \( y \) is a path in \( x \) from
+the unit element to itself. This context supports derivations
+ like \( \Gamma \vdash y : \mathbf{Path}_x(\star, \star) \),
+enabling equality reasoning via cubical Path types.
 \end{example}
 
-\begin{example} ($\mathrm{PTS}^\infty$, $\mathrm{MLTT}^\infty$).\\ SAR = $\{ \mathrm{U}_{i \in \mathrm{N}},
-    \mathrm{U_i : U_{j; i < j; i,j \in N}},
-    \mathrm{U_i} \rightarrow \mathrm{U_j} : \mathrm{U_{\lambda(i,j); i,j \in \mathrm{N}}}
-    \}$. Where $U_i$ is a universe of $i$-level or $i$-category in categorical interpretation.
-\end{example}
+Contexts in MLTT-73, as implemented in \textbf{Per},
+underpin the type checker by providing a structured
+environment for deriving judgments. They integrate
+with the cubical framework, supporting Path types and ensuring
+constructive verification of MLTT-73’s inference rules.
 
 \newpage
 \subsection{MLTT-73}
