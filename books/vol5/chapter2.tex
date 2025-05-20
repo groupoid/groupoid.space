@@ -81,7 +81,6 @@ MLTT на Agda.
  \caption{Категорні моделі теорій типів}
   \begin{tabular}{lcc}
     \hline
-\rowcolor{ZimaBlue}
        \textbf{Категорна модель} & \textbf{Позначення} \\
     \hline
  Локальні декартово-замкнені категорії Сілі & LCCC \\
@@ -427,25 +426,16 @@ O_{HTS} = O_{\Pi\Sigma=WI} : O_\Pi \rightarrow O_\Sigma \rightarrow O_= \rightar
   \caption{Аналіз формальних суб-мов як примітивів ядра}
  \begin{tabular}{lcc}
     \hline
-\rowcolor{ZimaBlue}
        \textbf{Мова} & \textbf{Застосування} \\
     \hline
-    \rowcolor{LightGray}
        $O_\lambda$                     & Нетипизоване $\lambda$-числення Чорча (інтерпретація) \\
-    \rowcolor{LightGray}
        $O_\pi$                         & Числення процесів, CCS, CSP або $\pi$-числення Мілнера\\
-    \rowcolor{LightGray}
        $O_\mu$                         & Тензорне числення (векторизація) \\
     \hline
-    \rowcolor{LightGray}
        $O_\Pi$                         & Числення конструкцій PTS (функціональна повнота) \\
-    \rowcolor{LightGray}
        $O_\Sigma$                      & Числення контекстів MLTT-72 (контекстуальна повнота) \\
-    \rowcolor{LightGray}
        $O_=$                           & Теорія типів Мартіна-Льофа MLTT-75 (логіка) \\
-    \rowcolor{LightGray}
        $O_W$                           & Індуктивні конструкції MLTT-80 (матіндукція) \\
-    \rowcolor{LightGray}
        $O_{I}$                         & Гомотопічна система типів CCHM (формальна математика) \\
       \hline
        $O_{\triangleright}$            & CCHM з обмежувальною рекурсією (теореми про $\pi$-числення)\\
@@ -472,11 +462,12 @@ O_\infty : O_{CPS} \rightarrow O_{PTS} \rightarrow O_{MLTT-80} \rightarrow O_{HT
 який трансформує мову $O_x$ в мову $O_y$, через додавання,
 видалення, перетворення, оцінку чи нормалізацію її властивостей.
 Множина всіх фільтрів позначається $F_O$.
+\end{definition}
 
 \begin{definition} (Таксономія фільтрів).
 Фільтри $\mathcal{F}_\mathcal{L}$ поділяються на підмножини:
-1) $\mathcal{F}_{\text{enrich}}$: Фільтри збагачення, $f: L \to L', де L′ \supseteq L$ за інформацією (наприклад, $\text{infer}$).
-2) $\mathcal{F}_{\text{simp}}$: Фільтри спрощення, $f: L \to L', де L′ \subseteq L$ за інформацією (наприклад, $\text{erase}$).
+1) $\mathcal{F}_{\text{enrich}}$: Фільтри збагачення, $f: L \to L', де L' \supseteq L$ за інформацією (наприклад, $\text{infer}$).
+2) $\mathcal{F}_{\text{simp}}$: Фільтри спрощення, $f: L \to L', де L' \subseteq L$ за інформацією (наприклад, $\text{erase}$).
 3) $\mathcal{F}_{\text{trans}}$: Фільтри трансформації, $f: L \to L', де L' \cong L$ за виразністю (наприклад, $\text{compile}$).
 4) $\mathcal{F}_{\text{eval}}$: Фільтри оцінки, $f: L \to O$, де (O) — граничний об’єкт (наприклад, $\text{check}$).
 5) $\mathcal{F}_{\text{norm}}$: Фільтри нормалізації, $f: L \to L'$, де $L'$ — канонічна форма (L) (наприклад, $\text{reduce}$).
@@ -1060,7 +1051,7 @@ fun simpleConvolution (i n: int) (x0: float) (write w: vector float)
 \subsection*{Alonso}
 
 Alonzo — це система типу STLC-40 як приклад основного числення,
-відкритого до фібраційних ΠΣ проверів.
+відкритого до фібраційних $\Pi\Sigma$ пруверів.
 
 [1] STLC-40 — Проста теорія типів
 

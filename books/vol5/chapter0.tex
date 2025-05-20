@@ -118,41 +118,29 @@ System F та сучасні фібраційні системи з залежн
  \caption{Класифікація мов програмування}
   \begin{tabular}{lcc}
    \hline
-\rowcolor{ZimaBlue}
        \textbf{Домен} & \textbf{Мови програмування} \\
     \hline
        HW & VHDL, Verilog, Clash, Chisel, SystemC, Lava, BSV \\
     \hline
-\rowcolor{LightGray25}
        ASM & PDP-11, VAX, S/360, M68K,  \\
-\rowcolor{LightGray25}
            & PowerPC, MIPS, SPARC, Super-H \\
-\rowcolor{LightGray25}
            & Intel, ARM, RISC-V \\
     \hline
        ALG & C, BCPL, ALGOL, SNOBOL, Simula, \\
            & Pascal, Oberon, COBOL, PL/1 \\
     \hline
-\rowcolor{LightGray}
        ML & SML, Alice ML, OCaml, UrWeb, Flow, F\# \\
     \hline
-\rowcolor{LightGray}
        PURE & HOPE, Miranda, Clean, Charity, Joy, Mercury, Elm, PureScript \\
     \hline
-\rowcolor{LightGray}
        F$_\omega$ & Scala, Haskell, 1ML, Plutus \\
     \hline
-\rowcolor{LightGray25}
        MACR & LISP, Scheme, Clojure, Racket, Dylan, LFE, CL \\
-\rowcolor{LightGray25}
             & Nemerle, Nim, Haxe, Perl, Elixir \\
     \hline
-\rowcolor{LightGray25}
        OOI & Simula, Smalltalk, Self, REBOL, Io \\
-\rowcolor{LightGray25}
            & JS, Lua, Ruby, Python, PHP, TS, Java, Kotlin \\
     \hline
-\rowcolor{LightGray25}
        CMP & C++, Rust, D, Swift, Fortran \\
     \hline
        SHELL & PowerShell, TCL, SH, CLIPS, BASIC, FORTH \\
@@ -164,27 +152,19 @@ System F та сучасні фібраційні системи з залежн
        LOGIC & AUT-68, ACL2, LEGO, ALF, Prolog \\
              & CPL, Mizar, Dedukti, HOL, Isabelle, Z \\
     \hline
-\rowcolor{LightGray}
        $\Pi\Sigma$ & Coq, F*, Lean, NuPRL, ATS, Epigram, \\
-\rowcolor{LightGray}
           & Cayenne, Idris, Dhall, Cedile, Kind \\
     \hline
-\rowcolor{LightGray}
        HoTT & Menkar, Cubical, yacctt, redtt, RedPRL, Arend, Agda \\
     \hline
-\rowcolor{LightGray25}
        CHKR & TLA+, Twelf, Promela, CSPM \\
     \hline
-\rowcolor{LightGray}
        PAR & Ling, Pony, Erlang, BPMN, Ada, E, Go, Occam, Oz \\
     \hline
-\rowcolor{LightGray}
        ARR & Julia, Wolfram, MATHLAB, Octave, Futhark, APL \\
-\rowcolor{LightGray}
            & SQL, cg, Clarion, Clipper, QCL, K, MUMPS, Q, R, S, J, O \\
     \hline
   \end{tabular}
-\small Сірим кольором показані фокусні домени дослідження.
 \end{table}
 
 \subsection{Об'єкт та предмет дослідження}
@@ -318,16 +298,11 @@ $\star : \Box$, $\Box : \Box$, $\Box : \star$. Усі типизовані мо�
  \caption{Ландшафт атаки}
   \begin{tabular}{lcccc}
    \hline
-\rowcolor{ZimaBlue}
        \textbf{Мова} & \textbf{Чиста мова} & \textbf{Імплементація} & \textbf{Середовище} & \textbf{Віртуалізація} \\
    \hline
-    \rowcolor{LightGray}
  Henk              & PTS         & Erlang  & BEAM VM  & LING/Xen \\
-    \rowcolor{LightGray}
  Per               & MLTT      & Erlang  & BEAM VM  & LING/Xen \\
-    \rowcolor{LightGray}
  Henk              & PTS        & Per     & BEAM VM  & LING/Xen \\
-    \rowcolor{LightGray}
  Christine         & MLTT       & Per     & BEAM VM  & LING/Xen \\
    \hline
  Alonzo            & STLC       & OCaml   & native & Mirage/Xen \\
@@ -340,7 +315,7 @@ $\star : \Box$, $\Box : \Box$, $\Box : \star$. Усі типизовані мо�
  Fabien            & $\mathbf{A^1}$-HoTT       & OCaml   & native & Mirage/POSIX \\
  Dan               & $\infty$-HoTT (GAP) & OCaml   & native & Mirage/POSIX \\
  Jack              & $\Sigma\Omega$-TT       & OCaml   & native & Mirage/POSIX \\
- Urs               & $\fl\sharp$-HoTT   & OCaml   & native & Mirage/POSIX \\
+ Urs               & $\flat\sharp$-HoTT   & OCaml   & native & Mirage/POSIX \\
    \hline
   \end{tabular}
   \small Сірим кольором показані мови з екстракцією програм для української віртуальної машини BEAM яка сумісна з байт-кодом Ericsson.
@@ -364,7 +339,6 @@ $\star : \Box$, $\Box : \Box$, $\Box : \star$. Усі типизовані мо�
  \caption{Категорні моделі теорій типів}
   \begin{tabular}{lcc}
     \hline
-\rowcolor{ZimaBlue}
  \textbf{Модель} & \textbf{Позначення} & \\
     \hline
  Локальні декартово-замкнені категорії Сілі & LCCC & \\
@@ -461,7 +435,7 @@ $\star : \Box$, $\Box : \Box$, $\Box : \star$. Усі типизовані мо�
 1) побудувати лінивий інтерпретатор CPS нетипизованого лямбда числення разом
    з системою процесів та чергами повідомлень на формальній мові;
 2) побудувати мову числення конструкцій PTS на формальній мові з екстрактом у лінийвий інтерпретатор;
-3) побудувати мову системи F Жирара або STLS для розробки базової бібліотеки для лінивого інтерпретатора;
+3) побудувати мову системи F Жирара або STLC для розробки базової бібліотеки для лінивого інтерпретатора;
 4) побудувати базову бібліотеку для лінивого інтерпретатора;
 5) побудувати індуктивну мову програмування MLTT;
 6) побудувати гомотопічну мову програмування HoTT;

@@ -42,20 +42,17 @@ def CPS$_\lambda$ : U
  \caption{Заміри на інтерпретаторах ландшафту атаки}
   \begin{tabular}{rc}
     \hline
-\rowcolor{ZimaBlue}
     \textbf{Мова} & \textbf{Fac(5) в нс} \\
     \hline
     Rust    & 0 \\
     Java    & 3 \\
     PyPy    & 8 \\
     \hline
-    \rowcolor{LightGray}
     CPS     & 291 \\
     \hline
     Python  & 537 \\
     K       & 756/635 \\
     \hline
-    \rowcolor{LightGray}
     Erlang  & 10699/1806/436/9 \\
     \hline
     LuaJIT  & 33856 \\
@@ -73,10 +70,8 @@ def CPS$_\lambda$ : U
  \caption{Заміри на інтерпретаторах ландшафту атаки}
   \begin{tabular}{rc}
     \hline
-\rowcolor{ZimaBlue}
     \textbf{Мова} & \textbf{Akk(3,4) в мкс} \\
     \hline
-    \rowcolor{LightGray}
 CPS & 635 \\
     \hline
 Rust  & 8,968 \\
@@ -266,7 +261,6 @@ reactor[core2;3;mod[task]];
 i) Task-реактор; ii) Timer-реактор; iii) IO-цикли. Для Task-реактора
 існують черги пріорітетів, а для Timer-реактора --- дерева інтервалів.
 \begin{figure}[ht]
-  \captionsetup{justification=raggedright,singlelinecheck=false}
   \centerline{\includegraphics[scale=0.25]{sys.eps}}
   \caption{Система процесорних ядер та реакторів}
 \end{figure}

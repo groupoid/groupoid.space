@@ -72,21 +72,16 @@ System F, System F$_\omega$ які успішно використовуютьс
 \caption{Перелік кваліфікаційних рівніх верифікації}
 \tabcolsep7pt\begin{tabular}{lcccc}
 \hline
-\rowcolor{ZimaBlue}
 \textbf{Сторона/Рівень} & \textbf{Приклади мов} \\
 \hline
     клієнт/3 & JavaScript, Lua \\
     клієнт/2 & Swift, Kotlin, TypeScript \\
-\rowcolor{LightGray}
     клієнт/1 & UrWeb, OCaml, PureScript \\
-\rowcolor{LightGray}
     клієнт/0 & Kind, PTS \\
     \hline
     сервер/3 & PHP, Python, Perl, Ruby \\
     сервер/2 & Erlang, Elixir \\
-\rowcolor{LightGray}
     сервер/1 & SML, Scala, Haskell, F\#, Rust, Hamler \\
-\rowcolor{LightGray}
     сервер/0 & Coq, Agda, Lean, MLTT/HTS \\
 \hline
 \end{tabular}
@@ -128,13 +123,11 @@ System F, System F$_\omega$ які успішно використовуютьс
 \caption{Перелік мов для яких існує версія базової бібліотеки}
 \begin{tabular}{lcc}
 \hline
-\rowcolor{ZimaBlue}
 \textbf{Мова/Платформа} & \textbf{Набір реалізованих компонент} \\
 \hline
 Erlang/OTP & N2O, BPE, KVS, NITRO, MAD, FORM \\
 Elixir/OTP & N2O, BPE, KVS, NITRO, FORM \\
 \hline
-\rowcolor{LightGray}
 Hamler/OTP & RT, BASE, N2O, BPE, KVS, NITRO \\
 \hline
 Standard ML & N2O, NITRO, ETF \\
@@ -188,7 +181,7 @@ Read, Record, Regex, Set, Time, Tuple.
 \subsubsection{Database}
 Модулі простору Database: Mnesia, ETS.
 
-\begin{lstlisting}
+\begin{lstlisting}[mathescape=true]
 axiom all : IO (List TableId)
 axiom browse : IO String
 axiom delete : Π (k: U), TableId -> k -> IO Unit
