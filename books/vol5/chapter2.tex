@@ -488,18 +488,17 @@ O_\infty : O_{CPS} \rightarrow O_{PTS} \rightarrow O_{MLTT-80} \rightarrow O_{HT
 набір об'єктів в системі мов програмування.
 Покажемо приклади екземплярів які можно породити в рамках цієї моделі.
 
-
-\begin{lstlisting}
+\begin{lstlisting}[mathescape=true]
 Henk = U$^n$, $\Pi$.
 Frank = U$^n$, $\Pi$, Ind.
 Errett = U$^n$, $\Pi$, $\Sigma$, Prop.
-Per = U$^n$, $\Pi$, $\Sigma$, 0, 1, 2, W, Prop.
+Per = U$^n$, $\Pi$, $\Sigma$, Path.
+Giovanni = U$^n$, $\Pi$, $\Sigma$, 0, 1, 2, W, Prop.
 Christine = U$^n$, $\Pi$, $\Sigma$, Id, Ind, Prop
 Anders = U$^n$, V$^n$, $\Pi$, $\Sigma$, 0, 1, 2, W, Path, Prop.
-
-Urs = Anders, U$_i^{|o|}$, A $\times$ B, $\mathbf{G}$ $\rightarrow$ A, $\mathfrak{s}$, $\flat$, $\sharp$, $\Im$, $\bigcirc$.
+Urs = Anders, U$_i^g$, A $\times$ B, $\mathbf{G}$ $\rightarrow$ A, $\mathfrak{s}$, $\flat$, $\sharp$, $\Im$, $\bigcirc$.
 Dan = Anders, Chain, Cochain, Category, Monoid, Group, Ring, $\Delta$.
-Fabien = Anders, $k$, $\mathbf{A}^1$, S$^{1,1}$, L$_{\mathbf{A}^1}$, Susp, Trunc$^n$, Nisn, $K^1(Z,n)$, BGL, MGL.
+Fabien = Anders, $k$, $\mathbf{A}^1$, S$^{1,1}$, L$_{\mathbf{A}^1}$, Susp, ||_||$^n$, Nisn, $K^1(Z,n)$, BGL, MGL.
 Jack = Anders, Fib$^n$, Susp, Trunc$^n$, $\mathbf{N}$, $\mathbf{N}_\infty$, Spec, $\pi_n$^S(A), $S^{o}[p]$, Group,
        A $\cup$ B, [A, B], H$^n$(X; G), G $\otimes$ H, SS(E, r).
 \end{lstlisting}
@@ -613,7 +612,7 @@ def Joe (cps: U): U
 в байт-код інтерпретатора BEAM віртуальної машини Erlang.
 
 \begin{definition} (Синтаксичне дерево $O_\pi$).
-\begin{lstlisting}
+\begin{lstlisting}[mathescape=true]
 def Bob (lang: U) : U
  := inductive { process (protocol: lang)
               | spawn (cursors: lang) (core: nat) (program: lang)
@@ -626,7 +625,7 @@ def Bob (lang: U) : U
 \end{definition}
 
 \begin{definition} (Синтаксичне дерево $O_\mu$).
-\begin{lstlisting}
+\begin{lstlisting}[mathescape=true]
 def Alice (lang: U) : U
  := inductive { Variable (_: Var)
               | Prim (_: Builtin)
@@ -754,7 +753,7 @@ certify: Ob \rightarrow Ob = type \circ norm
 \begin{definition} (Синтаксис мовної категорії $O_{MLTT-75}$).
 Мова $O_{MLTT-75}$ включає в себе синтаксиси трьох типів
 теорії Мартіна-Льофа: $O_\Pi$, $O_\Sigma$, $O_=$.
-\begin{lstlisting}
+\begin{lstlisting}[mathescape=true]
 def MLTT : U
  := inductive { forall (_: Pi MLTT)
               | sigma (_: Sigma MLTT)
@@ -815,7 +814,7 @@ cerfity = type \circ norm \circ induction \circ extract \\
 $O_=$, $O_\Sigma$, $O_\Pi$ та синтаксиси $O_0$, $O_1$, $O_2$, $O_W$.
 
 \begin{definition} (Синтаксичне дерево мовної категорії $O_{MLTT-80}$).
-\begin{lstlisting}
+\begin{lstlisting}[mathescape=true]
 def MLTT-80 := Per
 def Per : U
  := inductive { forall (_: Pi Per)
@@ -868,7 +867,7 @@ $O_=$, $O_\Sigma$, $O_\Pi$.
 2) верифікатор завершуваності рекурсивної перевірки рекурсивних схем;
 3) верифікатор взаємної рекурсії.
 
-\begin{lstlisting}
+\begin{lstlisting}[mathescape=true]
 def Frank := inductive { forall (_: Pi Frank) | ind (_: Ind Frank) }
 def Christine := CIC
 def CIC : U
@@ -887,7 +886,7 @@ def CIC : U
 
 \begin{definition} (Синтаксичне дерево $O_{IND}$).
 Правило формації, конструктора та елімінатора визначається синтаксичним деревом $O_{IND}$:
-\begin{lstlisting}
+\begin{lstlisting}[mathescape=true]
 def Ind (lang: U) : U
  := inductive { formation (_: Inductive lang)
               | constructor (_: list (triple Nat Inductive lang))
@@ -924,7 +923,7 @@ $$
 \begin{definition} (Синтаксис мовної категорії $O_{HTS}$).
 Синтаксис гомотопічної мовної категорії містить усі
 попередні мовні синтаксиси: $O_I$, $O_W$, $O_=$, $O_\Sigma$, $O_\Pi$:
-\begin{lstlisting}
+\begin{lstlisting}[mathescape=true]
 def HTS : U
  := inductive { forall (_: Pi HTS)
               | sigma (_: Sigma HTS)
@@ -946,7 +945,7 @@ Path-типом в індуктивних визначеннях, структу
 та склейку змінних з відповідними елімінаторами.
 
 \begin{definition} (Синтаксичне дерево $O_I$).
-\begin{lstlisting}
+\begin{lstlisting}[mathescape=true]
 def CCHM (lang: U) : U
  := inductive { pretype (n: nat)
               | PathP (_: lang) | PLam (_: lang) | PApp (f a: lang)
@@ -998,7 +997,7 @@ Bob і Alice мають уніфікований синтаксис Standard ML.
 
 [1] — MinCaml, [2] — CoqASM. [3] — Verified LISP Interpreter, [4] — Kind, [5] — O-CPS/Rust.
 
-\begin{lstlisting}
+\begin{lstlisting}[mathescape=true]
 fun a (0, n) = n + 1
   | a (m, 0) = a (m - 1, 1)
   | a (m, n) = a (m - 1, a (m, n - 1))
@@ -1012,7 +1011,7 @@ Bob — це паралельне неблокуюче середовище ви
 
 [5] — Kernel, [6] — Pony, [7] — Erlang.
 
-\begin{lstlisting}
+\begin{lstlisting}[mathescape=true]
 fun proc =
 let val p0 = pub(0,8)
     val s1 = sub(0,p0)
@@ -1031,7 +1030,7 @@ let val p0 = pub(0,8)
 
 Alice — це числення лінійних типів із частковими дробами [6] для програмування рівня 3 BLAS.
 
-\begin{lstlisting}
+\begin{lstlisting}[mathescape=true]
 fun simpleConvolution (i n: int) (x0: float) (write w: vector float)
   : vector float
   = begin
@@ -1055,7 +1054,7 @@ Alonzo — це система типу STLC-40 як приклад основн
 
 [1] STLC-40 — Проста теорія типів
 
-\begin{lstlisting}
+\begin{lstlisting}[mathescape=true]
 def zero : (T → T) → T → T := λ (s: T → T) (z: T), z
 def succ : ((T → T) → T → T) → ((T → T) → T → T)
  := λ (w: (T → T) → T → T) (y: T → T) (x: T), y (w y x)
@@ -1069,7 +1068,7 @@ Henk також підтримує синтаксис AUTOMATH (AUT-68).
 
 [1] AUT-68 — AUTOMATH 1968, [2] CoC-88 — числення конструкцій, [3] PTS-91 — система чистого типу ($\Pi$).
 
-\begin{lstlisting}
+\begin{lstlisting}[mathescape=true]
 def N := Π (A : U), (A → A) → A → A
 def zero : N := λ (A : U) (S : A → A) (Z : A), Z
 def succ : N -> N := λ (n : N) (A : U) (S : A → A) (Z : A), S (n A S Z)
@@ -1091,7 +1090,7 @@ def pow (m n : N) : N := λ (A : U) (S : A → A) (Z : A), n (A → A) (m A) S Z
 [5] PP-89 — Індуктивно визначені типи,
 [6] CIC-2015 — Числення індуктивних конструкцій.
 
-\begin{lstlisting}
+\begin{lstlisting}[mathescape=true]
 def empty      : U := inductive { }
 def L¹ (A : U) : U := inductive { nil | cons (head: A) (tail: L¹ A) }
 def S¹         : U := inductive { base | loop : Equ S¹ base base }
@@ -1115,7 +1114,7 @@ Anders — це система гомотопічних типів (HTS-2013) і
 [5] CHM-2017 — Рівняння Губера,
 [6] ВМА-2017 — Кубічна Агда.
 
-\begin{lstlisting}
+\begin{lstlisting}[mathescape=true]
 def idfun  (A : U) : A $\rightarrow$ A := ($\lambda$ (a : A), a
 def idfun' (A : U) : A $\rightarrow$ A := transp (<i> A) 0
 def idfun'' (A : U) : A $\rightarrow$ A := ($\lambda$ (a : A), hcomp A 0 ($\lambda$ (i : I), []) a

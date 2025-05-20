@@ -888,12 +888,60 @@ theorem instance (A : U) : MLTT A :=
 The result of the work is a \lstinline{mltt.ctt} file which can be runned using \lstinline{cubicaltt}.
 Note that computation rules take a seconds to type check.
 
-\begin{lstlisting}
+\begin{lstlisting}[mathescape=true]
 $\$$ rlwrap ./anders.native check ./experiments/mltt.anders
 File loaded.
 > :n instance
-TYPE: Π (A : U), Σ (Π-form : Π (B : (A → U)), U), Σ (Π-ctor₁ : Π (B : (A → U)), (Π (x : A), (B x) → Π (x : A), (B x))), Σ (Π-elim₁ : Π (B : (A → U)), (Π (x : A), (B x) → Π (x : A), (B x))), Σ (Π-comp₁ : Π (B : (A → U)), Π (a : A), Π (f : Π (x : A), (B x)), Π (P : ((B a) → U)), ((P (((Π-elim₁ B) ((Π-ctor₁ B) f)) a)) → (P (f a)))), Σ (Π-comp₂ : Π (B : (A → U)), Π (a : A), Π (f : Π (x : A), (B x)), Π (P : (Π (x : A), (B x) → U)), ((P f) → (P λ (x : A), (f x)))), Σ (Σ-form : Π (B : (A → U)), U), Σ (Σ-ctor₁ : Π (B : (A → U)), Π (a : A), Π (b : (B a)), Σ (x : A), (B x)), Σ (Σ-elim₁ : Π (B : (A → U)), Π (p : Σ (x : A), (B x)), A), Σ (Σ-elim₂ : Π (B : (A → U)), Π (p : Σ (x : A), (B x)), (B p.1)), Σ (Σ-comp₁ : Π (B : (A → U)), Π (a : A), Π (b : (B a)), Π (P : (A → U)), ((P a) → (P ((Σ-elim₁ B) (((Σ-ctor₁ B) a) b))))), Σ (Σ-comp₂ : Π (B : (A → U)), Π (a : A), Π (b : (B a)), Π (P : ((B a) → U)), ((P b) → (P ((Σ-elim₂ B) (a, b))))), Σ (Σ-comp₃ : Π (B : (A → U)), Π (p : Σ (x : A), (B x)), Π (P : (Σ (x : A), (B x) → U)), ((P p) → (P (p.1, p.2)))), Σ (=-form : Π (a : A), (A → U)), Σ (=-ctor₁ : Π (a : A), Π (P : (A → U)), ((P a) → (P a))), Σ (=-elim₁ : Π (a : A), Π (C : Π (x : A), Π (y : A), (Π (P : (A → U)), ((P x) → (P y)) → U)), Π (d : (((C a) a) (=-ctor₁ a))), Π (y : A), Π (p : Π (P : (A → U)), ((P a) → (P y))), (((C a) y) p)), Σ (=-comp₁ : Π (a : A), Π (C : Π (x : A), Π (y : A), (Π (P : (A → U)), ((P x) → (P y)) → U)), Π (d : (((C a) a) (=-ctor₁ a))), Π (P : ((((C a) a) (=-ctor₁ a)) → U)), ((P d) → (P (((((=-elim₁ a) C) d) a) (=-ctor₁ a))))), U
-NORMEVAL: λ (A : U), (λ (B : (A → U)), Π (x : A), (B x), (λ (B : (A → U)), λ (b : Π (x : A), (B x)), λ (x : A), (b x), (λ (B : (A → U)), λ (f : Π (x : A), (B x)), λ (a : A), (f a), (λ (B : (A → U)), λ (a : A), λ (f : Π (x : A), (B x)), λ (P : ((B a) → U)), λ (u : (P (f a))), u, (λ (B : (A → U)), λ (a : A), λ (f : Π (x : A), (B x)), λ (P : (Π (x : A), (B x) → U)), λ (u : (P f)), u, (λ (B : (A → U)), Σ (x : A), (B x), (λ (B : (A → U)), λ (a : A), λ (b : (B a)), (a, b), (λ (B : (A → U)), λ (x : Σ (x : A), (B x)), x.1, (λ (B : (A → U)), λ (x : Σ (x : A), (B x)), x.2, (λ (B : (A → U)), λ (a : A), λ (b : (B a)), λ (P : (A → U)), λ (u : (P a)), u, (λ (B : (A → U)), λ (a : A), λ (b : (B a)), λ (P : ((B a) → U)), λ (u : (P b)), u, (λ (B : (A → U)), λ (p : Σ (x : A), (B x)), λ (P : (Σ (x : A), (B x) → U)), λ (u : (P p)), u, (λ (x : A), λ (y : A), Π (P : (A → U)), ((P x) → (P y)), (λ (x : A), λ (P : (A → U)), λ (u : (P x)), u, ((J A), ((comp₆ A), A))))))))))))))))
+TYPE: Π (A : U), Σ (Π-form : Π (B : (A → U)), U), Σ (Π-ctor₁ :
+      Π (B : (A → U)), (Π (x : A), (B x) → Π (x : A), (B x))),
+      Σ (Π-elim₁ : Π (B : (A → U)), (Π (x : A), (B x) →
+      Π (x : A), (B x))), Σ (Π-comp₁ : Π (B : (A → U)),
+      Π (a : A), Π (f : Π (x : A), (B x)), Π (P : ((B a) → U)),
+        ((P (((Π-elim₁ B) ((Π-ctor₁ B) f)) a)) → (P (f a)))),
+      Σ (Π-comp₂ : Π (B : (A → U)), Π (a : A), Π (f :
+      Π (x : A), (B x)), Π (P : (Π (x : A), (B x) → U)),
+        ((P f) → (P λ (x : A), (f x)))), Σ (Σ-form :
+      Π (B : (A → U)), U), Σ (Σ-ctor₁ : Π (B : (A → U)),
+      Π (a : A), Π (b : (B a)), Σ (x : A), (B x)), Σ (Σ-elim₁ :
+      Π (B : (A → U)), Π (p : Σ (x : A), (B x)), A),
+      Σ (Σ-elim₂ : Π (B : (A → U)), Π (p : Σ (x : A), (B x)),
+        (B p.1)), Σ (Σ-comp₁ : Π (B : (A → U)), Π (a : A),
+      Π (b : (B a)), Π (P : (A → U)), ((P a) → (P ((Σ-elim₁ B)
+        (((Σ-ctor₁ B) a) b))))), Σ (Σ-comp₂ : Π (B : (A → U)),
+      Π (a : A), Π (b : (B a)), Π (P : ((B a) → U)), ((P b) →
+        (P ((Σ-elim₂ B) (a, b))))), Σ (Σ-comp₃ : Π (B : (A → U)),
+      Π (p : Σ (x : A), (B x)), Π (P : (Σ (x : A), (B x) → U)),
+        ((P p) → (P (p.1, p.2)))), Σ (=-form : Π (a : A),
+        (A → U)), Σ (=-ctor₁ : Π (a : A), Π (P : (A → U)),
+        ((P a) → (P a))), Σ (=-elim₁ : Π (a : A), Π (C :
+      Π (x : A), Π (y : A), (Π (P : (A → U)), ((P x)
+      → (P y)) → U)), Π (d : (((C a) a) (=-ctor₁ a))),
+      Π (y : A), Π (p : Π (P : (A → U)), ((P a) → (P y))),
+        (((C a) y) p)), Σ (=-comp₁ : Π (a : A), Π (C :
+      Π (x : A), Π (y : A), (Π (P : (A → U)), ((P x)
+      → (P y)) → U)), Π (d : (((C a) a) (=-ctor₁ a))),
+      Π (P : ((((C a) a) (=-ctor₁ a)) → U)), ((P d) → (P
+        (((((=-elim₁ a) C) d) a) (=-ctor₁ a))))), U
+EVAL: λ (A : U), (λ (B : (A → U)), Π (x : A), (B x), (
+      λ (B : (A → U)), λ (b : Π (x : A), (B x)),
+      λ (x : A), (b x), (λ (B : (A → U)), λ (f :
+      Π (x : A), (B x)), λ (a : A), (f a), (λ (B : (A → U)),
+      λ (a : A), λ (f : Π (x : A), (B x)),
+      λ (P : ((B a) → U)), λ (u : (P (f a))), u, (
+      λ (B : (A → U)), λ (a : A), λ (f : Π (x : A), (B x)),
+      λ (P : (Π (x : A), (B x) → U)), λ (u : (P f)), u, (
+      λ (B : (A → U)), Σ (x : A), (B x), (λ (B : (A → U)),
+      λ (a : A), λ (b : (B a)), (a, b), (λ (B : (A → U)),
+      λ (x : Σ (x : A), (B x)), x.1, (λ (B : (A → U)),
+      λ (x : Σ (x : A), (B x)), x.2, (λ (B : (A → U)),
+      λ (a : A), λ (b : (B a)), λ (P : (A → U)),
+      λ (u : (P a)), u, (λ (B : (A → U)), λ (a : A),
+      λ (b : (B a)), λ (P : ((B a) → U)),
+      λ (u : (P b)), u, (λ (B : (A → U)), λ (p :
+      Σ (x : A), (B x)), λ (P : (Σ (x : A), (B x) → U)),
+      λ (u : (P p)), u, (λ (x : A), λ (y : A), Π (P : (A
+      → U)), ((P x) → (P y)), (λ (x : A), λ (P : (A → U)),
+      λ (u : (P x)), u, ((J A), ((comp₆ A), A))))))))))))))))
 \end{lstlisting}
 
 \newpage
