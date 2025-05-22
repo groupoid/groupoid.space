@@ -283,7 +283,7 @@ let vsnd : value -> value = function | VPair (_, _, u) -> u | v -> VSnd v
 за винятком успадкування та розширення рекордів.
 Елімінатори .1 та .2 (з cubicaltt) теж працюють.
 
-\begin{lstlisting}
+\begin{lstlisting}[mathescape=true]
 def Sigma (A : U) (B : A → U) : U := summa (x: A), B x
 def prod (A B : U) : U := summa (_ : A), B
 def pair (A: U) (B: A → U) (a: A) (b: B a) : Sigma A B := (a, b)
@@ -319,7 +319,7 @@ def pathSig0 (A: U) (P: A -> U) (t u: Σ (x: A), P x) (p: PathP (<_>A) t.1 u.1)
 \newpage
 \subsection*{0-тип}
 
-0-тип є тип-брехня, логічний нуль $\mathbbm{0}$, порожнечу, Empty, Void або $\bot$.
+0-тип є тип-брехня, логічний нуль $\mathbb{0}$, порожнечу, Empty, Void або $\bot$.
 Використовується для доказу протиріч, містить лише правила формації та індуктор.
 
 Досніповий код верифікатора для 0-типу:
@@ -385,7 +385,7 @@ and recUnit t = let x = freshName "x" in
 
 \newpage
 \subsection*{2-тип}
-2-тип є логічною двійкою $\mathbbm{2}$, булевим типом Bool
+2-тип є логічною двійкою $\mathbb{2}$, булевим типом Bool
 або 0-мірною гомотопічною (без метрики) сферою. Має два
 конструктори false=0$_2$ та true=1$_2$.
 
@@ -502,7 +502,7 @@ and inferIndW a b c = let t = wtype a b in
 Після того, як ми визначили W типи в ядрі, для реалізації
 принципу індукції нам знадобиться транспорт у фібраційному шляху Path.
 
-\begin{lstlisting}
+\begin{lstlisting}[mathescape=true]
 def ind$^W$-$\beta$ (A : U) (B : A → U) (C : (W (x : A), B x) → U) (g : Π (x : A)
     (f : B x → (W (x : A), B x)), (Π (b : B x), C (f b)) → C (sup A B x f))
     (a : A) (f : B a → (W (x : A), B x))
@@ -541,7 +541,7 @@ def hcomp-W′ (A : U) (B : A → U) (r : I) (a : I → Partial A r)
 Нарешті багатовимірний Path тип є та гомотопічна кубічна гетерогенна
 рівність за допомогою якої можна побудувати групоїди (дивіться базову бібліотеку Андерса).
 
-\begin{lstlisting}
+\begin{lstlisting}[mathescape=true]
 eval:
   | EPathP e -> VPathP (eval e ctx)
   | EPLam e -> VPLam (eval e ctx)
