@@ -30,7 +30,7 @@ Historically, internalizing MLTT in a type checker while constructively
 proving the J eliminator has been challenging due to limitations in pure
 functional systems. This article presents a canonical formalization of
 MLTT-73 and its internalization (without $\eta$-rule for identity types due to gropoid interpretation)
-in \textbf{Per}, a minimal dependent type theory language equipped with cubical type primitives.
+in \textbf{Per}, a dependent type theory language equipped with cubical type primitives.
 Using presented type theory, we constructively prove induction and computation MLTT-73 inference rules,
 including the J eliminator, and demonstrate suitability as a robust foundation for mathematical languages.
 We also provide logical, categorical, and homotopical interpretations of MLTT
@@ -91,17 +91,17 @@ v) module system. It is slightly based on cubicaltt.
 F = module I where L
 L = $\varnothing$ | import I | def I T : O := O
 T = $\varnothing$ | ( I : O ) T
-O = I | ( O ) | U | O → O | O O
-  | Π ( I : O ) , O | λ ( I : O ), O
+O = I | U | ( O )
+  | Π ( I : O ) , O | λ ( I : O ), O | O → O | O O
   | Ξ O O O O O | $\langle$ O $\rangle$ O | O @ O | transp O O
   | 0 | 1 | -O | O ∧ O | O ∨ O | $\Box$
   | Σ ( I : O ) , O | O .1 | O .2 | O , O
 \end{lstlisting}
 
-Here = (definition), $\varnothing$ (empty set), $\rvert$, are parts of BNF language and
+Here, = (definition), $\varnothing$ (empty set), $\rvert$ (vertical bar) --- are parts of BNF language and
 $\langle$, $\rangle$, (, ), :=, $\vee$, $\wedge$, -, $\rightarrow$, 0, 1, @, $\Box$,
 $\mathbf{module}$, $\mathbf{import}$, $\mathbf{where}$, $\mathbf{transp}$, $\mathbf{.1}$, $\mathbf{.2}$,
-and $,$ are terminals of type checker language.
+and $,$ are terminals of the type checker language.
 
 \section{Interpretations}
 
