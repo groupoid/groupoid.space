@@ -232,6 +232,69 @@ or inductive types directly, due to its 0-truncated nature \cite{HoTT13}.
 
 \section{Dependent Type Theory}
 
+\subsection{Universes (U$_i$)}
+In Martin-Löf Type Theory (MLTT), universes are types that classify other types,
+forming a cumulative hierarchy to manage type formation and avoid paradoxes like
+Russell’s. MLTT-73 adopts a predicative hierarchy
+of universes, denoted \( U_i \) for \( i \in \mathbb{N} \), where each
+universe \( U_i \) is a type in the next universe \( U_{i+1} \).
+
+This section defines the universe hierarchy constructively,
+specifying formation, introduction, and computation rules,
+and illustrates their encoding in \textbf{Per}.
+
+\begin{definition}[Universe Formation]
+For each natural number \( i \in \mathbb{N} \), there exists a universe \( U_i \), which is a type classifying small types at level \( i \). The formation rule is:
+$\Gamma \vdash U_i : U_{i+1}$.
+Universes are introduced as constructors, with each \( U_i \) inhabiting \( U_{i+1} \).
+\begin{lstlisting}[mathescape=true]
+def U (i : Nat) : U (suc i)
+\end{lstlisting}
+\end{definition}
+
+\begin{definition}[Universe Introduction]
+A type \( A \) belongs to a universe \( U_i \) if it can be derived as a type at
+level \( i \). For MLTT-73, this includes base types (e.g., \( \Pi \), \( \Sigma \), Path),
+user-defined types, and universes \( U_j \) for \( j < i \). The introduction rule is:
+$\Gamma ; A \vdash A : U_i$, where $i$ is the minimal level such that $A \in U_i$.
+Types like \( \Pi(A, B) \), \( \Sigma(A, B) \), and \( \Xi(A, x, y) \) are
+explicitly landed in a universe:
+\begin{lstlisting}[mathescape=true]
+def Pi (A : U i) (B : A -> U i) : U i := Π (x : A), B x
+def Sigma (A : U i) (B : A -> U i) : U i := Σ (x : A), B x
+def Path (A : U i) (x y : A) : U i := PathP (<_> A) x y
+\end{lstlisting}
+\end{definition}
+
+\begin{definition}[Cumulative Hierarchy]
+The universe hierarchy is cumulative, meaning
+if \( A : U_i \), then \( A : U_j \) for all \( j > i \).
+This ensures flexibility in type checking, as types can be lifted to higher universes.
+This is implicit in the type checker’s ability
+to assign types to higher universes when needed.
+\end{definition}
+
+\begin{definition}[Predicative Rules]
+The formation of dependent types (e.g., \( \Pi \), \( \Sigma \)) lands
+in the maximum of the universe levels of its constituents. For example,
+for \( \Pi \)-types: $\Gamma \vdash A : U_i$ and $\Gamma, x : A \vdash B(x) : U_j$ we
+can derive $\Gamma \vdash \Pi (x : A), B(x) : U_{\max(i, j)}$
+This predicative rule ensures that the universe level reflects
+the highest level of the domain or codomain.
+\begin{lstlisting}[mathescape=true]
+def Level (i j : $\mathbf{N}$) (A : U i) (B : A -> U j)
+  : U (max i j) := Π (x : A), B x
+\end{lstlisting}
+Similar rules apply to \( \Sigma \) and Path types,
+ensuring all MLTT-73 types are predicatively landed.
+\end{definition}
+
+\begin{definition}[Definitional Equality]
+Universes support definitional equality, where two types \( A, B : U_i \)
+are equal if their normalized forms are identical.
+This is crucial for type checking in MLTT-73.
+\end{definition}
+
 \subsection{Dependent Product ($\Pi$)}
 
 $\Pi$ is a dependent product type, the generalization of functions.
@@ -822,68 +885,6 @@ Note that Path type has no Eta rule due to groupoid interpretation.
 The groupoid interpretation of type theory is well known article by Martin Hofmann and Thomas Streicher,
 more specific interpretation of identity type as infinity groupoid \cite{Hofmann96}.
 
-\subsection{Universes (U$_i$)}
-In Martin-Löf Type Theory (MLTT), universes are types that classify other types,
-forming a cumulative hierarchy to manage type formation and avoid paradoxes like
-Russell’s. MLTT-73 adopts a predicative hierarchy
-of universes, denoted \( U_i \) for \( i \in \mathbb{N} \), where each
-universe \( U_i \) is a type in the next universe \( U_{i+1} \).
-
-This section defines the universe hierarchy constructively,
-specifying formation, introduction, and computation rules,
-and illustrates their encoding in \textbf{Per}.
-
-\begin{definition}[Universe Formation]
-For each natural number \( i \in \mathbb{N} \), there exists a universe \( U_i \), which is a type classifying small types at level \( i \). The formation rule is:
-$\Gamma \vdash U_i : U_{i+1}$.
-Universes are introduced as constructors, with each \( U_i \) inhabiting \( U_{i+1} \).
-\begin{lstlisting}[mathescape=true]
-def U (i : Nat) : U (suc i)
-\end{lstlisting}
-\end{definition}
-
-\begin{definition}[Universe Introduction]
-A type \( A \) belongs to a universe \( U_i \) if it can be derived as a type at
-level \( i \). For MLTT-73, this includes base types (e.g., \( \Pi \), \( \Sigma \), Path),
-user-defined types, and universes \( U_j \) for \( j < i \). The introduction rule is:
-$\Gamma ; A \vdash A : U_i$, where $i$ is the minimal level such that $A \in U_i$.
-Types like \( \Pi(A, B) \), \( \Sigma(A, B) \), and \( \Xi(A, x, y) \) are
-explicitly landed in a universe:
-\begin{lstlisting}[mathescape=true]
-def Pi (A : U i) (B : A -> U i) : U i := Π (x : A), B x
-def Sigma (A : U i) (B : A -> U i) : U i := Σ (x : A), B x
-def Path (A : U i) (x y : A) : U i := PathP (<_> A) x y
-\end{lstlisting}
-\end{definition}
-
-\begin{definition}[Cumulative Hierarchy]
-The universe hierarchy is cumulative, meaning
-if \( A : U_i \), then \( A : U_j \) for all \( j > i \).
-This ensures flexibility in type checking, as types can be lifted to higher universes.
-This is implicit in the type checker’s ability
-to assign types to higher universes when needed.
-\end{definition}
-
-\begin{definition}[Predicative Rules]
-The formation of dependent types (e.g., \( \Pi \), \( \Sigma \)) lands
-in the maximum of the universe levels of its constituents. For example,
-for \( \Pi \)-types: $\Gamma \vdash A : U_i$ and $\Gamma, x : A \vdash B(x) : U_j$ we
-can derive $\Gamma \vdash \Pi (x : A), B(x) : U_{\max(i, j)}$
-This predicative rule ensures that the universe level reflects
-the highest level of the domain or codomain.
-\begin{lstlisting}[mathescape=true]
-def Level (i j : $\mathbf{N}$) (A : U i) (B : A -> U j)
-  : U (max i j) := Π (x : A), B x
-\end{lstlisting}
-Similar rules apply to \( \Sigma \) and Path types,
-ensuring all MLTT-73 types are predicatively landed.
-\end{definition}
-
-\begin{definition}[Definitional Equality]
-Universes support definitional equality, where two types \( A, B : U_i \)
-are equal if their normalized forms are identical.
-This is crucial for type checking in MLTT-73.
-\end{definition}
 
 \subsection*{Contexts}
 In Martin-Löf Type Theory (MLTT), contexts define the typing
