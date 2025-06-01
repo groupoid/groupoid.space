@@ -8,6 +8,7 @@
 \usepackage{url}
 \usepackage{tikz-cd}
 \usepackage[utf8]{inputenc}
+\usepackage[english]{babel}
 
 \include{journal}
 
@@ -44,7 +45,6 @@ where cells are constructors for points and paths.
 The attachment of an $n$-cell to a space \( X \)
 along \( f : S^{n-1} \to X \) is a pushout:
 \[
-\shorthandoff{"}
 \begin{tikzcd}
 S^{n-1} \arrow[r, "f"] \arrow[d, "\iota"] & X \arrow[d, "j"] \\
 D^n \arrow[r, "g"]                        & X \cup_f D^n \\
@@ -63,7 +63,6 @@ A CW-complex is a space \( X \), constructed inductively by attaching cells, wit
       indices \( J_n \) and maps \( \{ f_j : S^{n-1} \to X_{n-1}
       \}_{j \in J_n} \), \( X_n \) is the pushout:
     \[
-    \shorthandoff{"}
     \begin{tikzcd}
     \coprod_{j \in J_n} S^{n-1} \arrow[r, "\coprod f_j"] \arrow[d, "\coprod \iota_j"] & X_{n-1} \arrow[d, "i_n"] \\
     \coprod_{j \in J_n} D^n \arrow[r, "\coprod g_j"] & X_n
@@ -303,7 +302,6 @@ Given \( f : S^{n-1} \to X \) and inclusion \( g : S^{n-1} \to D^n \),
 the pushout \( \sqcup(X,D^n,S^{n-1},f,g) \) is
 the space \( X \cup_f D^n \), attaching an \( n \)-disk to \( X \) along \( f \).
 \[
-\shorthandoff{"}
 \begin{tikzcd}
 S^{n-1} \arrow[r, "f"] \arrow[d, "g"] & X \arrow[d] \\
 D^n \arrow[r] & X \cup_f D^n

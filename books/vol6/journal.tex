@@ -1,5 +1,11 @@
 \ProvidesPackage{journal}
+\usepackage{epigraph}
 \usepackage{hyperref}
+\usepackage[mathcal,mathbf]{euler}
+\usepackage{enumitem}
+\usepackage{booktabs}
+\usepackage{adjustbox}
+\usepackage{mathtools}
 \usepackage{listings}
 \usepackage{amsfonts}
 \usepackage{amscd}
@@ -8,22 +14,53 @@
 \usepackage{amsthm}
 \usepackage{tikz}
 \usepackage{tikz-cd}
-\usepackage[utf8]{inputenc}
 \usepackage{url}
+\usepackage[utf8]{inputenc}
+\usepackage[english,ukrainian]{babel}
+\usepackage{tikz}
+\usepackage{tikz-cd}
+\usepackage[T1]{fontenc}
+\usepackage[only,llbracket,rrbracket,llparenthesis,rrparenthesis]{stmaryrd}
 
 \usetikzlibrary{babel}
 
 \newcommand*{\incmap}{\hookrightarrow}
 \newcommand*{\thead}[1]{\multicolumn{1}{c}{\bfseries #1}}
-\renewcommand{\Join}{\vee}
+\renewcommand{\Join}{\vee} % Join operation symbol
+\newcommand{\presheaf}{\mathcal{P}} % Presheaf (calligraphic P, common notation)
+\newcommand{\tabstyle}[0]{\scriptsize\ttfamily\fontseries{l}\selectfont}
+\newcommand{\defequ}{\stackrel{\text{def}}{=}} % Definitional equality
+\newcommand{\Spec}{\mathbf{Spec}}
+\newcommand{\Mod}{\text{Mod}}
+\newcommand{\dg}{\text{dg}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\RP}{\mathbb{RP}}
+\newcommand{\CP}{\mathbb{CP}}
+\newcommand{\Tor}{\text{Tor}}
+\newcommand{\Ext}{\text{Ext}}
+\newcommand{\Hom}{\text{Hom}}
+\newcommand{\id}{\text{id}}
+\newcommand{\pt}{\text{pt}}
+\newcommand{\im}{\text{im}}
+\newcommand{\Ab}{\text{Ab}}
+\newcommand{\Ch}{\text{Ch}}
+\newcommand{\Spectra}{\text{Spectra}}
+\newcommand{\Ssphere}{\mathbb{S}}
+\newcommand{\HA}{H}
+\newcommand{\KU}{\text{KU}}
+\newcommand{\KO}{\text{KO}}
+\newcommand{\T}{\mathbb{T}}
+\newcommand{\Aone}{\mathbb{A}^1}
+\newcommand{\Sm}{\text{Sm}}
+\newcommand{\Spt}{\text{Sp}}
+\newcommand{\Nis}{\text{Nis}}
 
-\lstset{
-  basicstyle=\footnotesize,
-  inputencoding=utf8,
-  extendedchars=true,
-  literate=
+\lstset{basicstyle=\footnotesize,inputencoding=utf8,extendedchars=true,literate={
 {𝟎}{{\ensuremath{\mathbf{0}}}}1
 {𝟏}{{\ensuremath{\mathbf{1}}}}1
+{𝟐}{{\ensuremath{\mathbf{2}}}}1
 {≔}{{\ensuremath{\mathrm{:=}}}}1
 {α}{{\ensuremath{\mathrm{\alpha}}}}1
 {ᵂ}{{\ensuremath{^W}}}1
@@ -99,12 +136,25 @@
 {↦}{{\ensuremath{\mapsto}}}1
 {→}{{\ensuremath{\rightarrow}}}1
 {↔}{{\ensuremath{\leftrightarrow}}}1
+{⥤}{{\ensuremath{\Rightarrow}}}1
 {⇒}{{\ensuremath{\Rightarrow}}}1
 {⟹}{{\ensuremath{\Longrightarrow}}}1
 {⇐}{{\ensuremath{\Leftarrow}}}1
 {⟸}{{\ensuremath{\Longleftarrow}}}1
 {∩}{{\ensuremath{\cap}}}1
 {∪}{{\ensuremath{\cup}}}1
+{·}{{\ensuremath{\cdot}}}1
+{ᵢ}{{\ensuremath{_i}}}1
+{ⱼ}{{\ensuremath{_j}}}1
+{₊}{{\ensuremath{_+}}}1
+{ℑ}{{\ensuremath{\Im}}}1
+{𝒢}{{\ensuremath{\mathcal{G}}}}1
+{ℕ}{{\ensuremath{\mathbb{N}}}}1
+{𝟘}{{\ensuremath{\mathbb{0}}}}1
+{ℤ}{{\ensuremath{\mathbb{Z}}}}1
+{ℝ}{{\ensuremath{\mathbb{R}}}}1
+{ℙ}{{\ensuremath{\mathbb{P}}}}1
+{∁}{{\ensuremath{\subseteq}}}1
 {⊂}{{\ensuremath{\subseteq}}}1
 {⊆}{{\ensuremath{\subseteq}}}1
 {⊄}{{\ensuremath{\nsubseteq}}}1
@@ -143,6 +193,9 @@
 {₀}{{\ensuremath{_0}}}1
 {¹}{{\ensuremath{^1}}}1
 {ₙ}{{\ensuremath{_n}}}1
+{⊤}{{\ensuremath{\top}}}1
+{↪}{{\ensuremath{\hookrightarrow}}}1
+{⇒}{{\ensuremath{\Rightarrow}}}1
 {ₘ}{{\ensuremath{_m}}}1
 {↑}{{\ensuremath{\uparrow}}}1
 {↓}{{\ensuremath{\downarrow}}}1
@@ -154,24 +207,61 @@
 {<}{{\ensuremath{\textless}}}1
 {>}{{\ensuremath{\textgreater}}}1
 {_}{{$\_$}}1
-{(}{(}1
-{(}{(}1
 {‖}{{\ensuremath{\Vert}}}1
-{+}{{+}}1
-{*}{{*}}1,
+{→}{{$\rightarrow$}}1
+{Π}{{$\Pi$}}1
+{Σ}{{$\Sigma$}}1
+{Г}{{$\Gamma$}}1
+{Θ}{{$\Theta$}}1
+{∆}{{$\Delta$}}1
+{Σ}{{$\Sigma$}}1
+{Ф}{{$\Phi$}}1
+{σ}{{$\sigma$}}1
+{δ}{{$\delta$}}1
+{ν}{{$\nu$}}1
+{η}{{$\eta$}}1
+{₁}{{$_1$}}1
+{•}{{$\bullet$}}1
+{є}{{$\varepsilon$}}1
+{ᵀ}{{$\textsuperscript{T}$}}1
+{ᵗ}{{$\textsuperscript{t}$}}1
+{◊}{{$\lozenge$}}1
+{ᵀ}{{$^T$}}1
+{ᵗ}{{$^t$}}1
+ }
 }
 
-\definecolor{ZimaBlue}{RGB}{0, 128, 255}
-
 \theoremstyle{definition}
+
 \newtheorem{definition}{Definition}
 \newtheorem{theorem}{Theorem}
 \newtheorem{lemma}{Lemma}
+\newtheorem{notation}{Notation}
+\newtheorem{acknowledgment}{Acknowledgment}
 \newtheorem{example}{Example}
+\newtheorem{remark}{Remark}
+\newtheorem{corollary}{Corollary}
+\newtheorem{proposition}{Proposition}
 
-\setlength{\parindent}{15pt}
+
+\lefthyphenmin=1
+\hyphenpenalty=100
+\tolerance=2000
+\emergencystretch=1em
+\hfuzz=2pt
+\vfuzz=2pt
 
 \newif\ifincludeTOC
-
 \includeTOCtrue
 
+\def\mapright#1{\xrightarrow{{#1}}}
+\def\mapleft#1{\xleftarrow{{#1}}}
+\def\mapup#1{\Big\uparrow\rlap{\raise2pt{\scriptstyle{#1}}}}
+\def\mapupl#1{\Big\uparrow\llap{\raise2pt{\scriptstyle{#1}}}}
+\def\mapdown#1{\Big\downarrow\rlap{\raise2pt{\scriptstyle{#1}}}}
+\def\mapdownl#1{\Big\downarrow\llap{\raise2pt{\scriptstyle{#1}}}}
+\def\mapdiagl#1{\vcenter{\searrow}\rlap{\raise2pt{\scriptstyle{#1}}}}
+\def\mapdiagr#1{\vcenter{\swarrow}\rlap{\raise2pt{\scriptstyle{#1}}}}
+\def\under{\underline{\hspace{0.25cm}}}
+
+\def\lstlanguagefiles{syntax.tex}
