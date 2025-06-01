@@ -5,8 +5,10 @@
 .mjx-dashed{stroke-dasharray:140}
 .mjx-dotted{stroke-linecap:round;stroke-dasharray:0,140}
 use[data-c]{stroke-width:3px}
-</style></head><body class="content"></body></html><html><head><meta property="og:title" content="INSTITUTE"><meta property="og:description" content="Інститут Прикладної Математики"><meta property="og:url" content="https://groupoid.space/institute/"></head></html><title>COURSE</title><header class="header"><div class="header__titles"><h1 class="header__title">Гомотопічна теорія типів</h1><h4 class="header__subtitle">Навчальна програма для студентів третього курсу</h4></div></header><article class="main"><div class="om"><section><h1>Курс "Мова простору"</h1></section><aside><b>Доповідач</b>: Максим Сохацький<br><b>Місцина</b>: ДП "ІНФОТЕХ", Дегтярівська 15А, Київ 04050<br>
-<b>Час проведення</b>: 17 липня 2021, 11:00<br></aside><h2>Вступ</h2><p>Цей курс є сучасним вступом в теорію типів
+</style></head><body class="content"></body></html><html><head><meta property="og:title" content="INSTITUTE"><meta property="og:description" content="Інститут Прикладної Математики"><meta property="og:url" content="https://groupoid.space/institute/"></head></html><title>COURSE</title><header class="header"><div class="header__titles"><h1 class="header__title">Гомотопічна теорія типів</h1><h4 class="header__subtitle">Навчальна програма для студентів третього курсу</h4></div></header><article class="main"><div class="om"><section><h1>Курс "Мова простору"</h1></section><aside><b>Автор</b>: Максим Сохацький.<br><b>Тема</b>: Гомотопічна теорія типів.<br>
+<b>Місце</b>: вул. Костянтинівська 20, кв. 31. Київ 04071.<br>
+<b>Аудієнція</b>: студенти математичних спеціальностей.<br>
+<b>Час</b>: Субота 12:00.<br></aside><h2>Вступ</h2><p>Цей курс є сучасним вступом в теорію типів
 яка викоростовується для побудови не тільки мов програмування,
 але і мов для математичної верифікації. Оскільки модальна
 гомотопічна теорія типів підходить для формалізації усієї
@@ -16,7 +18,7 @@ use[data-c]{stroke-width:3px}
 мові <a href="https://homotopy.dev/">Anders</a>.
 </p><h2>Мотивація</h2><p>Головні завдання курсу:
 1) безпосередня побудова термів-доведень в кубічній теорії типів за допомогою комп'ютерної верифікації;
-2) вирішення домашній завдань або вправ з підручника HoTT на мові Anders;
+2) вирішення домашній завдань або вправ з підручника HoTT на мовах Groupoid Infinity;
 3) запис нонаток у TeX як основна культура документування;
 5) курсова робота по формалізації певної математичної теорії або порт існуючої формалізації з Agda або Lean;
 6) гуртування людей які намагаються поєднати професійну математику та програмування;
@@ -42,104 +44,83 @@ use[data-c]{stroke-width:3px}
 4) <b>Arend</b> (I-HoTT);
 5) <b>Agda</b> (CCHM);
 6) <b>Anders</b> (CCHM).
-Ми покажемо відмінності між ними проте курс зосереджений навколо синтаксису CCHM.
+Ми покажемо відмінності між ними, проте курс зосереджений навколо синтаксису CCHM.
 Посилання на адаптації нашої бібліотеки Групоїд Інфініті для усіх цих кубічних пруверів,
 а також посилання на самі прувери та їх математичні моделі
 наведені на сайті <a href="https://cubical.systems">Кубічні Системи</a>
-</p></div><div class="om"><section><h1>Програмування</h1><h2>Лекція I: Теорія типів</h2></section></div><section><p>The first section is an introduction to type theory,
-its subject matter, and the method of computer science. We will
-show basic principles of lambda calculus, its most powerful
-version &mdash; System $P_\omega$, Calculus of Constructions,
-and Pure Type Systems. Then we will encode the theorems of MLTT
-type system in cubical type checkers. This section will cover
-<b>Pi</b>, <b>Sigma</b>, <b>Equ</b>, <b>W</b> types.</p><p>HoTT 1.3, 1.4, 1.5, 1.6, 1.12, 2.7, 2.9, 2.11, 6.2
+</p></div><div class="om"><section><h1> Програмування</h1><h2> Лекція I: Теорія типів</h2></section><section><p>Перший розділ є введенням у теорію типів, її предметну область та
+методи комп'ютерних наук. Ми розглянемо основні принципи лямбда-числення,
+його найпотужнішу версію — System <mjx-container class="MathJax" jax="SVG"><svg style="vertical-align: -0.357ex;" xmlns="http://www.w3.org/2000/svg" width="2.635ex" height="1.902ex" role="img" focusable="false" viewBox="0 -683 1164.8 840.8" xmlns:xlink="http://www.w3.org/1999/xlink"><defs><path id="MJX-4-TEX-I-1D443" d="M287 628Q287 635 230 637Q206 637 199 638T192 648Q192 649 194 659Q200 679 203 681T397 683Q587 682 600 680Q664 669 707 631T751 530Q751 453 685 389Q616 321 507 303Q500 302 402 301H307L277 182Q247 66 247 59Q247 55 248 54T255 50T272 48T305 46H336Q342 37 342 35Q342 19 335 5Q330 0 319 0Q316 0 282 1T182 2Q120 2 87 2T51 1Q33 1 33 11Q33 13 36 25Q40 41 44 43T67 46Q94 46 127 49Q141 52 146 61Q149 65 218 339T287 628ZM645 554Q645 567 643 575T634 597T609 619T560 635Q553 636 480 637Q463 637 445 637T416 636T404 636Q391 635 386 627Q384 621 367 550T332 412T314 344Q314 342 395 342H407H430Q542 342 590 392Q617 419 631 471T645 554Z"></path><path id="MJX-4-TEX-I-1D714" d="M495 384Q495 406 514 424T555 443Q574 443 589 425T604 364Q604 334 592 278T555 155T483 38T377 -11Q297 -11 267 66Q266 68 260 61Q201 -11 125 -11Q15 -11 15 139Q15 230 56 325T123 434Q135 441 147 436Q160 429 160 418Q160 406 140 379T94 306T62 208Q61 202 61 187Q61 124 85 100T143 76Q201 76 245 129L253 137V156Q258 297 317 297Q348 297 348 261Q348 243 338 213T318 158L308 135Q309 133 310 129T318 115T334 97T358 83T393 76Q456 76 501 148T546 274Q546 305 533 325T508 357T495 384Z"></path></defs><g stroke="currentColor" fill="currentColor" stroke-width="0" transform="scale(1,-1)"><g data-mml-node="math"><g data-mml-node="msub"><g data-mml-node="mi"><use data-c="1D443" xlink:href="#MJX-4-TEX-I-1D443"></use></g><g data-mml-node="mi" transform="translate(675,-150) scale(0.707)"><use data-c="1D714" xlink:href="#MJX-4-TEX-I-1D714"></use></g></g></g></g></svg></mjx-container>, Calculus of Constructions
+та Pure Type Systems. Потім ми закодуємо теореми системи типів MLTT у
+кубічних перевірниках типів. Цей розділ охопить типи <b>Pi</b>,
+<b>Sigma</b>, <b>Equ</b>, <b>W</b>.</p><p>HoTT 1.3, 1.4, 1.5, 1.6, 1.12, 2.7, 2.9, 2.11, 6.2
+</p></section><center><table cellspacing=5><tr><td width=5><img src="https://anders.groupoid.space/images/pdf.jpg" width=35></td><td width=400>
+<a href="https://groupoid.space/books/vol1/mltt.pdf">
+<h3>        Випуск I: Інтерналізція теорії типів Мартіна-Льофа</h3>
+</a></td></tr></table></center></div><div class="om"><section><h2> Випуск II: Індуктивні типи</h2></section><section><p>Другий розділ є введенням у базові індуктивні типи та принцип індукції. Індуктивні типи формують основу так званого Calculus of Inductive Constructions, теорії, що лежить в основі Coq. Ми покажемо, як доведення теорем за принципом індукції відрізняється від кубічних конструкцій. Також ми представимо загальне імпредикативне кодування індуктивних типів (Awodey). Цей розділ охопить типи: <b>Empty</b>, <b>Unit</b>, <b>Either</b>, <b>Prod</b>, <b>Bool</b>, <b>Maybe</b>, <b>Nat</b>, <b>List</b>, <b>Fix</b>, <b>Mu</b>, <b>Nu</b>, <b>Free</b>, <b>Cofree</b>.</p><p>HoTT 1.7, 1.8, 1.9, 5.1, 5.6
+</p></section><center><table cellspacing=5><tr><td width=5><img src="https://anders.groupoid.space/images/pdf.jpg" width=35></td><td width=400>
+<a href="https://groupoid.space/books/vol1/cic.pdf">
+<h3>        Випуск II: Індуктивні типи та кодування</h3>
+</a></td></tr></table></center></div><div class="om"><section><h2> Випуск III: Гомотопічна теорія типів</h2></section><section><p>Ця тема дає фундаментальне уявлення про типи Pi як фібрування,
+що використовуються в конструктивній еквівалентності. Також тут
+ми розглянемо нескінченну ієрархію типів, що містить вищі
+глобулярні рівності, які використовуються як основа для IPL,
+теорії множин та симпліціальної геометрії. Цей розділ охопить
+типи <b>Fiber</b>, <b>n-Groupoid</b>.</p><p>У теорії типів існують три рівності: 1) вбудована в перевірник типів,
+що представляє тип Id, Equ або Path з J-елімінатором; 2) еквівалентність
+на основі фібрування; 3) ізоморфізм, що містить ретракт і секцію. Цей
+факт призводить до аксіоми унівалентності, яка стверджує, що всі
+еквівалентність дорівнює простору шляхів, і це може бути доведено
+в кубічних перевірниках типів. Цей розділ охопить типи: <b>Equiv</b>,
+<b>Iso</b>, <b>Homotopy</b>, <b>Univalence</b>, <b>Injective</b>, <b>Surjective</b>.</p><p>HoTT 2.1, 2.3, 2.4, 2.6, 2.7
+</p></section><center><table cellspacing=5><tr><td width=5><img src="https://anders.groupoid.space/images/pdf.jpg" width=35>
+</td><td width=400><a href="https://groupoid.space/books/vol1/hott.pdf">
+<h3>        Випуск III: Гомотопічна теорія типів</h3>
+</a></td></tr></table></center></div><div class="om"><section><h2>       Випуск IV: Вищі індуктивні типи</h2></section><section><p>Однією з основних мотивацій HoTT є конструктивна геометрія та клітинні комплекси, простори, побудовані шляхом склеювання n-дисків уздовж їхніх меж. У цьому розділі ми покажемо, як будувати топологічні примітиви та як міркувати про них. Цей розділ охопить типи: <b>Line</b>, <b>Suspension</b>, <b>n-Sphere</b>, <b>Pushout</b>, <b>Pullback</b>, <b>Truncation</b>, <b>Quotient</b>.</p><p>HoTT 6.3, 6.4, 6.5, 6.6, 6.9, 6.10
+</p></section><center><table cellspacing=5><tr><td width=5><img src="https://anders.groupoid.space/images/pdf.jpg" width=35>
+</td><td width=400><a href="https://groupoid.space/books/vol1/hit.pdf">
+<h3>        Випуск VI: Вищі індуктивні типи</h3>
+</a></td></tr></table></center></div><div class="om"><section><h2> Випуск V: Модальності</h2></section><section><p>Цей розділ охопить тип <b>Infinitesimal</b>.</p><p>HoTT 7.7
+</p></section><center><table cellspacing=5><tr><td width=5><img src="https://anders.groupoid.space/images/pdf.jpg" width=35>
+</td><td width=400><a href="https://groupoid.space/books/vol1/modalities.pdf">
+<h3>        Випуск V: Модальності</h3>
+</a></td></tr></table></center></div><div class="om"><section><h1> Математика</h1></section></div><div class="om"><section><h2> Випуск XXII: Теорія множин</h2></section><section><p>Цей розділ є введенням у інтуїціоністську логіку висловлювань (IPL),
+її відмінність від класичної логіки, аксіому вибору, закон виключеного
+третього, пропозіційну урізку, теорему Хедберга, вирішувані типи, конструктивну теорію множин. Цей розділ охопить типи: <b>Prop</b>, <b>Set</b>, <b>Decidable</b>, <b>Stable</b>, <b>Discrete</b>.</p><p>HoTT 3.1, 3.3, 3.11</p></section></div><div class="om"><section><h2> Випуск XXIII: Теорія категорій</h2></section><section><p>Понад 10 медалей Філдса отримано завдяки теорії категорій (CT) як інструменту.
+Для занять математикою CT є вирішальною. Як супровід до розділу HoTT про CT,
+ми пропонуємо курс Стіва Аводі (учня Сондерса Мак Лейна), який також зробив HoTT можливим.</p><p>Цей розділ дасть фундаментальне уявлення про такі типи: <b>Precategory</b>,
+    <b>Rezk Completion</b>, <b>Functor</b>, <b>Natural Transformation</b>,
+<b>Adjoint</b>, <b>Cone</b>, <b>Structure Identity Principle</b>,
+<b>Limit</b>, <b>Pullback</b>, <b>Kan Extension</b>, <b>Monomorphism</b>,
+<b>Epimorphism</b>, <b>Universal Mapping Property</b>.</p><p>Основне застосування CT у комп'ютерних науках — побудова категоріальної моделі
+залежно типізованого лямбда-числення як внутрішньої мови локально декартово
+замкненої категорії. У цьому курсі згадуються дві моделі: Categories with
+Families (Dybjer) та C-Systems (Voevodsky).</p><p>Також як приклади екземплярів категорій використовуються такі типи:
+Категорія множин, Категорія функцій, Категорія категорій, Категорія
+функторів, Срізна категорія, Добуткова категорія. Використовуючи їх,
+ми можемо побудувати базові приклади 2-категорій та дати дуже базове
+введення в <mjx-container class="MathJax" jax="SVG"><svg style="vertical-align: -0.025ex;" xmlns="http://www.w3.org/2000/svg" width="2.262ex" height="1.025ex" role="img" focusable="false" viewBox="0 -442 1000 453" xmlns:xlink="http://www.w3.org/1999/xlink"><defs><path id="MJX-5-TEX-N-221E" d="M55 217Q55 305 111 373T254 442Q342 442 419 381Q457 350 493 303L507 284L514 294Q618 442 747 442Q833 442 888 374T944 214Q944 128 889 59T743 -11Q657 -11 580 50Q542 81 506 128L492 147L485 137Q381 -11 252 -11Q166 -11 111 57T55 217ZM907 217Q907 285 869 341T761 397Q740 397 720 392T682 378T648 359T619 335T594 310T574 285T559 263T548 246L543 238L574 198Q605 158 622 138T664 94T714 61T765 51Q827 51 867 100T907 217ZM92 214Q92 145 131 89T239 33Q357 33 456 193L425 233Q364 312 334 337Q285 380 233 380Q171 380 132 331T92 214Z"></path></defs><g stroke="currentColor" fill="currentColor" stroke-width="0" transform="scale(1,-1)"><g data-mml-node="math"><g data-mml-node="mi"><use data-c="221E" xlink:href="#MJX-5-TEX-N-221E"></use></g></g></g></svg></mjx-container>-Категорії. Типи в цьому розділі: <b>Category of
+Commutative Monoids</b>, <b>Category of Abelian Groups</b>, <b>Grothendieck Group</b>.
+</p></section><center><table cellspacing=5><tr><td width=5><img src="https://anders.groupoid.space/images/pdf.jpg" width=35>
+</td><td width=400><a href="https://groupoid.space/books/vol4/cat.pdf">
+<h3>        Випуск XXII: Теорія категорій</h3>
+</a></td></tr></table></center>
+<center><table cellspacing=5><tr><td width=5><img src="https://anders.groupoid.space/images/pdf.jpg" width=35>
+</td><td width=400><a href="https://groupoid.space/books/vol4/cwf.pdf">
+<h3>        Випуск XXX: Контекстуальні категорії для теорії типів Мартіна-Льофа</h3>
+</a></td></tr></table></center></div><div class="om"><section><h2>       Випуск XXXIX: Теорія топосів</h2></section></div><section><p>Теорія топосів дасть більш глибоке розуміння категоріальних моделей і створить міцніший фундамент для побудови мосту між CT та логікою простору.</p><p>У цьому розділі я згадаю типи <b>Subobject Classifier</b> та <b>Topos</b>.
 </p><center><table cellspacing=5><tr><td width=5><img src="https://anders.groupoid.space/images/pdf.jpg" width=35></td><td width=400>
-<a href="https://github.com/groupoid/groupoid.space/blob/master/articles/mltt/mltt.pdf">
-<h3>Issue I: Internalizing Martin-Löf Type Theory</h3>
-</a></td></tr></table></center></section><div class="om"><section><h2>Issue II: Inductive Types</h2></section></div><section><p>The second section is an introduction to basic inductive
-types and induction principle. Inductive types form a basis
-of so-called Calculus of Inductive Constructions, the theory behind Coq.
-We will show how proving theorems with induction principle will
-differ from cubical constructions.  Also, we introduce a
-general Impredicative Encoding of Inductive Types (Awodey).
-This section will cover: <b>Empty</b>, <b>Unit</b>,
-<b>Either</b>, <b>Prod</b>, <b>Bool</b>, <b>Maybe</b>,
-<b>Nat</b>, <b>List</b>, <b>Fix</b>, <b>Mu</b>, <b>Nu</b>,
-<b>Free</b>, <b>Cofree</b> types.</p><p>HoTT 1.7, 1.8, 1.9, 5.1, 5.6
-</p><center><table cellspacing=5><tr><td width=5><img src="https://anders.groupoid.space/images/pdf.jpg" width=35></td><td width=400>
-<a href="https://github.com/groupoid/groupoid.space/blob/master/articles/inductive/inductive.pdf">
-<h3>Issue II: Inductive Types and Encodings</h3>
-</a></td></tr></table></center></section><div class="om"><section><h2>Issue III: Homotopy Type Theory</h2></section></div><section><p>This topic gives a fundamental view of Pi types as Fibrations
-used in constructive Equivalence. Also here we give an infinite
-hierarchy of types, containing higher globular equalities used
-as a base for IPL, Set Theory, and Simplicial Geometry.
-This section will cover <b>Fiber</b>, <b>n-Groupoid</b>,
-<b>$\infty$-Groupoid</b> types.</p><p>There exist three equalities in Type Theory: 1) built-in into type checker,
-representing Id, Equ or Path type with J eliminator; 2) Fibration based Equivalence;
-3) Isomorphism containing retract and section.
-This fact leads to Univalence Axiom that states that all equalities are equal and this
-could be proved in cubical type checkers.
-This section will cover: <b>Equiv</b>, <b>Iso</b>, <b>Homotopy</b>,
-<b>Univalence</b>, <b>Injective</b>, <b>Surjective</b> types.</p><p>HoTT 2.1, 2.3, 2.4, 2.6, 2.7
-</p><center><table cellspacing=5><tr><td width=5><img src="https://anders.groupoid.space/images/pdf.jpg" width=35>
-</td><td width=400><a href="https://github.com/groupoid/groupoid.space/blob/master/articles/hott/hott.pdf">
-<h3>Issue III: Homotopy Type Theory</h3>
-</a></td></tr></table></center></section><div class="om"><section><h2>Issue IV: Higher Inductive Types</h2></section></div><section><p>One of the primary motivation of HoTT is constructive geometry and
-cell complexes, the spaces constructed by gluing n-discs along
-their boundaries. In this section, we show how to build topological
-primitives and how to reason about them.
-This section will cover: <b>Line</b>, <b>Suspension</b>,
-<b>n-Sphere</b>, <b>Pushout</b>, <b>Pullback</b>,
-<b>Truncation</b>, <b>Quotient</b> types.</p><p>HoTT 6.3, 6.4, 6.5, 6.6, 6.9, 6.10
-</p><center><table cellspacing=5><tr><td width=5><img src="https://anders.groupoid.space/images/pdf.jpg" width=35>
-</td><td width=400><a href="https://github.com/groupoid/groupoid.space/blob/master/articles/hit/hit.pdf">
-<h3>Issue VI: Higher Inductive Types</h3>
-</a></td></tr></table></center></section><div class="om"><section><h2>Issue V: Modalities</h2></section></div><section><p>This section will cover: <b>Infinitesimal</b> type.</p><p>HoTT 7.7
-</p></section><div class="om"><section><h1>Mathematics</h1></section></div><div class="om"><section><h2>Issue VI: Set Theory</h2></section></div><section><p>This section is an introduction to Intuitionistic Propositional Logic (IPL),
-its difference from Classical Logic, Axiom of Choice, Law of Excluding Middle,
-Propositional Truncation, Hedberg Theorem, Decidable Types, Constructive Set Theory.
-This section will cover: <b>Prop</b>, <b>Set</b>, <b>Decidable</b>,
-<b>Stable</b>, <b>Discrete</b> types.</p><p>HoTT 3.1, 3.3, 3.11</p></section><div class="om"><section><h2>Issue VII: Category Theory</h2></section></div><section><p>More than 10 Fields awards are taken with Category Theory (CT) as an instrument.
-For doing Math, CT is crucial. As a companion to HoTT chapter on CT,
-we suggest the course of Steve Awodey (the disciple of Saunders Mac Lane),
-who also made HoTT possible.</p><p>This section will give the fundamental notion of following types:
-<b>Precategory</b>, <b>Rezk Completion</b>,
-<b>Functor</b>, <b>Natural Transformation</b>, <b>Adjoint</b>, <b>Cone</b>,
-<b>Structure Identity Principle</b>, <b>Limit</b>, <b>Pullback</b>, <b>Kan Extension</b>,
-<b>Monomorphism</b>, <b>Epimorphism</b>, <b>Universal Mapping Property</b>.</p><p>The primary application of CT in Computer Science is building the
-categorical model of Dependently Typed Lambda Calculus as an internal
-language of Locally Cartesian Closed Category. The two models mentioned
-in this course are Categories with Families (Dybjer) and C-Systems (Voevodsky).</p><p>Also as examples of Category instances following types are used: Category of Sets,
-Category of Functions, Category of Categories, Category of Functors, Slice Category, Product Category.
-Using those we can construct basic examples of 2-categories, and give a very basic intro to
-$\infty$-Categories.
-Types in this section: <b>Category of Commutative Monoids</b>,
-<b>Category of Abelian Groups</b>, <b>Grothendieck Group</b>.
-</p><center><table cellspacing=5><tr><td width=5><img src="https://anders.groupoid.space/images/pdf.jpg" width=35>
-</td><td width=400><a href="https://github.com/groupoid/groupoid.space/blob/master/articles/cwf/cwf.pdf">
-<h3>Issue VIII: Contextual Categories for Martin-Löf Type Theory</h3>
-</a></td></tr></table></center></section><div class="om"><section><h2>Issue VIII: Topos Theory</h2></section></div><section><p>Topos Theory will give a more in-depth look into categorical models
-and make a stronger foundation to build a bridge between CT and Logic of Space.</p><p>In this section, I will mention <b>Subobject Classifier</b> and <b>Topos</b> types.
-</p><center><table cellspacing=5><tr><td width=5><img src="https://anders.groupoid.space/images/pdf.jpg" width=35></td><td width=400>
-<a href="https://github.com/groupoid/groupoid.space/blob/master/articles/topos/topos.pdf">
-<h3>Issue IX: Formal Topos on Category of Sets</h3>
-</a></td></tr></table></center></section><div class="om"><section><h2>Issue IX: Algebraic Topology</h2></section></div><section><p>Types in this section: <b>Monoid</b>, <b>Commutative Monoid</b>, <b>Group</b>,
-<b>Ring</b>, <b>Abelian Group</b>, <b>Abelian Ring</b>, <b>Hopf</b>,
-<b>Loop Space</b>, <b>Homotopy Group</b>.</p></section><div class="om"><section><h2>Issue X: Differential Geometry</h2></section></div><section><p>Types in this section: <b>Abstract Homogeneous Structure</b>, <b>Shape</b>,
-<b>Étale Map</b>, <b>Automorphism</b>, <b>Fiber Bundle</b>, <b>Manifold</b>,
-<b>Covering Space</b> (G-Set).</p></section><div class="om"><section><h1>History</h1></section></div><div class="types"><h2>Historical Notes</h2><p>As for the tower of type theories that are necessary for CCHM (Cohen-Coquand-Huber-Mortberg)
-introduction we will use the following setting.
-</p><h2>Type Systems</h2><div class="type"><ol class="type__col"><h3>PTS</h3><li><a href="#pi">PI</a></li></ol><ol class="type__col"><h3>MLTT</h3><li><a href="#pi">PI</a></li><li><a href="#sigma">SIGMA</a></li><li><a href="#id">ID</a></li><li><a href="#W">W</a></li></ol><ol class="type__col"><h3>CIC</h3><li><a href="#pi">PI</a></li><li><a href="#sigma">SIGMA</a></li><li><a href="#id">ID</a></li><li><a href="#fix">FIX</a></li><li><a href="#induction">INDUCTION</a></li></ol><ol class="type__col"><h3>CCHM</h3><li><a href="#pi">PI</a></li><li><a href="#sigma">SIGMA</a></li><li><a href="#path">PATH</a></li><li><a href="#comp">COMP</a></li><li><a href="#glue">GLUE</a></li><li><a href="#HIT">HIT</a></li></ol></div><p>These historical
-prerequisites (PTS, MLTT, CiC) and will be given along the way of the course.
-</p></div><div class="om"><section><h1>Towards EGA/SGA</h1></section></div><section><p>Cohesive Type Theory is satisfying the needs of modalities, such as
-connectedness, compactness, infinitesimal shapes, etc.
-Differential Cohesive Type Theory is the internal language of differential
-cohesive $(\infty,1)$-topoi, with additional structure, just as $(\infty,1)$-categories
-add a globular path equality structure to locally cartesian closed categories
-and its internal language — MLTT. Please refer to
-<a href="https://hott-uf.github.io/2017/abstracts/cohesivett.pdf">cohesivett</a>
-for more information.
-</p><p>Cohesive types are modeled in the base library as undefined axioms.
-Process Calculus is another example of modality types with special
-spawn arrows hiding the underlying run-time implementation.
-</p></section></article><footer class="footer"><a href="https://5HT.co/license/"><img class="footer__logo" src="https://longchenpa.guru/seal.png" width="50"></a><span class="footer__copy">2015&mdash;2025 &copy; <a rel="me" href="https://mathstodon.xyz/@5ht" style="color:white;"><u>Максим Сохацький</u></a></span><script src="https://groupoid.space/highlight.js?v=1"></script><script src="https://groupoid.space/bundle.js"></script></footer>
+<a href="https://groupoid.space/books/vol4/topos.pdf">
+<h3>        Випуск XXXIX: Формальний топос на категорії множин</h3>
+</a></td></tr></table></center></section><div class="om"><section><h2>       Випуск IX: Алгебраїчна топологія</h2></section></div><section><p>Типи в цьому розділі: <b>Monoid</b>, <b>Commutative Monoid</b>, <b>Group</b>, <b>Ring</b>, <b>Abelian Group</b>, <b>Abelian Ring</b>, <b>Hopf</b>, <b>Loop Space</b>, <b>Homotopy Group</b>.</p></section><div class="om"><section><h2>       Випуск X: Диференціальна геометрія</h2></section></div><section><p>Типи в цьому розділі: <b>Abstract Homogeneous Structure</b>, <b>Shape</b>, <b>Étale Map</b>, <b>Automorphism</b>, <b>Fiber Bundle</b>, <b>Manifold</b>, <b>Covering Space</b> (G-Set).</p></section><div class="om"><section><h1> Історія</h1></section></div><div class="types"><h2> Історичні нотатки</h2><p>Щодо вежі теорій типів, необхідних для введення CCHM (Cohen-Coquand-Huber-Mortberg),
+ми використаємо наступне налаштування.
+</p><h2> Системи типів</h2><div class="type"><ol class="type__col"><h3>PTS</h3><li><a href="#pi">PI</a></li></ol><ol class="type__col"><h3>MLTT</h3><li><a href="#pi">PI</a></li><li><a href="#sigma">SIGMA</a></li><li><a href="#id">ID</a></li><li><a href="#W">W</a></li></ol><ol class="type__col"><h3>CIC</h3><li><a href="#pi">PI</a></li><li><a href="#sigma">SIGMA</a></li><li><a href="#id">ID</a></li><li><a href="#fix">FIX</a></li><li><a href="#induction">INDUCTION</a></li></ol><ol class="type__col"><h3>CCHM</h3><li><a href="#pi">PI</a></li><li><a href="#sigma">SIGMA</a></li><li><a href="#id">ID</a></li><li><a href="#path">PATH</a></li><li><a href="#glue">GLUE</a></li><li><a href="#HIT">HIT</a></li></ol><p>Ці історичні передумови (PTS, MLTT, CIC) будуть розглянуті протягом курсу.</p></div></div><div class="om"><section><h1> На шляху до EGA/SGA</h1></section><section><p>Когезивна теорія типів відповідає потребам модальностей, таких як зв’язність,
+компактність, інфінітезимальні форми тощо. Диференціальна когезивна теорія
+типів є внутрішньою мовою диференціальних когезивних <mjx-container class="MathJax" jax="SVG"><svg style="vertical-align: -0.566ex;" xmlns="http://www.w3.org/2000/svg" width="6.16ex" height="2.262ex" role="img" focusable="false" viewBox="0 -750 2722.7 1000" xmlns:xlink="http://www.w3.org/1999/xlink"><defs><path id="MJX-6-TEX-N-28" d="M94 250Q94 319 104 381T127 488T164 576T202 643T244 695T277 729T302 750H315H319Q333 750 333 741Q333 738 316 720T275 667T226 581T184 443T167 250T184 58T225 -81T274 -167T316 -220T333 -241Q333 -250 318 -250H315H302L274 -226Q180 -141 137 -14T94 250Z"></path><path id="MJX-6-TEX-N-221E" d="M55 217Q55 305 111 373T254 442Q342 442 419 381Q457 350 493 303L507 284L514 294Q618 442 747 442Q833 442 888 374T944 214Q944 128 889 59T743 -11Q657 -11 580 50Q542 81 506 128L492 147L485 137Q381 -11 252 -11Q166 -11 111 57T55 217ZM907 217Q907 285 869 341T761 397Q740 397 720 392T682 378T648 359T619 335T594 310T574 285T559 263T548 246L543 238L574 198Q605 158 622 138T664 94T714 61T765 51Q827 51 867 100T907 217ZM92 214Q92 145 131 89T239 33Q357 33 456 193L425 233Q364 312 334 337Q285 380 233 380Q171 380 132 331T92 214Z"></path><path id="MJX-6-TEX-N-2C" d="M78 35T78 60T94 103T137 121Q165 121 187 96T210 8Q210 -27 201 -60T180 -117T154 -158T130 -185T117 -194Q113 -194 104 -185T95 -172Q95 -168 106 -156T131 -126T157 -76T173 -3V9L172 8Q170 7 167 6T161 3T152 1T140 0Q113 0 96 17Z"></path><path id="MJX-6-TEX-N-31" d="M213 578L200 573Q186 568 160 563T102 556H83V602H102Q149 604 189 617T245 641T273 663Q275 666 285 666Q294 666 302 660V361L303 61Q310 54 315 52T339 48T401 46H427V0H416Q395 3 257 3Q121 3 100 0H88V46H114Q136 46 152 46T177 47T193 50T201 52T207 57T213 61V578Z"></path><path id="MJX-6-TEX-N-29" d="M60 749L64 750Q69 750 74 750H86L114 726Q208 641 251 514T294 250Q294 182 284 119T261 12T224 -76T186 -143T145 -194T113 -227T90 -246Q87 -249 86 -250H74Q66 -250 63 -250T58 -247T55 -238Q56 -237 66 -225Q221 -64 221 250T66 725Q56 737 55 738Q55 746 60 749Z"></path></defs><g stroke="currentColor" fill="currentColor" stroke-width="0" transform="scale(1,-1)"><g data-mml-node="math"><g data-mml-node="mo"><use data-c="28" xlink:href="#MJX-6-TEX-N-28"></use></g><g data-mml-node="mi" transform="translate(389,0)"><use data-c="221E" xlink:href="#MJX-6-TEX-N-221E"></use></g><g data-mml-node="mo" transform="translate(1389,0)"><use data-c="2C" xlink:href="#MJX-6-TEX-N-2C"></use></g><g data-mml-node="mn" transform="translate(1833.7,0)"><use data-c="31" xlink:href="#MJX-6-TEX-N-31"></use></g><g data-mml-node="mo" transform="translate(2333.7,0)"><use data-c="29" xlink:href="#MJX-6-TEX-N-29"></use></g></g></g></svg></mjx-container>-топосів
+з додатковою структурою, так само як <mjx-container class="MathJax" jax="SVG"><svg style="vertical-align: -0.566ex;" xmlns="http://www.w3.org/2000/svg" width="6.16ex" height="2.262ex" role="img" focusable="false" viewBox="0 -750 2722.7 1000" xmlns:xlink="http://www.w3.org/1999/xlink"><defs><path id="MJX-7-TEX-N-28" d="M94 250Q94 319 104 381T127 488T164 576T202 643T244 695T277 729T302 750H315H319Q333 750 333 741Q333 738 316 720T275 667T226 581T184 443T167 250T184 58T225 -81T274 -167T316 -220T333 -241Q333 -250 318 -250H315H302L274 -226Q180 -141 137 -14T94 250Z"></path><path id="MJX-7-TEX-N-221E" d="M55 217Q55 305 111 373T254 442Q342 442 419 381Q457 350 493 303L507 284L514 294Q618 442 747 442Q833 442 888 374T944 214Q944 128 889 59T743 -11Q657 -11 580 50Q542 81 506 128L492 147L485 137Q381 -11 252 -11Q166 -11 111 57T55 217ZM907 217Q907 285 869 341T761 397Q740 397 720 392T682 378T648 359T619 335T594 310T574 285T559 263T548 246L543 238L574 198Q605 158 622 138T664 94T714 61T765 51Q827 51 867 100T907 217ZM92 214Q92 145 131 89T239 33Q357 33 456 193L425 233Q364 312 334 337Q285 380 233 380Q171 380 132 331T92 214Z"></path><path id="MJX-7-TEX-N-2C" d="M78 35T78 60T94 103T137 121Q165 121 187 96T210 8Q210 -27 201 -60T180 -117T154 -158T130 -185T117 -194Q113 -194 104 -185T95 -172Q95 -168 106 -156T131 -126T157 -76T173 -3V9L172 8Q170 7 167 6T161 3T152 1T140 0Q113 0 96 17Z"></path><path id="MJX-7-TEX-N-31" d="M213 578L200 573Q186 568 160 563T102 556H83V602H102Q149 604 189 617T245 641T273 663Q275 666 285 666Q294 666 302 660V361L303 61Q310 54 315 52T339 48T401 46H427V0H416Q395 3 257 3Q121 3 100 0H88V46H114Q136 46 152 46T177 47T193 50T201 52T207 57T213 61V578Z"></path><path id="MJX-7-TEX-N-29" d="M60 749L64 750Q69 750 74 750H86L114 726Q208 641 251 514T294 250Q294 182 284 119T261 12T224 -76T186 -143T145 -194T113 -227T90 -246Q87 -249 86 -250H74Q66 -250 63 -250T58 -247T55 -238Q56 -237 66 -225Q221 -64 221 250T66 725Q56 737 55 738Q55 746 60 749Z"></path></defs><g stroke="currentColor" fill="currentColor" stroke-width="0" transform="scale(1,-1)"><g data-mml-node="math"><g data-mml-node="mo"><use data-c="28" xlink:href="#MJX-7-TEX-N-28"></use></g><g data-mml-node="mi" transform="translate(389,0)"><use data-c="221E" xlink:href="#MJX-7-TEX-N-221E"></use></g><g data-mml-node="mo" transform="translate(1389,0)"><use data-c="2C" xlink:href="#MJX-7-TEX-N-2C"></use></g><g data-mml-node="mn" transform="translate(1833.7,0)"><use data-c="31" xlink:href="#MJX-7-TEX-N-31"></use></g><g data-mml-node="mo" transform="translate(2333.7,0)"><use data-c="29" xlink:href="#MJX-7-TEX-N-29"></use></g></g></g></svg></mjx-container>-категорії додають структуру
+глобулярної рівності шляхів до локально декартово замкнених категорій та
+їхньої внутрішньої мови — MLTT. Дивіться детальніше за посиланням
+<a href="https://hott-uf.github.io/2017/abstracts/cohesivett.pdf">cohesivett</a>.</p><p>Когезивні типи моделюються в базовій бібліотеці як невизначені аксіоми.
+Калькулюс процесів є ще одним прикладом типів модальностей зі спеціальними
+стрілками породження, що приховують базову реалізацію під час виконання.
+</p></section></div></article><footer class="footer"><a href="https://5HT.co/license/"><img class="footer__logo" src="https://longchenpa.guru/seal.png" width="50"></a><span class="footer__copy">2015&mdash;2025 &copy; <a rel="me" href="https://mathstodon.xyz/@5ht" style="color:white;"><u>Максим Сохацький</u></a></span><script src="https://groupoid.space/highlight.js?v=1"></script><script src="https://groupoid.space/bundle.js"></script></footer>
