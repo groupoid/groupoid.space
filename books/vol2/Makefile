@@ -1,5 +1,5 @@
 default:
-	pdflatex alonso.tex
+	pdflatex alonzo.tex
 	pdflatex felix.tex
 	pdflatex joe.tex
 	pdflatex robin.tex
