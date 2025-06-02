@@ -231,12 +231,10 @@ block content
                 isGrp3      (A: U): U = n_grpd A (S (S (S (S Z))))
             br.
             code.
-                inf_grpd (A: U): U
+                infinitySingleton (A: U): U
                   = (carrier: A)
                   * (eq: (a b: A) -> Path A a b)
-                  * ((a b: A) -> inf_grpd (Path A a b))
-
-                isInfinityGroupoid (A: U): U = inf_grpd A
+                  * ((a b: A) -> infinitySingleton (Path A a b))
             br.
             code.
                 PROP         : U = (X:U) * isProp X
@@ -1056,12 +1054,6 @@ block content
                 ImRecursion (A B: U) (c: isCoreduced B) (f: A -> B) : Im A -> B = undefined
                 ImInduction (A:U)(B:Im A->U)(x: (a: Im A)->isCoreduced(B a))
                             (y:(a: A)->B(ImUnit A a)):(a:Im A)->B a = undefined
-
-            p.
-                <center><table cellspacing=20><tr><td><img src="https://n2o.space/img/pdf.jpg" width=50></td><td width=400>
-                <a href="https://github.com/groupoid/groupoid.space/blob/master/articles/types/types.pdf">
-                <h3>Mathematical Components for Cubical Syntax</h3></a>
-                </td></tr></table></center>
 
             br
             br
