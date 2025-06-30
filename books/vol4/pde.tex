@@ -4,6 +4,7 @@
 \usepackage{mathrsfs}
 \usepackage{mathtools}
 \usepackage{url}
+\usepackage{hyperref}
 
 \theoremstyle{plain}
 \newtheorem{theorem}{Theorem}[section]
@@ -193,7 +194,7 @@ Solution methods:
     \item \emph{Hyperbolic PDEs}: Solved using integral representations or d'Alembert's formula, often in \(L^2(\Omega)\).
 \end{itemize}
 
-\section{Category Theory of Differentual Equations (de Rham)}
+\section{Category Theory of Differential Equations (de Rham)}
 % Categorical perspective
 In the derived category of sheaves, PDE solutions are sections of vector bundles,
 and the de Rham complex provides a homological framework for integral representations \cite{nLab_de_Rham_theorem}.
@@ -389,8 +390,11 @@ Swarm coordination involves a collection of agents interacting locally to produc
 
 % Defining swarm coordination
 \begin{definition}
-A \emph{swarm} is a collection of autonomous agents in a manifold \(\cat{M}\) (e.g., \(\mathbb{R}^d\)) governed by local interaction rules, producing emergent global behavior. The dynamics are modeled as a system of differential equations in the category \(\cat{Man}\) of smooth manifolds or \(\cat{Vect}\) of vector spaces.
+A \emph{swarm} is a collection of autonomous agents in a manifold \(\cat{M}\) (e.g., \(\mathbb{R}^d\))
+governed by local interaction rules, producing emergent global behavior. The dynamics are modeled
+as a system of differential equations in the category \(\cat{Man}\) of smooth manifolds or \(\cat{Vect}\) of vector spaces.
 \end{definition}
+
 
 \subsection{Cucker--Smale Model}
 \begin{definition}
@@ -398,7 +402,8 @@ The \emph{Cucker--Smale model} describes \(N\) agents with positions \(x_i(t) \i
 \[
 \dot{x}_i = v_i, \quad \dot{v}_i = \sum_{j=1}^N a_{ij}(x) (v_j - v_i),
 \]
-where \(a_{ij}(x) = \frac{K}{(\sigma + \|x_i - x_j\|^2)^\gamma}\) is the interaction weight, and \(K, \sigma, \gamma > 0\) are parameters \cite{cucker_smale}.
+where \(a_{ij}(x) = \frac{K}{(\sigma + \|x_i - x_j\|^2)^\gamma}\) is the
+interaction weight, and \(K, \sigma, \gamma > 0\) are parameters \cite{cucker_smale}.
 \end{definition}
 
 % Adaptive extension
@@ -505,7 +510,28 @@ The Cucker--Smale model with adaptive control is recommended for its balance of 
 \end{itemize}
 
 % Categorical perspective
-In \(\cat{Man}\), agents are points, and dynamics are morphisms. The de Rham complex links local interactions to global behavior via cohomology \cite{nLab_de_Rham_theorem}.
+In the category \(\cat{Man}\) of smooth manifolds, agents are points, and their dynamics are
+morphisms defined by the Cucker--Smale equations. The interaction graph \(G(t) = (V, E(t))\)
+induces a simplicial structure, where the simplicial de Rham complex \(\Omega^\bullet(X_\bullet)\)
+models collective behavior as cohomology classes, linking local velocity alignments to global swarm
+cohesion \cite{nLab_simplicial_de_Rham}. In a smooth topos \(\cat{T}\), the infinitesimal
+interactions (e.g., singular forces modeled by distributions \(\delta_\xi\)) are
+internalized via the Kock-Lawvere axiom, providing a synthetic framework for
+adaptive control laws \cite{nLab_synthetic_diff_geom}.
+
+\subsection{Comparison of Swarm Models}
+\hspace*{-2cm}
+\begin{tabular}{lccc}
+\hline
+\textbf{Model} & \textbf{Scalability} & \textbf{Robustness} & \textbf{Computational Complexity} \\
+\hline
+Cucker--Smale & High (proximity graphs) & High (with adaptive control) & Moderate (ODE-based) \\
+Vicsek & Moderate (noise limits) & Moderate (stochastic) & Low (discrete updates) \\
+AAA & High (local rules) & Moderate & Moderate (multiple forces) \\
+SwarmDMD & Low (data-driven) & Low (no control) & High (data processing) \\
+D-DRL & Moderate (hierarchical) & High (learning-based) & High (RL training) \\
+\hline
+\end{tabular}
 
 \section{Conclusion}
 This article synthesizes the theory of partial differential equations (PDEs)
