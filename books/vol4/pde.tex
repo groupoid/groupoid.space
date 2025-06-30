@@ -20,29 +20,184 @@
 \begin{document}
 
 % Title and introduction
-\title{Solving Partial }
-\author{}
-\date{}
+\title{Theory of Partial Differential Equations}
+\author{Namdak Tonpa}
+\date{6 June 2025}
 \maketitle
 
 \begin{abstract}
 This lecture presents a categorical framework for Green's functions, Stokes--Ostrogradsky theorems, and Fredholm and Volterra integral equations in the context of partial differential equations (PDEs). We incorporate the de Rham theorem, simplicial de Rham complexes, and synthetic differential geometry, drawing on insights from nLab to unify local differential and global integral structures within the category of smooth toposes and differential graded algebras.
 \end{abstract}
 
-\section{Introduction: Mathematics as a Categorical Architecture}
+\tableofcontents
+
+\section{Theory of Differential Equations (Mizohata)}
+
+\subsection{Introduction}
+
+% Framing the categorical and topological perspective
+Differential equations, both ordinary (ODEs) and partial (PDEs),
+are fundamental to modeling dynamical systems across scientific domains.
+We approach these equations as structured objects within categorical,
+topological, and functional-analytic frameworks.
+
+This taxonomy classifies their applications based on their structural properties,
+topological contexts, and solution methods, drawing on insights from category theory,
+homology, and synthetic differential geometry.
 
 % Framing the categorical perspective
-In the spirit of structural mathematics, partial differential equations (PDEs) are not merely computational tools but objects within a categorical framework, where morphisms reveal universal properties of local-to-global transitions. Green's functions, Stokes--Ostrogradsky theorems, and Fredholm and Volterra integral equations, together with the de Rham theorem and synthetic differential geometry, form a cohesive structure in the category of functional spaces and smooth toposes. This lecture elucidates these connections, emphasizing homological and operator-theoretic perspectives, and integrates insights from synthetic differential geometry to provide an axiomatic foundation for differential and integral structures \cite{nLab_synthetic_diff_geom}.
+In the spirit of structural mathematics, partial differential equations (PDEs)
+are not merely computational tools but objects within a categorical framework,
+where morphisms reveal universal properties of local-to-global transitions.
+Green's functions, Stokes--Ostrogradsky theorems, and Fredholm and Volterra
+integral equations, together with the de Rham theorem and synthetic differential geometry,
+form a cohesive structure in the category of functional spaces and smooth toposes.
+This lecture elucidates these connections, emphasizing homological and
+operator-theoretic perspectives, and integrates insights from synthetic
+differential geometry to provide an axiomatic foundation for differential
+and integral structures.
 
-\section{Green's Functions: Kernels of Inverse Morphisms}
+\subsection{PDE as Distributed Dynamical Systems}
+
+% Defining PDEs in dynamical systems
+\begin{definition}
+A \emph{partial differential equation} (PDE) is a relation \(L(u) = f\),
+where \(L: \cat{E} \to \cat{F}\) is a differential operator between functional
+spaces \(\cat{E}\) and \(\cat{F}\) (e.g., Sobolev spaces \(H^k(\Omega)\)),
+and \(u, f \in \cat{E}\) are sections of a vector bundle over a smooth manifold \(\Omega\).
+In the context of dynamical systems, the parameters of the system (e.g., velocity, temperature)
+are distributed continuously over \(\Omega\), modeled as fields.
+\end{definition}
+
+% Applications
+PDEs describe systems where dynamics are governed by spatially distributed parameters:
+\begin{itemize}
+    \item \emph{Fluid Dynamics}: Navier--Stokes equations model velocity and pressure fields: \[ \frac{\partial \mathbf{u}}{\partial t} + (\mathbf{u} \cdot \nabla) \mathbf{u} = -\frac{1}{\rho} \nabla p + \nu \Delta \mathbf{u} + \mathbf{f}. \]
+    \item \emph{Heat Transfer}: The heat equation \(\frac{\partial u}{\partial t} = \alpha \Delta u\) models temperature distribution.
+    \item \emph{Quantum Mechanics}: The Schrödinger equation \(i\hbar \frac{\partial \psi}{\partial t} = -\frac{\hbar^2}{2m} \Delta \psi + V\psi\) describes wave functions.
+\end{itemize}
+
+% Categorical perspective
+In the category \(\cat{Diff}\) of smooth manifolds,
+PDEs are morphisms in the category of sheaves of sections of vector bundles.
+The local-to-global duality is realized through the de Rham complex,
+where solutions are cohomology classes.
+
+\subsection{ODE as Localized Dynamical Systems}
+
+% Clarifying the formulation
+\begin{remark}
+ODEs model systems where the state variables depend on a single independent variable (typically time),
+and the dynamics are described by a finite-dimensional state space,
+not necessarily a discrete set of points. The configuration space may be
+continuous (e.g., \(\mathbb{R}^n\)), but the dynamics are localized in
+the sense that they do not depend on spatial derivatives.
+\end{remark}
+
+% Defining ODEs
+\begin{definition}
+An \emph{ordinary differential equation} (ODE) is a relation \(\dot{x} = f(t, x)\),
+where \(x \in \cat{M}\) is a state in a manifold \(\cat{M}\) (e.g., \(\mathbb{R}^n\)),
+and \(f: \mathbb{R} \times \cat{M} \to T\cat{M}\) is a vector field.
+The dynamics are governed by a single independent variable, typically time.
+\end{definition}
+
+% Applications
+ODEs model systems with localized dynamics:
+\begin{itemize}
+    \item \emph{Mechanical Systems}: The equations of motion, e.g., \(\ddot{x} + \omega^2 x = 0\) for a harmonic oscillator.
+    \item \emph{Population Dynamics}: The logistic equation \(\dot{x} = rx(1 - x/K)\).
+    \item \emph{Control Systems}: State-space models \(\dot{x} = Ax + Bu\).
+\end{itemize}
+
+% Categorical perspective
+In the category \(\cat{Vect}\) of vector spaces or \(\cat{Man}\) of manifolds,
+ODEs are flows on \(\cat{M}\), represented as morphisms in the category of dynamical systems.
+The localized nature of ODEs contrasts with the distributed nature of PDEs,
+reflecting a categorical distinction between finite-dimensional
+and infinite-dimensional systems.
+
+\subsection{Classification of Spaces}
+
+% Defining topological and functional spaces
+\begin{definition}
+Functional spaces for differential equations are classified as follows:
+\begin{itemize}
+    \item \emph{Topological Spaces}: Sets with a topology, equipped with continuous maps.
+    \item \emph{Metric Spaces}: Topological spaces with a distance function \(d(x, y)\).
+    \item \emph{Linear Spaces}: Vector spaces over \(\mathbb{R}\) or \(\mathbb{C}\).
+    \item \emph{Normed Spaces}: Linear spaces with a norm \(\|\cdot\|\).
+    \item \emph{Banach Spaces}: Complete normed spaces.
+    \item \emph{Euclidean Spaces}: Finite-dimensional Banach spaces with the Euclidean norm.
+    \item \emph{Unitary Spaces}: Hilbert spaces with a unitary group action (e.g., \(L_2(\Omega)\)).
+    \item \emph{Hilbert Spaces}: Complete inner product spaces (e.g., \(L_2(\Omega)\)).
+    \item \emph{Fréchet Spaces}: Complete metrizable locally convex topological vector spaces (e.g., \(C^\infty(\Omega)\)).
+\end{itemize}
+\end{definition}
+
+% Applications in differential equations
+These spaces provide the ambient categories for differential equations:
+\begin{itemize}
+    \item PDEs typically operate in Hilbert spaces (\(L_2\)) or Sobolev spaces (\(H^k\)) due to their completeness and inner product structure.
+    \item ODEs operate in finite-dimensional Euclidean spaces or manifolds.
+    \item Fréchet spaces are used for smooth solutions in \(C^\infty(\Omega)\).
+\end{itemize}
+
+\subsection{Theory of Distributions}
+
+% Defining distributions
+\begin{definition}
+A \emph{distribution} on a space \(\cat{E}\) (e.g., \(C^\infty_c(\Omega)\)) is a continuous linear functional \(T: \cat{E} \to \mathbb{R}\) (or \(\mathbb{C}\)) in the topological dual \(\cat{E}^*\). The space of distributions is denoted \(\mathcal{D}'(\Omega)\).
+\end{definition}
+
+% l^2 and L^2 spaces
+\begin{itemize}
+    \item The space \(\ell^2\) is the Hilbert space of square-summable sequences with the inner product \(\langle x, y \rangle = \sum x_i \overline{y_i}\).
+    \item The space \(L^2(\Omega)\) is the Hilbert space of square-integrable functions with the inner product \(\langle f, g \rangle = \int_\Omega f(x) \overline{g(x)} \, d\mu(x)\).
+\end{itemize}
+
+% Applications
+Distributions generalize functions, allowing solutions to PDEs with singular sources (e.g., Dirac delta \(\delta_\xi\)). In \(L^2(\Omega)\), solutions to PDEs are often sought due to the space's completeness and orthogonality properties \cite{nLab_distributions}.
+
+\subsection{Solution Classification of PDE}
+
+% Mizohata's classification
+\begin{definition}
+PDEs of second order are classified into three types based on the eigenvalues
+of the principal symbol of the differential operator \(L\):
+\begin{itemize}
+    \item \emph{Elliptic}: All eigenvalues have the same sign (e.g., Laplace equation \(\Delta u = 0\)).
+    \item \emph{Parabolic}: One eigenvalue is zero (e.g., heat equation \(\frac{\partial u}{\partial t} = \Delta u\)).
+    \item \emph{Hyperbolic}: Eigenvalues have mixed signs (e.g., wave equation \(\frac{\partial^2 u}{\partial t^2} = \Delta u\)).
+\end{itemize}
+\end{definition}
+
+Solution methods:
+\begin{itemize}
+    \item \emph{Elliptic PDEs}: Solved using Green's functions and Fredholm integral equations in \(L^2(\Omega)\). The Green's function \(G(x, \xi)\) satisfies: \[ L_x G(x, \xi) = \delta_\xi, \] yielding solutions: \[ u(x) = \int_\Omega G(x, \xi) f(\xi) \, d\xi + \text{boundary terms}. \]
+    \item \emph{Parabolic PDEs}: Solved using Volterra integral equations or semigroup methods in \(H^k(\Omega)\), reflecting causality.
+    \item \emph{Hyperbolic PDEs}: Solved using integral representations or d'Alembert's formula, often in \(L^2(\Omega)\).
+\end{itemize}
+
+\section{Category Theory of Differentual Equations (de Rham)}
+% Categorical perspective
+In the derived category of sheaves, PDE solutions are sections of vector bundles,
+and the de Rham complex provides a homological framework for integral representations \cite{nLab_de_Rham_theorem}.
+
+\subsection{Green's Functions: Kernels of Inverse Morphisms}
 
 % Defining Green's function categorically
 \begin{definition}
-Let \(\cat{E}\) and \(\cat{F}\) be Hilbert spaces (e.g., \(L_2(\Omega)\) or Sobolev spaces \(H^k(\Omega)\)), and let \(L: \cat{E} \to \cat{F}\) be a linear differential operator on a smooth manifold \(\Omega\). A \emph{Green's function} \(G: \Omega \times \Omega \to \mathbb{R}\) (or \(\mathbb{C}\)) for \(L\) is a morphism satisfying:
+Let \(\cat{E}\) and \(\cat{F}\) be Hilbert spaces (e.g., \(L_2(\Omega)\)
+or Sobolev spaces \(H^k(\Omega)\)), and let \(L: \cat{E} \to \cat{F}\)
+be a linear differential operator on a smooth manifold \(\Omega\).
+A \emph{Green's function} \(G: \Omega \times \Omega \to \mathbb{R}\)
+(or \(\mathbb{C}\)) for \(L\) is a morphism satisfying:
 \[
 L_x G(x, \xi) = \delta_\xi,
 \]
-where \(\delta_\xi \in \cat{F}^*\) is the Dirac delta functional, defined by \(\langle \delta_\xi, f \rangle = f(\xi)\) for all \(f \in \cat{F}\).
+where \(\delta_\xi \in \cat{F}^*\) is the Dirac delta functional,
+defined by \(\langle \delta_\xi, f \rangle = f(\xi)\) for all \(f \in \cat{F}\).
 \end{definition}
 
 % Categorical role of Green's functions
@@ -50,9 +205,12 @@ The Green's function induces an integral operator \(K: \cat{F} \to \cat{E}\), gi
 \[
 (K f)(x) = \int_\Omega G(x, \xi) f(\xi) \, d\mu(\xi),
 \]
-which acts as a right inverse to \(L\), i.e., \(L K = \id_{\cat{F}}\) on a suitable subspace of \(\cat{F}\). In the category of Hilbert spaces, \(G\) is a kernel in \(\Hom(\cat{F}^*, \cat{E})\), embodying the duality between \(\cat{F}\) and its dual \(\cat{F}^*\).
+which acts as a right inverse to \(L\), i.e., \(L K = \id_{\cat{F}}\)
+on a suitable subspace of \(\cat{F}\). In the category of Hilbert spaces,
+\(G\) is a kernel in \(\Hom(\cat{F}^*, \cat{E})\), embodying the duality
+between \(\cat{F}\) and its dual \(\cat{F}^*\).
 
-\section{Stokes--Ostrogradsky Theorems: Homological Isomorphisms}
+\subsection{Stokes---Ostrogradsky Theorems: Homological Isomorphisms}
 
 % Defining the generalized Stokes theorem
 \begin{theorem}[Generalized Stokes Theorem]
@@ -82,7 +240,7 @@ In the category of differential forms \(\cat{\Omega}(M)\), the Stokes theorem is
 \]
 This isomorphism connects local differential structures to global integral structures, enabling the derivation of integral representations for PDE solutions.
 
-\section{de Rham Theorem and Complex}
+\subsection{de Rham Theorem and Complex}
 
 % Defining the de Rham complex
 \begin{definition}[de Rham Complex]
@@ -116,7 +274,7 @@ In the category of sheaves on \(M\), the de Rham complex is a complex of abelian
 \]
 The de Rham theorem establishes an equivalence in the derived category of sheaves, linking differential forms to topological invariants. In synthetic differential geometry, this complex is internalized in a smooth topos, where the Kock-Lawvere axiom ensures the existence of infinitesimals, facilitating intuitive reasoning about differentials \cite{nLab_synthetic_diff_geom}.
 
-\section{Simplicial de Rham Complex}
+\subsection{Simplicial de Rham Complex}
 
 % Defining the simplicial de Rham complex
 \begin{definition}[Simplicial de Rham Complex]
@@ -136,29 +294,36 @@ The simplicial de Rham complex is quasi-isomorphic to the Chevalley-Eilenberg al
 C^\infty(\mathbf{\Pi}_{\inf}(X_\bullet)) \simeq \mathrm{Tot} \, \Omega^\bullet(X_\bullet).
 \]
 
-\section{Synthetic Differential Geometry: Axiomatic Framework}
+\subsection{Synthetic Differential Geometry: Axiomatic Framework}
 
 % Defining synthetic differential geometry
 \begin{definition}[Smooth Topos]
-A \emph{smooth topos} \(\cat{T}\) is a topos equipped with a line object \(R\) satisfying the Kock-Lawvere axiom: for any \(f: D \to R\), where \(D = \{ x \in R \mid x^2 = 0 \}\) is the infinitesimal object, there exist unique \(a, b \in R\) such that:
+A \emph{smooth topos} \(\cat{T}\) is a topos equipped with a line
+object \(R\) satisfying the Kock-Lawvere axiom: for any \(f: D \to R\),
+where \(D = \{ x \in R \mid x^2 = 0 \}\) is the infinitesimal object,
+there exist unique \(a, b \in R\) such that:
 \[
 f(x) = a + b x \quad \text{for all } x \in D.
 \]
-A smooth topos models synthetic differential geometry, allowing intuitive reasoning with infinitesimals \cite{nLab_synthetic_diff_geom}.
+A smooth topos models synthetic differential geometry,
+allowing intuitive reasoning with infinitesimals.
 \end{definition}
 
 % Integration in synthetic differential geometry
-In a smooth topos, the integration axiom posits that the shape modality \(\int\) and flat modality \(\flat\) define a cohesive structure:
+In a smooth topos, the integration axiom posits that the shape
+modality \(\int\) and flat modality \(\flat\) define a cohesive structure:
 \[
 \int \dashv \flat \dashv \sharp.
 \]
-The de Rham complex in synthetic differential geometry is internalized as a complex of objects in \(\cat{T}\), where differential forms are morphisms from infinitesimal thickenings. The integration map in this context is a morphism:
+The de Rham complex in synthetic differential geometry is internalized
+as a complex of objects in \(\cat{T}\), where differential forms are
+morphisms from infinitesimal thickenings. The integration map in this context is a morphism:
 \[
 \int: \Omega^k(M) \to \Omega^k(\int M),
 \]
-inducing a synthetic analogue of the de Rham theorem \cite{nLab_synthetic_diff_geom}.
+inducing a synthetic analogue of the de Rham theorem.
 
-\section{Integral Equations: Operator Algebras}
+\subsection{Integral Equations: Operator Algebras}
 
 % Defining Fredholm and Volterra equations
 \begin{definition}
@@ -178,13 +343,15 @@ Let \(\cat{E}\) be a Hilbert space, and let \(K: \cat{E} \to \cat{E}\) be a comp
 \end{definition}
 
 % Connection to Green's functions
-The kernel \(K(x, \xi)\) is often the Green's function \(G(x, \xi)\) or its derivatives. For a PDE \(L u = f\) with boundary conditions, the solution may satisfy:
+The kernel \(K(x, \xi)\) is often the Green's function \(G(x, \xi)\) or its derivatives.
+ For a PDE \(L u = f\) with boundary conditions, the solution may satisfy:
 \[
 u(x) = \int_\Omega G(x, \xi) f(\xi) \, d\xi + \int_{\partial \Omega} K(x, \xi) u(\xi) \, dS.
 \]
-In synthetic differential geometry, such equations are internalized as morphisms in \(\cat{T}\), with \(K\) defined via the infinitesimal structure of \(R\).
+In synthetic differential geometry, such equations are internalized as
+morphisms in \(\cat{T}\), with \(K\) defined via the infinitesimal structure of \(R\).
 
-\section{Structural Unity: Local-Global Duality}
+\subsection{Structural Unity: Local-Global Duality}
 
 The categorical framework unifies these concepts:
 \begin{itemize}
@@ -196,28 +363,167 @@ The categorical framework unifies these concepts:
     \item Fredholm and Volterra equations are algebraic representations of these morphisms.
 \end{itemize}
 
-This reflects a Grothendieckian local-to-global duality, where PDE solutions are cohomology classes in the derived category of sheaves or modules over the ring of differential operators \cite{nLab_de_Rham_theorem, nLab_synthetic_diff_geom}.
+This reflects a local-to-global duality, where PDE solutions are cohomology
+classes in the derived category of sheaves or modules over the ring of differential
+operators \cite{nLab_de_Rham_theorem, nLab_synthetic_diff_geom}.
+
+\section{Swarm Coordination Applications}
+
+Swarm coordination involves a collection of agents interacting locally to produce emergent global behaviors without centralized control, modeled as a dynamic system using differential equations \cite{nLab_dynamical_systems}. This taxonomy classifies swarm models within a categorical framework, leveraging topological spaces, distributions, and homological structures to unify local and global dynamics, inspired by \emph{Applied Topology} by Robert Ghrist.
+
+\subsection{Swarm Models as Dynamical Systems}
+
+% Defining swarm coordination
+\begin{definition}
+A \emph{swarm} is a collection of autonomous agents in a manifold \(\cat{M}\) (e.g., \(\mathbb{R}^d\)) governed by local interaction rules, producing emergent global behavior. The dynamics are modeled as a system of differential equations in the category \(\cat{Man}\) of smooth manifolds or \(\cat{Vect}\) of vector spaces.
+\end{definition}
+
+\subsection{Cucker--Smale Model}
+\begin{definition}
+The \emph{Cucker--Smale model} describes \(N\) agents with positions \(x_i(t) \in \mathbb{R}^d\) and velocities \(v_i(t) \in \mathbb{R}^d\):
+\[
+\dot{x}_i = v_i, \quad \dot{v}_i = \sum_{j=1}^N a_{ij}(x) (v_j - v_i),
+\]
+where \(a_{ij}(x) = \frac{K}{(\sigma + \|x_i - x_j\|^2)^\gamma}\) is the interaction weight, and \(K, \sigma, \gamma > 0\) are parameters \cite{cucker_smale}.
+\end{definition}
+
+% Adaptive extension
+\begin{remark}
+Adaptive control extends the model to handle uncertainties:
+\[
+\dot{v}_i = \sum_{j=1}^N \hat{a}_{ij}(t) (v_j - v_i) + u_i(t),
+\]
+where \(\hat{a}_{ij}(t)\) are adaptively updated weights, and \(u_i(t)\) compensates for disturbances \cite{adaptive_swarm}.
+\end{remark}
+
+% Applications
+Applications include UAV formation control, robotic swarms, and biological flocking \cite{uav_swarm}.
+
+\subsection{Vicsek Model}
+\begin{definition}
+The \emph{Vicsek model} describes self-propelled particles moving at constant speed with alignment:
+\[
+\dot{x}_i = v_i, \quad v_i(t + \Delta t) = |v_i| \frac{\sum_{j \in N_i} v_j}{|\sum_{j \in N_i} v_j|} + \eta_i,
+\]
+where \(N_i\) is the set of neighbors within a radius, and \(\eta_i\) is random noise \cite{vicsek_model}.
+\end{definition}
+
+% Applications
+Suitable for noisy environments but less precise for controlled swarms.
+
+\subsection{Alignment-Attraction-Avoidance (AAA) Model}
+\begin{definition}
+The \emph{AAA model} combines three forces:
+\[
+\dot{x}_i = v_i, \quad \dot{v}_i = \alpha \sum_{j \in N_i} (v_j - v_i) + \beta \sum_{j \in N_i} (x_j - x_i) - \gamma \sum_{j \in N_i} \frac{(x_i - x_j)}{|x_i - x_j|^2},
+\]
+where \(\alpha, \beta, \gamma\) control alignment, attraction, and avoidance \cite{aaa_model}.
+\end{definition}
+
+% Applications
+Used in biological swarms and robotic coordination \cite{swarm_dynamics}.
+
+\subsection{SwarmDMD: Data-Driven Model}
+\begin{definition}
+\emph{SwarmDMD} uses dynamic mode decomposition to learn inter-agent interactions from observed data, reconstructing swarm dynamics without explicit first-principles modeling \cite{swarm_dmd}.
+\end{definition}
+
+% Applications
+Ideal for reconstructing unknown dynamics but limited for real-time control.
+
+\subsection{Hierarchical D-DRL Model}
+\begin{definition}
+The \emph{double-layer deep reinforcement learning (D-DRL)} model uses inner-layer agents for execution and an outer-layer manager for coordination, modeled as a hybrid system of ODEs and discrete control laws \cite{ddrl_swarm}.
+\end{definition}
+
+% Applications
+Suitable for complex tasks but partially centralized.
+
+\subsection{Topological and Functional Spaces}
+
+% Defining spaces
+\begin{definition}
+Swarm dynamics occur in:
+\begin{itemize}
+    \item \emph{Topological Spaces}: Define continuity of agent interactions.
+    \item \emph{Metric Spaces}: Define proximity-based interactions (e.g., \(a_{ij}(x)\)).
+    \item \emph{Hilbert Spaces}: \(L^2(\Omega)\) for mean-field PDE models.
+    \item \emph{Fréchet Spaces}: \(C^\infty(\Omega)\) for smooth solutions.
+\end{itemize}
+\end{definition}
+
+% Graph topology
+The communication topology is a graph \(G(t) = (V, E(t))\), where vertices \(V\) are agents, and edges \(E(t)\) are proximity-based connections \cite{swarm_dynamics}.
+
+\subsection{Distributions}
+
+% Defining distributions
+\begin{definition}
+A \emph{distribution} \(T \in \mathcal{D}'(\Omega)\) is a continuous linear functional on \(C^\infty_c(\Omega)\). For swarm coordination, distributions (e.g., \(\delta_\xi\)) model singular interactions like local sensing \cite{nLab_distributions}.
+\end{definition}
+
+% Applications
+Distributions enable modeling of singular forces in PDE-based swarm models (e.g., Dirac delta for collision avoidance).
+
+\subsection{PDEs for Large Swarms}
+
+% Mizohata's classification
+\begin{definition}
+For large swarms, the mean-field approximation yields PDEs classified by Mizohata:
+\begin{itemize}
+    \item \emph{Elliptic}: Equilibrium configurations (e.g., \(\Delta u = 0\)).
+    \item \emph{Parabolic}: Diffusion-like spreading (e.g., \(\frac{\partial u}{\partial t} = \Delta u\)).
+    \item \emph{Hyperbolic}: Wave-like propagation (e.g., \(\frac{\partial^2 u}{\partial t^2} = \Delta u\)).
+\end{itemize}
+\end{definition}
+
+% Example
+The Vicsek model’s mean-field limit is a hyperbolic PDE for density evolution \cite{vicsek_model}.
+
+\subsection{Cucker--Smale with Adaptive Control}
+
+The Cucker--Smale model with adaptive control is recommended for its balance of simplicity, scalability, and robustness:
+\begin{itemize}
+    \item \emph{Scalability}: Handles large \(N\) via proximity graphs.
+    \item \emph{Decentralization}: Local rules ensure distributed coordination.
+    \item \emph{Robustness}: Adaptive control handles uncertainties.
+    \item \emph{Applications}: UAV swarms, robotic coordination, biological flocking.
+\end{itemize}
+
+% Categorical perspective
+In \(\cat{Man}\), agents are points, and dynamics are morphisms. The de Rham complex links local interactions to global behavior via cohomology \cite{nLab_de_Rham_theorem}.
 
 \section{Conclusion}
 
-This lecture presents a categorical synthesis of PDE theory, integrating Green's functions, Stokes--Ostrogradsky theorems, de Rham complexes, synthetic differential geometry, and integral equations. Future lectures will:
-\begin{enumerate}
-    \item Construct Green's functions and integral operators in smooth toposes.
-    \item Explore homological properties of the de Rham and simplicial de Rham complexes.
-    \item Analyze synthetic differential geometry and its integration axioms.
-    \item Synthesize these into a unified framework for PDEs.
-\end{enumerate}
+This lecture presents a categorical synthesis of PDE theory, integrating Green's functions,
+Stokes--Ostrogradsky theorems, de Rham complexes, synthetic differential geometry, and integral equations.
+
+Taxonomy classifies differential equations as morphisms in categorical structures,
+linking distributed (PDEs) and localized (ODEs) dynamical systems to topological
+and functional spaces. Thoery of Distributions and Differential Equations provide a framework
+for singular and second-order PDEs, unified by homological and synthetic differential
+geometry perspectives \cite{nLab_synthetic_diff_geom}.
 
 % Bibliography
 \begin{thebibliography}{9}
-\bibitem{nLab_de_Rham_theorem}
-nLab, \emph{de Rham theorem}, \url{https://ncatlab.org/nlab/show/de+Rham+theorem}, accessed 2024-11-21.
-\bibitem{nLab_stokes_theorem}
-nLab, \emph{Stokes theorem}, \url{https://ncatlab.org/nlab/show/Stokes+theorem}, accessed 2025-05-11.
-\bibitem{nLab_synthetic_diff_geom}
-nLab, \emph{synthetic differential geometry}, \url{https://ncatlab.org/nlab/show/synthetic+differential+geometry}, accessed 2025-05-09.
-\bibitem{nLab_simplicial_de_Rham}
-nLab, \emph{simplicial de Rham complex}, \url{https://ncatlab.org/nlab/show/simplicial+de+Rham+complex}, accessed 2025-02-13.
+
+\bibitem{nLab_de_Rham_theorem} nLab, \emph{de Rham theorem}, \url{https://ncatlab.org/nlab/show/de+Rham+theorem}.
+\bibitem{nLab_synthetic_diff_geom} nLab, \emph{synthetic differential geometry}, \url{https://ncatlab.org/nlab/show/synthetic+differential+geometry}.
+\bibitem{nLab_distributions} nLab, \emph{distributions}, \url{https://ncatlab.org/nlab/show/distributions}.
+\bibitem{nLab_de_Rham_theorem} nLab, \emph{de Rham theorem}, \url{https://ncatlab.org/nlab/show/de+Rham+theorem}, accessed 2024-11-21.
+\bibitem{nLab_stokes_theorem} nLab, \emph{Stokes theorem}, \url{https://ncatlab.org/nlab/show/Stokes+theorem}, accessed 2025-05-11.
+\bibitem{nLab_synthetic_diff_geom} nLab, \emph{synthetic differential geometry}, \url{https://ncatlab.org/nlab/show/synthetic+differential+geometry}, accessed 2025-05-09.
+\bibitem{nLab_simplicial_de_Rham} nLab, \emph{simplicial de Rham complex}, \url{https://ncatlab.org/nlab/show/simplicial+de+Rham+complex}, accessed 2025-02-13.
+
+\bibitem{cucker_smale} Cucker, F., Smale, S., The Mathematics of Emergence, 2007.
+\bibitem{adaptive_swarm} Adaptive Swarm Coordination and Formation Control, IGI Global, 2020.
+\bibitem{uav_swarm} Zhu, X., et al., Model of collaborative UAV swarm, Procedia Comput. Sci., 2015.
+\bibitem{vicsek_model} Vicsek, T., et al., Novel type of phase transition in a system of self-driven particles, Phys. Rev. Lett., 1995.
+\bibitem{aaa_model} Bouffanais, R., Design and Control of Swarm Dynamics, 2015.
+\bibitem{swarm_dmd} Swarm Modeling With Dynamic Mode Decomposition, IEEE, 2023.
+\bibitem{ddrl_swarm} The Swarm Hierarchical Control System, Springer, 2023.
+\bibitem{swarm_dynamics} Swarm Dynamics and Coordinated Control, IEEE, 2023.
+
 \end{thebibliography}
 
 \end{document}
