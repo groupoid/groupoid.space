@@ -536,6 +536,124 @@ D-DRL & Moderate (hierarchical) & High (learning-based) & High (RL training) \\
 \hline
 \end{tabular}
 
+
+\section{Swarm Modeling and Simulation Architecture}
+
+The simulation of large-scale drone swarms, as implemented in the Link32 protocol,
+requires efficient and scalable numerical models to capture the dynamics of 256 to
+50,000 drones operating in a shared environment. Two complementary approaches are
+employed: a discrete ordinary differential equation (ODE) model for individual
+drone tracking and a continuum partial differential equation (PDE) model for
+approximating swarm behavior as a density field. These models are implemented
+in the \texttt{skynet\_ode.c} and \texttt{skynet\_pde.c} codes, respectively,
+using the PETSc library for parallel numerical computations.
+
+\subsection{Swarm Modeling Approaches}
+
+\subsubsection{Discrete ODE Model}
+The ODE model represents each drone as an individual agent with
+position $x_i(t)$ and velocity $v_i(t)$ in a 1D or 2D domain,
+governed by a system of ordinary differential equations:
+
+$$
+  \frac{d x_i}{dt} = v_i, \quad \frac{d v_i}{dt} = u_i + f_{env,i} + f_{swarm,i},
+$$
+
+where $u_i$ is the control input from the Skynet/Link32 protocol
+(e.g., velocity adjustments via UDP packets), $f_{env,i}$ is an
+environmental force (e.g., wind), and $f_{swarm,i}$ accounts for
+inter-drone interactions, such as repulsion to avoid collisions.
+The repulsion term $f_{swarm,i}$ is defined as a sum over all other
+drones $j \neq i$. If the distance between drones $i$ and $j$,
+denoted $\|x_i - x_j\|$, is less than a minimum threshold $r_{min}$,
+the repulsion force is:
+
+$$
+  f_{swarm,i,j} = \frac{\kappa (r_{min} - \|x_i - x_j\|)}{\|x_i - x_j\| + \epsilon},
+$$
+
+where $\kappa = 0.05$, $r_{min} = 1.0$, and $\epsilon = 10^{-6}$ ensures numerical stability.
+Otherwise, if $\|x_i - x_j\| \geq r_{min}$, the repulsion force is zero.
+The total repulsion force is:
+
+$$
+  f_{swarm,i} = \sum_{j \neq i} f_{swarm,i,j}.
+$$
+
+This model is suitable for smaller swarms (e.g., 256 drones) where
+individual tracking is feasible and integrates directly with
+Skynet/Link32 control signals for precise drone coordination.
+
+\subsubsection{Continuum PDE Model}
+For large swarms (up to 50,000 drones), a continuum approach is adopted,
+treating the swarm as a density field $\rho(x, y, t)$ with an associated
+velocity field $u_x(x, y, t)$. The dynamics are governed by a system of
+partial differential equations, comprising a continuity equation for density
+conservation and a momentum equation for velocity evolution:
+
+$$
+  \frac{\partial \rho}{\partial t} + \nabla \cdot (\rho u) = 0,
+  \quad \frac{\partial u_x}{\partial t} = f_{control} + f_{env},
+$$
+
+where $u = (u_x, 0)$ is the velocity field (simplified to 1D flow for initial testing),
+$f_{control}$ represents Skynet/Link32 control inputs (e.g., density-based velocity adjustments),
+and $f_{env}$ is an environmental force field (e.g., wind, set to a constant 0.1 in initial simulations).
+The PDE model is discretized on a 2D grid (e.g., $100 \times 100$) using finite differences,
+with the divergence term approximated as:
+
+$$
+  \nabla \cdot (\rho u_x) \approx \frac{(\rho u_x)_{i,j} - (\rho u_x)_{i-1,j}}{\Delta x}.
+$$
+
+This approach is computationally efficient for large swarms,
+capturing collective behavior while integrating Skynet/Link32
+control signals to guide the swarm density and velocity fields.
+
+\subsection{Architecture of Simulation Codes}
+
+Both \texttt{skynet\_ode.c} and \texttt{skynet\_pde.c} are implemented using the PETSc library, leveraging its parallel data structures and time-stepping solvers to ensure scalability across multiple MPI processes. The codes are designed to interface with the Skynet/Link32 protocol, which provides control inputs via UDP packets for real-time swarm coordination.
+
+\subsubsection{\texttt{skynet\_ode.c} Architecture}
+The \texttt{skynet\_ode.c} code simulates the discrete ODE model for individual drone dynamics. Its key components are:
+
+\begin{itemize}
+    \item \textbf{Data Structure}: A global vector $X$ of size $2N$ (where $N$ is the number of drones, e.g., 17 in the test case) stores positions $x_i$ and velocities $v_i$. An additional vector $env_data$ holds environmental forces (e.g., wind, set to 0.1 per drone).
+    \item \textbf{RHS Function}: The \texttt{RHSFunction} computes the time derivatives $\frac{d x_i}{dt} = v_i$ and $\frac{d v_i}{dt} = u_i + f_{env,i} + f_{swarm,i}$, incorporating repulsion terms to prevent collisions and Skynet/Link32 control inputs (currently a placeholder, to be updated with UDP-parsed signals).
+    \item \textbf{Solver}: The PETSc \texttt{TS} solver with the explicit Runge-Kutta method (\texttt{TSRK}) advances the solution with a time step $\Delta t = 0.1$. The simulation runs for a short duration (e.g., 1 second) to ensure stability during testing.
+    \item \textbf{Initialization}: Drones are initialized with random positions in a domain (e.g., [0, 10]) using \texttt{PetscRandom}, with zero initial velocities.
+    \item \textbf{Output}: The final state is written to \texttt{skynet\_ode.txt}, containing position and velocity pairs for each drone (e.g., 34 values for 17 drones).
+    \item \textbf{Parallelism}: The code supports MPI parallelism, distributing drones across processes, though the test output indicates a single process, suggesting a configuration to be optimized for larger swarms.
+\end{itemize}
+
+The code is designed for scalability, with plans to increase $N$ to 256
+or 50,000 drones by optimizing MPI distribution and integrating Skynet/Link32 control logic.
+
+\subsubsection{\texttt{skynet\_pde.c} Architecture}
+The \texttt{skynet\_pde.c} code implements the continuum PDE model on a 2D grid. Its architecture includes:
+
+\begin{itemize}
+    \item \textbf{Data Structure}: A distributed array (\texttt{DMDA}) manages a 2D grid (e.g., $10 \times 10$ in testing, scalable to $100 \times 100$) with 2 degrees of freedom per grid point ($\rho$, $u_x$). A global vector $U$ stores the state, and a separate vector $env_data$ holds environmental forces (e.g., wind, set to 0.1 per grid point).
+    \item \textbf{RHS Function}: The \texttt{RHSFunction} computes the time derivatives: $\frac{\partial \rho}{\partial t} = -\nabla \cdot (\rho u_x)$ using finite differences, and $\frac{\partial u_x}{\partial t} = f_{control} + f_{env}$, with $f_{control}$ as a placeholder for Skynet/Link32 inputs.
+    \item \textbf{Solver}: The PETSc \texttt{TS} solver with the explicit Runge-Kutta method (\texttt{TSRK}) advances the solution with $\Delta t = 0.01$. The simulation runs for a short time (e.g., 0.1 seconds) to verify stability.
+    \item \textbf{Initialization}: The density $\rho$ is initialized as a Gaussian blob centered at (50, 50) in a $100 \times 100$ domain, $\rho(x, y) = e^{-((x-50)^2 + (y-50)^2)/10}$, with zero initial velocity.
+    \item \textbf{Output}: The final state is written to \texttt{skynet\_pde.txt}, containing density and velocity values (e.g., 200 values for a $10 \times 10 \times 2$ grid).
+    \item \textbf{Parallelism}: The \texttt{DMDA} structure supports MPI parallelism, distributing the grid across processes, though the test output indicates a single process, requiring optimization for larger grids.
+\end{itemize}
+
+The PDE code is designed to scale to larger grids (e.g., $100 \times 100$) and integrate Skynet/Link32 control signals to adjust the velocity field based on swarm density or external inputs.
+
+\subsection{Future Enhancements}
+Both codes are currently stable for small-scale tests (17 drones for ODE, $10 \times 10$ grid for PDE). Future work includes:
+\begin{itemize}
+    \item Scaling the ODE model to 256--50,000 drones with optimized MPI parallelism.
+    \item Increasing the PDE grid to $100 \times 100$ or larger for large swarms.
+    \item Integrating Skynet/Link32 control logic, parsing UDP packets for real-time control inputs (e.g., target positions or velocity fields).
+    \item Developing a hybrid ODE-PDE model using PETSc's \texttt{DMComposite} to combine individual drone tracking with continuum density modeling.
+\end{itemize}
+
+These enhancements will ensure the simulation framework supports the full range of swarm sizes and integrates seamlessly with the Skynet/Link32 protocol for real-time drone swarm coordination.
+
 \section{Conclusion}
 This article synthesizes the theory of partial differential equations (PDEs)
 and their applications to swarm coordination within a categorical and topological framework.
