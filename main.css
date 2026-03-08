@@ -11,10 +11,10 @@ aside time, aside div {
 }
 
 .header {
-  background: black;
-  color: white;
+  background: #FBFBFB;
+  color: #586E75;
   position: relative;
-  min-height: 450px;
+  min-height: 400px;
   padding: 16px 8px;
   display: flex;
   text-align: center;
@@ -27,7 +27,7 @@ aside time, aside div {
 .header__logo {
   width: 130px;
   position: relative;
-  filter: brightness(1.2);
+  filter: brightness(0.9) contrast(1.1);
   transition: transform 0.6s cubic-bezier(0.165, 0.84, 0.44, 1);
 }
 .header__logo:hover {
@@ -44,11 +44,12 @@ aside time, aside div {
   font-weight: 200;
   letter-spacing: -0.01em;
   margin-bottom: 8px;
+  color: #268BD2;
 }
 .header__subtitle {
   font-size: 18px;
   font-weight: 300;
-  color: #93A1A1;
+  color: #586E75;
   letter-spacing: 0.05em;
   line-height: 1.4;
   -webkit-font-smoothing: antialiased;
@@ -567,14 +568,14 @@ nav a:hover {
 
 nav {
   display: flex;
-  background-color: rgba(251, 251, 251, 0.8);
+  background-color: rgba(255, 255, 255, 0.9);
   backdrop-filter: blur(10px);
   flex-direction: row;
   justify-content: center;
   position: sticky;
   top: 0;
   z-index: 100;
-  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.08);
 }
 
 nav a {

@@ -49,14 +49,14 @@ nav a:hover {
 
 nav {
     display: flex;
-    background-color: rgba(251, 251, 251, 0.8);
+    background-color: rgba(255, 255, 255, 0.9);
     backdrop-filter: blur(10px);
     flex-direction: row;
     justify-content: center;
     position: sticky;
     top: 0;
     z-index: 100;
-    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.08);
 }
 
 nav a {
