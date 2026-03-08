@@ -246,11 +246,11 @@ block content
 
                     'Analysis': {  'Topology': 'https://anders.groupoid.space/mathematics/analysis/topology/',
                                    'Set': 'https://anders.groupoid.space/mathematics/analysis/set/',
-                                   'ℚ': 'https://anders.groupoid.space/mathematics/analysis/rational/',
-                                   'ℝ': 'https://anders.groupoid.space/mathematics/analysis/real/',
-                                   'ℂ': 'https://anders.groupoid.space/mathematics/analysis/complex/',
-                                   'ℍ': 'https://anders.groupoid.space/mathematics/analysis/quatro/',
-                                   '𝕆': 'https://anders.groupoid.space/mathematics/analysis/octo/',
+                                   'Rationals': 'https://anders.groupoid.space/mathematics/analysis/rational/',
+                                   'Reals': 'https://anders.groupoid.space/mathematics/analysis/real/',
+                                   'Complex': 'https://anders.groupoid.space/mathematics/analysis/complex/',
+                                   'Quaternions': 'https://anders.groupoid.space/mathematics/analysis/quatro/',
+                                   'Octonions': 'https://anders.groupoid.space/mathematics/analysis/octo/',
                                 },
 
                      'Algebra': {  'Group': 'https://anders.groupoid.space/mathematics/algebra/group/',
@@ -295,8 +295,6 @@ block content
                                 li(style="font-size:16px;"): b()= i
                             else
                                 li(style="font-size:16px;"): a(href= j)= i
-            br
-            .type
                 for v, k in higher
                     ol.type__col
                         h3= k

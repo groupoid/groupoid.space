@@ -15,39 +15,52 @@
     &__logo {
         width: 130px;
         position: relative;
+        filter: brightness(1.2);
+        transition: transform 0.6s cubic-bezier(0.165, 0.84, 0.44, 1);
+
+        &:hover {
+            transform: scale(1.05);
+        }
     }
 
     &__titles {
         position: relative;
-        max-width: 800px;
-        margin: 20px;
-        text-shadow: 1px 1px 7px #56CCF2;
+        max-width: 850px;
+        margin: 24px;
     }
 
     &__title {
-        font-size: 48px;
+        font-size: 44px;
         line-height: 1.1;
+        font-weight: 200;
+        letter-spacing: -0.01em;
+        margin-bottom: 8px;
     }
 
     &__subtitle {
-        font-size: 22px;
+        font-size: 20px;
+        font-weight: 300;
+        color: #93A1A1;
+        letter-spacing: 0.02em;
     }
 
     @media(min-width: 768px) {
         flex-direction: row;
+        min-height: 550px;
 
         &__logo {
             width: 160px;
-            margin-right: 10px;
+            margin-right: 32px;
         }
 
         &__title {
             font-size: 60px;
+            text-align: left;
         }
 
         &__subtitle {
-            font-size: 30px;
+            font-size: 28px;
+            text-align: left;
         }
     }
-
 }

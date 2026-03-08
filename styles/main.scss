@@ -1,3 +1,19 @@
+@use 'aside';
+@use 'header';
+@use 'footer';
+@use 'semantics';
+@use 'intro';
+@use 'status';
+@use 'resources';
+@use 'index';
+@use 'om';
+@use 'exe';
+@use 'types';
+@use 'list';
+@use 'code';
+@use 'canvas';
+@use 'stack';
+
 @font-face {
     font-family: 'local';
     src: url('https://groupoid.space/Geometria-Light.otf');
@@ -6,8 +22,8 @@
 }
 
 .MathJax_Display {
-  overflow-x: auto;
-  overflow-y: hidden;
+    overflow-x: auto;
+    overflow-y: hidden;
 }
 
 nav a {
@@ -33,14 +49,35 @@ nav a:hover {
 
 nav {
     display: flex;
-    background-color: #FBFBFB;
+    background-color: rgba(251, 251, 251, 0.8);
+    backdrop-filter: blur(10px);
     flex-direction: row;
     justify-content: center;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
 }
 
 nav a {
-    font-size: 18px;
-    min-width: initial;
+    font-size: 16px;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: #93A1A1;
+    text-decoration: none;
+    margin: 5px 5px;
+    padding: 7px 12px;
+    transition: all 0.3s ease;
+    border-bottom: 2px solid transparent;
+}
+
+nav a:visited {
+    color: #93A1A1;
+}
+
+nav a:hover {
+    color: #268BD2;
+    border-bottom: 2px solid #268BD2;
 }
 
 
@@ -52,32 +89,39 @@ nav a {
 
 sub,
 sup {
-  font-size: 80%;
-  line-height: 0;
-  position: relative;
-  vertical-align: baseline;
+    font-size: 75%;
+    line-height: 0;
+    position: relative;
+    vertical-align: baseline;
 }
 
 sub {
-  bottom: -0.25em;
+    bottom: -0.25em;
 }
 
 sup {
-  top: -0.5em;
+    top: -0.5em;
 }
 
 html {
     height: 100%;
+    scroll-behavior: smooth;
 }
 
 body {
     min-height: 100%;
     text-rendering: optimizeLegibility;
     -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    background: #FBFBFB;
 }
 
-h1, h2, h3, h4 {
-    font-weight: normal;
+h1,
+h2,
+h3,
+h4 {
+    font-weight: 300;
+    letter-spacing: -0.02em;
 }
 
 ul {
@@ -87,19 +131,18 @@ ul {
 ol,
 ul {
     text-align: left;
-    line-height: 1.5;
+    line-height: 1.6;
 }
 
-img, figure {
+img,
+figure {
     vertical-align: middle;
 }
 
-img { margin-left:20px; }
-
 .content {
     min-height: 100%;
-    font-family: local;
-    display: flex; // sticky footer
+    font-family: 'local', 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    display: flex;
     flex-direction: column;
     position: relative;
 }
@@ -109,11 +152,8 @@ img { margin-left:20px; }
     background: #FBFBFB;
     padding: 50px 0px;
     text-align: center;
-    box-shadow: 0 3px 10px rgba(0,0,0,0);
-//                0 -3px 10px rgba(0,0,0,0.3);
     z-index: 5;
-    flex: 1 1 auto; // sticky footer
-
+    flex: 1 1 auto;
 }
 
 figure {
@@ -124,18 +164,16 @@ figure {
     display: block;
 }
 
-figure::after {
-  content: "\A";
-  white-space: pre;
-}
-
 h2 {
-    font-size: 24px;
+    font-size: 28px;
     color: #268BD2;
+
     @media(min-width: 768px) {
-        font-size: 32px;
+        font-size: 36px;
     }
+
     margin: 34px 0 8px;
+    font-weight: 300;
 }
 
 h3 {
@@ -144,7 +182,9 @@ h3 {
     padding: 0 0 0 8px;
     text-transform: uppercase;
     text-align: left;
-    font-size: 22px;
+    font-size: 20px;
+    letter-spacing: 0.1em;
+    color: #93A1A1;
 }
 
 p {
@@ -153,29 +193,35 @@ p {
     margin: auto;
     padding: 8px;
     text-align: left;
-    font-size: 16px;
-    line-height: 1.4;
+    font-size: 17px;
+    line-height: 1.6;
+    color: #657B83;
+    transition: background 0.3s ease;
+
     @media(min-width: 768px) {
-        font-size: 18px;
+        font-size: 19px;
     }
 }
 
 p:hover {
-    background: white;
+    background: rgba(255, 255, 255, 0.6);
+    border-radius: 4px;
 }
 
 mark {
     background: #FDF6E3;
-    padding: 0px 2px;
-    border-radius: 2px;
-    color: #586E75;
+    padding: 2px 4px;
+    border-radius: 3px;
+    color: #B58900;
 }
 
 a {
-    color: #3A98C8;
+    color: #268BD2;
     text-decoration: none;
+    transition: color 0.2s ease;
+
     &:visited {
-    color: #3A98C8;
+        color: #268BD2;
     }
 
     &:hover {
@@ -186,21 +232,3 @@ a {
         color: #D33682;
     }
 }
-
-
-@import '_aside';
-@import '_header';
-@import '_footer';
-@import '_semantics';
-@import '_intro';
-@import '_status';
-@import '_resources';
-@import '_index';
-@import '_om';
-@import '_exe';
-@import '_types';
-@import '_list';
-@import '_code';
-@import '_canvas';
-@import '_stack';
-
