@@ -114,6 +114,7 @@ body {
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     background: #FBFBFB;
+    color: #586E75;
 }
 
 h1,
@@ -193,13 +194,13 @@ p {
     margin: auto;
     padding: 8px;
     text-align: left;
-    font-size: 17px;
-    line-height: 1.6;
-    color: #657B83;
+    font-size: 15px;
+    line-height: 1.5;
+    color: #586E75;
     transition: background 0.3s ease;
 
     @media(min-width: 768px) {
-        font-size: 19px;
+        font-size: 16px;
     }
 }
 

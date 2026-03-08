@@ -38,10 +38,12 @@
     }
 
     &__subtitle {
-        font-size: 20px;
+        font-size: 18px;
         font-weight: 300;
         color: #93A1A1;
-        letter-spacing: 0.02em;
+        letter-spacing: 0.05em;
+        line-height: 1.4;
+        -webkit-font-smoothing: antialiased;
     }
 
     @media(min-width: 768px) {
