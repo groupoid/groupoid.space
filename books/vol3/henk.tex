@@ -24,6 +24,7 @@ The core is limited to 1K lines of Erlang for the essential passes.
 This work builds directly on the Calculus of Constructions, AUTOMATH and the original Henk design of Meijer and Peyton Jones.
 \end{abstract}
 
+\newpage
 \ifincludeTOC
   \tableofcontents
 \else
@@ -46,9 +47,11 @@ By Curry--Howard, proofs are programs. Henk erases all type information and univ
 The resulting code is ordinary BEAM bytecode with no runtime type checking beyond Erlang's own. Host primitives (I/O, arithmetic) are supplied at extraction time.
 
 \subsection{System Architecture}
+
 Henk consists of:
+
 \begin{itemize}
-\item Level 0: untyped Erlang runtime (BEAM).
+\item Level 0: strongly-typed Erlang runtime (BEAM).
 \item Level 1: PTS Core (type checker + extractor).
 \item Level 2: higher languages (Henk, Frank, Christine).
 \end{itemize}
