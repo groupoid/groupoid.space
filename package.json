@@ -4,7 +4,8 @@
   "description": "Groupoid Infinity Institute",
   "main": "",
   "scripts": {
-    "start": "node-sass ./styles -o ./ && pug -O ./framework.js ./ ",
+    "build": "sass ./styles:./ && pug -O ./framework.js ./index.pug -o ./ && pug -O ./framework.js ./institute -o ./institute && pug -O ./framework.js ./misc -o ./misc && pug -O ./framework.js ./runtime -o ./runtime",
+    "start": "npm run build",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -13,7 +14,6 @@
   },
   "author": "Namdak Tonpa",
   "license": "DHARMA",
-  "preinstall": "npm i -g node-sass && npm i -g pug-cli",
   "dependencies": {
     "mathjax-full": "^3.2.0",
     "npm": "^8.12.1",
@@ -21,7 +21,5 @@
     "pug-cli": "^1.0.0-alpha6",
     "sass": "^1.52.2"
   },
-  "devDependencies": {
-    "node-sass": "^7.0.3"
-  }
+  "devDependencies": {}
 }

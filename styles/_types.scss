@@ -1,15 +1,16 @@
 .types {
-    display: inline-block;
     text-align: left;
-    max-width: 100%;
     padding: 0 8px;
+    width: 100%;
+
     h1 {
         color: #7D8A96;
         font-size: 32px;
         text-transform: uppercase;
-        border-bottom: 1px solid rgba(0, 0 , 0,0.3);
+        border-bottom: 1px solid rgba(0, 0, 0, 0.3);
         display: inline-block;
         margin: 42px 0 10px;
+
         @media(min-width: 768px) {
             font-size: 40px;
         }
@@ -26,27 +27,56 @@
 
 
 
-    h1 + h2 {
+    h1+h2 {
         margin-top: 0px;
     }
 
 
     .type {
-        max-width: 660px;
+        max-width: 1040px;
         display: flex;
         flex-flow: row wrap;
+        justify-content: center;
+        gap: 30px;
+        margin: 32px auto;
+        width: 100%;
+
         &__col {
-            padding-left: 22px;
-            flex: 1 0 15%;
+            padding: 24px 30px;
+            flex: 1 1 280px;
+            min-width: 250px;
+            max-width: 320px;
+            background: rgba(255, 255, 255, 0.5);
+            border-radius: 12px;
+            border: 1px solid rgba(0, 0, 0, 0.04);
+            transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+            margin: 0;
+            box-sizing: border-box;
+
             h3 {
                 width: initial;
                 padding: 0;
-                margin: 0;
+                margin: 0 0 16px;
+                font-size: 17px;
+                font-weight: 300;
+                text-transform: uppercase;
+                letter-spacing: 0.15em;
+                color: #268BD2;
             }
-            @media(min-width: 600px) {
-                padding-right: 22px;
-                flex: 1 0 15%;
-                font-size: 20px;
+
+            li {
+                font-size: 14px !important;
+                margin-bottom: 10px;
+                color: #586E75;
+                list-style: none;
+                line-height: 1.4;
+            }
+
+            &:hover {
+                background: white;
+                box-shadow: 0 20px 40px rgba(0, 0, 0, 0.05);
+                transform: translateY(-4px);
+                border-color: rgba(38, 139, 210, 0.2);
             }
         }
     }
@@ -58,7 +88,7 @@
         font-size: 24px;
         background: #FDF6E3;
         border-radius: 4px;
-        box-shadow: 0 4px 6px rgba(50,50,93,.11),
-                    0 1px 3px rgba(0,  0, 0,.08);
+        box-shadow: 0 4px 6px rgba(50, 50, 93, .11),
+            0 1px 3px rgba(0, 0, 0, .08);
     }
 }
