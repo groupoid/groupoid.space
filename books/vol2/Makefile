@@ -1,7 +1,7 @@
 default:
 	pdflatex alonzo.tex
 	pdflatex felix.tex
-	pdflatex joe.tex
+	pdflatex kenneth.tex
 	pdflatex robin.tex
 	pdflatex yves.tex
 	pdflatex vol2.tex
