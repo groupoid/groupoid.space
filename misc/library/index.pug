@@ -1067,12 +1067,20 @@ block content
                 var core = {
                     'Pure': [ 'pi' ],
                     'MLTT': [ 'pi', 'sigma', 'id', 'W' ],
+                }
+                var core2 = {
                     'Inductive': [ 'pi', 'sigma', 'id', 'fix', 'inductive' ],
                     'Cubical': [ 'pi', 'sigma', 'path', 'Compose', 'Glue', 'higher inductive types' ],
                 }
 
             .type
                 for v, k in core
+                    ol.type__col
+                        h3= k.toUpperCase()
+                        for i in v
+                            li: a(href='#'+i)= i.toUpperCase()
+            .type
+                for v, k in core2
                     ol.type__col
                         h3= k.toUpperCase()
                         for i in v
@@ -1129,12 +1137,16 @@ block content
                     var types1 = {
                         'nr nd +': [ 'unit', 'bool', 'maybe', 'either', 'tuple' ],
                         'r nd +': [ 'fix', 'nat', 'list' ],
+                    }
+                    var types3 = {
                         'nr d +': [ 'exists' ],
                         'rd +': [ 'fin', 'vector', 'W', 'seq' ],
                     }
                     var types2 = {
                         'nr nd *': [ 'prod', 'pure', 'functor', 'applicative', 'monad' ],
                         'r nd *': [ 'stream' ],
+                    }
+                    var types4 = {
                         'nr d *': [ 'sigma', 'bundle', 'iso', 'equiv', 'fiber', 'pullback', 'category' ],
                         'HIT': [ 'groupoid', 'infinity', 'pushout', 'S1', 'S2', 'hopf', 'cw' ],
                     }
@@ -1154,7 +1166,19 @@ block content
                         for i in v
                             li: a(href='#'+i)= i.toUpperCase()
             .type
+                for v, k in types3
+                    ol.type__col
+                        h3= k.toUpperCase()
+                        for i in v
+                            li: a(href='#'+i)= i.toUpperCase()
+            .type
                 for v, k in types2
+                    ol.type__col
+                        h3= k.toUpperCase()
+                        for i in v
+                            li: a(href='#'+i)= i.toUpperCase()
+            .type
+                for v, k in types4
                     ol.type__col
                         h3= k.toUpperCase()
                         for i in v
