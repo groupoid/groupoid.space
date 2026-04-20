@@ -1,7 +1,14 @@
-7 томів монографії "Звіт результатів" від "Групоїд Інфініті"
-містять 67 наукових статей (які потребують літературної редактури і рецензування):
+Звіт результатів Групоїд Інфініті
+=================================
 
-Volume I:
+7 томів монографії "Звіт результатів" від "Групоїд Інфініті"
+містять 67 наукових статей (які потребують літературної редактури і рецензування).
+Перший том містить вступний курс в гомотопічну теорію і базову бібліотеку мови Anders.
+Другий і третій томи місятять мови програмування і системи доведення теорем.
+П'ятий том містить адаптовану версію моєї дисертації присвячену спектралізації мов програмування.
+Шостий і сьомий томи містять мої коментарії на матеріал курсу "Формальна філософія і верифікація".
+
+Volume I: https://groupoid.space/books/vol1/vol1.pdf
 
 Issue I: Type Theory (Martin-Löf)
 Issue II: Inductive Types (Coquand)
@@ -9,7 +16,7 @@ Issue III: Homotopy Type Theory (Awodey)
 Issue IV: Higher Inductive Types (Lumsdaine)
 Issue V: Modalities (Shulman)
 
-Volume II:
+Volume II: https://groupoid.space/books/vol2/1vol2.pdf
 
 Issue VI: Alonzo (Church)
 Issue VII: Yves (Lafont)
@@ -17,7 +24,7 @@ Issue VIII: Felix (Bloch)
 Issue IX: Kenneth (Iverson)
 Issue X: Robin (Milner)
 
-Volume III:
+Volume III: https://groupoid.space/books/vol3/vol3.pdf
 
 Issue XI: Henk (Barendregt)
 Issue XII: Frank (Pfenning)
@@ -32,7 +39,7 @@ Issue XX: Laurent (Schwartz)
 Issue XXI: Urs (Schreiber)
 Issue XXII: Paul (Cohen)
 
-Volume IV:
+Volume IV: https://groupoid.space/books/vol4/vol4.pdf
 
 Issue XXIII: Category Theory (Mac Lane)
 Issue XXIV: Locally Cartesian Closed Categories (Seely)
@@ -55,7 +62,7 @@ Issue XLIII: Local Homotopy Theory (Lewis)
 Issue XLIV: Super Homotopy Theory (Urs)
 Issue XLV: Cosmic Cube (Baez)
 
-Volume V:
+Volume V: https://groupoid.space/books/vol5/vol5.pdf
 
 Issue L: Вступ в теорію мов програмування
 Issue LI: Огляд засобів формальної верифікації
@@ -65,7 +72,7 @@ Issue LIV: Бібліотека середовиша виконання
 Issue LV: Система вищих мов
 Issue LVI: Бібліотека вищих мов
 
-Volume VI:
+Volume VI: https://groupoid.space/books/vol6/vol6.pdf
 
 Issue LX: Свідомість
 Issue LXI: Розшарування Хопфа
@@ -83,11 +90,14 @@ Issue LXXII: Формальна Йогачара
 Issue LXXIII: Два типи мислення
 Issue LXXIV: Мадх'яміка в MLTT баченні
 
-Volume VII:
+Volume VII: https://groupoid.space/books/vol7/vol7.pdf
 
 Issue LXXX: Дракон
 Issue LXXXI: Дямбдагарбха
 Issue LXXXII: Гротендік
 Issue LXXXIII: Будда
 
-Namdak Tonpa, 2021
+Автор
+-----
+
+* Namdak Tonpa, 2021 (c) https://groupoid.space
