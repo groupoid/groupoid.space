@@ -1,0 +1,92 @@
+7 томів монографії "Звіт результатів" від "Групоїд Інфініті" містять:
+
+Volume I:
+
+Issue I: Type Theory (Martin-Löf)
+Issue II: Inductive Types (Coquand)
+Issue III: Homotopy Type Theory (Awodey)
+Issue IV: Higher Inductive Types (Lumsdaine)
+Issue V: Modalities (Shulman)
+
+Volume II:
+
+Issue VI: Alonzo (Church)
+Issue VII: Yves (Lafont)
+Issue VIII: Felix (Bloch)
+Issue IX: Kenneth (Iverson)
+Issue X: Robin (Milner)
+
+Volume III:
+
+Issue XI: Henk (Barendregt)
+Issue XII: Frank (Pfenning)
+Issue XIII: Per (Martin-Löf)
+Issue XIV: Christine (Paulin-Mohring)
+Issue XV: Daniel (Kan)
+Issue XVI: Jack (Morava)
+Issue XVII: Fabien (Morel)
+Issue XVIII: Leslie (Lamport)
+Issue XIX: Anders (Mörtberg)
+Issue XX: Laurent (Schwartz)
+Issue XXI: Urs (Schreiber)
+Issue XXII: Paul (Cohen)
+
+Volume IV:
+
+Issue XXIII: Category Theory (Mac Lane)
+Issue XXIV: Locally Cartesian Closed Categories (Seely)
+Issue XXV: Symmetric Monoidal Categories (Kelly)
+Issue XXVI: Fibered Categories (Bénabou)
+Issue XXVII: Model Categories (Quillen)
+Issue XXVIII: Topos Theory (Johnstone)
+Issue XXIX: Categories with Families (Dybjer)
+Issue XXX: Categories with Representable Maps (Uemura)
+Issue XXXI: Comprehension Categories (Jacobs)
+Issue XXXII: Algebra and Geometry
+Issue XXXIII: Abelian Categories (Grothendieck)
+Issue XXXIV: Grothendieck Yoga
+Issue XXXV: Grothendieck Schemes
+Issue XXXVI: Differential Geometry
+Issue XL: Stable Homotopy Theory (May)
+Issue XLI: Simplicial Homotopy Theory (Kan)
+Issue XLII: Modal Homotopy Theory (Schreiber)
+Issue XLIII: Local Homotopy Theory (Lewis)
+Issue XLIV: Super Homotopy Theory (Urs)
+Issue XLV: Cosmic Cube (Baez)
+
+Volume V:
+
+Issue L: Вступ в теорію мов програмування
+Issue LI: Огляд засобів формальної верифікації
+Issue LII: Спектральна категорія мов формальної верифікації
+Issue LIII: Система мов середовища виконання
+Issue LIV: Бібліотека середовиша виконання
+Issue LV: Система вищих мов
+Issue LVI: Бібліотека вищих мов
+
+Volume VI:
+
+Issue LX: Свідомість
+Issue LXI: Розшарування Хопфа
+Issue LXII: Формалізація буддизму
+Issue LXIII: Хроматична теорія гомотопій
+Issue LXIV: Геометрія в модальній HoTT
+Issue LXV: Категорії Квілена
+Issue LXVI: Модальна гомотопічна теорія
+Issue LXVII: Метафілософія
+Issue LXVIII: Прикладна математика
+Issue LXIX: Абелеві категорії
+Issue LXX: Мова простору
+Issue LXXI: Суперпростір
+Issue LXXII: Формальна Йогачара
+Issue LXXIII: Два типи мислення
+Issue LXXIV: Мадх'яміка в MLTT баченні
+
+Volume VII:
+
+Issue LXXX: Дракон
+Issue LXXXI: Дямбдагарбха
+Issue LXXXII: Гротендік
+Issue LXXXIII: Будда
+
+Namdak Tonpa, 2021
