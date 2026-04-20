@@ -16,7 +16,7 @@ Issue III: Homotopy Type Theory (Awodey)
 Issue IV: Higher Inductive Types (Lumsdaine)
 Issue V: Modalities (Shulman)
 
-Volume II: https://groupoid.space/books/vol2/1vol2.pdf
+Volume II: https://groupoid.space/books/vol2/vol2.pdf
 
 Issue VI: Alonzo (Church)
 Issue VII: Yves (Lafont)
