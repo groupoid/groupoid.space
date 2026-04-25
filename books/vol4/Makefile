@@ -3,6 +3,7 @@ default:
 	pdflatex cat.tex
 	pdflatex comprehension.tex
 	pdflatex cube.tex
+	pdflatex colored.tex
 	pdflatex cwf.tex
 	pdflatex cwr.tex
 	pdflatex fibered.tex
