@@ -6,6 +6,7 @@ default:
 	pdflatex cwf.tex
 	pdflatex cwr.tex
 	pdflatex fibered.tex
+	pdflatex functional.tex
 	pdflatex jean.tex
 	pdflatex lccc.tex
 	pdflatex smc.tex
