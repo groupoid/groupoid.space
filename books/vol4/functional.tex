@@ -189,9 +189,11 @@ p(y \mid x) \cdot p(x) \quad \longleftrightarrow \quad p(x \mid y) \cdot p(y),
 Таким чином, гомотопічна динаміка піднімає нелінійні напівгрупи функціонального аналізу до синтетичного рівня в cohesive \(\infty\)-topos, де всі щаблі драбини (від \(\mathbf{Top}\) до \(\mathbf{Quant}\)) описуються єдино через universal constructions.
 
 \newpage
-\subsubsection{Когезивні модальності та синтетична нелінійна динаміка}
+\subsubsection{Синтетична нелінійна динаміка}
 
-У \textbf{cohesive homotopy type theory} (а особливо в її диференціально-когезивному варіанті) нелінійні динамічні системи описуються за допомогою системи \textbf{adjoint modalities}, що реалізують розрізнення дискретної, неперервної та інфінітезимальної структури типів.
+У \textbf{cohesive homotopy type theory} (а особливо в її диференціально-когезивному варіанті) нелінійні динамічні
+системи описуються за допомогою системи спряжених конезивних модальностей \textbf{adjoint cohesive modalities}, що реалізують розрізнення дискретної,
+неперервної та інфінітезимальної структури типів.
 
 Нехай \( \flat \) (shape/flat modality) --- idempotent comonad, що витягує підстилаючу гомотопічну інформацію, \( \sharp \) (sharp modality) --- відповідний monad, а \( \Re \) (reduction) та \( \Im \) (infinitesimal shape) --- диференціальні модальності в differential cohesive \(\infty\)-topos. Ці модальності утворюють adjoint triples і quadruple, що задовольняють аксіоми cohesion (за Lawvere–Schreiber–Shulman).
 
@@ -273,6 +275,30 @@ i\hbar \frac{d\psi}{dt} = H\psi \quad \Longrightarrow \quad U_t = e^{-iHt/\hbar}
 \]
 
 Отриманий оператор є лінійним, позитивним і контрактним.
+
+\subsubsection{Моделі роїв дронів і мурмурації як застосування гомотопічної динаміки}
+
+Гомотопічна динаміка в cohesive \(\infty\)-topos природно застосовується до нелінійних моделей великих роїв дронів (drone swarms) та явищ типу \emph{murmuration} (узгоджене колективне маневрування, подібне до зграї шпаків). Такі системи описуються мікроскопічними нелінійними звичайними диференціальними рівняннями (ODE) для окремих агентів та їх континуальним mean-field наближенням у формі частинних диференціальних рівнянь (PDE).
+
+Ключовим прикладом є \textbf{Cucker--Smale модель} (та її узагальнення Vicsek, Alignment-Attraction-Avoidance), де динаміка швидкостей агентів задається нелінійним вирівнюванням:
+\[
+\dot{v}_i = \frac{1}{N} \sum_{j=1}^N \phi(\|x_i - x_j\|) (v_j - v_i) + u_i,
+\]
+з комунікаційною функцією \(\phi\) (затухання з відстанню) та зовнішнім керуванням \(u_i\). У mean-field limit (\(N \to \infty\)) система переходить у континуальне PDE для густини \(\rho(t,x)\) та поля швидкостей \(v(t,x)\):
+\[
+\partial_t \rho + \nabla \cdot (\rho v) = 0, \qquad \partial_t (\rho v) + \nabla \cdot (\rho v \otimes v) = \nabla \cdot (\rho \sigma) + \rho u,
+\]
+де \(\sigma\) — нелінійний тензор напруг, що виникає від локальних взаємодій. Такі рівняння належать до hyperbolic або parabolic типу і моделюють emergent behaviors: флокінг, мурмурацію, уникнення зіткнень та адаптивне формування.
+
+У рамках \textbf{cohesive homotopy type theory} фазовий простір конфігурацій рою моделюється як тип \(M\) у cohesive \(\infty\)-topos. Простір траєкторій рою є higher inductive type \(\mathrm{Path}_\infty(M^N)\) (або його mean-field версія на просторі мір). Higher гомотопії кодують деформації колективних маневрів, репараметризацію та gauge-еквівалентності під дією локальних комунікаційних топологій (proximity graphs). Adjoint cohesive modalities (\(\flat \dashv \sharp\), \(\Re \dashv \Im\)) дозволяють синтетично розрізняти мікроскопічний (дискретний) і макроскопічний (континуальний) рівні, а також інфінітезимальні варіації керування.
+
+Functorial linearization \(\mathcal{L} : \infty\text{-}\mathbf{Gpd} \to \mathbf{Hilb}\) (через Giry-монаду та гільбертову реалізацію) переводить нелінійні взаємодії рою у операторну динаміку на \(L^2(\rho)\) або Sobolev просторах, з Green functions як ядрами інтегральних операторів. Це узгоджується з rigged Hilbert space для розподілених керувань і спектральним аналізом колективних мод.
+
+\textbf{Застосування до продукту Skynet.} Протокол Link32/Skynet реалізує комунікаційний шар (cluster hybrid topology, dynamic TDMA, низьколатентний C2) для роїв до 5000 дронів. Control inputs \(u_i\) надходять саме через Skynet (QoS-диференційовані повідомлення для позицій, команд і стану). У гомотопічній моделі комунікаційна топологія рою інтерпретується як simplicial структура на конфігураційному просторі, а higher morphisms забезпечують стійкість до переривань зв’язку (homotopy-coherent consensus). Mean-field PDE з керуванням від Skynet описує еволюцію густини рою, дозволяючи синтетично перевіряти властивості emergent behavior (наприклад, глобальну узгодженість мурмурації) через universal properties у cohesive \(\infty\)-topos.
+
+Таким чином, гомотопічна динаміка пропонує єдиний математично-філософський фреймворк, у якому нелінійні PDE роїв дронів, їх колективна поведінка типу murmuration і практична реалізація в Skynet описуються через higher inductive types, cohesive modalities та functorial linearization. Це відкриває шлях до синтетичного контролю, верифікації та масштабування великих автономних роїв.
+
+
 \newpage
 \subsection*{Висновок}
 
@@ -291,7 +317,6 @@ i\hbar \frac{d\psi}{dt} = H\psi \quad \Longrightarrow \quad U_t = e^{-iHt/\hbar}
 
 Функціональний аналіз і квантова механіка постають як природні представлення нижчих рівнів цієї ієрархії. Cohesive homotopy type theory пропонує єдиний синтетичний фреймворк, у якому всі щаблі драбини можуть бути описані одночасно.
 
-\newpage
 \begin{thebibliography}{20}
 
 \bibitem{Shulman} M. Shulman. Modal Homotopy Type Theory.
@@ -310,6 +335,9 @@ i\hbar \frac{d\psi}{dt} = H\psi \quad \Longrightarrow \quad U_t = e^{-iHt/\hbar}
 \bibitem{nLabCohesive} nLab. Cohesive homotopy type theory. \url{https://ncatlab.org/nlab/show/cohesive+homotopy+type+theory}
 \bibitem{nLabHIT} nLab. Higher inductive types. \url{https://ncatlab.org/nlab/show/higher+inductive+type}
 \bibitem{nLabHigherGauge} nLab. Higher gauge theory. \url{https://ncatlab.org/nlab/show/higher+gauge+theory}
+\bibitem{Skynet} Skynet: Link32 Tactical Communication Protocol for Drone Swarms. \url{https://bitedits.github.io/skynet/skynet.pdf}
+\bibitem{PDEVol} Groupoid Infinity. Volume IV: PDEs. \url{https://groupoid.space/books/vol4/pde.pdf}
+\bibitem{CuckerSmale} F. Cucker, S. Smale. Emergent behavior in flocks. IEEE Trans. Autom. Control, 2007.
 
 \end{thebibliography}
 
