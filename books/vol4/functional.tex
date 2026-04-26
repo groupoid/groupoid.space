@@ -21,9 +21,11 @@
 $L^2$ простори, квантова механіка, оснащений Гільбертів простір.
 
 \ifincludeTOC
+\newpage
 \tableofcontents
 \fi
 
+\newpage
 \section{Homotopical Dynamics}
 
 \subsection*{Стан як об’єкт, еволюція як морфізм}
@@ -161,21 +163,47 @@ p(y \mid x) \cdot p(x) \quad \longleftrightarrow \quad p(x \mid y) \cdot p(y),
 
 \subsubsection{Вищі індуктивні типи та гомотопічна динаміка}
 
-У рамках Homotopy Type Theory / $\infty$-категорій нелінійні траєкторії природно моделюються за допомогою \textbf{higher inductive types} (HIT). Простір шляхів (path space) або простір траєкторій може бути визначений як HIT, що генерується точками (початковими станами) та вищими конструкторами, які накладають відношення гомотопії між траєкторіями (наприклад, репараметризація, гомотопії між потоками тощо).
+У Homotopy Type Theory (HoTT) нелінійні траєкторії моделюються синтетично за
+допомогою \textbf{higher inductive types} (HIT) — вищих індуктивних типів.
+Нехай \( M \) --- тип фазового простору (наприклад, гладкий многовид у cohesive topos).
+Простір траєкторій визначається як HIT \( \mathrm{Path}_\infty(M) \), згенерований:
+1) конструктором точок; 2) конструкторами шляхів; 3) вищими конструкторами для репараметризації та гомотопій між потоками.
 
-Конкретно, для неперервного часу траєкторія може бути елементом типу $\mathrm{Path}_\infty(M)$, де $\infty$-рівень гомотопії кодує еквівалентності між різними параметризаціями потоку. Функтор $\Pi_\infty : \mathbf{Top} \to \infty\text{-}\mathbf{Gpd}$ піднімає топологічну модель фазового простору до $\infty$-групоїда, в якому шляхи та вищі гомотопії відповідають динамічним траєкторіям і їх деформаціям.
+\[
+\left\{
+\begin{aligned}
+&\mathrm{pt} : M \to \mathrm{Path}_\infty(M),\\[4pt]
+&\mathrm{path} : \prod_{x,y : M} (x = y) \to \mathrm{Path}_\infty(M),\\[6pt]
+&\mathrm{hom} :
+  \prod_{\Phi,\Psi : I \to M}
+  \prod_{i : I} \Phi(i) = \Psi(i)
+  \to \mathrm{Path}_\infty(M),\\[6pt]
+\end{aligned}
+\right.
+\]
 
-Це дозволяє синтетично працювати з хаотичною динамікою: атрактори, інваріантні множини та біфуркації набувають гомотопічної інтерпретації як підтипи або модальності в $\infty$-групоїді.
+Формально \( \mathrm{Path}_\infty(M) \) реалізує \textbf{fundamental \(\infty\)-groupoid} \( \Pi_\infty(M) \) через функтор \( \Pi_\infty : \mathbf{Top} \to \infty\text{-}\mathbf{Gpd} \), де 1-морфізми відповідають шляхам, а \( k \)-морфізми --- гомотопіям вищого порядку між траєкторіями. Це узагальнює класичний path space до \(\infty\)-групоїда, в якому еквівалентності між різними параметризаціями потоку \( \Phi : \mathbb{R}_{\geq 0} \to \mathrm{Aut}(M) \) кодуються вищими гомотопіями.
 
-\subsubsection{Cohesive modalities та синтетична нелінійна динаміка}
+\textbf{Зв’язок з калібровочними полями.} HoTT є основою для опису gauge fields у фізиці: gauge field \( A \) --- це cocycle у twisted differential cohomology (Chern-Weil homomorphism у cohesive \(\infty\)-topos). Динаміка інтерпретується як parallel transport у configuration groupoid (space of field histories), де HIT-моделі описують homotopy між gauge-еквівалентними полями. У контексті M-theory higher structures (L\(_\infty\)-алгебри) динаміка кодується morphisms у moduli \(\infty\)-stacks конфігурацій полів, де higher gauge equivalences забезпечують інваріантність відносно higher homotopies.
 
-У \textbf{cohesive homotopy type theory} (а особливо в real-cohesive або differential-cohesive варіантах) нелінійні потоки описуються за допомогою модальностей, що розрізняють дискретну, неперервну та інфінітезимальну структуру. Модальність $\flat$ (flat / shape) витягує «підстилаючу» гомотопічну інформацію, тоді як диференціальна когезія дозволяє синтетично визначати векторні поля як інфінітезимальні автоморфізми.
+Таким чином, гомотопічна динаміка піднімає нелінійні напівгрупи функціонального аналізу до синтетичного рівня в cohesive \(\infty\)-topos, де всі щаблі драбини (від \(\mathbf{Top}\) до \(\mathbf{Quant}\)) описуються єдино через universal constructions.
 
-У цьому фреймворку нелінійне векторне поле $F$ може бути інтерпретоване як морфізм у категорії cohesive типів, а потік $\Phi_t$ — як інтегрована дія цього морфізму. Cohesive modalities дозволяють формулювати синтетичні версії теорем існування та єдиності розв’язків (включаючи теорему Пікара–Ліндефьофа) без явного звернення до метрики чи банахових просторів.
+\newpage
+\subsubsection{Когезивні модальності та синтетична нелінійна динаміка}
 
-Таким чином, нелінійна динаміка піднімається на найвищий щабель драбини — від класичних нелінійних напівгруп у функціональному аналізі через категорію функторів і HIT до синтетичної диференціальної геометрії в cohesive $\infty$-topos. 
+У \textbf{cohesive homotopy type theory} (а особливо в її диференціально-когезивному варіанті) нелінійні динамічні системи описуються за допомогою системи \textbf{adjoint modalities}, що реалізують розрізнення дискретної, неперервної та інфінітезимальної структури типів.
 
-Цей рівень безпосередньо підготовлює перехід до квантової механіки, де нелінійність (наприклад, у нелінійній теорії поля або взаємодії) також вимагає вищих структур, але вже в унітарній dagger-категорії.
+Нехай \( \flat \) (shape/flat modality) --- idempotent comonad, що витягує підстилаючу гомотопічну інформацію, \( \sharp \) (sharp modality) --- відповідний monad, а \( \Re \) (reduction) та \( \Im \) (infinitesimal shape) --- диференціальні модальності в differential cohesive \(\infty\)-topos. Ці модальності утворюють adjoint triples і quadruple, що задовольняють аксіоми cohesion (за Lawvere–Schreiber–Shulman).
+
+Нелінійне векторне поле \( F : M \to TM \) на фазовому просторі \( M \) (тип у cohesive topos) інтерпретується як морфізм, а потік \( \Phi_t \) виникає синтетично як інтегрована дія інфінітезимальних автоморфізмів. Інфінітезимальні об’єкти моделюються через модальність \( \Im \), яка дозволяє визначати формальні диски та jet bundles без звернення до аналітичних конструкцій.
+
+Теореми існування та єдиності розв’язків автономних звичайних диференціальних рівнянь (зокрема, теорема Пікара–Ліндельофа) набувають синтетичної форми: вони випливають з universal properties контракції в cohesive topos та idempotence модальностей, без явного використання метрики Банаха чи ліпшицевих умов у класичному сенсі. Аналогічно, нелінійні напівгрупи операторів у функціональному аналізі піднімаються до morphisms у категорії cohesive типів.
+
+У цьому фреймворку хаотична динаміка, атрактори та біфуркації описуються гомотопічно-когезивно: атрактори відповідають фіксованим точкам (або фіксованим підтипам) під дією higher morphisms, а інваріантні множини --- homotopy-coherent діаграмам у \(\infty\)-групоїді конфігурацій. 
+
+Cohesive modalities забезпечують єдиний синтетичний опис переходу від класичної нелінійної динаміки (на рівні \(\mathbf{Top}\) або \(\mathbf{Diff}\)) до її гомотопічної та диференціальної реалізації. Вони безпосередньо готують ґрунт для переходу до квантової механіки та gauge theory: у cohesive \(\infty\)-topos gauge fields і їх динаміка (parallel transport) описуються через диференціальну когомологію (Chern-Weil homomorphism), а higher structures (L\(_\infty\)-алгебри) виникають природно з moduli \(\infty\)-stacks конфігурацій полів.
+
+Таким чином, cohesive homotopy type theory надає універсальний фреймворк, у якому нелінійна динаміка, її гомотопічна інтерпретація та лінеаризація до гільбертових просторів (а згодом до квантової еволюції) описуються одночасно через adjoint modalities та universal constructions у cohesive \(\infty\)-topos.
 
 \subsection{Квантова механіка}
 
@@ -228,6 +256,7 @@ i\hbar \frac{d\psi}{dt} = H\psi \quad \Longrightarrow \quad U_t = e^{-iHt/\hbar}
 \end{CD}
 \]
 
+\newpage
 \subsection{Функторіальна лінеаризація}
 
 Ми визначаємо композицію функторів, яка реалізує лінеаризацію гомотопічної динаміки:
@@ -262,12 +291,28 @@ i\hbar \frac{d\psi}{dt} = H\psi \quad \Longrightarrow \quad U_t = e^{-iHt/\hbar}
 
 Функціональний аналіз і квантова механіка постають як природні представлення нижчих рівнів цієї ієрархії. Cohesive homotopy type theory пропонує єдиний синтетичний фреймворк, у якому всі щаблі драбини можуть бути описані одночасно.
 
-\begin{thebibliography}{9}
-\bibitem{VolI} Homotopy Type Theory: Univalent Foundations of Mathematics.
-\bibitem{VolIV} Cohesive Topoi and Geometric Quantization.
-\bibitem{Shulman} M. Shulman, Modal Homotopy Type Theory.
-\bibitem{Urs} Higher Category Theory and Physics (various works).
-\bibitem{FeynmanKac} R. P. Feynman, M. Kac, Interaction of Markov processes and quantum theory.
+\newpage
+\begin{thebibliography}{20}
+
+\bibitem{VolI} Groupoid Infinity. Volume I.
+\bibitem{VolIV} Groupoid Infinity. Volume IV.
+\bibitem{Shulman} M. Shulman. Modal Homotopy Type Theory.
+\bibitem{Jurco2019} B. Jurčo, C. Saemann, U. Schreiber, M. Wolf. Higher Structures in M-Theory. Fortsch. Phys. 67 (2019) 1910001, arXiv:1903.02807.
+\bibitem{SchreiberDCCT} U. Schreiber. Differential cohomology in a cohesive \(\infty\)-topos. arXiv:1310.7930.
+\bibitem{SchreiberQFT} U. Schreiber, M. Shulman. Quantum Gauge Field Theory in Cohesive Homotopy Type Theory. arXiv:1408.0054.
+\bibitem{SchreiberHPG} U. Schreiber. Higher prequantum geometry. arXiv:1601.05956.
+\bibitem{Haken1977} H. Haken. Synergetics: An Introduction. Nonequilibrium Phase Transitions and Self-Organization in Physics, Chemistry and Biology. Springer, 1977.
+\bibitem{Haken1983} H. Haken. Advanced Synergetics. Springer, 1983.
+\bibitem{Schwartz} L. Schwartz. Théorie des distributions. Hermann, Paris, 1950--1951.
+\bibitem{GelfandShilov} I. M. Gelfand, G. E. Shilov. Generalized Functions, Vols. 1--5. Academic Press, 1964--1968.
+\bibitem{Kolmogorov} A. N. Kolmogorov. Foundations of the Theory of Probability. Chelsea, 1950.
+\bibitem{FeynmanKac} R. P. Feynman, M. Kac. Interaction of Markov processes and quantum theory. 
+\bibitem{Marchuk} G. I. Marchuk. Mathematical Models in Environmental Problems. Elsevier, 1986.
+\bibitem{Sobolev} S. L. Sobolev. Some Applications of Functional Analysis in Mathematical Physics. AMS, 1963.
+\bibitem{nLabCohesive} nLab. Cohesive homotopy type theory. \url{https://ncatlab.org/nlab/show/cohesive+homotopy+type+theory}
+\bibitem{nLabHIT} nLab. Higher inductive types. \url{https://ncatlab.org/nlab/show/higher+inductive+type}
+\bibitem{nLabHigherGauge} nLab. Higher gauge theory. \url{https://ncatlab.org/nlab/show/higher+gauge+theory}
+
 \end{thebibliography}
 
 \end{document}

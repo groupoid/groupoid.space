@@ -55,12 +55,14 @@ Issue XXXIII: Abelian Categories (Grothendieck)
 Issue XXXIV: Grothendieck Yoga
 Issue XXXV: Grothendieck Schemes
 Issue XXXVI: Differential Geometry
+Issue XXXVII: Homotopical Dynamics (Kac)
 Issue XL: Stable Homotopy Theory (May)
 Issue XLI: Simplicial Homotopy Theory (Kan)
 Issue XLII: Modal Homotopy Theory (Schreiber)
 Issue XLIII: Local Homotopy Theory (Lewis)
 Issue XLIV: Super Homotopy Theory (Urs)
 Issue XLV: Cosmic Cube (Baez)
+Issue XLVII: Colored Spectra (Tonpa)
 
 Volume V: https://groupoid.space/books/vol5/vol5.pdf
 
