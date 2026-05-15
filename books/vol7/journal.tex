@@ -1,4 +1,5 @@
 \ProvidesPackage{journal}
+\usepackage{epigraph}
 \usepackage{hyperref}
 \usepackage[mathcal,mathbf]{euler}
 \usepackage{enumitem}
@@ -16,7 +17,9 @@
 \usepackage{url}
 \usepackage[utf8]{inputenc}
 \usepackage[english,ukrainian]{babel}
-%\usepackage[T1]{fontenc}
+\usepackage{tikz}
+\usepackage{tikz-cd}
+\usepackage[T1]{fontenc}
 \usepackage[only,llbracket,rrbracket,llparenthesis,rrparenthesis]{stmaryrd}
 
 \usetikzlibrary{babel}
@@ -24,8 +27,10 @@
 \newcommand*{\incmap}{\hookrightarrow}
 \newcommand*{\thead}[1]{\multicolumn{1}{c}{\bfseries #1}}
 \renewcommand{\Join}{\vee} % Join operation symbol
+\newcommand{\presheaf}{\mathcal{P}} % Presheaf (calligraphic P, common notation)
 \newcommand{\tabstyle}[0]{\scriptsize\ttfamily\fontseries{l}\selectfont}
-
+\newcommand{\defequ}{\stackrel{\text{def}}{=}} % Definitional equality
+\newcommand{\Spec}{\mathbf{Spec}}
 \newcommand{\Mod}{\text{Mod}}
 \newcommand{\dg}{\text{dg}}
 \newcommand{\Z}{\mathbb{Z}}
@@ -131,6 +136,7 @@
 {↦}{{\ensuremath{\mapsto}}}1
 {→}{{\ensuremath{\rightarrow}}}1
 {↔}{{\ensuremath{\leftrightarrow}}}1
+{⥤}{{\ensuremath{\Rightarrow}}}1
 {⇒}{{\ensuremath{\Rightarrow}}}1
 {⟹}{{\ensuremath{\Longrightarrow}}}1
 {⇐}{{\ensuremath{\Leftarrow}}}1
@@ -236,16 +242,11 @@
 \newtheorem{remark}{Remark}
 \newtheorem{corollary}{Corollary}
 \newtheorem{proposition}{Proposition}
-
-\newcommand{\Spec}{\mathbf{Spec}}
-
-\def\mapright#1{\xrightarrow{{#1}}}
-\def\mapleft#1{\xleftarrow{{#1}}}
-\def\under{\underline{\hspace{0.25cm}}}
+\usepackage{yfonts}
 
 \lefthyphenmin=1
 \hyphenpenalty=100
-\tolerance=11000
+\tolerance=2000
 \emergencystretch=1em
 \hfuzz=2pt
 \vfuzz=2pt
@@ -262,3 +263,5 @@
 \def\mapdiagl#1{\vcenter{\searrow}\rlap{\raise2pt{\scriptstyle{#1}}}}
 \def\mapdiagr#1{\vcenter{\swarrow}\rlap{\raise2pt{\scriptstyle{#1}}}}
 \def\under{\underline{\hspace{0.25cm}}}
+
+\def\lstlanguagefiles{syntax.tex}

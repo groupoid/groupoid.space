@@ -1,11 +1,10 @@
 default:
-	(xelatex --interaction nonstopmode top.tex)
+	pdflatex vol7.tex
 
 clean:
-	rm -f index.pdf
+	rm -f *.bbl
+	rm -f *.blg
 	rm -f *.toc
-	rm -f *.htoc
 	rm -f *.aux
-	rm -f *.haux
 	rm -f *.log
 	rm -f *.out

@@ -34,6 +34,7 @@ simplicial homotopy theory.
 
 
 \ifincludeTOC
+  \newpage
   \tableofcontents
 \else
   \addtocontents{toc}{\protect\newpage}
@@ -315,7 +316,6 @@ def Interval_uniq (C: Interval_form -> U) (a: Interval_form) (c: C a)
 \end{lstlisting}
 \end{theorem}
 
-\newpage
 \subsubsection{Shape Cubes}
 
 \begin{definition}[Cube Formation]
@@ -562,6 +562,7 @@ This document formalizes the inference rules for Martin-L\"of Type Theory (MLTT)
 and its extension to Simplicial Type Theory (STT) as presented in ``The Yoneda
 embedding in simplicial type theory'' (2025) by Gratzer, Weinberger, and Buchholtz.
 
+
 \subsubsection{Judgments}
 The type system uses:
 \begin{itemize}
@@ -621,6 +622,7 @@ $\Gamma \vdash \sum_{x : A} B \text{ type}$ is a fibration in the locally cartes
 The hierarchy $\mathcal{U}_i$ ensures MLTT consistency by stratifying types. \\
 \textit{Proof Sketch:} Formation introduces the hierarchy. Introduction embeds types. Elimination decodes them. Computation ensures idempotence. Uniqueness guarantees coherence.
 
+\newpage
 \subsubsection{Interval Type ($\mathbb{I}$)}
 \textbf{Definition}[Inference Rules]
 \begin{itemize}
@@ -649,6 +651,7 @@ $\mathbb{I}$ forms a bounded distributive lattice, satisfying $\prod_{i,j : \mat
 For $\mu$, $\text{mod}_\mu : A \to \langle \mu \mid A \rangle$ is an equivalence if $\text{mod}_\mu(a) = \text{mod}_\mu(b) \to \langle \mu \mid a = b \rangle$ is an equivalence (Axiom B). \\
 \textit{Proof Sketch:} Formation and introduction define the modal type. Elimination and computation ensure injectivity. Axiom B guarantees surjectivity.
 
+\newpage
 \subsubsection{Modal $\Pi$-Types}
 \textbf{Definition}[Inference Rules]
 \begin{itemize}
@@ -683,6 +686,52 @@ For a category $C$, there exists a fully faithful $\mathbf{y} : C \to \widehat{C
     \textit{Proof Sketch:} Modal $\Pi$-types and $\sharp$ define functor categories. Yoneda ensures universality.
 \end{itemize}
 
+\newpage
+\subsection*{Approach Analysis: Modal STT vs. Synthetic $\infty$-categories}
+
+There are two primary ways to extend a cubical type theory with simplicial structure:
+
+\begin{enumerate}
+    \item \textbf{Synthetic $\infty$-categories (Riehl-Shulman 2017)}: Adds a dedicated simplicial interval, a face lattice for subshapes (topes), and extension types. This approach is highly expressive but requires significant kernel changes to handle a new class of dimensions and lattices.
+    \item \textbf{Modal STT (Buchholtz et al. 2025)}: Leverages modal type theory to manage categorical variance and discreteness. It uses the "Flat Modality" ($\flat$) for discrete types and specialized modalities ($\sharp$, $\text{tw}$) for categorical operations.
+\end{enumerate}
+
+For a minimal extension of the \textbf{Anders} kernel, the \textbf{Modal STT} approach is preferred as it reuses the existing modal infrastructure (modal contexts, context restrictions, and variance tracking) instead of introducing a separate simplicial layer.
+
+\subsubsection*{Minimal Constructors for STT}
+
+The following primitive constructions are required for a minimal modal implementation of STT:
+
+\begin{itemize}
+    \item \textbf{Flat Modality} ($\flat$): The discrete modality, identifying types with no higher simplicial structure.
+    \item \textbf{Sharp Modality} ($\sharp$): The modality for presheaf formation and hom-types.
+    \item \textbf{Twisted Modality} ($\text{tw}$): Required for the twisted arrow category, essential for the Yoneda Lemma.
+    \item \textbf{Modal $\Pi$-Types} ($\prod_{x :_\mu A} B$): Dependent functions that track categorical variance via modality $\mu$.
+    \item \textbf{Modal Contexts}: Support for context extensions of the form $\Gamma, \{\mu\}$ and variable annotations $x :_\mu A$.
+\end{itemize}
+
+\newpage
+\subsubsection{Canonical Equations for STT}
+
+The STT extension introduces the following canonical reduction rules for the new type formers:
+
+\paragraph{Modalities ($\sharp$, $\text{tw}$)}
+The reduction behavior for the new modalities follows the standard modal pattern:
+\begin{itemize}
+    \item $\text{transp}^i (\sharp A) \phi (\sharp\text{-unit } a) = \sharp\text{-unit } (\text{transp}^i A \phi a)$
+    \item $\text{hcomp}^i (\sharp A) [\phi \mapsto \sharp\text{-unit } u] (\sharp\text{-unit } u_0) = \sharp\text{-unit } (\text{hcomp}^i A [\phi \mapsto u] u_0)$
+    \item $\text{transp}^i (\text{tw } A) \phi (\text{tw-unit } a) = \text{tw-unit } (\text{transp}^i A \phi a)$
+    \item $\text{hcomp}^i (\text{tw } A) [\phi \mapsto \text{tw-unit } u] (\text{tw-unit } u_0) = \text{tw-unit } (\text{hcomp}^i A [\phi \mapsto u] u_0)$
+\end{itemize}
+
+\paragraph{Modal $\Pi$-Types}
+The rules for modal $\Pi$-types $\prod_{x :_\mu A} B$ generalize the standard $\Pi$-type rules with modal context awareness:
+\begin{itemize}
+    \item $\text{transp}^i (\prod_{x :_\mu A} B) \phi u_0 v = \text{transp}^i B[x/w] \phi (u_0 w(i/0))$, where $w = \text{tFill}^{-i} (x :_\mu A) \phi v$.
+    \item $\text{hcomp}^i (\prod_{x :_\mu A} B) [\phi \mapsto u] u_0 v = \text{hcomp}^i B[x/v] [\phi \mapsto u v] (u_0 v)$.
+\end{itemize}
+
+\newpage
 
 \begin{thebibliography}{99}
 \bibitem{Uni13} Univalent Foundations Program. \emph{Homotopy Type Theory: Univalent Foundations of Mathematics}. \url{http://homotopytypetheory.org/book/}, 2013.
