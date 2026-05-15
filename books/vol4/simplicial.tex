@@ -711,6 +711,27 @@ The following primitive constructions are required for a minimal modal implement
 \end{itemize}
 
 \newpage
+\subsubsection{Canonical Equations for STT}
+
+The STT extension introduces the following canonical reduction rules for the new type formers:
+
+\paragraph{Modalities ($\sharp$, $\text{tw}$)}
+The reduction behavior for the new modalities follows the standard modal pattern:
+\begin{itemize}
+    \item $\text{transp}^i (\sharp A) \phi (\sharp\text{-unit } a) = \sharp\text{-unit } (\text{transp}^i A \phi a)$
+    \item $\text{hcomp}^i (\sharp A) [\phi \mapsto \sharp\text{-unit } u] (\sharp\text{-unit } u_0) = \sharp\text{-unit } (\text{hcomp}^i A [\phi \mapsto u] u_0)$
+    \item $\text{transp}^i (\text{tw } A) \phi (\text{tw-unit } a) = \text{tw-unit } (\text{transp}^i A \phi a)$
+    \item $\text{hcomp}^i (\text{tw } A) [\phi \mapsto \text{tw-unit } u] (\text{tw-unit } u_0) = \text{tw-unit } (\text{hcomp}^i A [\phi \mapsto u] u_0)$
+\end{itemize}
+
+\paragraph{Modal $\Pi$-Types}
+The rules for modal $\Pi$-types $\prod_{x :_\mu A} B$ generalize the standard $\Pi$-type rules with modal context awareness:
+\begin{itemize}
+    \item $\text{transp}^i (\prod_{x :_\mu A} B) \phi u_0 v = \text{transp}^i B[x/w] \phi (u_0 w(i/0))$, where $w = \text{tFill}^{-i} (x :_\mu A) \phi v$.
+    \item $\text{hcomp}^i (\prod_{x :_\mu A} B) [\phi \mapsto u] u_0 v = \text{hcomp}^i B[x/v] [\phi \mapsto u v] (u_0 v)$.
+\end{itemize}
+
+\newpage
 
 \begin{thebibliography}{99}
 \bibitem{Uni13} Univalent Foundations Program. \emph{Homotopy Type Theory: Univalent Foundations of Mathematics}. \url{http://homotopytypetheory.org/book/}, 2013.
