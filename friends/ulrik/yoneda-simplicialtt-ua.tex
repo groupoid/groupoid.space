@@ -1,6 +1,5 @@
 \documentclass[12pt]{article}
 \usepackage{expl3}
-\makeatletter
 \usepackage{cmap}
 \usepackage[T1,T2A]{fontenc}
 \usepackage[utf8]{inputenc}
@@ -19,7 +18,6 @@
 \usepackage{mathpartir}
 \usepackage{array}
 \usepackage{mathtools}
-\let\Bbbk\relax
 \usepackage{etoolbox}
 \usepackage{amsthm}
 \usepackage{thmtools}
@@ -27,14 +25,15 @@
 \usepackage{enumitem}
 \usepackage{hyperref}
 \usepackage{euscript}
-% lmcs compatibility shims
+
 \newcommand{\lmcsorcid}[1]{}
 \newcommand{\address}[1]{}
 \providecommand{\email}[1]{}
-% Theorem environments (normally provided by lmcs.cls)
+
 \declaretheoremstyle[spaceabove=6pt,spacebelow=6pt,headfont=\bfseries,notefont=\normalfont,notebraces={(}{)},bodyfont=\itshape]{plain}
 \declaretheoremstyle[spaceabove=6pt,spacebelow=6pt,headfont=\bfseries,notefont=\normalfont,notebraces={(}{)},bodyfont=\normalfont]{definition}
 \declaretheoremstyle[spaceabove=6pt,spacebelow=6pt,headfont=\bfseries\itshape,notefont=\normalfont,notebraces={(}{)},bodyfont=\normalfont]{remark}
+
 \declaretheorem[style=plain,name=Theorem]{thm}
 \declaretheorem[style=plain,name=Lemma,sibling=thm]{lem}
 \declaretheorem[style=plain,name=Proposition,sibling=thm]{prop}
@@ -66,15 +65,15 @@
 \NewDocumentCommand{\Pow}{}{\mathcal{P}}
 \declaretheorem[style=plain]{axiom}
 \renewcommand*{\theaxiom}{\Alph{axiom}}
-%\newtheoremstyle{special}% name
-%  {\topsep}%   Space above
-%  {\topsep}%   Space below
-%  {\itshape}%  Body font
-%  {}%          Indent amount
-%  {\bfseries}% Theorem head font
-%  {}%          Punctuation after theorem head -- blank
-%  {0.5em}%     Space after theorem head (0.5em is the default)
-%  {{\thmname{#1}\thmnumber{ #2$^{\bm *}\!\!\!$.}\thmnote{\ \textmd{(#3)}}}}
+\newtheoremstyle{special}% name
+  {\topsep}%   Space above
+  {\topsep}%   Space below
+  {\itshape}%  Body font
+  {}%          Indent amount
+  {\bfseries}% Theorem head font
+  {}%          Punctuation after theorem head -- blank
+  {0.5em}%     Space after theorem head (0.5em is the default)
+  {{\thmname{#1}\thmnumber{ #2$^{\bm *}\!\!\!$.}\thmnote{\ \textmd{(#3)}}}}
 \NewDocumentCommand{\etc}{}{etc.}
 \NewDocumentCommand{\eg}{}{e.g.}
 \NewDocumentCommand{\ie}{}{i.e.}
@@ -1571,7 +1570,8 @@ $\Delta^n$, межі $\partial \Delta^n$ та роги $\Lambda_k^n$. Зокре
 
   Якщо $n = 0$, то за умовою (1) відображення $F_*^\dagger$ є сюр'єктивним, а за умовою (2) у поєднанні з умовою Резка воно є вкладенням. Відповідно, $F_*^\dagger$ є еквівалентністю в цьому випадку. Випадок $n = 1$ є безпосереднім наслідком випадків для $n = 0$ разом з умовою (2). Загалом, оскільки $C^{\Delta^n} \Equiv C^{\Delta^1} \times_{C} \dots \times_C C^{\Delta^1}$ за умовою Сегала (і аналогічно для $D$), а $\Modify[\GM]{-}$ комутує з волокнистими добутками, випадок для $n \ge 2$ випливає з випадків $n=0,1$.
 \end{proof}
-\subsection{Basic building blocks for categories}
+
+\subsection{Базові блоки для побудови категорій}
 Finally, we recall two results from our earlier work~\parencite{gratzer:2024} that will be used repeatedly within this work
 to construct new categories. The first is a construction of \emph{full subcategories} using $\SM$:
 
@@ -2160,7 +2160,9 @@ category of sets in simplicial type theory, \eg{}, we shall use this category to
   $\PSH{f} \defeq (f^\dagger)^* : \PSH{C} \to \PSH{D}$ є правим спряженим із лівим спряженим $f_!$.
 \end{thm}
 \begin{proof}
-  Для простоти позначень ми замінимо $C$ та $D$ на $\Modify[\OM]{C}$ та $\Modify[\OM]{D}$. За Теоремою~\ref{thm:adj:pw-to-full-adj} достатньо припустити, що $\DeclVar{X}{\GM}{D \to \Space}$, і побудувати відображення $f_!\prn{X} : C \to \Space$ разом із природною бієкцією $\Prod{Y} \Hom{f_!\prn{X}}{Y} \Equiv \Hom{X}{f^*\prn{Y}}$. Це є безпосереднім наслідком \textcite[Теорема 2.41]{rijke:2020} після локалізації композиції $\Sum{c : C} X\prn{C} \to D$ відносно відображення $\brc{0} \to \Int$.
+  Для простоти позначень ми замінимо $C$ та $D$ на $\Modify[\OM]{C}$ та $\Modify[\OM]{D}$. За Теоремою~\ref{thm:adj:pw-to-full-adj} достатньо припустити, що $\DeclVar{X}{\GM}{D \to \Space}$, і побудувати відображення $f_!\prn{X} : C \to \Space$ разом із природною бієкцією
+
+$\Prod{Y} \Hom{f_!\prn{X}}{Y} \Equiv \Hom{X}{f^*\prn{Y}}$. Це є безпосереднім наслідком \textcite[Теорема 2.41]{rijke:2020} після локалізації композиції $\Sum{c : C} X\prn{C} \to D$ відносно відображення $\brc{0} \to \Int$.
 \end{proof}
 
 \begin{cor}
@@ -2212,7 +2214,9 @@ category of sets in simplicial type theory, \eg{}, we shall use this category to
     \\
     &\Equiv \prn{\Sum{\DeclVar{c}{}{\Modify[\OM]{C}}} X\prn{c} \times \Hom{f^\dagger c}{d}} \to Z
   \end{align*}
-  Отже, $\PSH{d}f_!X$ задовольняє універсальну властивість типу $\Grpdify \prn{\Sum{\DeclVar{c}{}{\Modify[\OM]{C}}} X\prn{c} \times \Hom{f^\dagger c}{d}}$.
+  Отже, $\PSH{d}f_!X$ задовольняє універсальну властивість типу
+
+ $\Grpdify \prn{\Sum{\DeclVar{c}{}{\Modify[\OM]{C}}} X\prn{c} \times \Hom{f^\dagger c}{d}}$.
 \end{proof}
 
 Наступна лема не вимагає застосування Теореми~\ref{thm:adj:pw-to-full-adj}, а є просто наслідком маніпулювання природними перетвореннями:
@@ -2336,7 +2340,7 @@ category of sets in simplicial type theory, \eg{}, we shall use this category to
 \begin{lem}
   \label{lem:kan:lan-exists-for-psh}
   Якщо $E = \PSH{A}$ для деякої категорії $\DeclVar A\GM\Uni$, тоді $\Lan{f}$ існує.
-  Більше того, якщо $\DeclVar{X}{\GM}{C \to E}$ та $\DeclVar{d}{\GM}{D}$, то
+  Більше того, якщо $\DeclVar{X}{\GM}{C \to E}$ та $\DeclVar{d}{\GM}{D}$, то \\
   $\Lan{f}\,X\,d = \Colim{} \prn{\SLICE{C}{d} \to C \to E} = \Grpdify\prn{\Sum{\prn{c,\_} : \SLICE{C}{d}} X\prn{c}}$.
 \end{lem}
 Це дає більш загально:
@@ -2950,7 +2954,7 @@ and the Beck--Chevalley transformation corresponds to the fibered map $\DeclVar{
   } до \STT{}. Крім того, ми сподіваємося розширити асистент доведення, такий як Agda~\parencite{agda}, необхідною підтримкою модальностей, щоб надати перевірені машиною версії доведень з цієї статті. З боку основ теорії, \STT{} наразі спирається на жменьку аксіом (Додаток~\ref{sec:axioms}) і тому задовольняє лише властивість нормалізації, але не канонічності. У майбутній роботі ми сподіваємося дослідити, яким із цих принципів можна надати обчислювальної інтерпретації та до якої міри можна «обчислювати» за допомогою синтетичних $\infty$-категорій.
 
 \appendix
-%
+
 \section{Формальні правила \texorpdfstring{\MTT{}}{MTT}}
 \label{sec:mtt-rules}
 
@@ -3198,9 +3202,9 @@ and the Beck--Chevalley transformation corresponds to the fibered map $\DeclVar{
   }
 \end{mathparpagebreakable}
 
+\newpage
 \section{Повний список аксіом}
 \label{sec:axioms}
-
 
 \intaxiom*
 \crispidaxiom*
@@ -3210,10 +3214,18 @@ and the Beck--Chevalley transformation corresponds to the fibered map $\DeclVar{
 \cubessepaxiom*
 \twarraxiom*
 
-Наступна \emph{аксіома двоїстості} була вперше досліджена в \textcite{blechschmidt:2023} і тягне за собою те, що, наприклад, $\Int$ є категорією. Близько пов'язані аксіоми та наслідки розглядаються в \textcite{pugh:2025} та \textcite{cherubini:2023}. Ми не вводили її в основній частині статті, оскільки вона не була явно використана в жодному з наших доведень.
+Наступна \emph{аксіома двоїстості} була вперше досліджена в \textcite{blechschmidt:2023} і тягне за собою те,
+що, наприклад, $\Int$ є категорією. Близько пов'язані аксіоми та наслідки розглядаються в \textcite{pugh:2025}
+та \textcite{cherubini:2023}. Ми не вводили її в основній частині статті, оскільки вона не була явно використана
+в жодному з наших доведень.
+
 \begin{axiom}
-  Якщо $A$ --- скінченно-породжена $\Int$-алгебра \textup(\ie{}, $A$ є обмеженою дистрибутивною ґраткою, еквівалентною фактор-кільцю $\Int[x_1,\ldots,x_n]$ за скінченною кількістю відношень\textup), а $\Hom[\Int\mathrm{Alg}]{A}{\Int}$ --- тип гомоморфізмів $\Int$-алгебр, тоді відображення $\lambda a\,f.\,f\prn{a} : A \to \prn{\Hom[\Int\mathrm{Alg}]{A}{\Int} \to \Int}$ є еквівалентністю.
+  Якщо $A$ --- скінченно-породжена $\Int$-алгебра \textup(\ie{}, $A$ є обмеженою дистрибутивною решіткою,
+еквівалентною фактор-кільцю $\Int[x_1,\ldots,x_n]$ за скінченною кількістю відношень\textup),
+а $\Hom[\Int\mathrm{Alg}]{A}{\Int}$ --- тип гомоморфізмів $\Int$-алгебр, тоді відображення
+$\lambda a\,f.\,f\prn{a} : A \to \prn{\Hom[\Int\mathrm{Alg}]{A}{\Int} \to \Int}$ є еквівалентністю.
 \end{axiom}
+
 \begin{thebibliography}{99}
 
 \providecommand{\url}[1]{{#1}}
