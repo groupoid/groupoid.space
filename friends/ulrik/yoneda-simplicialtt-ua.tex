@@ -2910,23 +2910,14 @@ and the Beck--Chevalley transformation corresponds to the fibered map $\DeclVar{
 \end{proof}
 
 Можна також довести аналогічну формулу \emph{правильної} зміни бази, як у \cite[Теорема 8.4.6]{cisinski:2024}.
-\section{Conclusions and future work}
+\section{Висновки та майбутня робота}
 \label{sec:conc}
 
-We have introduced and studied the impact of the $\infty$-categorical Yoneda embedding in
-\STT{}. This includes the development of classical concepts (Kan extensions, adjoints, (co)limits,
-\etc{}), all in the synthetic $\infty$-categorical setting. While some of the basic theory had been
-investigated in \STT{} already, we were able to produce the first non-trivial concrete examples of,
-\eg{}, adjunctions (Theorem~\ref{thm:adj:precomp-is-right-adj}) and give several more refined versions of
-existing theorems (Theorem~\ref{thm:tw:nat-iso}) which more closely match their standard counterparts.
+Ми ввели та дослідили вплив $\infty$-категорного вкладення Йонеди в \STT{}. Це включає розробку класичних понять (розширення Кана, спряжені відображення, (ко)границі тощо) — і все це у синтетичному $\infty$-категорному контексті. Хоча деякі основи теорії вже досліджувалися в \STT{} раніше, нам вдалося отримати перші нетривіальні конкретні приклади, наприклад, спряжень (Теорема~\ref{thm:adj:precomp-is-right-adj}), та надати кілька більш витончених версій уже відомих теорем (Теорема~\ref{thm:tw:nat-iso}), які ближче відповідають їхнім стандартним аналогам.
 
-\subsection{Related work}
+\subsection{Споріднені роботи}
 
-There are several closely related type-theoretic approaches to synthetic ($\infty$-)category
-theory. We may roughly divide these into (1) directed type theory, where every type is a category
-but various operations ($\Prod{}$) must be restricted, and (2) variations on simplicial type
-theory. For instance, many directed type theories have been proposed and studied over the years~%
-\parencite{%
+Існує кілька тісно пов'язаних тип-теоретичних підходів до синтетичної ($\infty$-)теорії категорій. Ми можемо грубо розділити їх на: (1) спрямовану теорію типів (directed type theory), де кожен тип є категорією, але різні операції ($\Prod{}$) мають бути обмежені, та (2) варіації на тему симпліційної теорії типів. Наприклад, протягом останніх років було запропоновано та досліджено багато спрямованих теорій типів~\parencite{%
   licata:2011,%
   warren:2013,%
   nuyts:2015,%
@@ -2940,67 +2931,30 @@ theory. For instance, many directed type theories have been proposed and studied
   nuyts:2020,%
   neumann:2024,%
   }.
-In general, while these type theories are a promising approach to formalize category theory in type
-theory, none of them have thus far received as much attention as \STT{} and, consequently, none have
-developed category theory to the extent of this work. Furthermore, it is substantially harder to
-design a directed type theory in this style (as it is a more radical alteration of the basic rules
-of type theory) and most proposals handle only $1$-category theory rather than
-$\prn{\infty,1}$-categories. We note, however, that some of these type theories do include a version
-of Theorem~\ref{thm:tw:strong-yoneda} in the form of directed path
-induction~\parencite{north:2018,nuyts:2020,neumann:2024}. Given, however, that few of our arguments
-rely on types which are not categories, we expect many of them to transfer to sufficiently rich
-future variants of directed type theory.
+Загалом, хоча ці теорії типів є перспективним підходом до формалізації теорії категорій у теорії типів, жодна з них досі не привернула стільки уваги, скільки \STT{}, і, як наслідок, у жодній з них теорія категорій не була розвинена до такої міри, як у цій роботі. Крім того, розробити спрямовану теорію типів у такому стилі є значно складнішим завданням (оскільки це вимагає більш радикальної зміни базових правил теорії типів), і більшість пропозицій стосуються лише теорії $1$-категорій, а не $\prn{\infty,1}$-категорій. Проте ми зазначаємо, що деякі з цих теорій типів містять версію Теореми~\ref{thm:tw:strong-yoneda} у формі спрямованої індукції шляхів (directed path induction)~\parencite{north:2018,nuyts:2020,neumann:2024}. З огляду на те, що лише небагато наших аргументів спираються на типи, які не є категоріями, ми очікуємо, що багато з них перенесуться на достатньо багаті майбутні варіанти спрямованої теорії типів.
 
-Other variations of simplicial type theory have been considered in the literature. For instance,
-several papers use additional judgmental structure (extension types) to get more definitional
-equalities around
-hom-types~\parencite{riehl:2017,bardomiano:2021,weinberger:phd,buchholtz:2023,weinberger:twosided:2024,weinberger:sums:2024}
-at the cost of making the interval a second-class type similar to two-level type
-theory~\parencite{annenkov:2023,voevodsky:2013}. Other versions have favored a cubical
-interval~\parencite{gratzer:2024} or even a cubical interval atop a cubical version of
-\HoTT{}~\parencite{weaver:2020,weaver:phd}. Aside from the addition of modalities, our version of
-\STT{} is deliberately minimalistic: we use only ordinary \HoTT{} with a handful of
-postulates. Accordingly, our results can be interpret into essentially any incarnation of modal
-\STT{} and does not rely on extra definitional equalities.
+В літературі також розглядалися інші варіації симпліційної теорії типів. Наприклад, у кількох роботах використовується додаткова структура суджень (типи розширень, extension types), щоб отримати більше дефініційних рівностей навколо hom-типів~\parencite{riehl:2017,bardomiano:2021,weinberger:phd,buchholtz:2023,weinberger:twosided:2024,weinberger:sums:2024} ціною перетворення інтервалу на тип другого класу, подібного до дволівенової теорії типів~\parencite{annenkov:2023,voevodsky:2013}. Інші версії віддали перевагу кубічному інтервалу~\parencite{gratzer:2024} або навіть кубічному інтервалу поверх кубічної версії \HoTT{}~\parencite{weaver:2020,weaver:phd}. Окрім додавання модальностей, наша версія \STT{} є свідомо мінімалістичною: ми використовуємо лише звичайну \HoTT{} з невеликою кількістю постулатів. Відповідно, наші результати можуть бути інтерпретовані в практично будь-кому втіленні модальної \STT{} і не покладаються на додаткові дефініційні рівності.
 
-Finally, there are many attempts to formulate more conceptual and synthetic foundations for
-$\infty$-category theory which do not rely on type theory. For instance, the $\infty$-cosmos program
-of \textcite{riehl:2022} aims to give a systematic account of the formal category theory and
-model-independence using 2-category theory. On the other hand, most practitioners in the field
-attempt to give looser ``model independent'' arguments which avoid relying on explicit computations
-as much as possible. We have successfully translated some of these arguments into our framework,
-proving that this informal discipline is effective (\eg{}, Section~\ref{sec:kan}). More recently,
-\textcite{cisinski:2024} have begun to redevelop $\infty$-category theory in a deliberately informal
-and high-level language, splitting the difference between a formal theory like \STT{} and the usual
-``model-independent'' discipline of practitioners. We expect that their arguments can be translated
-into \STT{} and we have shown that some of their primitive axioms are \emph{provable}
-in \STT{} (\eg{},
-Theorems~\ref{thm:prelims:space} and \ref{thm:prelims:full-subcat} and Lemma~\ref{lem:adj:functoriality-of-init-objects}).
+Нарешті, існує багато спроб сформулювати більш концептуальні та синтетичні основи для теорії $\infty$-категорій, які не спираються на теорію типів. Наприклад, програма $\infty$-космосу (the $\infty$-cosmos program) \textcite{riehl:2022} має на меті дати систематичний опис формальної теорії категорій та незалежності від моделей, використовуючи 2-теорію категорій. З іншого боку, більшість практиків у цій галузі намагаються наводити більш вільні «незалежні від моделей» аргументи, уникаючи, наскільки це можливо, явних обчислень. Ми успішно перенесли деякі з цих аргументів у нашу структуру, довівши, що ця неформальна дисципліна є ефективною (наприклад, Розділ~\ref{sec:kan}). Нещодавно \textcite{cisinski:2024} розпочали переробку теорії $\infty$-категорій на свідомо неформальній мові високого рівня, знаходячи компроміс між формальною теорією на кшталт \STT{} та звичайною «незалежною від моделей» практикою. Ми очікуємо, що їхні аргументи можуть бути перекладені в \STT{}, і ми показали, що деякі з їхніх вихідних аксіом є \emph{довідними} в \STT{} (наприклад, Теореми~\ref{thm:prelims:space} та~\ref{thm:prelims:full-subcat}, а також Лема~\ref{lem:adj:functoriality-of-init-objects}).
 
-\subsection{Future work}
+\subsection{Майбутня робота}
 
-Many promising avenues for future work remain to be explored. While we have focused on presheaf
-categories and immediate consequences of their theory, we plan to port other foundational results
-from category theory (presentable and accessible categories, Bousfield localizations, topos theory,
-\etc{}) into \STT{}.  It would also be desirable to adapt more parts of the internal
-$\infty$-category theory and $\infty$-topos theory of Martini and
-Wolf~\parencite{martini:cocartesianfibrations:2022,martini:colimitscocompletions:2021,martini:phd,martini:presentable:2022,martini:propermorphisms:2023,martini:yonedaslemma:2021,wolf:phd}
-to \STT{}.
-Additionally, we hope to extend a proof assistant like Agda~\parencite{agda}
-with the necessary support for modalities to give machine-checked versions of the proofs in this
-paper. On the foundational side, \STT{} presently relies on a handful of axioms
-(Appendix~\ref{sec:axioms}) and therefore satisfies only normalization and not canonicity. In future work,
-we hope to examine which of these principles can be given computational interpretations and to what
-extent one can `compute' with synthetic $\infty$-categories.
+Багато перспективних напрямків для майбутньої роботи залишаються відкритими для дослідження. Хоча ми зосередилися на категоріях передпучків та безпосередніх наслідках їхньої теорії, ми плануємо перенести інші фундаментальні результати теорії категорій (презентовані та доступні категорії, локалізації Бусфілда, теорію топосів тощо) в \STT{}. Також було б бажано адаптувати більше частин внутрішньої теорії $\infty$-категорій та теорії $\infty$-топосів Мартіні та Вольфа~\parencite{%
+  martini:cocartesianfibrations:2022,%
+  martini:colimitscocompletions:2021,%
+  martini:phd,%
+  martini:presentable:2022,%
+  martini:propermorphisms:2023,%
+  martini:yonedaslemma:2021,%
+  wolf:phd%
+  } до \STT{}. Крім того, ми сподіваємося розширити асистент доведення, такий як Agda~\parencite{agda}, необхідною підтримкою модальностей, щоб надати перевірені машиною версії доведень з цієї статті. З боку основ теорії, \STT{} наразі спирається на жменьку аксіом (Додаток~\ref{sec:axioms}) і тому задовольняє лише властивість нормалізації, але не канонічності. У майбутній роботі ми сподіваємося дослідити, яким із цих принципів можна надати обчислювальної інтерпретації та до якої міри можна «обчислювати» за допомогою синтетичних $\infty$-категорій.
 
 \appendix
 %
-\section{The formal rules of \texorpdfstring{\MTT{}}{MTT}}
+\section{Формальні правила \texorpdfstring{\MTT{}}{MTT}}
 \label{sec:mtt-rules}
 
-The formal syntax of \MTT{} is comprised of four judgments: $\IsCx{\Gamma}$,
-$\IsSb{\delta}{\Delta}$, $\IsTm{a}{A}$, and $\IsTy{A}$. We list the relevant novel rules for these
-judgments below:%
+Формальний синтаксис \MTT{} складається з чотирьох суджень: $\IsCx{\Gamma}$, $\IsSb{\delta}{\Delta}$, $\IsTm{a}{A}$ та $\IsTy{A}$. Нижче ми наводимо відповідні нові правила для цих суджень:%
 \def\MathparLineskip{\lineskip=11pt}
 \begin{mathparpagebreakable}
   \JdgFrame{\IsCx{\Gamma}}
@@ -3244,7 +3198,7 @@ judgments below:%
   }
 \end{mathparpagebreakable}
 
-\section{The complete list of axioms}
+\section{Повний список аксіом}
 \label{sec:axioms}
 
 
@@ -3256,23 +3210,10 @@ judgments below:%
 \cubessepaxiom*
 \twarraxiom*
 
-The following \emph{duality axiom} was first studied by \textcite{blechschmidt:2023} and implies
-that, \eg{}, $\Int$ is a category. Closely related axioms and consequences are considered by
-\textcite{pugh:2025} and \textcite{cherubini:2023}. We did not introduce it in the main body of the
-paper as it was not explicitly invoked in any of our proofs.
+Наступна \emph{аксіома двоїстості} була вперше досліджена в \textcite{blechschmidt:2023} і тягне за собою те, що, наприклад, $\Int$ є категорією. Близько пов'язані аксіоми та наслідки розглядаються в \textcite{pugh:2025} та \textcite{cherubini:2023}. Ми не вводили її в основній частині статті, оскільки вона не була явно використана в жодному з наших доведень.
 \begin{axiom}
-  If $A$ is a finitely presented $\Int$-algebra \textup(\ie{}, $A$ is a bounded distributive lattice
-  equivalent to $\Int[x_1,\ldots,x_n]$ quotiented by finitely many relations\textup) and
-  $\Hom[\Int\mathrm{Alg}]{A}{\Int}$ is the type of $\Int$-algebra homomorphisms, then the map
-  $\lambda a\,f.\,f\prn{a} : A \to \prn{\Hom[\Int\mathrm{Alg}]{A}{\Int} \to \Int}$ is an equivalence.
+  Якщо $A$ --- скінченно-породжена $\Int$-алгебра \textup(\ie{}, $A$ є обмеженою дистрибутивною ґраткою, еквівалентною фактор-кільцю $\Int[x_1,\ldots,x_n]$ за скінченною кількістю відношень\textup), а $\Hom[\Int\mathrm{Alg}]{A}{\Int}$ --- тип гомоморфізмів $\Int$-алгебр, тоді відображення $\lambda a\,f.\,f\prn{a} : A \to \prn{\Hom[\Int\mathrm{Alg}]{A}{\Int} \to \Int}$ є еквівалентністю.
 \end{axiom}
-
-%
-%
-%
-%
- 
-
 \begin{thebibliography}{99}
 
 \providecommand{\url}[1]{{#1}}
