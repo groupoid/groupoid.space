@@ -1,0 +1,4167 @@
+\documentclass[12pt]{article}
+\usepackage{expl3}
+\makeatletter
+\usepackage{cmap}
+\usepackage[T1,T2A]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[ukrainian]{babel}
+\NewDocumentCommand{\HComp}{}{\mathbin{\ast}}
+\usepackage{amssymb}
+\usepackage{bm}
+\usepackage{xcolor}
+\usepackage{fontawesome}
+\usepackage{mleftright}
+\usepackage{xparse}
+\usepackage{ifthen}
+\usepackage{scalerel}
+\usepackage{epigraph}
+\usepackage{datetime}
+\usepackage{mathpartir}
+\usepackage{array}
+\usepackage{mathtools}
+\let\Bbbk\relax
+\usepackage{etoolbox}
+\usepackage{amsthm}
+\usepackage{thmtools}
+\usepackage{thm-restate}
+\usepackage{enumitem}
+\usepackage{hyperref}
+\usepackage{euscript}
+% lmcs compatibility shims
+\newcommand{\lmcsorcid}[1]{}
+\newcommand{\address}[1]{}
+\providecommand{\email}[1]{}
+% Theorem environments (normally provided by lmcs.cls)
+\declaretheoremstyle[spaceabove=6pt,spacebelow=6pt,headfont=\bfseries,notefont=\normalfont,notebraces={(}{)},bodyfont=\itshape]{plain}
+\declaretheoremstyle[spaceabove=6pt,spacebelow=6pt,headfont=\bfseries,notefont=\normalfont,notebraces={(}{)},bodyfont=\normalfont]{definition}
+\declaretheoremstyle[spaceabove=6pt,spacebelow=6pt,headfont=\bfseries\itshape,notefont=\normalfont,notebraces={(}{)},bodyfont=\normalfont]{remark}
+\declaretheorem[style=plain,name=Theorem]{thm}
+\declaretheorem[style=plain,name=Lemma,sibling=thm]{lem}
+\declaretheorem[style=plain,name=Proposition,sibling=thm]{prop}
+\declaretheorem[style=plain,name=Corollary,sibling=thm]{cor}
+\declaretheorem[style=definition,name=Definition,sibling=thm]{defi}
+\declaretheorem[style=definition,name=Definition,sibling=thm]{defiC}
+\declaretheorem[style=definition,name=Example,sibling=thm]{exa}
+\declaretheorem[style=definition,name=Notation,sibling=thm]{nota}
+\declaretheorem[style=remark,name=Remark,sibling=thm]{rem}
+\declaretheorem[style=remark,name=Convention,sibling=thm]{conv}
+\definecolor{Matterhorn}{RGB}{77,77,77}
+\definecolor{RegalBlue}{RGB}{3,69,117}
+\definecolor{RedDevil}{RGB}{134,1,17}
+\hypersetup{breaklinks=true,colorlinks=true,linkcolor=RedDevil,urlcolor=RegalBlue,citecolor=RedDevil,%
+            hypertexnames=false}
+
+\newcommand{\textcite}{\cite}
+\newcommand{\parencite}{\cite}
+
+\NewDocumentCommand\Mute{m}{%
+  {\color{gray} #1}%
+}
+\NewDocumentCommand\GrmSep{}{\Mute{\;\mid\;}}
+\newcommand\GrmContinue{\multicolumn{2}{l}{}} % for weird reasons this must be \newcommand
+\NewDocumentCommand{\Alert}{m}{\textcolor{red}{#1}}
+\NewDocumentCommand\JdgFrame{m}{%
+  \fbox{$\displaystyle #1$}
+}
+\NewDocumentCommand{\Pow}{}{\mathcal{P}}
+\declaretheorem[style=plain]{axiom}
+\renewcommand*{\theaxiom}{\Alph{axiom}}
+%\newtheoremstyle{special}% name
+%  {\topsep}%   Space above
+%  {\topsep}%   Space below
+%  {\itshape}%  Body font
+%  {}%          Indent amount
+%  {\bfseries}% Theorem head font
+%  {}%          Punctuation after theorem head -- blank
+%  {0.5em}%     Space after theorem head (0.5em is the default)
+%  {{\thmname{#1}\thmnumber{ #2$^{\bm *}\!\!\!$.}\thmnote{\ \textmd{(#3)}}}}
+\NewDocumentCommand{\etc}{}{etc.}
+\NewDocumentCommand{\eg}{}{e.g.}
+\NewDocumentCommand{\ie}{}{i.e.}
+\NewDocumentCommand{\viz}{}{viz.}
+\NewDocumentCommand{\opcit}{}{\emph{op.\ cit.}}
+\NewDocumentCommand{\loccit}{}{\emph{loc.\ cit.}}
+\NewDocumentCommand{\etal}{}{et al.}
+%% From https://tex.stackexchange.com/questions/42726/align-but-show-one-equation-number-at-the-end
+\NewDocumentCommand{\TagEq}{o}{\IfValueTF{#1}{\tag{#1}}{\stepcounter{equation}\tag{\theequation}}}
+\newcommand{\Sub}[1]{_{\DelimProtect{#1}}}
+\newcommand{\Sup}[1]{^{\DelimProtect{#1}}}
+\allowdisplaybreaks%
+% Misc
+\NewDocumentCommand{\defeq}{}{\coloneq}
+\NewDocumentCommand{\Mode}{}{\mathcal{M}}
+\NewDocumentCommand{\Restrict}{mm}{#1\vert\Sub{#2}}
+\NewDocumentCommand{\Image}{}{\mathsf{im}}
+% Names of type theories
+\NewDocumentCommand{\NamedTypeTheory}{m}{\ensuremath{\mathsf{#1}}}
+\NewDocumentCommand{\MLTT}{}{\NamedTypeTheory{MLTT}}
+\NewDocumentCommand{\MTT}{}{\NamedTypeTheory{MTT}}
+\NewDocumentCommand{\HoTT}{}{\NamedTypeTheory{HoTT}}
+\NewDocumentCommand{\STT}{}{\NamedTypeTheory{STT}}
+\NewDocumentCommand{\BCTT}{}{\NamedTypeTheory{BCTT}}
+\NewDocumentCommand{\TTT}{}{\NamedTypeTheory{TT}\textsubscript{$\boxslash$}}
+\NewDocumentCommand{\Interp}{m}{\DelimSurround{\llbracket}{\rrbracket}{#1}}
+\NewDocumentCommand{\Pushout}{m}{\mathrel{\DelimMin{1}\textstyle\amalg\Sub{#1}}}
+\NewDocumentCommand{\Inj}{m}{\mathsf{in}\Sub{#1}}
+\NewDocumentCommand{\BluntJoin}{}{\mathrel{\diamond}}
+\NewDocumentCommand{\Proj}{O{}}{\pi\Sub{#1}}
+% Judgments
+\NewDocumentCommand{\IsCx}{mo}{\vdash #1\IfValueT{#2}{{} \mathrel{@} #2}}
+\NewDocumentCommand{\EqCx}{mmo}{\vdash #1 = #2\IfValueT{#3}{{} \mathrel{@} #3}}
+\NewDocumentCommand{\IsDCx}{mm}{\vdash #1; #2\,\mathsf{dcx}}
+\NewDocumentCommand{\IsTy}{O{\Gamma}mo}{#1 \vdash #2\IfValueT{#3}{{} \mathrel{@} #3}}
+\NewDocumentCommand{\EqTy}{O{\Gamma}mmo}{#1 \vdash #2 = #3\IfValueT{#4}{{} \mathrel{@} #4}}
+\NewDocumentCommand{\IsTm}{O{\Gamma}mmo}{#1 \vdash #2 : #3\IfValueT{#4}{{} \mathrel{@} #4}}
+\NewDocumentCommand{\EqTm}{O{\Gamma}mmmo}{#1 \vdash #2 = #3 : #4\IfValueT{#5}{{} \mathrel{@} #5}}
+\NewDocumentCommand{\IsSb}{O{\Gamma}mmo}{#1 \vdash #2 : #3\IfValueT{#4}{{} \mathrel{@} #4}}
+\NewDocumentCommand{\EqSb}{O{\Gamma}mmmo}{#1 \vdash #2 = #3 : #4\IfValueT{#5}{{} \mathrel{@} #5}}
+\NewDocumentCommand{\DeclVar}{mmm}{#1 \mathrel{:_{#2}} #3}
+\NewDocumentCommand{\At}{}{\cdot}
+\NewDocumentCommand{\TotalType}{m}{\widetilde{#1}}
+% Types and terms
+\NewDocumentCommand{\Uni}{o}{\mathcal{U}\IfValueT{#1}{_{#1}}}
+\NewDocumentCommand{\Dec}{o}{\mathsf{El}\IfValueT{#1}{_{#1}}}
+\NewDocumentCommand{\Nat}{}{{\mathsf{Nat}}}
+\NewDocumentCommand{\Unit}{}{{\ObjTerm{}}}
+\NewDocumentCommand{\Bool}{}{{\mathsf{Bool}}}
+\NewDocumentCommand{\MFn}{O{\mu}mm}{\prn{#1 \mid #2} \to #3}
+\NewDocumentCommand{\Modify}{O{\mu}m}{\gl{#1 \mid #2}}
+\NewDocumentCommand{\ModifyCode}{O{\mu}G{-}}{\mathsf{Mod}_{#1}\prn{#2}}
+\NewDocumentCommand{\StrictModify}{O{\mu}m}{#1 \To #2}
+\NewDocumentCommand{\Refl}{}{{\mathsf{refl}}}
+\NewDocumentCommand{\Ax}{}{{\star}}
+\NewDocumentCommand{\Lam}{om}{\lambda \IfValueTF{#1}{#1.\,}{} #2}
+\NewDocumentCommand{\App}{mm}{#1\prn{#2}}
+\NewDocumentCommand{\Zero}{}{\mathsf{z}}
+\NewDocumentCommand{\Succ}{}{\mathsf{suc}}
+\NewDocumentCommand{\True}{}{{\mathsf{tt}}}
+\NewDocumentCommand{\False}{}{{\mathsf{ff}}}
+\NewDocumentCommand{\MkMod}{O{\mu}m}{\mathsf{mod}\IfValueT{#1}{_{#1}}\prn{#2}}
+\NewDocumentCommand{\StrictMkMod}{om}{\brc{#2}\IfValueT{#1}{_{#1}}}
+\NewDocumentCommand{\StrictUnMod}{om}{{!}\IfValueT{#1}{_{#1}}\,#2}
+\NewDocumentCommand{\UnMod}{om}{\mathsf{unmod}\IfValueT{#1}{_{#1}}\prn{#2}}
+\NewDocumentCommand{\UnModApp}{omm}{\mathsf{unmod}\IfValueT{#1}{_{#1}}\prn{#2, #3}}
+\NewDocumentCommand{\LetMod}{d<>omom}{%
+  \mathsf{let}\IfValueT{#1}{_{#1}}\ \MkMod[#2]{\IfValueTF{#4}{#4}{-}} \gets #3\ \mathsf{in}\ #5%
+}
+\NewDocumentCommand{\IdRec}{o}{\mathsf{J}\IfValueT{#1}{_{#1}}}
+\NewDocumentCommand{\BoolRec}{o}{\mathsf{if}\IfValueT{#1}{_{#1}}}
+\NewDocumentCommand{\NatRec}{o}{\mathsf{rec}\IfValueT{#1}{_{#1}}}
+\NewDocumentCommand{\Sb}{mm}{#1\brk{#2}}
+\NewDocumentCommand{\ECx}{mm}{#1.#2}
+\NewDocumentCommand{\MECx}{mO{\mu}m}{#1.\prn{#2 \mid #3}}
+\NewDocumentCommand{\MECxV}{mmO{\mu}m}{#1, #2 :_{#3} #4}
+\NewDocumentCommand{\EmpCx}{O{}}{\ObjTerm{#1}}
+\NewDocumentCommand{\EmpSb}{O{}}{\ArrTerm{#1}}
+\NewDocumentCommand{\ESb}{mm}{#1.#2}
+\NewDocumentCommand{\ISb}{}{\ArrId{}}
+\NewDocumentCommand{\Wk}{o}{{\uparrow}\IfValueT{#1}{^{#1}}}
+\NewDocumentCommand{\Var}{o}{\mathbf{v}}
+\NewDocumentCommand{\LockCx}{mO{\mu}}{#1.\brc{#2}}
+\NewDocumentCommand{\LockCxV}{mO{\mu}}{#1, \brc{#2}}
+\NewDocumentCommand{\LockSb}{mO{\mu}}{#1.\brc{#2}}
+\NewDocumentCommand{\KeySb}{mm}{\ifthenelse{\equal{#2}{}}{}{#2.}\brc{#1}}
+\NewDocumentCommand{\Open}{O{}}{\medcirc_{#1}}
+\NewDocumentCommand{\Closed}{}{\medbullet}
+\NewDocumentCommand{\Prop}{}{\mathsf{HProp}}
+\NewDocumentCommand{\HSet}{}{\mathsf{HSet}}
+\NewDocumentCommand{\Trunc}{m}{\vvrt{#1}}
+\NewDocumentCommand{\FibTo}{}{\twoheadrightarrow}
+%\NewDocumentCommand\TypedHole{m}{
+%  \colorbox{RegalBlue!10}{${\color{black!75}#1}$}
+%}
+\NewDocumentCommand{\Con}{m}{\mathsf{#1}}
+\NewDocumentCommand{\Kwd}{m}{\mathbf{#1}}
+\NewDocumentCommand{\Ap}{}{\Con{ap}}
+\NewDocumentCommand{\Coe}{}{\Con{coe}}
+\NewDocumentCommand{\ZApp}{}{\mathbin{\circledast}}
+\NewDocumentCommand{\Simp}{}{\boxslash}
+\NewDocumentCommand{\Hom}{omm}{\mathsf{hom}\IfValueT{#1}{_{#1}}\prn{#2, #3}}
+\NewDocumentCommand{\DepSimp}{}{\hat{\boxslash}}
+
+% Useful Propositions
+\NewDocumentCommand{\IsContr}{}{\Con{isContr}}
+\NewDocumentCommand{\IsEquiv}{}{\Con{isEquiv}}
+\NewDocumentCommand{\IsProp}{}{\Con{isProp}}
+\NewDocumentCommand{\IsSet}{}{\Con{isSet}}
+\NewDocumentCommand{\IsConn}{}{\Con{isConn}}
+\NewDocumentCommand{\IsSegal}{}{\Con{isSegal}}
+\NewDocumentCommand{\IsSegalGraph}{}{\Con{isSegalGraph}}
+\NewDocumentCommand{\IsRezk}{}{\Con{isRezk}}
+\NewDocumentCommand{\IsDisc}{}{\Con{isDisc}}
+\NewDocumentCommand{\IsSimp}{}{\Con{isSimp}}
+\NewDocumentCommand{\IsIso}{}{\Con{isIso}}
+\NewDocumentCommand{\IsCocartArr}{}{\Con{isCocartArr}}
+\NewDocumentCommand{\IsCocartFam}{}{\Con{isCocartFam}}
+\NewDocumentCommand{\IsCovFam}{}{\Con{isCov}}
+\NewDocumentCommand{\ACov}{}{\Con{ACov}}
+\NewDocumentCommand{\IsACov}{}{\Con{isACov}}
+\NewDocumentCommand{\IsInnFam}{}{\Con{isInnFam}}
+\NewDocumentCommand{\Spec}{}{\Con{Spec}}
+\let\IsCov\IsCovFam
+\NewDocumentCommand{\Transpose}{sm}{\IfBooleanTF{#1}{{#2}^\rightarrow}{{#2}^\leftarrow}}
+\NewDocumentCommand{\Int}{}{\mathbb{I}}
+\NewDocumentCommand{\Sp}{}{\mathsf{Sp}}
+\NewDocumentCommand{\Amazing}{m}{{#1}_{\mathbb{I}}}
+\newcommand{\Space}{\mathcal{S}}
+\newcommand{\SSimp}{\mathsf{S}}
+\newcommand{\Cat}{\mathsf{Cat}}
+\newcommand{\CAT}{\mathsf{CAT}}
+\newcommand{\SET}{\mathsf{SET}}
+\newcommand{\GRPD}{\mathsf{GRPD}}
+\newcommand{\SIMP}{\Delta}
+\newcommand{\PSH}[1]{\widehat{#1}}
+\newcommand{\Yo}{\mathsf{Yo}}
+\newcommand{\id}{\mathsf{id}}
+\newcommand{\arr}{\mathsf{arr}}
+\newcommand{\iso}{\mathsf{iso}}
+\newcommand{\Iso}[2]{\mathsf{Iso}\prn{#1, #2}}
+\newcommand{\Equiv}{\mathsf{Equiv}}
+\newcommand{\Map}[2]{\mathsf{Map}\prn{#1, #2}}
+\NewDocumentCommand\Compr{mm}{\DelimBetweenSurround{\lbrace}{\vert}{\rbrace}{#1}{#2}}
+\NewDocumentCommand{\Ext}{mmm}{\DelimBetweenSurround{\lbrace}{\vert}{\rbrace}{#1}{#2 \mapsto #3}}
+\NewDocumentCommand{\Kan}{}{\mathsf{Kan}}
+\NewDocumentCommand{\Segal}{}{\mathsf{Segal}}
+\NewDocumentCommand{\Rezk}{}{\mathsf{Rezk}}
+\NewDocumentCommand{\IsKan}{}{\Con{isKan}}
+\NewDocumentCommand{\ArrId}{O{}}{\mathsf{id}\Sub{#1}}
+\NewDocumentCommand{\ObjTerm}{O{}}{\mathsf{1}\Sub{#1}}
+\NewDocumentCommand{\ArrTerm}{O{}}{\mathsf{!}\Sub{#1}}
+\NewDocumentCommand{\IdIso}{O{}}{\mathsf{id}\Sub{#1}}
+\NewDocumentCommand{\Com}{O{}}{\mathsf{comp}\Sub{#1}}
+\NewDocumentCommand{\Cst}{m}{\mathsf{const}\Sub{#1}}
+\NewDocumentCommand{\UU}{}{\Uni}
+\NewDocumentCommand{\OO}{}{\mathcal{O}}
+\NewDocumentCommand{\Sharp}{}{\sharp}
+\NewDocumentCommand{\Flat}{}{\flat}
+\NewDocumentCommand{\yo}{}{\Yo}
+\NewDocumentCommand{\yon}{}{\Yo}
+\newcommand*{\Dist}{\mathrm{Dist}}
+\newcommand*{\Core}{\mathrm{Core}}
+\NewDocumentCommand{\Glue}{}{\mathsf{Gl}}
+\RenewDocumentCommand{\Modify}{om}{\mathsf{#2}\IfValueT{#1}{_{#1}}}
+\NewDocumentCommand{\Adjoint}{}{\dashv}
+\NewDocumentCommand{\Lan}{}{\mathsf{Lan}}
+\NewDocumentCommand{\Ran}{}{\mathsf{Ran}}
+\NewDocumentCommand{\HM}{}{\mathsf{H}}
+\NewDocumentCommand{\CC}{}{\mathcal{C}}
+\NewDocumentCommand{\DD}{}{\mathcal{D}}
+\NewDocumentCommand{\EE}{}{\mathcal{E}}
+\NewDocumentCommand{\FF}{}{\mathcal{F}}
+\NewDocumentCommand{\pb}{}{\text{pb}}
+\NewDocumentCommand{\Op}{m}{{#1}^{\mathsf{op}}}
+\NewDocumentCommand{\Whisker}{}{\cdot}
+\NewDocumentCommand{\prn}{m}{\left(#1\right)}
+\NewDocumentCommand{\brk}{m}{\left[#1\right]}
+\NewDocumentCommand{\brc}{m}{\left\{#1\right\}}
+\NewDocumentCommand{\ang}{m}{\left\langle#1\right\rangle}
+\NewDocumentCommand{\vrt}{m}{\left\vert#1\right\vert}
+\NewDocumentCommand{\vvrt}{m}{\left\Vert#1\right\Vert}
+\NewDocumentCommand{\MorToFun}{}{\mathsf{mor2fun}}
+\NewDocumentCommand{\Coeq}{}{\mathsf{Coeq}}
+\NewDocumentCommand{\GlueEq}{}{\mathsf{glue}}
+\NewDocumentCommand{\Const}{}{\Con{const}}
+\newcommand{\Comma}[2]{#1 \mathbin{\downarrow} #2}
+\NewDocumentCommand{\COMMA}{mm}{\Comma{#1}{#2}}
+\NewDocumentCommand{\IdToIso}{}{\mathsf{IdToIso}}
+\NewDocumentCommand{\IdToArr}{}{\mathsf{IdToArr}}
+\newcommand{\GM}{\flat}
+\newcommand{\SM}{\sharp}
+\newcommand{\PM}{\mathfrak{p}}
+\newcommand{\AM}{\bar{\mathfrak{p}}}
+\newcommand{\OM}{\mathsf{op}}
+\newcommand{\TM}{\mathsf{tw}}
+\NewDocumentCommand{\Skel}{}{\mathsf{skel}}
+\NewDocumentCommand{\Embeds}{}{\hookrightarrow}
+\NewDocumentCommand{\Covers}{}{\twoheadrightarrow}
+\NewDocumentCommand{\NonDeg}{}{\mathsf{ND}}
+\NewDocumentCommand{\Rezkify}{}{\operatorname{\bigcirc_{\Con{cat}}}}
+\NewDocumentCommand{\Grpdify}{}{\operatorname{\bigcirc_{\Con{grpd}}}}
+\NewDocumentCommand{\LocalLAdj}{}{\Con{LocalLAdj}}
+\NewDocumentCommand{\LocalRAdj}{}{\Con{LocalRAdj}}
+\NewDocumentCommand{\CoCont}{mm}{\Con{CC}\prn{#1,#2}}
+\NewDocumentCommand{\SLICE}{mm}{{#1}_{/#2}}
+\NewDocumentCommand{\COSLICE}{mm}{{#1}_{#2/}}
+\NewDocumentCommand{\Nv}{}{\mathsf{N}}
+\NewDocumentCommand{\ObjInit}{m}{\mathsf{0}\Sub{#1}}
+
+\ExplSyntaxOn
+%% This is file `jmsdelim.sty',
+\RequirePackage{l3keys2e}
+\RequirePackage{ifluatex}
+\keys_define:nn { jmsdelim } {
+  size~commands .clist_set:N = \l__jmsdelim_size_cmds,
+}
+\keys_set:nn { jmsdelim } {
+  size~commands = {relax,jmsdelim_big:n,jmsdelim_Big:n,jmsdelim_bigg:n,jmsdelim_Bigg:n},
+}
+\cs_new:Npn \jmsdelim_big:n #1 {
+  {\mathchoice{\big #1} {\big #1}{\big #1}{#1}}
+}
+\cs_new:Npn \jmsdelim_Big:n #1 {
+  {\mathchoice{\Big #1} {\Big #1}{\big #1}{#1}}
+}
+\cs_new:Npn \jmsdelim_bigg:n #1 {
+  {\mathchoice{\bigg #1} {\bigg #1}{\big #1}{#1}}
+}
+\cs_new:Npn \jmsdelim_Bigg:n #1 {
+  {\mathchoice{\Bigg #1} {\Bigg #1}{\big #1}{#1}}
+}
+\int_new:N \g__jmsdelim_size
+\int_new:N \g__jmsdelim_size_up
+\int_gset:Nn \g__jmsdelim_size {0}
+\int_gset:Nn \g__jmsdelim_size_up {0}
+\cs_new:Npn \__jmsdelim_clist_item:Nn #1 #2 {
+  \clist_item:Nn #1 {
+    \int_min:nn { #2 } {\clist_count:N #1}
+  }
+}
+\cs_new:Npn \__jmsdelim_setup_sizes: {
+  \int_gset:Nn \g__jmsdelim_size {
+    \int_max:nn \g__jmsdelim_size \g__jmsdelim_size_up
+  }
+  \cs_set_eq:Nc \jmsdelim_size_cmd: {
+    \__jmsdelim_clist_item:Nn \l__jmsdelim_size_cmds {
+      \g__jmsdelim_size + 1
+    }
+  }
+}
+\cs_new:Npn \__jmsdelim_luatex_save_mathstyle:N #1 {
+  \ifcase \mathstyle
+    \cs_set_eq:NN #1 \displaystyle
+  \or
+    \cs_set_eq:NN #1 \crampeddisplaystyle
+  \or
+    \cs_set_eq:NN #1 \textstyle
+  \or
+    \cs_set_eq:NN #1 \crampedtextstyle
+  \or
+    \cs_set_eq:NN #1 \scriptstyle
+  \or
+    \cs_set_eq:NN #1 \crampedscriptstyle
+  \or
+    \cs_set_eq:NN #1 \scriptscriptstyle
+  \or
+    \cs_set_eq:NN #1 \crampedscriptscriptstyle
+  \fi
+}
+\cs_new:Npn \__jmsdelim_restore_mathstyle: {
+  \SavedStyle
+}
+\cs_new:Npn \__jmsdelim_save_mathstyle:n #1 {
+  \ifluatex
+    \__jmsdelim_luatex_save_mathstyle:N \__jmsdelim_restore_mathstyle:
+    #1
+  \else
+    \ThisStyle{#1}
+  \fi
+}
+\cs_new:Npn \jmsdelim_scope:nn #1 #2 {
+  \group_begin:
+    \int_set:Nn \l_tmpa_int \g__jmsdelim_size_up
+    \int_gset:Nn \g__jmsdelim_size_up 0
+    \int_gset:Nn \g__jmsdelim_size 0
+    \group_begin:
+      \__jmsdelim_save_mathstyle:n {
+        #1
+        \__jmsdelim_setup_sizes:
+        #2
+      }
+    \group_end:
+    \int_gset:Nn \g__jmsdelim_size_up {\int_max:nn \g__jmsdelim_size_up \l_tmpa_int}
+  \group_end:
+}
+\cs_new:Npn \jmsdelim_hbox_set:Nn #1 #2 {
+   \mode_if_math:TF
+     { \hbox_set:Nn #1 {$\mathsurround=0pt\__jmsdelim_restore_mathstyle: #2$} }
+     { \hbox_set:Nn #1 { #2 } }
+}
+\cs_new:Npn \jmsdelim_surround:nnn #1 #2 #3 {
+  \jmsdelim_scope:nn {
+    \jmsdelim_hbox_set:Nn \l_tmpa_box {#3}
+  }{
+    \mathopen\jmsdelim_size_cmd: {#1}
+    \box_use:N \l_tmpa_box
+    \mathclose\jmsdelim_size_cmd: {#2}
+  }
+}
+\cs_new:Npn \jmsdelim_protect:n #1 {
+  \group_begin:
+    \int_set:Nn \l_tmpa_int \g__jmsdelim_size_up
+    \int_set:Nn \l_tmpb_int \g__jmsdelim_size
+    \group_begin: #1 \group_end:
+    \int_gset:Nn \g__jmsdelim_size_up \l_tmpa_int
+    \int_gset:Nn \g__jmsdelim_size \l_tmpb_int
+  \group_end:
+}
+\cs_new:Npn \jmsdelim_between:nnn #1 #2 #3 {
+  \jmsdelim_scope:nn {
+    \jmsdelim_hbox_set:Nn \l_tmpa_box {#2}
+    \jmsdelim_hbox_set:Nn \l_tmpb_box {#3}
+  }{
+    \box_use:N \l_tmpa_box
+    \mathrel{\jmsdelim_size_cmd: {#1}}
+    \box_use:N \l_tmpb_box
+  }
+}
+\cs_new:Npn \jmsdelim_between:nnnnn #1 #2 #3 #4 #5 {
+  \jmsdelim_scope:nn {
+    \jmsdelim_hbox_set:Nn \l_tmpa_box {#4}
+    \jmsdelim_hbox_set:Nn \l_tmpb_box {#5}
+  }{
+    \mathopen\jmsdelim_size_cmd: {#1}
+    \box_use:N \l_tmpa_box
+    \mathrel{\jmsdelim_size_cmd: {#2}}
+    \box_use:N \l_tmpb_box
+    \mathclose\jmsdelim_size_cmd: {#3}
+  }
+}
+\NewDocumentCommand\DelimMin{m}{
+  \int_gset:Nn \g__jmsdelim_size_up {\int_max:nn \g__jmsdelim_size_up {#1}}
+}
+\NewDocumentCommand\DelimSurround{mmm}{
+  \jmsdelim_surround:nnn {#1} {#2} {#3}
+}
+\NewDocumentCommand\DelimBetween{mmm}{
+  \jmsdelim_between:nnn {#1} {#2} {#3}
+}
+\NewDocumentCommand\DelimBetweenSurround{mmmmm}{
+  \jmsdelim_between:nnnnn {#1} {#2} {#3} {#4} {#5}
+}
+\newcommand{\DelimProtect}[1]{#1}
+\NewDocumentCommand\DelimPrn{m}{
+  \jmsdelim_surround:nnn {(} {)} {#1}
+}
+\NewDocumentCommand\DelimBrk{m}{
+  \jmsdelim_surround:nnn {[} {]} {#1}
+}
+\NewDocumentCommand\DelimBrc{m}{
+  \jmsdelim_surround:nnn {\lbrace} {\rbrace} {#1}
+}
+\NewDocumentCommand\DelimBbrk{m}{
+  \jmsdelim_surround:nnn {\llbracket} {\rrbracket} {#1}
+}
+\NewDocumentCommand\DelimGl{m}{
+  \jmsdelim_surround:nnn {\langle} {\rangle} {#1}
+}
+\ExplSyntaxOff
+\let\prn\DelimPrn
+\let\brk\DelimBrk
+\let\brc\DelimBrc
+\let\bbrk\DelimBbrk
+\let\gl\DelimGl
+
+\ExplSyntaxOn
+%% BIG SYMBOLS
+\cs_new_protected:Npn \jms_set_mathsurround_to_zero: {
+  \dim_set:Nn \mathsurround { 0pt }
+}
+\cs_new:Npn \jms_scale_bigop:n #1 {
+  \tex_mathop:D {
+    \vphantom{\sum}
+    \mathpalette\jms_scale_bigop_with_mathstyle:nn {#1}
+  }
+  \slimits@
+}
+\cs_new:Npn \jms_scale_bigop_with_mathstyle:nn #1 #2 {
+  \tex_vcenter:D {
+    \hbox_set:Nn \l_tmpa_box {$#1\sum$}
+    \hbox_set:Nn \l_tmpb_box {$\jms_set_mathsurround_to_zero: #2$}
+    \box_resize_to_ht:Nn \l_tmpb_box {
+      \cs_if_eq:NNT #1 \displaystyle {.9}  \box_ht_plus_dp:N \l_tmpa_box
+    }
+    \box_use:N \l_tmpb_box
+  }
+}
+\NewDocumentCommand\ReixSymbol{}{\jms_scale_bigop:n {\operatorname{\Delta}}}
+\NewDocumentCommand\ForallSymbol{}{\jms_scale_bigop:n {\forall}}
+\NewDocumentCommand\ExistsSymbol{}{\jms_scale_bigop:n {\exists}}
+\cs_new:Npn \jms_bigop:N #1 #2 {
+  \mathchoice
+    {\textstyle #1 \Sub{#2}}
+    {\textstyle #1 \Sub{#2}}
+    {\scriptstyle #1 \Sub{#2}}
+    {\scriptscriptstyle #1 \Sub{#2}}
+}
+\cs_new:Npn \jms_define_big_quantifier:NN #1 #2 {
+  \NewDocumentCommand{#1}{m}{
+    \DelimMin{1}
+    \jms_bigop:N {#2} {##1}
+  }
+}
+\jms_define_big_quantifier:NN \Coprod \coprod
+\jms_define_big_quantifier:NN \Sum \sum
+\jms_define_big_quantifier:NN \Prod \prod
+\jms_define_big_quantifier:NN \DLub \bigsqcup
+\jms_define_big_quantifier:NN \Disj \bigvee
+\jms_define_big_quantifier:NN \Conj \bigwedge
+%\jms_define_big_quantifier:NN \Colim \varinjlim
+%\jms_define_big_quantifier:NN \Lim \varprojlim
+\newcommand{\Colim}[1]{\mathrm{colim}_{#1}}
+\newcommand{\Lim}[1]{\mathrm{lim}_{#1}}
+\jms_define_big_quantifier:NN \Union \bigcup
+\jms_define_big_quantifier:NN \Isect \bigcap
+\jms_define_big_quantifier:NN \Reix \ReixSymbol
+\jms_define_big_quantifier:NN \Forall \ForallSymbol
+\jms_define_big_quantifier:NN \Exists \ExistsSymbol
+
+\cs_new:Npn \iblock_init_local_state: {
+  \cs_set_eq:NN \row \iblock_row:
+  \cs_set_eq:NN \mrow \iblock_math_row:n
+  \cs_set_eq:NN \mhang \iblock_math_hang:nn
+  \bool_set:Nn \l_iblock_inside \c_true_bool
+}
+\bool_new:N \l_iblock_inside
+\cs_new:Npn \iblock_container:n #1 {
+  \group_begin:
+  \raggedright
+  \setlength \hangingleftmargin {
+    \bool_if:NTF \l_iblock_inside {0em} {\iblockleftmargin}
+  }
+  \compacthang
+    \iblock_init_local_state:
+    #1
+  \endcompacthang
+  \group_end:
+}
+\cs_new:Npn \iblock_row: { \item }
+\cs_new:Npn \iblock_math_row:n #1 {
+  \iblock_row: \ensuremath{#1}
+}
+\cs_new:Npn \iblock_math_hang:nn #1 #2 {
+  \iblock_math_row:n {#1}
+  \iblock_container:n {#2}
+}
+\NewDocumentCommand\iblock{+m}{
+  \iblock_container:n {
+    #1
+  }
+}
+\ExplSyntaxOff
+
+\usepackage{hang}
+\usepackage{tikz}
+\usetikzlibrary{matrix,arrows,patterns,fit,positioning,calc,decorations.pathmorphing,babel}
+\usepackage{tikz-cd}
+
+\tikzset{
+  desc/.style={sloped, fill=white,inner sep=2pt},
+  upright desc/.style={fill=white,inner sep=2pt},
+  pullback/.style = {
+    append after command={
+      \pgfextra{
+        \draw ($(\tikzlastnode) + (.3cm,-.5cm)$) -- ++(0.2cm,0) -- ++(0,0.2cm);
+      }
+    }
+  },
+  dotted pullback/.style = {
+    append after command={
+      \pgfextra{
+        \draw [densely dotted] ($(\tikzlastnode) + (.2cm,-.5cm)$) -- ++(0.3cm,0) -- ++(0,0.3cm);
+      }
+    }
+  },
+  pushout/.style = {
+    append after command={
+      \pgfextra{
+        \draw ($(\tikzlastnode) + (-.2cm,.5cm)$) -- ++(-0.3cm,0) -- ++(0,-0.3cm);
+      }
+    }
+  },
+  between/.style args={#1 and #2}{
+    at = ($(#1)!0.5!(#2)$)
+  },
+  diagram/.style = {
+    on grid,
+    node distance=2cm,
+    commutative diagrams/every diagram,
+    every node/.append style = {
+      commutative diagrams/every cell,
+    }
+  },
+  fibration/.style = {
+    -{Triangle[open]}
+  },
+  opfibration/.style = {
+    -{Triangle}
+  },
+  lies over/.style = {
+    |-{Triangle[open]}
+  },
+  op lies over/.style = {
+    |-{Triangle}
+  },
+  embedding/.style = {
+    {right hook}->
+  },
+  open immersion/.style = {
+    {right hook}-{Triangle[open]}
+  },
+  embedding*/.style = {
+    {left hook}->
+  },
+  exists/.style = {
+    densely dotted
+  },
+  unique exists/.style = {
+    densely dashed
+  }
+}
+\newlength{\dontworryaboutit}
+\tikzset{
+  inline diagram/.style = {
+    commutative diagrams/every diagram,
+    commutative diagrams/cramped,
+    every node/.append style = {
+      commutative diagrams/every cell,
+      anchor = base,
+      inner sep = 0pt
+    },
+    every path/.append style = {
+      outer xsep = 2pt
+    }
+  }
+}
+
+\ExplSyntaxOn
+\cs_new:Npn \jms_tikz_morphism:nnn #1 #2 #3 {
+  \tikz[inline~diagram, baseline = (Y.base)]{
+    \node (X) {$#2$};
+    \node (Y) [right = 3ex~of~X] {$#3$};
+    \path[#1] (X) edge (Y);
+  }
+}
+\cs_new:Npn \jms_tikz_sized_morphism:nnnn #1 #2 #3 #4 {
+  \tikz[inline~diagram, baseline = (Y.base)]{%
+    \settowidth{\dontworryaboutit}{\scriptsize$#2$}
+    \pgfmathsetmacro\len{max(width("$xxx$"),7pt+\dontworryaboutit)}
+    \node (X) {$#3$};
+    \node (Y) [right = \len~pt~of~X] {$#4$};
+    \path[#1] (X) edge node [above,yshift=.3ex] {\scriptsize$#2$} (Y);
+  }
+}
+\cs_new:Npn \jms_tikz_auto_morphism:nnnn #1 #2 #3 #4 {
+  \DelimMin{1}
+  \IfValueTF{#2}{
+    #2 : \jms_tikz_morphism:nnn {#1} {#3} {#4}
+  }{
+    \jms_tikz_morphism:nnn {#1} {#3} {#4}
+  }
+}
+\NewDocumentCommand\PrimMor{mmmm}{
+  \IfValueTF{#2}{
+    \DelimMin{1}
+    \jms_tikz_sized_morphism:nnnn {#1} {#2} {#3} {#4}
+  }{
+    \jms_tikz_morphism:nnn {#1} {#3} {#4}
+  }
+}
+% Draw a morphism inline, with dynamically sized arrow
+\NewDocumentCommand\Mor{D||{->} o m m}{%
+  \jms_tikz_auto_morphism:nnnn {#1} {#2} {#3} {#4}
+}
+\NewDocumentCommand\FibMor{D||{} o m m}{%
+  \jms_tikz_auto_morphism:nnnn {fibration,#1} {#2} {#3} {#4}
+}
+\NewDocumentCommand\OpFibMor{D||{} o m m}{%
+  \jms_tikz_auto_morphism:nnnn {opfibration,#1} {#2} {#3} {#4}
+}
+\NewDocumentCommand\EmbMor{D||{} o m m}{%
+  \jms_tikz_auto_morphism:nnnn {embedding,#1} {#2} {#3} {#4}
+}
+%% TODO: rectify these
+\NewDocumentCommand\Span{m m m}{%
+  \tikz[inline diagram, baseline = (Y.base)]{%
+    \node (X) {$#2$\hspace*{.5ex}};
+    \node (Y) [right = 3ex of X] {\hspace*{.5ex}$#1$\hspace*{.5ex}};
+    \node (Z) [right = 3ex of Y] {\hspace*{.5ex}$#3$};
+    \path[<-] (X) edge (Y);
+    \path[->] (Y) edge (Z);
+  }%
+}
+\NewDocumentCommand\CoSpan{m m m}{%
+  \tikz[inline diagram, baseline = (Y.base)]{%
+    \node (X) {$#2$\hspace*{.5ex}};
+    \node (Y) [right = 3ex of X] {\hspace*{.5ex}$#1$\hspace*{.5ex}};
+    \node (Z) [right = 3ex of Y] {\hspace*{.5ex}$#3$};
+    \path[->] (X) edge (Y);
+    \path[<-] (Y) edge (Z);
+  }%
+}
+\tikzset{
+  square/nw/.style = {},
+  square/ne/.style = {},
+  square/se/.style = {},
+  square/sw/.style = {},
+  square/north/.style = {},
+  square/south/.style = {},
+  square/west/.style = {},
+  square/east/.style = {},
+  square/north/node/.style = {above},
+  square/south/node/.style = {below},
+  square/west/node/.style = {left},
+  square/east/node/.style = {right},
+}
+\bool_new:N \l_jon_glue_west
+\keys_define:nn { jon-tikz/diagram } {
+  nw .tl_set:N = \l_jon_tikz_diagram_nw,
+  sw .tl_set:N = \l_jon_tikz_diagram_sw,
+  ne .tl_set:N = \l_jon_tikz_diagram_ne,
+  se .tl_set:N = \l_jon_tikz_diagram_se,
+  width .tl_set:N = \l_jon_tikz_diagram_width,
+  height .tl_set:N = \l_jon_tikz_diagram_height,
+  north .tl_set:N = \l_jon_tikz_diagram_north,
+  south .tl_set:N = \l_jon_tikz_diagram_south,
+  west .tl_set:N = \l_jon_tikz_diagram_west,
+  east .tl_set:N = \l_jon_tikz_diagram_east,
+  nw/style .code:n = {\tikzset{square/nw/.style = {#1}}},
+  sw/style .code:n = {\tikzset{square/sw/.style = {#1}}},
+  ne/style .code:n = {\tikzset{square/ne/.style = {#1}}},
+  se/style .code:n = {\tikzset{square/se/.style = {#1}}},
+  glue .choice:,
+  glue / west .code:n = {\bool_set:Nn \l_jon_glue_west \c_true_bool},
+  glue~target .tl_set:N = \l_jon_tikz_glue_target,
+  north/style .code:n = {\tikzset{square/north/.style = {#1}}},
+  north/node/style .code:n = {\tikzset{square/north/node/.style = {#1}}},
+  south/style .code:n = {\tikzset{square/south/.style = {#1}}},
+  south/node/style .code:n = {\tikzset{square/south/node/.style = {#1}}},
+  west/style .code:n = {\tikzset{square/west/.style = {#1}}},
+  west/node/style .code:n = {\tikzset{square/west/node/.style = {#1}}},
+  east/style .code:n = {\tikzset{square/east/.style = {#1}}},
+  east/node/style .code:n = {\tikzset{square/east/node/.style = {#1}}},
+  draft .meta:n = {
+    nw = {\__jon_tikz_diagram_fmt_placeholder:n {nw}},
+    sw = {\__jon_tikz_diagram_fmt_placeholder:n {sw}},
+    se = {\__jon_tikz_diagram_fmt_placeholder:n {se}},
+    ne = {\__jon_tikz_diagram_fmt_placeholder:n {ne}},
+    north = {\__jon_tikz_diagram_fmt_placeholder:n {north}},
+    south = {\__jon_tikz_diagram_fmt_placeholder:n {south}},
+    west = {\__jon_tikz_diagram_fmt_placeholder:n {west}},
+    east = {\__jon_tikz_diagram_fmt_placeholder:n {east}},
+  }
+}
+\tl_set:Nn \l_jon_tikz_diagram_width { 2cm }
+\tl_set:Nn \l_jon_tikz_diagram_height { 2cm }
+\cs_new:Npn \__jon_tikz_diagram_fmt_placeholder:n #1 {
+  \texttt{\textcolor{red}{#1}}
+}
+\keys_set:nn { jon-tikz/diagram } {
+  glue~target = {},
+}
+\cs_new:Nn \__jon_tikz_render_square:nn {
+  \group_begin:
+  \keys_set:nn {jon-tikz/diagram} {#2}
+  \bool_if:nTF \l_jon_glue_west {
+    \node (#1ne) [right = \l_jon_tikz_diagram_width~of~\l_jon_tikz_glue_target ne,square/ne] {$\l_jon_tikz_diagram_ne$};
+    \node (#1se) [below = \l_jon_tikz_diagram_height~of~#1ne,square/se] {$\l_jon_tikz_diagram_se$};
+    \path[->,square/north] (\l_jon_tikz_glue_target ne) edge node [square/north/node] {$\l_jon_tikz_diagram_north$} (#1ne);
+    \path[->,square/east] (#1ne) edge node [square/east/node] {$\l_jon_tikz_diagram_east$} (#1se);
+    \path[->,square/south] (\l_jon_tikz_glue_target se) edge node [square/south/node] {$\l_jon_tikz_diagram_south$} (#1se);
+  } {
+    \node (#1nw) [square/nw] {$\l_jon_tikz_diagram_nw$};
+    \node (#1sw) [below = \l_jon_tikz_diagram_height~of~#1nw,square/sw] {$\l_jon_tikz_diagram_sw$};
+    \path[->,square/west] (#1nw) edge node [square/west/node] {$\l_jon_tikz_diagram_west$} (#1sw);
+    \node (#1ne) [right = \l_jon_tikz_diagram_width~of~#1nw,square/ne] {$\l_jon_tikz_diagram_ne$};
+    \node (#1se) [below = \l_jon_tikz_diagram_height~of~#1ne,square/se] {$\l_jon_tikz_diagram_se$};
+    \path[->,square/north] (#1nw) edge node [square/north/node] {$\l_jon_tikz_diagram_north$} (#1ne);
+    \path[->,square/east] (#1ne) edge node [square/east/node] {$\l_jon_tikz_diagram_east$} (#1se);
+    \path[->,square/south] (#1sw) edge node [square/south/node] {$\l_jon_tikz_diagram_south$} (#1se);
+  }
+  \group_end:
+}
+\NewDocumentCommand\SpliceDiagramSquare{D<>{}m}{
+  \__jon_tikz_render_square:nn {#1} {#2}
+}
+\NewDocumentCommand\DiagramSquare{D<>{}O{}m}{
+  \begin{tikzpicture}[diagram,#2,baseline=(#1sw.base)]
+    \__jon_tikz_render_square:nn {#1} {#3}
+  \end{tikzpicture}
+}
+\ExplSyntaxOff
+
+% *** quiver ***
+\usepackage{tikz-cd}
+\usepackage{amssymb}
+\tikzset{curve/.style={settings={#1},to path={(\tikztostart)
+    .. controls ($(\tikztostart)!\pv{pos}!(\tikztotarget)!\pv{height}!270:(\tikztotarget)$)
+    and ($(\tikztostart)!1-\pv{pos}!(\tikztotarget)!\pv{height}!270:(\tikztotarget)$)
+    .. (\tikztotarget)\tikztonodes}},
+    settings/.code={\tikzset{quiver/.cd,#1}
+        \def\pv##1{\pgfkeysvalueof{/tikz/quiver/##1}}},
+    quiver/.cd,pos/.initial=0.35,height/.initial=0}
+\tikzset{tail reversed/.code={\pgfsetarrowsstart{tikzcd to}}}
+\tikzset{2tail/.code={\pgfsetarrowsstart{Implies[reversed]}}}
+\tikzset{2tail reversed/.code={\pgfsetarrowsstart{Implies}}}
+\tikzset{no body/.style={/tikz/dash pattern=on 0 off 1mm}}
+\begin{document}
+
+\title{Yoneda embedding in simplicial type theory}
+\author{Daniel Gratzer \and Jonathan Weinberger \and Ulrik Buchholtz}
+
+\begin{abstract}
+  \textcite{riehl:2017} ввели \emph{симпліціальну теорію типів} (\STT), варіант гомотопічної теорії
+  типів, який мав на меті вивчати не лише теорію гомотопій, але і її злиття з теорією категорій:
+  теорію $\prn{\infty,1}$-категорій. Хоча це і є технічно складним, маніпулювання $\infty$-категоріями в
+  симпліціальній теорії типів часто є простішим, ніж робота зі звичайними категоріями, оскільки теорія типів
+  обробляє нескінченні стеки когерентностей у фоновому режимі. Ми спираємося на нещодавню роботу
+  \textcite{gratzer:2024}, що визначає $\prn{\infty,1}$-категорію $\infty$-групоїдів у \STT{}, щоб
+  визначити категорії передпучків у межах \STT{} та систематично розвинути їхню теорію. Зокрема,
+  ми будуємо вкладення Йонеди, доводимо універсальну властивість категорій передпучків, уточнюємо
+  теорію спряженостей у \STT{}, вводимо теорію розширень Кана та доводимо теорему А
+  Квіллена. На додаток до великого обсягу теорії категорій у \STT{}, ми пропонуємо вагомі
+  докази того, що \STT{} може бути використана для отримання складних результатів у теорії $\infty$-категорій з
+  набагато меншою складністю.
+\end{abstract}
+
+\maketitle
+
+\begin{center}
+  \emph{Присвячується світлій пам'яті Томаса Штрайхера (1958--2025)}
+\end{center}
+
+
+\section{Вступ}
+
+\textcite{russell:1919} відомим чином описав два стилі формалізації математики як різницю
+між \emph{крадіжкою} та \emph{чесною працею}. Обидва підходи можна побачити в сучасному використанні
+залежної теорії типів. Чесна праця передбачає \emph{аналітичний} підхід: трактування типів як
+базових об'єктів, еквівалентних множинам, а також визначення і міркування про такі об'єкти, як дійсні числа,
+групи та топологічні простори, як це робиться зазвичай. Це те, що робиться, наприклад, у доведенні Coq
+Теореми про непарний порядок~\parencite{gonthier:2013}. Більш швидкий шлях крадіжки передбачає
+розгляд теорії типів як спеціалізованої \emph{синтетичної} мови для певного типу математичних
+об'єктів і постулювання їх базових властивостей. Це звужує сферу застосування теорії типів, але, водночас,
+робить доведення про ці конкретні об'єкти набагато лаконічнішими. Наприклад,
+\emph{гомотопічна теорія типів} (\HoTT{})~\parencite{hottbook} постулює різні аксіоми, які гарантують, що типи
+поводяться як простори (з точністю до гомотопії), уможливлюючи доведення теорем з алгебраїчної топології
+без введення явного опису простору. Насправді, синтетичний підхід
+менше схожий на крадіжку, ніж на позику; ви розплачуєтеся за налаштовану теорію типів
+семантичною моделлю, яка інтерпретує типи як потрібні об'єкти і валідує додаткові
+аксіоми.
+
+У цій роботі ми використовуємо синтетичну методологію для застосування теорії типів до вивчення теорії
+категорій. Зокрема, ми додаємо різні аксіоми до гомотопічної теорії типів, щоб побудувати систему,
+де гасло \HoTT{} ``всі типи є просторами, а всі функції неперервними'' замінюється на
+``(деякі) типи є ($\infty$-)категоріями, а всі функції є функторами''.\footnote{%
+  У цій статті під $\infty$-категорією ми розуміємо $\prn{\infty,1}$-категорію.}
+Це розширення
+теорії типів називається \emph{симпліціальною} теорією типів (\STT{}) і було введено
+\textcite{riehl:2017}.
+
+Хоча знання $\infty$-категорій не є обов'язковим для використання нашої теорії, груба інтуїція щодо них
+допомагає для розуміння \STT{}. Тому ми нагадаємо наступне нечітке визначення.
+$\infty$-категорія $C$ -- це сукупність об'єктів з \emph{простором} стрілок між об'єктами $c$
+та $d$, $\Hom{c}{d}$, а не множиною, оснащена неперервною операцією композиції та призначенням
+тотожних стрілок. Вирішальним є те, що операція композиції має бути асоціативною та унітальною лише з
+точністю до гомотопії, але з обмеженням, що ці гомотопії самі задовольняють закони \emph{когерентності} у
+вигляді додаткових гомотопій, і так далі з когерентностями між когерентностями тощо. Як вільна
+аналогія, подібно до того, як моноїдальна категорія послаблює моноїди, дозволяючи $\otimes$ бути асоціативним з
+точністю до ізоморфізмів, що задовольняють певні рівняння когерентності, $\infty$-категорії послаблюють звичайні категорії
+дозволяючи законам категорій виконуватися лише з точністю до (нескінченно когерентних) ізоморфізмів.
+
+Прикметно, що практично кожна теорема, на яку можна сподіватися для звичайних категорій, виконується для
+$\infty$-категорій.\footnote{Принаймні, як зауважив один з наших рецензентів, за умови правильного калібрування своїх сподівань.} Однак,
+доведення є набагато складнішими, оскільки вони працюють з \emph{моделями} $\infty$-категорій (інструментами, що використовуються для
+організації та управління вежею когерентностей~\parencite{bergner:2018}). Метою \STT{} є використання
+теорії типів, щоб приховати когерентності від користувача і дозволити доведення, які є не складнішими, ніж
+класичні міркування для $1$-категорій.
+
+У цій роботі ми надаємо вагомі докази цієї гіпотези, розвиваючи велику частину
+теорії категорій---кілька основних результатів \emph{Категорій для працюючого
+  математика}~\parencite{maclane:1978}---виключно в межах \STT{}.
+
+\subsection{Симпліціальна теорія типів}
+
+Щоб побудувати теорію типів для синтетичної теорії категорій, можна було б сподіватися інтерпретувати теорію типів у
+категорію категорій ($\infty$ або інакше), щоб гарантувати, що типи реалізують категорії. Однак,
+категорія $\CAT$ малих категорій поводиться занадто погано, щоб утворити модель теорії типів
+Мартіна-Льофа (\MLTT{}). Замість цього, \textcite{riehl:2017} розширюють $\CAT$ і вкладають її як рефлективну
+підкатегорію в категорію ($\infty$-)передпучків на симплекс-категорії $\PSH{\SIMP}$, яка є достатньо
+багатою для моделювання \HoTT{}. Тоді \STT{} аксіоматизує частину $\PSH{\SIMP}$, щоб ізолювати $\CAT$ як
+рефлективний підуніверсум у межах теорії типів~\parencite{rijke:2020}.
+
+Ми введемо повний набір доповнень у Розділі~\ref{sec:prelims} (зібраних у Додатку~\ref{sec:axioms}
+для зручності), але найважливішим серед них є постульований \emph{інтервальний тип}
+$\Int : \Uni[0]$. Ми додатково припускаємо, що $\Int$ є обмеженим лінійним порядком з кінцевими точками
+$0,1 : \Int$. Інтуїтивно, $\Int$ має фіксувати категорію $\brc{0 \to 1}$---він так
+інтерпретується в $\PSH{\SIMP}$---і ми можемо використовувати це для визначення та дослідження типу
+\emph{синтетичних морфізмів} у довільному типі $X$: стрілка в $X$ відповідає звичайній
+функції $\Int \to X$, причому обчислення в $0,1$ дає домен і кодомен. Наприклад,
+тотожна стрілка в $x : X$ задається як $\lambda \_.\,x$.
+
+Однак, подібно до того, як цільова модель $\PSH{\SIMP}$ є строго більшою за $\CAT$, не всі типи в \STT{}
+достовірно моделюють категорії. Зокрема, хоча завжди можна побудувати тотожні
+морфізми, не всі типи мають оператор композиції. Дивовижно, проте, що оператори композиції
+є унікальними, коли вони існують, і їх існування для типу $X$ фіксується відносно коротким
+твердженням (Визначення~\ref{def:prelims:category}). Маючи під рукою операцію композиції для $X$, ми можемо
+визначити тип ізоморфізмів у $X$, і ми визначаємо категорію як тип, де (1)
+операція композиції існує унікально з точністю до гомотопії, і (2) тип ізоморфізмів у $X$ еквівалентний типу ідентичності $=_X$.
+
+\begin{rem}
+  Цей останній пункт принципово залежить від \emph{відмови} від припущення унікальності доведень ідентичності, щоб ми
+  випадково не заборонили будь-якій синтетичній категорії мати об'єкт з нетривіальним
+  автоморфізмом. Однак, припускаючи, що ізоморфізми та доведення ідентичності збігаються, ми можемо
+  використовувати підтримку теорією типів заміни рівного на рівне для безперешкодного перенесення доведень уздовж
+  ізоморфізмів. Ось чому робота з \HoTT{}/інтенсіональною теорією типів при формулюванні синтетичної
+  теорії категорій виявляється зручнішою, ніж екстенсіональна теорія типів, навіть якщо хтось не цікавиться
+  $\infty$-категоріями.
+\end{rem}
+
+
+\subsection{Теорія категорій всередині \texorpdfstring{\STT{}}{STT}}
+
+Хоча деякі нещодавні роботи досліджували \STT{} для її застосувань у мовах
+програмування~\parencite{weaver:2020,gratzer:2024,weaver:phd}, більшість робіт із симпліціальної теорії типів були
+зосереджені на доведенні результатів з теорії категорій всередині теорії
+типів~\parencite{riehl:2017,riehl:2023,bardomiano:2021,weinberger:phd,buchholtz:2023,weinberger:twosided:2024,weinberger:sums:2024}.
+З цією метою теорія спряженостей, дискретних розшарувань та розшарувань Гротендіка, а також (ко)границь були
+введені та вивчені в межах симпліціальної теорії типів. Деякі з цих результатів, наприклад,
+лема Йонеди для розшарувань~\parencite{riehl:2017}, були згодом
+механізовані~\parencite{kudasov:2024}.
+
+Донедавна, однак, у \STT{} не існувало замкнених типів, які б представляли нетривіальні
+категорії. Як наслідок, хоча \textcite{riehl:2017} і наводить відмінне визначення спряженостей,
+жодних прикладів навести не можна. У попередній роботі ми змінили це,
+розширивши \STT{} для побудови $\Space$, категорії $\mathcal{S}$просторів, яка є гомотопічним аналогом $\SET$~\parencite{gratzer:2024}.
+Об'єкти $\Space$ -- це елементи $\Uni[0]$, які кодують $\infty$-групоїди, а морфізми в
+$\Space$ відповідають їх функціям. \emph{Там само} $\Space$ використовується як будівельний блок для
+відновлення алгебраїчних категорій (груп, кілець), а також інших прикладів (частково впорядкованих множин,
+симплекс-категорії тощо).
+
+Наше розширення \STT{} використовувало різні \emph{модальності} поверх \HoTT{} для побудови $\Space$. Тут ми беремо $\Space$ повністю, але деякі з використаних нами модальностей все ще є критично важливими для формулювання природних теорем
+у теорії категорій. Відповідно, у цій статті ми також працюємо в межах модального розширення \HoTT{}, заснованого на
+\MTT{}~\parencite{gratzer:2020}.
+
+\subsection{Внесок}
+Ми переглядаємо базову теорію категорій у світлі побудови $\Space$ і показуємо, що
+більшість класичних результатів, з якими стикаються в теорії категорій, тепер знаходяться в межах досяжності симпліціальної
+теорії типів. Вперше ми показуємо, що \STT{} може бути використана для доведення життєво важливих теорем у
+теорії $\infty$-категорій без звернення до складних моделей. Багато з цих теорем
+(наприклад, цілком лояльні та суттєво сюр'єктивні функтори є еквівалентностями) прямо не згадують
+$\Space$, але критично спираються на принципи міркування, які уможливлює $\Space$. Ми доводимо два
+робочі результати для категорій передпучків $\PSH{C}$:
+\begin{itemize}
+\item Ми будуємо цілком лояльну функцію $\Yo : C \to \PSH{C}$.
+\item Ми доводимо, що $\PSH{C}$ є ``вільним копоповненням $C$''.
+\end{itemize}
+Ключовою технічною інновацією для цього є категорія \emph{скручених стрілок} (twisted arrow), яку ми інтегруємо в
+\STT{} як модальність. Після цього ми можемо вивести різні класичні результати, наприклад:
+\begin{itemize}
+\item що поточково оборотні відображення в $C \to D$ є оборотними;
+\item що поточково ліві спряжені є лівими спряженими;
+\item що (ко)границі обчислюються поточково в $C \to D$;
+\item теорію та існування поточкових розширень Кана;
+\item теорему А Квіллена;
+\item власніть кодекартових розшарувань.
+\end{itemize}
+
+Синтетичний підхід дає лаконічне формулювання:\begin{restatable}{axiom}{intaxiom}
+  \label{ax:int}
+  Існує множина $\Int$, яка утворює обмежену дистрибутивну решітку $\prn{0,1,\lor,\land}$, таку що
+  виконується $\Prod{i,j : \Int} i \le j \lor j \le i$.
+\end{restatable}
+Ми розглядаємо $\Int$ як \emph{спрямований інтервал}, і \textcite{riehl:2017} використовують його, щоб оснастити кожен тип поняттям синтетичного морфізму:
+\begin{defi}
+  Синтетичний морфізм $f : \Hom[X]{x}{y}$, де $x,y : X$, — це функція $f : \Int \to X$ разом із пропозиційними рівностями $f\,0 =_X x$ та $f\,1 =_X y$.
+\end{defi}
+
+\begin{rem}
+  У \textcite{riehl:2017} синтетичний інтервал визначається як більш примітивна дедуктивна структура, і $\Hom{x}{y}$ використовує типи строгого розширення. Це дає більше дефініційних рівностей: $f\,0$ та $x$ збігалися б дефініційно, коли $f : \Hom{x}{y}$ (і аналогічно для $f\,1$ та $y$). Однак дедуктивний підхід не включає безпосередньо $\Int$ як звичайний тип, а його взаємодія з модальностями (Розділ~\ref{sec:prelims:modal-stt}) є складною. З цих причин ми працюємо з простішим, але менш строгим визначенням $\Hom{x}{y}$. У системі, де доступні обидва підходи, ці два поняття є еквівалентними~\parencite{buchholtz:2023}.
+\end{rem}
+
+Будь-яка функція $f : X \to Y$ автоматично має дію на синтетичні морфізми $\alpha : \Int \to X$ через пост-композицію $f \circ \alpha : \Int \to Y$. У цьому випадку ми часто пишемо $f\prn{\alpha}$.
+
+З $\Int$ ми негайно отримуємо $n$-куби $\Int^n$, а з них ми можемо виділити симплекси $\Delta^n$, границі $\partial \Delta^n$ та роги $\Lambda_k^n$. Зокрема, $\Delta^2 \to X$ представляє $2$-клітину в $X$, що свідчить про композицію двох стрілок, а $\Lambda^2_1 \to X$ представляє пару компонованих стрілок (без композиції). Нижче ми наведемо визначення цих типів:
+\begin{mathparpagebreakable}
+  \Delta^n = \Compr{\prn{i_1, \dots, i_n} : \Int^n}{i_1 \ge i_2 \ge \dots \ge i_n}
+  \and
+  \Lambda^2_1 = \Compr{\prn{i,j} : \Int^2}{i = 1 \lor j = 0}
+\end{mathparpagebreakable}
+
+\begin{nota}
+  Ми пишемо $i : \Delta^n$ ($0 \le i \le n$) як скорочення для послідовності з $i$ копій $1$, за якими йдуть $0$: $\prn{1, 1, \dots, 0, \dots}$.
+\end{nota}
+
+\begin{figure}
+  \begin{tikzpicture}[diagram]
+    \node (Ax00) {\tiny $0$};
+    \node[right = 0.75cm of Ax00] (Ax10) {\tiny $1$};
+    \node[below = 0.75cm of Ax00] (Ax01) {\tiny $1$};
+    \path[->] (Ax00) edge node[above] {\tiny $i$} (Ax10);
+    \path[->] (Ax00) edge node[left] {\tiny $j$} (Ax01);
+    %
+    %
+    \SpliceDiagramSquare{
+      nw/style = {below right = -0.3cm and 1.3cm of Ax01},
+      height = 1cm,
+      width = 1cm,
+      nw = {\bullet},
+      ne = {\bullet},
+      sw = {\bullet},
+      se = {\bullet},
+    }
+    \fill[pattern=north west lines]
+    ([xshift=0.1cm,yshift=-0.1cm]nw.center) --
+    ([xshift=-0.1cm,yshift=-0.1cm]ne.center) --
+    ([xshift=-0.1cm,yshift=0.1cm]se.center) --
+    ([xshift=0.1cm,yshift=0.1cm]sw.center) -- cycle;
+    %
+    \node[right = 1.5cm of ne] (T0) {$\bullet$};
+    \node[right = 1cm of T0] (T1) {$\bullet$};
+    \node[below = 1cm of T1] (T2) {$\bullet$};
+    \path[->] (T0) edge (T1);
+    \path[->] (T0) edge (T2);
+    \path[->] (T1) edge (T2);
+    \fill[pattern=north west lines]
+    ([xshift=0.1cm,yshift=-0.1cm]T0.center) --
+    ([xshift=-0.1cm,yshift=-0.1cm]T1.center) --
+    ([xshift=-0.1cm,yshift=0.1cm]T2.center) -- cycle;
+    %
+    \node[right = 1.5cm of T1] (H0) {$\bullet$};
+    \node[right = 1cm of H0] (H1) {$\bullet$};
+    \node[below = 1cm of H1] (H2) {$\bullet$};
+    \path[->] (H0) edge (H1);
+    \path[->] (H1) edge (H2);
+  \end{tikzpicture}
+  \caption{Візуалізація $\Int^2$, $\Delta^2$ та $\Lambda^2_1$.}
+  \label{fig:prelims:viz}
+\end{figure}
+
+Відображення $f : \Delta^2 \to X$ називається свідченням того, що композиція $f\prn{-,0}$, за якою йде $f\prn{1,-}$, є $\lambda i.\,f\prn{i,i}$. Ми наголошуємо, що це — \emph{дані}; може бути багато різних $f$, що свідчать про одну і ту саму композицію, оскільки $X$ може мати багато нееквівалентних $2$-клітин з однією і тією ж границею. З цієї ж причини, однак, не завжди пара компонованих морфізмів $\Lambda^2_1 \to X$ поширюється до даних композиції $\Delta^2 \to X$. Це саме тому, що не кожен тип у \STT{} можна розглядати як категорію; хоча ми визначили $\Hom[X]{x}{y}$ для кожного $X$, не існує апріорного способу \emph{компонування} цих морфізмів. Прекатегорії — це типи, для яких існують усі композиції:
+\begin{defi}
+  \emph{Прекатегорія} — це тип $X$, що задовольняє умову Сегала:
+  вкладення $\Lambda^2_1 \to \Delta^2$ індукує еквівалентність $\IsEquiv\prn{X^{\Delta^2} \to X^{\Lambda^2_1}}$.
+\end{defi}
+Грубо кажучи, умова Сегала гарантує, що кожна пара компонованих морфізмів в $X$ поширюється (унікально) до $2$-клітини, що свідчить про їх композицію, і, зокрема, існує індукована функція композиції $\Hom{x}{y} \times \Hom{y}{z} \to \Hom{x}{z}$. Унікальність автоматично гарантує, що ця операція є асоціативною та унітальною. Визначення категорії уточнює це дещо далі. У прекатегорії $X$ ми можемо визначити тип ізоморфізмів $x \cong y$ між $x,y : X$, і тому існує два потенційно різних типи свідчень того, що $x$ та $y$ є ідентичними: $x =_X y$ та $x \cong_X y$. Категорія — це прекатегорія, для якої ці два типи є канонічно еквівалентними.
+\begin{defi}
+  $\alpha : \Hom{x}{y}$ є ізоморфізмом ($\IsIso\prn{\alpha}$), якщо існують $\beta_0,\beta_1 : \Hom{y}{x}$, такі що $\beta_0 \circ f = \ArrId{}$, $f \circ \beta_1 = \ArrId{}$.\footnote{Це саме HoTT-еквівалентність, але перенесена на синтетичні морфізми.} Ми пишемо $\Iso{x}{y}$ або $x \cong y$ для підтипу ізоморфізмів.
+\end{defi}
+\begin{defi}
+  \label{def:prelims:category}
+    Прекатегорія $C$ є \emph{категорією}, якщо вона задовольняє умову Резка:
+    \[
+      \Prod{\DeclVar{x,y}{}{C}} \IsEquiv\prn{\DeclVar{\mathsf{idtoiso}}{}{\prn{x=y} \to \Iso{x}{y}}}
+    \]
+    де $\mathsf{idtoiso}(\mathsf{refl}) := \ArrId{}$.
+    Якщо кожен морфізм у $C$ є ізоморфізмом, то $C$ є \emph{групоїдом}.
+\end{defi}
+\begin{exa}
+  $\Int,\Delta^n,\Int^n$ є категоріями~\parencite{gratzer:2024}.
+\end{exa}
+
+\section{Модальна та симпліціальна теорія типів}
+\label{sec:prelims}
+
+У цій статті ми сприймаємо \STT{} значною мірою як належне і зосереджуємося на роботі всередині теорії. Однак, щоб зробити цю статтю більш самодостатньою, ми присвячуємо цей розділ ретельному поясненню нових конструкцій модальної гомотопічної теорії типів та аксіом, що її доповнюють і утворюють симпліціальну теорію типів.
+
+\subsection{Гомотопічна теорія типів}
+Ми починаємо з нагадування основних понять і позначень гомотопічної теорії типів, які ми використовуємо в цій статті. Канонічним джерелом є книга \HoTT{}~\parencite{hottbook}. Ми працюємо в межах інтенсіональної теорії типів Мартіна-Льофа і зауважимо, як \HoTT{} розширює її.
+
+\begin{nota}
+  Ми пишемо $a =_A b$ для типу ідентичності (часто опускаючи $A$). Дано $p : a =_A b$ та
+  $B : A \to \Uni$, ми пишемо $p_!$ для відображення $B\prn{a} \to B\prn{b}$.
+\end{nota}
+
+\begin{defi}
+  Ми кажемо, що функція $f : A \to B$ є еквівалентністю, якщо $f$ допускає як лівий, так і правий
+  обернений:
+  \[
+    \IsEquiv\prn{f} =
+    \Sum{g,h : B \to A} \prn{g \circ f = \ArrId{}} \times \prn{f \circ h = \ArrId{}}
+  \]
+  Ми пишемо $A \Equiv B$ для суми $\Sum{f : A \to B} \IsEquiv\prn{f}$.
+\end{defi}
+\HoTT{} є розширенням інтенсіональної теорії типів з ієрархією універсумів, що задовольняють аксіому унівалентності:
+\[
+  \Con{univ}_i
+  :
+  \Prod{A, B : \Uni[i]} \IsEquiv\prn{
+    \lambda p.\,\prn{p_!, \cdots} : A =_{\Uni[i]} B \to A \Equiv B
+  }
+\]
+Ми будемо опускати $i$ в $\Con{univ}_i$ та $\Uni[i]$ і ігнорувати питання розміру, якщо вони не є суттєвими. Унівалентність породжує велику кількість шляхів у $\Uni$, які відрізняються від $\Refl$. Нас часто цікавлять типи, які є тривіальними, мають лише тривіальні шляхи або тривіальні шляхи між шляхами і так далі. Ці умови організовані в сімейство предикатів, що називаються рівнем усічення ($-2,-1,0,\ldots$) типу. Ми будемо використовувати лише перші три рівні, стверджуючи, що тип є стягуваним, (гомотопічною) пропозицією або множиною:
+\begin{mathparpagebreakable}
+  \IsContr\prn{A} = \Sum{a : A} \Prod{b : A} a = b
+  \and
+  \IsProp\prn{A} = \Prod{a,b : A} \IsContr\prn{a = b}
+  \and
+  \IsSet\prn{A} = \Prod{a,b : A} \IsProp\prn{a = b}
+\end{mathparpagebreakable}
+
+\begin{prop}[\textcite{shulman:2019}, див. також \textcite{riehl:2024}]
+  \label{thm:prelims:hott-models}
+  Усі теоретико-типові модельні топоси
+  \textup(і, отже, $\infty$-топоси Гротендіка\textup) моделюють \HoTT{}.
+\end{prop}
+
+Ми також матимемо нагоду використовувати різні \emph{вищі індуктивні типи} (ВІТ). Семантика ВІТ є складною і безпосередньо не розглядається наведеним вище результатом~\parencite{lumsdaine:2019}. Зокрема, хоча \textcite{shulman:2019} показує, що вищезгадана модель підтримує всі вищі індуктивні типи, він не показує, що універсуми є строго замкненими щодо цих конструкцій. Хоча робота над отриманням цього результату триває, легко показати, що універсуми є \emph{слабко} замкненими щодо цих конструкцій. Наприклад, існує тип $D : \Uni[0]$, такий що $D \Equiv A \Pushout{C} B$ щоразу, коли $A,B,C : \Uni[0]$. Відповідно, ми будемо припускати, що наші універсуми замкнені щодо вищих індуктивних типів, хоча і лише з пропозиційними $\beta$-правилами.
+
+\subsection{Симпліціальна теорія типів}
+Маючи під рукою \HoTT{}, ми переходимо до симпліціальної теорії типів. Це розширення \HoTT{} кількома аксіомами, які дозволяють нам розглядати (певні) типи як $(\infty,1)$-категорії, що надалі будуть називатися просто категоріями. Ми, відповідно, опускатимемо префікс $(\infty,1)$- або $\infty$- скрізь. По-перше і найфундаментальніше, ми додаємо наступне:
+
+\begin{restatable}{axiom}{intaxiom}
+  \label{ax:int}
+  Існує множина $\Int$, що утворює обмежену дистрибутивну ґратку $\prn{0,1,\lor,\land}$ таку,
+  що $\Prod{i,j : \Int} i \le j \lor j \le i$ виконується.
+\end{restatable}
+Ми розглядаємо $\Int$ як \emph{напрямлений інтервал}, і \textcite{riehl:2017} використовують це, щоб надати кожному типу поняття синтетичного морфізму:
+\begin{defi}
+  Синтетичний морфізм $f : \Hom[X]{x}{y}$ між $x,y : X$ - це функція $f : \Int \to X$ разом
+  з пропозиційними рівностями $f\,0 =_X x$ та $f\,1 =_X y$.
+\end{defi}
+
+\begin{rem}
+  В \textcite{riehl:2017}, синтетичний інтервал визначається як більш примітивна судженнява структура
+  і $\Hom{x}{y}$ використовує строгі типи розширення. Це дає більше визначених рівностей: $f\,0$ та
+  $x$ співпадатимуть за означенням, коли $f : \Hom{x}{y}$ (і аналогічно для $f\,1$ та $y$). Проте, підхід
+  суджень не дозволяє прямо включити $\Int$ як звичайний тип, і його взаємодії з модальностями
+  (Розділ~\ref{sec:prelims:modal-stt}) є складними. З цих причин, ми працюємо з простішим, але менш
+  строгим означенням $\Hom{x}{y}$. В системі, де обидва доступні, ці два поняття еквівалентні\parencite{buchholtz:2023}.
+\end{rem}
+
+Звісно, ми можемо визначити тотожний морфізм $\ArrId{x} : x \to x$ як $\lambda \_.\,x$. Більше того, кожна
+функція $f : X \to Y$ автоматично має дію на синтетичні морфізми $\alpha : \Int \to X$ шляхом
+пост-композиції $f \circ \alpha : \Int \to Y$. В такому випадку ми часто пишемо $f\prn{\alpha}$.
+
+З $\Int$ ми негайно отримуємо $n$-куби $\Int^n$ і з них ми можемо виділити симплекси
+$\Delta^n$, межі $\partial \Delta^n$ та роги $\Lambda_k^n$. Зокрема, $\Delta^2 \to X$
+представляє $2$-комірку в $X$, що свідчить про композицію двох стрілок,
+і $\Lambda^2_1 \to X$ представляє пару композиційних стрілок (без композиції). Ми наводимо означення
+цих типів нижче:
+\begin{mathparpagebreakable}
+  \Delta^n = \Compr{\prn{i_1, \dots, i_n} : \Int^n}{i_1 \ge i_2 \ge \dots \ge i_n}
+  \and
+  \Lambda^2_1 = \Compr{\prn{i,j} : \Int^2}{i = 1 \lor j = 0}
+\end{mathparpagebreakable}
+
+\begin{nota}
+  Ми пишемо $i : \Delta^n$ ($0 \le i \le n$) як скорочений запис для послідовності з $i$ копій $1$, за якими слідує $0$: $\prn{1, 1, \dots, 0, \dots}$.
+\end{nota}
+
+\begin{figure}
+  \begin{tikzpicture}[diagram]
+    \node (Ax00) {\tiny $0$};
+    \node[right = 0.75cm of Ax00] (Ax10) {\tiny $1$};
+    \node[below = 0.75cm of Ax00] (Ax01) {\tiny $1$};
+    \path[->] (Ax00) edge node[above] {\tiny $i$} (Ax10);
+    \path[->] (Ax00) edge node[left] {\tiny $j$} (Ax01);
+    %
+    %
+    \SpliceDiagramSquare{
+      nw/style = {below right = -0.3cm and 1.3cm of Ax01},
+      height = 1cm,
+      width = 1cm,
+      nw = {\bullet},
+      ne = {\bullet},
+      sw = {\bullet},
+      se = {\bullet},
+    }
+    \fill[pattern=north west lines]
+    ([xshift=-0.1cm,yshift=0.1cm]nw.south east) --
+    ([xshift=0.1cm,yshift=0.1cm]ne.south west) --
+    ([xshift=0.1cm,yshift=-0.1cm]se.north west) --
+    ([xshift=-0.1cm,yshift=-0.1cm]sw.north east) -- cycle;
+    %
+    \node[right = 1.5cm of ne] (T0) {$\bullet$};
+    \node[right = 1cm of T0] (T1) {$\bullet$};
+    \node[below = 1cm of T1] (T2) {$\bullet$};
+    \path[->] (T0) edge (T1);
+    \path[->] (T0) edge (T2);
+    \path[->] (T1) edge (T2);
+    \fill[pattern=north west lines]
+    ([yshift=0.1cm,]T0.south east) --
+    ([yshift=0.1cm,xshift=0.15cm]T1.south west) --
+    ([xshift=0.15cm]T2.north west) -- cycle;
+    %
+    \node[right = 1.5cm of T1] (H0) {$\bullet$};
+    \node[right = 1cm of H0] (H1) {$\bullet$};
+    \node[below = 1cm of H1] (H2) {$\bullet$};
+    \path[->] (H0) edge (H1);
+    \path[->] (H1) edge (H2);
+  \end{tikzpicture}
+  \caption{Visualization of $\Int^2$, $\Delta^2$, and $\Lambda^2_1$.}
+  \label{fig:prelims:viz}
+\end{figure}
+
+A map $f : \Delta^2 \to X$ is said to witness that the composite of $f\prn{-,0}$
+followed by $f\prn{1,-}$ is $\lambda i.\,f\prn{i,i}$. We emphasize that this is \emph{data}; there
+can be many distinct $f$'s witnessing the same composition as $X$ may have many non-equivalent
+$2$-cells with the same boundary. By the same token however, it is not always the case that a pair of
+composable morphisms $\Lambda^2_1 \to X$ extends to a composition datum $\Delta^2 \to X$. This is
+precisely because not every type in \STT{} can be regarded as a category; even though we have
+defined $\Hom[X]{x}{y}$ for every $X$, there is no \emph{a priori} way of \emph{composing} these morphisms.
+Precategories are types for which all composites exist:
+\begin{defi}
+  A \emph{precategory} is a type $X$ satisfying the Segal condition:
+  the inclusion $\Lambda^2_1 \to \Delta^2$ induces an equivalence $\IsEquiv\prn{X^{\Delta^2} \to X^{\Lambda^2_1}}$.
+\end{defi}
+Roughly, the Segal condition ensures that every pair of composable morphisms in $X$ extends
+(uniquely) to a $2$-cell witnessing their composition and, in particular, there is an induced
+composition function $\Hom{x}{y} \times \Hom{y}{z} \to \Hom{x}{z}$. Uniqueness automatically ensures
+that this operation is associative and unital. The definition of a category refines this
+slightly. In a precategory $X$ we are able to define the type of isomorphisms $x \cong y$ between
+$x,y : X$ and so there are two potentially distinct types of evidence for $x$ and $y$ being
+identical: $x =_X y$ and $x \cong_X y$. A category is a precategory for which these two types are
+canonical equivalent.
+\begin{defi}
+  $\alpha : \Hom{x}{y}$ is an isomorphism ($\IsIso\prn{\alpha}$) if there exist
+  $\beta_0,\beta_1 : \Hom{y}{x}$ such that $\beta_0 \circ f =
+  \ArrId{}$,$f \circ \beta_1 = \ArrId{}$.\footnote{This is precisely the \HoTT{} equivalence but recast
+    into synthetic morphisms.} We write $\Iso{x}{y}$ or $x \cong y$ for the subtype of isomorphisms.
+\end{defi}
+\begin{defi}
+  \label{def:prelims:category}
+    A precategory $C$ is a \emph{category} if it satisfies the Rezk condition:
+    \[
+      \Prod{\DeclVar{x,y}{}{C}} \IsEquiv\prn{\DeclVar{\mathsf{idtoiso}}{}{\prn{x=y} \to \Iso{x}{y}}}
+    \]
+    where $\mathsf{idtoiso}(\mathsf{refl}) := \ArrId{}$.
+    If every morphism in $C$ is an isomorphism, then $C$ is a \emph{groupoid}.
+\end{defi}
+\begin{exa}
+  $\Int,\Delta^n,\Int^n$ are all categories~\parencite{gratzer:2024}.
+\end{exa}
+
+\begin{lem}
+  $C$ is a groupoid if and only if $\IsEquiv\prn{\DeclVar{C^{!_\Int}}{}{C \to C^\Int}}$
+  \textup($C$ is \emph{$\Int$-null} \textup{\cite{rijke:2020})}.
+\end{lem}
+
+\textcite{riehl:2017} develop the basic theory of these synthetic categories.
+As noted above, every
+function has an action on morphisms and \opcit{} shows that this action preserves compositions and
+identities and therefore defines a functor. They also show that $C \to D$ is then a category
+whenever $D$ is, and that synthetic morphisms $\Hom[D^C]{f}{g}$ are precisely natural
+transformations. One can reformulate various classical categorical notions rather directly:
+\begin{defiC}[\parencite{bardomiano:2021}]
+  A natural transformation $\alpha : \Hom[C^I]{\Const\prn{c}}{F}$ witnesses $c$ as the limit of
+  $F : C^I$ if $\alpha$ induces an equivalence $\Hom{c'}{c} \Equiv \Hom{\Const\prn{c'}}{F}$ for all $c'$.
+\end{defiC}
+
+\begin{defi}
+  An adjunction between two categories $C,D$ consists of a pair of functions $f : C \to D$ and
+  $g : D \to C$ with a natural isomorphism
+  $\iota : \Prod{c,d} \Hom{f\prn{c}}{d} \Equiv \Hom{c}{g\prn{d}}$.
+\end{defi}
+
+While we have given a few examples of categories above, a notable type that is \emph{not} category
+is the universe $\Uni$. Maps $A : \Int \to \Uni$ are too unstructured to compose and, in particular,
+correspond neither to functions $A\prn{0} \to A\prn{1}$ nor $A\prn{1} \to A\prn{0}$ (consider
+$\lambda i.\, i = 0$ or $\lambda i.\, i = 1$). In Section~\ref{sec:prelims:modal-stt}, we shall discuss the
+subuniverse $\Space$ constructed previously~\parencite{gratzer:2024}, which is a category of groupoids whose
+morphisms correspond to functions.  To properly situate this definition, we recall what it means for
+$X : A \to \Uni$ to be covariant~\parencite{riehl:2017}, giving an assignment from morphisms
+$\Hom{a_0}{a_1}$ to functions $X\prn{a_0} \to X\prn{a_1}$.
+
+\begin{nota}
+  Given $X : A \to \Uni$ we write $\TotalType{X}$ for $\Sum{a : A} X\prn{a}$.
+\end{nota}
+
+\begin{defi}
+  A family $X : A \to \Uni$ is \emph{covariant}
+  if for every $a : \Hom{a_0}{a_1}$ and $x_0 : X\prn{a_0}$,
+  the following is contractible:
+  \[
+    \Con{Lift}\prn{a,x_0} =
+    \Sum{x_1 : X\prn{a_1}}
+    \Sum{x : \Hom{\prn{a_0,x_0}}{\prn{a_1,x_1}}}
+    \Proj[1]\prn{x} =_{\Hom{a_0}{a_1}} a
+  \]
+  Here, $x$ is a morphism in $\TotalType{X}$. We further say the projection
+  $\Sum{a : A} X\prn{a} \to A$ is covariant when $X$ is. For a general map $\pi : X \to A$ we write
+  $X_a$ for $\Sum{x : X} \pi\prn{x} = a$ and say $\pi$ is covariant when $\lambda a.\,X_a$ is.
+\end{defi}
+
+Since $\Con{Lift}\prn{a,x_0}$ is contractible it has an inhabitant $x_1$. This yields a function
+$a,x_0 \mapsto x_1$ which defines $a_! : X\prn{a_0} \to X\prn{a_1}$. The contractibility of
+$\Con{Lift}\prn{a,x_0}$ ensures that these functions compose correctly, \etc{}
+
+\begin{lem}
+  \label{lem:prelims:covariant}
+  A family $\DeclVar{X}{}{A \to \UU}$ is covariant if and only if the map
+  $\bar{\pi} := \lambda p.\,\prn{p\prn{0}, \Proj[1] \circ p} : \TotalType X^\Int \to \TotalType X \times_A A^\Int$
+  is an equivalence.
+\end{lem}
+
+In Sections~\ref{sec:adj:pw} and \ref{sec:kan:quillen-a}, we shall briefly use a weakening of covariance:
+\begin{defi}
+  A family $X : A \to \Uni$ is cocartesian if
+  ${\TotalType{X}}^\Int \to A^\Int \times_{A^{\brc{1}}} {\TotalType{X}}^{\brc{1}}$ is a right
+  adjoint $\ell \Adjoint \bar{\pi}$ such that $\bar{\pi} \circ \ell = \ArrId{}$.
+\end{defi}
+One can give an equivalent characterization in terms of cocartesian morphisms and show that \eg{},
+every morphism in $D$ can be factored as a cocartesian morphism followed by a vertical morphism:
+\begin{thm}[\textcite{buchholtz:2023}]
+  If a map $\pi : D \to C$ is cocartesian then for every $c : \Int \to C$, $x_0 : C_{c(0)}$, the
+  category $\Con{Lift}\prn{c,x_0}$ has an initial object.
+\end{thm}
+Dually, one can consider contravariant and cartesian families and fibrations.
+
+Finally, we note that since categories and groupoids are defined by certain
+\emph{orthogonality} conditions, by \textcite{rijke:2020} they define reflective subuniverses.
+\begin{prop}
+  There are idempotent monads $\Rezkify,\Grpdify$ such that, \eg{}, $\Rezkify X$ is a category and
+  $C^{\Rezkify X} \Equiv C^X$ when $C$ is a category.
+\end{prop}
+
+\begin{prop}[\textcite{riehl:2017}]
+  \label{thm:prelims:stt-models}
+  When Theorem~\ref{thm:prelims:hott-models} is specialized to simplicial spaces
+  \textup($\PSH{\SIMP}$\textup), the
+  resulting model validates Axiom~\ref{ax:int} and in this model categories are realized by
+  $\infty$-categories \textup(modeled by complete Segal spaces\textup)
+  and groupoids by $\infty$-groupoids.
+\end{prop}
+
+
+\subsection{Modal homotopy type theory}
+Many theorems in category theory require the ability to quantify over the objects in a category,
+\eg{}, ``if $\alpha : F \to G$ is a natural transformation of functors $\CC \to \DD$ and each
+$\alpha_c$ is invertible, then $\alpha$ is invertible''. A version of this is proven by
+\textcite{riehl:2017}:
+$\prn{\Prod{c : C} \IsIso\prn{\lambda i.\,\alpha\,i\,c}} \to \IsIso\prn{\alpha}$, but this is subtly
+different as we discuss below. In fact, as it stands we cannot directly capture the classical
+statement in \STT{}.
+
+To understand the divergence between the \STT{} and classical results, note that by working
+internally to type theory when proving $\Prod{c : C} \IsIso\prn{\lambda i.\,\alpha\,i\,c}$ we
+cannot assume that $c$ is just an object in $C$: since it is an arbitrary element, we have to assume
+it is constructed in an arbitrary context which might contain, \eg{}, a copy of $\Int$ such that $c$
+represents a synthetic morphism. In fact, if we unfold the above type into the model we find that
+constructing $\Prod{c : C} \IsIso\prn{\lambda i.\,\alpha\,i\,c}$ already entails proving that the
+chosen inverses are natural. A great deal of the power of simplicial type theory comes from this
+implicit naturality, but it makes this particular result weaker. After all, its purpose in standard
+category theory was that in this particular situation, \emph{a priori} unnatural choices of inverses
+will automatically be natural. Moreover, we shall encounter theorems that are simply false when
+naively translated in this way.
+
+Accordingly, to make \STT{} practical we must extend it with \emph{modalities}: unary type
+constructors distinguished by their failure to respect substitution or apply in arbitrary
+contexts. For instance, we shall eventually equip \STT{} with a modality $\Modify[\GM]{-}$ which
+discards all non-invertible synthetic morphisms from a type to produce its \emph{core},
+which we then
+use to faithfully encode pointwise invertibility (see Example~\ref{ex:prelim:pw-naturality}).
+
+A complete reference to the modal type theory we use---\MTT{}~\parencite{gratzer:2020}---is given by
+\textcite{gratzer:phd} and we record formal rules in Section~\ref{sec:mtt-rules}. Fortunately, the rules
+for, \eg{}, $\Sum{}$-types are unaffected by the addition of modalities. Accordingly, for brevity we only recall the new rules which must be added to \MLTT{} to extend \HoTT{} with modalities
+\`a la \MTT{}.
+
+\MTT{} is parameterized by a \emph{mode theory}: a strict $2$-category describing the collection
+of modalities (the morphisms) available along with the natural transformations between them (the
+$2$-cells).  We use $\mu,\nu,\xi$ to range over modalities. In the case of simplicial type theory,
+our mode theory will have only one object along with a handful of generating modalities and
+$2$-cells. There are four generating modalities $\GM,\SM,\OM,\TM$ subject to the following
+equations:
+\begin{mathparpagebreakable}
+  \GM = \GM \circ \GM = \GM \circ \SM = \GM \circ \OM = \TM \circ \GM %
+  \and
+  \SM = \SM \circ \SM = \SM \circ \GM = \SM \circ \OM %
+  \and
+  \OM \circ \OM = \ArrId{}
+\end{mathparpagebreakable}
+
+We further require the following generating 2-cells:
+\begin{mathparpagebreakable}
+  \epsilon : \GM \to \ArrId{} \qquad \zeta : \ArrId{} \to \SM
+  \and
+  \tau : \TM \cong \TM \circ \OM \quad\text{(with $\tau^{-1})$}
+  \and
+  \pi_0^\TM : \TM \to \OM
+  \and
+  \pi_1^\TM : \TM \to \ArrId{}
+\end{mathparpagebreakable}
+
+These 2-cells are likewise subject to a number of equations. For $\epsilon$ and $\zeta$, we
+require $\zeta \Whisker \SM = \SM \Whisker \zeta = \ArrId{}$ viewing all of these as 2-cells
+$\SM \to \SM$ and $\GM \Whisker \zeta = \ArrId{} : \GM \to \GM$ (using $\Whisker$ to denote
+whiskering).  We require the dual equations on $\epsilon$. For the remaining four 2-cells, we
+require that the following diagrams commute:
+\[
+  \begin{tikzpicture}[diagram]
+    \node (T) {$\TM$};
+    \node [below = of T] (OT) {$\TM \circ \OM$};
+    \node [left = 2.5cm of OT] (OC) {$\OM$};
+    \node [right = 2.5cm of OT] (C) {$\ArrId{}$};
+    \path[->] (T) edge node[right] {$\tau$} (OT);
+    \path[->] (OT) edge node[below] {$\pi^\TM_0 \Whisker \OM$} (C);
+    \path[->] (OT) edge node[below] {$\pi^\TM_1 \Whisker \OM$} (OC);
+    \path[->] (T) edge node[above] {$\pi^\TM_1$} (C);
+    \path[->] (T) edge node[above] {$\pi^\TM_0$} (OC);
+  \end{tikzpicture}
+  \qquad
+  \begin{tikzpicture}[diagram]
+    \node (T) {$\GM$};
+    \node [below = of T] (OT) {$\TM$};
+    \node [left = 2.5cm of OT] (OC) {$\OM$};
+    \node [right = 2.5cm of OT] (C) {$\ArrId{}$};
+    \path[->] (T) edge node[near end,right] {$\TM\Whisker\epsilon$} (OT);
+    \path[->] (OT) edge node[below] {$\pi^\TM_0$} (C);
+    \path[->] (OT) edge node[below] {$\pi^\TM_1$} (OC);
+    \path[->] (T) edge node[above] {$\epsilon$} (C);
+    \path[->] (T) edge node[above=5pt] {$\epsilon\Whisker\OM$} (OC);
+  \end{tikzpicture}
+\]
+
+Each morphism $\mu$ in the mode theory induces a modal type $\Modify[\mu]{-}$. We will describe the
+rules for these modal types in a moment, but first we give some idea of what they are intended to
+denote. For now this is merely intuition, though the axioms and model described in
+Section~\ref{sec:prelims:modal-stt} will make it so. As already mentioned, $\Modify[\GM]{-}$ removes all
+non-identity synthetic morphisms from a type. $\Modify[\SM]{-}$ is the right adjoint to this
+operation and so it discards all non-identity morphisms but then freely adds all morphisms so that
+an $n$-simplex $\Delta^n \to \Modify[\SM]{X}$ is exactly a collection of $n$ points in
+$X$. \footnote{Note that while $\Modify[\GM]{X}$  will always be an $\infty$-category, in fact an
+$\infty$-groupoid, the same is not true of $\Modify[\SM]{X}$. In particular, $\Modify[\SM]{X}$
+will hardly ever satisfy the Rezk condition.} Next, $\Modify[\OM]{-}$ sends a type to its opposite
+and, in particular, reverses the directions of all synthetic morphisms. Finally, $\Modify[\TM]{-}$
+sends a type to its corresponding type of \emph{twisted arrows}; we shall analyze it in more depth
+in Section~\ref{sec:tw}.
+
+The formation rule for $\Modify[\mu]{-}$ is complex: the entire point of modalities is that
+$\Gamma \vdash A$ does not imply $\Gamma \vdash \Modify{A}$. Instead, \MTT{} introduces a novel form
+of context operation which acts like a ``left adjoint'' to $\Modify[\mu]{-}$:
+\begin{mathparpagebreakable}
+  \inferrule{
+    \IsCx{\Gamma}
+  }{
+    \IsCx{\LockCxV{\Gamma}}
+  }
+  \and
+  \inferrule{
+    \IsTy[\LockCxV{\Gamma}]{A}
+  }{
+    \IsTy{\Modify{A}}
+  }
+  \and
+  \inferrule{
+    \IsTm[\LockCxV{\Gamma}]{a}{A}
+  }{
+    \IsTm{\MkMod{a}}{\Modify{A}}
+  }
+\end{mathparpagebreakable}
+We refer to $\brc{\mu}$ as a \emph{modal restriction}. It is helpful to compare $\Modify[\mu]{A}$
+with dependent products and, therefore, to see $\LockCxV{-}$ as extending the context by something
+akin to a substructural ``$\mu$ variable''~\parencite{bahr:2017,birkedal:2020}. The real force of
+modalities comes through how these $\brc{\mu}$s interact with variables. In particular, it is not the
+case that $\Gamma, x : A, \brc{\mu} \vdash x : A$; since $\LockCxV{-}$ is intended to model a left
+adjoint, we cannot generally assume that there is a weakening substitution
+$\LockCxV{\Gamma} \to \Gamma$. Instead, we alter the rule extending a context with a variable so
+that each variable is annotated with a modality:
+\begin{mathparpagebreakable}
+  \inferrule{
+    \IsCx{\Gamma}
+    \\
+    \IsTy[\LockCxV{\Gamma}]{A}
+  }{
+    \IsCx{\MECxV{\Gamma}{x}{A}}
+  }
+  \and
+  \inferrule{
+    \alpha : \mu \to \Con{mods}\prn{\Gamma_1}
+  }{
+    \IsTm[\Gamma_0, \DeclVar{x}{\mu}{A}, \Gamma_1]{x^\alpha}{A^\alpha}
+  }
+\end{mathparpagebreakable}
+In the above, $x^\alpha$ is the new form of variable rule while $A^\alpha$ is an admissible
+operation on the syntax which traverses the term $A$ and appropriately updates all free variables
+$y^\beta$ occurring within $A$ and modifying $\beta$ appropriately using $\alpha$. In particular, if
+$A$ is closed then $A^\alpha = A$. In the formal syntax, both $x^\alpha$ and $A^\alpha$ are realized
+by form of substitution, see \textcite{gratzer:mtt-journal:2021} for further details.
+
+The original context extension is given by taking $\mu = \ArrId{}$. In the second rule,
+$\Con{mods}\prn{\Gamma_1}$ is the composite $\nu_0 \circ \nu_1 \circ \cdots$ of all the
+$\brc{\nu_i}$s occurring in $\Gamma_1$ (and is $\ArrId{}$ if there are no such occurrences). In
+other words, a variable with annotation $\mu$ can be used precisely when it occurs behind a series
+of modal restrictions for which there is a 2-cell navigating from $\mu$ to this composite. It is
+therefore in the variable rule where the 2-cells comes into play.
+\begin{lem}
+  If $\IsTy[\Gamma, \DeclVar{x}{\mu}{A}]{B}$, $\IsTm[\Gamma, \DeclVar{x}{\mu}{A}]{b}{B}$,
+  and $\IsTm[\LockCxV{\Gamma}]{a}{A}$, then $\IsTy{\Sb{B}{a/x}}$ and $\IsTm{\Sb{b}{a/x}}{\Sb{B}{a/x}}$.
+\end{lem}
+
+The final piece of the puzzle is the elimination rule for modalities. Roughly, this rule says that
+modal annotations are equivalent to modal types ``from the perspective of a type'', \ie{}, that giving
+an element in context $\MECxV{\Gamma}{x}[\nu]{\Modify[\mu]{A}}$ is the same as giving one in
+$\MECxV{\Gamma}{x}[\nu\circ\mu]{A}$. This concretely amounts to the following pattern-matching rule
+which allows us to assume that $\DeclVar{x}{\nu}{\Modify[\mu]{A}}$ is of the form $\MkMod{y}$ where
+$\DeclVar{y}{\nu\circ\mu}{A}$:
+\begin{mathparpagebreakable}
+  \inferrule{
+    \IsTy[\MECxV{\Gamma}{x}[\nu]{\Modify{A}}]{B}
+    \\
+    \IsTm[\MECxV{\Gamma}{y}[\nu\circ\mu]{A}]{b}{\Sb{B}{\MkMod[\mu]{y}/x}}
+    \\
+    \IsTm[\LockCxV{\Gamma}[\nu]]{a}{\Modify{A}}
+  }{
+    \IsTm{\LetMod{a}[y]{b}}{\Sb{B}{a/x}}
+  }
+  \and
+  \inferrule{
+    \IsTy[\MECxV{\Gamma}{x}[\nu]{\Modify{A}}]{B}
+    \\
+    \IsTm[\MECxV{\Gamma}{y}[\nu\circ\mu]{A}]{b}{\Sb{B}{\MkMod[\mu]{y}/x}}
+    \\
+    \IsTm[\LockCxV{\Gamma}[\nu\circ\mu]]{a}{A}
+  }{
+    \EqTm{\prn{\LetMod{\MkMod{a}}[y]{b}}}{\Sb{b}{a/y}}{\Sb{B}{\MkMod{a}/x}}
+  }
+\end{mathparpagebreakable}
+
+While these rules account for all of the necessary extensions to handle modal types, we avail
+ourselves of a convenience feature as well, modal $\Prod{}$-types:
+\begin{mathparpagebreakable}
+  \inferrule{
+    \IsTm[\MECxV{\Gamma}{x}{A}]{b}{B}
+  }{
+    \IsTm{\lambda x.b}{\Prod{\DeclVar{x}{\mu}{A}} B}
+  }
+  \and
+  \inferrule{
+    \IsTm{f}{\Prod{\DeclVar{x}{\mu}{A}} B}
+    \quad
+    \IsTm[\LockCxV{\Gamma}]{a}{A}
+  }{
+    \IsTm{f\prn{a}}{\Sb{B}{a/x}}
+  }
+\end{mathparpagebreakable}
+
+\begin{nota}
+  ``If $\DeclVar{c}{\GM}{C}$, then $\Phi\prn{c}$'' signifies
+  $\Prod{\DeclVar{c}{\GM}{C}} \Phi\prn{c}$.
+\end{nota}
+
+\begin{exa}
+  \label{ex:prelim:pw-naturality}
+  A faithful translation of ``pointwise invertibility implies invertibility'' where
+  $\DeclVar{C,D}{\GM}{\Uni}$ and $\alpha : C \times \Int \to D$ is
+  $\prn{\Prod{\DeclVar{c}{\GM}{C}} \IsIso\prn{\lambda i.\,\alpha\,i\,c}}
+  \to \IsIso\prn{\alpha}$
+\end{exa}
+
+Immediately from these rules, we may prove the following:
+\begin{prop}[\textcite{gratzer:2020}]
+  \label{thm:prelims:mtt-facts}
+  \leavevmode
+  \begin{itemize}
+  \item $\Modify[\mu]{-}$ commutes with $\Sum{}$ and $\ObjTerm{}$
+  \item $\Con{comp} : \Modify[\mu]{\Modify[\nu]{-}} \Equiv \Modify[\mu\circ\nu]{-}$ and
+    $\Modify[\ArrId{}]{-} \Equiv \ArrId{}$
+  \item If $\alpha : \mu \to \nu$, then there is a map $\Coe^{\alpha} : \Modify[\mu]{{-}} \to \Modify[\nu]{-^\alpha}$.
+  \item $\Con{transp} : \Modify[\GM]{\Modify[\GM]{A} \to B} \Equiv \Modify[\GM]{A \to \Modify[\SM]{B}}$
+  \item $\Con{transp} : \Modify[\GM]{\Modify[\OM]{A} \to B} \Equiv \Modify[\GM]{A \to \Modify[\OM]{B}}$
+  \end{itemize}
+  The first point yields a function $\prn{\circledast} : \Modify{A \to B} \to \Modify{A} \to \Modify{B}$.
+\end{prop}
+
+When it will not confusion, we will suppress the equivalences
+$\Modify[\mu]{\Modify[\nu]{A}} \Equiv \Modify[\mu\circ\nu]{A}$ and $\Modify[\ArrId{}]{A} \Equiv
+A$. Furthermore, as there is no ambiguity, we suppress $\epsilon$ (and its whiskerings) and simply
+write $x$ instead of $x^\epsilon$ and similarly for $\zeta : \ArrId{} \to \SM$. Consequently, if
+$\DeclVar{A}{\GM}{\Uni}$ then we are able to simply write $\Modify[\TM]{A}$ rather than
+$\Modify[\TM]{A^{\TM\Whisker\epsilon}}$. By convention, we also avoid writing $x^{\ArrId{}}$.
+
+\begin{nota}
+  If $\IsTm[\LockCxV{\Gamma}]{f}{A \to B}$, we write $f^\dagger$ for the function
+  $\MkMod[\mu]{f} \mathbin{\circledast} -$.
+\end{nota}
+
+\begin{rem}\label{rem:prelims:coe-natural}
+  Since we shall capitalize on the fact repeatedly, we note that $\Coe^\alpha$ is always suitably
+  natural. For instance, fix $\DeclVar{f}{\GM}{A \to B}$. Then we construct a path
+  $\alpha : \Coe^{\pi_1^\TM} \circ f^\dagger = f \circ \Coe^{\pi_1^\TM}$ as follows:
+  \[
+    \alpha = \Con{funext}\prn{\lambda x.\,\LetMod[\TM]{x}[x_0]{\Refl}}
+  \]
+  Since this path is essentially a commuting conversion (it is given by induction to allow
+  $\Coe^{\pi_1^\TM}$ and $f^\dagger$ to reduce) it is fully coherent, with higher paths being
+  likewise constructed by induction and then reflexivity.
+\end{rem}
+
+In general, $\Modify[\mu]{-}$ need not commute with propositional equality. However, this is true in
+our intended models and so we impose it as an axiom:
+
+\begin{restatable}{axiom}{crispidaxiom}
+  The map $\MkMod[\mu]{a} = \MkMod[\mu]{b} \to \Modify{a = b}$ sending $\Refl$ to $\MkMod{\Refl}$ is
+  an equivalence for all $\DeclVar{a,b}{\mu}{A}$.%
+\end{restatable}
+
+To be very precise, this map is defined by path induction in the family of types
+$\lambda\prn{x,y:\Modify{A}}.\,\LetMod{x}[a]{\LetMod{y}[b]{\Modify{a = b}}}$. By
+\textcite{gratzer:normalization:2022}, there is a computational account of this principle.
+
+\begin{cor}
+  Each $\Modify[\mu]{-}$ commutes with pullbacks
+  $A \times_C B = \Sum{a : A} \Sum{b : B} f\prn{a} =_C g\prn{b}$.
+\end{cor}
+
+\begin{rem}
+  For readers familiar with \emph{spatial type theory}~\parencite{shulman:2018}, this modal type
+  theory is an extension of spatial type theory to include two additional modalities ($\OM$,
+  $\TM$). In particular, the results of \textcite{shulman:2018} that deal with $\GM$ and $\SM$ can
+  be reproduced in this setting.
+\end{rem}
+
+\subsection{Modalities and simplicial type theory}
+\label{sec:prelims:modal-stt}
+
+To connect the modal and simplicial structures, we impose the following axioms motivated by the
+intended model, as described in Theorem~\ref{thm:prelims:stt-models} (and more generally
+$\mathcal E^{\Op{\SIMP}}$ for an $\infty$-topos $\mathcal E$); see also the work of
+\textcite{myers:2023}. First, the opposite map should be an anti-equivalence of $\Int$:
+
+\begin{restatable}{axiom}{intopaxiom}
+  \label{ax:op-of-int-is-int}
+  There is an equivalence $\neg : \Modify[\OM]{\Int} \to \Int$ which swaps $0$ for $1$ and $\lor$ for $\land$.
+\end{restatable}
+\begin{cor}
+  We can extend $\neg$ to an equivalence $\neg : \Modify[\OM]{\Delta^n} \Equiv \Delta^n$.
+\end{cor}
+
+Next, we require the two possible notions of discreteness (being $\Int$-null or $\GM$-modal) to
+coincide:
+
+\begin{restatable}{axiom}{intdiscaxiom}
+  \label{ax:discrete-iff-crisp}
+  If $\DeclVar{A}{\GM}{\Uni}$, then $\Modify[\GM]{A} \to A$ is an equivalence \textup($A$ is \emph{discrete}\textup) if
+  and only if $A \to A^\Int$ is an equivalence \textup($A$ is \emph{$\Int$-null}\textup).
+\end{restatable}
+\begin{restatable}{axiom}{intglobalaxiom}
+  \label{ax:global-points}
+  The canonical map $\Bool \to \Int$ is injective and induces an equivalence $\Bool \Equiv \Modify[\GM]{\Int}$.
+\end{restatable}
+Motivated by our intended class of models, we insist that equivalences are jointly detected by
+$\Delta^n$:
+
+\begin{restatable}{axiom}{cubessepaxiom}
+  \label{ax:cubes-separate}
+  $\DeclVar{f}{\GM}{A \to B}$ is an equivalence if and only if
+    the following holds:
+    \[
+      \Prod{\DeclVar{n}{\GM}{\Nat}}
+      \IsEquiv\prn{
+        \prn{f_*}^\dagger : \Modify[\GM]{\Delta^n \to A}
+        \to
+        \Modify[\GM]{\Delta^n \to B}
+      }
+    \]
+\end{restatable}
+\noindent
+Note that since there is a section-retraction pair $\Delta^n \to \Int^n \to \Delta^n$, we can
+replace $\Delta^n$ with $\Int^n$ in the above principle.
+
+One useful application is the following:
+\begin{lem}
+  \label{lem:prelims:covariance-simplices}
+  A map $\DeclVar{\pi}{\GM}{X \to A}$ is covariant if and only if the map
+  $\Modify[\GM]{X^{\Delta^n}} \to \Modify[\GM]X \times_{\Modify[\GM]A} \Modify[\GM]{A^{\Delta^n}}$
+  induced by $\prn{0^*}^\dagger$ and $\prn{\pi_*}^\dagger$ is an equivalence
+  for all $\DeclVar n\GM\Nat$.
+\end{lem}
+
+
+\subsubsection*{The axiom for $\Modify[\TM]{-}$}
+Finally, we add a new axiom to \STT{} that governs $\TM$. For motivation, we recall some facts
+about the external definition of the twisted arrow functor $\PSH{\SIMP} \to \PSH{\SIMP}$ which
+$\Modify[\TM]{-}$ is intended to internalize. Classically, $\Con{Tw} : \PSH{\SIMP} \to \PSH{\SIMP}$
+is defined as follows:
+\[
+  \Con{Tw}\prn{X}\prn{\brk{n}} = X\prn{\Op{\brk{n}} \ast \brk{n}}
+\]
+Here we have written $\Op{\brk{n}} \ast \brk{n}$ instead of the equivalent $\brk{2n + 1}$ to clarify
+the action of this functor on morphisms: $f \mapsto \Op{f} \ast f$. (I.e., this corresponds to the
+join operation on finite linear orders.)
+
+As this functor is defined by precomposition, it is a right adjoint whose left adjoint is defined by
+left Kan extension. In particular, it sends $\Delta^n : \PSH{\SIMP}$ to $\Delta^{2n + 1}$ (again,
+with the functorial action given by twisting). As such, there is a universal map
+$\Mor[\eta_n]{\Delta^n}{\Con{Tw}\prn{\Delta^{2n+1}}}$ which, when unfolded, is given by the identity
+$\Mor{\brk{2n + 1}}{\brk{2n + 1}}$. Universality of $\eta_n$ amounts to the requirement that each
+morphism $\Mor[f]{\Delta^n}{\Con{Tw}\prn{C}}$ factors as $\Con{Tw}\prn{\hat{f}} \circ \eta_n$ for
+some unique $\Mor[\hat{f}]{\Delta^{2n + 1}}{C}$. Our axiom governing $\Modify[\TM]{-}$ axiomatizes
+this $\eta_n$ along with the property that
+$\Con{Tw}\prn{-} \circ \eta_n : \Hom{\Delta^{2n+1}}{C} \to \Hom{\Delta^n}{\Con{Tw}\prn{C}}$ is an
+equivalence. With this external motivation to hand, we proceed to fix some notation and state the
+axiom which governs $\Modify[\TM]{-}$.
+
+\begin{nota}
+  If $\DeclVar{n}{\GM}{\Nat}$, we have canonical maps $i_l : \Delta^n \to \Delta^{2n + 1}$,
+  $i_r : \Delta^n \to \Delta^{2n + 1}$, and $i_m : \Delta^1 \to \Delta^{2n + 1}$ which picks out
+  $\brc{0, \dots, n}$, $\brc{n + 1, \dots, 2n + 1}$, and $\brc{n, n + 1}$ respectively.  For
+  convenience, we write
+  $\bar{i}_l = i_l^\dagger \circ \neg : \Delta^n \to \Modify[\OM]{\Delta^{2n + 1}}$.
+\end{nota}
+
+Finally, in the statement of new axiom, we require a procedure which extends a map
+$f : {\Delta^n \to \Delta^m}$ to a map ${\Delta^{2n + 1} \to \Delta^{2m + 1}}$ which acts
+appropriately on the images of two inclusions $i_l,i_r : \Delta^n \to \Delta^{2n + 1}$. To justify
+this formally, we introduce the \emph{blunt join} $X \BluntJoin Y$:
+\[
+  X \BluntJoin Y = X \Pushout{X \times \brc{0} \times Y} \prn{X \times \Int \times Y} \Pushout{X \times \brc{1} \times Y} Y
+\]
+This is the directed version of the join $X \star Y$~\parencite[Ch 6]{hottbook} such that
+$X \BluntJoin Y$ is roughly $X \Coprod{} Y$ with morphisms adjoined to connect each $x:X$ to each $y:Y$.
+\begin{lem}
+  \label{lem:prelims:blunt-join-of-simplices}
+  If $C$ is a category, then
+  $C^{\Delta^{m+1+n}} \Equiv C^{\Delta^{m} \BluntJoin \Delta^n}$.
+\end{lem}
+\begin{defi}
+  If $\DeclVar{f}{\GM}{\Delta^n \to \Delta^m}$ and we take
+  $\Con{twist}\prn{f} : {\Delta^{2n + 1} \to \Delta^{2m + 1}}$ to be the map given given by uniquely
+  extending the map
+  $f^\dagger \BluntJoin f : \Modify[\OM]{\Delta^n} \BluntJoin {\Delta^n} \to \Modify[\OM]{\Delta^m}
+  \BluntJoin {\Delta^m}$ along the categorical equivalences
+  $\Modify[\OM]{\Delta^i} \BluntJoin {\Delta^i} \to \Delta^{2i + 1}$.
+\end{defi}
+
+\begin{restatable}{axiom}{twarraxiom}
+  \label{ax:twisted-arrow-equiv}
+  For each $\DeclVar{n}{\GM}{\Nat}$, there is a \textup(necessarily unique\textup) function
+  $\DeclVar{\eta_n}{\GM}{\Delta^n \to \Modify[\TM]{\Delta^{2n+1}}}$ such that the following map is an
+  equivalence, for each category $\DeclVar{C}{\GM}{\Uni}$:
+  \[
+    \iota \defeq \lambda \MkMod[\GM]{f}.\,\MkMod[\GM]{f^\dagger \circ \eta_n}
+    :
+    \Modify[\GM]{\Delta^{2n + 1} \to C}
+    \to
+    \Modify[\GM]{\Delta^{n} \to \Modify[\TM]{C}}
+  \]
+  Additionally, we require that
+  $\tau = \prn{\Coe^{\neg}}^\dagger : \Modify[\TM]{\Delta^{n}} \to \Modify[\TM]{\Modify[\OM]{\Delta^{n}}}$ and
+  that the diagrams in Figure~\ref{fig:prelims:tm-diagrams} commute \textup(these are mere properties---all
+  objects are sets since $\Modify[\mu]{-}$ preserves h-level\textup).
+\end{restatable}
+\begin{figure}
+  \centering
+  \[
+    \begin{tikzpicture}[diagram]
+      \node (A) {$\Delta^n$};
+      \node [right = 3cm of A] (T) {$\Modify[\TM]{\Delta^{2n + 1}}$};
+      \node [above = of T] (B0) {$\Modify[\OM]{\Delta^{2n + 1}}$};
+      \node [below = of T] (B1) {$\Delta^{2n + 1}$};
+      \path[->] (A) edge node[above] {$\eta_n$} (T);
+      \path[->] (T) edge node[right] {$\Coe^{\pi^\TM_0}$} (B0);
+      \path[->] (T) edge node[right] {$\Coe^{\pi^\TM_1}$} (B1);
+      \path[->] (A) edge node[below] {$i_r$} (B1);
+      \path[->] (A) edge node[above] {$\bar{i}_l$} (B0);
+    \end{tikzpicture}
+    \qquad
+    \begin{tikzpicture}[diagram]
+      \SpliceDiagramSquare{
+        width = 3cm,
+        nw = \Delta^n,
+        sw = \Delta^m,
+        ne = \Modify[\TM]{\Delta^{2n + 1}},
+        se = \Modify[\TM]{\Delta^{2m + 1}},
+        north = \eta_n,
+        south = \eta_m,
+        west = f,
+        east = \Con{twist}\prn{f}^\dagger
+      }
+    \end{tikzpicture}
+  \]
+
+  \caption{Laws for Axiom~\ref{ax:twisted-arrow-equiv}.}
+  \label{fig:prelims:tm-diagrams}
+\end{figure}
+
+One may visualize $\iota$ as ensuring that $\Modify[\GM]{\Delta^n \to \Modify[\TM]{C}}$ is
+isomorphic to a $2n + 1$ simplex in $C$:
+\begin{equation*}
+  \begin{tikzpicture}[diagram]
+    \node (A0) {$c_n$};
+    \node [right = of A0] (A1) {$c_{n-1}$};
+    \node [right = of A1] (A2) {$\cdots$};
+    \node [right = of A2] (A3) {$c_0$};
+    \node [below = 1cm of A0] (B0) {$c_{n+1}$};
+    \node [right = of B0] (B1) {$c_{n+2}$};
+    \node [right = of B1] (B2) {$\cdots$};
+    \node [right = of B2] (B3) {$c_{2n}$};
+    \path[<-] (A0) edge (A1);
+    \path[<-] (A1) edge (A2);
+    \path[<-] (A2) edge (A3);
+    \path[->] (B0) edge (B1);
+    \path[->] (B1) edge (B2);
+    \path[->] (B2) edge (B3);
+    \path[->] (A0) edge (B0);
+  \end{tikzpicture}
+\end{equation*}
+
+Under this correspondence, $\eta$ is the unique map $\Delta^n \to \Modify[\TM]{\Delta^{2n + 1}}$
+given by the identity $\ArrId{} : \Delta^{2n + 1} \to \Delta^{2n + 1}$ and is thus the universal
+$n$-simplex. The map $\pi^\TM_1$ picks out the bottom row and $\pi^\TM_0$ selects the top but
+\emph{twisted} so that it lands in $\Modify[\OM]{C}$ rather than $C$. This axiom will only be used
+in the proof of Theorem~\ref{thm:tw:tw}, where we use $\Modify[\TM]{-}$ to construct a bifunctorial version
+of $\hom$.
+
+\begin{prop}[\textcite{gratzer:2024}]
+  The model constructed in Theorem~\ref{thm:prelims:stt-models} extends to a model of modal \HoTT{}
+  validating our axioms.
+\end{prop}
+\begin{rem}
+  While our previous work~\parencite{gratzer:2024} did not handle $\Modify[\TM]{-}$, the methods
+  employed there scale directly to this situation. In particular, \textcite{mukherjee:2023} give an
+  explicit description of the necessary twisted arrow operation and show it is a Quillen right
+  adjoint as required to extend the model.
+\end{rem}
+
+With modalities to hand, a number of results from classical category theory can be proven
+directly. For instance, the so-called fundamental theorem of $\infty$-category theory:
+
+\begin{restatable}{thm}{ffesssurj}
+  \label{thm:prelims:ff-ess-surj-to-equiv}
+  If $\DeclVar{C,D}{\GM}{\Uni}$ are categories, then $\DeclVar{F}{\GM}{C \to D}$ is an equivalence if
+  (1) the induced map $\Modify[\GM]{C} \to \Modify[\GM]{D}$ is surjective, and (2) for any
+  $\DeclVar{c,c'}{\GM}{C}$ the map $\Hom{c}{c'} \to \Hom{F\prn{c}}{F\prn{c'}}$ is an equivalence.
+\end{restatable}
+\begin{proof}
+  Suppose (1) and (2) holds. We prove that $F$ is an equivalence using Axiom~\ref{ax:cubes-separate} and
+  fix $\DeclVar{n}{\GM}{\Nat}$ such that it suffices to show
+  $\IsEquiv\prn{F_*^\dagger : \Modify[\GM]{\Delta^n \to C} \to \Modify[\GM]{\Delta^n \to D}}$.
+
+  If $n = 0$, then by (1) $F_*^\dagger$ is surjective and by (2) combined with the Rezk condition,
+  it is an embedding. Accordingly, $F_*^\dagger$ is an equivalence in this case. The case for
+  $n = 1$ is an immediate consequence of the cases for $n = 0$ along with (2). In general,
+  since $C^{\Delta^n} \Equiv C^{\Delta^1} \times_{C} \dots \times_C C^{\Delta^1}$ by the Segal
+  condition and likewise for $D$, and $\Modify[\GM]{-}$ commutes with pullbacks, the case for
+  $n \ge 2$ follows from $n=0,1$.
+\end{proof}
+
+\subsection{Basic building blocks for categories}
+Finally, we recall two results from our earlier work~\parencite{gratzer:2024} that will be used repeatedly within this work
+to construct new categories. The first is a construction of \emph{full subcategories} using $\SM$:
+
+\begin{prop}\label{thm:prelims:full-subcat}
+  %
+  If $\DeclVar{C}{\GM}{\Uni}$ is a category and $\DeclVar{\phi}{\GM}{\Modify[\GM]{C} \to \Prop}$ is
+  a predicate, then 
+  \begin{enumerate}
+  \item $C_\phi = \Sum{c : C} \Modify[\SM]{\phi\prn{\MkMod[\GM]{c}}}$ is a category,
+
+  \item the projection map $C_\phi \to C$ induces an equivalence on hom-types,
+
+  \item $\Modify[\GM]{C_\phi} \Equiv \Sum{c : \Modify[\GM]{C}} \phi\prn{c}$, and 
+
+  \item a map $\DeclVar{F}{\GM}{D \to C}$ factors through $C_\phi$ if and only if
+    $\phi\prn{\MkMod[\GM]{F\prn d}}$ holds for all $\DeclVar{d}{\GM}{D}$.
+\end{enumerate}
+\end{prop}
+
+\begin{cor}\label{cor:prelims:crisp-ff-is-ff}
+  %
+  If $\DeclVar{C,D}{\GM}{\Uni}$ are categories and $\DeclVar{F}{\GM}{C \to D}$, then the canonical
+  map $\Hom{c}{c'} \to \Hom{F\prn{c}}{F\prn{c'}}$ is an equivalence for all $c,c' : C$ (notice the
+  lack of $\GM$!) if and only if it is an equivalence when $\DeclVar{c,c'}{\GM}{C}$.
+  %
+\end{cor}
+
+Next, we recall the construction of the category of groupoids which plays the role of the
+category of sets in simplicial type theory, \eg{}, we shall use this category to define presheaves:
+
+\begin{prop}
+  \label{thm:prelims:space} There is a category $\DeclVar{\Space_i}{\GM}{\Uni[i + 1]}$ with an
+  embedding $\Space_i \to \Uni[i]$ such that:
+  \begin{itemize}
+    \item If $X : A \to \Space_i$, then the composite $A \to \Uni[i]$ is covariant.
+    \item The converse holds for $\DeclVar{A}{\GM}{\Uni[i]}$, $\DeclVar{X}{\GM}{A \to \Uni[i]}$: if
+      $X$ is covariant, then $X$ factors through $\Space_i$.
+  \end{itemize}
+\end{prop}
+
+\begin{cor}[Directed univalence]
+  \label{cor:prelims:dua}
+  $\Space^\Int \Equiv \Sum{X_0,X_1 : \Space} X_1^{X_0}$ and composition in $\Space$ is the
+  composition of functions.
+\end{cor}
+
+\begin{cor}
+  If $\DeclVar{X}{\GM}{\Uni}$ is a groupoid, then $X : \Space$.
+\end{cor}
+
+\begin{rem}
+  We proved~\parencite{gratzer:2024} Proposition~\ref{thm:prelims:space} in a richer variation of \STT{}
+  (\emph{triangulated type theory}). Since we only require the result here, we take it as an ``axiom''
+  of sorts to work in a simpler type theory and note that one could extend \STT{} to triangulated
+  type theory to prove this theorem outright.
+\end{rem}
+
+\section{The Yoneda embedding}
+\label{sec:tw}
+
+Within this section, we fix a category $\DeclVar{C}{\GM}{\Uni}$. Our goal is to study the type
+$\PSH{C} = \Space^{\Modify[\OM]{C}}$ of presheaves on $C$. As $\Space$ is a category, so
+is $\PSH{C}$, and by directed univalence:
+\begin{lem}
+  \label{lem:tw:hom-of-psh}
+  If $F,G : \PSH{C}$ then
+  $\Hom{F}{G} \Equiv \Prod{\DeclVar{c}{}{\Modify[\OM]{C}}}{F\,c \to G\,c}$
+\end{lem}
+
+\begin{rem}
+  Just as with \eg{}, completeness, $\PSH{C}$ implicitly fixes a universe level such that
+  $\PSH{C} = \Modify[\OM]{C} \to \Space_i$. We may regard $i$ as a parameter or simply take $i =
+  0$. Occasionally, we shall need to insist that $C \Equiv C'$ where $C' : \Uni[i]$ and in such
+  situations we shall say that $C$ is \emph{small}. We assume all categories are locally
+  small---that each $\Hom[C]{c}{c'}$ is small.
+\end{rem}
+
+One may recast the \emph{fibrational} Yoneda lemma proven by \textcite{riehl:2017} to take advantage
+of $\PSH{C}$ rather than quantifying over contravariant families as in \opcit:
+\begin{lem}
+  \label{lem:tw:fibrational-yoneda}
+  If $F : \PSH{C}$ and $c : \Modify[\OM]{C}$ then
+  $F\prn{c} \cong \Prod{c' : \Modify[\OM]{C}} \Hom[\Modify[\OM]{C}]{c}{c'} \to F\prn{c'}$
+\end{lem}
+
+\subsection{The twisted arrow category and the Yoneda embedding}
+
+In light of this last result, the natural next step is to define a map $C \to \PSH{C}$
+which sends $c : C$ to something like $\Hom{-}{c}$.\footnote{Here
+  we see why $C$ must be flat: we wish to discuss both $C$ and $\Modify[\OM]{C}$. It is helpful to
+  understand $\DeclVar{C}{\GM}{\Uni}$ as a \emph{closed} type which depends on nothing in the
+  context and, in particular, need not be treated functorially.}
+However, caution is required: $\Hom{-}{c}$ has type $C \to \Uni$ and not the
+required $\Modify[\OM]{C} \to \Space$. Upon reflection, the reader should find it surprising that
+$\Hom{-}{-} : C \times C \to \Uni$ at all; if all maps are functorial in \STT{} how can $\Hom{-}{-}$
+be covariant in both arguments? In fact, this is a consequence of the strange behavior of synthetic
+morphisms in $\Uni$. While $\Hom{-}{-}$ is functorial in both arguments, the lack of directed
+univalence for $\Uni$ makes this useless. This strangeness ensures that $\Hom{-}{-}$ does not
+restrict to a function into $\Space$.
+
+What is required instead is a function $\Phi : \Modify[\OM]{C} \times C \to \Space$ such that
+$\Phi\prn{\MkMod[\OM]{c},-} = \Hom{c}{-}$ whenever $\DeclVar{c}{\GM}{C}$,
+\ie{}, a function that agrees on
+objects with $\Hom{-}{-}$ and has the same functoriality in the second argument, but takes
+$\Modify[\OM]{C}$ as its first argument. In fact, it is highly non-obvious where such a function
+should come from; \textcite[p.~xii]{riehl:2022} specifically highlight this construction as
+remarkably subtle in $\infty$-category theory. It is for this reason that we introduced
+$\Modify[\TM]{-}$. Recall the visualization of $\Modify[\GM]{\Delta^n \to \Modify[\TM]{C}}$:
+\begin{equation}
+  \label{eq:tw:visual}
+  \begin{tikzpicture}[diagram,baseline=(link)]
+    \node (A0) {$c_n$};
+    \node [right = of A0] (A1) {$c_{n-1}$};
+    \node [right = of A1] (A2) {$\cdots$};
+    \node [right = of A2] (A3) {$c_0$};
+    \node [below = 1cm of A0] (B0) {$c_{n+1}$};
+    \node [right = of B0] (B1) {$c_{n+2}$};
+    \node [right = of B1] (B2) {$\cdots$};
+    \node [right = of B2] (B3) {$c_{2n}$};
+    \path[<-] (A0) edge (A1);
+    \path[<-] (A1) edge (A2);
+    \path[<-] (A2) edge (A3);
+    \path[->] (B0) edge (B1);
+    \path[->] (B1) edge (B2);
+    \path[->] (B2) edge (B3);
+    \path[->] (A0) edge coordinate[pos=.5] (link) (B0);
+  \end{tikzpicture}
+\end{equation}
+The projection to $\Modify[\OM]{C}$ gives the top row and the map to $C$ yields the bottom. This
+visualization for $n$-simplices is very similar to that of
+$C^{\Int} = \Sum{c_0,c_1} \Hom{c_0}{c_1}$, but the top row has been twisted to ensure that
+one restriction lands in $\Modify[\OM]{C}$ as required for a bifunctorial version of $\Hom{-}{-}$:
+
+\begin{restatable}{thm}{twlfib}
+  \label{thm:tw:tw}
+  If $\DeclVar{C}{\GM}{\Uni}$ is a category, then the following holds:
+  \begin{itemize}
+  \item The map
+    $\gl{\Coe^{\pi_0^\TM},\Coe^{\pi_1^\TM}} : \Modify[\TM]{C} \to \Modify[\OM]{C} \times C$
+    straightens to $\Phi : \Modify[\TM]{C} \times C \to \Space$.
+  \item For every $\DeclVar{c}{\GM}{C}$, the map
+    $\alpha_c : \Hom{\Hom{c}{-}}{\Phi\prn{\MkMod[\OM]{c},-}}$ induced by the Yoneda lemma
+    (Lemma~\ref{lem:tw:fibrational-yoneda})
+    applied to $\iota\prn{\MkMod[\GM]{\ArrId{c}}} : \Phi\prn{\MkMod[\OM]{c},c}$ is
+    an equivalence.
+  \end{itemize}
+\end{restatable}
+
+\begin{lem}
+  \label{lem:tw:simple-coherence}
+  Given $\DeclVar{f}{\GM}{\Delta^{1} \to C}$ and let
+  $\bar{f} = \iota\prn{\MkMod[\GM]{f}} : \Modify[\TM]{C}$, then there exist  paths:
+  \begin{gather*}
+    \theta\prn{f}_0 :
+    \prn{\Coe^{\pi_0^{\TM}} \circ \Con{extract}\prn{\bar{f}}}\prn{\ast}
+    =
+    \MkMod[\OM]{f\prn{0}}
+    \quad
+    \theta\prn{f}_1 :
+    \prn{\Coe^{\pi_1^{\TM}} \circ \Con{extract}\prn{\bar{f}}}\prn{\ast}
+    =
+    f\prn{1}
+  \end{gather*}
+  These paths are natural in $C$ so that \eg{}, the two paths of the following shape induced by
+  $\theta\prn{g \circ f}_1$ and $\theta\prn{f}_1$ with the naturality of $\Coe^{\pi_1^\TM}$ at $g$ agree:
+  \[
+    \prn{\Coe^{\pi_1^{\TM}} \circ \Con{extract}\prn{\iota\prn{\MkMod[\GM]{g \circ f}}}}\prn{\ast}
+    =
+    g\prn{f\prn{1}}
+  \]
+  Here $\ast : \Delta^0$ is the unique element of the unit type.
+\end{lem}
+\begin{proof}
+  We show the second, as they are symmetric. We define $\theta_1$ using the naturality of
+  $\Coe^{\pi_1^{\TM}}$ and the behavior of $\Coe^{\pi_1^{\TM}}$ on $\eta$
+  from Figure~\ref{fig:prelims:tm-diagrams}:
+  \begin{align*}
+    &\prn{\Coe^{\pi_1^{\TM}} \circ \Con{extract}\prn{\iota\prn{\MkMod[\GM]{f}}}}\prn{\ast}
+    \\
+    &= \prn{\Coe^{\pi_1^{\TM}} \circ f^\dagger \circ \eta_0}\prn{\ast}
+    \\
+    &= \prn{f \circ \Coe^{\pi_1^{\TM}} \circ \eta_0}\prn{\ast} && \text{By naturality, Remark \ref{rem:prelims:coe-natural}}
+    \\
+    &= f\prn{1} && \text{By the first diagram in Figure~\ref{fig:prelims:tm-diagrams}}
+  \end{align*}
+
+  To prove that $\theta_1$ is natural in $C$, we observe that the terms agree up to a commuting
+  conversion of elimination rules for modal types. Accordingly, we may prove that these two paths
+  agree by induction on $\eta_0\prn{\ast}$ and then reflexivity.
+\end{proof}
+
+\begin{proof}[Proof of the Theorem~\ref{thm:tw:tw}]
+  We begin by showing that the map
+  $\gl{\Coe^{\pi^\TM_0},\Coe^{\pi^\TM_1}} : \Modify[\TM]{C} \to \Modify[\OM]{C} \times C$ is a
+  covariant family. By Lemma~\ref{lem:prelims:covariance-simplices} the following map induced by
+  $\brc{0} : \Delta^0 \to \Delta^n$ is an equivalence:
+  \[
+    \epsilon : \Modify[\GM]{\Modify[\TM]{C}^{\Delta^n}} \to
+    \prn{
+      \DelimMin{1}
+      \Modify[\GM]{\Modify[\TM]{C}}
+      \times_{\Modify[\GM]{\Modify[\OM]{C}} \times \Modify[\GM]{C}}
+      \prn{\Modify[\GM]{\Modify[\OM]{C}^{\Delta^n}} \times \Modify[\GM]{C^{\Delta^n}}}
+    }
+  \]
+  For convenience, we begin by applying a few modal transformations (in particular, using
+  $\Con{transp} : \Modify[\GM]{A \to \Modify[\OM]{B}} \Equiv \Modify[\GM]{\Modify[\OM]{A} \to B}$)
+  such that it suffices to show that the following map is an equivalence:
+  \[
+    \epsilon' :
+    \Modify[\GM]{\Modify[\TM]{C}^{\Delta^n}} \to
+    \prn{
+      \DelimMin{1}
+      \Modify[\GM]{\Modify[\TM]{C}}
+      \times_{\Modify[\GM]{C} \times \Modify[\GM]{C}}
+      \prn{\Modify[\GM]{C^{\Modify[\OM]{\Delta^n}}} \times \Modify[\GM]{C^{\Delta^n}}}
+    }
+  \]
+
+  To prove this, we shall construct a commutative diagram:
+  \begin{equation}
+    \DiagramSquare{
+      width = 7cm,
+      sw = \Modify[\GM]{\Modify[\TM]{C}^{\Delta^n}},
+      nw = \Modify[\GM]{C^{\Delta^{2n+1}}},
+      se =
+      \Modify[\GM]{\Modify[\TM]{C}}
+      \times_{\Modify[\GM]{C} \times \Modify[\GM]{C}}
+      \prn{\Modify[\GM]{C^{\Modify[\OM]{\Delta^n}}} \times \Modify[\GM]{C^{\Delta^n}}},
+      ne =
+      \Modify[\GM]{\Delta^1 \to C}
+      \times_{\Modify[\GM]{C} \times \Modify[\GM]{C}}
+      \prn{\Modify[\GM]{C^{\Modify[\OM]{\Delta^n}}} \times \Modify[\GM]{C^{\Delta^n}}},
+      north = \phi,
+      south = \epsilon',
+      west = \iota,
+      east = \prn{\iota,\ArrId{}}
+    }
+    \label{diag:key-diagram}
+  \end{equation}
+  We define $\phi$ momentarily, but we first remark that $\prn{\iota,\ArrId{}}$ is
+  well-formed because of Lemma~\ref{lem:tw:simple-coherence}, which ensures that applying $\iota$ and then
+  evaluating commutes appropriately with projection.
+
+  Note also that the two vertical maps are equivalences because $\iota$ is an
+  equivalence. Accordingly, by 3-for-2, to show $\epsilon'$ is an equivalence,
+  it suffices to ensure that $\phi$ is an equivalence making the diagram commute.\footnote{%
+    We emphasize that the filler for this square is irrelevant. Any filler
+    suffices to show that $\epsilon'$ is an equivalence, which in turn implies that $\epsilon$ is an
+    equivalence as required.}
+  We now define $\phi$ as follows:
+  \[
+    \phi\prn{\MkMod[\GM]{f}} \defeq
+    \prn{
+      \MkMod[\GM]{\Restrict{f}{n \le n + 1}},
+      \prn{
+        \MkMod[\GM]{\Restrict{f}{0 \le \dots \le n} \circ \neg},
+        \MkMod[\GM]{\Restrict{f}{n + 1 \le \dots \le 2n + 1}}
+      },
+      \Refl
+    }
+  \]
+  $\phi$ is given by restricting along a categorical equivalence
+  ($\Modify[\OM]{\Delta^{n}} \BluntJoin \Delta^n \to \Delta^{2n + 1}$),
+  so it is an equivalence.
+
+  Next, we note that all four of the maps in this diagram are weakly natural in $C$. For the bottom
+  and top maps, this is an easy observation---the top is given by restriction and the bottom uses
+  restriction along with $\Coe^{\pi_1^{\TM}}$, which is also natural
+  by Remark~\ref{rem:prelims:coe-natural}. For the left-hand map, this is a consequence of the naturality
+  of $\iota$. For the right-hand map, the only wrinkle is the paths used to witness that $\iota$
+  commutes with evaluating on projections. This requires a filler for a certain path, but this is
+  precisely the naturality coherence supplied by the latter part of Lemma~\ref{lem:tw:simple-coherence}.
+
+  Finally, we argue that the diagram commutes.  Fix
+  $\MkMod[\GM]{f} : \Modify[\GM]{\Delta^{2n + 1} \to C}$. We wish to show that
+  $\epsilon'\prn{\iota\prn{\MkMod[\GM]{f}}}
+  = \prn{\iota,\ArrId{}}\prn{\phi\prn{\MkMod[\GM]{f}}}$. By naturality, however, we
+  may use $f$ to reduce to the case where $C = \Delta^{2n + 1}$ and $f = \ArrId{}$. In this case,
+  everything involved is a set and so it suffices to argue the diagram commutes when we replace each
+  pullback with a simple product. With this in place, we now calculate:
+  \begin{align*}
+    \epsilon'\prn{\iota\prn{\MkMod[\GM]{\ArrId{}}}}
+    &= \epsilon'\prn{\MkMod[\GM]{\eta_n}}
+    \\
+    &=
+      \prn{
+        \MkMod[\GM]{\eta_n\,0},
+        \prn{
+          \Con{transp}\prn{\MkMod[\GM]{\Coe^{\pi_0^{\TM}}\circ \eta_n}},
+          \MkMod[\GM]{\Coe^{\pi_1^{\TM}} \circ \eta_n}
+        }
+      }
+    \\
+    &=
+      \prn{
+        \MkMod[\GM]{\eta_n\,0},
+        \prn{
+          \Con{transp}\prn{\MkMod[\GM]{\bar{i}_l}},
+          \MkMod[\GM]{i_r}
+        }
+      }
+    \\
+    &=
+      \prn{
+        \MkMod[\GM]{i_m\prn{\eta_0\,\ast}},
+        \prn{
+          \MkMod[\GM]{i_l \circ \neg},
+          \MkMod[\GM]{i_r}
+        }
+      }
+    \\
+    &=
+      \prn{\iota,\ArrId{}}\prn{
+        \MkMod[\GM]{i_m},
+        \prn{
+          \MkMod[\GM]{i_l \circ \neg},
+          \MkMod[\GM]{i_r}
+        }
+      }
+    \\
+    &=\prn{\iota,\ArrId{}}\prn{\phi\prn{\MkMod[\GM]{\ArrId{}}}}
+  \end{align*}
+
+  This completes the first step of the argument. The second is to show that for each
+  $\DeclVar{c}{\GM}{C}$ the map
+  $\alpha_c : \Hom[C \to \Space]{\Hom{c}{-}}{\Phi\prn{\MkMod[\OM]{c},-}}$ is an isomorphism. Passing
+  to total spaces, it suffices to show the following map is an equivalence:
+  \[
+    \tilde{\alpha}_c = \lambda \prn{d,f}.\,\prn{d,f_*\prn{\iota\prn{\MkMod[\GM]{\ArrId{c}}}}}
+    : \Sum{d : C} \Hom{c}{d} \to \Sum{d : C} \Phi\prn{\MkMod[\OM]{c},d}
+  \]
+  In the above, $f_*$ is the covariant transport operation on $\Phi\prn{\MkMod[\OM]{c},-}$.
+  Since both sides of this map are categories, it suffices to show that this map is
+  fully faithful and essentially surjective.
+
+  In fact, $\tilde\alpha_c$ is an equivalence on objects. To this end, we observe that if
+  $\DeclVar{f}{\GM}{\Hom{c}{d}}$ for some
+  $\DeclVar{d}{\GM}{C}$, then we can construct the transport $f_*$ alternatively as follows.
+  Define a path $h : \Delta^1 \to \Modify[\TM]{C}$ by $h \defeq\iota{\prn{\MkMod[\GM]{\lambda \_, \_, k.\, f\prn{k}}}}$,
+  i.e.,
+  $h$ corresponds to the following doubly degenerate 3-simplex in $C$:
+  \[
+    \begin{tikzcd}
+      c\ar[d,"\ArrId{c}"'] & c\ar[l,"\ArrId{c}"'] \\
+      c\ar[r,"f"'] & d
+    \end{tikzcd}
+  \]
+  We then consider the morphism $\lambda i.\,\prn{\pi^\TM_1\prn{h\,i}, h\,i}$ in
+  $\Sum{d : C} \Phi\prn{\MkMod[\OM]{c},d}$. Using the definition of $\iota$ and the naturality of
+  $\eta$, this is a morphism from $\prn{c,\iota\prn{\MkMod[\GM]{\ArrId{c}}}}$ to
+  $\prn{d, \iota\prn{\MkMod[\GM]{f}}}$. Moreover, the naturality of $\Coe^{\pi_1^{\TM}}$ ensures
+  that it lies over $f$ in $C$. Consequently,
+  $\tilde{\alpha}_c\prn{d,f} = \prn{d,\iota\prn{\MkMod[\GM]{f}}}$ when restricted to
+  $\DeclVar{d}{\GM}{C}$ and $\DeclVar{f}{\GM}{\Hom{c}{d}}$, which is an equivalence because $\iota$
+  is invertible.
+
+  For fully-faithfulness, it suffices to show that the following map is an equivalence:
+  \[
+    \tilde{\alpha}_c :
+    \Modify[\GM]{\Int \to \Sum{d : C} \Hom{c}{d}}
+    \to
+    \Modify[\GM]{\Int \to \Sum{d : C} \Phi\prn{\MkMod[\OM]{c},d}}
+  \]
+  However, as both sides are the total spaces of covariant families, it suffices to show that the
+  following map is an equivalence:
+  \[
+    \tilde{\alpha}_c :
+    \Modify[\GM]{\Sum{d : \Int \to C} \Hom{c}{d\,0}}
+    \to
+    \Modify[\GM]{\Sum{d : \Int \to C} \Phi\prn{\MkMod[\OM]{c},d\,0}}
+  \]
+  The conclusion now follows from the previous case.
+\end{proof}
+
+\begin{nota}
+  We write $\Phi_D : \Modify[\OM]{D} \times D \to \Space$ for the same construction applied to some
+  category $D$. Within this section, we continue to write $\Phi$ as shorthand for $\Phi_C$.
+\end{nota}
+
+\begin{cor}
+  \label{cor:tw:tw-of-op}
+  If $\DeclVar{c_0}{}{\Modify[\OM]{C}}$ and $c_1 : C$, then
+  $\Phi\prn{c_0,c_1} = \Phi_{\Modify[\OM]{C}}\prn{\MkMod[\OM]{\MkMod[\OM]{c_1}},c_0}$.
+\end{cor}
+\begin{proof}
+  Passing to total spaces, it suffices to find an equivalence $\Modify[\TM]{C} \to
+  \Modify[\TM]{\Modify[\OM]{C}}$ fitting into the following diagram:
+  \[
+    \begin{tikzpicture}[diagram]
+      \node (T) {$\Modify[\TM]{C}$};
+      \node[right = 5cm of T] (OT) {$\Modify[\TM]{\Modify[\OM]{C}}$};
+      \node[below right = 1.75cm and 2.5cm of T] (C) {$\Modify[\OM]{C} \times C$};
+      \path[->] (T) edge (C);
+      \path[->] (OT) edge (C);
+      \path[->] (T) edge (OT);
+    \end{tikzpicture}
+  \]
+
+  The map $\Coe^\tau$ precisely satisfies this role: it is invertible because the 2-cell $\tau$
+  is an isomorphism and it fits into the commuting diagram because of the corresponding diagram
+  in the mode theory.
+\end{proof}
+
+\subsection{The Yoneda lemma}
+
+With a bi-functorial version of $\Hom{-}{-}$ to hand, we can now straightforwardly define the Yoneda
+embedding $\Yo$ and leverage Lemma~\ref{lem:tw:fibrational-yoneda} into a result about $\Yo$:
+\begin{defi}[Yoneda]
+   $\Yo = \lambda c.\,\Phi\prn{-,c} : C \to \PSH{C}$.
+\end{defi}
+\begin{lem}
+  \label{lem:tw:weak-yoneda}
+  $\Hom{\Yo{c}}{X} \cong X\prn{\MkMod[\OM]{c}}$ for all $X : \PSH{C}$ and $\DeclVar{c}{\GM}{C}$.
+\end{lem}
+\begin{proof}
+    Since $c$ is $\GM$-annotated, using Theorem~\ref{thm:tw:tw} and Corollary~\ref{cor:tw:tw-of-op} we have the following
+    identification
+    $\Hom[\Modify[\OM]{C}]{\MkMod[\OM]{c}}{-} = \Phi\prn{-,c}$. Moreover, by Lemma~\ref{lem:tw:hom-of-psh} we
+    additionally have the following:
+    \[
+      \Prod{c' : \Modify[\OM]{C}} \Phi\prn{c',c} \to X\prn{c'} \cong \Hom{\Yo{c}}{X}
+    \]
+    The conclusion now follows by Lemma~\ref{lem:tw:fibrational-yoneda}.
+\end{proof}
+
+A great deal of category theory is contained within Lemma~\ref{lem:tw:weak-yoneda}.
+It shows that $\Yo$ is
+fully-faithful on $\GM$-annotated elements of $C$ and that $C$ is a full subcategory of $\PSH{C}$:
+\begin{lem}
+  \label{lem:tw:repr}
+  $\Yo : C \to \PSH{C}$ induces an equivalence $C \Equiv \PSH{C}_{\Con{isRepr}}$ where
+  $\Con{isRepr} = \lambda X.\,\Sum{c : C} X = \Yo{c}$.\footnote{Note that $\Con{isRepr}\prn{X}$ is a
+  proposition due to Lemma~\ref{lem:tw:weak-yoneda} and Corollary \ref{cor:prelims:crisp-ff-is-ff}.}
+\end{lem}
+While Lemma~\ref{lem:tw:weak-yoneda} follows directly from
+Lemma~\ref{lem:tw:fibrational-yoneda}, the above consequence can only be expressed once there exists a
+\emph{category} of presheaves---something missing from \textcite{riehl:2017}. This opens up a new
+proof strategy: to prove a result of $C$, we first prove that it holds for $\Space$, then
+$\PSH{C}$, then that it restricts to the full subcategory. For instance, we may prove the
+aforementioned characterization of natural isomorphisms:
+\begin{thm}
+  \label{thm:tw:nat-iso}
+  If $\DeclVar{C,D}{\GM}{\Uni}$ are categories, $\DeclVar{F,G}{\GM}{C \to D}$, and
+  $\DeclVar{\alpha}{\GM}{\Hom{F}{G}}$, then $\Prod{c : C} \IsIso\prn{\alpha\,c}$ if
+  $\Prod{\DeclVar{c}{\GM}{C}} \IsIso\prn{\alpha\,c}$.
+\end{thm}
+\begin{proof}
+  Note that this theorem is trivial for $C = \Delta^0$ and for $C = \Delta^1, D = \Space$ it is
+  a consequence of Corollary~\ref{cor:prelims:dua}. The Segal condition for $\Space$ then implies the theorem
+  for $C = \Delta^n,D = \Space$.
+
+  By Lemma~\ref{lem:tw:repr}, it suffices to assume $D = \PSH{D_0}$.  By
+  Axiom~\ref{ax:discrete-iff-crisp} and Theorem~\ref{thm:prelims:mtt-facts} it suffices to show that
+  $\prn{\Sum{c : C} \IsIso\prn{\alpha\,c}} \to \prn{\Sum{c : C}
+    \Modify[\SM]{\IsIso\prn{\alpha\,c}}}$ is an equivalence. By Axiom~\ref{ax:cubes-separate}, it
+  suffices to prove for all $n$:
+  \[
+    \IsEquiv\Bigl(\Modify[\GM]{\prn{\Sum{c : C} \IsIso\prn{\alpha\,c}}^{\Delta^n}}
+     \to \Modify[\GM]{\prn{\Sum{c : C} \Modify[\SM]{\IsIso\prn{\alpha\,c}}}^{\Delta^n}}\Bigr)
+  \]
+  Unfolding and commuting $\GM$ with $\Sum{}$, it suffices to show that
+    for every $\DeclVar{c}{\GM}{\Delta^n \to C}$ the following holds:
+    \[
+      \Sum{\DeclVar{\sigma}{}{\Delta^n}} \IsIso\prn{\alpha\prn{c\,\sigma}}
+      \Equiv
+      \Sum{\DeclVar{\sigma}{\GM}{\Delta^n}} \IsIso\prn{\alpha\prn{c\,\sigma}}
+    \]
+  Replacing $\alpha$ with $\alpha \circ c$, however, reduces us
+  to the already proven case of $C = \Delta^n, D = \Space$.
+\end{proof}
+
+Lemma~\ref{lem:tw:weak-yoneda} is already powerful. However, it does not capture that this
+equivalence is \emph{natural} in both $c$ and $X$---or, more precisely, since $c$ is $\GM$-annotated
+and the equivalence is in $\Uni$, the naturality it yields is trivial. We are able to prove a far
+stronger version of the Yoneda lemma that (1) does not need to assume that $\DeclVar{c}{\GM}{C}$,
+and (2) yields the desired functoriality in both $c$ and $X$. To do so, we replace $\Hom{-}{-}$
+with $\Phi$:
+
+\begin{restatable}[Functorial Yoneda lemma]{thm}{functorialyoneda}
+  \label{thm:tw:strong-yoneda}
+  There is a natural isomorphism
+  $\Phi_{\PSH{C}}\prn{\Yo^\dagger\prn{-}, -} \cong \Con{eval} : \Modify[\OM]{C} \times \PSH{C} \to \Space$.
+\end{restatable}
+\begin{rem}
+  This result uses a handful of results from Section~\ref{sec:adj}. These forward references are justified:
+  we do not use Theorem~\ref{thm:tw:strong-yoneda} till Section~\ref{sec:adj:psh}. We present the proof here for
+  conceptual coherence.
+\end{rem}
+\begin{proof}
+  The central difficulty in this proof is to find a map
+  $\Phi_{\PSH{C}}\prn{\Yo^\dagger\prn{-}, -} \to \Con{eval}$ which can then be checked to be an
+  equivalence. To construct this map, we use the presentation of
+  $\Modify[\OM]{C} \times \PSH{C} \to \Space$ as covariant families over
+  $\Modify[\OM]{C} \times \PSH{C}$. In particular, we consider the following pullback diagrams:
+  \[
+    \begin{tikzpicture}[diagram]
+      \node (PhiPsh) {$\Modify[\TM]{\PSH{C}}$};
+      \node [below = 2cm of PhiPsh] (PshPsh) {$\Modify[\OM]{\PSH{C}} \times \PSH{C}$};
+      \node [pullback,left = 3.6cm of PhiPsh] (V) {$V$};
+      \node [left = 3.6cm of PshPsh] (CPsh) {$\Modify[\OM]{C} \times \PSH{C}$};
+      \node [pullback,left = 3.6cm of V] (PhiC) {$\tilde{\Phi}_C$};
+      \node [left = 3.6cm of CPsh] (CC) {$\Modify[\OM]{C} \times C$};
+      \path[->] (PhiPsh) edge (PshPsh);
+      \path[->] (V) edge (PhiPsh);
+      \path[->] (V) edge (CPsh);
+      \path[->] (PhiC) edge node[above] {$v$} (V);
+      \path[->] (PhiC) edge (CC);
+      \path[->] (CPsh) edge node[below] {$\Yo^\dagger \times \ArrId{}$} (PshPsh);
+      \path[->] (CC) edge node[below] {$\ArrId{} \times \Yo$} (CPsh);
+    \end{tikzpicture}
+  \]
+  \[
+    \begin{tikzpicture}[diagram]
+      \node (Spt) {$\Sum{A : \Space} A$};
+      \node [below = 2cm of Spt] (S) {$\Space$};
+      \node [pullback,left = 3.75cm of Spt] (V) {$W$};
+      \node [left = 3.75cm of S] (CPsh) {$\Modify[\OM]{C} \times \PSH{C}$};
+      \node [pullback,left = 3.75cm of V] (PhiC) {$\Modify[\TM]{C}$};
+      \node [left = 3.75cm of CPsh] (CC) {$\Modify[\OM]{C} \times C$};
+      \path[->] (Spt) edge (S);
+      \path[->] (V) edge (Spt);
+      \path[->] (V) edge (CPsh);
+      \path[->] (PhiC) edge node[above] {$w$} (V);
+      \path[->] (PhiC) edge (CC);
+      \path[->] (CPsh) edge node[below] {$\Con{eval}$} (S);
+      \path[->] (CC) edge node[below] {$\ArrId{} \times \Yo$} (CPsh);
+    \end{tikzpicture}
+  \]
+  The claim is then that $V \Equiv W$. To show this, we argue that if we replace the composite
+  $\Modify[\TM]{C} \to \Modify[\OM]{C} \times C \to \Modify[\OM]{C} \times \PSH{C}$ with the free
+  covariant family, then the maps $\bar{v},\bar{w}$ induced by $v$ and $w$ are both equivalences. The
+  conclusion then shows $\bar{v} \circ \bar{w}^{-1}$ is the desired equivalence.
+
+  Using \textcite[Theorem 2.41]{rijke:2020} there is a free covariant fibration
+  $Z : \Modify[\OM]{C} \times \PSH{C} \to \Uni$ and if $\DeclVar{c}{\GM}{C}$ and
+  $\DeclVar{X}{\GM}{\PSH{C}}$ then by Corollary~\ref{cor:adj:push-pull-formula} we have the following:
+  \begin{align*}
+    &Z\prn{c, X} =
+    \\
+    &\ \Grpdify\prn{\Sum{c_0,c_1} \Hom{c_0}{c} \times \Hom{\Yo{c_1}}{X} \times \Phi\prn{c_0,c_1}}
+  \end{align*}
+  To show that \eg{}, $v$ induces an equivalence, we must show that the following map is an
+  equivalence:
+  \[
+    Z\prn{c,X} \to \Hom{\Yo^\dagger\prn{c}}{X}
+  \]
+  We may use Theorem~\ref{thm:tw:nat-iso} and assume that there exists $\DeclVar{c'}{\GM}{C}$ such that
+  $c = \MkMod[\OM]{c'}$ and that $\DeclVar{X}{\GM}{\PSH{C}}$. Moreover, since the right-hand side is
+  a groupoid, this map is uniquely induced by extending the canonical map of the following type:
+  \begin{align*}
+    &\prn{\Sum{c_0,c_1} \Hom{c_0}{c} \times \Hom{\Yo{c_1}}{X} \times \Phi\prn{c_0,c_1}}
+    \\
+    &\ \to \Phi\prn{\Yo^\dagger\prn{c},X} \Equiv X\prn{c'}
+  \end{align*}
+  This map sends $\prn{c_0,c_1,f,\alpha,t}$ to $\alpha\,c\,\prn{\Phi\prn{f,\ArrId{}}\,t}$ and one
+  may check directly that the assignment $x \mapsto \eta\prn{c,c',\ArrId{},\ArrId{},F_x}$ is a
+  quasi-inverse to this map where $F_x : \Hom{\Yo\prn{c'}}{X}$ corresponds to
+  $x : X\prn{\MkMod[\OM]{c'}}$ under Lemma~\ref{lem:tw:weak-yoneda}. The case for $w$ is similar.
+\end{proof}
+
+\section{Revisiting adjunctions}
+\label{sec:adj}
+
+With presheaves and the Yoneda embedding available, we now revisit the theory of adjoint functors
+introduced by \textcite{riehl:2017} in \STT{}. They define a pair of functions $f : C \to D$ and
+$g : D \to C$ to be adjoint when equipped with
+$\iota : \Prod{c,d} \Hom{f\prn{c}}{d} \Equiv \Hom{c}{g\prn{d}}$. While they produce several
+equivalent reformulations using a unit and counit natural transformations, no non-trivial examples
+of adjunctions are given---unsurprisingly, since concrete examples of categories in \STT{} are relatively
+recent. Even with $\Space$ available it is quite difficult to produce examples of such
+adjunctions.
+
+It is far more feasible to construct only $f$ and then show that
+$\Phi\prn{f^\dagger\prn{-},d} : \PSH{C}$ is representable for every $\DeclVar{d}{\GM}{D}$. This is
+comparable to Theorem~\ref{thm:tw:nat-iso}: we wish to give a functorial definition of either $f$ or $g$
+and a \emph{non-functorial} definition of the other, and then show that this can be upgraded to a
+full adjunction. In this section, we show that this is indeed possible, and we observe that a number
+of important adjunctions and results are then immediately within reach. In particular, we shall use
+this technique to prove that $\PSH{C}$ is cocomplete and, moreover, is the free cocompletion of $C$.
+
+\subsection{Pointwise adjunctions to adjunctions}
+\label{sec:adj:pw}
+
+Let us begin by formalizing the notion of pointwise adjoints:
+\begin{defi}
+  We say that $\DeclVar{f}{\GM}{C \to D}$ is a pointwise left adjoint if the following type is
+  inhabited:
+  \[
+    \Prod{\DeclVar{d}{\GM}{D}} \Con{isRepr}\prn{\Phi\prn{f^\dagger\prn{-}, d}}
+  \]
+  Dually, $f$ is a pointwise right adjoint if $f^\dagger : \Modify[\OM]{C} \to \Modify[\OM]{D}$ is a
+  pointwise left adjoint.
+\end{defi}
+
+Our main theorem relies on two crucial preliminary results. The first shows that any pointwise left
+adjoint $f$ gives rise to a function in the other direction picking out the various (necessarily
+unique) representing objects for $\Phi\prn{f^\dagger\prn{-}, d}$.
+\begin{lem}
+  If $\DeclVar{f}{\GM}{C \to D}$ is a pointwise left adjoint, then the type of morphisms
+  $\DeclVar{g}{\GM}{D \to C}$ equipped with a natural isomorphism
+  $\iota : \Phi\prn{f^\dagger\prn{-}, -} \cong \Yo \circ g$ is contractible.
+\end{lem}
+\begin{proof}
+  Since $\Yo$ is an embedding, this type is a proposition. It therefore suffices to show that it is
+  inhabited. By assumption, $\bar{g} = \Phi\prn{f^\dagger\prn{-}, d}$ is representable for all
+  $\DeclVar{d}{\GM}{D}$, and thus it factors through $\PSH{C}_{\Con{isRepr}}$. Post-composing
+  with the equivalence $\PSH{C}_{\Con{isRepr}} \Equiv C$ yields the desired $g : D \to C$.
+\end{proof}
+
+Using this, we prove a universal case of the theorem improving a pointwise adjoint to an adjoint:
+every $\DeclVar{g}{\GM}{D \to C}$ that is a cartesian fibration~\parencite{buchholtz:2023}
+such that the fiber
+over every $\DeclVar{c}{\GM}{C}$ has an initial object~\parencite{bardomiano:2021} admits a left
+adjoint.
+
+\begin{lem}
+  \label{lem:adj:functoriality-of-init-objects}
+  %
+  If $\DeclVar{g}{\GM}{D \to C}$ is cartesian and for
+  each $\DeclVar{c}{\GM}{C}$ the fiber $D_c$ has an initial object, then there exists $f : C \to D$
+  such that $f\prn{c}$ is initial in $D_c$ for all $c : C$.
+\end{lem}
+
+\begin{proof}
+  Note that $\Con{hasInitialObj}\prn{D_c}$ is a proposition and, therefore, by
+  Axiom~\ref{ax:discrete-iff-crisp} we may assume $\Modify[\GM]{\Con{hasInitialObj}\prn{D_c}}$ holds
+  for each $\DeclVar{c}{\GM}{C}$. With this observation to hand, we can show that $g$ is a pointwise
+  right adjoint: if $\DeclVar{c}{\GM}{C}$, $\DeclVar{d}{}{D}$:
+  \begin{align*}
+    \Phi_C\prn{\MkMod[\OM]{c},g\prn{d}}
+    &\Equiv \Hom{c}{g\prn{d}}
+    \\
+    &\Equiv \Hom{\ObjInit{D_c}}{d} && \text{$g$ is cartesian}
+    \\
+    &\Equiv \Phi_D\prn{\MkMod[\OM]{\ObjInit{D_c}},d}
+  \end{align*}
+
+  In this last step, we use our observation that $\Modify[\GM]{\Con{hasInitialObj}\prn{D_c}}$ and,
+  crucially, that not only $\Con{hasInitialObj}\prn{D_c}$ holds. In particular, we rely on the fact
+  that $\DeclVar{\ObjInit{D_c}}{\GM}{D_c}$.
+
+  Accordingly, we obtain a function $\DeclVar{f}{\GM}{C \to D}$ which sends $\DeclVar{c}{\GM}{C}$ to
+  $\ObjInit{D_c}$. It remains to show that $f\prn{c}$ is initial in $D_c$ for all $c : C$.
+  Since $D = \Sum{c:C}D_c$, this amounts to the following map being an equivalence:
+  $\prn{\Sum{d : D} \Hom[D_{g\prn{d}}]{f\prn{g\prn{d}}}{d}} \to D$.
+
+  To prove this, we use Theorem~\ref{thm:prelims:ff-ess-surj-to-equiv} which allows us to reduce to the
+  $\GM$-annotated case, where the conclusion follows from the fact that $f\prn{c}$ is then initial
+  in $D_c$.
+\end{proof}
+
+\begin{thm}
+  \label{thm:adj:pw-to-full-adj}
+  Pointwise right adjoints are right adjoints.
+\end{thm}
+\begin{proof}
+  Given a map $\DeclVar{g}{\GM}{D \to C}$, consider the cartesian family
+    \[
+      \pi : \COMMA{C}{g} = \prn{\Sum{c : C}\Sum{d : D} \Hom{c}{g\prn{d}}} \to C
+    \]
+  Since $g$ is a
+  pointwise right adjoint, each fiber of $\pi$ over $\DeclVar{c}{\GM}{C}$ has an initial object. We
+  then apply Lemma~\ref{lem:adj:functoriality-of-init-objects} to obtain $\bar{f} : C \to
+  \COMMA{C}{g}$. Finally, the composite $\Proj[2] \circ \bar{f}$ is the desired left adjoint to $g$:
+  \begin{align*}
+    &\Hom[C]{c}{g\prn{d}}
+    \\
+    &\quad\Equiv \Sum{\alpha : \Hom[C]{c}{g\prn{d}}}
+      \Hom[\COMMA{C}{g}_c]{\bar{f}\prn{c}}{\prn{c, d, \alpha}}
+    \\
+    &\quad\Equiv
+      \Sum{\alpha : \Hom[C]{c}{g\prn{d}}} \Sum{\beta : \Hom[D]{f\prn{c}}{d}}
+      g\prn{\beta} \circ \Proj[3]\prn{\bar{f}\prn{c}} = \alpha
+    \\
+    &\quad\Equiv \Hom[D]{f\prn{c}}{d}
+  \end{align*}
+  The first step uses the initiality of $\bar{f}\prn{c}$ in the fiber over $c$ and the second
+  unfolds the definition of a morphism in $\COMMA{C}{g}$.
+\end{proof}
+
+\subsection{Examples of adjunctions}
+
+We take advantage of Theorem~\ref{thm:adj:pw-to-full-adj} to produce vital examples of
+adjoints.%
+The most important is the
+following:
+
+\begin{thm}
+  \label{thm:adj:precomp-is-right-adj}
+  If $\DeclVar{f}{\GM}{D \to C}$ and $D$ is small, then
+  $\PSH{f} \defeq (f^\dagger)^* : \PSH{C} \to \PSH{D}$ is a right adjoint with left adjoint $f_!$.
+\end{thm}
+\begin{proof}
+  For notational simplicity, we replace $C$ and $D$ with $\Modify[\OM]{C}$ and $\Modify[\OM]{D}$.
+  By Theorem~\ref{thm:adj:pw-to-full-adj}, it suffices to assume $\DeclVar{X}{\GM}{D \to \Space}$ and to
+  construct $f_!\prn{X} : C \to \Space$ along with a natural bijection
+  $\Prod{Y} \Hom{f_!\prn{X}}{Y} \Equiv \Hom{X}{f^*\prn{Y}}$. This is an immediate consequence of
+  \textcite[Theorem 2.41]{rijke:2020} after localizing the composite $\Sum{c : C} X\prn{C} \to D$
+  against the map $\brc{0} \to \Int$.
+\end{proof}
+
+\begin{cor}
+  The left adjoint $f_! \Adjoint \PSH{f}$ satisfies $f_! \circ \Yo \cong \Yo \circ f$.
+\end{cor}
+
+\begin{cor}
+  $\Space$ is small cocomplete: $\Const : \Space \to \Space^C$ is a right adjoint with left
+  adjoint $\Colim{}$ for small categories $\DeclVar{C}{\GM}{\Uni}$. Explicitly, if
+  $\DeclVar{X}{\GM}{C \to \Space}$, then $\Colim{C} X = \Grpdify\prn{\Sum{c : C} X\prn{c}}$.
+\end{cor}
+\begin{rem}
+  One can prove $\Space$ is complete (that $\Const \Adjoint \Lim{}$) by a result of
+  \textcite{gratzer:2024}. In particular, they show $\Prod{c : C} X\prn{c} : \Space$ whenever
+  $X : C \to \Space$ and $\DeclVar{C}{\GM}{\Uni}$. Corollary~\ref{cor:prelims:dua} and Lemma~\ref{lem:tw:hom-of-psh} then
+  imply that $\Hom{A}{\Prod{c : C} X\prn{c}} \Equiv \Hom{\Con{const}\,A}{X}$.
+\end{rem}
+
+\begin{lem}
+  \label{lem:adj:eval-at-pt-is-radj}
+  If $\DeclVar{c}{\GM}{C}$ then $\PSH{c} : \PSH{C} \to \Space$ is a left adjoint.
+\end{lem}
+\begin{proof}
+  For simplicity, we once more replace $C$ with $\Modify[\OM]{C}$ and invoke
+  Theorem~\ref{thm:adj:pw-to-full-adj}. We then assume that we are given $\DeclVar{X}{\GM}{\Space}$ and
+  define $c_*X$ to be $\lambda c'.\,X^{\Hom{c'}{c}}$. This is covariant in $c'$
+  \parencite{gratzer:2024}. It then suffices to show that the map $X^{\Hom{c}{c}} \to X$ given by
+  evaluation at the identity map induces an equivalence
+  $\Hom[C \to \Space]{Y}{c_*X} \Equiv \Hom[\Space]{Y\prn{c}}{X}$. This, in turn, is a consequence of
+  the fact that the map $Y\prn{c} \to \Grpdify\prn{\Sum{c' : C} \Hom{c'}{c} \times Y\prn{c'}}$ is an
+  equivalence, so we may decompose the evaluation map as follows:
+  \begin{align*}
+    &\Hom[C \to \Space]{Y}{c_*X}
+    \\
+    &\Equiv \Prod{c' : C} Y\prn{c'} \to X^{\Hom{c'}{c}}
+    \\
+    &\Equiv \Prod{c' : C} \Hom{c'}{c} \times Y\prn{c'} \to X
+    \\
+    &\Equiv \Grpdify \prn{\Sum{c' : C} \Hom{c'}{c} \times Y\prn{c'}} \to X
+    \\
+    &\Equiv Y\prn{c} \to X \qedhere
+  \end{align*}
+\end{proof}
+
+Combining Theorem~\ref{thm:adj:precomp-is-right-adj} and Lemma~\ref{lem:adj:eval-at-pt-is-radj}, we obtain the
+following characterization of $f_!X$:
+
+\begin{cor}
+  \label{cor:adj:push-pull-formula}
+  %
+  If $\DeclVar{X}{\GM}{\PSH{C}}$, $\DeclVar{f}{\GM}{C \to D}$, and $\DeclVar{d}{\GM}{D}$ then we may
+  explicitly identify
+  $\prn{f_!X}\,d$ as the following type:
+  \[
+    \Grpdify \prn{\Sum{c : \Modify[\OM]{C}} X\prn{c} \times \Hom{f^\dagger c}{d}}
+  \]
+\end{cor}
+\begin{proof}
+  We first observe that $\PSH{d}f_!\prn{X} = \prn{f_!X}\,d$. Transposing, we have
+  $\Hom{\PSH{d}f_!X}{Z} \Equiv \Hom{X}{\PSH{f}d_*Z}$ for every $\DeclVar{Z}{\GM}{\Space}$. We
+  calculate $\Hom{X}{\PSH{f}d_*Z}$ using the definition of $d_*$ provided above:
+  \begin{align*}
+    &\Hom[\PSH{C}]{X}{f^*d_*Z}
+    \\
+    &\Equiv \Prod{\DeclVar{c}{}{\Modify[\OM]{C}}} X\prn{c} \to \Hom{f^\dagger c}{d} \to Z
+    \\
+    &\Equiv \prn{\Sum{\DeclVar{c}{}{\Modify[\OM]{C}}} X\prn{c} \times \Hom{f^\dagger c}{d}} \to Z
+  \end{align*}
+  Therefore $\PSH{d}f_!X$ satisfies the universal property of
+  $\Grpdify \prn{\Sum{\DeclVar{c}{}{\Modify[\OM]{C}}} X\prn{c} \times \Hom{f^\dagger c}{d}}$
+\end{proof}
+
+The following lemma does not require Theorem~\ref{thm:adj:pw-to-full-adj}, but is merely a consequence of
+manipulating natural transformations:
+\begin{lem}
+  \label{lem:adj:comp}
+  If $f : C \to D$ is an adjoint so is $f_* : C^A \to D^A$.
+\end{lem}
+
+\begin{cor}
+  \label{cor:adj:limits-are-pointwise}
+  If $C$ is (co)complete so is $C^D$ and (co)limits are computed pointwise. In particular, $\PSH{C}$
+  is (co)complete.
+\end{cor}
+\begin{cor}
+  \label{cor:adj:yo-preserves-limits}
+  The Yoneda embedding preserves all limits.
+\end{cor}
+\begin{proof}
+  If $\DeclVar{F}{\GM}{I \to C}$ and $\Lim{} F$ exists, then functoriality of $\Yo$ induces a map
+  $\Yo{\Lim{} F} \to \Lim{}\prn{\Yo \circ F}$, so it suffices to check that this map is
+  invertible at all $\DeclVar{c}{\GM}{C}$. Unfolding, we must argue that
+  $\Hom{c}{\Lim{} F} \Equiv \Lim{} \Hom{c}{F}$ is an equivalence, but this is immediate by
+  Lemma~\ref{lem:tw:hom-of-psh}.
+\end{proof}
+
+Finally, we show the full subcategories $\Space_{\le n}$ of $\Space$ defined by $n$-truncated types
+form reflective subcategories of $\Space$. The idea is simple: use the truncation HITs. However, it
+is not automatic that they restrict to $\Trunc{-}_{n} : \Space \to \Space_{\le n}$. We prove this
+alongside with the reflectivity of $\Space_{\le n}$ using Theorem~\ref{thm:adj:pw-to-full-adj}:
+\begin{cor}
+  The inclusion $\Space_{\le n} \to \Space$ is a right adjoint.
+\end{cor}
+\begin{cor}
+  $\Space_{\le n}$ is (co)complete.
+\end{cor}
+The same methodology applies to the subcategory of modal types associated to an idempotent
+monad~\parencite{rijke:2020}.
+
+\begin{exa}[Isbell conjugation]
+  If $\DeclVar{C}{\GM}{\Uni}$, then the Isbell conjugation map $\phi$ is a left adjoint:
+  \begin{align*}
+    &\phi : \PSH{C} \to \Modify[\OM]{C \to \Space}
+    \\
+    &\phi\prn{X} = \MkMod[\OM]{\lambda c.\,\Phi\prn{X,\Yo{c}}}
+  \end{align*}
+\end{exa}
+
+\subsection{The universal property of presheaf categories}
+\label{sec:adj:psh}
+
+Next, we generalize Theorem~\ref{thm:adj:precomp-is-right-adj} to show that if $\DeclVar{f}{\GM}{C \to E}$
+where $C$ is a small category and $E$ is a cocomplete category, then
+$\Phi\prn{f^\dagger\prn{-},-} : E \to \PSH{C}$ is a right adjoint loosely following the argument
+given by \textcite{cisinski:2019}. We begin with a few general lemmas. In what follows, fix $C$
+and $E$ as above.
+
+First, as a corollary of the proof of Theorem~\ref{thm:adj:precomp-is-right-adj}:
+\begin{lem}
+  The colimit of $\Yo : C \to \PSH{C}$ is $\ObjTerm{\PSH{C}} = \lambda \_.\,\ObjTerm{}$.
+\end{lem}
+
+From the above, and further inspection of colimits, we are able to derive a result of independent
+interest: Every presheaf is the colimit of representable presheaves.
+\begin{lem}[Density of $\Yo$]
+  \label{lem:adj:density}
+  If $\DeclVar{X}{\GM}{\PSH{C}}$, then
+  $X \cong \Colim{\Modify[\OM]{\TotalType{X}}} \Yo \circ \pi^\dagger$,
+  where $\TotalType X=\Sum{c:\Modify[\OM]C}X\prn c$.
+\end{lem}
+\begin{proof}
+  We begin with the following computation where $\pi : \TotalType{X} \to \Modify[\OM]{C}$
+  and $\pi^\dagger_! : \Space^{\TotalType{X}} \to \PSH C$:
+  \[
+    \pi^\dagger_!\ObjTerm{}
+    \cong
+    \pi^\dagger_!\prn{\Colim{\Modify[\OM]{\TotalType{X}}} \Yo}
+    \cong
+    \Colim{\Modify[\OM]{\TotalType{X}}} \pi^\dagger_! \circ \Yo
+    \cong
+    \Colim{\Modify[\OM]{\TotalType{X}}} \Yo \circ \pi^\dagger
+  \]
+  We have used the fact that $\pi^\dagger_!$, a left adjoint, commutes with
+  colimits~\parencite{bardomiano:2021}.
+  To show $\pi^\dagger_!\ObjTerm{} \cong X$, we note that for all $Z : \PSH{C}$:
+  \begin{align*}
+    \Hom{\pi^\dagger_!\ObjTerm{}}{Z}
+    &\Equiv \Hom[{\TotalType{X}} \to \Space]{\ObjTerm{}}{Z \circ \pi}
+    \\
+    &\Equiv \Prod{\prn{c, x} : \Sum{c : \Modify[\OM]{C}} X\prn{c}} Z\prn{c}
+    \\
+    &\Equiv \Prod{c : \Modify[\OM]{C}} X\prn{c} \to Z\prn{c}
+    \\
+    &\Equiv \Hom{X}{Z}
+  \end{align*}
+  The conclusion now follows from the Yoneda lemma.
+\end{proof}
+
+\begin{lem}
+  $\Nv_f = \Phi\prn{f^\dagger\prn{-},-} : E \to \PSH{C}$ is a right adjoint.
+\end{lem}
+\begin{proof}
+  We will prove that $\Nv_f$ is a pointwise right adjoint. Accordingly, fixing
+  $\DeclVar{X}{\GM}{\PSH{C}}$ we must construct $\DeclVar{e}{}{\Modify[\OM]{E}}$ such that
+  $\Phi\prn{e,-} \cong \Phi\prn{\MkMod[\OM]{X},\Nv_f\prn{-}}$. Since
+  $X \cong \Colim{\Modify[\OM]{\TotalType{X}}} \Yo \circ \pi^\dagger$ and $E$ is cocomplete, by the
+  dual of Corollary~\ref{cor:adj:yo-preserves-limits} it suffices to assume
+  $\MkMod[\OM]{X} = \Yo^\dagger\prn{c}$ with $\DeclVar{c}{}{\Modify[\OM]{C}}$.\footnote{Note the
+    lack of $\GM$-annotation here: we must ensure that we are functorial in $c$ in order to obtain a
+    \emph{diagram} in $E$.} Finally, take $e = f^\dagger\prn{c}$ and
+  $\Phi\prn{f^\dagger\prn{c},-} \cong \Phi\prn{\Yo^\dagger\prn{c},\Nv_f\prn{-}}$ by
+  Theorem~\ref{thm:tw:strong-yoneda}.
+\end{proof}
+
+We are now able to prove, as promised, the universal property of $\PSH{C}$. If we write
+$\CoCont{\PSH{C}}{E}$ for the full subcategory of $\PSH{C} \to E$ spanned by functors preserving
+all colimits, then $\Yo^* : \CoCont{\PSH{C}}{E} \to \prn{C \to E}$ is an equivalence. To prove this,
+we essentially argue that there is a map sending $f$ to the left adjoint to $\Nv_f$ and that this is
+the inverse to $\Yo^*$.
+
+\begin{restatable}{thm}{universalpropofpsh}
+  \label{thm:adj:cc}
+  $\Yo^* : \CoCont{\PSH{C}}{E} \to \prn{C \to E}$ is an equivalence.
+\end{restatable}
+\begin{proof}
+  We use Theorem~\ref{thm:prelims:ff-ess-surj-to-equiv}. If $\DeclVar{f}{\GM}{C \to E}$, then
+  $f_! : \PSH{C} \to E$ satisfies $f_! \circ \Yo = f$ and so $\Yo^*$ is essentially surjective:
+  \[
+    \Phi\prn{\prn{f_!\circ \Yo}^\dagger\prn{-},-} \cong \Phi\prn{\Yo^\dagger\prn{-},\Nv_f\prn{-}}
+    \cong \Nv_f = \Phi\prn{f^\dagger\prn{-},-}
+  \]
+
+  Moreover, if $\DeclVar{F}{\GM}{\CoCont{\PSH{C}}{E}}$, then $\prn{F\circ\Yo}_! \cong F$, so that
+  $\Yo^*$ is a bijection on $\GM$-elements. Let us write $f = F \circ \Yo$. We first construct a
+  comparison map $\Hom{f_!}{F}$ by constructing a natural transformation
+  $\Hom{\ArrId{}}{\Nv_{f}\prn{F\prn{-}}}$. Currying, this is equivalent to constructing a natural
+  transformation between maps $\Modify[\OM]{C} \times \PSH{C} \to \Space$ and, in this form,
+  $\ArrId{}$ is given by evaluation $\epsilon$ and $\Nv_F\prn{F\prn{-}}$ is
+  $\Phi\prn{f\prn{-},F\prn{-}}$. We can replace $\epsilon$ with $\Phi\prn{\Yo\prn{-},-}$ by
+  Theorem~\ref{thm:tw:strong-yoneda} and
+  $\Phi\prn{f\prn{-},F\prn{-}} = \Phi\prn{F\prn{\Yo\prn{-}}, F\prn{-}}$ by definition. Accordingly,
+  the relevant map is supplied by $\Phi_F$. It is routine to check that this is pointwise an
+  equivalence by Lemma~\ref{lem:adj:density}.
+
+  Finally, we now show that $\Yo^*$ is fully faithful. To show that it is fully faithful, we must
+  show that if $\DeclVar{f,g}{\GM}{C \to E}$, then $\Hom{f_!}{g_!} \cong \Hom{f}{g}$. Both sides are
+  groupoids, so it suffices to consider $\GM$-annotated elements. If
+  $\DeclVar{\alpha}{\GM}{\Hom{f}{g}}$, then by transposing we may regard $\alpha$ as an element of
+  $\Modify[\GM]{C \to E^\Int}$ and the previous observation ensures that this type is equivalent to
+  $\Modify[\GM]{\CoCont{\PSH{C}}{E^\Int}}$ which yields the desired conclusion after transposing.
+\end{proof}
+
+\section{The theory of Kan extensions}
+\label{sec:kan}
+A unifying concept in category theory are \emph{Kan extensions}, which are universal extensions of
+functors along functors on the same domain. Mac Lane, one of the founders of category theory,
+famously stated: ``The notion of Kan extensions subsumes all the other fundamental concepts of
+category theory,'' such as (co)limits and adjunctions~\parencite{maclane:1978,riehl:2014}.
+
+\begin{defi}[Kan extensions]
+  Given a map $f : C \to D$ and a category $E$, the left (right) Kan extension $\Lan{f}$
+  ($\Ran{f}$) is the left (right) adjoint to $f^* : E^D \to E^C$.
+\end{defi}
+
+While the definition makes sense in general, to use the results of the previous sections, we shall
+assume $\DeclVar{f}{\GM}{C \to D}$ and $\DeclVar{E}{\GM}{\Uni}$.  In Section~\ref{sec:kan:existence} we
+show that Kan extensions exist whenever $E$ is (co)complete and in
+Sections~\ref{sec:kan:cofinal} and \ref{sec:kan:quillen-a} we put this to work by deducing two important results:
+Quillen's theorem A and the properness of cocartesian fibrations. Our arguments for the existence of
+Kan extensions and Quillen's theorem A adapt the (model-agnostic) $\infty$-categorical arguments of
+\textcite{ramzi:bousfield-kan}.
+
+\subsection{Existence and characterization of Kan extensions}
+\label{sec:kan:existence}
+
+We can prove that Kan extensions can be computed in an expected way. For $\DeclVar{d}{}{D}$, we
+write $\SLICE{C}{d} \defeq C \times_D \SLICE{D}{d}$ and
+$\COSLICE{C}{d} \defeq C \times_D \COSLICE{D}{d}$.
+We assume that $C$ and $D$ are both small so each $\SLICE Cd$ is also small.
+By Theorem~\ref{thm:adj:precomp-is-right-adj} and Lemma \ref{lem:adj:comp}:
+\begin{lem}
+  \label{lem:kan:lan-exists-for-psh}
+  If $E = \PSH{A}$ for some category $\DeclVar A\GM\Uni$, then $\Lan{f}$ exists.
+  Moreover, if $\DeclVar{X}{\GM}{C \to E}$ and $\DeclVar{d}{\GM}{D}$, then
+  $\Lan{f}\,X\,d = \Colim{} \prn{\SLICE{C}{d} \to C \to E} = \Grpdify\prn{\Sum{\prn{c,\_} : \SLICE{C}{d}} X\prn{c}}$.
+\end{lem}
+This yields more generally:
+\begin{thm}
+  \label{thm:kan:left-kan-exists}
+  If $E$ is cocomplete, then $\Lan{f}$ exists, and if $\DeclVar{X}{\GM}{C \to E}$,
+  $\DeclVar{d}{\GM}{D}$, then $\Lan{f}\,X\,d = \Colim{} \prn{\SLICE{C}{d} \to C \to E}$.
+\end{thm}
+\begin{proof}
+  It suffices to argue that precomposition is pointwise a right adjoint and so we fix
+  $\DeclVar{X}{\GM}{C \to E}$. By Theorem~\ref{thm:adj:cc}, we may view $X$ as the composition
+  $\bar X \circ \Yo$, where $\bar X : \PSH{C} \to E$ is the left adjoint to $\Nv_X$.
+  Next, we observe by~Lemma~\ref{lem:kan:lan-exists-for-psh} that $\Yo: C \to \PSH C$
+  admits an extension to $D$ along $f$, namely $\Lan{f} \Yo : D \to \PSH C$,
+  and we claim that
+  $\bar{X} \circ \Lan{f} \Yo$ is our desired extension of $f$.
+  Fixing $Z : D \to E$, we calculate:
+  \begin{align*}
+    \Hom[D \to E]{\bar{X} \circ \Lan{f} \Yo}{Z}
+    &\Equiv \Hom[D \to \PSH{C}]{\Lan{f} \Yo}{\Nv_X \circ Z}
+    \\
+    &\Equiv \Hom[C \to \PSH{C}]{\Yo}{\Nv_X \circ Z \circ f}
+    \\
+    &\Equiv \Hom[C \to E]{\bar X\circ\Yo}{Z \circ f}
+    \\
+    &= \Hom[C \to E]{X}{Z \circ f}
+  \end{align*}
+  The expected colimit formula continues to hold as a consequence of
+  Lemma~\ref{lem:kan:lan-exists-for-psh} and the cocontinuity of $\bar{X}$.
+\end{proof}
+
+By duality, we obtain the following variant:
+\begin{thm}
+  \label{thm:kan:right-kan-exists}
+  If $E$ is complete, then $\Ran{f}$ exists and is specified by the dual limit formula:
+  $\Ran{f}\,X\,d = \Lim{} \prn{\COSLICE{C}{d} \to C \to E}$.
+\end{thm}
+
+\subsection{Final and initial functors}
+\label{sec:kan:cofinal}
+
+It is frequently useful to show that the limit of a complex diagram $D$ can be calculated by first
+restricting to a simpler diagram using $f : C \to D$ and calculating the limit there \eg{},
+restricting from $\mathbb{Z}$ to $\mathbb{Z}_{\le 0}$. When this approach is valid, $f$ is said to
+be initial:
+\begin{defi}
+  A functor $\DeclVar{f}{\GM}{C \to D}$ is \emph{initial} if for every
+  $\DeclVar{X}{\GM}{D \to \Space}$ the map $\Lim{D} X \to \Lim{C} X \circ f$ is an
+  equivalence. A map is \emph{final} if its opposite is initial.
+\end{defi}
+While this definition is asymmetrical in its treatment of initiality and finality,
+we shall restore the symmetry as a consequence of Quillen's Theorem~A in the next section,
+see~Corollary~\ref{cor:kan:right-cofinal-char}.
+
+Recall that $\Lim{D} X = \Prod{d : D} X\prn{d}$ and so the definition of
+initiality equivalently states that the
+restriction map $\prn{\Prod{d : D} X\prn{d}} \to \prn{\Prod{c : C} X\prn{f\prn{c}}}$ is an
+equivalence.
+
+\begin{exa}
+  The $\brc{0}$/$\brc{1}$ inclusion ${\Unit \to \Int}$ is initial/final.
+\end{exa}
+
+\begin{lem}
+  \label{lem:kan:left-cofinal-preserves-limit}
+  If $\DeclVar{f}{\GM}{C \to D}$ is initial and
+  $\DeclVar{X}{\GM}{D \to E}$, then $\Lim{C} \prn{X \circ f}$ and $\Lim{D} X$ both exist
+  whenever either exists and are canonically isomorphic.
+\end{lem}
+\begin{proof}
+  By Corollary~\ref{cor:adj:yo-preserves-limits}, we replace $E$ with $\PSH{E}$ and by
+  Corollary~\ref{cor:adj:limits-are-pointwise} we reduce to $\Space$ where the result is immediate.
+\end{proof}
+
+\begin{restatable}{lem}{locop}
+  \label{lem:app:localization-op}
+  If $\DeclVar{C}{\GM}{\Uni}$, then $\Grpdify{C} \Equiv \Grpdify{\Modify[\OM]{C}}$.
+\end{restatable}
+\begin{proof}
+  We observe that $\Grpdify{C} \Equiv \Modify[\GM]{\Grpdify{C}}$ and likewise for
+  $\Modify[\OM]{C}$. Accordingly, we note that:
+  \begin{gather*}
+    \Modify[\GM]{
+      \Modify[\OM]{C} \to \Modify[\GM]{X}
+    }
+    \Equiv
+    \Modify[\GM]{
+      \Grpdify{\Modify[\OM]{C}} \to \Modify[\GM]{X}
+    }
+    \\
+    \Modify[\GM]{
+      C \to \Modify[\GM]{X}
+    }
+    \Equiv
+    \Modify[\GM]{
+      \Grpdify{C} \to \Modify[\GM]{X}
+    }
+    \\
+    \Modify[\GM]{
+      C \to \Modify[\GM]{X}
+    }
+    \Equiv
+    \Modify[\GM]{
+      \Modify[\OM]{C} \to \Modify[\GM]{X}
+    }
+  \end{gather*}
+  Finally, the result follows from a simple Yoneda argument.
+\end{proof}
+
+\begin{lem}
+  \label{lem:kan:localization-is-cofinal}
+  For every $C$, the canonical map $C \to \Grpdify{C}$ is both initial and final.
+\end{lem}
+\begin{proof}
+  By Lemma~\ref{lem:app:localization-op}, it suffices to argue that this map is initial. To this
+  end, we must show the following map to be an equivalence for every $X : \Grpdify{C} \to \Space$:
+  \[
+    \prn{\Prod{d : \Grpdify{C}} X\prn{d}} \to \prn{\Prod{c : C} X\prn{\eta\prn{c}}}
+  \]
+  However, $X\prn{d}$ is discrete for every $d : \Grpdify{C}$ and so this is simply the universal
+  property of $\Grpdify$.
+\end{proof}
+\begin{cor}
+  \label{lem:kan:limit-over-contractible}
+  If $\Grpdify{C} = \ObjTerm{}$, then $\Lim{C} A = A$ for $A : \Space$.
+\end{cor}
+
+\subsection{Quillen's Theorem A}
+\label{sec:kan:quillen-a}
+
+Our next goal is to prove the $\infty$-categorical version of Quillen's theorem A. Unlike
+traditional proofs, we follow \textcite{ramzi:bousfield-kan} and rely on having already established
+the basic apparatus of Kan extensions to simplify our argument.
+
+\begin{defi}
+  A functor $\DeclVar{f}{\GM}{C \to D}$ is Quillen final if
+  $\Grpdify(\COSLICE{C}{d}) \Equiv \Unit$ for all $\DeclVar{d}{\GM}{D}$
+\end{defi}
+\begin{thm}
+  \label{thm:kan:theorem-a}
+  A functor $\DeclVar{f}{\GM}{C \to D}$ is final if and only if
+  it is Quillen final.
+\end{thm}
+
+\begin{rem}
+  This result shows that, in particular, finality doesn't depend on the particular universe $\Space$
+  chosen.
+\end{rem}
+
+\begin{lem}
+  \label{lem:kan:theorem-a-for-psh}
+  If $\DeclVar{f}{\GM}{C \to D}$ is Quillen final and $\DeclVar{X}{\GM}{D \to \PSH{A}}$,
+  then ${\Colim D} X \Equiv {\Colim C} X \circ f$.
+\end{lem}
+\begin{proof}
+  This statement is pointwise, so we quickly reduce to $\Space$ instead of $\PSH{A}$. In this
+  situation, we wish to show that the following commutes:
+  \[
+    \begin{tikzcd}
+      \Space^D \ar[rr,"f^*"]\ar[dr,"{\mathrm{colim}_D}"'] && \Space^C\ar[dl,"{\mathrm{colim}_C}"] \\
+      & \Space &
+    \end{tikzcd}
+%
+%
+%
+%
+%
+%
+%
+%
+  \]
+  Note that all three morphisms are left adjoints,
+  and so it suffices to compare their right adjoints:
+  the constant functors $\Delta_C$ and $\Delta_D$,
+  along with the right Kan extension $\Ran f$.
+  We next note that there is at least a comparison map
+  $\Delta_D \to \Ran{f} \circ \Delta_C$ given by transposing the
+  identity map  $f^* \circ \Delta_D \to \Delta_C$.
+  We must argue that this map is pointwise invertible,
+  and so we reduce to considering $\DeclVar{X}{\GM}{\Space}$
+  and $\DeclVar{d}{\GM}{D}$,
+  and we must show the following, using~Theorem~\ref{thm:kan:right-kan-exists}:
+  $X \Equiv \Lim{\COSLICE{C}{d}} X$.
+  This now follows from our assumption and~Lemma~\ref{lem:kan:limit-over-contractible}.
+\end{proof}
+
+\begin{lem}
+  \label{lem:kan:theorem-a}
+  If $\DeclVar{f}{\GM}{C \to D}$ is Quillen final, $E$ a cocomplete category, and
+  $\DeclVar{X}{\GM}{D \to E}$, then ${\Colim D} X \Equiv {\Colim C} X \circ f$.
+\end{lem}
+\begin{proof}
+  We reduce to the case where $E = \PSH{D}$ (and therefore Lemma~\ref{lem:kan:theorem-a-for-psh}) by
+  factoring $X$ as $\bar{X} \circ \Yo$ and noting that $\bar{X}$ preserves colimits by construction.
+\end{proof}
+
+\begin{proof}[Proof of Theorem~\ref{thm:kan:theorem-a}]
+  To see that Quillen finality implies finality, we apply
+  Lemma~\ref{lem:kan:theorem-a} to $\Modify[\OM]{\Space}$,
+  and calculate:
+  \[
+    \Lim{\Modify[\OM]D} X
+    \Equiv {\Colim D} X^\dagger
+    \Equiv {\Colim C} X^\dagger \circ f
+    \Equiv \Lim{\Modify[\OM]C} X \circ f^\dagger
+  \]
+  For the reverse, suppose that $f$ is final. We note that by the dual of
+  Lemma~\ref{lem:kan:left-cofinal-preserves-limit} (again applied to $\Modify[\OM]{\Space}$), the
+  canonical map $\Colim{C} X \circ f \to \Colim{D} X$ is an equivalence for any
+  $\DeclVar{X}{\GM}{D \to \Space}$.  Fix $\DeclVar d\GM D$ and choose
+  $X = \hom(d,-) = \Phi\prn{\MkMod[\OM]d,-}$ such that the colimits in question are precisely
+  $\Grpdify{\COSLICE{D}{d}}$ and $\Grpdify{\COSLICE{C}{d}}$,
+  using~Theorem~\ref{thm:adj:precomp-is-right-adj}.  This completes the proof since
+  $\Grpdify{\COSLICE{D}{d}} = \ObjTerm{}$.
+\end{proof}
+
+\begin{cor}
+  \label{cor:kan:right-cofinal-char}
+  A functor $\DeclVar{f}{\GM}{C \to D}$ is final if and only if, for every
+  $\DeclVar{X}{\GM}{D \to \Space}$ the map $\Colim{D} X \to \Colim{C} X \circ f$
+  is an equivalence.
+\end{cor}
+This restores the symmetry between initial and final functors, as promised.  We offer another
+symmetric definition of initiality and finality, informed by \textcite[Ch.~8]{cisinski:2024}.
+\begin{defi}[Covariant equivalences]
+  Fix $\DeclVar{p}{\GM}{C \to A}$ and $\DeclVar{q}{\GM}{D \to A}$ between categories $A,C,D$. Let
+  $\DeclVar{f}{\GM}{C \to D}$ be a fibered map as follows:
+  \[
+    \begin{tikzcd}
+     C && D \\
+     & A
+     \arrow["f", from=1-1, to=1-3]
+     \arrow["p"', from=1-1, to=2-2]
+     \arrow["q", from=1-3, to=2-2]
+    \end{tikzcd}
+  \]
+  We call $f$ a \emph{covariant equivalence} if for all families $\DeclVar{X}{\GM}{A \to \Space}$
+  reindexing gives rise to an equivalence, \ie,:
+  \[
+    f^* : \prn{\DelimMin{1}\Prod{a:A} D_a \to X_a} \to \prn{\DelimMin{1}\Prod{a:A} C_a \to X_a}
+  \]
+  Dually, $f$ is called \emph{contravariant equivalence} precomposition with respect to all contravariant families is an equivalence.
+\end{defi}
+
+\begin{lem}\label{lem:cov-eq-comp}
+  Let $f$ as below be a covariant equivalence with respect to $p$ and $q$. Then, for any functor
+  $\DeclVar{r}{\GM}{B \to A}$ it is also a covariant equivalence with respect to $rp$ and $rq$:
+  \[
+    \begin{tikzcd}
+      C && D \\
+      & A \\
+      & B
+      \arrow["f", from=1-1, to=1-3]
+      \arrow["p"', from=1-1, to=2-2]
+      \arrow["q", from=1-3, to=2-2]
+      \arrow["r", from=2-2, to=3-2]
+    \end{tikzcd}
+  \]
+\end{lem}
+
+\begin{proof}
+  We get the following induced square:
+  \[
+    \begin{tikzcd}
+      {\big( \prod_{b:B} D_b \to X_b \big)} && {\big( \prod_{b:B} C_b \to X_b \big)} \\
+      {\big( \prod_{a:A} D_a \to X_{r(a)} \big)} && {\big( \prod_{a:A} C_a \to X_{r(a)} \big)}
+      \arrow["{f^*}", "\simeq"', from=1-1, to=1-3]
+      \arrow["\simeq"', from=1-1, to=2-1]
+      \arrow["\simeq", from=1-3, to=2-3]
+      \arrow["{f^*}"', from=2-1, to=2-3]
+    \end{tikzcd}
+  \]
+  The upper horizontal map is an equivalence by the preconditions. The goal is to show that the
+  lower horizontal map is an equivalence, too. But this follows from $3$-for-$2$ for equivalences.
+\end{proof}
+
+\begin{lem}[Characterizations of initiality]
+  \label{lem:kan:characterization-initiality}
+  Let $\DeclVar{f}{\GM}{C \to D}$ be a functor. Then the following are equivalent:
+  \begin{enumerate}[label=\textup{(\arabic*)}]
+  \item\label{it:prop:char-left-cof-i} $f$ is initial.
+  \item\label{it:prop:char-left-cof-ii} Let $\DeclVar{X}{\GM}{A \to \Space}$ be a family with
+    associated left fibration $\DeclVar{\pi}{\GM}{\TotalType{X} \to A}$. Then any square of the
+    following form has a filler $\overline{\varphi}$, uniquely up to homotopy:
+    \[
+      \begin{tikzpicture}
+        \node (nw) {$C$};
+        \node[below = 1.5cm of nw] (sw) {$D$};
+        \node[right = 4cm of nw] (ne) {$\TotalType{X}$};
+        \node[right = 4cm of sw] (se) {$A$};
+        \path[->] (nw) edge node[above] {$\varphi$} (ne);
+        \path[->] (nw) edge node[left] {$f$} (sw);
+        \path[->] (ne) edge node[right] {$\pi$} (se);
+        \path[->] (sw) edge node[below] {$\alpha$} (se);
+        \path[->, unique exists] (sw) edge node[upright desc] {$\overline{\varphi}$} (ne);
+      \end{tikzpicture}
+    \]
+  \item\label{it:prop:char-left-cof-iii} For any family $\DeclVar{X}{\GM}{A \to \Space}$ the
+    following square is a pullback:
+    \[
+      \DiagramSquare{
+        nw = \TotalType{X}^D,
+        ne = \TotalType{X}^C,
+        sw = A^D,
+        se = A^C,
+        nw/style = pullback,
+        height = 1.5cm,
+      }
+    \]
+  \item\label{it:prop:char-left-cof-iv} $f$ is a covariant equivalence with respect to any
+    $\DeclVar{\alpha}{\GM}{D \to A}$.
+  \end{enumerate}
+  The analogous characterization holds for contravariant equivalences and final functores.
+\end{lem}
+\begin{proof}
+  Conditions~\ref{it:prop:char-left-cof-ii} and~\ref{it:prop:char-left-cof-iii} are readily seen
+  to be equivalent by commuting $\Prod{}$ and $\Sum{}$. Condition~\ref{it:prop:char-left-cof-iv}
+  unfolds to the following: for any $\DeclVar{X}{\GM}{A \to \Space}$ reindexing along $f$ is an
+  equivalence, namely
+  \[
+    f^* :
+    \prn{\Prod{a:A} D_a \to X_a}
+    \xrightarrow{\sim}
+    \prn{\Prod{a:A} (\Sum{d:D_a} C_{a,d}) \to X_a}
+  \]
+  This, again, is readily seen to be equivalent to~\ref{it:prop:char-left-cof-ii}.
+
+  We turn to the implication
+  $\text{\ref{it:prop:char-left-cof-iv}} \implies \text{\ref{it:prop:char-left-cof-i}}$.
+  But this is clear,
+  since~\ref{it:prop:char-left-cof-i} says that $f$ is a covariant equivalence with respect to
+  itself and $\ArrId{D}$.
+
+  For the converse direction
+  $\text{\ref{it:prop:char-left-cof-i}} \implies \text{\ref{it:prop:char-left-cof-iv}}$
+  we use the insight
+  just made together with Lemma~\ref{lem:cov-eq-comp}.
+\end{proof}
+
+The following alternative characterization is also often useful:
+
+\begin{restatable}{lem}{charcofinal}
+  \label{prop:kan:charcofinal}
+  $\DeclVar{f}{\GM}{C \to D}$ is initial \textup(resp. final\textup) if and only if for every
+  covariant \textup(resp. contravariant\textup) family $\DeclVar{\pi}{\GM}{X \to Y}$, $f$ is left
+  orthogonal to $\pi$, \ie{}, $\IsEquiv\prn{X^D \to X^C \times_{Y^C} Y^D}$.
+\end{restatable}
+\begin{proof}
+  Immediate by Proposition~\ref{it:prop:char-left-cof-iv} for the initial case
+  and by duality and~Corollary~\ref{cor:kan:right-cofinal-char} for the final case.
+\end{proof}
+
+\begin{cor}
+  \label{cor:initial-covariant-ofs}
+  There is an orthogonal factorization system in the sense of \cite{rijke:2020} with the left class given by the initial functors and the right class by covariant fibrations.
+\end{cor}
+
+As another consequence we get the dual of~Theorem~\ref{thm:kan:theorem-a}:
+\begin{cor}
+  \label{thm:kan:theorem-a-dual}
+  A functor $\DeclVar{f}{\GM}{C \to D}$ is initial if and only if
+  $\Grpdify(\SLICE{C}{d}) \Equiv \Unit$ for all $\DeclVar{d}{\GM}{D}$
+  \textup(\emph{Quillen initial}\textup).
+\end{cor}
+
+We demonstrate the utility of Theorem~\ref{thm:kan:theorem-a} by giving a new and far simpler
+proof that cocartesian fibrations are \emph{proper}.
+\begin{defi}
+  \label{def:proper-maps}
+  A functor $\DeclVar{\pi}{\GM}{E \to B}$ between categories is \emph{proper} if for all pullbacks
+  (of $\GM$-functors) of the following form, $v$ is final if $u$ is final:
+  \[
+    \begin{tikzpicture}[diagram]
+      \SpliceDiagramSquare{
+        height = 1.35cm,
+        ne = E,
+        se = B,
+        nw = E',
+        sw = B',
+        east = \pi,
+        west = \pi',
+        nw/style = pullback,
+      }
+      \node [pullback, left = of nw] (A) {$E''$};
+      \node [left = of sw] (B) {$B''$};
+      \path[->] (A) edge node[above] {$v$} (nw);
+      \path[->] (B) edge node[below] {$u$} (sw);
+      \path[->] (A) edge (B);
+    \end{tikzpicture}
+  \]
+  We call $\pi$ \emph{smooth} if $\pi^\dagger : \Modify[\OM]{E} \to \Modify[\OM]{B}$ is proper.
+\end{defi}
+\begin{lem}
+  Smooth and proper functors are closed under composition and pullback.\footnote{The definition of
+    properness is formulated specifically to bake in the latter.}
+\end{lem}
+\begin{thm}
+  \label{thm:kan:cocartesian-is-proper}
+  Cartesian fibrations are smooth and cocartesian fibrations are proper.
+\end{thm}
+\begin{proof}
+  It suffices to treat the proper case. Fix a cocartesian fibration $\DeclVar{\pi}{\GM}{E \to B}$
+  and note that since cocartesian fibrations are stable under pullbacks, it suffices show to that $v$ is
+  final in the following pullback diagram if $u$ is final:
+  \[
+    \DiagramSquare{
+      height = 1.5cm,
+      width = 3cm,
+      nw = { A \times_B E},
+      sw = A,
+      ne = E,
+      se = B,
+      nw/style = pullback,
+      north = v,
+      south = u,
+      east = \pi,
+    }
+  \]
+  We now use Theorem~\ref{thm:kan:theorem-a}. For $\DeclVar{e}{\GM}{E}$ we compute the fiber:
+  \begin{align*}
+    & (A \times_B E) \times_E \COSLICE{E}{e}
+    \\
+    &\quad
+    \Equiv A \times_B \COSLICE{E}{e}
+    \\
+    &\quad
+    \Equiv A \times_B \prn{\Sum{\DeclVar{b'}{}{B},\DeclVar{f}{}{\Hom{\pi\prn{e}}{b'}}}{\prn{E_{b'}}^{\Int}}}
+    && \text{$\pi$ is cocartesian}
+    \\
+    &\quad
+    \Equiv \Sum{\DeclVar{(a,f)}{}{A \times_B \COSLICE{B}{\pi\prn{e}}}}{\COSLICE{\prn{E_{u\prn{a}}}}{f_!e}}
+  \end{align*}
+  Applying $\Grpdify$ to each fiber yields $\Grpdify{\COSLICE{\prn{E_{u\prn{a}}}}{f_!e}} \Equiv \Unit$ (as
+  coslices have initial elements) and $\Grpdify(A \times_B \COSLICE{B}{\pi\prn{e}}) \Equiv \Unit$
+  since $u$ is final by assumption. This implies that applying $\Grpdify$ to the entire
+  $\Sum{}$-type produces $\Unit$~\parencite{rijke:2020}.
+\end{proof}
+
+\begin{cor}
+  If $\DeclVar{\pi}{\GM}{E \to B}$ is cocartesian and $\DeclVar{X}{\GM}{E \to D}$, then the left Kan
+  extension $\Lan{\pi} X$ sends $\DeclVar{b}{\GM}{B}$ to $\Colim{}\prn{E_b \to E \to D}$.
+\end{cor}
+
+\subsection{Smooth and proper base change}
+
+We want to show that smooth and proper functors satisfy the \emph{Beck--Chevalley condition}. We follow \cite[Section 8.4]{cisinski:2024}; see also \cite{anel:2024} for a general discussion.
+
+First, using the initial-covariant factorization (see \ref{cor:initial-covariant-ofs}) of a functor with small fibers we can compute the action of precomposition for (co)presheaves:
+\begin{prop}[\protect{\cite[Theorem~8.1.18]{cisinski:2024}}]
+  \label{prop:action-postcomp}
+  Let $\DeclVar{u}{\GM}{A \to B}$ be a functor with small fibers. Then the left adjoint $\DeclVar{u_! \dashv u^*}{\GM}{\Space^B \to \Space^A}$ acts as follows: for $\DeclVar{F}{\GM}{A \to \Space}$, if
+  \[\begin{tikzcd}
+	E & {\Space_*} \\
+	A & \Space
+	\arrow[from=1-1, to=1-2]
+	\arrow["\phi"', from=1-1, to=2-1]
+	\arrow["\lrcorner"{anchor=center, pos=0.125}, draw=none, from=1-1, to=2-2]
+	\arrow[from=1-2, to=2-2]
+	\arrow["F", from=2-1, to=2-2]
+  \end{tikzcd}\]
+  denote by $E \stackrel{j}{\to} X \stackrel{\psi}{\to} B$ the initial-covariant factorization of $u \circ \phi$. Then $u_!(F)$ is the straightening of $\psi$:
+  \[\begin{tikzcd}
+	E & X & {\Space_*} \\
+	A & B & \Space
+	\arrow["j", from=1-1, to=1-2]
+	\arrow["\phi"', from=1-1, to=2-1]
+	\arrow[from=1-2, to=1-3]
+	\arrow["\psi", from=1-2, to=2-2]
+	\arrow["\lrcorner"{anchor=center, pos=0.125}, draw=none, from=1-2, to=2-3]
+	\arrow[from=1-3, to=2-3]
+	\arrow["u"', from=2-1, to=2-2]
+	\arrow["{u_!(F)}"', from=2-2, to=2-3]
+\end{tikzcd}\]
+In particular, the unit $\DeclVar{\eta}{\GM}{F \to u^*u_!F}$ corresponds under directed univalence to the map $\widetilde{\eta}$:
+\[\begin{tikzcd}
+	E & Y & X \\
+	& A & B
+	\arrow["{\widetilde{\eta}}", dashed, from=1-1, to=1-2]
+	\arrow["j"{description}, curve={height=-20pt}, from=1-1, to=1-3]
+	\arrow["\phi"{description}, from=1-1, to=2-2]
+	\arrow[from=1-2, to=1-3]
+	\arrow["{u^*\psi}", from=1-2, to=2-2]
+	\arrow["\lrcorner"{anchor=center, pos=0.125}, draw=none, from=1-2, to=2-3]
+	\arrow["\psi", from=1-3, to=2-3]
+	\arrow["u", from=2-2, to=2-3]
+\end{tikzcd}\]
+\end{prop}
+
+\begin{proof}
+  We want to show that an equivalence is given by the map
+  \[ \DeclVar{\lambda \alpha.u^*\alpha \circ \eta}{\GM}{\hom_{B \to \Space}(u_!F, G) \to \hom_{A \to \Space}(F, u^*G)}.\]
+  We write the unstraightening of $G$ as
+  \[\begin{tikzcd}
+	Z & {\Space_*} \\
+	B & \Space
+	\arrow[from=1-1, to=1-2]
+	\arrow["\gamma"', from=1-1, to=2-1]
+	\arrow["\lrcorner"{anchor=center, pos=0.125}, draw=none, from=1-1, to=2-2]
+	\arrow[from=1-2, to=2-2]
+	\arrow["G", from=2-1, to=2-2]
+  \end{tikzcd}\]
+  The above transposition map is equivalent to a map
+  \[ \prn{\prod_{b:B} \hom_\Space(X_b, Z_b)} \to \prn{\prod_{a:A} \hom_\Space(E_a, (A \times_B Z)_a)} \simeq \prn{\prod_{b:B} \hom_\Space(E_b,Z_b)}.\]
+  By directed univalence, this map corresponds to the map
+  \[ \prn{\prod_{b:B} (X_b \to Z_b)} \to\prn{\prod_{b:B} (E_b \to Z_b)} \]
+  which in turn acts as precomposition of fibered functors by $j$:
+  \[\begin{tikzcd}
+	E & X & Z \\
+	& B
+	\arrow["j", from=1-1, to=1-2]
+	\arrow["{u \circ \varphi}"', from=1-1, to=2-2]
+	\arrow[from=1-2, to=1-3]
+	\arrow["\psi"', from=1-2, to=2-2]
+	\arrow["\gamma", from=1-3, to=2-2]
+\end{tikzcd}\]
+Finally, due to Proposition~\ref{prop:kan:charcofinal}\ref{it:prop:char-left-cof-iv} this map is an equivalence.
+\end{proof}
+
+Let $\DeclVar{f}{\GM}{A \to B}$ be a functor with small fibers. Consider the induced pair of adjoints:
+\[\begin{tikzcd}
+	{\Space^B} & {\Space^A}
+	\arrow[""{name=0, anchor=center, inner sep=0}, "{f^*}"', curve={height=12pt}, from=1-1, to=1-2]
+	\arrow[""{name=1, anchor=center, inner sep=0}, "{f_!}"', curve={height=12pt}, from=1-2, to=1-1]
+	\arrow["\dashv"{anchor=center, rotate=-90}, draw=none, from=1, to=0]
+\end{tikzcd}\]
+Thus, a square
+\[\begin{tikzcd}
+	{A'} & A \\
+	{B'} & B
+	\arrow["u", from=1-1, to=1-2]
+	\arrow["{f'}"', from=1-1, to=2-1]
+	\arrow["f", from=1-2, to=2-2]
+	\arrow["v"', from=2-1, to=2-2]
+\end{tikzcd}\]
+induces the \emph{Beck--Chevalley square}
+\[\begin{tikzcd}
+	{\Space^{A'}} & {\Space^{A}} \\
+	{\Space^{B'}} & {\Space^{B}}
+	\arrow["{f'_!}"', from=1-1, to=2-1]
+	\arrow["\beta"{description}, Rightarrow, from=1-1, to=2-2]
+	\arrow["{u^*}"', from=1-2, to=1-1]
+	\arrow["{f_!}", from=1-2, to=2-2]
+	\arrow["{v^*}", from=2-2, to=2-1]
+\end{tikzcd}\]
+with the $2$-cell $\beta$ (a morphism in $\Space^A \to \Space^{B'}$) being the transpose of the map:
+\[\begin{tikzcd}
+	{u^*} & {u^*f^*f_!} & {f'^* v^* f_!}
+	\arrow["{u^* \eta}", Rightarrow, from=1-1, to=1-2]
+	\arrow["\simeq"{description}, draw=none, from=1-2, to=1-3]
+\end{tikzcd}\]
+
+Analogously to \ref{prop:action-postcomp}, we give a description of the Beck--Chevalley map as in \cite[Section 8.4]{cisinski:2024}.
+
+Let $\DeclVar{F}{\GM}{A \to \Space}$ and $\varphi$ its unstraightening:
+\[\begin{tikzcd}
+	X & {\Space_*} \\
+	A & \Space
+	\arrow[from=1-1, to=1-2]
+	\arrow["\varphi"', from=1-1, to=2-1]
+	\arrow["\lrcorner"{anchor=center, pos=0.125}, draw=none, from=1-1, to=2-2]
+	\arrow[from=1-2, to=2-2]
+	\arrow["F", from=2-1, to=2-2]
+\end{tikzcd}\]
+Recall, that $f_!F$ is given by
+%
+\[\begin{tikzcd}
+	X & Y & {\Space_*} \\
+	A & B & \Space
+	\arrow["j", from=1-1, to=1-2]
+	\arrow["\varphi"', from=1-1, to=2-1]
+	\arrow[from=1-2, to=1-3]
+	\arrow["\psi"', from=1-2, to=2-2]
+	\arrow["\lrcorner"{anchor=center, pos=0.125}, draw=none, from=1-2, to=2-3]
+	\arrow[from=1-3, to=2-3]
+	\arrow["f", from=2-1, to=2-2]
+	\arrow["{f_!F}", from=2-2, to=2-3]
+\end{tikzcd}\]
+and that the unit $\DeclVar{\eta}{\GM}{F \to f^*f_!F}$ is given by the mediating map:
+\[\begin{tikzcd}
+	X & Z & Y \\
+	& A & B
+	\arrow["{\widetilde{\eta}}", dashed, from=1-1, to=1-2]
+	\arrow["j", curve={height=-19pt}, from=1-1, to=1-3]
+	\arrow["\varphi"', from=1-1, to=2-2]
+	\arrow[from=1-2, to=1-3]
+	\arrow[from=1-2, to=2-2]
+	\arrow["\lrcorner"{anchor=center, pos=0.125}, draw=none, from=1-2, to=2-3]
+	\arrow["\psi", from=1-3, to=2-3]
+	\arrow["f", from=2-2, to=2-3]
+\end{tikzcd}\]
+Pulling back along $u$ and $v$, resp., and factoring the upper horizontal map yields the square
+\[\begin{tikzcd}
+	& {Y'} \\
+	{A' \times_A X} && {B' \times_B Y} \\
+	{A'} && {B'}
+	\arrow["r", from=1-2, to=2-3]
+	\arrow["{{j'}}", from=2-1, to=1-2]
+	\arrow["{j '':={f' \times_fj}}", dashed, from=2-1, to=2-3]
+	\arrow["{{u^*\varphi}}"', from=2-1, to=3-1]
+	\arrow["{{v^*\psi}}", from=2-3, to=3-3]
+	\arrow["{{f'}}", from=3-1, to=3-3]
+\end{tikzcd}\]
+where $j'$ is initial and $r$ is a covariant fibration. We consider the composite $\DeclVar{\psi' := v^*\psi \circ r}{\GM}{Y' \to B}$ whence
+\[\begin{tikzcd}
+	{Y'} & {\Space_*} & {B' \times_B Y} & Y & {\Space_*} \\
+	B & {\Space_*} & {B'} & B & \Space
+	\arrow[from=1-1, to=1-2]
+	\arrow["{\psi'}"', from=1-1, to=2-1]
+	\arrow["\lrcorner"{anchor=center, pos=0.125}, draw=none, from=1-1, to=2-2]
+	\arrow[from=1-2, to=2-2]
+	\arrow[from=1-3, to=1-4]
+	\arrow["{v^*\psi}"', from=1-3, to=2-3]
+	\arrow["\lrcorner"{anchor=center, pos=0.125}, draw=none, from=1-3, to=2-4]
+	\arrow[from=1-4, to=1-5]
+	\arrow["\psi"', from=1-4, to=2-4]
+	\arrow["\lrcorner"{anchor=center, pos=0.125}, draw=none, from=1-4, to=2-5]
+	\arrow[from=1-5, to=2-5]
+	\arrow["{f'_!u^*(F)}", from=2-1, to=2-2]
+	\arrow["v", from=2-3, to=2-4]
+	\arrow["{v^*f_!F}"', curve={height=12pt}, from=2-3, to=2-5]
+	\arrow["{f_!F}", from=2-4, to=2-5]
+\end{tikzcd}\]
+and the Beck--Chevalley transformation corresponds to the fibered map $\DeclVar{r}{\GM}{Y' \to_B B' \times_B Y}$ over $B$.
+
+\begin{thm}[Smooth base change, \protect{\cite[Theorem 8.4.1]{cisinski:2024}}]
+  Consider a pullback square
+  \[\begin{tikzcd}
+	{A'} & A \\
+	{B'} & B
+	\arrow["u", from=1-1, to=1-2]
+	\arrow["{{f'}}"', from=1-1, to=2-1]
+	\arrow["\lrcorner"{anchor=center, pos=0.125}, draw=none, from=1-1, to=2-2]
+	\arrow["f", from=1-2, to=2-2]
+	\arrow["v"', from=2-1, to=2-2]
+\end{tikzcd}\]
+of small categories where $v$ is smooth. Then, the Beck--Chevalley transformation is an equivalence
+\[ f'_! u^* \simeq v^* f_!.\]
+\end{thm}
+
+\begin{proof}
+We will show that the map $r$ from the preceding description is an equivalence by showing that it is also initial (and it is a covariant fibration by construction). We have the following commutative cube:
+\[\begin{tikzcd}
+	{A' \times_A X} && {B' \times_B Y} \\
+	& X && Y \\
+	{A'} && {B'} \\
+	& A && B
+	\arrow["{j''}"{description}, from=1-1, to=1-3]
+	\arrow[from=1-1, to=2-2]
+	\arrow["{u^*\phi}"{description, pos=0.3}, from=1-1, to=3-1]
+	\arrow["\lrcorner"{anchor=center, pos=0.125}, draw=none, from=1-1, to=4-2]
+	\arrow["{v'}"{description},from=1-3, to=2-4]
+	\arrow["{v^*\psi}"{description, pos=0.3}, from=1-3, to=3-3]
+	\arrow["\lrcorner"{anchor=center, pos=0.125}, draw=none, from=1-3, to=4-4]
+	\arrow["j"{description, pos=0.4}, from=2-2, to=2-4, crossing over]
+	\arrow["\psi"{description, pos=0.3}, from=2-4, to=4-4]
+	\arrow["{f'}"{description, pos=0.7}, from=3-1, to=3-3]
+	\arrow["u"{description}, from=3-1, to=4-2]
+	\arrow["v"{description}, from=3-3, to=4-4]
+	\arrow["f"{description, pos=0.6}, from=4-2, to=4-4]
+  \arrow["\phi"{description, pos=0.3}, from=2-2, to=4-2, crossing over]
+  \arrow["\lrcorner"{anchor=center, pos=0.125}, draw=none, from=3-1, to=4-4]
+\end{tikzcd}\]
+By the pullback lemma, the top square is a pullback, too. Since $v$ is smooth and $j$ is initial, $j''$ is initial. But $j'' = r \circ j'$ so $r$ is also initial due to cancelation.
+\end{proof}
+
+One can also prove the analogous \emph{proper} base change formula as in \cite[Theorem 8.4.6]{cisinski:2024}.
+
+%
+%
+
+%
+
+\section{Conclusions and future work}
+\label{sec:conc}
+
+We have introduced and studied the impact of the $\infty$-categorical Yoneda embedding in
+\STT{}. This includes the development of classical concepts (Kan extensions, adjoints, (co)limits,
+\etc{}), all in the synthetic $\infty$-categorical setting. While some of the basic theory had been
+investigated in \STT{} already, we were able to produce the first non-trivial concrete examples of,
+\eg{}, adjunctions (Theorem~\ref{thm:adj:precomp-is-right-adj}) and give several more refined versions of
+existing theorems (Theorem~\ref{thm:tw:nat-iso}) which more closely match their standard counterparts.
+
+\subsection{Related work}
+
+There are several closely related type-theoretic approaches to synthetic ($\infty$-)category
+theory. We may roughly divide these into (1) directed type theory, where every type is a category
+but various operations ($\Prod{}$) must be restricted, and (2) variations on simplicial type
+theory. For instance, many directed type theories have been proposed and studied over the years~%
+\parencite{%
+  licata:2011,%
+  warren:2013,%
+  nuyts:2015,%
+  kavvos:directed:2019,%
+  buchholtz:2019,%
+  kolomatskaia:2023,%
+  weaver:2020,%
+  weaver:phd,%
+  ahrens:2023,%
+  north:2018,%
+  nuyts:2020,%
+  neumann:2024,%
+  }.
+In general, while these type theories are a promising approach to formalize category theory in type
+theory, none of them have thus far received as much attention as \STT{} and, consequently, none have
+developed category theory to the extent of this work. Furthermore, it is substantially harder to
+design a directed type theory in this style (as it is a more radical alteration of the basic rules
+of type theory) and most proposals handle only $1$-category theory rather than
+$\prn{\infty,1}$-categories. We note, however, that some of these type theories do include a version
+of Theorem~\ref{thm:tw:strong-yoneda} in the form of directed path
+induction~\parencite{north:2018,nuyts:2020,neumann:2024}. Given, however, that few of our arguments
+rely on types which are not categories, we expect many of them to transfer to sufficiently rich
+future variants of directed type theory.
+
+Other variations of simplicial type theory have been considered in the literature. For instance,
+several papers use additional judgmental structure (extension types) to get more definitional
+equalities around
+hom-types~\parencite{riehl:2017,bardomiano:2021,weinberger:phd,buchholtz:2023,weinberger:twosided:2024,weinberger:sums:2024}
+at the cost of making the interval a second-class type similar to two-level type
+theory~\parencite{annenkov:2023,voevodsky:2013}. Other versions have favored a cubical
+interval~\parencite{gratzer:2024} or even a cubical interval atop a cubical version of
+\HoTT{}~\parencite{weaver:2020,weaver:phd}. Aside from the addition of modalities, our version of
+\STT{} is deliberately minimalistic: we use only ordinary \HoTT{} with a handful of
+postulates. Accordingly, our results can be interpret into essentially any incarnation of modal
+\STT{} and does not rely on extra definitional equalities.
+
+Finally, there are many attempts to formulate more conceptual and synthetic foundations for
+$\infty$-category theory which do not rely on type theory. For instance, the $\infty$-cosmos program
+of \textcite{riehl:2022} aims to give a systematic account of the formal category theory and
+model-independence using 2-category theory. On the other hand, most practitioners in the field
+attempt to give looser ``model independent'' arguments which avoid relying on explicit computations
+as much as possible. We have successfully translated some of these arguments into our framework,
+proving that this informal discipline is effective (\eg{}, Section~\ref{sec:kan}). More recently,
+\textcite{cisinski:2024} have begun to redevelop $\infty$-category theory in a deliberately informal
+and high-level language, splitting the difference between a formal theory like \STT{} and the usual
+``model-independent'' discipline of practitioners. We expect that their arguments can be translated
+into \STT{} and we have shown that some of their primitive axioms are \emph{provable}
+in \STT{} (\eg{},
+Theorems~\ref{thm:prelims:space} and \ref{thm:prelims:full-subcat} and Lemma~\ref{lem:adj:functoriality-of-init-objects}).
+
+\subsection{Future work}
+
+Many promising avenues for future work remain to be explored. While we have focused on presheaf
+categories and immediate consequences of their theory, we plan to port other foundational results
+from category theory (presentable and accessible categories, Bousfield localizations, topos theory,
+\etc{}) into \STT{}.  It would also be desirable to adapt more parts of the internal
+$\infty$-category theory and $\infty$-topos theory of Martini and
+Wolf~\parencite{martini:cocartesianfibrations:2022,martini:colimitscocompletions:2021,martini:phd,martini:presentable:2022,martini:propermorphisms:2023,martini:yonedaslemma:2021,wolf:phd}
+to \STT{}.
+Additionally, we hope to extend a proof assistant like Agda~\parencite{agda}
+with the necessary support for modalities to give machine-checked versions of the proofs in this
+paper. On the foundational side, \STT{} presently relies on a handful of axioms
+(Appendix~\ref{sec:axioms}) and therefore satisfies only normalization and not canonicity. In future work,
+we hope to examine which of these principles can be given computational interpretations and to what
+extent one can `compute' with synthetic $\infty$-categories.
+
+\appendix
+%
+\section{The formal rules of \texorpdfstring{\MTT{}}{MTT}}
+\label{sec:mtt-rules}
+
+The formal syntax of \MTT{} is comprised of four judgments: $\IsCx{\Gamma}$,
+$\IsSb{\delta}{\Delta}$, $\IsTm{a}{A}$, and $\IsTy{A}$. We list the relevant novel rules for these
+judgments below:%
+\def\MathparLineskip{\lineskip=11pt}
+\begin{mathparpagebreakable}
+  \JdgFrame{\IsCx{\Gamma}}
+  \\
+  \inferrule{ }{
+    \IsCx{\EmpCx}
+  }
+  \and
+  \inferrule{
+    \IsCx{\Gamma}
+  }{
+    \IsCx{\LockCx{\Gamma}}
+  }
+  \and
+  \inferrule{
+    \IsCx{\Gamma}
+    \\
+    \IsTy[\LockCx{\Gamma}]{A}
+  }{
+    \IsCx{\MECx{\Gamma}{A}}
+  }
+  \\
+  \inferrule{
+    \IsCx{\Gamma}
+  }{
+    \EqCx{\LockCx{\Gamma}[\ArrId{}]}{\Gamma}
+    \\
+    \EqCx{\LockCx{\LockCx{\Gamma}[\mu]}[\nu]}{\LockCx{\Gamma}[\mu \circ \nu]}
+  }
+  \\
+  \JdgFrame{\IsSb{\delta}{\Delta}}
+  \\
+  \inferrule{ }{
+    \IsSb{\EmpSb}{\EmpCx}
+  }
+  \and
+  \inferrule{
+    \IsCx{\Gamma}
+    \\
+    \IsTy[\LockCx{\Gamma}]{A}
+  }{
+    \IsSb[\MECx{\Gamma}{A}]{\Wk}{\Gamma}
+  }
+  \and
+  \inferrule{
+    \IsSb{\delta}{\Delta}
+    \\
+    \IsTm[\LockCx{\Gamma}]{a}{A}
+  }{
+    \IsSb{\ESb{\delta}{a}}{\MECx{\Delta}{A}}
+  }
+  \and
+  \inferrule{
+    \IsSb{\delta}{\Delta}
+  }{
+    \IsSb[\LockCx{\Gamma}]{\LockSb{\delta}}{\LockCx{\Delta}}
+  }
+  \and
+  \inferrule{
+    \IsCx{\Gamma}
+    \\
+    \Mor[\alpha]{\mu}{\nu}
+  }{
+    \IsSb[\LockCx{\Gamma}[\nu]]{\KeySb{\alpha}{\Gamma}}{\LockCx{\Gamma}[\mu]}
+  }
+  \\
+  \inferrule{
+    \IsSb{\gamma}{\EmpCx}
+  }{
+    \EqSb{\EmpSb}{\gamma}{\EmpCx}
+  }
+  \and
+  \inferrule{
+    \IsSb{\delta}{\Delta}
+    \\
+    \IsTm[\LockCx{\Gamma}]{a}{A}
+  }{
+    \EqSb{\Wk \circ \prn{\ESb{\delta}{a}}}{\delta}{\Delta}
+  }
+  \and
+  \inferrule{
+    \IsSb{\delta}{\MECx{\Delta}{A}}
+  }{
+    \EqSb{\ESb{\prn{\Wk \circ \delta}}{\Sb{\Var}{\delta}}}{\delta}{\MECx{\Delta}{A}}
+  }
+  \and
+  \inferrule{
+    \IsSb{\delta}{\Delta}
+  }{
+    \EqSb{\LockSb{\delta}[\ArrId{}]}{\delta}{\Delta}
+    \\
+    \EqSb[
+      \LockCx{\Gamma}[\nu\circ\mu]
+    ]{
+      \LockSb{\delta}[\nu\circ\mu]
+    }{
+      \LockSb{\LockSb{\delta}[\nu]}
+    }{
+      \LockCx{\Delta}[\nu\circ\mu]
+    }
+  }
+  \and
+  \inferrule{
+    \IsCx{\Gamma}
+  }{
+    \EqSb[\LockCx{\Gamma}]{\KeySb{\ArrId{}}{\Gamma}}{\ArrId{}}{\LockCx{\Gamma}}
+    \\
+    \EqSb[
+      \LockCx{\Gamma}[\xi]
+    ]{
+      \KeySb{\alpha}{\Gamma} \circ \KeySb{\beta}{\Gamma}
+    }{
+      \KeySb{\alpha \circ \beta}{\Gamma}
+    }{
+      \LockCx{\Gamma}[\mu]
+    }
+  }
+  \and
+  \inferrule{
+    \IsSb{\delta}{\Delta}
+    \\
+    \mu \le \nu
+  }{
+    \EqSb[
+      \LockCx{\Gamma}[\nu]
+    ]{
+      \KeySb{\alpha}{\Delta} \circ \LockCx{\delta}
+    }{
+      \LockSb{\delta} \circ \KeySb{\alpha}{\Gamma}
+    }{
+      \LockCx{\Delta}[\mu]
+    }
+  }
+  \and
+  \inferrule{
+    \IsCx{\Gamma}
+    \\
+    \Mor[\alpha]{\mu_0}{\nu_0}
+    \\
+    \Mor[\beta]{\mu_1}{\nu_1}
+  }{
+    \LockCx{\Gamma}[\nu_1 \circ \nu_0] \vdash
+    \substack{
+      \LockCx{\KeySb{\beta}{\Gamma}}[\mu_0]
+      \circ
+      \KeySb{\alpha}{\Gamma}
+      \\
+      =
+      \KeySb{\beta \HComp \alpha}{\Gamma}
+    }
+    : \LockCx{\Gamma}[\mu_1 \circ \mu_0]
+  }
+  \\
+  \JdgFrame{\IsTy{A}}
+  \\
+  \inferrule{
+    \IsTy[\LockCx{\Gamma}]{A}
+  }{
+    \IsTy{\Modify{A}}
+  }
+  \and
+  \inferrule{
+    \IsSb{\delta}{\Delta}
+    \\
+    \IsTy[\LockCx{\Delta}]{A}
+  }{
+    \EqTy{\Sb{\Modify{A}}{\delta}}{\Modify{\Sb{A}{\LockSb{\delta}}}}
+  }
+  \\
+  \JdgFrame{\IsTm{a}{A}}
+  \\
+  \inferrule{
+    \IsTy[\LockCx{\Gamma}]{A}
+  }{
+    \IsTm[\LockCx{\MECx{\Gamma}{A}}]{\Var}{\Sb{A}{\LockSb{\Wk}}}
+  }
+  \and
+  \inferrule{
+    \IsTm[\LockCx{\Gamma}]{a}{A}
+  }{
+    \IsTm{\MkMod{a}}{\Modify{A}}
+  }
+  \and
+  \inferrule{
+    \IsTy[\MECx{\Gamma}[\nu]{\Modify{A}}]{B}
+    \\
+    \IsTm[\MECx{\Gamma}[\nu\circ\mu]{A}]{b}{\Sb{B}{\ESb{\Wk}{\MkMod[\mu]{\Var}}}}
+    \\
+    \IsTm[\LockCx{\Gamma}[\nu]]{a}{\Modify{A}}
+  }{
+    \IsTm{\LetMod{a}{b}}{\Sb{B}{\ESb{\ISb}{a}}}
+  }
+  \\
+  \inferrule{
+    \IsTy[\MECx{\Delta}[\nu]{\Modify{A}}]{B}
+    \\
+    \IsTm[\MECx{\Delta}[\nu\circ\mu]{A}]{b}{\Sb{B}{\ESb{\Wk}{\MkMod[\mu]{\Var}}}}
+    \\
+    \IsTm[\LockCx{\Delta}[\nu]]{a}{\Modify{A}}
+    \\
+    \IsSb{\delta}{\Delta}
+  }{
+    \IsTm{
+      \substack{
+        \LetMod{\Sb{a}{\LockSb{\delta}[\nu]}}{\Sb{b}{\ESb{\prn{\delta \circ \Wk}}{\Var}}}
+        \\
+        {}={}
+        \Sb{\prn{\LetMod{a}{b}}}{\delta}
+      }
+    }{
+      \Sb{B}{\ESb{\delta}{a}}
+    }
+  }
+  \and
+  \inferrule{
+    \IsTm[\LockCx{\Gamma}]{a}{A}
+    \\
+    \IsSb{\delta}{\Delta}
+  }{
+    \EqTm{\Sb{\MkMod{a}}{\delta}}{\MkMod{\Sb{a}{\LockSb{\delta}}}}{\Modify{\Sb{A}{\LockSb{\delta}}}}
+  }
+  \and
+  \inferrule{
+    \IsSb{\delta}{\Delta}
+    \\
+    \IsTm[\LockCx{\Gamma}]{a}{\Sb{A}{\LockSb{\delta}}}
+    \\
+    \IsTy[\LockCx{\Delta}]{A}
+  }{
+    \EqTm[\LockCx{\Gamma}]{\Sb{\Var}{\LockCx{\ESb{\delta}{a}}}}{a}{\Sb{A}{\LockSb{\delta}}}
+  }
+  \and
+  \hspace*{-5pt}\inferrule{
+    \IsTy[\MECx{\Gamma}[\nu]{\Modify{A}}]{B}
+    \\
+    \IsTm[\MECx{\Gamma}[\nu\circ\mu]{A}]{b}{\Sb{B}{\ESb{\Wk}{\MkMod[\mu]{\Var}}}}
+    \\
+    \IsTm[\LockCx{\Gamma}[\nu]]{a}{\Modify{A}}
+  }{
+    \EqTm{\prn{\LetMod{\MkMod{a}}{b}}}{\Sb{b}{\ESb{\ISb}{a}}}{\Sb{B}{\ESb{\ISb}{\MkMod{a}}}}
+  }
+\end{mathparpagebreakable}
+
+\section{The complete list of axioms}
+\label{sec:axioms}
+
+
+\intaxiom*
+\crispidaxiom*
+\intopaxiom*
+\intdiscaxiom*
+\intglobalaxiom*
+\cubessepaxiom*
+\twarraxiom*
+
+The following \emph{duality axiom} was first studied by \textcite{blechschmidt:2023} and implies
+that, \eg{}, $\Int$ is a category. Closely related axioms and consequences are considered by
+\textcite{pugh:2025} and \textcite{cherubini:2023}. We did not introduce it in the main body of the
+paper as it was not explicitly invoked in any of our proofs.
+\begin{axiom}
+  If $A$ is a finitely presented $\Int$-algebra \textup(\ie{}, $A$ is a bounded distributive lattice
+  equivalent to $\Int[x_1,\ldots,x_n]$ quotiented by finitely many relations\textup) and
+  $\Hom[\Int\mathrm{Alg}]{A}{\Int}$ is the type of $\Int$-algebra homomorphisms, then the map
+  $\lambda a\,f.\,f\prn{a} : A \to \prn{\Hom[\Int\mathrm{Alg}]{A}{\Int} \to \Int}$ is an equivalence.
+\end{axiom}
+
+%
+%
+%
+%
+ 
+
+\begin{thebibliography}{99}
+
+\providecommand{\url}[1]{{#1}}
+\providecommand{\urlprefix}{URL }
+\expandafter\ifx\csname urlstyle\endcsname\relax
+  \providecommand{\doi}[1]{DOI~\discretionary{}{}{}#1}\else
+  \providecommand{\doi}{DOI~\discretionary{}{}{}\begingroup
+  \urlstyle{rm}\Url}\fi
+
+\bibitem{annenkov:2023}
+Danil Annenkov, Paolo Capriotti, Nicolai Kraus, and Christian Sattler.
+\newblock Two-level type theory and applications.
+\newblock \emph{Mathematical Structures in Computer Science}, 33(8):688--743, 2023.
+\newblock \doi{10.1017/S0960129523000130}.
+
+\bibitem{ahrens:2023}
+Benedikt Ahrens, Paige Randall North, and Niels van der Weide.
+\newblock Bicategorical type theory: semantics and syntax.
+\newblock \emph{Mathematical Structures in Computer Science}, 33(10):868--912, 2023.
+\newblock \doi{10.1017/s0960129523000312}.
+
+\bibitem{anel:2024}
+Mathieu Anel and Jonathan Weinberger.
+\newblock Smooth and proper maps with respect to a fibration.
+\newblock \emph{Mathematical Structures in Computer Science}, 34(9):971--984, 2024.
+
+\bibitem{bardomiano:2021}
+César Bardomiano Martínez.
+\newblock Limits and colimits of synthetic $\infty$-categories.
+\newblock arXiv:2202.12386, 2022.
+
+\bibitem{bergner:2018}
+Julia Bergner.
+\newblock \emph{The Homotopy Theory of $(\infty,1)$-Categories}.
+\newblock Cambridge University Press, 2018.
+\newblock \doi{10.1017/9781316181874}.
+
+\bibitem{bahr:2017}
+Patrick Bahr, Hans Bugge Grathwohl, and Rasmus Ejlers Møgelberg.
+\newblock The clocks are ticking: No more delays!
+\newblock In \emph{2017 32nd Annual ACM/IEEE Symposium on Logic in Computer Science (LICS)}, 2017.
+\newblock \doi{10.1109/LICS.2017.8005097}.
+
+\bibitem{birkedal:2020}
+Lars Birkedal, Ranald Clouston, Bassel Mannaa, Rasmus Ejlers Møgelberg, Andrew M. Pitts, and Bas Spitters.
+\newblock Modal dependent type theory and dependent right adjoints.
+\newblock \emph{Mathematical Structures in Computer Science}, 30(2):118--138, 2020.
+\newblock \doi{10.1017/S0960129519000197}.
+
+\bibitem{blechschmidt:2023}
+Ingo Blechschmidt.
+\newblock A general Nullstellensatz for generalized spaces.
+\newblock Draft, 2023.
+\newblock \url{https://rawgit.com/iblech/internal-methods/master/paper-qcoh.pdf}.
+
+\bibitem{buchholtz:2019}
+Ulrik Buchholtz.
+\newblock Higher structures in homotopy type theory.
+\newblock In \emph{Reflections on the Foundations of Mathematics}, pages 151--172. Springer, 2019.
+\newblock \doi{10.1007/978-3-030-15655-8_7}.
+
+\bibitem{buchholtz:2023}
+Ulrik Buchholtz and Jonathan Weinberger.
+\newblock Synthetic fibered $(\infty,1)$-category theory.
+\newblock \emph{Higher Structures}, 7(1):74--165, 2023.
+\newblock \doi{10.21136/HS.2023.04}.
+
+\bibitem{cherubini:2023}
+Felix Cherubini, Thierry Coquand, and Matthias Hutzler.
+\newblock A foundation for synthetic algebraic geometry.
+\newblock \emph{Mathematical Structures in Computer Science}, 34(9):1008--1053, 2024.
+\newblock \doi{10.1017/S0960129524000239}.
+
+\bibitem{cisinski:2024}
+Denis-Charles Cisinski, Bastiaan Cnossen, Kim Nguyen, and Tashi Walde.
+\newblock Formalization of Higher Categories.
+\newblock Lecture notes, 2024.
+
+\bibitem{cisinski:2019}
+Denis-Charles Cisinski.
+\newblock \emph{Higher Categories and Homotopical Algebra}.
+\newblock Cambridge University Press, 2019.
+\newblock \doi{10.1017/9781108588737}.
+
+\bibitem{gonthier:2013}
+Georges Gonthier et al.
+\newblock A Machine-Checked Proof of the Odd Order Theorem.
+\newblock In \emph{Interactive Theorem Proving}, pages 163--179. Springer, 2013.
+\newblock \doi{10.1007/978-3-642-39634-2_14}.
+
+\bibitem{gratzer:2020}
+Daniel Gratzer, G. A. Kavvos, Andreas Nuyts, and Lars Birkedal.
+\newblock Multimodal Dependent Type Theory.
+\newblock In \emph{Proceedings of the 35th Annual ACM/IEEE Symposium on Logic in Computer Science}, 2020.
+\newblock \doi{10.1145/3373718.3394736}.
+
+\bibitem{gratzer:mtt-journal:2021}
+Daniel Gratzer, G. A. Kavvos, Andreas Nuyts, and Lars Birkedal.
+\newblock Multimodal Dependent Type Theory.
+\newblock \emph{Logical Methods in Computer Science}, 17(3), 2021.
+\newblock \doi{10.46298/lmcs-17(3:11)2021}.
+
+\bibitem{gratzer:normalization:2022}
+Daniel Gratzer.
+\newblock Normalization for Multimodal Type Theory.
+\newblock In \emph{Proceedings of the 37th Annual ACM/IEEE Symposium on Logic in Computer Science}, 2022.
+\newblock \doi{10.1145/3531130.3532398}.
+
+\bibitem{gratzer:phd}
+Daniel Gratzer.
+\newblock Syntax and semantics of modal type theory.
+\newblock PhD thesis, Aarhus University, 2023.
+
+\bibitem{gratzer:2024}
+Daniel Gratzer, Jonathan Weinberger, and Ulrik Buchholtz.
+\newblock Directed univalence in simplicial homotopy type theory.
+\newblock arXiv:2407.09146, 2024.
+
+\bibitem{hyland:1991}
+J. M. E. Hyland.
+\newblock First steps in synthetic domain theory.
+\newblock In \emph{Category Theory}, pages 131--156. Springer, 1991.
+\newblock \doi{10.1007/bfb0084217}.
+
+\bibitem{kavvos:directed:2019}
+G. A. Kavvos.
+\newblock A quantum of direction, 2019.
+\newblock \url{https://seis.bristol.ac.uk/~tz20861/papers/meio.pdf}.
+
+\bibitem{kock:2006}
+Anders Kock.
+\newblock \emph{Synthetic Differential Geometry}.
+\newblock Cambridge University Press, 2 edition, 2006.
+
+\bibitem{kudasov:2024}
+Nikolai Kudasov, Emily Riehl, and Jonathan Weinberger.
+\newblock Formalizing the $\infty$-Categorical Yoneda Lemma.
+\newblock In \emph{Proceedings of the 13th ACM SIGPLAN International Conference on Certified Programs and Proofs}, pages 274--290, 2024.
+\newblock \doi{10.1145/3636501.3636945}.
+
+\bibitem{kolomatskaia:2023}
+Astra Kolomatskaia and Michael Shulman.
+\newblock Displayed Type Theory and Semi-Simplicial Types.
+\newblock arXiv:2311.18781, 2023.
+
+\bibitem{licata:2011}
+Daniel R. Licata and Robert Harper.
+\newblock 2-Dimensional Directed Type Theory.
+\newblock \emph{Electronic Notes in Theoretical Computer Science}, 276:263--289, 2011.
+\newblock \doi{10.1016/j.entcs.2011.09.026}.
+
+\bibitem{lumsdaine:2019}
+Peter LeFanu Lumsdaine and Michael Shulman.
+\newblock Semantics of higher inductive types.
+\newblock \emph{Mathematical Proceedings of the Cambridge Philosophical Society}, 169(1):159--208, 2019.
+\newblock \doi{10.1017/s030500411900015x}.
+
+\bibitem{lurie:2009}
+Jacob Lurie.
+\newblock \emph{Higher Topos Theory}.
+\newblock Princeton University Press, 2009.
+
+\bibitem{maclane:1978}
+Saunders Mac Lane.
+\newblock \emph{Categories for the Working Mathematician}.
+\newblock Springer, 1978.
+
+\bibitem{martini:cocartesianfibrations:2022}
+Louis Martini.
+\newblock Cocartesian fibrations and straightening internal to an $\infty$-topos.
+\newblock arXiv:2204.00295, 2022.
+
+\bibitem{martini:yonedaslemma:2021}
+Louis Martini.
+\newblock Yoneda's lemma for internal higher categories.
+\newblock arXiv:2103.17141, 2022.
+
+\bibitem{martini:phd}
+Louis Martini.
+\newblock Internal Higher Category Theory.
+\newblock PhD thesis, NTNU, 2024.
+
+\bibitem{mukherjee:2023}
+Chirantan Mukherjee and Nima Rasekh.
+\newblock Twisted Arrow Construction for Segal Spaces.
+\newblock arXiv:2203.01788, 2023.
+
+\bibitem{myers:2023}
+David Jaz Myers and Mitchell Riley.
+\newblock Commuting Cohesions.
+\newblock arXiv:2301.13780, 2023.
+
+\bibitem{martini:presentable:2022}
+Louis Martini and Sebastian Wolf.
+\newblock Presentability and topoi in internal higher category theory.
+\newblock arXiv:2209.05103, 2022.
+
+\bibitem{martini:colimitscocompletions:2021}
+Louis Martini and Sebastian Wolf.
+\newblock Colimits and cocompletions in internal higher category theory.
+\newblock \emph{Higher Structures}, 8(1):97--192, 2024.
+\newblock \doi{10.21136/HS.2024.03}.
+
+\bibitem{martini:propermorphisms:2023}
+Louis Martini and Sebastian Wolf.
+\newblock Proper morphisms of $\infty$-topoi.
+\newblock arXiv:2311.08051, 2024.
+
+\bibitem{neumann:2024}
+Jacob Neumann and Thorsten Altenkirch.
+\newblock The Category Interpretation of Directed Type Theory, 2024.
+\newblock \url{https://jacobneu.github.io/research/preprints/catModel-2024.pdf}.
+
+\bibitem{north:2018}
+Paige Randall North.
+\newblock Towards a Directed Homotopy Type Theory.
+\newblock \emph{Electronic Notes in Theoretical Computer Science}, 347:223--239, 2019.
+\newblock \doi{10.1016/j.entcs.2019.09.012}.
+
+\bibitem{nuyts:2015}
+Andreas Nuyts.
+\newblock Towards a Directed Homotopy Type Theory based on 4 Kinds of Variance.
+\newblock Master's thesis, KU Leuven, 2015.
+
+\bibitem{nuyts:2020}
+Andreas Nuyts.
+\newblock A Vision for Natural Type Theory, 2020.
+\newblock \url{https://anuyts.github.io/files/nattt-vision.pdf}.
+
+\bibitem{pugh:2025}
+Leoni Pugh and Jonathan Sterling.
+\newblock When is the partial map classifier a Sierpiński cone?
+\newblock arXiv:2504.06789, 2025. To appear at LICS 2025.
+
+\bibitem{ramzi:bousfield-kan}
+Maxime Ramzi.
+\newblock Deducing the Bousfield-Kan formula for homotopy (co)limits from first principles, 2021.
+\newblock \url{https://sites.google.com/view/maxime-ramzi-en/notes/bousfield-kan}.
+
+\bibitem{riehl:2014}
+Emily Riehl.
+\newblock \emph{Categorical homotopy theory}.
+\newblock Cambridge University Press, 2014.
+
+\bibitem{riehl:2023}
+Emily Riehl.
+\newblock Could $\infty$-Category Theory Be Taught to Undergraduates?
+\newblock \emph{Notices of the American Mathematical Society}, 70(5), 2023.
+\newblock \doi{10.1090/noti2692}.
+
+\bibitem{riehl:2024}
+Emily Riehl.
+\newblock On the $\infty$-topos semantics of homotopy type theory.
+\newblock \emph{Bulletin of the London Mathematical Society}, 56(2):461--517, 2024.
+\newblock \doi{10.1112/blms.12997}.
+
+\bibitem{riehl:2017}
+Emily Riehl and Michael Shulman.
+\newblock A type theory for synthetic $\infty$-categories.
+\newblock \emph{Higher Structures}, 1(1):147--224, 2017.
+\newblock \doi{10.21136/HS.2017.06}.
+
+\bibitem{rijke:2020}
+Egbert Rijke, Michael Shulman, and Bas Spitters.
+\newblock Modalities in homotopy type theory.
+\newblock \emph{Logical Methods in Computer Science}, 16(1), 2020.
+\newblock arXiv:1706.07526.
+
+\bibitem{russell:1919}
+Bertrand Russell.
+\newblock \emph{Introduction to Mathematical Logic}.
+\newblock George Allen \& Unwin, 1919.
+
+\bibitem{riehl:2022}
+Emily Riehl and Dominic Verity.
+\newblock \emph{Elements of $\infty$-Category Theory}.
+\newblock Cambridge University Press, 2022.
+\newblock \doi{10.1017/9781108936880}.
+
+\bibitem{shulman:2018}
+Michael Shulman.
+\newblock Brouwer's fixed-point theorem in real-cohesive homotopy type theory.
+\newblock \emph{Mathematical Structures in Computer Science}, 28(6):856--941, 2018.
+\newblock \doi{10.1017/S0960129517000147}.
+
+\bibitem{shulman:2019}
+Michael Shulman.
+\newblock All $(\infty,1)$-toposes have strict univalent universes.
+\newblock arXiv:1904.07004, 2019.
+
+\bibitem{agda}
+Agda Development Team.
+\newblock Agda User Manual.
+\newblock \url{https://agda.readthedocs.io/en/v2.7.0.1/}.
+
+\bibitem{hottbook}
+The Univalent Foundations Program.
+\newblock \emph{Homotopy Type Theory: Univalent Foundations of Mathematics}.
+\newblock Institute for Advanced Study, 2013.
+\newblock \url{https://homotopytypetheory.org/book}.
+
+\bibitem{voevodsky:2013}
+Vladimir Voevodsky.
+\newblock A simple type system with two identity types, 2012.
+\newblock \url{https://www.math.ias.edu/vladimir/sites/math.ias.edu.vladimir/files/HTS.pdf}.
+
+\bibitem{warren:2013}
+Michael Warren.
+\newblock Directed type theory, 2013.
+\newblock Seminar talk. \url{https://www.ias.edu/video/univalent/1213/0410-MichaelWarren}.
+
+\bibitem{weaver:phd}
+Matthew Weaver.
+\newblock Bicubical Directed Type Theory.
+\newblock PhD thesis, Princeton University, 2024.
+
+\bibitem{weinberger:phd}
+Jonathan Weinberger.
+\newblock A Synthetic Perspective on $(\infty,1)$-Category Theory: Fibrational and Semantic Aspects.
+\newblock PhD thesis, Technische Universität Darmstadt, 2022.
+\newblock \doi{10.26083/tuprints-00020716}.
+
+\bibitem{weinberger:sums:2024}
+Jonathan Weinberger.
+\newblock Internal sums for synthetic fibered $(\infty,1)$-categories.
+\newblock \emph{Journal of Pure and Applied Algebra}, 228(9):107659, 2024.
+\newblock \doi{10.1016/j.jpaa.2024.107659}.
+
+\bibitem{weinberger:twosided:2024}
+Jonathan Weinberger.
+\newblock Two-sided cartesian fibrations of synthetic $(\infty,1)$-categories.
+\newblock \emph{Journal of Homotopy and Related Structures}, 2024.
+\newblock \doi{10.1007/s40062-024-00348-3}.
+
+\bibitem{weaver:2020}
+Matthew Z. Weaver and Daniel R. Licata.
+\newblock A Constructive Model of Directed Univalence in Bicubical Sets.
+\newblock In \emph{Proceedings of the 35th Annual ACM/IEEE Symposium on Logic in Computer Science}, 2020.
+\newblock \doi{10.1145/3373718.3394794}.
+
+\bibitem{wolf:phd}
+Sebastian Wolf.
+\newblock Internal Higher Categories and Applications.
+\newblock PhD thesis, Universität Regensburg, 2025.
+\newblock \url{https://epub.uni-regensburg.de/76465/}.
+
+\end{thebibliography}
+
+\end{document}
