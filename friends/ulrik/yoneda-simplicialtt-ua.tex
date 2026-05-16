@@ -2563,8 +2563,8 @@ category of sets in simplicial type theory, \eg{}, we shall use this category to
         \node[right = 4cm of sw] (se) {$A$};
         \path[->] (nw) edge node[above] {$\varphi$} (ne);
         \path[->] (nw) edge node[left] {$f$} (sw);
-        \path[->] (ne) edge node[right] {\pi} (se);
-        \path[->] (sw) edge node[below] {\alpha} (se);
+        \path[->] (ne) edge node[right] {$\pi$} (se);
+        \path[->] (sw) edge node[below] {$\alpha$} (se);
         \path[->, unique exists] (sw) edge node[upright desc] {$\overline{\varphi}$} (ne);
       \end{tikzpicture}
     \]
@@ -2582,7 +2582,7 @@ category of sets in simplicial type theory, \eg{}, we shall use this category to
   \item\label{it:prop:char-left-cof-iv} відображення $f$ є коваріантною еквівалентністю відносно будь-якого $\DeclVar{\alpha}{\GM}{D \to A}$.
   \end{enumerate}
   Аналогічна характеристика виконується для контраваріантних еквівалентностей та фінальних функторів.
-\end{proof}
+\end{lem}
 \begin{proof}
   Легко бачити, що умови~\ref{it:prop:char-left-cof-ii} та~\ref{it:prop:char-left-cof-iii} є еквівалентними завдяки комутуванню $\Prod{}$ та $\Sum{}$. Умова~\ref{it:prop:char-left-cof-iv} розгортається у наступне твердження: для будь-якого $\DeclVar{X}{\GM}{A \to \Space}$ реіндексування вздовж $f$ є еквівалентністю, а саме:
   \[
@@ -2680,7 +2680,7 @@ category of sets in simplicial type theory, \eg{}, we shall use this category to
     \\
     &\quad
     \Equiv \Sum{\DeclVar{(a,f)}{}{A \times_B \COSLICE{B}{\pi\prn{e}}}}{\COSLICE{\prn{E_{u\prn{a}}}}{f_!e}}
-  \end{alignPost}
+  \end{align*}
   Застосування $\Grpdify$ до кожного шару дає $\Grpdify{\COSLICE{\prn{E_{u\prn{a}}}}{f_!e}} \Equiv \Unit$ (оскільки козрізи (coslices) мають початкові елементи) та $\Grpdify(A \times_B \COSLICE{B}{\pi\prn{e}}) \Equiv \Unit$, оскільки відображення $u$ є фінальним за припущенням. Це означає, що застосування $\Grpdify$ до всього $\Sum{}$-типу дає $\Unit$~\parencite{rijke:2020}.
 \end{proof}
 
