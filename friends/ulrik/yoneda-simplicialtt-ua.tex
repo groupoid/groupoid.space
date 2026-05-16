@@ -2317,55 +2317,37 @@ category of sets in simplicial type theory, \eg{}, we shall use this category to
 
   Зрештою, тепер ми покажемо, що відображення $\Yo^*$ є строго повним. Для цього ми маємо показати, що якщо $\DeclVar{f,g}{\GM}{C \to E}$, то $\Hom{f_!}{g_!} \cong \Hom{f}{g}$. Обидві сторони є групоїдами, тому достатньо розглянути $\GM$-анотовані елементи. Якщо $\DeclVar{\alpha}{\GM}{\Hom{f}{g}}$, то за допомогою транспонування ми можемо розглядати $\alpha$ як елемент типу $\Modify[\GM]{C \to E^\Int}$, і попереднє спостереження гарантує, що цей тип є еквівалентним $\Modify[\GM]{\CoCont{\PSH{C}}{E^\Int}}$, що й дає бажаний висновок після транспонування.
 \end{proof}
-\section{The theory of Kan extensions}
+\section{Теорія розширень Кана}
 \label{sec:kan}
-A unifying concept in category theory are \emph{Kan extensions}, which are universal extensions of
-functors along functors on the same domain. Mac Lane, one of the founders of category theory,
-famously stated: ``The notion of Kan extensions subsumes all the other fundamental concepts of
-category theory,'' such as (co)limits and adjunctions~\parencite{maclane:1978,riehl:2014}.
+Об'єднуючим поняттям у теорії категорій є \emph{розширення Кана} (Kan extensions), які є універсальними розширеннями функторів уздовж функторів на тій самій області визначення. Маклейн, один із засновників теорії категорій, відомо зазначив: «Поняття розширення Кана охоплює всі інші фундаментальні поняття теорії категорій», такі як (ко)границі та спряження~\parencite{maclane:1978,riehl:2014}.
 
-\begin{defi}[Kan extensions]
-  Given a map $f : C \to D$ and a category $E$, the left (right) Kan extension $\Lan{f}$
-  ($\Ran{f}$) is the left (right) adjoint to $f^* : E^D \to E^C$.
+\begin{defi}[Розширення Кана]
+  Для заданого відображення $f : C \to D$ та категорії $E$, ліве (праве) розширення Кана $\Lan{f}$ ($\Ran{f}$) є лівим (правим) спряженим до відображення передкомпозиції $f^* : E^D \to E^C$.
 \end{defi}
 
-While the definition makes sense in general, to use the results of the previous sections, we shall
-assume $\DeclVar{f}{\GM}{C \to D}$ and $\DeclVar{E}{\GM}{\Uni}$.  In Section~\ref{sec:kan:existence} we
-show that Kan extensions exist whenever $E$ is (co)complete and in
-Sections~\ref{sec:kan:cofinal} and \ref{sec:kan:quillen-a} we put this to work by deducing two important results:
-Quillen's theorem A and the properness of cocartesian fibrations. Our arguments for the existence of
-Kan extensions and Quillen's theorem A adapt the (model-agnostic) $\infty$-categorical arguments of
-\textcite{ramzi:bousfield-kan}.
+Хоча це визначення має сенс у загальному випадку, для використання результатів попередніх розділів ми будемо припускати, що $\DeclVar{f}{\GM}{C \to D}$ та $\DeclVar{E}{\GM}{\Uni}$. У Підрозділі~\ref{sec:kan:existence} ми покажемо, що розширення Кана існують завжди, коли $E$ є (ко)повною, а у Підрозділах~\ref{sec:kan:cofinal} та~\ref{sec:kan:quillen-a} ми застосуємо це на практиці, вивівши два важливі результати: теорему А Квіллена та правильність (properness) кодекартових розшарувань. Наші аргументи щодо існування розширень Кана та теореми А Квіллена адаптують (модельно-незалежні) $\infty$-категорні міркування з \textcite{ramzi:bousfield-kan}.
 
-\subsection{Existence and characterization of Kan extensions}
+\subsection{Існування та описання розширень Кана}
 \label{sec:kan:existence}
 
-We can prove that Kan extensions can be computed in an expected way. For $\DeclVar{d}{}{D}$, we
-write $\SLICE{C}{d} \defeq C \times_D \SLICE{D}{d}$ and
-$\COSLICE{C}{d} \defeq C \times_D \COSLICE{D}{d}$.
-We assume that $C$ and $D$ are both small so each $\SLICE Cd$ is also small.
-By Theorem~\ref{thm:adj:precomp-is-right-adj} and Lemma \ref{lem:adj:comp}:
+Ми можемо довести, що розширення Кана можуть бути обчислені очікуваним способом. Для $\DeclVar{d}{}{D}$ ми пишемо $\SLICE{C}{d} \defeq C \times_D \SLICE{D}{d}$ та $\COSLICE{C}{d} \defeq C \times_D \COSLICE{D}{d}$.
+Ми припускаємо, що $C$ та $D$ обидві є малими категоріями, тому кожна $\SLICE Cd$ також є малою.
+За Теоремою~\ref{thm:adj:precomp-is-right-adj} та Лемою~\ref{lem:adj:comp}:
 \begin{lem}
   \label{lem:kan:lan-exists-for-psh}
-  If $E = \PSH{A}$ for some category $\DeclVar A\GM\Uni$, then $\Lan{f}$ exists.
-  Moreover, if $\DeclVar{X}{\GM}{C \to E}$ and $\DeclVar{d}{\GM}{D}$, then
+  Якщо $E = \PSH{A}$ для деякої категорії $\DeclVar A\GM\Uni$, тоді $\Lan{f}$ існує.
+  Більше того, якщо $\DeclVar{X}{\GM}{C \to E}$ та $\DeclVar{d}{\GM}{D}$, то
   $\Lan{f}\,X\,d = \Colim{} \prn{\SLICE{C}{d} \to C \to E} = \Grpdify\prn{\Sum{\prn{c,\_} : \SLICE{C}{d}} X\prn{c}}$.
 \end{lem}
-This yields more generally:
+Це дає більш загально:
 \begin{thm}
   \label{thm:kan:left-kan-exists}
-  If $E$ is cocomplete, then $\Lan{f}$ exists, and if $\DeclVar{X}{\GM}{C \to E}$,
-  $\DeclVar{d}{\GM}{D}$, then $\Lan{f}\,X\,d = \Colim{} \prn{\SLICE{C}{d} \to C \to E}$.
+  Якщо $E$ є коповною категорією, то $\Lan{f}$ існує, і якщо $\DeclVar{X}{\GM}{C \to E}$, $\DeclVar{d}{\GM}{D}$, то $\Lan{f}\,X\,d = \Colim{} \prn{\SLICE{C}{d} \to C \to E}$.
 \end{thm}
 \begin{proof}
-  It suffices to argue that precomposition is pointwise a right adjoint and so we fix
-  $\DeclVar{X}{\GM}{C \to E}$. By Theorem~\ref{thm:adj:cc}, we may view $X$ as the composition
-  $\bar X \circ \Yo$, where $\bar X : \PSH{C} \to E$ is the left adjoint to $\Nv_X$.
-  Next, we observe by~Lemma~\ref{lem:kan:lan-exists-for-psh} that $\Yo: C \to \PSH C$
-  admits an extension to $D$ along $f$, namely $\Lan{f} \Yo : D \to \PSH C$,
-  and we claim that
-  $\bar{X} \circ \Lan{f} \Yo$ is our desired extension of $f$.
-  Fixing $Z : D \to E$, we calculate:
+  Достатньо довести, що передкомпозиція є поточково правим спряженим, і тому ми фіксуємо $\DeclVar{X}{\GM}{C \to E}$. За Теоремою~\ref{thm:adj:cc} ми можемо розглядати $X$ як композицію $\bar X \circ \Yo$, де $\bar X : \PSH{C} \to E$ є лівим спряженим до $\Nv_X$.
+  Далі, за Лемою~\ref{lem:kan:lan-exists-for-psh} ми зауважуємо, що $\Yo: C \to \PSH C$ допускає розширення на $D$ уздовж $f$, а саме $\Lan{f} \Yo : D \to \PSH C$, і ми стверджуємо, що $\bar{X} \circ \Lan{f} \Yo$ є нашим шуканим розширенням для $f$.
+  Фіксуючи $Z : D \to E$, обчислимо:
   \begin{align*}
     \Hom[D \to E]{\bar{X} \circ \Lan{f} \Yo}{Z}
     &\Equiv \Hom[D \to \PSH{C}]{\Lan{f} \Yo}{\Nv_X \circ Z}
@@ -2376,60 +2358,45 @@ This yields more generally:
     \\
     &= \Hom[C \to E]{X}{Z \circ f}
   \end{align*}
-  The expected colimit formula continues to hold as a consequence of
-  Lemma~\ref{lem:kan:lan-exists-for-psh} and the cocontinuity of $\bar{X}$.
+  Очікувана формула кограниці продовжує виконуватися як наслідок Леми~\ref{lem:kan:lan-exists-for-psh} та конеперервності (cocontinuity) $\bar{X}$.
 \end{proof}
 
-By duality, we obtain the following variant:
+Завдяки дуальності ми отримуємо наступний варіант:
 \begin{thm}
   \label{thm:kan:right-kan-exists}
-  If $E$ is complete, then $\Ran{f}$ exists and is specified by the dual limit formula:
+  Якщо $E$ є повною категорією, то $\Ran{f}$ існує і задається дуальною формулою границі:
   $\Ran{f}\,X\,d = \Lim{} \prn{\COSLICE{C}{d} \to C \to E}$.
 \end{thm}
 
-\subsection{Final and initial functors}
+\subsection{Фінальні та ініціальні функтори}
 \label{sec:kan:cofinal}
 
-It is frequently useful to show that the limit of a complex diagram $D$ can be calculated by first
-restricting to a simpler diagram using $f : C \to D$ and calculating the limit there \eg{},
-restricting from $\mathbb{Z}$ to $\mathbb{Z}_{\le 0}$. When this approach is valid, $f$ is said to
-be initial:
+Часто корисно показати, що границю складної діаграми $D$ можна обчислити, спочатку звузивши її до простішої діаграми за допомогою відображення $f : C \to D$ та обчисливши границю там, наприклад, звужуючи з $\mathbb{Z}$ до $\mathbb{Z}_{\le 0}$. Коли такий підхід є правильним, відображення $f$ називають ініціальним (initial):
 \begin{defi}
-  A functor $\DeclVar{f}{\GM}{C \to D}$ is \emph{initial} if for every
-  $\DeclVar{X}{\GM}{D \to \Space}$ the map $\Lim{D} X \to \Lim{C} X \circ f$ is an
-  equivalence. A map is \emph{final} if its opposite is initial.
+  Функтор $\DeclVar{f}{\GM}{C \to D}$ є \emph{ініціальним}, якщо для кожного $\DeclVar{X}{\GM}{D \to \Space}$ відображення $\Lim{D} X \to \Lim{C} X \circ f$ є еквівалентністю. Відображення є \emph{фінальним} (final), якщо двоїсте до нього відображення є ініціальним.
 \end{defi}
-While this definition is asymmetrical in its treatment of initiality and finality,
-we shall restore the symmetry as a consequence of Quillen's Theorem~A in the next section,
-see~Corollary~\ref{cor:kan:right-cofinal-char}.
+Хоча це визначення є асиметричним у своєму трактуванні ініціальності та фінальності, ми відновимо симетрію як наслідок теореми А Квіллена у наступному підрозділі, див.~Наслідок~\ref{cor:kan:right-cofinal-char}.
 
-Recall that $\Lim{D} X = \Prod{d : D} X\prn{d}$ and so the definition of
-initiality equivalently states that the
-restriction map $\prn{\Prod{d : D} X\prn{d}} \to \prn{\Prod{c : C} X\prn{f\prn{c}}}$ is an
-equivalence.
+Нагадаємо, що $\Lim{D} X = \Prod{d : D} X\prn{d}$, тому визначення ініціальності еквівалентно стверджує, що відображення звуження $\prn{\Prod{d : D} X\prn{d}} \to \prn{\Prod{c : C} X\prn{f\prn{c}}}$ є еквівалентністю.
 
 \begin{exa}
-  The $\brc{0}$/$\brc{1}$ inclusion ${\Unit \to \Int}$ is initial/final.
+  Вкладення $\brc{0}$/$\brc{1}$ виду ${\Unit \to \Int}$ є ініціальним/фінальним.
 \end{exa}
 
 \begin{lem}
   \label{lem:kan:left-cofinal-preserves-limit}
-  If $\DeclVar{f}{\GM}{C \to D}$ is initial and
-  $\DeclVar{X}{\GM}{D \to E}$, then $\Lim{C} \prn{X \circ f}$ and $\Lim{D} X$ both exist
-  whenever either exists and are canonically isomorphic.
+  Якщо відображення $\DeclVar{f}{\GM}{C \to D}$ є ініціальним і $\DeclVar{X}{\GM}{D \to E}$, тоді $\Lim{C} \prn{X \circ f}$ та $\Lim{D} X$ обидва існують, якщо існує хоча б одне з них, і є канонічно ізоморфними.
 \end{lem}
 \begin{proof}
-  By Corollary~\ref{cor:adj:yo-preserves-limits}, we replace $E$ with $\PSH{E}$ and by
-  Corollary~\ref{cor:adj:limits-are-pointwise} we reduce to $\Space$ where the result is immediate.
+  За Наслідком~\ref{cor:adj:yo-preserves-limits} ми замінюємо $E$ на $\PSH{E}$, а за Наслідком~\ref{cor:adj:limits-are-pointwise} зводимо задачу до $\Space$, де результат є безпосереднім.
 \end{proof}
 
 \begin{restatable}{lem}{locop}
   \label{lem:app:localization-op}
-  If $\DeclVar{C}{\GM}{\Uni}$, then $\Grpdify{C} \Equiv \Grpdify{\Modify[\OM]{C}}$.
+  Якщо $\DeclVar{C}{\GM}{\Uni}$, тоді $\Grpdify{C} \Equiv \Grpdify{\Modify[\OM]{C}}$.
 \end{restatable}
 \begin{proof}
-  We observe that $\Grpdify{C} \Equiv \Modify[\GM]{\Grpdify{C}}$ and likewise for
-  $\Modify[\OM]{C}$. Accordingly, we note that:
+  Ми зауважуємо, що $\Grpdify{C} \Equiv \Modify[\GM]{\Grpdify{C}}$ і аналогічно для $\Modify[\OM]{C}$. Відповідно, ми маємо:
   \begin{gather*}
     \Modify[\GM]{
       \Modify[\OM]{C} \to \Modify[\GM]{X}
@@ -2455,127 +2422,87 @@ equivalence.
       \Modify[\OM]{C} \to \Modify[\GM]{X}
     }
   \end{gather*}
-  Finally, the result follows from a simple Yoneda argument.
+  Зрештою, результат випливає з простого міркування Йонеди.
 \end{proof}
 
 \begin{lem}
   \label{lem:kan:localization-is-cofinal}
-  For every $C$, the canonical map $C \to \Grpdify{C}$ is both initial and final.
+  Для кожної категорії $C$ канонічне відображення $C \to \Grpdify{C}$ є як ініціальним, так і фінальним.
 \end{lem}
 \begin{proof}
-  By Lemma~\ref{lem:app:localization-op}, it suffices to argue that this map is initial. To this
-  end, we must show the following map to be an equivalence for every $X : \Grpdify{C} \to \Space$:
+  За Лемою~\ref{lem:app:localization-op} достатньо довести, що це відображення є ініціальним. Для цього ми повинні показати, що наступне відображення є еквівалентністю для кожного $X : \Grpdify{C} \to \Space$:
   \[
     \prn{\Prod{d : \Grpdify{C}} X\prn{d}} \to \prn{\Prod{c : C} X\prn{\eta\prn{c}}}
   \]
-  However, $X\prn{d}$ is discrete for every $d : \Grpdify{C}$ and so this is simply the universal
-  property of $\Grpdify$.
+  Проте $X\prn{d}$ є дискретним для кожного $d : \Grpdify{C}$, тому це просто універсальна властивість $\Grpdify$.
 \end{proof}
 \begin{cor}
   \label{lem:kan:limit-over-contractible}
-  If $\Grpdify{C} = \ObjTerm{}$, then $\Lim{C} A = A$ for $A : \Space$.
+  Якщо $\Grpdify{C} = \ObjTerm{}$, тоді $\Lim{C} A = A$ для $A : \Space$.
 \end{cor}
 
-\subsection{Quillen's Theorem A}
+\subsection{Теорема А Квіллена}
 \label{sec:kan:quillen-a}
 
-Our next goal is to prove the $\infty$-categorical version of Quillen's theorem A. Unlike
-traditional proofs, we follow \textcite{ramzi:bousfield-kan} and rely on having already established
-the basic apparatus of Kan extensions to simplify our argument.
+Нашою наступною метою є доведення $\infty$-категорної версії теореми А Квіллена. На відміну від традиційних доведень, ми слідуємо \textcite{ramzi:bousfield-kan} і спираємося на вже розроблений базовий апарат розширень Кана, щоб спростити наші міркування.
 
 \begin{defi}
-  A functor $\DeclVar{f}{\GM}{C \to D}$ is Quillen final if
-  $\Grpdify(\COSLICE{C}{d}) \Equiv \Unit$ for all $\DeclVar{d}{\GM}{D}$
+  Функтор $\DeclVar{f}{\GM}{C \to D}$ є фінальним за Квілленом (Quillen final), якщо $\Grpdify(\COSLICE{C}{d}) \Equiv \Unit$ для всіх $\DeclVar{d}{\GM}{D}$.
 \end{defi}
 \begin{thm}
   \label{thm:kan:theorem-a}
-  A functor $\DeclVar{f}{\GM}{C \to D}$ is final if and only if
-  it is Quillen final.
+  Функтор $\DeclVar{f}{\GM}{C \to D}$ є фінальним тоді й лише тоді, коли він є фінальним за Квілленом.
 \end{thm}
 
 \begin{rem}
-  This result shows that, in particular, finality doesn't depend on the particular universe $\Space$
-  chosen.
+  Цей результат показує, зокрема, що фінальність не залежить від обраного конкретного універсуму $\Space$.
 \end{rem}
 
 \begin{lem}
   \label{lem:kan:theorem-a-for-psh}
-  If $\DeclVar{f}{\GM}{C \to D}$ is Quillen final and $\DeclVar{X}{\GM}{D \to \PSH{A}}$,
-  then ${\Colim D} X \Equiv {\Colim C} X \circ f$.
+  Якщо відображення $\DeclVar{f}{\GM}{C \to D}$ є фінальним за Квілленом і $\DeclVar{X}{\GM}{D \to \PSH{A}}$, то ${\Colim D} X \Equiv {\Colim C} X \circ f$.
 \end{lem}
 \begin{proof}
-  This statement is pointwise, so we quickly reduce to $\Space$ instead of $\PSH{A}$. In this
-  situation, we wish to show that the following commutes:
+  Це твердження є поточковим, тому ми швидко зводимо його до випадку $\Space$ замість $\PSH{A}$. У цій ситуації ми хочемо показати, що наступна діаграма комутує:
   \[
     \begin{tikzcd}
       \Space^D \ar[rr,"f^*"]\ar[dr,"{\mathrm{colim}_D}"'] && \Space^C\ar[dl,"{\mathrm{colim}_C}"] \\
       & \Space &
     \end{tikzcd}
-%
-%
-%
-%
-%
-%
-%
-%
   \]
-  Note that all three morphisms are left adjoints,
-  and so it suffices to compare their right adjoints:
-  the constant functors $\Delta_C$ and $\Delta_D$,
-  along with the right Kan extension $\Ran f$.
-  We next note that there is at least a comparison map
-  $\Delta_D \to \Ran{f} \circ \Delta_C$ given by transposing the
-  identity map  $f^* \circ \Delta_D \to \Delta_C$.
-  We must argue that this map is pointwise invertible,
-  and so we reduce to considering $\DeclVar{X}{\GM}{\Space}$
-  and $\DeclVar{d}{\GM}{D}$,
-  and we must show the following, using~Theorem~\ref{thm:kan:right-kan-exists}:
+  Зауважимо, що всі три морфізми є лівими спряженими, а тому достатньо порівняти їхні праві спряжені: постійні функтори $\Delta_C$ та $\Delta_D$, разом із правим розширенням Кана $\Ran f$.
+  Далі ми помічаємо, що існує щонайменше порівняльне відображення $\Delta_D \to \Ran{f} \circ \Delta_C$, задане транспонуванням тотожного відображення $f^* \circ \Delta_D \to \Delta_C$.
+  Ми маємо довести, що це відображення є поточково оборотним, тому зводимо задачу до розгляду $\DeclVar{X}{\GM}{\Space}$ та $\DeclVar{d}{\GM}{D}$, і повинні показати наступне, використовуючи~Теорему~\ref{thm:kan:right-kan-exists}:
   $X \Equiv \Lim{\COSLICE{C}{d}} X$.
-  This now follows from our assumption and~Lemma~\ref{lem:kan:limit-over-contractible}.
+  Це випливає з нашого припущення та~Леми~\ref{lem:kan:limit-over-contractible}.
 \end{proof}
 
 \begin{lem}
   \label{lem:kan:theorem-a}
-  If $\DeclVar{f}{\GM}{C \to D}$ is Quillen final, $E$ a cocomplete category, and
-  $\DeclVar{X}{\GM}{D \to E}$, then ${\Colim D} X \Equiv {\Colim C} X \circ f$.
+  Якщо відображення $\DeclVar{f}{\GM}{C \to D}$ є фінальним за Квілленом, $E$ --- коповна категорія, і $\DeclVar{X}{\GM}{D \to E}$, тоді ${\Colim D} X \Equiv {\Colim C} X \circ f$.
 \end{lem}
 \begin{proof}
-  We reduce to the case where $E = \PSH{D}$ (and therefore Lemma~\ref{lem:kan:theorem-a-for-psh}) by
-  factoring $X$ as $\bar{X} \circ \Yo$ and noting that $\bar{X}$ preserves colimits by construction.
+  Ми зводимо задачу до випадку $E = \PSH{D}$ (і, отже, до Леми~\ref{lem:kan:theorem-a-for-psh}), розкладаючи $X$ як $\bar{X} \circ \Yo$ і зауважуючи, що відображення $\bar{X}$ зберігає кограниці за побудовою.
 \end{proof}
 
-\begin{proof}[Proof of Theorem~\ref{thm:kan:theorem-a}]
-  To see that Quillen finality implies finality, we apply
-  Lemma~\ref{lem:kan:theorem-a} to $\Modify[\OM]{\Space}$,
-  and calculate:
+\begin{proof}[Доведення Теореми~\ref{thm:kan:theorem-a}]
+  Щоб побачити, що фінальність за Квілленом тягне за собою фінальність, застосуємо Лему~\ref{lem:kan:theorem-a} до $\Modify[\OM]{\Space}$ і обчислимо:
   \[
     \Lim{\Modify[\OM]D} X
     \Equiv {\Colim D} X^\dagger
     \Equiv {\Colim C} X^\dagger \circ f
     \Equiv \Lim{\Modify[\OM]C} X \circ f^\dagger
   \]
-  For the reverse, suppose that $f$ is final. We note that by the dual of
-  Lemma~\ref{lem:kan:left-cofinal-preserves-limit} (again applied to $\Modify[\OM]{\Space}$), the
-  canonical map $\Colim{C} X \circ f \to \Colim{D} X$ is an equivalence for any
-  $\DeclVar{X}{\GM}{D \to \Space}$.  Fix $\DeclVar d\GM D$ and choose
-  $X = \hom(d,-) = \Phi\prn{\MkMod[\OM]d,-}$ such that the colimits in question are precisely
-  $\Grpdify{\COSLICE{D}{d}}$ and $\Grpdify{\COSLICE{C}{d}}$,
-  using~Theorem~\ref{thm:adj:precomp-is-right-adj}.  This completes the proof since
-  $\Grpdify{\COSLICE{D}{d}} = \ObjTerm{}$.
+  Для зворотного твердження припустимо, що відображення $f$ є фінальним. Ми помічаємо, що за принципом дуальності до Леми~\ref{lem:kan:left-cofinal-preserves-limit} (знову застосованої до $\Modify[\OM]{\Space}$) канонічне відображення $\Colim{C} X \circ f \to \Colim{D} X$ є еквівалентністю для будь-кого $\DeclVar{X}{\GM}{D \to \Space}$. Фіксуємо $\DeclVar d\GM D$ і виберемо $X = \hom(d,-) = \Phi\prn{\MkMod[\OM]d,-}$, таке що розглядувані кограниці є саме $\Grpdify{\COSLICE{D}{d}}$ та $\Grpdify{\COSLICE{C}{d}}$, використовуючи~Теорему~\ref{thm:adj:precomp-is-right-adj}. Це завершує доведення, оскільки $\Grpdify{\COSLICE{D}{d}} = \ObjTerm{}$.
 \end{proof}
 
 \begin{cor}
   \label{cor:kan:right-cofinal-char}
-  A functor $\DeclVar{f}{\GM}{C \to D}$ is final if and only if, for every
-  $\DeclVar{X}{\GM}{D \to \Space}$ the map $\Colim{D} X \to \Colim{C} X \circ f$
-  is an equivalence.
+  Функтор $\DeclVar{f}{\GM}{C \to D}$ є фінальним тоді й лише тоді, коли для кожного $\DeclVar{X}{\GM}{D \to \Space}$ відображення $\Colim{D} X \to \Colim{C} X \circ f$ є еквівалентністю.
 \end{cor}
-This restores the symmetry between initial and final functors, as promised.  We offer another
-symmetric definition of initiality and finality, informed by \textcite[Ch.~8]{cisinski:2024}.
-\begin{defi}[Covariant equivalences]
-  Fix $\DeclVar{p}{\GM}{C \to A}$ and $\DeclVar{q}{\GM}{D \to A}$ between categories $A,C,D$. Let
-  $\DeclVar{f}{\GM}{C \to D}$ be a fibered map as follows:
+Це відновлює симетрію між ініціальними та фінальними функторами, як і було обіцяно. Ми пропонуємо ще одне симетричне визначення ініціальності та фінальності, спираючись на \textcite[Розд.~8]{cisinski:2024}.
+\begin{defi}[Коваріантні еквівалентності]
+  Фіксуємо $\DeclVar{p}{\GM}{C \to A}$ та $\DeclVar{q}{\GM}{D \to A}$ між категоріями $A,C,D$. Нехай $\DeclVar{f}{\GM}{C \to D}$ є шаруватим відображенням (fibered map) наступного вигляду:
   \[
     \begin{tikzcd}
      C && D \\
@@ -2585,17 +2512,15 @@ symmetric definition of initiality and finality, informed by \textcite[Ch.~8]{ci
      \arrow["q", from=1-3, to=2-2]
     \end{tikzcd}
   \]
-  We call $f$ a \emph{covariant equivalence} if for all families $\DeclVar{X}{\GM}{A \to \Space}$
-  reindexing gives rise to an equivalence, \ie,:
+  Ми називаємо $f$ \emph{коваріантною еквівалентністю}, якщо для всіх сімейств $\DeclVar{X}{\GM}{A \to \Space}$ реіндексування (reindexing) породжує еквівалентність, тобто:
   \[
     f^* : \prn{\DelimMin{1}\Prod{a:A} D_a \to X_a} \to \prn{\DelimMin{1}\Prod{a:A} C_a \to X_a}
   \]
-  Dually, $f$ is called \emph{contravariant equivalence} precomposition with respect to all contravariant families is an equivalence.
+  Дуально, відображення $f$ називається \emph{контраваріантною еквівалентністю}, якщо передкомпозиція відносно всіх контраваріантних сімейств є еквівалентністю.
 \end{defi}
 
 \begin{lem}\label{lem:cov-eq-comp}
-  Let $f$ as below be a covariant equivalence with respect to $p$ and $q$. Then, for any functor
-  $\DeclVar{r}{\GM}{B \to A}$ it is also a covariant equivalence with respect to $rp$ and $rq$:
+  Нехай відображення $f$, як показано нижче, є коваріантною еквівалентністю відносно $p$ та $q$. Тоді для будь-якого функтора $\DeclVar{r}{\GM}{B \to A}$ воно також є коваріантною еквівалентністю відносно $rp$ та $rqbw$:
   \[
     \begin{tikzcd}
       C && D \\
@@ -2610,7 +2535,7 @@ symmetric definition of initiality and finality, informed by \textcite[Ch.~8]{ci
 \end{lem}
 
 \begin{proof}
-  We get the following induced square:
+  Ми отримуємо наступний індукований квадрат:
   \[
     \begin{tikzcd}
       {\big( \prod_{b:B} D_b \to X_b \big)} && {\big( \prod_{b:B} C_b \to X_b \big)} \\
@@ -2621,18 +2546,15 @@ symmetric definition of initiality and finality, informed by \textcite[Ch.~8]{ci
       \arrow["{f^*}"', from=2-1, to=2-3]
     \end{tikzcd}
   \]
-  The upper horizontal map is an equivalence by the preconditions. The goal is to show that the
-  lower horizontal map is an equivalence, too. But this follows from $3$-for-$2$ for equivalences.
+  Верхнє горизонтальне відображення є еквівалентністю за передумовами. Мета полягає в тому, щоб показати, що нижнє горизонтальне відображення також є еквівалентністю. Але це випливає з властивості «3-з-2» для еквівалентностей.
 \end{proof}
 
-\begin{lem}[Characterizations of initiality]
+\begin{lem}[Характеризації ініціальності]
   \label{lem:kan:characterization-initiality}
-  Let $\DeclVar{f}{\GM}{C \to D}$ be a functor. Then the following are equivalent:
+  Нехай $\DeclVar{f}{\GM}{C \to D}$ --- функтор. Тоді наступні умови є еквівалентними:
   \begin{enumerate}[label=\textup{(\arabic*)}]
-  \item\label{it:prop:char-left-cof-i} $f$ is initial.
-  \item\label{it:prop:char-left-cof-ii} Let $\DeclVar{X}{\GM}{A \to \Space}$ be a family with
-    associated left fibration $\DeclVar{\pi}{\GM}{\TotalType{X} \to A}$. Then any square of the
-    following form has a filler $\overline{\varphi}$, uniquely up to homotopy:
+  \item\label{it:prop:char-left-cof-i} відображення $f$ є ініціальним.
+  \item\label{it:prop:char-left-cof-ii} Нехай $\DeclVar{X}{\GM}{A \to \Space}$ --- сімейство з асоційованим лівим розшаруванням $\DeclVar{\pi}{\GM}{\TotalType{X} \to A}$. Тоді будь-який квадрат наступного вигляду має наповнення (filler) $\overline{\varphi}$, єдине з точністю до гомотопії:
     \[
       \begin{tikzpicture}
         \node (nw) {$C$};
@@ -2641,13 +2563,12 @@ symmetric definition of initiality and finality, informed by \textcite[Ch.~8]{ci
         \node[right = 4cm of sw] (se) {$A$};
         \path[->] (nw) edge node[above] {$\varphi$} (ne);
         \path[->] (nw) edge node[left] {$f$} (sw);
-        \path[->] (ne) edge node[right] {$\pi$} (se);
-        \path[->] (sw) edge node[below] {$\alpha$} (se);
+        \path[->] (ne) edge node[right] {\pi} (se);
+        \path[->] (sw) edge node[below] {\alpha} (se);
         \path[->, unique exists] (sw) edge node[upright desc] {$\overline{\varphi}$} (ne);
       \end{tikzpicture}
     \]
-  \item\label{it:prop:char-left-cof-iii} For any family $\DeclVar{X}{\GM}{A \to \Space}$ the
-    following square is a pullback:
+  \item\label{it:prop:char-left-cof-iii} Для будь-кого сімейства $\DeclVar{X}{\GM}{A \to \Space}$ наступний квадрат є декартовим (pullback):
     \[
       \DiagramSquare{
         nw = \TotalType{X}^D,
@@ -2658,68 +2579,50 @@ symmetric definition of initiality and finality, informed by \textcite[Ch.~8]{ci
         height = 1.5cm,
       }
     \]
-  \item\label{it:prop:char-left-cof-iv} $f$ is a covariant equivalence with respect to any
-    $\DeclVar{\alpha}{\GM}{D \to A}$.
+  \item\label{it:prop:char-left-cof-iv} відображення $f$ є коваріантною еквівалентністю відносно будь-якого $\DeclVar{\alpha}{\GM}{D \to A}$.
   \end{enumerate}
-  The analogous characterization holds for contravariant equivalences and final functores.
-\end{lem}
+  Аналогічна характеристика виконується для контраваріантних еквівалентностей та фінальних функторів.
+\end{proof}
 \begin{proof}
-  Conditions~\ref{it:prop:char-left-cof-ii} and~\ref{it:prop:char-left-cof-iii} are readily seen
-  to be equivalent by commuting $\Prod{}$ and $\Sum{}$. Condition~\ref{it:prop:char-left-cof-iv}
-  unfolds to the following: for any $\DeclVar{X}{\GM}{A \to \Space}$ reindexing along $f$ is an
-  equivalence, namely
+  Легко бачити, що умови~\ref{it:prop:char-left-cof-ii} та~\ref{it:prop:char-left-cof-iii} є еквівалентними завдяки комутуванню $\Prod{}$ та $\Sum{}$. Умова~\ref{it:prop:char-left-cof-iv} розгортається у наступне твердження: для будь-якого $\DeclVar{X}{\GM}{A \to \Space}$ реіндексування вздовж $f$ є еквівалентністю, а саме:
   \[
     f^* :
     \prn{\Prod{a:A} D_a \to X_a}
     \xrightarrow{\sim}
     \prn{\Prod{a:A} (\Sum{d:D_a} C_{a,d}) \to X_a}
   \]
-  This, again, is readily seen to be equivalent to~\ref{it:prop:char-left-cof-ii}.
+  Це, знову ж таки, легко бачити еквівалентним до~\ref{it:prop:char-left-cof-ii}.
 
-  We turn to the implication
-  $\text{\ref{it:prop:char-left-cof-iv}} \implies \text{\ref{it:prop:char-left-cof-i}}$.
-  But this is clear,
-  since~\ref{it:prop:char-left-cof-i} says that $f$ is a covariant equivalence with respect to
-  itself and $\ArrId{D}$.
+  Перейдемо до імплікації $\text{\ref{it:prop:char-left-cof-iv}} \implies \text{\ref{it:prop:char-left-cof-i}}$. Але це очевидно, оскільки~\ref{it:prop:char-left-cof-i} стверджує, що $f$ є коваріантною еквівалентністю відносно самого себе та $\ArrId{D}$.
 
-  For the converse direction
-  $\text{\ref{it:prop:char-left-cof-i}} \implies \text{\ref{it:prop:char-left-cof-iv}}$
-  we use the insight
-  just made together with Lemma~\ref{lem:cov-eq-comp}.
+  Для зворотного напрямку $\text{\ref{it:prop:char-left-cof-i}} \implies \text{\ref{it:prop:char-left-cof-iv}}$ ми використовуємо щойно отримане розуміння разом із Лемою~\ref{lem:cov-eq-comp}.
 \end{proof}
 
-The following alternative characterization is also often useful:
+Наступна альтернативна характеристика також часто є корисною:
 
 \begin{restatable}{lem}{charcofinal}
   \label{prop:kan:charcofinal}
-  $\DeclVar{f}{\GM}{C \to D}$ is initial \textup(resp. final\textup) if and only if for every
-  covariant \textup(resp. contravariant\textup) family $\DeclVar{\pi}{\GM}{X \to Y}$, $f$ is left
-  orthogonal to $\pi$, \ie{}, $\IsEquiv\prn{X^D \to X^C \times_{Y^C} Y^D}$.
+  $\DeclVar{f}{\GM}{C \to D}$ є ініціальним \textup(відп. фінальним\textup) тоді й лише тоді, коли для кожного коваріантного \textup(відп. контраваріантного\textup) сімейства $\DeclVar{\pi}{\GM}{X \to Y}$ відображення $f$ є ліво-ортогональним до $\pi$, тобто $\IsEquiv\prn{X^D \to X^C \times_{Y^C} Y^D}$.
 \end{restatable}
 \begin{proof}
-  Immediate by Proposition~\ref{it:prop:char-left-cof-iv} for the initial case
-  and by duality and~Corollary~\ref{cor:kan:right-cofinal-char} for the final case.
+  Безпосередньо випливає з Твердження~\ref{it:prop:char-left-cof-iv} для ініціального випадку, та з дуальності й~Наслідку~\ref{cor:kan:right-cofinal-char} для фінального випадку.
 \end{proof}
 
 \begin{cor}
   \label{cor:initial-covariant-ofs}
-  There is an orthogonal factorization system in the sense of \cite{rijke:2020} with the left class given by the initial functors and the right class by covariant fibrations.
+  Існує ортогональна система факторизації (orthogonal factorization system) у сенсі \cite{rijke:2020}, лівий клас якої задається ініціальними функторами, а правий --- коваріантними розшаруваннями.
 \end{cor}
 
-As another consequence we get the dual of~Theorem~\ref{thm:kan:theorem-a}:
+Як ще один наслідок ми отримуємо дуальне твердження до~Теореми~\ref{thm:kan:theorem-a}:
 \begin{cor}
   \label{thm:kan:theorem-a-dual}
-  A functor $\DeclVar{f}{\GM}{C \to D}$ is initial if and only if
-  $\Grpdify(\SLICE{C}{d}) \Equiv \Unit$ for all $\DeclVar{d}{\GM}{D}$
-  \textup(\emph{Quillen initial}\textup).
+  Функтор $\DeclVar{f}{\GM}{C \to D}$ є ініціальним тоді й лише тоді, коли $\Grpdify(\SLICE{C}{d}) \Equiv \Unit$ для всіх $\DeclVar{d}{\GM}{D}$ \textup(\emph{ініціальний за Квілленом}\textup).
 \end{cor}
 
-We demonstrate the utility of Theorem~\ref{thm:kan:theorem-a} by giving a new and far simpler
-proof that cocartesian fibrations are \emph{proper}.
+Ми демонструємо корисність Теореми~\ref{thm:kan:theorem-a}, наводячи нове і набагато простіше доведення того, що кодекартові розшарування є \emph{правильними} (proper).
 \begin{defi}
   \label{def:proper-maps}
-  A functor $\DeclVar{\pi}{\GM}{E \to B}$ between categories is \emph{proper} if for all pullbacks
-  (of $\GM$-functors) of the following form, $v$ is final if $u$ is final:
+  Функтор $\DeclVar{\pi}{\GM}{E \to B}$ між категоріями є \emph{правильним}, якщо для всіх декартових квадратів (pullbacks) ($\GM$-функторів) наступного вигляду відображення $v$ є фінальним, якщо $u$ є фінальним:
   \[
     \begin{tikzpicture}[diagram]
       \SpliceDiagramSquare{
@@ -2739,20 +2642,17 @@ proof that cocartesian fibrations are \emph{proper}.
       \path[->] (A) edge (B);
     \end{tikzpicture}
   \]
-  We call $\pi$ \emph{smooth} if $\pi^\dagger : \Modify[\OM]{E} \to \Modify[\OM]{B}$ is proper.
+  Ми називаємо відображення $\pi$ \emph{гладким} (smooth), якщо $\pi^\dagger : \Modify[\OM]{E} \to \Modify[\OM]{B}$ є правильним.
 \end{defi}
 \begin{lem}
-  Smooth and proper functors are closed under composition and pullback.\footnote{The definition of
-    properness is formulated specifically to bake in the latter.}
+  Гладкі та правильні функтори є замкненими відносно композиції та взяття декартового квадрата (pullback).\footnote{Визначення правильності сформульовано спеціально так, щоб вбудувати останню властивість.}
 \end{lem}
 \begin{thm}
   \label{thm:kan:cocartesian-is-proper}
-  Cartesian fibrations are smooth and cocartesian fibrations are proper.
+  Декартові розшарування є гладкими, а кодекартові розшарування є правильними.
 \end{thm}
 \begin{proof}
-  It suffices to treat the proper case. Fix a cocartesian fibration $\DeclVar{\pi}{\GM}{E \to B}$
-  and note that since cocartesian fibrations are stable under pullbacks, it suffices show to that $v$ is
-  final in the following pullback diagram if $u$ is final:
+  Достатньо розглянути правильний випадок. Фіксуємо кодекартове розшарування $\DeclVar{\pi}{\GM}{E \to B}$ і зауважимо, що оскільки кодекартові розшарування є стійкими відносно декартових квадратів, достатньо показати, що $v$ є фінальним у наступній діаграмі декартового квадрата, якщо $u$ є фінальним:
   \[
     \DiagramSquare{
       height = 1.5cm,
@@ -2767,7 +2667,7 @@ proof that cocartesian fibrations are \emph{proper}.
       east = \pi,
     }
   \]
-  We now use Theorem~\ref{thm:kan:theorem-a}. For $\DeclVar{e}{\GM}{E}$ we compute the fiber:
+  Тепер ми використовуємо Теорему~\ref{thm:kan:theorem-a}. Для $\DeclVar{e}{\GM}{E}$ ми обчислюємо шар:
   \begin{align*}
     & (A \times_B E) \times_E \COSLICE{E}{e}
     \\
@@ -2776,30 +2676,26 @@ proof that cocartesian fibrations are \emph{proper}.
     \\
     &\quad
     \Equiv A \times_B \prn{\Sum{\DeclVar{b'}{}{B},\DeclVar{f}{}{\Hom{\pi\prn{e}}{b'}}}{\prn{E_{b'}}^{\Int}}}
-    && \text{$\pi$ is cocartesian}
+    && \text{$\pi$ є кодекартовим}
     \\
     &\quad
     \Equiv \Sum{\DeclVar{(a,f)}{}{A \times_B \COSLICE{B}{\pi\prn{e}}}}{\COSLICE{\prn{E_{u\prn{a}}}}{f_!e}}
-  \end{align*}
-  Applying $\Grpdify$ to each fiber yields $\Grpdify{\COSLICE{\prn{E_{u\prn{a}}}}{f_!e}} \Equiv \Unit$ (as
-  coslices have initial elements) and $\Grpdify(A \times_B \COSLICE{B}{\pi\prn{e}}) \Equiv \Unit$
-  since $u$ is final by assumption. This implies that applying $\Grpdify$ to the entire
-  $\Sum{}$-type produces $\Unit$~\parencite{rijke:2020}.
+  \end{alignPost}
+  Застосування $\Grpdify$ до кожного шару дає $\Grpdify{\COSLICE{\prn{E_{u\prn{a}}}}{f_!e}} \Equiv \Unit$ (оскільки козрізи (coslices) мають початкові елементи) та $\Grpdify(A \times_B \COSLICE{B}{\pi\prn{e}}) \Equiv \Unit$, оскільки відображення $u$ є фінальним за припущенням. Це означає, що застосування $\Grpdify$ до всього $\Sum{}$-типу дає $\Unit$~\parencite{rijke:2020}.
 \end{proof}
 
 \begin{cor}
-  If $\DeclVar{\pi}{\GM}{E \to B}$ is cocartesian and $\DeclVar{X}{\GM}{E \to D}$, then the left Kan
-  extension $\Lan{\pi} X$ sends $\DeclVar{b}{\GM}{B}$ to $\Colim{}\prn{E_b \to E \to D}$.
+  Якщо відображення $\DeclVar{\pi}{\GM}{E \to B}$ є кодекартовим і $\DeclVar{X}{\GM}{E \to D}$, то ліве розширення Кана $\Lan{\pi} X$ переводить $\DeclVar{b}{\GM}{B}$ у $\Colim{}\prn{E_b \to E \to D}$.
 \end{cor}
 
-\subsection{Smooth and proper base change}
+\subsection{Гладка та правильна зміна бази}
 
-We want to show that smooth and proper functors satisfy the \emph{Beck--Chevalley condition}. We follow \cite[Section 8.4]{cisinski:2024}; see also \cite{anel:2024} for a general discussion.
+Ми хочемо показати, що гладкі та правильні функтори задовольняють \emph{умову Бека--Шевальє} (Beck--Chevalley condition). Ми слідуємо \cite[Розділ 8.4]{cisinski:2024}; див. також \cite{anel:2024} для загального обговорення.
 
-First, using the initial-covariant factorization (see \ref{cor:initial-covariant-ofs}) of a functor with small fibers we can compute the action of precomposition for (co)presheaves:
-\begin{prop}[\protect{\cite[Theorem~8.1.18]{cisinski:2024}}]
+По-перше, використовуючи ініціально-коваріантну факторизацію (див. \ref{cor:initial-covariant-ofs}) функтора з малими шарами, ми можемо обчислити дію передкомпозиції для (ко)передпучків:
+\begin{prop}[\protect{\cite[Теорема~8.1.18]{cisinski:2024}}]
   \label{prop:action-postcomp}
-  Let $\DeclVar{u}{\GM}{A \to B}$ be a functor with small fibers. Then the left adjoint $\DeclVar{u_! \dashv u^*}{\GM}{\Space^B \to \Space^A}$ acts as follows: for $\DeclVar{F}{\GM}{A \to \Space}$, if
+  Нехай $\DeclVar{u}{\GM}{A \to B}$ --- функтор із малими шарами. Тоді лівий спряжений $\DeclVar{u_! \dashv u^*}{\GM}{\Space^B \to \Space^A}$ діє наступним чином: для $\DeclVar{F}{\GM}{A \to \Space}$, якщо
   \[\begin{tikzcd}
 	E & {\Space_*} \\
 	A & \Space
@@ -2809,7 +2705,7 @@ First, using the initial-covariant factorization (see \ref{cor:initial-covariant
 	\arrow[from=1-2, to=2-2]
 	\arrow["F", from=2-1, to=2-2]
   \end{tikzcd}\]
-  denote by $E \stackrel{j}{\to} X \stackrel{\psi}{\to} B$ the initial-covariant factorization of $u \circ \phi$. Then $u_!(F)$ is the straightening of $\psi$:
+  позначимо через $E \stackrel{j}{\to} X \stackrel{\psi}{\to} B$ ініціально-коваріантну факторизацію відображення $u \circ \phi$. Тоді $u_!(F)$ є розпрямленням (straightening) для $\psi$:
   \[\begin{tikzcd}
 	E & X & {\Space_*} \\
 	A & B & \Space
@@ -2822,7 +2718,7 @@ First, using the initial-covariant factorization (see \ref{cor:initial-covariant
 	\arrow["u"', from=2-1, to=2-2]
 	\arrow["{u_!(F)}"', from=2-2, to=2-3]
 \end{tikzcd}\]
-In particular, the unit $\DeclVar{\eta}{\GM}{F \to u^*u_!F}$ corresponds under directed univalence to the map $\widetilde{\eta}$:
+Зокрема, одиниця $\DeclVar{\eta}{\GM}{F \to u^*u_!F}$ відповідає за спрямованою одновалентністю (directed univalence) відображенню $\widetilde{\eta}$:
 \[\begin{tikzcd}
 	E & Y & X \\
 	& A & B
@@ -2838,9 +2734,9 @@ In particular, the unit $\DeclVar{\eta}{\GM}{F \to u^*u_!F}$ corresponds under d
 \end{prop}
 
 \begin{proof}
-  We want to show that an equivalence is given by the map
-  \[ \DeclVar{\lambda \alpha.u^*\alpha \circ \eta}{\GM}{\hom_{B \to \Space}(u_!F, G) \to \hom_{A \to \Space}(F, u^*G)}.\]
-  We write the unstraightening of $G$ as
+  Ми хочемо показати, що відображення
+  \[ \DeclVar{\lambda \alpha.u^*\alpha \circ \eta}{\GM}{\hom_{B \to \Space}(u_!F, G) \to \hom_{A \to \Space}(F, u^*G)}\]
+  задає еквівалентність. Ми запишемо корозпрямлення (unstraightening) для $G$ як:
   \[\begin{tikzcd}
 	Z & {\Space_*} \\
 	B & \Space
@@ -2850,11 +2746,11 @@ In particular, the unit $\DeclVar{\eta}{\GM}{F \to u^*u_!F}$ corresponds under d
 	\arrow[from=1-2, to=2-2]
 	\arrow["G", from=2-1, to=2-2]
   \end{tikzcd}\]
-  The above transposition map is equivalent to a map
+  Наведене вище відображення транспонування є еквівалентним відображенню
   \[ \prn{\prod_{b:B} \hom_\Space(X_b, Z_b)} \to \prn{\prod_{a:A} \hom_\Space(E_a, (A \times_B Z)_a)} \simeq \prn{\prod_{b:B} \hom_\Space(E_b,Z_b)}.\]
-  By directed univalence, this map corresponds to the map
+  За спрямованою одновалентністю, це відображення відповідає відображенню
   \[ \prn{\prod_{b:B} (X_b \to Z_b)} \to\prn{\prod_{b:B} (E_b \to Z_b)} \]
-  which in turn acts as precomposition of fibered functors by $j$:
+  яке, у свою чергу, діє як передкомпозиція шаруватих функторів відображенням $j$:
   \[\begin{tikzcd}
 	E & X & Z \\
 	& B
@@ -2864,17 +2760,17 @@ In particular, the unit $\DeclVar{\eta}{\GM}{F \to u^*u_!F}$ corresponds under d
 	\arrow["\psi"', from=1-2, to=2-2]
 	\arrow["\gamma", from=1-3, to=2-2]
 \end{tikzcd}\]
-Finally, due to Proposition~\ref{prop:kan:charcofinal}\ref{it:prop:char-left-cof-iv} this map is an equivalence.
+Зрештою, в силу Леми~\ref{prop:kan:charcofinal}\ref{it:prop:char-left-cof-iv} це відображення є еквівалентністю.
 \end{proof}
 
-Let $\DeclVar{f}{\GM}{A \to B}$ be a functor with small fibers. Consider the induced pair of adjoints:
+Нехай $\DeclVar{f}{\GM}{A \to B}$ --- функтор із малими шарами. Розглянемо індуковану пару спряжених відображень:
 \[\begin{tikzcd}
 	{\Space^B} & {\Space^A}
 	\arrow[""{name=0, anchor=center, inner sep=0}, "{f^*}"', curve={height=12pt}, from=1-1, to=1-2]
 	\arrow[""{name=1, anchor=center, inner sep=0}, "{f_!}"', curve={height=12pt}, from=1-2, to=1-1]
 	\arrow["\dashv"{anchor=center, rotate=-90}, draw=none, from=1, to=0]
 \end{tikzcd}\]
-Thus, a square
+Таким чином, квадрат
 \[\begin{tikzcd}
 	{A'} & A \\
 	{B'} & B
@@ -2883,7 +2779,7 @@ Thus, a square
 	\arrow["f", from=1-2, to=2-2]
 	\arrow["v"', from=2-1, to=2-2]
 \end{tikzcd}\]
-induces the \emph{Beck--Chevalley square}
+індукує \emph{квадрат Бека--Шевальє} (Beck--Chevalley square)
 \[\begin{tikzcd}
 	{\Space^{A'}} & {\Space^{A}} \\
 	{\Space^{B'}} & {\Space^{B}}
@@ -2893,16 +2789,16 @@ induces the \emph{Beck--Chevalley square}
 	\arrow["{f_!}", from=1-2, to=2-2]
 	\arrow["{v^*}", from=2-2, to=2-1]
 \end{tikzcd}\]
-with the $2$-cell $\beta$ (a morphism in $\Space^A \to \Space^{B'}$) being the transpose of the map:
+із 2-морфізмом (2-cell) $\beta$ (морфізм у $\Space^A \to \Space^{B'}$), який є транспонуванням відображення:
 \[\begin{tikzcd}
 	{u^*} & {u^*f^*f_!} & {f'^* v^* f_!}
 	\arrow["{u^* \eta}", Rightarrow, from=1-1, to=1-2]
 	\arrow["\simeq"{description}, draw=none, from=1-2, to=1-3]
 \end{tikzcd}\]
 
-Analogously to \ref{prop:action-postcomp}, we give a description of the Beck--Chevalley map as in \cite[Section 8.4]{cisinski:2024}.
+Аналогічно до \ref{prop:action-postcomp}, ми даємо описання відображення Бека--Шевальє, як у \cite[Розділ 8.4]{cisinski:2024}.
 
-Let $\DeclVar{F}{\GM}{A \to \Space}$ and $\varphi$ its unstraightening:
+Нехай $\DeclVar{F}{\GM}{A \to \Space}$, а $\varphi$ --- його корозпрямлення:
 \[\begin{tikzcd}
 	X & {\Space_*} \\
 	A & \Space
@@ -2913,7 +2809,6 @@ Let $\DeclVar{F}{\GM}{A \to \Space}$ and $\varphi$ its unstraightening:
 	\arrow["F", from=2-1, to=2-2]
 \end{tikzcd}\]
 Recall, that $f_!F$ is given by
-%
 \[\begin{tikzcd}
 	X & Y & {\Space_*} \\
 	A & B & \Space
@@ -2939,7 +2834,7 @@ and that the unit $\DeclVar{\eta}{\GM}{F \to f^*f_!F}$ is given by the mediating
 	\arrow["\psi", from=1-3, to=2-3]
 	\arrow["f", from=2-2, to=2-3]
 \end{tikzcd}\]
-Pulling back along $u$ and $v$, resp., and factoring the upper horizontal map yields the square
+Взяття декартових квадратів уздовж $u$ та $v$ відповідно та факторизація верхнього горизонтального відображення дає квадрат:
 \[\begin{tikzcd}
 	& {Y'} \\
 	{A' \times_A X} && {B' \times_B Y} \\
@@ -2951,7 +2846,7 @@ Pulling back along $u$ and $v$, resp., and factoring the upper horizontal map yi
 	\arrow["{{v^*\psi}}", from=2-3, to=3-3]
 	\arrow["{{f'}}", from=3-1, to=3-3]
 \end{tikzcd}\]
-where $j'$ is initial and $r$ is a covariant fibration. We consider the composite $\DeclVar{\psi' := v^*\psi \circ r}{\GM}{Y' \to B}$ whence
+де $j'$ є ініціальним відображенням, а $r$ --- коваріантним розшаруванням. Ми розглядаємо композицію $\DeclVar{\psi' := v^*\psi \circ r}{\GM}{Y' \to B}$, звідки
 \[\begin{tikzcd}
 	{Y'} & {\Space_*} & {B' \times_B Y} & Y & {\Space_*} \\
 	B & {\Space_*} & {B'} & B & \Space
@@ -2984,12 +2879,12 @@ and the Beck--Chevalley transformation corresponds to the fibered map $\DeclVar{
 	\arrow["f", from=1-2, to=2-2]
 	\arrow["v"', from=2-1, to=2-2]
 \end{tikzcd}\]
-of small categories where $v$ is smooth. Then, the Beck--Chevalley transformation is an equivalence
+малих категорій, де відображення $v$ є гладким. Тоді перетворення Бека--Шевальє є еквівалентністю
 \[ f'_! u^* \simeq v^* f_!.\]
 \end{thm}
 
 \begin{proof}
-We will show that the map $r$ from the preceding description is an equivalence by showing that it is also initial (and it is a covariant fibration by construction). We have the following commutative cube:
+Ми покажемо, що відображення $r$ із попереднього описання є еквівалентністю, довівши, що воно також є ініціальним (а за побудовою воно є коваріантним розшаруванням). Ми маємо наступний комутативний куб:
 \[\begin{tikzcd}
 	{A' \times_A X} && {B' \times_B Y} \\
 	& X && Y \\
@@ -3011,16 +2906,10 @@ We will show that the map $r$ from the preceding description is an equivalence b
   \arrow["\phi"{description, pos=0.3}, from=2-2, to=4-2, crossing over]
   \arrow["\lrcorner"{anchor=center, pos=0.125}, draw=none, from=3-1, to=4-4]
 \end{tikzcd}\]
-By the pullback lemma, the top square is a pullback, too. Since $v$ is smooth and $j$ is initial, $j''$ is initial. But $j'' = r \circ j'$ so $r$ is also initial due to cancelation.
+За лемою про декартові квадрати (pullback lemma), верхня грань також є декартовим квадратом. Оскільки $v$ є гладким, а відображення $j$ є ініціальним, відображення $j''$ є ініціальним. Проте $j'' = r \circ j'$, тому відображення $r$ також є ініціальним в силу скорочення (cancelation).
 \end{proof}
 
-One can also prove the analogous \emph{proper} base change formula as in \cite[Theorem 8.4.6]{cisinski:2024}.
-
-%
-%
-
-%
-
+Можна також довести аналогічну формулу \emph{правильної} зміни бази, як у \cite[Теорема 8.4.6]{cisinski:2024}.
 \section{Conclusions and future work}
 \label{sec:conc}
 
