@@ -25,6 +25,11 @@
 \usepackage{enumitem}
 \usepackage{hyperref}
 \usepackage{euscript}
+\usepackage{amssymb}
+\usepackage{hang}
+\usepackage{tikz}
+\usetikzlibrary{matrix,arrows,patterns,fit,positioning,calc,decorations.pathmorphing,babel}
+\usepackage{tikz-cd}
 
 \newcommand{\lmcsorcid}[1]{}
 \newcommand{\address}[1]{}
@@ -538,10 +543,6 @@
 }
 \ExplSyntaxOff
 
-\usepackage{hang}
-\usepackage{tikz}
-\usetikzlibrary{matrix,arrows,patterns,fit,positioning,calc,decorations.pathmorphing,babel}
-\usepackage{tikz-cd}
 
 \tikzset{
   desc/.style={sloped, fill=white,inner sep=2pt},
@@ -778,9 +779,6 @@
 }
 \ExplSyntaxOff
 
-% *** quiver ***
-\usepackage{tikz-cd}
-\usepackage{amssymb}
 \tikzset{curve/.style={settings={#1},to path={(\tikztostart)
     .. controls ($(\tikztostart)!\pv{pos}!(\tikztotarget)!\pv{height}!270:(\tikztotarget)$)
     and ($(\tikztostart)!1-\pv{pos}!(\tikztotarget)!\pv{height}!270:(\tikztotarget)$)
@@ -1077,8 +1075,6 @@ $\Delta^n$, межі $\partial \Delta^n$ та роги $\Lambda_k^n$. Зокре
     \node[below = 0.75cm of Ax00] (Ax01) {\tiny $1$};
     \path[->] (Ax00) edge node[above] {\tiny $i$} (Ax10);
     \path[->] (Ax00) edge node[left] {\tiny $j$} (Ax01);
-    %
-    %
     \SpliceDiagramSquare{
       nw/style = {below right = -0.3cm and 1.3cm of Ax01},
       height = 1cm,
@@ -1093,7 +1089,6 @@ $\Delta^n$, межі $\partial \Delta^n$ та роги $\Lambda_k^n$. Зокре
     ([xshift=0.1cm,yshift=0.1cm]ne.south west) --
     ([xshift=0.1cm,yshift=-0.1cm]se.north west) --
     ([xshift=-0.1cm,yshift=-0.1cm]sw.north east) -- cycle;
-    %
     \node[right = 1.5cm of ne] (T0) {$\bullet$};
     \node[right = 1cm of T0] (T1) {$\bullet$};
     \node[below = 1cm of T1] (T2) {$\bullet$};
