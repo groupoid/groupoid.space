@@ -20,6 +20,7 @@ default:
 	pdflatex stable.tex
 	pdflatex topos.tex
 	pdflatex yoga.tex
+	pdflatex transpension.tex
 	pdflatex vol4.tex
 
 clean:

@@ -1,0 +1,147 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath,amssymb,amsthm,mathtools}
+\usepackage{tikz-cd}
+
+\include{journal}
+
+\begin{document}
+
+\title{Issue XLVII: Transpension and Tiny \\ Amazing Right Adjoints}
+\author{Namdak Tonpa}
+\date{\today}
+
+\maketitle
+
+\begin{abstract}
+We present a detailed type-theoretic and categorical exposition of modal type theory, transpension types, and tiny objects. In category theory, a tiny object $U$ has the property that the exponential functor $(-)^U$ has a right adjoint, known as the "amazing right adjoint." In modal dependent type theory, this adjoint structure is internalized via the transpension type former, which acts as the right adjoint to universal quantification over the shape $U$. We detail the syntactic rules, the transposition bijection, and show how the transpension type former unifies various presheaf internalization operators such as Glue, Weld, and Gel.
+
+{\bf Keywords}: Category Theory, Topos Theory, Modal HoTT, Transpension Types \\
+\end{abstract}
+
+\ifincludeTOC
+  \tableofcontents
+\fi
+
+\section{Introduction}
+Modern type theories, such as Homotopy Type Theory (HoTT) and Simplicial Homotopy Type Theory (STT), are designed to reason about mathematical objects synthetically. However, standard type systems are limited to constructions that are equivariant with respect to variables in the context. In presheaf models, this manifests as the requirement that all operations must be compatible with the base category's coordinate changes.
+
+To break this limitation internally, we require modal operations. Modal dependent type theory (MTT) extends the syntax to reason about sub-structural transformations (such as taking the core groupoid of an $\infty$-category or restricting to constant/discrete shapes). The ultimate realization of this framework is the \emph{transpension type}, which internalizes the category-theoretic notion of tiny objects and Lawvere's amazing right adjoint.
+
+\section{Tiny Objects and the Amazing Right Adjoint}
+In a Cartesian closed category (or topos) $\mathcal{E}$, the product functor $- \times U$ has a right adjoint, namely the exponential functor $(-)^U$:
+\[
+- \times U \dashv (-)^U
+\]
+This adjunction corresponds syntactically to the bijection between functions of two variables and curried functions.
+
+\begin{definition}[Tiny Object]
+An object $U \in \mathcal{E}$ is called \textbf{tiny} (or \textbf{atomic}) if the exponentiation functor $(-)^U : \mathcal{E} \to \mathcal{E}$ itself possesses a right adjoint, denoted as $\sqrt[U]{-}$ or $(-)^{1/U}$:
+\[
+(-)^U \dashv \sqrt[U]{-}
+\]
+This results in an adjoint string:
+\[
+(-) \times U \quad \dashv \quad (-)^U \quad \dashv \quad \sqrt[U]{-}
+\]
+The functor $\sqrt[U]{-}$ is called the \textbf{amazing right adjoint} to the exponential functor.
+\end{definition}
+
+\begin{example}[Infinitesimals in SDG]
+In Lawvere's Synthetic Differential Geometry (SDG), the object of infinitesimals $D = \{x \in R \mid x^2 = 0\}$ is tiny. The existence of the amazing right adjoint to $(-)^D$ (the tangent bundle functor) allows for the internalization of differential forms and smooth flows.
+\end{example}
+
+\begin{example}[Intervals in Cubical and Simplicial HoTT]
+In cubical type theory (such as models based on Dedekind cubes), the interval object $I$ is tiny, yielding the amazing right adjoint $\sqrt[I]{-}$. This category-theoretic property provides a clean syntactic solution to the definition of transport ($\mathtt{transp}$) and composition ($\mathtt{hcomp}$) operations. In standard cubical type theory (e.g., the CCHM model), these operators must be introduced as primitive constants for each type former (functions, pairs, universes, etc.), leading to a highly complex set of syntax rules and reduction relations. 
+
+However, if $I$ is tiny, the dependent amazing right adjoint (the transpension type $\mathrm{Transpension}_I$) allows one to define fibrancy (the Kan composition and transport structures) internally. Specifically, the condition that a type family $A$ over $I$ has transport corresponds to the existence of a diagonal filler in the lifting square:
+\[
+\begin{tikzcd}
+\partial I \arrow[r] \arrow[d] & \Sigma(I, A) \arrow[d] \\
+I \arrow[r, "\mathrm{id}_I"'] \arrow[ur, dashed] & I
+\end{tikzcd}
+\]
+which can be represented internally using the transpension type over the boundary $\partial I \subset I$. Furthermore, the cubical $\mathtt{Glue}$ type former—which constructs paths from equivalences and is necessary to prove the univalence axiom—can be constructed internally. Given an equivalence $e: B \simeq A$, the $\mathtt{Glue}$ type is defined by transposing $e$ along the inclusion of the boundary $\partial I \to I$ using the amazing right adjoint.
+
+In simplicial type theory (SHTT), the simplicial interval $\mathbb{I}^{\to}$ is not tiny in the standard model of simplicial sets, which prevents the internal definition of the universe of $(\infty, 1)$-categories. By moving to bisimplicial sets or cubical spaces where $\mathbb{I}^{\to}$ is tiny, or by introducing modal extensions as in the works of Gratzer, Weinberger, and Buchholtz, the amazing right adjoint is restored, enabling the internalization of the Yoneda lemma and directed univalence.
+\end{example}
+
+\section{Modal Dependent Type Theory}
+Modal dependent type theory (MTT) formalizes these adjoint structures syntactically by modifying both contexts and types.
+
+\subsection{Context Restrictions and Transposition}
+Instead of only modifying types, MTT introduces \textbf{context restrictions}. For a modality $\mu$ corresponding to an adjoint pair $L \dashv R$, we define a context restriction operator $\Gamma.\{\mu\}$ representing the application of the left adjoint $L$ to the context.
+
+Correspondingly, we define the \textbf{modal type} $\langle \mu \mid A \rangle$ representing the right adjoint $R$. The fundamental syntax rule of MTT is the \textbf{transposition bijection} on term sets:
+\[
+\mathrm{Tm}(\Gamma.\{\mu\}, A) \cong \mathrm{Tm}(\Gamma, \langle \mu \mid A \rangle)
+\]
+Under this bijection, a term $t : \langle \mu \mid A \rangle$ in the normal context $\Gamma$ is transposed to a term $\widetilde{t} : A$ in the restricted context $\Gamma.\{\mu\}$.
+
+\subsection{Elimination and Modal Dependent Products}
+To eliminate a modal type $\langle \mu \mid A \rangle$, we use the let-binding construct:
+\[
+\text{let } \mathrm{mod}_{\mu}(x) \leftarrow t \text{ in } u
+\]
+where $t : \langle \mu \mid A \rangle$ and $x : A$ is bound in $u$. The variable $x$ is only accessible in modal-restricted parts of $u$.
+
+We can also form the \textbf{modal dependent product} (or modal $\Pi$-type):
+\[
+(x :_{\mu} A) \to B(x)
+\]
+which classifies functions whose domain is restricted by the modality $\mu$. Semantically, this corresponds to the dependent right adjoint to the modal context extension.
+
+\section{The Transpension Type}
+Introduced by Andreas Nuyts and Dominique Devriese, the \textbf{transpension type} former internalizes the amazing right adjoint within dependent type theory.
+
+Let $U$ be a shape (a tiny object). Exponentiation by $U$ is syntactically represented by the universal quantifier or dependent function type $\forall(u : U), -$. The transpension type is defined as the dependent right adjoint:
+\[
+\forall(u : U) \quad \dashv \quad \mathrm{transpension}_U
+\]
+
+\subsection{Rules for Transpension}
+The transpension type former associates to each type family $A$ over $U$ a type $\mathrm{Transpension}_U(A)$ in the base context:
+
+\begin{itemize}
+  \item \textbf{Formation}:
+    \[
+    \frac{\Gamma, u : U \vdash A(u) : \text{Type}}{\Gamma \vdash \mathrm{Transpension}_U(A) : \text{Type}}
+    \]
+  \item \textbf{Introduction}:
+    \[
+    \frac{\Gamma, u : U \vdash t(u) : A(u)}{\Gamma \vdash \mathrm{transp}(t) : \mathrm{Transpension}_U(A)}
+    \]
+  \item \textbf{Elimination}: The elimination rule allows us to project out the dependent family:
+    \[
+    \frac{\Gamma \vdash p : \mathrm{Transpension}_U(A) \quad \Gamma, u : U \vdash B(u) : \text{Type}}{\Gamma, u : U \vdash \mathrm{proj}(p, u) : A(u)}
+    \]
+  \item \textbf{Computation}:
+    \[
+    \mathrm{proj}(\mathrm{transp}(t), u) \equiv t(u)
+    \]
+  \item \textbf{Uniqueness}:
+    \[
+    \mathrm{transp}(\lambda u. \mathrm{proj}(p, u)) \equiv p
+    \]
+\end{itemize}
+
+Semantically, this dependent adjunction mirrors the category-theoretic transposition $\mathrm{Hom}(X, Y^U) \cong \mathrm{Hom}(X \times U, Y)$ in the slice category over the base, extending Lawvere's amazing right adjoint to dependent type families.
+
+\section{Unification of Presheaf Internalizations}
+The primary significance of the transpension type is its expressive power: it serves as a unifying primitive that recovers several other ad-hoc operators used to internalize presheaf semantics:
+
+\begin{enumerate}
+  \item \textbf{Glue Types}: In Cubical HoTT, the $\mathrm{Glue}$ type is used to construct path types from equivalences, enabling the proof of the univalence axiom. The transpension type over the cubical interval $I$ generalizes $\mathrm{Glue}$ by allowing equivalences to be transposed into paths.
+  \item \textbf{Gel Types ($\Psi$)}: In parametricity type theory, the $\mathrm{Gel}$ type constructs a bridge type from a relation. Transpension over the bridge shape recovers $\mathrm{Gel}$ types.
+  \item \textbf{Weld Types}: In nominal type theory, the $\mathrm{Weld}$ type is used to bind fresh names. Transpension over the name shape recovers nominal welding.
+\end{enumerate}
+
+By integrating transpension with strictness axioms and Multimodal Type Theory, we obtain a consistent syntactic framework for synthetic topology, differential cohesion, and directed category theory.
+
+\begin{thebibliography}{9}
+\bibitem{lawvere} F. William Lawvere, \emph{Categories of Space and Quantity}, in: \emph{Open Problems in Topology}, 1990.
+\bibitem{nuyts} Andreas Nuyts and Dominique Devriese, \emph{The Transpension Type Former: Internalizing Presheaf Semantics in Dependent Type Theory}, 2018.
+\bibitem{gratzer} Daniel Gratzer, \emph{Multimodal Dependent Type Theory}, Ph.D. Thesis, Aarhus University, 2023.
+\end{thebibliography}
+
+\end{document}
