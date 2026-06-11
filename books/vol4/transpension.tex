@@ -131,10 +131,29 @@ Semantically, this dependent adjunction mirrors the category-theoretic transposi
 The primary significance of the transpension type is its expressive power: it serves as a unifying primitive that recovers several other ad-hoc operators used to internalize presheaf semantics:
 
 \begin{enumerate}
-  \item \textbf{Glue Types}: In Cubical HoTT, the $\mathrm{Glue}$ type is used to construct path types from equivalences, enabling the proof of the univalence axiom. The transpension type over the cubical interval $I$ generalizes $\mathrm{Glue}$ by allowing equivalences to be transposed into paths.
-  \item \textbf{Gel Types ($\Psi$)}: In parametricity type theory, the $\mathrm{Gel}$ type constructs a bridge type from a relation. Transpension over the bridge shape recovers $\mathrm{Gel}$ types.
-  \item \textbf{Weld Types}: In nominal type theory, the $\mathrm{Weld}$ type is used to bind fresh names. Transpension over the name shape recovers nominal welding.
+  \item \textbf{Glue Types}: In Cubical HoTT (such as the CCHM model), for a cofibration $\varphi$ and an equivalence $e : B \simeq A$ defined under $\varphi$, one forms the type:
+    \[
+    \mathrm{Glue}[\varphi \mapsto (B, e)] A
+    \]
+    When we set the shape to be the cubical interval $I$, with $V \coloneqq \partial I \subset I$ as the boundary, the equivalence $e$ can be seen as a dependent family on $V$. Using the transposition bijection of the transpension type, the equivalence $e$ is transposed over the boundary map $\partial I \hookrightarrow I$ using the amazing right adjoint. The pullback of this transposed equivalence yields a type family over $I$ whose fibers are $B$ over $\partial I$ and $A$ elsewhere. The transpension type $\mathrm{Transpension}_I(e)$ thus directly acts as the "glued" type representing the path of types, generalizing and recovering the primitive $\mathrm{Glue}$ type constructor without requiring it as an ad-hoc syntactic rule.
+  \item \textbf{Gel Types ($\Psi$)}: In relationally parametric type theories (e.g., Cavallo and Harper's model), given two types $A, B$ and a relation $R : A \to B \to \mathrm{Type}$, the $\mathrm{Gel}$ type:
+    \[
+    \mathrm{Gel}_R(A, B)
+    \]
+    constructs a "bridge" type. If we define the shape $U$ to be the "bridge interval" $I_{\mathrm{bridge}}$ with boundary $\partial I_{\mathrm{bridge}} \coloneqq \{0, 1\}$, a type family $C(u)$ over $I_{\mathrm{bridge}}$ corresponds to the pair of types $C(0) = A$ and $C(1) = B$, and the relation $R$. The transpension type $\mathrm{Transpension}_{I_{\mathrm{bridge}}}(C)$ internalizes the relation $R$ by mapping it to a type whose terms are pairs of elements $(a : A, b : B)$ satisfying the relation $R$. This is exactly the relational $\mathrm{Gel}$ type, showing that transpension over the bridge shape recovers relationally parametric models.
+  \item \textbf{Weld Types}: In nominal and guarded type theories, the $\mathrm{Weld}$ type constructor:
+    \[
+    \mathrm{Weld} \; n \; A
+    \]
+    is used to bind a fresh name $n$ and identify terms at specific boundaries. By letting the shape $U$ be the set of nominal names (or a name space), the transpension type former $\mathrm{Transpension}_{\mathrm{Name}}(A)$ acts as the right adjoint to quantification over names, which represents nominal binding. By transposing terms across the name-space shape, transpension recovers the nominal $\mathrm{Weld}$ operation, allowing one to identify terms at name boundaries and handle fresh name generation internally.
 \end{enumerate}
+
+This unification establishes a precise dictionary between geometric modalities and internal presheaf operators:
+\begin{itemize}
+  \item \textbf{Synthetic Topology $\longleftrightarrow$ Glue Types}: Glues homotopical spaces along cubical boundaries using the interval $I$, lifting equivalences to paths to construct the univalent universe of spaces.
+  \item \textbf{Directed Category Theory $\longleftrightarrow$ Gel Types}: Formulates directed hom-types ($x \to y$) and relational parametricity over directed or bridge intervals ($I_{\mathrm{bridge}}$), internalizing relations as directed path shapes.
+  \item \textbf{Differential Cohesion $\longleftrightarrow$ Weld Types}: Resolves formal neighborhoods and infinitesimal displacements. Infinitesimals function as bound nominal names or variables; the $\mathrm{Weld}$ operator identifies points that are formally close (infinitesimally close) to one another.
+\end{itemize}
 
 By integrating transpension with strictness axioms and Multimodal Type Theory, we obtain a consistent syntactic framework for synthetic topology, differential cohesion, and directed category theory.
 
