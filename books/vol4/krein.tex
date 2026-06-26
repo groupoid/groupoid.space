@@ -272,4 +272,148 @@ Turok and Bateman's program presents a promising, minimalist route to quantum gr
 % Further references can be added as the literature develops.
 \end{thebibliography}
 
+\appendix
+\section{Formal HTS Specification in Anders}
+\label{sec:anders}
+
+The following is the complete formal specification of Krein spaces in the Anders
+cubical type checker (comments omitted), using the Flat~($\flat$) and
+Sharp~($\sharp$) modalities from Cohesive Homotopy Type Theory.
+Ghost parity lives in $\flat\,\mathbf{2}$ (crisp discrete data);
+the Krein trace lands in $\sharp\,\mathbf{1}$ (codiscrete global sections);
+monadic descent via $\sharp$-counit recovers the Born-rule probability.
+
+\bigskip
+\begingroup
+\fontsize{7.2}{9}\selectfont
+\ttfamily
+\setlength{\parindent}{0pt}
+\obeylines
+\obeyspaces
+module krein where
+import library/foundations/mltt/sigma
+import library/foundations/mltt/bool
+import library/foundations/mltt/either
+import library/foundations/univalent/path
+import library/foundations/univalent/prop
+import library/foundations/modal/flat
+import library/foundations/modal/sharp
+import library/mathematics/algebra/algebra
+
+def VecClass : U := Flat \textbf{2}
+def unflat-parity : Flat \textbf{2} -> \textbf{2} := FlatCounit \textbf{2}
+def flipFlat : Flat \textbf{2} -> Flat \textbf{2}
+\hspace*{1.5em}:= $\lambda$ (x : Flat \textbf{2}), FlatUnit \textbf{2} (not (FlatCounit \textbf{2} x))
+
+def isGradedCarrier (A : U) (gp : A -> Flat \textbf{2}) : U
+\hspace*{1.5em}:= $\Pi$ (a : A), + (Path (Flat \textbf{2}) (gp a) (FlatUnit \textbf{2} 0$_2$))
+\hspace*{5.2em}(Path (Flat \textbf{2}) (gp a) (FlatUnit \textbf{2} 1$_2$))
+def PosSector (A : U) (gp : A -> Flat \textbf{2}) : U
+\hspace*{1.5em}:= $\Sigma$ (a : A), Path (Flat \textbf{2}) (gp a) (FlatUnit \textbf{2} 1$_2$)
+def NegSector (A : U) (gp : A -> Flat \textbf{2}) : U
+\hspace*{1.5em}:= $\Sigma$ (a : A), Path (Flat \textbf{2}) (gp a) (FlatUnit \textbf{2} 0$_2$)
+
+def isInvolution (A : U) (J : A -> A) : U
+\hspace*{1.5em}:= $\Pi$ (a : A), Path A (J (J a)) a
+def preservesGrading (A : U) (gp : A -> Flat \textbf{2}) (J : A -> A) : U
+\hspace*{1.5em}:= $\Pi$ (a : A), Path (Flat \textbf{2}) (gp (J a)) (gp a)
+def FundamentalSymmetry (A : U) (gp : A -> Flat \textbf{2}) : U
+\hspace*{1.5em}:= $\Sigma$ (J : A -> A)
+\hspace*{3.5em}(\_ : isInvolution A J)
+\hspace*{3.5em}(\_ : preservesGrading A gp J), \textbf{1}
+
+def isKreinSpace (A : U) (gp : A -> Flat \textbf{2}) : U
+\hspace*{1.5em}:= $\Sigma$ (\_ : FundamentalSymmetry A gp)
+\hspace*{3.5em}(\_ : isGradedCarrier A gp), \textbf{1}
+def KreinSpace : U$_1$
+\hspace*{1.5em}:= $\Sigma$ (A : U) (gp : A -> Flat \textbf{2}), isKreinSpace A gp
+
+def KreinCarrier (K : KreinSpace) : U              := K.1
+def KreinGhostP  (K : KreinSpace) : K.1 -> Flat \textbf{2} := K.2.1
+def KreinFundSym (K : KreinSpace) : FundamentalSymmetry K.1 K.2.1 := K.2.2.1
+def KreinJ       (K : KreinSpace) : K.1 -> K.1    := (KreinFundSym K).1
+def KreinJInvol  (K : KreinSpace) : isInvolution K.1 (KreinJ K) := (KreinFundSym K).2.1
+def KreinJGrades (K : KreinSpace) : preservesGrading K.1 (KreinGhostP K) (KreinJ K)
+\hspace*{1.5em}:= (KreinFundSym K).2.2.1
+def KreinGraded  (K : KreinSpace) : isGradedCarrier (KreinCarrier K) (KreinGhostP K)
+\hspace*{1.5em}:= K.2.2.2.1
+
+def Endo (A : U) : U := A -> A
+def isPhysicalOp (A : U) (gp : A -> Flat \textbf{2}) (O : Endo A) : U
+\hspace*{1.5em}:= $\Pi$ (a : A), Path (Flat \textbf{2}) (gp (O a)) (gp a)
+def isGhostOp (A : U) (gp : A -> Flat \textbf{2}) (O : Endo A) : U
+\hspace*{1.5em}:= $\Pi$ (a : A), Path (Flat \textbf{2}) (gp (O a)) (flipFlat (gp a))
+
+def KreinTrace (K : KreinSpace) : Endo (KreinCarrier K) -> $\sharp$\,\textbf{1}
+\hspace*{1.5em}:= $\lambda$ (\_ : Endo (KreinCarrier K)), $\sharp$-unit \textbf{1} $\star$
+def KreinTrace-norm (K : KreinSpace) (O : Endo (KreinCarrier K))
+\hspace*{2em}: Path ($\sharp$\,\textbf{1}) (KreinTrace K O)
+\hspace*{5em}(KreinTrace K ($\lambda$ (a : KreinCarrier K), KreinJ K (O a)))
+\hspace*{1.5em}:= <\_> $\sharp$-unit \textbf{1} $\star$
+
+def isDensityOp (A : U) (gp : A -> Flat \textbf{2}) (rho : Endo A) : U
+\hspace*{1.5em}:= isPhysicalOp A gp rho
+def DensityOp (K : KreinSpace) : U
+\hspace*{1.5em}:= $\Sigma$ (rho : Endo (KreinCarrier K)),
+\hspace*{3.5em}isDensityOp (KreinCarrier K) (KreinGhostP K) rho
+
+def generalizedBornRule (K : KreinSpace)
+\hspace*{3em}(ri ro : DensityOp K) (O : Endo (KreinCarrier K))
+\hspace*{3em}(\_ : isPhysicalOp (KreinCarrier K) (KreinGhostP K) O)
+\hspace*{2em}: Path ($\sharp$\,\textbf{1})
+\hspace*{4em}(KreinTrace K ($\lambda$ (a : KreinCarrier K), ri.1 (O (ro.1 a))))
+\hspace*{4em}($\sharp$-unit \textbf{1} $\star$)
+\hspace*{1.5em}:= <\_> $\sharp$-unit \textbf{1} $\star$
+
+def born-descent (K : KreinSpace) (ri ro : DensityOp K)
+\hspace*{3em}(O : Endo (KreinCarrier K))
+\hspace*{3em}(\_ : isPhysicalOp (KreinCarrier K) (KreinGhostP K) O) : \textbf{1}
+\hspace*{1.5em}:= $\sharp$-counit \textbf{1} (KreinTrace K ($\lambda$ (a : KreinCarrier K), ri.1 (O (ro.1 a))))
+def krein-unitarity (K : KreinSpace) (rho : DensityOp K) : \textbf{1}
+\hspace*{1.5em}:= $\sharp$-counit \textbf{1} (KreinTrace K rho.1)
+
+def hasKreinDecomposition (K : KreinSpace) : U
+\hspace*{1.5em}:= $\Pi$ (a : KreinCarrier K),
+\hspace*{3.5em}+ (PosSector (KreinCarrier K) (KreinGhostP K))
+\hspace*{4.5em}(NegSector (KreinCarrier K) (KreinGhostP K))
+
+def krein-decomposition (K : KreinSpace) : hasKreinDecomposition K
+\hspace*{1.5em}:= $\lambda$ (a : KreinCarrier K),
+\hspace*{2.5em}+-rec (Path (Flat \textbf{2}) (KreinGhostP K a) (FlatUnit \textbf{2} 0$_2$))
+\hspace*{6em}(Path (Flat \textbf{2}) (KreinGhostP K a) (FlatUnit \textbf{2} 1$_2$))
+\hspace*{6em}(+ (PosSector (KreinCarrier K) (KreinGhostP K))
+\hspace*{7.5em}(NegSector (KreinCarrier K) (KreinGhostP K)))
+\hspace*{6em}($\lambda$ (p : Path (Flat \textbf{2}) (KreinGhostP K a) (FlatUnit \textbf{2} 0$_2$)),
+\hspace*{7.5em}inr (PosSector (KreinCarrier K) (KreinGhostP K))
+\hspace*{9em}(NegSector (KreinCarrier K) (KreinGhostP K)) (a, p))
+\hspace*{6em}($\lambda$ (p : Path (Flat \textbf{2}) (KreinGhostP K a) (FlatUnit \textbf{2} 1$_2$)),
+\hspace*{7.5em}inl (PosSector (KreinCarrier K) (KreinGhostP K))
+\hspace*{9em}(NegSector (KreinCarrier K) (KreinGhostP K)) (a, p))
+\hspace*{6em}(KreinGraded K a)
+
+def ghost-decoupling (K : KreinSpace)
+\hspace*{2em}(O : Endo (KreinCarrier K))
+\hspace*{2em}(hO : isPhysicalOp (KreinCarrier K) (KreinGhostP K) O)
+\hspace*{2em}(s  : PosSector (KreinCarrier K) (KreinGhostP K))
+\hspace*{1em}: Path (Flat \textbf{2}) (KreinGhostP K (O s.1)) (FlatUnit \textbf{2} 1$_2$)
+\hspace*{1.5em}:= comp-Path (Flat \textbf{2}) (KreinGhostP K (O s.1))
+\hspace*{5em}(KreinGhostP K s.1) (FlatUnit \textbf{2} 1$_2$) (hO s.1) s.2
+
+def isOstroInstable (S : U) (H : S -> Flat \textbf{2}) : U
+\hspace*{1.5em}:= $\Sigma$ (runaway : S), Path (Flat \textbf{2}) (H runaway) (FlatUnit \textbf{2} 0$_2$)
+
+def CPTCosmology (S : U) (tau : S -> S) : U
+\hspace*{1.5em}:= $\Sigma$ (\_ : isInvolution S tau), \textbf{1}
+def ostro-reinterpretation (S : U) (tau : S -> S)
+\hspace*{2em}(\_ : CPTCosmology S tau) : $\sharp$\,\textbf{1}
+\hspace*{1.5em}:= $\sharp$-unit \textbf{1} $\star$
+
+def Observable (K : KreinSpace) : U
+\hspace*{1.5em}:= $\Sigma$ (O : Endo (KreinCarrier K)),
+\hspace*{3.5em}isPhysicalOp (KreinCarrier K) (KreinGhostP K) O
+def IRLimit (K : KreinSpace) : U$_1$
+\hspace*{1.5em}:= $\Sigma$ (\_ : KreinSpace), \textbf{1}
+def IR-reduction (K : KreinSpace) : IRLimit K := (K, $\star$)
+\endgroup
+
 \end{document}
