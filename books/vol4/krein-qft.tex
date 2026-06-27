@@ -87,7 +87,10 @@ Krein's correspondence establishes a bijection between:
 \end{enumerate}
 This bijection solves the inverse spectral problem: given the spectral measure $\sigma(t)$, one can reconstruct the mass distribution $M(x)$ uniquely. This correspondence allows representing smooth, discrete (Stieltjes strings with point masses), or fractal (e.g., Cantor-like) mass densities in a unified mathematical framework.
 
-\section{Foundations of Krein Spaces}
+\section{Indefinite-Metric Quantum Field Theory}
+\label{sec:qft}
+
+\subsection{Foundations of Krein Spaces}
 \label{sec:foundations}
 
 In standard QFT, state spaces are positive-definite Hilbert spaces. In higher-derivative theories, the state space $\mathcal{K}$ is naturally a Krein space—an indefinite inner product space.
@@ -100,7 +103,7 @@ A Krein space is a complex vector space $\mathcal{K}$ equipped with a non-degene
 where $\mathcal{K}_+$ and $\mathcal{K}_-$ are positive-definite and negative-definite subspaces, respectively, and are orthogonal with respect to $\langle \cdot \vert \cdot \rangle_K$.
 \end{definition}
 
-\subsection{Fundamental Symmetry $J$}
+\subsubsection{Fundamental Symmetry $J$}
 The projectors $P_+$ and $P_-$ onto the respective sectors define the fundamental symmetry operator:
 \begin{equation}
     J = P_+ - P_-
@@ -115,7 +118,40 @@ Using $J$, we define a positive-definite Hilbert space inner product on $\mathca
 \end{equation}
 which induces a complete Hilbert norm on the space.
 
-\section{Ghost Parity via Flat Modality $\flat$}
+\subsection{Operator Classification and Ghost Parity $\mathbb{Z}_2$}
+\label{sec:operators}
+
+Linear operators $O : A \to A$ (represented as endomorphisms $\text{Endo}(A)$) are classified according to how they interact with the ghost parity grading:
+\begin{itemize}
+    \item \textbf{Physical Operators} (Parity-Preserving): These operators map states in the positive/negative sector back to the same sector. Formally:
+    \begin{equation}
+        \text{isPhysicalOp}(A, gp, O) \coloneqq \Pi(a:A), \text{Path}(\flat\mathbf{2}, gp(O(a)), gp(a))
+    \end{equation}
+    \item \textbf{Ghost Operators} (Parity-Flipping): These operators map physical states to ghost states and vice versa. Formally:
+    \begin{equation}
+        \text{isGhostOp}(A, gp, O) \coloneqq \Pi(a:A), \text{Path}(\flat\mathbf{2}, gp(O(a)), \text{flipFlat}(gp(a)))
+    \end{equation}
+    where $\text{flipFlat}$ swaps $\text{FlatUnit}(1_2)$ and $\text{FlatUnit}(0_2)$.
+\end{itemize}
+This classification defines a $\mathbb{Z}_2$-graded operator algebra. Physical observables must correspond to physical (parity-preserving) operators.
+
+\subsection{Ostrogradsky Instability and CPT Reinterpretation}
+\label{sec:ostrogradsky}
+
+Ostrogradsky's theorem states that non-degenerate Lagrangians with higher time derivatives lead to a Hamiltonian that is unbounded from below, causing classical runaway instabilities.
+
+In the Krein space framework, we map these negative-energy runaway modes to the negative-norm ghost sector.
+In a dynamical, expanding cosmological background, this instability is reinterpreted:
+\begin{itemize}
+    \item Rather than causing a catastrophic decay of the vacuum, the negative energy modes drive the accelerated expansion of the universe (acting as dark energy).
+    \item The universe is stable globally when integrated into a CPT-symmetric cosmology, where the Big Bang is a mirror boundary relating our universe to an anti-universe via a CPT involution $\tau : S \to S$.
+\end{itemize}
+In the type-theoretic formulation, this reinterpretation corresponds to a global invariant path in $\sharp \mathbf{1}$ (a global $\sharp$-fact).
+
+\section{Modal Homotopy Type Theory Formalization}
+\label{sec:mhot}
+
+\subsection{Ghost Parity via Flat Modality $\flat$}
 \label{sec:flat}
 
 In cohesive homotopy type theory, spaces possess both cohesive (continuous/geometric) and discrete (algebraic/crisp) aspects. The flat modality $\flat$ discards the cohesive structure, mapping a type $A$ to its underlying discrete type $\flat A$.
@@ -130,7 +166,7 @@ where $1_2$ represents the positive (physical) parity and $0_2$ represents the n
 \end{equation}
 Applying the flat modality ensures that the parity assignment is a rigid, discrete choice, preventing unphysical continuous interpolations between physical and ghost sectors.
 
-\section{Fundamental Symmetry and Krein Space Structure}
+\subsection{Fundamental Symmetry and Krein Space Structure}
 \label{sec:formal_krein}
 
 In our formal type theory, a Krein space is represented as a tuple $(A, gp, J, \text{invol}, \text{grades}, \text{graded})$, where:
@@ -149,24 +185,7 @@ The positive and negative sectors are formalized as $\Sigma$-types:
     \text{NegSector}(A, gp) &\coloneqq \Sigma(a:A), \text{Path}(\flat\mathbf{2}, gp(a), \text{FlatUnit}(0_2))
 \end{align}
 
-\section{Operator Classification and Ghost Parity $\mathbb{Z}_2$}
-\label{sec:operators}
-
-Linear operators $O : A \to A$ (represented as endomorphisms $\text{Endo}(A)$) are classified according to how they interact with the ghost parity grading:
-\begin{itemize}
-    \item \textbf{Physical Operators} (Parity-Preserving): These operators map states in the positive/negative sector back to the same sector. Formally:
-    \begin{equation}
-        \text{isPhysicalOp}(A, gp, O) \coloneqq \Pi(a:A), \text{Path}(\flat\mathbf{2}, gp(O(a)), gp(a))
-    \end{equation}
-    \item \textbf{Ghost Operators} (Parity-Flipping): These operators map physical states to ghost states and vice versa. Formally:
-    \begin{equation}
-        \text{isGhostOp}(A, gp, O) \coloneqq \Pi(a:A), \text{Path}(\flat\mathbf{2}, gp(O(a)), \text{flipFlat}(gp(a)))
-    \end{equation}
-    where $\text{flipFlat}$ swaps $\text{FlatUnit}(1_2)$ and $\text{FlatUnit}(0_2)$.
-\end{itemize}
-This classification defines a $\mathbb{Z}_2$-graded operator algebra. Physical observables must correspond to physical (parity-preserving) operators.
-
-\section{Krein Trace via Sharp Modality $\sharp$}
+\subsection{Krein Trace via Sharp Modality $\sharp$}
 \label{sec:trace}
 
 The sharp modality $\sharp$ is the right adjoint to the flat modality $\flat$. The type $\sharp B$ represents codiscrete or globally invariant structures.
@@ -185,7 +204,7 @@ The trace represents a global topological invariant, stable under continuous var
 \end{equation}
 which is formalized as a path in $\sharp \mathbf{1}$.
 
-\section{Density Operators and Generalized Born Rule}
+\subsection{Density Operators and Generalized Born Rule}
 \label{sec:born}
 
 Density operators $\rho$ represent physical states. In this framework, they are defined as physical (parity-even) endomorphisms:
@@ -193,53 +212,40 @@ Density operators $\rho$ represent physical states. In this framework, they are 
     \text{DensityOp}(K) \coloneqq \Sigma(\rho : \text{Endo}(A)), \text{isPhysicalOp}(A, gp, \rho)
 \end{equation}
 
-\subsection{Generalized Born Rule}
+\subsubsection{Generalized Born Rule}
 To compute physical transition probabilities in an indefinite metric space, we employ the Turok-Bateman trace construction:
 \begin{equation}
     P = \text{Tr}_K(\rho_{\text{in}} \circ O \circ \rho_{\text{out}})
 \end{equation}
 This expression evaluates to a term in $\sharp \mathbf{1}$.
 
-\subsection{Monadic Descent}
+\subsubsection{Monadic Descent}
 To transition from the global, codiscrete level to actual probabilities in the unit type $\mathbf{1}$, we use monadic descent. This is achieved by applying the $\sharp$-counit:
 \begin{equation}
     \text{born-descent}(K, \rho_{\text{in}}, \rho_{\text{out}}, O) \coloneqq \sharp\text{-counit}(\text{Tr}_K(\rho_{\text{in}} \circ O \circ \rho_{\text{out}})) : \mathbf{1}
 \end{equation}
 Because the density operators and observables are parity-preserving, the negative-norm ghost states contribute to loop corrections in the UV but cancel in physical probabilities, ensuring unitarity and positive probabilities.
 
-\section{Fundamental Decomposition and Ghost Sector Decoupling}
+\subsection{Fundamental Decomposition and Ghost Sector Decoupling}
 \label{sec:decoupling}
 
 The decoupling of unphysical ghost states is crucial for the physical consistency of the theory.
 
-\subsection{Decomposition Theorem}
+\subsubsection{Decomposition Theorem}
 Using the `graded` accessor of the Krein space, we prove that every vector $a \in A$ can be split into physical and ghost components:
 \begin{equation}
     \text{krein-decomposition} : \Pi(a:A), \text{PosSector}(A, gp) + \text{NegSector}(A, gp)
 \end{equation}
 which is formalized in type theory via sum-type induction.
 
-\subsection{Ghost Decoupling Theorem}
+\subsubsection{Ghost Decoupling Theorem}
 If an operator $O$ is physical (parity-preserving) and we start with a state $s$ in the positive (physical) sector, the evolved state $O(s)$ remains strictly in the positive sector:
 \begin{equation}
     \text{ghost-decoupling} : \Pi(s : \text{PosSector}(A, gp)), \text{Path}(\flat \mathbf{2}, gp(O(s.1)), \text{FlatUnit}(1_2))
 \end{equation}
 This proves that the physical sector is a retract under physical evolution, and ghosts cannot be physically generated from pure physical states.
 
-\section{Ostrogradsky Instability and CPT Reinterpretation}
-\label{sec:ostrogradsky}
-
-Ostrogradsky's theorem states that non-degenerate Lagrangians with higher time derivatives lead to a Hamiltonian that is unbounded from below, causing classical runaway instabilities.
-
-In the Krein space framework, we map these negative-energy runaway modes to the negative-norm ghost sector.
-In a dynamical, expanding cosmological background, this instability is reinterpreted:
-\begin{itemize}
-    \item Rather than causing a catastrophic decay of the vacuum, the negative energy modes drive the accelerated expansion of the universe (acting as dark energy).
-    \item The universe is stable globally when integrated into a CPT-symmetric cosmology, where the Big Bang is a mirror boundary relating our universe to an anti-universe via a CPT involution $\tau : S \to S$.
-\end{itemize}
-In the type-theoretic formulation, this reinterpretation corresponds to a global invariant path in $\sharp \mathbf{1}$ (a global $\sharp$-fact).
-
-\section{Physical Observables and Infrared Limit}
+\subsection{Physical Observables and Infrared Limit}
 \label{sec:observables}
 
 An observable is defined as a tuple of an operator and a proof that it preserves the ghost parity grading:
@@ -252,8 +258,8 @@ At low energies—the Infrared (IR) limit—the massive ghost modes decouple com
 \end{equation}
 where the quotient of the Krein space by the ghost sector via $\sharp$-descent recovers the standard positive-definite Hilbert space QFT.
 
-\section{Applications and Outlook}
-\label{sec:outlook}
+\section{Conclusion}
+\label{sec:conclusion}
 
 By generalizing classical Krein strings $(l, M)$ to allow signed mass measures $dM(x)$, we introduce a classical precursor to Krein String Theory. The negative-density regions of the string correspond to ghost modes, and the resulting Sturm-Liouville operator becomes a self-adjoint operator on a Krein space.
 
