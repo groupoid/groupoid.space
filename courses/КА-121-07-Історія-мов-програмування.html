@@ -8,7 +8,7 @@
 </head>
 <body>
     <header>
-                        <nav>
+        <nav>
             <div class="logo">ІФМ</div>
             <ul>
                 <li><a href="../index.html">Головна</a></li>
@@ -29,41 +29,111 @@
         <p><strong>Кафедра:</strong> Кафедра мовного забезпечення</p>
         <p><strong>Кількість кредитів ECTS:</strong> 6 (180 годин)</p>
         <p><strong>Рівень:</strong> Бакалавр / Магістр</p>
+        <p><strong>Джерело структури:</strong> Енциклопедія мов програмування Groupoid Infinity (github.com/groupoid/languages)</p>
 
         <h2>Мета та завдання</h2>
-        <p>Формування глибоких знань і практичних навичок у галузі «Історія мов програмування». Курс інтегрує класичні результати з сучасними формальними методами (теорія типів, категорійна логіка, механічна верифікація), відповідно до профілю Кафедра мовного забезпечення.</p>
+        <p>Вивчення історії мов програмування через таксономію Енциклопедії мов програмування (Groupoid Infinity). Курс охоплює категорії від апаратних описів і асемблерів до чистих функціональних, логічних, залежно-типізованих та гомотопічних систем, з акцентом на синтаксис (BNF), внутрішнє представлення, семантику та мотивацію розміщення мов у категоріях.</p>
 
         <h2>Результати навчання</h2>
         <ul>
-            <li>Володіти основними поняттями та конструкціями курсу «Історія мов програмування».</li>
-            <li>Застосовувати теоретичні результати до розв’язання задач.</li>
-            <li>Формалізувати ключові твердження в системах доведення теорем (за можливості).</li>
-            <li>Демонструвати навички самостійного дослідження та академічної доброчесності.</li>
+            <li>Класифікувати мови за категоріями енциклопедії та пояснювати критерії віднесення.</li>
+            <li>Аналізувати синтаксис (BNF), AST та семантику ключових мов.</li>
+            <li>Розуміти історичний розвиток від ALGOL/LISP до сучасних залежно-типізованих та HoTT-систем.</li>
+            <li>Оцінювати переваги та недоліки мов у контексті їхнього призначення.</li>
+            <li>Використовувати енциклопедичний підхід для порівняльного аналізу.</li>
         </ul>
 
-        <h2>Структура курсу (модулі)</h2>
+        <h2>Структура курсу (модулі за таксономією)</h2>
         <ol>
-            <li>Вступ та основні поняття</li>
-            <li>Теоретичні основи</li>
-            <li>Основні конструкції та теореми</li>
-            <li>Застосування та приклади</li>
-            <li>Просунуті теми</li>
-            <li>Практичні заняття та формалізація</li>
+            <li><strong>Передмова. Принципи енциклопедії</strong><br>
+                Категорійний принцип, формальний опис (BNF, AST, семантика), класифікація статей. Редактор: Максим Сохацький (Groupoid Infinity).</li>
+            <li><strong>HW — апаратні описи</strong><br>
+                VHDL, Verilog, Clash, Chisel, SystemC, Lava, BSV. Мови опису апаратури та синтезу.</li>
+            <li><strong>ASM — асемблери та машинні мови</strong><br>
+                PDP-11, VAX, S/360, Intel, M68K, PowerPC, MIPS, ARM, SPARC, Super-H, RISC-V, MIR/LLVM.</li>
+            <li><strong>ALG — алгоритмічні мови</strong><br>
+                C, BCPL, ALGOL, SNOBOL, Simula, Pascal, Oberon, COBOL, PL/1. Класичний імперативний та структурний стиль.</li>
+            <li><strong>ML — мови сімейства ML</strong><br>
+                SML, MLj, Alice ML, OCaml, UrWeb, Flow, F#. Поліморфна типізація, інференція.</li>
+            <li><strong>PAR — паралельні та конкурентні</strong><br>
+                Ling, Pony, Erlang, BPMN, Ada, E, Go, Occam, Oz, BLAS, LAPACK.</li>
+            <li><strong>PURE — чисті функціональні</strong><br>
+                HOPE, Miranda, Clean, Charity, Joy, Mercury, Elm, PureScript.</li>
+            <li><strong>Fω — системи з поліморфізмом вищих порядків</strong><br>
+                Scala, Haskell, 1ML, Plutus.</li>
+            <li><strong>LOGIC — логічні та доказові</strong><br>
+                AUT-68, ACL2, LEGO, ALF, Prolog, CPL, Mizar, Dedukti, HOL, Isabelle, Z.</li>
+            <li><strong>ΠΣ — залежно-типізовані (Π, Σ)</strong><br>
+                Coq, F*, Lean, NuPRL, ATS, Epigram, Cayenne, Idris, Morte, Dhall, Cedile, Kind.</li>
+            <li><strong>HoTT — гомотопічна теорія типів</strong><br>
+                Menkar, Cubical, yacctt, redtt, RedPRL, Arend, Agda, Anders.</li>
+            <li><strong>AXIO — аксіоматичні / внутрішні мови Groupoid Infinity</strong><br>
+                Joe, Bob, Alice, Henk, Frank, Christine, Per, Laurent, Anders, Dan, Jack, Urs, Fabien.</li>
+
+            <li><strong>MACR — макромови та метапрограмування</strong><br>
+                <em>Мови, у яких код є даними, а дані — кодом; основа метапрограмування та DSL.</em><br>
+                LISP (McCarthy, 1958–1960) — перша мова з homoiconicity, S-вирази, eval. Scheme (Sussman–Steele) — мінімальний діалект, continuations, hygienic macros. Clojure (Hickey) — сучасний Lisp на JVM/CLR/JS, персистентні структури. Racket — мова мов, #lang, потужна система макросів. Dylan, LFE (Lisp Flavoured Erlang), Common Lisp, Nemerle, Nim, Haxe, Perl, Elixir.<br>
+                <strong>Чому тут:</strong> спільна риса — програмна трансформація коду на етапі компіляції/інтерпретації, макроси як механізм розширення мови.</li>
+
+            <li><strong>OOI — об’єктно-орієнтовані та динамічні</strong><br>
+                <em>Мови з об’єктами, повідомленнями, динамічною типізацією або прототипами.</em><br>
+                Simula (Dahl–Nygaard, 1967) — перша ОО-мова, класи, спадкування. Smalltalk (Kay) — чиста ОО, все є об’єктом, повідомлення. Self — прототипна модель. JavaScript / TypeScript, Lua, Ruby, REBOL, Python, Io, PHP, Solidity, Java, Kotlin.<br>
+                <strong>Чому тут:</strong> акцент на інкапсуляції стану та поведінки через об’єкти, динамізм середовища виконання.</li>
+
+            <li><strong>CMP — компілювані системні мови</strong><br>
+                <em>Мови низького/середнього рівня з прямим контролем пам’яті, компіляцією в нативний код.</em><br>
+                C++ (Stroustrup) — розширення C класами та шаблонами. Rust — безпека пам’яті без GC, ownership. D, Swift, Zig, Fortran (класична наукова). <br>
+                <strong>Чому тут:</strong> орієнтація на системне програмування, продуктивність, контроль ресурсів, статична компіляція.</li>
+
+            <li><strong>SHELL — мови оболонок та скриптів</strong><br>
+                <em>Мови для автоматизації, конфігурації та інтерактивної роботи з ОС.</em><br>
+                PowerShell, Quake C, TCL, SH (Bourne/POSIX shell), CLIPS, BASIC (історично), FORTH (стекова).<br>
+                <strong>Чому тут:</strong> інтерпретовані, орієнтовані на glue-code, системне адміністрування та швидке прототипування.</li>
+
+            <li><strong>SVC — сервісні та інтерфейсні мови</strong><br>
+                <em>Мови опису інтерфейсів, контрактів та сервісів.</em><br>
+                IDL (Interface Definition Language), SOAP, ASN.1, gRPC / Protobuf.<br>
+                <strong>Чому тут:</strong> декларативний опис контрактів між компонентами, серіалізація, крос-мовна сумісність.</li>
+
+            <li><strong>MARK — мови розмітки та документів</strong><br>
+                <em>Мови для структурування документів, графіки та семантичної розмітки.</em><br>
+                TeX (Knuth), PostScript, XML, SVG, CSS, ROFF, OWL, SGML, RDF, SysML.<br>
+                <strong>Чому тут:</strong> фокус на структурі, представленні та семантиці даних/документів, а не на алгоритмах.</li>
+
+            <li><strong>CHCK — мови перевірки моделей та специфікації</strong><br>
+                <em>Мови для формальної верифікації, model checking та специфікації систем.</em><br>
+                TLA+ (Lamport), Twelf, Promela (SPIN), CSPM.<br>
+                <strong>Чому тут:</strong> орієнтація на доведення властивостей систем, темпоральну логіку, аналіз станів.</li>
+
+            <li><strong>ERP — корпоративні та прикладні системи</strong><br>
+                <em>Мови та середовища для бізнес-логіки та корпоративних додатків.</em><br>
+                FT, Salesforce Apex, BAAN.<br>
+                <strong>Чому тут:</strong> спеціалізація на бізнес-процесах, інтеграції з корпоративними системами.</li>
+
+            <li><strong>ARR — масивно-паралельні, наукові та масивно-орієнтовані</strong><br>
+                <em>Мови для чисельних обчислень, масивів, баз даних та наукових розрахунків.</em><br>
+                Julia, Wolfram Language, MATLAB, Octave, Futhark, APL (Iverson), GAP, SQL, cg, Clarion, Clipper, QCL, O, K, MUMPS, Q, R, S, J.<br>
+                <strong>Чому тут:</strong> векторні/масивні операції, математична нотація, висока продуктивність на числових даних, декларативний доступ до даних.</li>
+
+            <li><strong>Практична лабораторна: аналіз мови з енциклопедії</strong></li>
         </ol>
 
         <h2>Система оцінювання (100 балів)</h2>
         <ul>
-            <li><strong>Поточний контроль</strong> (практичні, домашні, лабораторні, формалізація): 40 балів</li>
+            <li><strong>Поточний контроль</strong> (аналіз категорій, реферати, порівняння): 40 балів</li>
             <li><strong>Модульні контрольні роботи</strong> (2): 20 балів</li>
-            <li><strong>Підсумковий іспит / захист проєкту</strong>: 40 балів</li>
+            <li><strong>Підсумковий проєкт</strong> (оглядова стаття в стилі енциклопедії): 40 балів</li>
         </ul>
         <p>Шкала: 90–100 — відмінно; 75–89 — добре; 60–74 — задовільно; <60 — незадовільно.</p>
 
         <h2>Рекомендована література</h2>
         <ul>
-            <li>Основні монографії та підручники з теми (рекомендовані кафедрою).</li>
-            <li>Статті та матеріали з формальної математики (HoTT, теорія категорій).</li>
-            <li>Внутрішні конспекти та формалізації Інституту Формальної Математики / Groupoid Infinity.</li>
+            <li>Енциклопедія мов програмування Groupoid Infinity: github.com/groupoid/languages</li>
+            <li>Sammet J.E. Programming Languages: History and Fundamentals. 1969.</li>
+            <li>Wexelblat R.L. (ed.) History of Programming Languages. 1981.</li>
+            <li>Bergin T.J., Gibson R.G. (eds.) History of Programming Languages II. 1996.</li>
+            <li>Класичні праці з ALGOL, LISP, ML, Haskell, Coq, Agda, Lean.</li>
+            <li>Матеріали Groupoid Infinity про внутрішні мови (Henk, Anders тощо).</li>
         </ul>
 
         <p><a href="index.html">← Назад до каталогу курсів</a></p>
