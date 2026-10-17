@@ -8,7 +8,7 @@
 </head>
 <body>
     <header>
-                        <nav>
+        <nav>
             <div class="logo">ІФМ</div>
             <ul>
                 <li><a href="../index.html">Головна</a></li>
@@ -29,40 +29,81 @@
         <p><strong>Кафедра:</strong> Кафедра мовного забезпечення</p>
         <p><strong>Кількість кредитів ECTS:</strong> 6 (180 годин)</p>
         <p><strong>Рівень:</strong> Бакалавр / Магістр</p>
+        <p><strong>Базис:</strong> BTRON Coq Base Library & OCaml Oracles (btron.pro/b-system/theorems)</p>
 
         <h2>Мета та завдання</h2>
-        <p>Формування глибоких знань і практичних навичок у галузі «Верифікація ПЗ». Курс інтегрує класичні результати з сучасними формальними методами (теорія типів, категорійна логіка, механічна верифікація), відповідно до профілю Кафедра мовного забезпечення.</p>
+        <p>Вивчення методів формальної верифікації програмного забезпечення на прикладі повної механічної формалізації операційної системи BTRON (Cleanroom Reference) у Rocq/Coq 9.x з виконавчими моделями на OCaml 5.x. Курс охоплює 11 підсистем, 1 818 замкнених теорем, 21 641 рядок Coq, нуль аксіом і нуль admissions, з суворою 1:1 трасованістю до bare-metal C-реалізації.</p>
 
         <h2>Результати навчання</h2>
         <ul>
-            <li>Володіти основними поняттями та конструкціями курсу «Верифікація ПЗ».</li>
-            <li>Застосовувати теоретичні результати до розв’язання задач.</li>
-            <li>Формалізувати ключові твердження в системах доведення теорем (за можливості).</li>
-            <li>Демонструвати навички самостійного дослідження та академічної доброчесності.</li>
+            <li>Розуміти принципи механічної формалізації ОС у Coq (індуктивні інваріанти, soundness).</li>
+            <li>Аналізувати формалізацію підсистем BTRON: файлова система, мікроядро, медіа, GUI, драйвери.</li>
+            <li>Працювати з парами «Coq-теорія + OCaml-оракул».</li>
+            <li>Оцінювати властивості (атомарність, conservation, progress, відсутність priority inversion).</li>
+            <li>Застосовувати підхід zero-axioms / zero-admissions до верифікації системного ПЗ.</li>
         </ul>
 
-        <h2>Структура курсу (модулі)</h2>
+        <h2>Структура курсу (модулі за підсистемами BTRON)</h2>
         <ol>
-            <li>Теоретичні основи</li>
-            <li>Алгоритми та реалізації</li>
-            <li>Інструменти верифікації</li>
-            <li>Практичні кейси</li>
-            <li>Формальні методи</li>
+            <li><strong>Вступ. Методологія формалізації BTRON</strong><br>
+                Cleanroom Reference, 1:1 трасованість до C, нуль аксіом, нуль admissions. Загальна статистика: 12 Coq-модулів, 13 OCaml-моделей, 1 818 теорем, 21 641 рядок Coq. Ресурс: btron.pro/b-system/theorems/index.html</li>
+
+            <li><strong>B-FS 64-Bit Allocator</strong><br>
+                6 теорем. Масовий баланс на 64-бітних bitmap Allocation Group, просторова диз’юнктність, бієктивне кодування FID. Файли: bfs_allocator.{ml,v}</li>
+
+            <li><strong>B-FS Parameterized B+Tree</strong><br>
+                6 теорем. Збереження відсортованості ключів, логарифмічна коректність пошуку, відсутність втрати ключів при розщепленні. Файли: bfs_btree.{ml,v}</li>
+
+            <li><strong>B-FS Volume V2 Journal</strong><br>
+                39 теорем. Атомарність WAL-транзакцій, карантин мутацій при збої живлення, ідемпотентність replay журналу. Файли: bfs.{ml,v}</li>
+
+            <li><strong>Hypermedia & TAD DND</strong><br>
+                61 теорема. Збереження DAG, conservation тіл при drag-and-drop, безвтратна серіалізація TAD. Файли: hypermedia_dnd.{ml,v}</li>
+
+            <li><strong>InterCore Streaming Protocol</strong><br>
+                602 теореми. Mutex Elimination Theorem, non-blocking O(1) receive, нульова priority inversion. Файли: media_intercore.{ml,v}</li>
+
+            <li><strong>RTP Media Pipeline</strong><br>
+                161 теорема. Zero-minting на пулах буферів, conservation кадрів, монотонність timestamp. Файли: media_rtp.{ml,v}</li>
+
+            <li><strong>SMP / AMP Concurrency</strong><br>
+                69 теорем. Lock-free CAS progress, консистентність seqlock, безпека передачі периферії. Файли: media_smp.{ml,v}</li>
+
+            <li><strong>ITRON Microkernel Core</strong><br>
+                815 теорем. Решітка станів задач, 140 FIFO-черг, детермінізм wait-release, zero-copy rendezvous. Файли: tron.{ml,v}</li>
+
+            <li><strong>OpenGL ES 1.1 / TinyGL</strong><br>
+                18 теорем. EGL double buffering, обмеження глибини стека матриць, монотонність Z-буфера. Файли: opengl.{ml,v}</li>
+
+            <li><strong>GUI Compositor & Blitter</strong><br>
+                15 теорем. Алгебра кліпінгу, накопичення damage, 2D memory safety. Файли: ui_compose.{ml,v}</li>
+
+            <li><strong>Window Manager & UI Shell</strong><br>
+                14 теорем. Геометрія вкладок, унікальність фокусу, FIFO-черга подій. Файли: ui_elements.{ml,v}</li>
+
+            <li><strong>Hardware Drivers (VirtIO, DMA, HID)</strong><br>
+                13 теорем. Монотонність черг VirtIO, безпека DMA stride, автомат станів клавіатури. Файли: drivers.{ml,v}</li>
+
+            <li><strong>Практична лабораторна</strong><br>
+                Аналіз однієї підсистеми: читання Coq-теорії, відповідного OCaml-оракула та зіставлення з C-реалізацією.</li>
         </ol>
 
         <h2>Система оцінювання (100 балів)</h2>
         <ul>
-            <li><strong>Поточний контроль</strong> (практичні, домашні, лабораторні, формалізація): 40 балів</li>
+            <li><strong>Поточний контроль</strong> (аналіз модулів, звіти, рев’ю теорем): 40 балів</li>
             <li><strong>Модульні контрольні роботи</strong> (2): 20 балів</li>
-            <li><strong>Підсумковий іспит / захист проєкту</strong>: 40 балів</li>
+            <li><strong>Підсумковий проєкт</strong> (формалізація або глибокий аналіз підсистеми): 40 балів</li>
         </ul>
         <p>Шкала: 90–100 — відмінно; 75–89 — добре; 60–74 — задовільно; <60 — незадовільно.</p>
 
         <h2>Рекомендована література</h2>
         <ul>
-            <li>Основні монографії та підручники з теми (рекомендовані кафедрою).</li>
-            <li>Статті та матеріали з формальної математики (HoTT, теорія категорій).</li>
-            <li>Внутрішні конспекти та формалізації Інституту Формальної Математики / Groupoid Infinity.</li>
+            <li>BTRON Coq Base Library & OCaml Oracles: https://btron.pro/b-system/theorems/index.html</li>
+            <li>Окремі підсторінки теорем для кожної підсистеми (Allocator, B-Tree, Volume, Hypermedia, InterCore, RTP, SMP, ITRON, OpenGL, Compositor, Windows, Drivers).</li>
+            <li>Bertot Y., Castéran P. Interactive Theorem Proving and Program Development. Coq’Art. 2004.</li>
+            <li>Pierce B.C. et al. Software Foundations (Logical Foundations, Programming Language Foundations).</li>
+            <li>Документація Rocq / Coq 9.x та OCaml 5.x.</li>
+            <li>Матеріали BTRON / B-System (btron.pro).</li>
         </ul>
 
         <p><a href="index.html">← Назад до каталогу курсів</a></p>
