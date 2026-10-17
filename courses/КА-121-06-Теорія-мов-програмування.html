@@ -31,28 +31,36 @@
         <p><strong>Рівень:</strong> Бакалавр / Магістр</p>
 
         <h2>Мета та завдання</h2>
-        <p>Вивчення теорії мов програмування через ієрархію формальних систем Groupoid Infinity (homotopy.dev / 5ht.co): від чистих типових систем до модальної гомотопічної теорії типів. Курс демонструє, як конструктивні засади (MLTT, CIC, HTS) реалізуються в мінімальних перевірячах типів і служать основою для формальної математики.</p>
+        <p>Вивчення теорії мов програмування через ієрархію формальних систем Groupoid Infinity (репозиторії github.com/groupoid): від чистих типових систем до модальної гомотопічної теорії типів. Курс демонструє, як конструктивні засади (MLTT, CIC, HTS) реалізуються в мінімальних перевірячах типів і служать основою для формальної математики.</p>
 
         <h2>Результати навчання</h2>
         <ul>
             <li>Пояснювати ієрархію систем: Henk → Frank → Christine → Per → Anders → Dan / Urs.</li>
-            <li>Розрізняти PTS, CoC, CIC, MLTT-80 та модальну HoTT.</li>
+            <li>Розрізняти PTS, CoC, CIC, MLTT-80 та модальну HoTT на рівні синтаксису, семантики та метатеорії.</li>
             <li>Розуміти роль індуктивних типів, ідентифікаційних типів, кубічних примітивів та модальностей.</li>
-            <li>Аналізувати мінімальні реалізації перевірячів типів та їх метатеоретичні властивості (нормалізація, канонічність).</li>
+            <li>Аналізувати мінімальні реалізації перевірячів типів (розміри ядер, нормалізація, канонічність).</li>
             <li>Застосовувати формальні системи для простих доведень та формалізацій.</li>
         </ul>
 
         <h2>Структура курсу (модулі)</h2>
         <ol>
-            <li>Вступ. Чисті типові системи та λ-куб. Henk (PTS / CoC∞)</li>
-            <li>Індуктивні конструкції. Frank (CoC + CIC)</li>
-            <li>Загальна індукція та рівність. Christine (CIC + Fix / Id)</li>
-            <li>Інтуїціоністська теорія типів. Per (мінімальна MLTT-80 / CCHM)</li>
-            <li>Модальна гомотопічна теорія типів. Anders (MLTT + HTS + кубічні примітиви + модальності)</li>
-            <li>Сімпліціальні розширення. Dan (∞-HoTT / GAP / simplicial)</li>
-            <li>Когезивні модальності. Urs (♭, ♯, ℑ — flat, sharp, infinitesimal)</li>
-            <li>Порівняння систем, екстракція, практична формалізація</li>
-            <li>Практична лабораторна: робота з Anders / Per / Henk</li>
+            <li><strong>Вступ. Чисті типові системи та λ-куб. Henk (PTS / CoC∞)</strong><br>
+                Лекційний матеріал: Pure Type Systems (Barendregt), Calculus of Constructions (Coquand–Huet), нескінченна ієрархія всесвітів, SAR-правила. Реалізація: Elixir/Erlang (~1400 LOC), OCaml-модель (~150 LOC), Miranda-подібний фронтенд, Böhm–Berarducci кодування. Репозиторій: github.com/groupoid/henk</li>
+            <li><strong>Індуктивні конструкції. Frank (CoC + CIC)</strong><br>
+                Лекційний матеріал: Calculus of Inductive Constructions, сувора позитивність, індуктивні типи поверх CoC. Мінімальне ядро з universe, Π та Inductive. Репозиторій: github.com/groupoid/frank</li>
+            <li><strong>Загальна індукція та рівність. Christine (CIC + Fix / Id)</strong><br>
+                Лекційний матеріал: розширення CIC загальною індукцією, фікспоінтами та ідентифікаційними типами. Тактичний прувер на Elixir з екстракцією в BEAM. Репозиторій: github.com/groupoid/christine</li>
+            <li><strong>Інтуїціоністська теорія типів. Per (мінімальна MLTT-80 / CCHM)</strong><br>
+                Лекційний матеріал: MLTT-80 (Martin-Löf), кубічні примітиви (Glue, Partial, Subtype, hcomp, transp), дві ієрархії всесвітів (U фібрант / V претипи). Самохостинг логіки. Репозиторій: github.com/groupoid/per</li>
+            <li><strong>Модальна гомотопічна теорія типів. Anders (MLTT + HTS + кубічні примітиви + модальності)</strong><br>
+                Лекційний матеріал: Modal HoTT, HTS (Voevodsky) зі строгою рівністю на претипах, CCHM/CHM, модальності (♭, ♯, ℑ — de Rham), Disc / Coequalizer / Hub-Spoke. Ядро ~2000 LOC, Lean-синтаксис. Репозиторій: github.com/groupoid/anders</li>
+            <li><strong>Сімпліціальні розширення. Dan (∞-HoTT / GAP / simplicial)</strong><br>
+                Лекційний матеріал: сімпліціальна теорія типів, Kan/Rezk/Segal режими, алгебраїчні конструкції (Chain, Category, Monoid, Group, Ring). Репозиторій: github.com/groupoid/dan</li>
+            <li><strong>Когезивні модальності. Urs (♭, ♯, ℑ)</strong><br>
+                Лекційний матеріал: когезивна гомотопічна теорія типів (Schreiber), flat/sharp/infinitesimal модальності поверх Anders. Репозиторій: github.com/groupoid/urs</li>
+            <li><strong>Порівняння систем, екстракція, практична формалізація</strong><br>
+                Порівняння розмірів ядер, метатеоретичних властивостей (нормалізація, канонічність, decidability), екстракція в BEAM/OCaml.</li>
+            <li><strong>Практична лабораторна: робота з Anders / Per / Henk</strong></li>
         </ol>
 
         <h2>Система оцінювання (100 балів)</h2>
@@ -65,11 +73,14 @@
 
         <h2>Рекомендована література</h2>
         <ul>
-            <li>homotopy.dev — Anders Modal HTS та пов’язані системи.</li>
-            <li>5ht.co/cv/ та groupoid.space (Volumes I–III) — статті про Henk, Frank, Per, Anders, Urs тощо.</li>
-            <li>Документація: henk.groupoid.space, frank.groupoid.space, per.groupoid.space, anders.groupoid.space.</li>
-            <li>Barendregt, Coquand, Martin-Löf, Voevodsky — класичні джерела PTS, CoC, MLTT, HTS.</li>
-            <li>Матеріали Groupoid Infinity / Namdak Tonpa.</li>
+            <li>Barendregt H. Lambda Calculi with Types. Handbook of Logic in Computer Science, 1992.</li>
+            <li>Coquand T., Huet G. The Calculus of Constructions. Information and Computation, 1988.</li>
+            <li>Martin-Löf P. Intuitionistic Type Theory. 1984.</li>
+            <li>Voevodsky V. et al. Homotopy Type System (HTS).</li>
+            <li>Cohen C., Coquand T., Huber S., Mörtberg A. Cubical Type Theory: A Constructive Interpretation of the Univalence Axiom. 2016.</li>
+            <li>Sokhatskyi M. Issue XI: Pure Type System (Henk); Issue XII: CIC (Frank); Issue XIX: Modal HTS (Anders). groupoid.space/books.</li>
+            <li>Репозиторії: github.com/groupoid/{henk,frank,christine,per,anders,dan,urs}</li>
+            <li>homotopy.dev — Anders Modal HTS.</li>
         </ul>
 
         <p><a href="index.html">← Назад до каталогу курсів</a></p>
