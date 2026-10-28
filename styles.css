@@ -204,6 +204,122 @@ a:hover {
     color: var(--accent-dark);
 }
 
+/* Institutional Document Elements */
+.doc-type {
+    font-family: 'Source Sans 3', system-ui, sans-serif;
+    font-size: 0.82rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--accent);
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+}
+
+.doc-meta {
+    font-size: 0.95rem;
+    color: var(--text-secondary);
+    margin-bottom: 1.5rem;
+}
+
+.doc-section {
+    background: var(--bg-soft);
+    padding: 1.25rem 1.5rem;
+    margin: 1.5rem 0;
+    border-radius: var(--radius);
+    border-left: 3px solid var(--accent);
+}
+
+.doc-section h2, .doc-section h3 {
+    margin-top: 0.25rem;
+}
+
+.appendix {
+    background: var(--bg-soft);
+    padding: 1.75rem 2rem;
+    margin: 2rem 0;
+    border-radius: var(--radius);
+    border: 1px solid var(--border);
+}
+
+.appendix h2 {
+    font-size: 1.35rem;
+    margin-top: 0.5rem;
+}
+
+.appendix h3 {
+    font-size: 1.1rem;
+    margin-top: 1.5rem;
+}
+
+.signature {
+    margin-top: 2.5rem;
+    padding-top: 1.25rem;
+    border-top: 1px solid var(--border);
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    flex-wrap: wrap;
+    gap: 1rem;
+    font-size: 0.95rem;
+}
+
+.signature .role {
+    font-weight: 600;
+    font-family: 'Source Sans 3', system-ui, sans-serif;
+    color: var(--text);
+}
+
+.footnote {
+    margin-top: 2.5rem;
+    padding-top: 1rem;
+    border-top: 1px solid var(--border);
+    font-size: 0.88rem;
+    color: var(--text-secondary);
+    font-style: italic;
+}
+
+.doc-nav {
+    margin-top: 2.5rem;
+    padding-top: 1.25rem;
+    border-top: 1px dashed var(--border);
+    font-family: 'Source Sans 3', system-ui, sans-serif;
+    font-size: 0.92rem;
+}
+
+.doc-nav p {
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+    color: var(--accent);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    font-size: 0.82rem;
+}
+
+.doc-nav ul {
+    list-style: none;
+    margin-left: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem 1.5rem;
+}
+
+@media print {
+    header, footer, .doc-nav {
+        display: none;
+    }
+    main {
+        border: none;
+        box-shadow: none;
+        padding: 0;
+        margin: 0;
+        max-width: 100%;
+    }
+    .appendix, .doc-section {
+        background: none;
+        border: 1px solid #ccc;
+    }
+}
+
 @media (max-width: 768px) {
     nav {
         flex-direction: column;
@@ -220,5 +336,8 @@ a:hover {
     }
     h1 {
         font-size: 1.65rem;
+    }
+    .appendix {
+        padding: 1.25rem;
     }
 }
