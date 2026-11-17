@@ -1,0 +1,208 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath,amssymb,amsthm,mathtools}
+\usepackage{hyperref}
+\usepackage{sectsty}
+\usepackage{booktabs}
+
+\include{journal}
+
+\sectionfont{\large\bfseries}
+
+\title{Conformal Gravity: de~Sitter Geometry, M-Theory, Loop Quantum Gravity, Einstein and Maxwell equations. }
+\author{Namdak Tonpa}
+\date{\today}
+
+\begin{document}
+
+\maketitle
+
+\begin{abstract}
+We package Philip~D.\ Mannheim's conformal gravity (Weyl-squared gravity) into the canonical article structure of the Groupoid Infinity Institute. The theory is locally conformal invariant, power-counting renormalizable, and unitary via \(PT\)-symmetry. All curvature arises from quantization; the zero-point energy of gravity identically cancels that of matter, and spontaneous breaking of conformal symmetry cancels the induced cosmological constant. Macroscopically the theory accounts for galactic rotation curves without dark matter. We record the exact static spherically-symmetric solution, its de~Sitter embedding, the conformal-to-flat de~Sitter metric, and the global quadratic potential induced by cosmic inhomogeneities. Classical Einstein and Maxwell equations appear as infrared instances. Distinct quantizations (string/M-theory in the Urs Schreiber homotopy-super-smooth type system, and Loop Quantum Gravity) emerge as bifurcations of the conformal parent theory.
+\end{abstract}
+
+\newpage
+
+\ifincludeTOC
+  \tableofcontents
+\fi
+
+\newpage
+
+\section{Introduction}
+\label{sec:intro}
+
+Einstein gravity is sufficient but not necessary for the observed solar-system geometry. Any viable metric theory must recover the Schwarzschild solution (to the tested order) while remaining generally covariant. Conformal gravity realises this requirement by elevating local conformal invariance
+\[
+g_{\mu\nu}(x)\;\mapsto\;\Omega^2(x)\,g_{\mu\nu}(x)
+\]
+to a fundamental symmetry. The unique local action built from the Weyl tensor yields a fourth-order theory that is renormalizable, free of a priori classical curvature, and capable of cancelling both the vacuum energy and the cosmological constant.
+
+The present note packages Mannheim's framework \cite{mannheim2011,mannheim1990} into the Groupoid Infinity canonical style, records the relevant de~Sitter formulae, and indicates how string/M-theory (Urs Schreiber) and Loop Quantum Gravity arise as distinct bifurcations of the same conformal parent.
+
+\section{Conformal Gravity Action and Field Equations}
+\label{sec:action}
+
+\subsection{Weyl Tensor and Bach Equation}
+
+The Weyl conformal tensor is the traceless, conformally invariant part of the Riemann tensor:
+\begin{equation}
+\begin{aligned}
+C_{\lambda\mu\nu\kappa}
+&= R_{\lambda\mu\nu\kappa}
++\tfrac16 R\bigl(g_{\lambda\nu}g_{\mu\kappa}-g_{\lambda\kappa}g_{\mu\nu}\bigr)\\
+&\quad-\tfrac12\bigl(g_{\lambda\nu}R_{\mu\kappa}-g_{\lambda\kappa}R_{\mu\nu}
+-g_{\mu\nu}R_{\lambda\kappa}+g_{\mu\kappa}R_{\lambda\nu}\bigr).
+\end{aligned}
+\end{equation}
+The unique (up to total derivatives) local, generally covariant and locally conformal invariant action in four dimensions is
+\begin{equation}
+I_W=-\alpha_g\int d^4x\,\sqrt{-g}\,C_{\lambda\mu\nu\kappa}C^{\lambda\mu\nu\kappa}
+=-2\alpha_g\int d^4x\,\sqrt{-g}\Bigl(R_{\mu\nu}R^{\mu\nu}-\tfrac13 R^2\Bigr).
+\end{equation}
+Variation with respect to the metric produces the Bach equation
+\begin{equation}
+-4\alpha_g\,W^{\mu\nu}+T_M^{\mu\nu}=0,
+\end{equation}
+where the Bach tensor \(W^{\mu\nu}\) is fourth-order, traceless and divergenceless:
+\begin{equation}
+\begin{aligned}
+W^{\mu\nu}
+&=\tfrac12 g^{\mu\nu}(R)^{;\beta}{}_{;\beta}+R^{\mu\nu;\beta}{}_{;\beta}
+-R^{\mu\beta;\nu}{}_{;\beta}-R^{\nu\beta;\mu}{}_{;\beta}\\
+&\quad-2R^{\mu\beta}R^\nu{}_\beta+\tfrac12 g^{\mu\nu}R_{\alpha\beta}R^{\alpha\beta}
+-\tfrac23 g^{\mu\nu}(R)^{;\beta}{}_{;\beta}\\
+&\quad+\tfrac23(R)^{;\mu;\nu}+\tfrac23 R\,R^{\mu\nu}-\tfrac16 g^{\mu\nu}R^2.
+\end{aligned}
+\end{equation}
+Every Ricci-flat metric (hence every vacuum solution of Einstein gravity) solves the Bach equation. The converse is false: conformal gravity admits a larger solution space.
+
+\subsection{Quantum Consistency}
+
+\begin{itemize}
+\item Power-counting renormalizability follows from the \(1/k^4\) propagator.
+\item Unitarity is restored by taking the gravitational field anti-Hermitian and working in a \(PT\)-symmetric (rather than Hermitian) theory; the would-be ghosts lie on the real axis and do not appear in the physical spectrum.
+\item Gravity is quantized solely by its coupling to quantized matter; the resulting commutators force the gravitational zero-point energy density and pressure to cancel those of the matter sector identically.
+\item Spontaneous breaking of conformal symmetry generates particle masses while the same zero-point rearrangement cancels the induced cosmological-constant term.
+\end{itemize}
+
+\section{Exact Static Spherically-Symmetric Solution}
+\label{sec:exact}
+
+Outside a static, spherically-symmetric source the line element may be written
+\begin{equation}
+ds^2=-B(r)\,dt^2+\frac{dr^2}{B(r)}+r^2\,d\Omega^2.
+\end{equation}
+The exact solution of the Bach equation is
+\begin{equation}
+B(r)=1-\frac{\beta(2-3\beta\gamma)}{r}-3\beta\gamma+\gamma r-\kappa r^2,
+\end{equation}
+where \(\beta\) is related to the Newtonian mass, \(\gamma\) generates the linear potential responsible for galactic rotation curves, and \(\kappa\) embeds the solution in a de~Sitter-like cosmology. The linear term \(\gamma r\) accounts for the observed rotation curves of 138 galaxies with no adjustable parameters other than the stellar mass-to-light ratio and with no dark-matter halo.
+
+For weak gravity the circular velocity receives the asymptotic contribution
+\begin{equation}
+\frac{v^2}{R}\;\longrightarrow\;\frac{N^*\beta^*c^2}{R^2}+\frac{N^*\gamma^*c^2}{2}+\frac{\gamma_0 c^2}{2}-\kappa c^2 R.
+\end{equation}
+The global quadratic term \(-\kappa c^2 R\) is induced by inhomogeneities in the cosmic background and is observationally measured at \(\kappa\simeq9.54\times10^{-54}\,\mathrm{cm}^{-2}\).
+
+\section{de~Sitter Geometry in Conformal Gravity}
+\label{sec:desitter}
+
+\subsection{Conformal-to-Flat de~Sitter Metric}
+
+Any geometry conformal to Minkowski space has vanishing Weyl tensor and therefore solves the vacuum Bach equation. The cosmologically relevant de~Sitter and Robertson--Walker metrics belong to this class:
+\begin{equation}
+ds^2=\Omega^2(t,x,y,z)\bigl[-dt^2+dx^2+dy^2+dz^2\bigr].
+\end{equation}
+An explicit de~Sitter factor is
+\begin{equation}
+\Omega(t)=\frac{1}{H\cosh(Ht)}\qquad\text{or}\qquad\Omega(t)=e^{Ht}
+\end{equation}
+(in appropriate coordinates), yielding constant positive curvature
+\begin{equation}
+R_{\mu\nu}=\Lambda g_{\mu\nu},\qquad\Lambda=3H^2.
+\end{equation}
+Thus conformal gravity admits a pure de~Sitter solution with no cosmological-constant term present in the fundamental action; the effective \(\Lambda\) is generated geometrically by the conformal factor.
+
+\subsection{Global Quadratic Potential and Cosmic Embedding}
+
+The term \(-\kappa r^2\) that appears in the exact exterior solution is de~Sitter-like. It is not associated with a maximally symmetric geometry (the source of \(\kappa\) is the inhomogeneous cosmic background), yet a test particle orbiting inside a galaxy feels the same quadratic potential that would arise from a pure de~Sitter embedding. In this sense every galactic rotation curve measures a global de~Sitter radius induced by the rest of the universe.
+
+\subsection{Perturbations about Conformal de~Sitter}
+
+First-order metric fluctuations about a conformal-to-flat de~Sitter background obey a linearised Bach equation that can be mapped, by a further conformal transformation, onto fluctuations about flat space. Tensor modes (gravitational waves) therefore inherit the same conformal structure, even though the perturbed geometry itself need not remain conformal to flat.
+
+\section{Classical Einstein and Maxwell Equations as Instances}
+\label{sec:instances}
+
+\begin{itemize}
+\item Einstein gravity emerges as the broken phase of conformal gravity (or, equivalently, as the low-energy effective theory obtained after the conformal factor is integrated out). The Einstein--Hilbert term is induced; the pure Weyl-squared term supplies the ultraviolet completion.
+\item Maxwell theory is already conformally invariant in four dimensions. Its stress tensor is traceless and couples consistently to the Bach tensor. Both the Einstein and Maxwell equations therefore appear as particular solutions (or infrared limits) of the single Bach equation coupled to a conformally coupled matter sector.
+\end{itemize}
+
+In the language of Groupoid Infinity these relations are \emph{instances}: the Einstein and Maxwell theories sit inside conformal gravity via faithful functors that preserve the relevant differential-geometric structure while discarding the higher-derivative conformal degrees of freedom.
+
+\section{Bifurcations to Quantum Gravity Theories}
+\label{sec:bifurcations}
+
+Conformal gravity occupies a critical point in the space of diffeomorphism-invariant theories. Distinct quantum completions correspond to distinct bifurcations---different ways of breaking or extending the conformal symmetry, different choices of higher-categorical or discrete structure, and different choices of measure.
+
+\subsection{String/M-Theory (Urs Schreiber)}
+
+The site \texttt{urs.groupoid.space} formalises a layered type theory
+\begin{center}
+Homotopy Type System \(\;\to\;\) Graded Cohesive Modal Type Theory \(\;\to\;\) Equivariant Super Type Theory
+\end{center}
+that internalises higher gauge fields, flux quantisation in extraordinary cohomology, supergeometry and the structures required for eleven-dimensional supergravity. In this language the ordinary conformal (Weyl) structure appears as the natural shape modality of the cohesive type theory. Passage to M-theory is the passage from ordinary conformal geometry to higher (and super) conformal geometry: the Weyl tensor is replaced by its higher-categorical analogues (string gerbes, five-brane structures, \ldots) and the Bach equation is replaced by the equations of motion of eleven-dimensional supergravity after flux quantisation. The classical Einstein and Maxwell equations reappear as the massless sector of the resulting spectrum.
+
+\subsection{Loop Quantum Gravity}
+
+Loop Quantum Gravity quantises the Ashtekar--Barbero connection and its conjugate densitized triad, imposing the Gauss, diffeomorphism and Hamiltonian constraints at the quantum level. Conformal gravity supplies a natural ultraviolet fixed point: the fourth-order conformal theory is renormalisable, so the LQG spin-network states may be viewed as a discrete, diffeomorphism-invariant regularisation of the Bach equation rather than of the Einstein equation. The Immirzi parameter and the area spectrum then arise as discrete remnants of the spontaneous breaking of continuous conformal symmetry. Einstein gravity is recovered in the continuum, low-curvature limit; the conformal degrees of freedom are integrated out into the discrete quantum geometry.
+
+\section{Modal Type-Theoretic Packaging}
+\label{sec:modal}
+
+In the cohesive homotopy type theory of the Groupoid Infinity Institute the conformal structure is expressed by the shape modality \(\int\) (or its differential refinement). The flat modality \(\flat\) isolates discrete, crisp data (e.g., the discrete spectrum of LQG area eigenvalues), while the sharp modality \(\sharp\) captures global invariants (the cosmological constant cancellation, the global quadratic potential \(\kappa\)). The Bach equation itself becomes a synthetic statement about the vanishing of a higher-cohesive curvature form. Bifurcations correspond to different choices of modalities or of the underlying \(\infty\)-topos in which the theory is interpreted.
+
+\section{Conclusion}
+\label{sec:conclusion}
+
+Conformal gravity, as developed by Mannheim, furnishes a single local principle---local conformal invariance---that simultaneously addresses renormalisability, the cosmological-constant problem and the galactic dark-matter problem. de~Sitter geometry appears naturally both as an exact vacuum solution (via a conformal factor) and as a global quadratic potential felt inside galaxies. Classical Einstein and Maxwell theories sit inside the conformal parent as infrared instances. String/M-theory (Urs) and Loop Quantum Gravity arise as distinct quantisations of the same conformal structure, corresponding to different higher-categorical or discrete bifurcations. The present note packages these relations in the canonical article style of the Groupoid Infinity Institute for inclusion in Volume~IV.
+
+\bibliographystyle{plain}
+\begin{thebibliography}{10}
+
+\bibitem{mannheim2011}
+P.~D.\ Mannheim,
+\textit{Making the Case for Conformal Gravity},
+Found.\ Phys.\ 42 (2012) 388--420;
+arXiv:1101.2186.
+
+\bibitem{mannheim1990}
+P.~D.\ Mannheim,
+\textit{Conformal Cosmology with No Cosmological Constant},
+Gen.\ Rel.\ Grav.\ 22 (1990) 289--298.
+
+\bibitem{mannheim2011pert}
+P.~D.\ Mannheim,
+\textit{Cosmological Perturbations in Conformal Gravity},
+arXiv:1109.4119.
+
+\bibitem{mannheim2012}
+P.~D.\ Mannheim and J.~G.\ O'Brien,
+\textit{Fitting Galactic Rotation Curves with Conformal Gravity and a Global Quadratic Potential},
+arXiv:1011.3495.
+
+\bibitem{urs}
+U.~Schreiber,
+\textit{Homotopy Super Smooth Differential Quantum Type System},
+\url{https://urs.groupoid.space}.
+
+\bibitem{groupoid}
+Groupoid Infinity Institute,
+\textit{Volume~IV: Mathematics},
+\url{https://github.com/groupoid/groupoid.space/tree/main/books/vol4}.
+
+\end{thebibliography}
+
+\end{document}

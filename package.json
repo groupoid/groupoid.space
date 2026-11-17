@@ -4,7 +4,7 @@
   "description": "Groupoid Infinity Institute",
   "main": "",
   "scripts": {
-    "build": "sass ./styles:./ && pug -O ./framework.js ./index.pug -o ./ && pug -O ./framework.js ./institute -o ./institute && pug -O ./framework.js ./misc -o ./misc && pug -O ./framework.js ./runtime -o ./runtime",
+    "build": "sass ./styles:./ && pug -O ./framework.js ./index-groupoid.pug -o ./ && pug -O ./framework.js ./institute -o ./institute && pug -O ./framework.js ./misc -o ./misc && pug -O ./framework.js ./runtime -o ./runtime",
     "start": "npm run build",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -20,6 +20,5 @@
     "pug": "^3.0.2",
     "pug-cli": "^1.0.0-alpha6",
     "sass": "^1.52.2"
-  },
-  "devDependencies": {}
+  }
 }
