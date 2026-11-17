@@ -20,11 +20,12 @@
 \newtheorem{remark}{Remark}
 \newtheorem{example}{Example}
 \newtheorem{corollary}{Corollary}
+\newtheorem{conjecture}{Conjecture}
 
 \newcommand{\RP}{\mathbb{RP}}
 \newcommand{\CP}{\mathbb{CP}}
 \newcommand{\R}{\mathbb{R}}
-% \newcommand{\C}{\mathbb{C}}
+\newcommand{\C}{\mathbb{C}}
 \newcommand{\Hom}{\mathrm{Hom}}
 \newcommand{\id}{\mathrm{id}}
 \newcommand{\PGL}{\mathrm{PGL}}
@@ -33,6 +34,7 @@
 % \O is already defined (slashed O). Use \Ort for the structure group.
 \newcommand{\Ort}{\mathrm{O}}
 \newcommand{\Hilb}{\mathcal{H}}
+\newcommand{\shape}{\int}
 
 \newif\ifincludeTOC
 \includeTOCtrue
@@ -49,22 +51,27 @@
 \maketitle
 
 \begin{abstract}
-We record how real projective geometry supplies a natural ambient space
-in which quantum field data live projectively, how geometry limits and
-signature changes act cleanly on correlators, and how ordinary and
-quantum cohomology arise as linearisations of that data.  An axiomatic
-system of projective quantum fields (Spitz) is recalled together with
-the Freed-style geometric axioms and homotopical algebraic quantum field
-theory.  Conformal gravity (Mannheim) is included as the locally
-scale-invariant parent theory whose infrared instances recover Einstein
-and Maxwell, whose de~Sitter geometry accounts for galactic rotation
-curves without dark matter, and whose quantizations bifurcate toward
-M-theory and loop quantum gravity.
-The whole discussion is framed so that it can be internalised
-in Modal HoTT and the languages of Groupoid Infinity.
+We record how real projective geometry supplies an ambient space in which
+quantum field data can be formulated projectively, how geometry limits and
+signature changes act on correlators, and how ordinary cohomology,
+differential cohomology, and quantum cohomology are three different
+linearisations --- of geometry, of anomalies, and of enumerative geometry ---
+which must not be identified.  Spitz's axioms for projective quantum fields
+are recalled, together with the Freed-style geometric axioms and homotopical
+algebraic quantum field theory.  Mannheim's conformal gravity is included as
+a locally scale-invariant classical parent: its infrared reduction recovers
+Einstein and Maxwell, and its de~Sitter reading of a global potential fits
+galactic rotation curves without a dark-matter halo.  The further claim that
+quantizations of this parent bifurcate toward M-theory and loop quantum
+gravity is marked as a proposal of the companion note, not as a theorem.
+The discussion is then placed on the language lattice of Groupoid Infinity:
+a grand unification, if it is to respect that lattice, is a diagram of
+Cosmic Cube vertices and functors, not a single Lagrangian and not a single
+vertex.
 \\[0.5em]
 {\bf Keywords}: projective geometry, conformal gravity, quantum field theory,
-quantum cohomology, de~Sitter, Bach equation, Modal HoTT, anomalies.
+quantum cohomology, de~Sitter, Bach equation, Modal HoTT, anomalies,
+language lattice.
 \end{abstract}
 
 \ifincludeTOC
@@ -89,46 +96,62 @@ coordinate singularities disappear and correlators remain well-defined.
 
 \section{Projective quantum fields (Spitz axioms)}
 
-\begin{definition}[Projective quantum field]
-A \emph{projective quantum field} is a triple
+\begin{definition}[Projective quantum field, after Spitz]
+A \emph{projective quantum field} on the ambient Klein geometry
+\((\RP^4,\PGL_5(\R))\) is a triple
 \[
-(U,\rho,\{[\hat{\mathcal{O}}([x])]\}_{[x]\in\RP^4})
+\bigl(\rho,\;\{[\hat{\mathcal{O}}_\alpha([x])]\}_{[x]\in\RP^4},\;
+      (U_G)_G\bigr)
 \]
 consisting of
 \begin{itemize}
-  \item a projective unitary representation \(U\) of \(\PGL_5(\R)\) on a
-        Hilbert space \(\Hilb\),
-  \item a finite-dimensional complex representation \(\rho\) of the same
-        (or complexified) group,
-  \item an equivalence class of operator-valued tempered distributions,
-        defined only up to smooth nowhere-zero scalar prefactors
-        \(C^\infty(\RP^4,\R_{\neq0})\).
+  \item a finite-dimensional representation \(\rho\) of \(\PGL_5(\R)\),
+        or of its complexification, governing tensor indices;
+  \item an equivalence class of operator-valued tempered distributions on
+        \(\RP^4\), defined only up to smooth nowhere-zero scalar prefactors
+        \(C^\infty(\RP^4,\R_{\neq 0})\);
+  \item for each homogeneous subgeometry
+        \((\mathsf{X},G)\hookrightarrow(\RP^4,\PGL_5(\R))\), a projective
+        unitary representation \(U_G\) of that structure group \(G\) on a
+        Hilbert space \(\Hilb_G\).
 \end{itemize}
-The transformation law is the natural projective one:
+The transformation law on each subgeometry is
 \[
-U([g])\,\hat{\mathcal{O}}_\alpha([x])\,U([g])^\dagger
-  = \sum_\beta\rho_{\alpha\beta}([g^{-1}])\,\hat{\mathcal{O}}_\beta([g\cdot x]).
+U_G([g])\,\hat{\mathcal{O}}_\alpha([x])\,U_G([g])^\dagger
+  = \sum_\beta\rho_{\alpha\beta}([g^{-1}])\,
+    \hat{\mathcal{O}}_\beta([g\cdot x]).
 \]
+We do \emph{not} require the \(U_G\) to assemble into a unitary representation
+of the full non-compact group \(\PGL_5(\R)\).  That group acts on the base.
+Its quantum implementation is required only along the isometry groups of the
+subgeometries (Poincar\'e, de~Sitter, anti-de~Sitter, Galilei, Carroll, and
+their contractions)~\cite{Spitz2024}.
 \end{definition}
 
-Restriction to a homogeneous subgeometry
-\((\mathsf{X},\Ort)\hookrightarrow(\RP^4,\PGL_5\R)\) recovers ordinary
-quantum fields on Poincar\'e, de~Sitter, anti-de~Sitter, Galilei, Carroll, etc.
-Because everything is formulated projectively, conjugacy limits of geometries
-(which on the Lie-algebra level are isomorphic to successive In\"on\"u--Wigner
-contractions) act smoothly on the fields; the correlators remain bounded and
-may only degenerate by acquiring support on lower-dimensional strata
-(boundaries, light-cones, \ldots).  Ultraviolet and infrared limits are therefore
-well-defined and typically reduce the effective dimension.  This systematises
-the classical ambient-space / embedding-space techniques long used in conformal
-field theory.
+Restriction to \((\mathsf{X},G)\) recovers ordinary quantum fields on that
+geometry.  Conjugacy limits of geometries --- on the Lie-algebra level,
+In\"on\"u--Wigner contractions~\cite{InonuWigner} --- act on the base by the
+ambient projective action.  Because the operators are equivalence classes of
+tempered distributions, the limits of correlators stay in the same class of
+objects.
 
-\begin{theorem}[Spitz]
-Projective correlators remain bounded under geometry limits.  When the
-space-time geometry degenerates, the limiting correlators are finite-rank
-tensors supported only on space-time boundaries and other lower-dimensional
-subspaces.
-\end{theorem}
+\begin{proposition}[Geometry limits, after Spitz]
+\label{prop:limits}
+Let a family of homogeneous subgeometries be realized as a continuous
+conjugacy limit inside \((\RP^4,\PGL_5(\R))\).  Along this limit the
+projective correlators remain bounded as tempered distributions.  When the
+space-time geometry degenerates, the limiting correlators are supported on
+the lower-dimensional strata of the degeneration (boundaries, light cones,
+and similar).  Ultraviolet and infrared limits are instances, and they lower
+the dimension of the support.
+\end{proposition}
+
+\noindent
+This is the form in which we use the regularity theorem of~\cite{Spitz2024}.
+We do not reprove it, and we do not strengthen it to a claim that the
+limiting objects are finite-rank tensors.  The proposition systematises the
+ambient-space techniques long used in conformal field theory.  It is not, by
+itself, a construction of a conformal field theory.
 
 Signature phenomena fit the same picture.  The standard Minkowski metric of
 signature \((-,+,+,+)\) (or its opposite) is recovered by choosing an appropriate
@@ -153,17 +176,20 @@ I_{\mathrm{grav}}
   = -\alpha_g\int d^4x\,\sqrt{-g}\,
     C_{\lambda\mu\nu\kappa}C^{\lambda\mu\nu\kappa},
 \]
-where \(C_{\lambda\mu\nu\kappa}\) is the Weyl tensor, the traceless,
-conformally invariant part of the Riemann tensor.  Variation produces the
+where \(C_{\lambda\mu\nu\kappa}\) is the Weyl tensor.  Variation produces the
 fourth-order Bach equation
 \[
 4\alpha_g\,W^{\mu\nu}=T^{\mu\nu},
 \]
 with \(W^{\mu\nu}\) traceless and divergenceless.  The coupling \(\alpha_g\) is
-dimensionless, so the theory is power-counting renormalizable.  Unitarity is
-not obtained by Hermiticity of a second-order Hamiltonian: the theory is
-\(\mathrm{PT}\)-symmetric, and the \(\mathrm{PT}\) inner product makes the
-evolution unitary~\cite{Mannheim2011}.
+dimensionless, so the theory is power-counting renormalizable.  Power-counting
+is not a construction of a unitary renormalized quantum theory.  A generic
+fourth-order Lagrangian has an Ostrogradsky instability.  Mannheim's proposal
+is that unitarity is recovered in the \(\mathrm{PT}\)-symmetric sector, via
+the \(\mathrm{PT}\) inner product rather than by Hermiticity of a second-order
+Hamiltonian~\cite{Mannheim2011,BenderMannheim}.  That recovery is a research
+program.  This note uses it as the analytic setting of the classical theory,
+not as a completed quantization.
 
 Three structural claims of the conformal theory matter for the projective
 setting.
@@ -193,26 +219,36 @@ setting.
           ds^2=-B(r)\,dt^2+\frac{dr^2}{B(r)}+r^2\,d\Omega_2,
         \]
         with \(B(r)\) containing the Schwarzschild term, a linear potential
-        \(\gamma r\), and a global quadratic term \(-\kappa r^2\) induced by
-        cosmic inhomogeneities
-        (\(\kappa\approx 9.54\times 10^{-54}\,\mathrm{cm}^{-2}\)).
-        Circular velocities in the weak-field limit are
+        \(\gamma r\), and a global quadratic term \(-\kappa r^2\).  The constant
+        \(\kappa\) is universal across galaxies.  The Mannheim--O'Brien fits
+        give a representative value
+        \(\kappa\approx 9.54\times 10^{-54}\,\mathrm{cm}^{-2}\);
+        what the projective theory needs is the existence of one such cosmic
+        constant, not this particular fit.  Circular velocities in the
+        weak-field limit are
         \[
           v^2
             = \frac{\beta^{*}c^{2}}{r}
             + \frac{\gamma^{*}c^{2}\,r}{2}
             - \kappa c^{2} r^{2},
         \]
-        with no dark-matter halo: the linear potential is a global conformal
-        effect, not a local mass distribution~\cite{Mannheim2011,TonpaConf}.
+        where \(\beta^{*}\) and \(\gamma^{*}\) are system parameters and
+        \(\kappa\) is not.  There is no dark-matter halo in this formula:
+        the linear and quadratic terms are global conformal
+        effects~\cite{Mannheim2011,TonpaConf}.
 \end{enumerate}
 
-The fifteen-parameter conformal group \(\mathrm{SO}(4,2)\) is the group of
-transformations preserving the light cone.  It sits inside the projective
-linear group of the ambient space used by Spitz: conformal correlators are
-the restriction of projective correlators to the conformal subgeometry, and
-the flat, de~Sitter, and anti-de~Sitter limits are the geometry limits already
-controlled by the projective axioms.
+The conformal group of Minkowski four-space is \(\mathrm{SO}(4,2)\)
+(equivalently \(\mathrm{SO}(2,4)\)), of dimension \(15\).  Its standard
+projective model is the group of transformations of \(\RP^5\) preserving the
+Klein quadric of null lines in \(\R^{2,4}\).  It is not the structure group
+of Spitz's ambient pair \((\RP^4,\PGL_5(\R))\), whose group has dimension
+\(24\).  A literal inclusion \(\mathrm{SO}(4,2)\subset\PGL_5(\R)\) is not
+asserted.  The two geometries meet by embedding and by conjugacy limit:
+conformal correlators are projective correlators restricted to a conformal
+subgeometry, and the flat, de~Sitter, and anti-de~Sitter limits are geometry
+limits already controlled by Proposition~\ref{prop:limits}.  Conformal invariance is the
+residual symmetry of the light cone after that embedding is chosen.
 
 \subsection{Einstein and Maxwell as infrared instances}
 
@@ -223,68 +259,81 @@ the conformal symmetry is broken, as the infrared effective action obtained
 by integrating out the conformal factor (the route of 't~Hooft recalled
 in~\cite{Mannheim2011}).  In the Groupoid Infinity packaging both theories
 are functors out of the conformal parent that preserve the differential-geometric
-structure but forget the local scale symmetry~\cite{TonpaConf}:
+structure but forget the local scale symmetry~\cite{TonpaConf,tHooft}:
 \begin{itemize}
   \item Einstein gravity is the broken-phase, low-curvature instance;
   \item Maxwell theory is the conformally invariant gauge instance in
         dimension four.
 \end{itemize}
+Neither functor is the parent.  Both discard local Weyl invariance, which is
+the information loss of the infrared transport.
 
 \subsection{de~Sitter geometry, M-theory, and loop quantum gravity}
 
-The same parent theory bifurcates into distinct quantizations~\cite{TonpaConf}.
+Three readings of the parent theory have to be kept apart.
 
-\begin{itemize}
-  \item \textbf{de~Sitter.}
+\begin{enumerate}[label=\arabic*.]
+  \item \textbf{de~Sitter, classical, due to Mannheim.}
         Pure de~Sitter is not put in by hand.  It is the conformal-to-flat
-        metric above, and the measured cosmic \(\kappa\) embeds galaxies in
-        an effective de~Sitter background.  Perturbations about this
-        background stay inside the Bach equation.
-  \item \textbf{String/M-theory.}
-        In the Urs Schreiber equivariant super homotopy type theory the Weyl
-        tensor is replaced by its higher-categorical analogues (string gerbes,
-        five-brane charges).  After flux quantization the Bach equation
-        becomes the equations of eleven-dimensional supergravity.  This is a
-        bifurcation of the conformal parent, not an independent postulate.
-  \item \textbf{Loop quantum gravity.}
-        The Bach tensor supplies a fourth-order regulator for the Ashtekar
-        connection.  Spin networks are a discrete shadow of the Bach equation;
-        the Immirzi parameter is a modulus of the conformal symmetry breaking;
-        the low-curvature limit recovers Einstein gravity.
-\end{itemize}
+        metric above.  The measured cosmic \(\kappa\) embeds galaxies in an
+        effective de~Sitter background, and perturbations about that
+        background stay inside the Bach equation~\cite{Mannheim2011}.
+  \item \textbf{M-theory, a proposal.}
+        In the equivariant super homotopy type theory of
+        Sati--Schreiber~\cite{sati2022anyonic,schreibershulman12cohesive} the
+        Weyl tensor is replaced by higher-categorical analogues (string
+        gerbes, five-brane charges).  The companion note proposes that, after
+        flux quantization, the Bach equation becomes the equations of
+        eleven-dimensional supergravity~\cite{TonpaConf}.  Mannheim's paper
+        does not prove this.  It is a bifurcation conjecture.
+  \item \textbf{Loop quantum gravity, a proposal.}
+        The companion note proposes that the Bach tensor supplies a
+        fourth-order regulator for the Ashtekar connection, that spin networks
+        are a discrete shadow of the Bach equation, and that the Immirzi
+        parameter is a modulus of conformal symmetry breaking rather than a
+        new force~\cite{TonpaConf}.  This is not a theorem of loop quantum
+        gravity, nor of Mannheim.
+\end{enumerate}
 
-In cohesive Modal HoTT the conformal structure is the shape modality, the
-flat modality retains the discrete spectra of loop quantum gravity (areas,
-volumes), and the sharp modality retains the global invariants (cancellation
-of \(\Lambda\), the cosmic \(\kappa\) potential).  The Bach equation is the
-statement that the higher-cohesive curvature vanishes.
+The modality dictionary is fixed in Section~\ref{sec:modal}; the one-line
+version used by the companion note overloads the sharp modality and is
+withdrawn.  What survives is: shape sees the conformal class, flat sees
+discrete spectra, and the Bach tensor is an infinitesimal curvature, not a
+sharp global section.
 
 \section{Linearisation via cohomology}
 
-Ordinary (singular, de~Rham, \ldots) cohomology is already the linearisation of
-the non-linear geometry of a space.  Quantum cohomology is a further, non-linear
-deformation of that linear structure: the quantum product on \(H^*(\CP^n)\)
-(or more generally on the cohomology of a Fano or symplectic manifold) is defined
-by Gromov--Witten invariants counting holomorphic curves.  For projective spaces
-the quantum cohomology ring is completely explicit; its Stokes matrices, monodromy
-and central charges relate enumerative geometry to Bridgeland stability and
-exceptional collections.  In the language of Frobenius manifolds the quantum
-cohomology supplies a flat pencil of connections whose horizontal sections encode
-the ``linearised'' quantum data.
+Three linearisations appear in this note.  They are not the same functor.
 
-In the projective-QFT setting the correlators themselves are the primary objects;
-their expectation values are projective analogues of Wightman functions.  Taking
-the associated graded with respect to a filtration (or passing to the cohomology
-of an appropriate complex of operators) recovers ordinary cohomology classes,
-while the full projective correlators retain the non-linear information.
-The Bach tensor is the conformal shadow of the same story: it is the cohomology
-class of metric variations modulo local Weyl rescalings, and its vanishing is
-the linearised field equation on that quotient.
+\begin{enumerate}[label=\arabic*.]
+  \item Ordinary cohomology (singular, de~Rham) linearises the non-linear
+        geometry of a space.
+  \item Differential cohomology linearises gauge fields with connections,
+        and it is the home of the anomaly and of the Bach class: the Bach
+        tensor represents metric variations modulo local Weyl rescalings.
+  \item Quantum cohomology linearises enumerative geometry.  The quantum
+        product on \(H^*(\CP^n)\), and more generally on the cohomology of a
+        Fano or symplectic manifold, is defined by Gromov--Witten invariants.
+        For projective spaces the ring is explicit; its Stokes data relate
+        enumerative geometry to Bridgeland stability.  As a Frobenius manifold
+        it carries a flat pencil of connections~\cite{Dubrovin,CoatesCorti}.
+\end{enumerate}
 
-In higher-categorical terms one may view the projective correlators as living in
-a suitable \(\infty\)-category of spectra or of modules over an \(E_\infty\)-ring
-spectrum; ordinary cohomology theories then arise by linearisation (smashing with
-the Eilenberg--MacLane spectrum, taking homotopy groups, etc.).
+Quantum cohomology is the prototype of a complete, axiomatised linearisation
+of a non-linear projective theory.  It is not a computation of the cohomology
+of Spitz correlators.  Those correlators are not Gromov--Witten invariants,
+and this note does not identify \(QH^*(\RP^4)\) with them.  The honest
+operation on the correlators is poorer and still schematic: their expectation
+values are projective analogues of Wightman functions~\cite{Wightman}, and the
+associated graded of a filtration by scaling, or the cohomology of a complex
+of operators, recovers ordinary classes.  The full projective correlators keep
+the information the graded object forgets.
+
+In higher-categorical terms the correlators are expected to take values in an
+\(\infty\)-category of spectra, or of modules over an \(E_\infty\)-ring.
+Ordinary cohomology is then the composite of smashing with an
+Eilenberg--MacLane spectrum and taking homotopy groups.  That expectation is
+a target for an internalisation.  It is not a theorem of this note.
 
 \section{Axiomatic systems}
 
@@ -299,27 +348,25 @@ Several interlocking axiomatic frameworks exist.
 
   \item \textbf{Conformal gravity (Mannheim).}
         Local Weyl invariance, the Weyl-squared action, the Bach equation,
-        \(\mathrm{PT}\) unitarity, and the dynamical cancellation of zero-point
-        energy and of the induced cosmological constant.  Einstein and Maxwell
-        are infrared instances; de~Sitter, M-theory, and loop quantum gravity
-        are bifurcations~\cite{Mannheim2011,TonpaConf}.
+        and the proposed cancellation of zero-point energy and of the induced
+        cosmological constant.  Einstein and Maxwell are infrared instances
+        in Mannheim's sense.  de~Sitter geometry, in the conformal-to-flat
+        form, is also his.  M-theory and loop quantum gravity are proposals
+        of~\cite{TonpaConf}, not axioms of this item~\cite{Mannheim2011}.
 
   \item \textbf{Atiyah--Segal / Freed-style geometric axioms.}
         A (possibly projective) functor from a bordism category (with extra
         structure: orientations, spin structures, principal bundles, \ldots)
         to a symmetric monoidal category (vector spaces, Hilbert spaces,
-        categories, spectra, \ldots).  Projectivity appears as the need for
-        invertible field theories that measure the failure of the functor to
-        be strictly linear.  Freed's work on invertible phases, reflection
-        positivity and differential cohomology supplies the precise
-        cohomological control.
+        categories, spectra, \ldots)~\cite{Atiyah1988}.  Projectivity appears
+        as the need for invertible field theories that measure the failure of
+        the functor to be strictly linear~\cite{FreedAnomalies,FreedHopkins}.
 
   \item \textbf{Algebraic / homotopical AQFT.}
-        Haag--Kastler nets of algebras, upgraded to operads or \(\infty\)-operads
-        so that the Einstein causality axiom becomes homotopy-coherent.
-        Model structures on the category of such theories exist; derived
-        versions of Fredenhagen's universal algebra construction appear
-        naturally.  This is the setting closest to Modal HoTT.
+        Haag--Kastler nets of algebras~\cite{HaagKastler}, upgraded to operads
+        or \(\infty\)-operads so that Einstein causality becomes
+        homotopy-coherent.  This is the setting closest to Modal HoTT, and it
+        is still an analogy until a model structure is named.
 
   \item \textbf{Quantum cohomology / Frobenius manifolds.}
         The enumerative-geometric linearisation of the cohomology of projective
@@ -329,46 +376,253 @@ Several interlocking axiomatic frameworks exist.
 \end{enumerate}
 
 \section{Modal HoTT and Groupoid Infinity}
+\label{sec:modal}
 
-From the Modal HoTT / groupoid perspective all of the above are instances of
-higher-categorical structures that can be internalised.  Projective spaces
-themselves are classified by the type \(\RP^n\simeq\mathrm{B}(\mathbb{Z}/2)\)
-(or its higher analogues).  Quantum fields become dependent types or higher
-inductive types carrying coherent actions of the structure group.  Cohomology
-theories arise as maps into Eilenberg--MacLane spectra or more general cohomology
-spectra.  The conformal parent is the shape-modal refinement of that data:
-local Weyl rescalings are paths in the shape modality, and the Bach equation
-is the vanishing of the associated curvature.
+The homotopy type of real projective space and the Klein geometry used above
+are different objects.
+\[
+  \RP^\infty \simeq \mathrm{B}(\mathbb{Z}/2) = K(\mathbb{Z}/2,1),
+\]
+while \(\RP^n\) is the \(n\)-truncation (the \(n\)-skeleton) of that
+classifying space, not the classifying space itself.  In particular
+\(\RP^4\not\simeq\mathrm{B}(\mathbb{Z}/2)\).  The pair
+\((\RP^4,\PGL_5(\R))\) is a homogeneous geometry.  Its homotopy type is only
+the underlying \(\infty\)-groupoid of the base.  Keeping the two apart is
+required before any internalisation.
 
-The languages developed under Groupoid Infinity (Anders, Urs, Fabien, \ldots)
-are therefore ideally placed to express the projective axioms, the conformal
-action, the geometry limits, and the passage between the non-linear correlators
-and their cohomological linearisations in a fully constructive, higher-categorical
-language.  The companion note~\cite{TonpaConf} records the same material in the
-canonical vol.~4 article structure.
+Cohesive Modal HoTT distinguishes four operations, and the physics does not
+get to reassign them~\cite{schreibershulman12cohesive}.
+\begin{itemize}
+  \item The \emph{shape} modality \(\shape\) sends a space to its path
+        \(\infty\)-groupoid.  A conformal class is shape data: a local Weyl
+        rescaling is a path, and \(\Lambda\)-cancellation and the cosmic
+        \(\kappa\) are cohomology classes of the shape, not fields on the
+        chart.
+  \item The \emph{flat} modality \(\flat\) discretises.  Areas and volumes of
+        a spin-network shadow, if the loop-quantum proposal is adopted, are
+        \(\flat\)-modal.  Flat does not see the conformal factor.
+  \item The \emph{sharp} modality \(\sharp\) codiscretises.  Maps into a sharp
+        object ignore cohesion.  Sharp is not the home of \(\kappa\).
+  \item In differential cohesion the \emph{infinitesimal shape} \(\Im\) sees
+        jets.  The Bach tensor is the curvature of that infinitesimal
+        structure.  Its vanishing is a statement about \(\Im\), not about
+        \(\sharp\).
+\end{itemize}
+
+Quantum fields, if internalised, are dependent types with a coherent action
+of the structure group of the subgeometry.  Cohomology theories are maps into
+Eilenberg--MacLane spectra, or into the differential refinements of Jack.
+The internal languages are the lattice of~\cite{GIArch}, not a single
+calculus.  The assignment used below is:
+\begin{center}
+\begin{tabular}{lll}
+\hline
+Fragment & Language & What is interpreted \\
+\hline
+Strict projective syntax, \(\Pi\) only & Henk & signatures, no cohesion \\
+Inductive classical analysis & Laurent & the infrared, \(\kappa\), \(v^2\) \\
+Cubical paths, no scale & Anders & underlying \(\infty\)-groupoid \\
+Shape, flat, sharp, \(\Im\) & Felix & conformal class, Bach curvature \\
+Spectra, differential cohomology & Jack & anomalies, Bach class \\
+Linear types, branes, braids & Urs & the M-theory proposal \\
+Presentations, face maps & Dan & the spin-network proposal \\
+Directed interval & Ulrik & the STT arrow into Urs \\
+\hline
+\end{tabular}
+\end{center}
+The companion
+note~\cite{TonpaConf} records the conformal parent in the vol.~4 format; it
+does not discharge the conjectures flagged above.
 
 \begin{remark}[Signature and dimension]
 Changing the signature of the ambient quadratic form, or extending the
-projective dimension, yields continuous families of models that are isomorphic
-or only ``semi-isomorphic'' (weak equivalences after suitable localisation).
-This matches the physicist's practice of obtaining new theories by signature
-flip or dimensional extension while remaining inside a single projective
-framework.  Conformal invariance is the residual symmetry after the projective
-embedding has fixed the light cone.
+projective dimension, produces a continuous family of models.  Isomorphism
+is the strong relation, inside one vertex of the cube.  Semi-isomorphism
+means a weak equivalence after localisation at shape equivalences: the same
+\(\shape\)-type, different charts, possibly different signature.  That is the
+precise form of the physicist's signature flip and dimensional extension.
+It is not an isomorphism of the field theories, and it does not identify
+their Bach tensors.
+\end{remark}
+
+\section{Toward a GUT: the language lattice}
+
+The architecture of the Groupoid Infinity languages~\cite{GIArch} rejects the
+conjecture that one formal system can be the internal language of all of
+mathematics.  The stack is a lattice of three spines, not a tower and not a
+single abstract syntax tree:
+\begin{itemize}
+  \item \textbf{Spine~I} (Henk--Frank--Christine--Laurent): constructive type
+        theory and classical analysis;
+  \item \textbf{Spine~II} (Henk--Per--Anders--Felix--Jack--Urs): super homotopy,
+        differential cohesion, and quantum spectra;
+  \item \textbf{Spine~III} (Dan--Mike--Ulrik): directed and simplicial
+        \(\infty\)-category theory.
+\end{itemize}
+Cross-spine maps are functors (\textbf{Lift}, \textbf{Core}, \textbf{Modal},
+\textbf{Diff}, \textbf{Quantum}), each with a definite information loss.
+The same obstruction applies to a grand unified theory.  A GUT written as one
+Lagrangian in one signature is the physical form of the monolithic AST: it
+asks a single syntax to carry discrete spectra, directed higher category
+theory, and cohesive geometry at once.  The projective and conformal material
+of this note is one proposal for how to place that material on the lattice.
+It is not a replacement parent theory.
+
+\begin{definition}[GUT as a diagram of vertices]
+A grand unification, in the sense compatible with~\cite{GIArch}, is not a
+terminal syntax and not a single vertex of the Cosmic Cube.  The cube has
+eight vertices; physics occupies several of them at once.  We use the vertex
+table of~\cite{GIArch}, and we place the theories of this note as follows.
+\begin{center}
+\begin{tabular}{lll}
+\hline
+Theory & Vertex & Status \\
+\hline
+Wightman theory on a fixed background & \((\Delta,\mathbf{2},\mathbf{1})\) & axiomatic fragment \\
+Cohesive conformal geometry, Bach & \((\nabla,\mathbb{N},\mathbf{1})\) & Mannheim, classical \\
+Anomalies, differential cohomology & Jack, toward \((\nabla,\mathbb{N},\mathbb{H})\) & Freed \\
+Linear quantum parent & \((\nabla,\mathbb{N},\mathbb{H})\) & Urs; M-theory is a proposal \\
+Spin-network shadow & \((\nabla,\mathbf{2},\mathbb{H})\) & Dan; LQG is a proposal \\
+Einstein, Maxwell, rotation curves & forgetful to Spine~I & infrared instances \\
+\hline
+\end{tabular}
+\end{center}
+Collapsing this table onto \((\nabla,\mathbb{N},\mathbb{H})\) would repeat, one
+dimension up, the monolith the architecture paper rejects.  The Urs vertex is
+where the linear and stable data live.  It is not where the Bach equation is
+proved, and it is not where a galaxy curve is computed.
+\end{definition}
+
+The three axes still match the three usual, and unsuccessful, shortcuts.
+
+\begin{enumerate}[label=\arabic*.]
+  \item \textbf{Strictness} \(\Delta\leftrightarrow\nabla\).
+        Wightman theory on a fixed background is strict.  Projective fields
+        with geometry limits, and conformal geometry with local Weyl
+        rescalings, are modal.  Moving along this axis replaces a background
+        metric by the shape modality.  It does not, by itself, quantize the
+        Bach equation.  The Bach tensor is an \(\Im\)-curvature
+        (Section~\ref{sec:modal}), not a shape class.
+  \item \textbf{Groupoidality} \(\mathbf{2}\leftrightarrow\mathbb{N}\).
+        A set of field histories is \(1\)-categorical.  The space of pure
+        states of a finite-dimensional system is a complex projective space
+        \(\mathbb{CP}^{n-1}\), with colimit
+        \(\mathbb{CP}^{\infty}\simeq K(\mathbb{Z},2)\), not
+        \(\mathrm{B}(\mathbb{Z}/2)\).  Real projective space classifies real
+        lines.  It is the ambient Klein geometry of the Spitz axioms, not the
+        state space.  The space of geometries is an \(\infty\)-groupoid.  An anomaly is the failure of a projective
+        representation, or of a bordism functor, to lift to a linear one.  That
+        is a class in the Anderson dual of a bordism theory, in the sense
+        of~\cite{FreedHopkins}.  It is not, on present evidence, a class in
+        the syntactic cohomology of a programming language.
+  \item \textbf{Stability} \(\mathbf{1}\leftrightarrow\mathbb{H}\).
+        Einstein--Hilbert gravity is resource-insensitive.  The quantum
+        completion Mannheim asks for would land in spectra (Jack) and in
+        linear types (Urs).  Landing there is a conjecture.  Vacuum-energy
+        cancellation is, in the classical theory, an identity of sources.  It
+        is not yet a theorem of the stable homotopy category.
+\end{enumerate}
+
+The spines specialise these vertices.  Each functor loses something named.
+
+\begin{itemize}
+  \item \textbf{Spine~I, the infrared.}
+        Laurent interprets the macroscopic regime: reals, measures, limits.
+        Einstein and Maxwell are the images of the Bach equation after the
+        conformal factor is integrated out~\cite{tHooft} and the directed data
+        are forgotten.  The loss is local Weyl invariance.  Galactic rotation
+        curves are statements in this language.  They do not require a
+        dark-matter primitive.  They also do not constrain the Urs vertex.
+  \item \textbf{Spine~II, cohesion before stability.}
+        Felix has \(\shape\), \(\flat\), \(\sharp\), and \(\Im\), with the
+        meanings fixed in Section~\ref{sec:modal}.  Jack passes to spectra and
+        differential cohomology: this is the cohomological shadow of anomalies
+        and of the Bach class, not of the raw Spitz correlators.  Urs adds
+        configuration spaces, braids, and linear types.  The M-theory reading
+        --- higher analogues of the Weyl tensor, then eleven-dimensional
+        supergravity after flux quantization --- is a proposal about this
+        vertex~\cite{TonpaConf}.  The \textbf{Diff} and \textbf{Quantum}
+        functors lose, respectively, the non-stable cells and the non-linear
+        correlators.
+  \item \textbf{Spine~III, the discrete directed shadow.}
+        Dan has face maps, boundaries, and presentations, and no dependent
+        types.  The loop-quantum proposal places spin networks here, as a
+        presentation, with the Immirzi parameter as a modulus of conformal
+        symmetry breaking~\cite{TonpaConf}.  Ulrik's simplicial type theory
+        supplies the directed interval.  The architecture paper's arrow
+        \(\mathrm{STT}\to\mathrm{Urs}\) is why this shadow is not required to
+        factor through Anders alone.  The \textbf{Core} functor
+        \(\mathrm{Ulrik}\to\mathrm{Anders}\) discards direction and retains
+        the maximal \(\infty\)-groupoid.  That groupoid is the space of
+        invertible morphisms.  It is not the projective space of states.
+        \(\mathbb{P}(\Hilb)\) is a further quotient, of a unit sphere by
+        \(U(1)\), and the two must not be named as one object.
+\end{itemize}
+
+The spectral sequence of~\cite{GIArch},
+\[
+  E_2^{p,q}
+    = H^p\bigl(\mathcal{I};\,\mathcal{H}^q\bigr)
+    \;\Longrightarrow\;
+    H^{p+q}(\mathcal{L}),
+\]
+computes the cohomology of the syntactic CW-complex of the language lattice.
+It does not compute the scattering of a unified field theory.  The abutment
+is a syntactic invariant.  The following dictionary is a conjecture about a
+comparison map, not an identification.
+
+\begin{conjecture}[Comparison of cohomologies]
+There is a comparison, still to be constructed, from the anomaly theory of
+the projective and conformal data to the syntactic cohomology of their
+presentations in Jack and Urs, with the following values on low degrees.
+\begin{itemize}
+  \item \(H^0\) receives quantities conserved by rewriting and by the
+        classical theory together: gauge charges, tracelessness of
+        \(T^{\mu\nu}\), the projective equivalence class of a field operator.
+  \item \(H^1\) is where a comparison would have to send anomalies: a
+        projective phase, a gravitational anomaly, a failure of the conformal
+        factor to decouple.  Equality with the syntactic \(H^1\) is not
+        claimed.
+  \item \(H^2\) is where a comparison would have to send coherence
+        obstructions: a residual cosmological constant, the mismatch between
+        a local halo and a global \(\kappa\), the Ostrogradsky mode.  The
+        \(\mathrm{PT}\) inner product and the zero-point cancellation are
+        proposed fillings of those cells.  They are not extra matter fields,
+        and they are not yet \(2\)-cells in a proved chain complex.
+\end{itemize}
+\end{conjecture}
+
+\begin{remark}[What is not being claimed]
+This is not a spectrum-generating algebra for the Standard Model, and it
+does not produce a unification scale.  The projective ambient geometry is the
+common base.  Conformal gravity is the classical parent at
+\((\nabla,\mathbb{N},\mathbf{1})\), not at every vertex.  A proposed GUT that
+needs a new primitive for every regime, and a proposed GUT that occupies only
+one vertex, are the same mistake in two directions.
 \end{remark}
 
 \section{Conclusion}
 
-Projective geometry supplies the ambient space in which the projective nature
-of quantum theory becomes geometrically transparent.  Conformal gravity is the
-locally scale-invariant theory that lives on that light cone: its Bach equation
-cancels vacuum energy, produces de~Sitter geometry without a fundamental
-cosmological constant, and accounts for galactic rotation curves by a global
-quadratic potential.  Einstein and Maxwell equations are infrared instances;
-M-theory and loop quantum gravity are bifurcations of the same parent.
-Cohomology (ordinary, quantum, or differential) supplies the linearisation.
-The Groupoid Infinity languages let one treat all of them uniformly as higher
-groupoid-valued data.
+Projective geometry is an ambient Klein geometry for quantum fields, not a
+classifying space of the field theory.  Spitz's axioms make geometry limits
+and signature changes into operations on equivalence classes of tempered
+distributions; the limiting correlators stay bounded and concentrate on the
+degenerate strata.  Mannheim's conformal gravity is the locally
+scale-invariant classical theory adapted to the light cone of that picture.
+Its Bach equation is fourth-order and power-counting renormalizable;
+\(\mathrm{PT}\)-unitarity is a program.  Einstein and Maxwell are infrared
+instances.  A global quadratic potential accounts for the form of galactic
+rotation curves without a dark-matter primitive.  de~Sitter geometry arises
+as a conformal factor on flat space.
+
+M-theory and loop quantum gravity are not theorems of this parent.  They are
+proposals, placed respectively at the Urs vertex \((\nabla,\mathbb{N},\mathbb{H})\)
+and at the Dan vertex \((\nabla,\mathbf{2},\mathbb{H})\).  Ordinary
+cohomology, differential cohomology, and quantum cohomology are three
+linearisations and are not identified.  A grand unification compatible with
+the language lattice is the diagram of these vertices together with the
+functors and the information each functor loses.  It is not one Lagrangian,
+and it is not one corner of the cube.
 
 \begin{thebibliography}{99}
 
@@ -413,10 +667,55 @@ Boris Dubrovin,
 in \emph{Integrable Systems and Quantum Groups},
 Lecture Notes in Math.\ 1620, Springer, 1996.
 
+\bibitem{GIArch}
+Groupoid Infinity,
+\emph{Architecture of Mathematics: Internal Languages, Categorical Models,
+and the Spectral Lattice of Formal Systems},
+2026.
+
 \bibitem{Wightman}
 R.\ F.\ Streater and A.\ S.\ Wightman,
 \emph{PCT, Spin and Statistics, and All That},
 W.\ A.\ Benjamin, 1964.
+
+\bibitem{InonuWigner}
+E.\ In\"on\"u and E.\ P.\ Wigner,
+\emph{On the contraction of groups and their representations},
+Proc.\ Natl.\ Acad.\ Sci.\ USA 39 (1953) 510--524.
+
+\bibitem{HaagKastler}
+R.\ Haag and D.\ Kastler,
+\emph{An algebraic approach to quantum field theory},
+J.\ Math.\ Phys.\ 5 (1964) 848--861.
+
+\bibitem{Atiyah1988}
+Michael Atiyah,
+\emph{Topological quantum field theories},
+Inst.\ Hautes \'Etudes Sci.\ Publ.\ Math.\ 68 (1988) 175--186.
+
+\bibitem{tHooft}
+Gerard 't~Hooft,
+\emph{Probing the small distance structure of canonical quantum gravity
+using the conformal group},
+arXiv:1009.0669.
+
+\bibitem{BenderMannheim}
+Carl M.\ Bender and Philip D.\ Mannheim,
+\emph{No-ghost theorem for the fourth-order derivative Pais--Uhlenbeck
+oscillator model},
+Phys.\ Rev.\ Lett.\ 100 (2008) 110402;
+arXiv:0706.0207.
+
+\bibitem{schreibershulman12cohesive}
+Urs Schreiber and Michael Shulman,
+\emph{Quantum gauge field theory in cohesive homotopy type theory},
+in \emph{Proceedings of the Workshop on Quantum Physics and Logic}, 2012.
+
+\bibitem{sati2022anyonic}
+Hisham Sati and Urs Schreiber,
+\emph{Anyonic topological order in twisted equivariant differential
+K-theory},
+arXiv:2206.13563.
 
 \end{thebibliography}
 
