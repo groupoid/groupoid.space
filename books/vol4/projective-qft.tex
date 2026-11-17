@@ -319,6 +319,71 @@ Three linearisations appear in this note.  They are not the same functor.
         it carries a flat pencil of connections~\cite{Dubrovin,CoatesCorti}.
 \end{enumerate}
 
+\begin{proposition}[Only the shadows agree]
+\label{prop:cospan}
+Let \(X\) be a closed symplectic manifold, or a smooth projective variety.
+\begin{enumerate}[label=\roman*.]
+  \item Quantum cohomology is a deformation of the cup product.  Specialising
+        every Novikov variable of positive curve class to zero is a ring map
+        \(\sigma\colon QH^*(X)\to H^*(X)\).  For \(\CP^n\),
+        \[
+          QH^*(\CP^n)=\mathbb{Z}[H,q]/(H^{n+1}-q),
+          \qquad \sigma(q)=0,
+        \]
+        so \(\sigma\) is surjective and not injective.  The two are isomorphic
+        as modules on the same generators, and not as rings.
+  \item Differential cohomology sits in the Hopkins--Singer square
+        \[
+        \begin{tikzcd}
+          \widehat{H}{}^n(X) \ar[r] \ar[d] &
+            \Omega^n_{\mathrm{cl}}(X) \ar[d] \\
+          H^n(X;\mathbb{Z}) \ar[r] &
+            H^n_{\mathrm{dR}}(X)
+        \end{tikzcd}
+        \]
+        The underlying-class map \(\upsilon\colon\widehat{H}{}^n(X)\to H^n(X;\mathbb{Z})\)
+        forgets curvature.  It is not an isomorphism, and \(\widehat{H}\) does
+        not factor through the shape: a shape equivalence need not preserve it.
+  \item The resulting diagram is a cospan, not a triangle of isomorphisms,
+        \[
+          \widehat{H}{}^*(X)
+            \xrightarrow{\;\upsilon\;}
+          H^*(X)
+            \xleftarrow{\;\sigma\;}
+          QH^*(X).
+        \]
+        This is the only canonical comparison.  The left arrow forgets
+        curvature.  The right arrow forgets curve counts.  No natural
+        isomorphism identifies the three, because a homotopy equivalence
+        induces an isomorphism on \(H^*\), and need not induce one on
+        \(\widehat{H}{}^*\) or on \(QH^*\).
+\end{enumerate}
+\end{proposition}
+
+In cohesive type theory the same obstruction is modal.  Ordinary cohomology
+is a mapping space out of the shape, \(\pi_0\mathrm{Map}(\shape X, HA[n])\).
+Differential cohomology is a mapping space in the smooth site, and does not
+factor through \(\shape\).  Quantum cohomology is not a mapping space into a
+single spectrum at all: it depends on a symplectic form and on a count of
+holomorphic curves.  An identification would be a term equating these three
+function types.  The cospan is the term that exists.
+
+\begin{remark}[The comparison that is worth making]
+The Dubrovin connection
+\[
+  \nabla_z
+    = d + z^{-1}(-\star_q)
+\]
+is a flat meromorphic connection on the trivial bundle with fibre \(H^*(X)\).
+Iritani's \(\widehat{\Gamma}\)-class matches its flat sections with a lattice
+coming from \(K\)-theory~\cite{Iritani}.  That integral local system lives on
+the Frobenius manifold, not on \(X\).  Differential cohomology of that base
+can receive the lattice.  The resulting map runs from quantum data to a
+differential-cohomological object on the moduli of the quantum connection.
+It does not produce an isomorphism \(\widehat{H}{}^*(X)\cong QH^*(X)\), and it
+does not compute either theory from Spitz correlators.
+\end{remark}
+
 Quantum cohomology is the prototype of a complete, axiomatised linearisation
 of a non-linear projective theory.  It is not a computation of the cohomology
 of Spitz correlators.  Those correlators are not Gromov--Witten invariants,
@@ -618,8 +683,9 @@ as a conformal factor on flat space.
 M-theory and loop quantum gravity are not theorems of this parent.  They are
 proposals, placed respectively at the Urs vertex \((\nabla,\mathbb{N},\mathbb{H})\)
 and at the Dan vertex \((\nabla,\mathbf{2},\mathbb{H})\).  Ordinary
-cohomology, differential cohomology, and quantum cohomology are three
-linearisations and are not identified.  A grand unification compatible with
+cohomology, differential cohomology, and quantum cohomology form the cospan
+of Proposition~\ref{prop:cospan}: both refinements map to ordinary cohomology,
+and neither arrow is invertible.  A grand unification compatible with
 the language lattice is the diagram of these vertices together with the
 functors and the information each functor loses.  It is not one Lagrangian,
 and it is not one corner of the cube.
@@ -672,6 +738,12 @@ Groupoid Infinity,
 \emph{Architecture of Mathematics: Internal Languages, Categorical Models,
 and the Spectral Lattice of Formal Systems},
 2026.
+
+\bibitem{Iritani}
+Hiroshi Iritani,
+\emph{An integral structure in quantum cohomology and mirror symmetry
+for toric orbifolds},
+Adv.\ Math.\ 222 (2009) 1016--1079.
 
 \bibitem{Wightman}
 R.\ F.\ Streater and A.\ S.\ Wightman,
